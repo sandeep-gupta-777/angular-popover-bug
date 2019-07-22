@@ -52,7 +52,7 @@ export class BotArticleHistoryComponent implements OnInit {
   }
   getAllCorpus$(){
     let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.isReloading = true;
     let url = this.constantsService.getAllCorpusForFAQBot(this.pageSize,this.pageSize*(this.currentPage - 1));
@@ -111,7 +111,7 @@ export class BotArticleHistoryComponent implements OnInit {
 
   makeCorpusLive(corpus_id: number) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     let body = {
       'corpus_id': corpus_id
@@ -145,7 +145,7 @@ export class BotArticleHistoryComponent implements OnInit {
         //
 
         const headerData: IHeaderData = {
-          'bot-access-token': this.bot.bot_access_token
+          'bot-access-token': ServerService.getBotTokenById(this.bot.id)
         };
         let body = {
           'parent_corpus': corpus_id

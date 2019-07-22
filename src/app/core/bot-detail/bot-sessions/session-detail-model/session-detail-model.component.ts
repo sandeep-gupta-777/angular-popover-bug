@@ -92,7 +92,7 @@ channelNameToImg(channel:string){
     this.url = this.constantsService.getSessionsMessageUrl(id);
     this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({
       url: this.url,
-      headerData: {'bot-access-token': this.bot.bot_access_token}
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
     });
     this.sessionMessageData$.subscribe((value) => {
 

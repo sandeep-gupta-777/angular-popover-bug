@@ -26,7 +26,6 @@ export class ChatConsumerFormComponent implements OnInit {
   }
 
   validateAndSubmit(form: NgForm){
-    debugger;
     let customConsumerDetails = form.form.getRawValue();
     // let customConsumerDetails = form.form.getRawValues();
     this.errorMessage="";

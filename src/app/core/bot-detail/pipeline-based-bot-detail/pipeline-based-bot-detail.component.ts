@@ -108,7 +108,7 @@ myEAllActions = EAllActions;
   refreshBotDetails() {
     this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
       .subscribe((bot) => console.log('bot fetched', bot));
-    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, ServerService.getBotTokenById(this.bot.id));
   }
 
   togglePanel() {

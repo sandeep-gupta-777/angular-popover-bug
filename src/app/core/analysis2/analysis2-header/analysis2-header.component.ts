@@ -129,7 +129,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         if (!this.f.valid) return;
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
-          'bot-access-token': selectedBot.bot_access_token,
+          'bot-access-token': ServerService.getBotTokenById(selectedBot.id),
           platform: 'web',
           ...formData,
           startdate: formData && formData.date_range.begin,
@@ -159,8 +159,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         const url = this.constantsService.getAnalyticsUrl();
         const headerData: any/*IAnalysis2HeaderData*/ = {
           ...analytics2HeaderData,
-          'auth-token': this.loggeduser.user.auth_token,
-          'user-access-token': this.loggeduser.user.user_access_token,
+          // 'auth-token': this.loggeduser.user.auth_token,
+          // 'user-access-token': this.loggeduser.user.user_access_token,
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };

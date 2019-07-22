@@ -38,7 +38,7 @@ export class BotDetailWrapperComponent implements OnInit {
     //     let bot = viewBotStateModel.allBotList.find(bot=>bot.roomId === Number(botIdStr));
     //     let url = this.constantsService.getSpecificBotByBotTokenUrl();
     //     let headerData:IHeaderData = {
-    //       "bot-access-token": bot.bot_access_token
+    //       "bot-access-token": ServerService.getBotTokenById(bot.id)
     //     };
     //     this.serverService.makeGetReq({url, headerData})
     //       .subscribe((value:{objects:IBot[]})=>{

@@ -11,12 +11,10 @@ import {
 } from '@angular/core';
 import {ConstantsService} from 'src/app/constants.service';
 import {ServerService} from 'src/app/server.service';
-import {UtilityService} from 'src/app/utility.service';
 import {IBot} from 'src/app/core/interfaces/IBot';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IArticleItem, ICategoryMappingItem, ICorpus} from 'src/app/core/interfaces/faqbots';
-import {MatDialog} from '@angular/material';
 import {DomService} from '../../../../dom.service';
 import {EAllActions, ERoleName} from 'src/app/typings/enum';
 import {Select} from '@ngxs/store';
@@ -24,6 +22,11 @@ import {Observable} from 'rxjs';
 import {IUser} from 'src/app/core/interfaces/user';
 import {IAuthState} from 'src/app/auth/ngxs/auth.state';
 import { PermissionService } from 'src/app/permission.service';
+
+import {MatDialog} from '@angular/material';
+import {UtilityService} from 'src/app/utility.service';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+// [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -34,6 +37,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
   @ViewChildren('questionTextArea') questionTextArea: QueryList<ElementRef>;
+  store: any;
 
   constructor(
     private constantsService: ConstantsService,
@@ -146,7 +150,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   changeArticalCategory(formValue) {
     return new Promise((resolve) => {
       const headerData: IHeaderData = {
-        'bot-access-token': this.bot.bot_access_token
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
       };
       if (this.articleData.section_id) {
         let body = {
@@ -156,7 +160,7 @@ export class EditAndViewArticlesComponent implements OnInit {
         if (formValue.inputType == 'existing') {
           body['new_category'] = formValue.existingCategoryName;
           const headerData: IHeaderData = {
-            'bot-access-token': this.bot.bot_access_token
+            'bot-access-token': ServerService.getBotTokenById(this.bot.id)
           };
           const url = this.constantsService.changeSectionCategoryUrl();
           this.serverService.makePostReq<any>({headerData, body, url})
@@ -172,7 +176,7 @@ export class EditAndViewArticlesComponent implements OnInit {
         if (formValue.inputType == 'new') {
           body['category_name'] = formValue.newCategoryName;
           const headerData: IHeaderData = {
-            'bot-access-token': this.bot.bot_access_token
+            'bot-access-token': ServerService.getBotTokenById(this.bot.id)
           };
           const url = this.constantsService.changeSectionCategoryWithNewCategoryUrl();
           this.serverService.makePostReq<any>({headerData, body, url})
@@ -304,4 +308,58 @@ export class EditAndViewArticlesComponent implements OnInit {
     }
   
   }
+
+
+
+
+  showOpenCloseWithoutSavingModal() {
+    if(JSON.stringify(this.articleData) === JSON.stringify(this._article)){
+      this.goBackToArticle();
+    }
+    else{
+      this.openCloseWithoutSavingModal();
+    }
+    
+  }
+
+
+  async openCloseWithoutSavingModal() {
+
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Close without saving",
+        message: "All your unsaved changes will be lost if you don't save.",
+        title:`Close without saving?`,
+        isActionButtonDanger:true,
+        inputDescription: null,
+        closeButtonText: "Keep editing"
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+  
+      if(data){
+        this.goBackToArticle();
+      }
+    })
+    
+  }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

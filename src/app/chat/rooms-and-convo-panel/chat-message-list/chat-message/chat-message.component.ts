@@ -28,7 +28,7 @@ export class ChatMessageComponent implements OnInit {
     time: Date.now(),
     sourceType: 'bot',
     messageMediatype: null,
-    bot_message_id: null
+    bot_message_id: null,
   };
   @Output() sendMessageToBotServer$ = new EventEmitter();
   @Output() chatMessageFeedback$ = new EventEmitter();

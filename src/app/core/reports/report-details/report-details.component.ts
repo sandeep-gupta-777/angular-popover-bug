@@ -153,7 +153,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     } else {
       delete body.id;
       const report_bot: IBot = this.allBotList.find((bot) => bot.id == body.bot_id);
-      const headerData: IHeaderData = {'bot-access-token': report_bot.bot_access_token};
+      const headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(report_bot.id)};
       this.serverService.makePostReq({url, body, headerData})
         .subscribe((value: IReportItem) => {
           this.router.navigate([`core/reports/edit/${value.id}`]);

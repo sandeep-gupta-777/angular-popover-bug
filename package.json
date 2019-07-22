@@ -37,7 +37,9 @@
     "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production",
     "ng-test": "ng serve --live-reload false",
     "cypress": "cypress open",
-    "cypress:headless": "cypress run"
+    "cypress:headless": "cypress run",
+    "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js",
+    "fcm1": "concat src/firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +48,7 @@
     "@angular/common": "^7.1.0",
     "@angular/compiler": "^7.1.0",
     "@angular/core": "^7.1.0",
+    "@angular/fire": "^5.2.1",
     "@angular/forms": "^7.1.0",
     "@angular/http": "^7.1.0",
     "@angular/material": "^7.1.0",
@@ -69,6 +72,7 @@
     "core-js": "^2.5.4",
     "download-csv": "^1.1.1",
     "express": "^4.15.2",
+    "firebase": "^6.3.0",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "highcharts": "^6.1.1",
@@ -93,6 +97,7 @@
     "@types/node": "~8.9.4",
     "bootstrap": "^4.1.1",
     "codelyzer": "~4.2.1",
+    "concat": "^1.0.3",
     "cypress": "^3.2.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

@@ -53,7 +53,7 @@ export class FaqSearchBoxComponent implements OnInit {
   }
   getCorpusAndSetArticleFilterForm$() {
     let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
     return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })

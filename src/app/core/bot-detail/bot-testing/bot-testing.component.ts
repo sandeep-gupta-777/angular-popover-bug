@@ -65,7 +65,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
-        headerData: {'bot-access-token': this.bot.bot_access_token}
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
       }
     )
       .subscribe((value) => {
@@ -116,7 +116,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     LoggingService.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl,
-      headerData: {'bot-access-token': this.bot.bot_access_token},
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
       body: {
         'status': 'IDLE',
         'data': this.testCaseData
@@ -141,7 +141,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
 
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
-      headerData: {'bot-access-token': this.bot.bot_access_token},
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
       body: {
         'status': 'IDLE',
         'data': this.testCaseData
@@ -159,7 +159,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
-        headerData: {'bot-access-token': this.bot.bot_access_token}
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
       }
     ).subscribe((value) => {
       if (value.objects[0].status === 'RUNNING') {
@@ -169,7 +169,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         this.serverService.makeGetReq<any>(
           {
             url: this.testCasesUrl + 'oneclicktesting/',
-            headerData: {'bot-access-token': this.bot.bot_access_token}
+            headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
           }
         )
           .subscribe((value) => {
@@ -193,7 +193,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.stopTestUrl,
-        headerData: {'bot-access-token': this.bot.bot_access_token}
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
       }
     )
       .subscribe((value) => {

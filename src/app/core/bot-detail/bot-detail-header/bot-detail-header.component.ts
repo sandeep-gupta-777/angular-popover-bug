@@ -93,7 +93,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
     const url = this.constantsService.updateBotUrl(this.bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
       if (!confirm('active Versions has been changed')) { return; }
@@ -128,7 +128,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   deleteBot() {
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.serverService.makeDeleteReq({url, headerData})
       .subscribe((value) => {
@@ -242,6 +242,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
 
   copySharablePreviewLinkHandler(){
-    this.utilityService.copyToClipboard(`${location.origin}/preview?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`)
+    this.utilityService.copyToClipboard(`${location.host}${ConstantsService.fullscreenchatpath_anon}/?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`)
   }
 }

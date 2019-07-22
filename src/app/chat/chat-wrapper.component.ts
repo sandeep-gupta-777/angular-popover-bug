@@ -32,6 +32,7 @@ import { IConsumerDetails } from './ngxs/chat.state';
 import { IEnterpriseProfileInfo } from '../../interfaces/enterprise-profile';
 import { ELogType, LoggingService } from '../logging.service';
 import { EventService } from '../event.service';
+import {environment} from "../../environments/environment.hmr";
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': [
@@ -67,7 +68,9 @@ export interface IChatFeedback {
 export class ChatWrapperComponent implements OnInit {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
-  is_logged_in = location.pathname === '/preview-dev';
+  anon_chat_path = ConstantsService.fullscreenchatpath_anon;
+  dev_chat_path = ConstantsService.fullscreenchatpath_dev;
+  is_logged_in = location.pathname !== this.anon_chat_path;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -151,9 +154,9 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
-    debugger;
+
     if (this.isFullScreenPreview) {
-      debugger;
+
       this.activatedRoute.queryParamMap.subscribe((queryparam) => {
         const welcomeScreenBotIdStr = queryparam.get('preview');
         const enterprise_unique_name = queryparam.get('enterprise_unique_name');
@@ -203,7 +206,7 @@ export class ChatWrapperComponent implements OnInit {
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
-          this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
+          this.bot_access_token = ServerService.getBotTokenById(this.currentBot.id); //this.currentRoom && this.currentRoom.bot_access_token || ServerService.getBotTokenById(bot.id);
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
 
@@ -303,7 +306,7 @@ export class ChatWrapperComponent implements OnInit {
             consumerDetails: startNewChatData.consumerDetails,
             messageList: roomMessages,
             bot: this.currentBot,
-            bot_access_token: this.currentBot.bot_access_token,
+            bot_access_token: ServerService.getBotTokenById(this.currentBot.id),
             uid: startNewChatData.consumerDetails.uid, //this.current_uid,
             selectedAvatar: value.room.selected_avatar,
             bot_id: this.currentBot.id,
@@ -382,7 +385,7 @@ export class ChatWrapperComponent implements OnInit {
         }
         this.chatService.sendHumanMessageToBotServer(
           {
-            bot_access_token: room.bot_access_token || this.currentBot.bot_access_token,
+            bot_access_token: room.bot_access_token || ServerService.getBotTokenById(this.currentBot.id),
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },

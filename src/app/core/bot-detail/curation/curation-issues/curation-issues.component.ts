@@ -6,6 +6,7 @@ import {TempVariableService} from '../../../../temp-variable.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { EAllActions } from 'src/app/typings/enum';
 
+
 @Component({
   selector: 'app-curation-issues',
   templateUrl: './curation-issues.component.html',
@@ -13,10 +14,14 @@ import { EAllActions } from 'src/app/typings/enum';
 })
 export class CurationIssuesComponent implements OnInit {
 
+
+
   constructor(
     private constantsService : ConstantsService,
     private router : Router,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
+
+
     ) { }
   @Input() bot: IBot;
   @Input() isResolved:boolean;
@@ -27,6 +32,10 @@ export class CurationIssuesComponent implements OnInit {
   myEAllActions = EAllActions;
   articleSearchMode = false;
   selectedArticleToAddCuration : number;
+
+  selectedArticleFirstQuestion : number;
+  dialogRefWrapper = {ref: null};
+
   ngOnInit() {
   }
   channelNameToImg(channel:string){
@@ -68,4 +77,5 @@ export class CurationIssuesComponent implements OnInit {
       }
     )
   }
+
 }

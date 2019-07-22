@@ -164,7 +164,7 @@ export class BotConfigComponent implements OnInit {
     }
     let bot = this.createBotData();
     bot.id = this.bot.id;
-    bot.bot_access_token = this.bot.bot_access_token;
+    bot.bot_access_token = ServerService.getBotTokenById(this.bot.id);
     this.updateBotLoading = ELoadingStatus.loading;
     this.serverService.updateBot(bot).subscribe(() => {
       this.updateBotLoading = ELoadingStatus.success;
