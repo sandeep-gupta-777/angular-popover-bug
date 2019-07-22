@@ -17,6 +17,7 @@
           [lazyLoad]="currentBot.logo"
           class="chat-logo" alt="Bot logo">
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
+      <i>{{enterprise_unique_name}}</i>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
          [routerLink]="'/preview-dev'"

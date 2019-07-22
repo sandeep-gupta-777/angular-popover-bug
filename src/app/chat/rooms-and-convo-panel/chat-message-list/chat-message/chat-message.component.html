@@ -69,25 +69,27 @@
     class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
 </div>
 
-<ng-container *ngIf="messageData?.media?.video_url || messageData?.media?.audio_url || messageData?.media?.image_url ">
-  <div class="play-media-wrapper">
-    <div class="item" *ngIf="messageData?.media?.video_url as src">
-      <video controls>
-        <source [src]="src">
-        Your browser does not support HTML5 video.
-      </video>
-    </div>
-    <div class="item" *ngIf="messageData?.media?.audio_url as src">
-      <audio controls>
-        <source [src]="src">
-        Your browser does not support HTML5 audio.
-      </audio>
-    </div>
-    <div class="item" *ngIf="messageData?.media?.image_url as src">
-      <img [src]="src" alt="">
-    </div>
-  </div>
-</ng-container>
+<app-play-media [message]="messageData"></app-play-media>
+
+<!--<ng-container *ngIf="messageData?.media?.video_url || messageData?.media?.audio_url || messageData?.media?.image_url ">-->
+<!--  <div class="play-media-wrapper">-->
+<!--    <div class="item" *ngIf="messageData?.media?.video_url as src">-->
+<!--      <video controls>-->
+<!--        <source [src]="src">-->
+<!--        Your browser does not support HTML5 video.-->
+<!--      </video>-->
+<!--    </div>-->
+<!--    <div class="item" *ngIf="messageData?.media?.audio_url as src">-->
+<!--      <audio controls>-->
+<!--        <source [src]="src">-->
+<!--        Your browser does not support HTML5 audio.-->
+<!--      </audio>-->
+<!--    </div>-->
+<!--    <div class="item" *ngIf="messageData?.media?.image_url as src">-->
+<!--      <img [src]="src" alt="">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-container>-->
 
 <div class="row d-flex align-items-center session-expire-info-row"
      data-cy="chat-session_expired"

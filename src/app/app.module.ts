@@ -43,8 +43,8 @@ const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
-  {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
-  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService]},
+  {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve:{ message: HnResolver },},
+  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService], resolve:{ message: HnResolver },},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
@@ -96,6 +96,7 @@ const routes: Route[] = [
   ],
   providers: [LoginPageGaurdService, ModuleGaurdLoadService,
     MessagingService,
+    HnResolver
     //   {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,

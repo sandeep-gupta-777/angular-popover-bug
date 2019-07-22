@@ -77,6 +77,7 @@
             *ngIf="message && message.quick_reply"
             >
           </app-quick-reply>
+          <app-play-media [message]="message"></app-play-media>
           <!--bot rich media reply ends-->
         </div>
         <div class="time text-right my-1 mr-32">

@@ -38,12 +38,14 @@ import {ENgxsStogareKey} from "./typings/enum";
 
 declare var $: any;
 declare let deploy_obj_botplateform_fe;
+import {Storage} from 'session-storage-sync';
+import {identifierModuleUrl} from "@angular/compiler";
 
 @Injectable()
 export class ServerService {
 
   static idTokenMap;
-
+  static storage = new Storage();
   static getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) {
@@ -52,10 +54,17 @@ export class ServerService {
   }
 
   static getBotTokenById(id: number) {
+
     let bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
     if (!bot_access_token) {
-      throw new Error("Bot access token is not set in ServerService. Please see below");
-      console.log('ServerService data: ', ServerService);
+      let idTokenMap_SS = JSON.parse(sessionStorage.getItem(ENgxsStogareKey.idTokenMap));
+      if(idTokenMap_SS){
+       ServerService.idTokenMap = idTokenMap_SS;
+        bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
+      }else {
+        throw new Error("Bot access token is not set in ServerService. Please see below");
+        console.log('ServerService data: ', ServerService);
+      }
     }
     return bot_access_token;
   }
@@ -73,6 +82,11 @@ export class ServerService {
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
     }
+  }
+
+  static setSessionStorage(key, value:object){
+    debugger;
+    ServerService.storage.session.set(key, value);
   }
 
   static isUserLoggedIn() {
@@ -98,10 +112,10 @@ export class ServerService {
     this.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
 
     try {
-      debugger;
+
       const idTokenMapStr = sessionStorage.getItem(ENgxsStogareKey.idTokenMap);
       ServerService.idTokenMap = JSON.parse(idTokenMapStr);
-      console.log('server service idTokenMapStr init', idTokenMapStr);
+      //console.log('server service idTokenMapStr init', idTokenMapStr);
     } catch (e) {
       LoggingService.error(e);
     }
@@ -289,6 +303,7 @@ export class ServerService {
   }
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
+
     this.checkApiAccess(reqObj, EHttpVerbs.POST);
     const headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
@@ -402,14 +417,15 @@ export class ServerService {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
         if (botResult) {
-          debugger;
+
           const idTokenMap = botResult.objects.reduce((total, bot) => {
             return {
               ...total,
               [bot.id]: (bot.bot_access_token)
             }
           }, {});
-          sessionStorage.setItem(ENgxsStogareKey.idTokenMap, JSON.stringify(idTokenMap));
+          // sessionStorage.setItem(ENgxsStogareKey.idTokenMap, JSON.stringify(idTokenMap));
+          ServerService.setSessionStorage(ENgxsStogareKey.idTokenMap, idTokenMap);
           ServerService.idTokenMap = idTokenMap;
           this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         }
@@ -418,9 +434,15 @@ export class ServerService {
   }
 
   getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
+
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
     return this.makeGetReq({url, noValidateUser: true})
       .pipe(map((bot: IBot) => {
+        ServerService.idTokenMap = {
+        ...(ServerService.idTokenMap||{}),
+          [bot.id]: bot.bot_access_token
+        };
+        debugger;
         return this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
         ]);

@@ -1383,3 +1383,21 @@ mat-dialog-container {
 
 }
 
+.play-media-wrapper {
+  .item {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+
+    audio{
+      max-width: 90%;
+      max-height: 100px;
+    }
+    img, video {
+      max-width: 90%;
+      max-height: 200px;
+    }
+  }
+}
+
+

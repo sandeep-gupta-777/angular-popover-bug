@@ -84,6 +84,7 @@ import { CurationIssuesListComponent } from './core/bot-detail/curation/curation
 import { CurationResolvedListComponent } from './core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component';
 import {FilePreviewOverlayService} from "./overlay.service";
 import {OverlayModule} from "@angular/cdk/overlay";
+import {PlayMediaComponent} from "./chat/play-media/play-media.component";
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -146,6 +147,7 @@ import {OverlayModule} from "@angular/cdk/overlay";
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent,
+    PlayMediaComponent
 
     // todo: put it inside view bot details moduel
     
@@ -160,10 +162,11 @@ import {OverlayModule} from "@angular/cdk/overlay";
     // ChartModule,
     ClickOutsideModule,
     MatProgressSpinnerModule,
-    LazyLoadImageModule,
+    <any>LazyLoadImageModule,/*todo: getting error lazy loaded module is not angular module*/
     MatCardModule
   ],
   exports: [
+    PlayMediaComponent,
     ButtonWrapperComponent,
     SharedEnterpriseListModuleModule,
     LinkifyPipe,

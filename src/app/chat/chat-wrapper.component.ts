@@ -205,6 +205,7 @@ export class ChatWrapperComponent implements OnInit {
 
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
+
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
           this.bot_access_token = ServerService.getBotTokenById(this.currentBot.id); //this.currentRoom && this.currentRoom.bot_access_token || ServerService.getBotTokenById(bot.id);
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
