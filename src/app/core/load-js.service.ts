@@ -81,7 +81,7 @@ export class LoadJsService {
   ];
 
   static load(): Promise<any> {
-
+    console.log('LoadJsService.load()');
     return loadJS(this.main)
       .then(() => {
         return loadJS(this.arr);
