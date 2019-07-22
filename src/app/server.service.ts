@@ -330,8 +330,9 @@ export class ServerService {
       }));
   }
 
-  checkForLogoutAction({action}) {
-
+  checkForLogoutAction(obj) {
+    if(!obj) return;
+    let {action} = obj;
     if (action === "logout") {
       EventService.logout$.emit();
       return;
