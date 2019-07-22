@@ -423,6 +423,7 @@ export class ChatWrapperComponent implements OnInit {
 
 
   consumerFormSubmitHandler(consumerDetails: IConsumerDetails,createNewRoom:boolean){
+      debugger;
     if(createNewRoom){
       this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot})
     }else {

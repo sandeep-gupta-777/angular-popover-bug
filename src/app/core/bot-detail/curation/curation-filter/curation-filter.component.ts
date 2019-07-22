@@ -42,11 +42,8 @@ export class CurationFilterComponent implements OnInit {
 
   toDisplayValue(value:string){
     var pieces = value.split("_");
-    for ( var i = 0; i < pieces.length; i++ )
-    {
-        var j = pieces[i].charAt(0).toUpperCase();
-        pieces[i] = j + pieces[i].substr(1).toLowerCase();
-    }
+    var j = pieces[0].charAt(0).toUpperCase();
+    pieces[0] = j + pieces[0].substr(1).toLowerCase();
     return pieces.join(" ");
   }
 
@@ -95,16 +92,19 @@ export class CurationFilterComponent implements OnInit {
 
   clearFormClicked(){
     this.curationForm.reset();
+    
     if(this.unsolved){
-      this.formSubmitted.emit({
-        'order_by' : `-updated_at`
-      });
+      this.curationForm.form.patchValue({
+        'order_by' : `updated_at`
+      })
+      this.submitedForm();
     }
     if(!this.unsolved){
-      this.formSubmitted.emit({
+      this.curationForm.form.patchValue({
         'curation_state__in':"resolved,ignored",
-        'order_by' : `-updated_at`
-      });
+        'order_by' : `updated_at`
+      })
+      this.submitedForm();
     }
     
   }

@@ -105,7 +105,7 @@ export class CurationComponent implements OnInit {
           }else{
             this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
           }
-          
+
         }
         else{
           this.curationIssuesList = [...value.objects];
@@ -128,7 +128,7 @@ export class CurationComponent implements OnInit {
 }
   load10MoreCurationResolvedAndIgnored$(innit:boolean){
     this.curationResolvedAndIgnoredListisReloading = true;
-    
+
     let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10,this.curationResolvedAndIgnoredListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -142,7 +142,7 @@ export class CurationComponent implements OnInit {
             }else{
               this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
             }
-            
+
           }else{
             this.curationResolvedAndIgnoredList = [...value.objects]
           }
@@ -272,25 +272,48 @@ export class CurationComponent implements OnInit {
     this.resolveArticleWithTopIssuesFilterCount = section.count;
     this.activeTab = 1;
   }
+  atlestOneCurationSettingsNeeded(curationSettingsForm){
+    debugger;
+    let ans = false;
+    let arr = Object.keys(curationSettingsForm.get('curation_settings').value)
+    arr.forEach(v=>{
+      ans = ans || curationSettingsForm.get('curation_settings').value[v].enabled;
+    })
+    return !ans;
+  }
   updateSettingsHandler(){
     if(this.curationSettingsForm.valid){
-      let botImage : IBot; 
-    botImage = {...this.curationSettingsForm.value}
-    botImage.id = this.bot.id;
-    botImage.bot_access_token = ServerService.getBotTokenById(this.bot.id);
-    this.updateSettingsLoading = ELoadingStatus.loading;
-    this.serverService.updateBot(botImage).subscribe(() => {
-      this.updateSettingsLoading = ELoadingStatus.success;
-    }, (val) => {
-      this.updateSettingsLoading = ELoadingStatus.error;
-      if(val.error.error){
-        
-        this.utilityService.showErrorToaster(val.error.message);
+      
+      if(this.curationSettingsForm.get('allow_curation').value == true && this.atlestOneCurationSettingsNeeded(this.curationSettingsForm)){
+        this.utilityService.showErrorToaster("At least one rule needs to be enabled");
+      }else{
+        let botImage : IBot; 
+        botImage = {...this.curationSettingsForm.value}
+        botImage.id = this.bot.id;
+        botImage.bot_access_token = this.bot.bot_access_token;
+        this.updateSettingsLoading = ELoadingStatus.loading;
+        this.serverService.updateBot(botImage).subscribe(() => {
+          this.updateSettingsLoading = ELoadingStatus.success;
+        }, (val) => {
+          this.updateSettingsLoading = ELoadingStatus.error;
+          if(val.error.error){
+            
+            this.utilityService.showErrorToaster(val.error.message);
+          }
+        });
       }
-    });
     }
     else{
-      this.utilityService.showErrorToaster("Settings form is not valid");
+      if(this.curationSettingsForm.get('curation_settings').get('low_confidence').get('low_confidence_score').errors['max'] || 
+      this.curationSettingsForm.get('curation_settings').get('low_confidence').get('low_confidence_score').errors['min']){
+        this.utilityService.showErrorToaster("Score should lie between minimum threshold and 1");
+      }
+      else if(this.curationSettingsForm.get('curation_settings').get('low_confidence').get('low_confidence_score').errors['required']){
+        this.utilityService.showErrorToaster("Low confidence score is not configured");
+      }else{
+        this.utilityService.showErrorToaster("Settings form is not valid");
+      }
+      
     }
 
   }
