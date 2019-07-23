@@ -18,7 +18,6 @@
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
     
     <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
-        <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
       <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
       (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
                           <!-- (clickedOnArticle)="clickedOnArticle($event)" -->
@@ -34,7 +33,7 @@
       <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
 
       <button mat-button color=primary class="btn-theme btn-theme-primary footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
-        Add to article
+        Link to existing article
       </button>
 
       <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
@@ -44,16 +43,16 @@
       <div class="ml-auto"></div>
 
       <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button mr-2"  (click)="ignoreMultiQuery()">
-        Ignore query
+        Ignore queries
       </button>
       <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="SelectedListForm.reset()">
-          Deselect all
+        Deselect all
         </button>
     </div>
   </div>
 <form #issuesSelectedListForm="ngForm">
     <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
-        <mat-checkbox class="select-checkbox checkbox-in-curation" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
+        <mat-checkbox [ngClass]="{'select-checkbox' :true, 'checkbox-in-curation':!issuesSelectedListForm.value[curationItem.id]}" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
         <app-curation-issues  
         [curationItemData]="curationItem" 
         [isResolved]=false

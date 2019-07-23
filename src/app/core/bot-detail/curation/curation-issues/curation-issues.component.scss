@@ -32,7 +32,7 @@
   padding-top: 1em;
   color: #4a4a4a;
   overflow: auto;
-  border-right: solid 1px #d8d8d8;
+  border-right: solid 1px #eaeaea;
 }
 
 .column-2 {
@@ -48,7 +48,7 @@
 .curation-card-master {
   padding: 0px;
   border-radius: 2px;
-  border: solid 1px #d8d8d8;
+  border: solid 1px #eaeaea;
   background-color: #ffffff;
   font-family: IBMPlexSans;
   box-shadow: none;
@@ -62,7 +62,7 @@
     padding-right: 8px;
     padding-top: 11px;
     padding-bottom: 11px;
-    border-bottom: 1px solid #d8d8d8;
+    border-bottom: 1px solid #eaeaea;
 
     .curation-card-header-item {
       display: flex;
@@ -105,7 +105,7 @@
   }
   .curation-card-header-wrapper-selected{
     
-    border-bottom: 1px solid #d8d8d8;
+    border-bottom: 1px solid #eaeaea;
     background-color: #00abd3;
 
     .curation-card-header-item {
@@ -164,8 +164,8 @@
   .searchForArticle{
     .faq-search{
       input {
-        border: solid 1px #d8d8d8 !important;
-        width: 610px !important;
+        border: solid 1px #eaeaea !important;
+        width: 500px !important;
         color: #4a4a4a !important;
         padding-left: 34px !important;
         background-color: #f7f7f7 !important;
@@ -175,7 +175,7 @@
       }
     }
     .searchBox{
-      width: 450px !important;
+      width: 500px !important;
       background-color: #f7f7f7 !important;
     }
   }

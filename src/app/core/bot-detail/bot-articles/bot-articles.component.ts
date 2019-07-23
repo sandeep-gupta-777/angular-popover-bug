@@ -476,15 +476,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       component: ModalConfirmComponent
     }).then((data) => {
       if (data) {
-        this.exportCorpus();
+        this.exportCorpus(this.corpus.sections);
       }
     })
 
   }
-  exportCorpus() {
+  exportCorpus(data) {
     let maxNoOfQuestions = 0;
     const { Parser } = require('json2csv');
-    let data = this.corpus.sections
+    data = data
       .map(corpusSection => {
         if (maxNoOfQuestions < corpusSection.questions.length && corpusSection.category_id != 'default_articles') {
           maxNoOfQuestions = corpusSection.questions.length
@@ -500,7 +500,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     data = data.filter(d => {return d != null})
     const fields = ['Category', 'Answer'];
     for (let i = 1; i <= maxNoOfQuestions; i++) {
-      fields.push(`questions varient ${i}`);
+      fields.push(`questions variant ${i}`);
     }
     try {
       const json2csvParser = new Parser({ fields, unwind: 'field2', unwindBlank: true, flatten: true });
@@ -511,12 +511,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(err);
     }
   }
+  downloadSample(){
+    
+  }
   getVarientsObjFromQuestionArray(questions) {
     let obj = {};
     let i = 1;
     console.log(questions);
     for (let x of questions) {
-      obj[`questions varient ${i}`] = x;
+      obj[`questions variant ${i}`] = x;
       i = i + 1;
     }
     console.log(obj);
@@ -554,9 +557,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     fileReader.onload = (e) => {
       console.log(fileReader.result);
       let array = this.csvToArray(fileReader.result);
+      console.log(array);
       if(array[0][0].toLowerCase().includes('category') && array[0][1].toLowerCase().includes('answer')){
         this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
+        console.log(array);
         array = this.removeNaN(array);
+        console.log(array);
         if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion || this.errorArticleMustNotHaveDefaultArticle) ){
           let obj = this.ArrayToObject(array);
           this.uploadDocumentToDB(obj);
@@ -633,12 +639,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     let rows = csv.split("\n");
     rows.pop();
     return rows.map(function (row) {
-      return row.split(',').slice(0,-1);
+      return row.split(',');
     });
   }
   removeNaN(array){
     return array.map(function (row) {
-      return row.filter(str => { return str != ""});
+      return row.filter(str => { return (str != "" && str.charCodeAt(0) != 13) });
     });
   }
   ArrayToObject(array) {
@@ -646,8 +652,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     return array.map(section => {
       return {
         questions: section.slice(2),
-        answers: [{ "text": [section[0]] }],
-        category_name: section[1]
+        answers: [{ "text": [section[1]] }],
+        category_name: section[0]
       }
     })
   }
@@ -658,6 +664,18 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorArticleMustHaveOneQuestion = false; 
     this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
     this.uploadingData =  ELoadingStatus.default;
+  }
+  displayFilePath(str:string) {
+    if(!str || str == ""){
+      return "No file found"
+    }
+    var i;
+    if (str.lastIndexOf('\\')) {
+      i = str.lastIndexOf('\\') + 1;
+    } else if (str.lastIndexOf('/')) {
+      i = str.lastIndexOf('/') + 1;
+    }
+    return str.slice(i, str.length);
   }
   ngOnDestroy() {
     TempVariableService.curationIds = null;
