@@ -18,7 +18,6 @@
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
     
     <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
-        <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
       <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
       (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
                           <!-- (clickedOnArticle)="clickedOnArticle($event)" -->
@@ -26,34 +25,36 @@
       <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2" [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
         Link and save
       </button>
-      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
+      <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
         Cancel
       </button>
     </div>
     <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
       <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
-
-      <button mat-button color=primary class="btn-theme btn-theme-primary footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
-        Add to article
+      <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
+        <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
+        Link to an existing article
       </button>
 
-      <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
-        Create article
+      <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
+        <mat-icon>add</mat-icon>&nbsp; Add to a new article
       </button>
 
       <div class="ml-auto"></div>
 
-      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button mr-2"  (click)="ignoreMultiQuery()">
+      <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button mr-2" (click)="ignoreMultiQuery()" >
+        <mat-icon>remove_circle_outline</mat-icon>&nbsp;
         Ignore query
       </button>
-      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="SelectedListForm.reset()">
-          Deselect all
+
+      <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="SelectedListForm.reset()">
+        Deselect all
         </button>
     </div>
   </div>
 <form #issuesSelectedListForm="ngForm">
     <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
-        <mat-checkbox class="select-checkbox checkbox-in-curation" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
+        <mat-checkbox [ngClass]="{'select-checkbox' :true, 'checkbox-in-curation':!issuesSelectedListForm.value[curationItem.id]}" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
         <app-curation-issues  
         [curationItemData]="curationItem" 
         [isResolved]=false

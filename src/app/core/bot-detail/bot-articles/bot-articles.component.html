@@ -19,10 +19,10 @@
         </div>
         <div class="action-item py-1 cursor-pointer" *myIf="myEAllActions['Update Category']"
           (click)="openCorpusImportModal(ImportArticlesTemplate)">
-          <mat-icon class="material-icons">cloud_upload</mat-icon>Import article from csv
+          <mat-icon class="material-icons">publish</mat-icon>Import article from csv
         </div>
         <div class="action-item py-1 cursor-pointer" (click)="openCorpusExportModal()">
-          <mat-icon class="material-icons">cloud_download</mat-icon>Export article from csv
+          <mat-icon class="material-icons">get_app</mat-icon>Export article to csv
         </div>
         <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)"
           *myIf="myEAllActions['Update Category']">
@@ -116,31 +116,43 @@
       </div>
       <form #Uplodeform="ngForm">
         <div class="d-flex flex-column">
-          <label for="avatar" class="mb-1"> Csv File</label>
-          <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required>
+          <!-- <label for="avatar" class="mb-1"> Csv File</label> -->
+          <div>
+            <mat-form-field>
+              <input matInput [value]="displayFilePath(Uplodeform.value.file)" readonly>
+            </mat-form-field>
+            <label for="avatar" class="btn btn-theme-secondary-outline upload-button">
+              Browse
+              <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required
+                accept='text/csv' hidden>
+            </label>
+          </div>
+
+
+          <!-- <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required accept='text/csv'> -->
           <div *ngIf="errorArticleMustHaveCategory" class="errorText">Category name is missing for one or more articles
           </div>
-          <div *ngIf="errorArticleMustHaveAnswer" class="errorText"> Answer is missing for one or more articles</div>
+          <div *ngIf="errorArticleMustHaveAnswer" class="errorText">Answer is missing for one or more articles</div>
           <div *ngIf="errorArticleMustHaveOneQuestion" class="errorText">Question is missing for one or more articles
           </div>
-          <div *ngIf="errorArticleMustNotHaveDefaultArticle" class = "errorText">Category name is default for one or more articles</div>
-          <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class = "errorText">First column must be "Category" and second must be "answer"</div>
-          <div *ngIf="!Uplodeform.valid" class="errorText">Please choose the file</div>
+          <div *ngIf="errorArticleMustNotHaveDefaultArticle" class="errorText">Category name is default for one or more
+            articles</div>
+          <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class="errorText">First column must be
+            "Category" and second must be "answer"</div>
+          <div *ngIf="!Uplodeform.valid" class="errorText">Please upload the file</div>
+          <div *ngIf="noOfArticleFoundInUpload != null" class="successText">First column must be
+            {{noOfArticleFoundInUpload}} articles found</div>
         </div>
         <div class="d-flex pt-2">
-          <button class="btn-theme btn-theme-secondary-outline px-15">Download sample</button>
+          <app-button-wrapper class="card--update" [isMatFlatButton]="false" [status]="uploadingSampleData"
+            [text]="'Download sample'" (btnClick)="downloadSample()">
+          </app-button-wrapper>
           <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
             (click)="closeUploadModal()">Cancel</button>
-            <app-button-wrapper
-            [disabled]="!Uplodeform.valid"
-            class="card--update"
-            *myIf="[myEAllActions['Update Bots']]"
-            [isMatFlatButton]="true"
-            [status]="uploadingData"
-            [text]="'Import'"
-            (btnClick)="uploadDocument()">
+          <app-button-wrapper [disabled]="!Uplodeform.valid" class="card--update" *myIf="[myEAllActions['Update Bots']]"
+            [isMatFlatButton]="true" [status]="uploadingData" [text]="'Import'" (btnClick)="uploadDocument()">
           </app-button-wrapper>
-            <!-- <button class="btn-theme px-15 btn-theme-primary" (click)=""></button> -->
+          <!-- <button class="btn-theme px-15 btn-theme-primary" (click)=""></button> -->
         </div>
       </form>
     </div>

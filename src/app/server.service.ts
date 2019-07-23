@@ -127,7 +127,7 @@ export class ServerService {
   showErrorMessageForErrorTrue({error, message, action}) {
 
     /*check for logout*/
-    if(error === true && action === "logout"){
+    if (action === "logout") {
       EventService.logout$.emit();
       return;
     }
@@ -161,6 +161,7 @@ export class ServerService {
       tap((value) => {
         this.changeProgressBar(false, 100);
         this.increaseAutoLogoutTime();
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -172,7 +173,7 @@ export class ServerService {
     if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action:null});
+      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action: null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
@@ -196,6 +197,7 @@ export class ServerService {
       tap((value) => {
         this.changeProgressBar(false, 100);
         this.increaseAutoLogoutTime();
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
@@ -235,6 +237,7 @@ export class ServerService {
       tap((value) => {
         this.changeProgressBar(false, 100);
         this.increaseAutoLogoutTime();
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -242,6 +245,7 @@ export class ServerService {
   }
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
+
     this.checkApiAccess(reqObj, EHttpVerbs.POST);
     const headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
@@ -252,6 +256,7 @@ export class ServerService {
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {
+        this.checkForLogoutAction(value);
         this.increaseAutoLogoutTime();
         if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
@@ -270,15 +275,26 @@ export class ServerService {
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers}).pipe(
       map((value: any) => {
+        debugger;
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {
         this.increaseAutoLogoutTime();
         this.changeProgressBar(false, 100);
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
       }));
+  }
+
+  checkForLogoutAction(obj) {
+    if(!obj) return;
+    let {action} = obj;
+    if (action === "logout") {
+      EventService.logout$.emit();
+      return;
+    }
   }
 
 
@@ -350,22 +366,13 @@ export class ServerService {
   }
 
   getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
-    // if (!this.bot || (this.bot && this.bot.bot_unique_name !== this.bot_unique_name)) {
-    //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
-    //   if (!this.bot_unique_name) return;
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
-    this.makeGetReq({url, noValidateUser: true})
-      .subscribe((bot: IBot) => {
-        // this.user_first_name = bot.enterprise_name;
-        // this.enterprise_logo = bot.enterprise_logo;
-        // this.user_email =bot.enterprise_name;
-
-        this.store.dispatch([
+    return this.makeGetReq({url, noValidateUser: true})
+      .pipe(map((bot: IBot) => {
+        return this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
-          // new SetEnterpriseInfoAction({enterpriseInfo:{logo:bot.logo}})
-          // new ToggleChatWindow({open:true})
         ]);
-      });
+      }));
   }
 
 

@@ -1,10 +1,18 @@
 @import "~src/sass/main.scss";
+
+.chat-window-section {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100% - 50px);
+  position: relative;
+}
+
 .footer {
   grid-area: f;
   //grid-row: 2/span2;
   //border-top: 1px solid $color-primary;
   position: relative;
-  padding: 3px 10px ;
+  padding: 3px 10px;
   //height: 50px !important;
   //background-color: rgb(236, 236, 236);;
 
@@ -15,22 +23,24 @@
     @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
     border-radius: 4px;
     @include hide-borders();
-    &::placeholder{
+
+    &::placeholder {
       color: #bebebe !important;
     }
 
   }
+
   .icon {
     color: $color-primary;
     font-size: 25px;
   }
 }
 
-app-chat-message{
+app-chat-message {
   display: block;
 }
 
-.chat-input{
+.chat-input {
 
 }
 

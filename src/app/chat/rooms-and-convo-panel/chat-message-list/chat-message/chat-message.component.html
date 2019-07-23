@@ -77,10 +77,13 @@
   <hr>
 </div>
 
-
 <!--TODO: hide if the first-->
 <app-chat-feedback
-  *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
+  *ngIf="_allow_feedback &&
+   messageData.sourceType === 'bot' &&
+   messageData.isLast &&
+   messageData.bot_message_id &&
+   (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
   data-cy="app-chat-feedback"
   style="display: flex; align-items: flex-end"
   (chatMessageFeedback$)="feedback($event)"

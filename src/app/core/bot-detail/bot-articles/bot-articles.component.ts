@@ -21,6 +21,7 @@ import { TempVariableService } from '../../../temp-variable.service';
 import downloadCsv from 'download-csv';
 import { CategoryIdToNamePipe } from './category-id-to-name.pipe';
 import { ELoadingStatus } from 'src/app/button-wrapper/button-wrapper.component';
+import * as Papa from  'papaparse';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
@@ -476,15 +477,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       component: ModalConfirmComponent
     }).then((data) => {
       if (data) {
-        this.exportCorpus();
+        this.exportCorpus(this.corpus.sections);
       }
     })
 
   }
-  exportCorpus() {
+  exportCorpus(data) {
     let maxNoOfQuestions = 0;
     const { Parser } = require('json2csv');
-    let data = this.corpus.sections
+    data = data
       .map(corpusSection => {
         if (maxNoOfQuestions < corpusSection.questions.length && corpusSection.category_id != 'default_articles') {
           maxNoOfQuestions = corpusSection.questions.length
@@ -500,7 +501,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     data = data.filter(d => {return d != null})
     const fields = ['Category', 'Answer'];
     for (let i = 1; i <= maxNoOfQuestions; i++) {
-      fields.push(`questions varient ${i}`);
+      fields.push(`questions variant ${i}`);
     }
     try {
       const json2csvParser = new Parser({ fields, unwind: 'field2', unwindBlank: true, flatten: true });
@@ -511,12 +512,23 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(err);
     }
   }
+  uploadingSampleData = ELoadingStatus.default;
+  downloadSample(){ 
+    this.uploadingSampleData = ELoadingStatus.loading;
+    this.serverService.makeGetReqToDownloadFiles({url:'assets/sample_corpus.csv'})
+      .subscribe((data)=>{
+        this.utilityService.downloadText(data, `sample_corpus.csv`);
+        this.uploadingSampleData = ELoadingStatus.success;
+      },
+      ()=>{ this.uploadingSampleData = ELoadingStatus.error;})
+    
+  }
   getVarientsObjFromQuestionArray(questions) {
     let obj = {};
     let i = 1;
     console.log(questions);
     for (let x of questions) {
-      obj[`questions varient ${i}`] = x;
+      obj[`questions variant ${i}`] = x;
       i = i + 1;
     }
     console.log(obj);
@@ -530,6 +542,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   errorArticleMustHaveOneQuestion  : boolean = false;
   errorArticleMustNotHaveDefaultArticle  : boolean = false;
   errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer : boolean = false;
+  noOfArticleFoundInUpload:number;
   uploadingData =  ELoadingStatus.default;
   openCorpusImportModal(template: TemplateRef<any>) {
     this.errorArticleMustHaveCategory=false; 
@@ -542,28 +555,40 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   fileChanged(e) {
     this.file = e.target.files[0];
+    debugger;
     this.errorArticleMustHaveCategory = false;  
     this.errorArticleMustHaveAnswer = false;  
     this.errorArticleMustHaveOneQuestion = false;  
     this.errorArticleMustNotHaveDefaultArticle = false;
     this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+    this.noOfArticleFoundInUpload = null;
   }
   uploadDocument() {
     this.uploadingData =  ELoadingStatus.loading;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       console.log(fileReader.result);
-      let array = this.csvToArray(fileReader.result);
-      console.log(array);
+      // let array = this.csvToArray(fileReader.result);
+      debugger;
+      let array = Papa.parse(fileReader.result).data;
+      if(array.length > 1){
+        if(array[array.length-1][0] == "" ||array[array.length-1].length == 0 ){
+          debugger;
+          array.pop();
+        }
+      }
+      console.log("rrrrrrrrr:::"+array);
       if(array[0][0].toLowerCase().includes('category') && array[0][1].toLowerCase().includes('answer')){
         this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
-        console.log(array);
+        // console.log(array);
         array = this.removeNaN(array);
-        console.log(array);
+        // console.log(array);
         if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion || this.errorArticleMustNotHaveDefaultArticle) ){
           let obj = this.ArrayToObject(array);
+          
+          this.noOfArticleFoundInUpload = obj.length;
           this.uploadDocumentToDB(obj);
-          console.log(obj);
+          
         }else{
           this.uploadingData =  ELoadingStatus.error;
           this.Uplodeform.form.reset();
@@ -625,16 +650,20 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveAnswer = false; 
         this.errorArticleMustHaveOneQuestion = false;
         this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
-
+        this.noOfArticleFoundInUpload = null;
         
       },(val)=>{
         this.uploadingData =  ELoadingStatus.error;
       })
   }
   csvToArray(csv) {
-    csv = csv.replace(/"/g, "");
+    // csv = csv.replace(/"/g, "");
     let rows = csv.split("\n");
-    rows.pop();
+    if(rows.lenght > 1){
+      if(rows[rows.length-1][0] == "")
+        rows.pop();
+    }
+    
     return rows.map(function (row) {
       return row.split(',');
     });
@@ -661,6 +690,18 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorArticleMustHaveOneQuestion = false; 
     this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
     this.uploadingData =  ELoadingStatus.default;
+  }
+  displayFilePath(str:string) {
+    if(!str || str == ""){
+      return "No file found"
+    }
+    var i;
+    if (str.lastIndexOf('\\')) {
+      i = str.lastIndexOf('\\') + 1;
+    } else if (str.lastIndexOf('/')) {
+      i = str.lastIndexOf('/') + 1;
+    }
+    return str.slice(i, str.length);
   }
   ngOnDestroy() {
     TempVariableService.curationIds = null;

@@ -12,6 +12,7 @@ import {EventService} from '../../../../../../event.service';
 import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 import {SideBarService} from '../../../../../../side-bar.service';
 import {EAllActions} from "../../../../../../typings/enum";
+import {PermissionService} from "../../../../../../permission.service";
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -26,6 +27,8 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   ignore_punctuation = false;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
+  disableAll = this.permissionService.isTabAccessDenied(EAllActions['Update Bot Knowledge base']);
+
 
   // @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
@@ -97,6 +100,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
+    private permissionService: PermissionService,
     public matDialog: MatDialog
   ) {
     super(utilityService, matDialog);

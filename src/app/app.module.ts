@@ -4,7 +4,7 @@ import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {environment} from "../environments/environment";
 import {ModuleGaurdLoadService} from "./route-gaurds/module-gaurd-load.service";
@@ -15,20 +15,17 @@ import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
 import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
-import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
-import { SetErrorImageProps } from 'ng-lazyload-image';
-import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
-import {HnResolver} from "./core.resolver";
+import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
 };
 export const lazyOption = {
   // setErrorImage: x,
-    // setLoadedImage:({element, errorImagePath, useSrcset}: any) => {
-    //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
-    // },
-    preset: intersectionObserverPreset
+  // setLoadedImage:({element, errorImagePath, useSrcset}: any) => {
+  //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+  // },
+  preset: intersectionObserverPreset
 }
 
 export const lazyOption1 = {lazyOption};
@@ -39,6 +36,7 @@ const routes: Route[] = [
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
+  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService]},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},

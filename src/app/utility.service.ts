@@ -11,7 +11,7 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {AbstractControl, FormArray, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-const uuidv1 = require('uuid/v4');
+const uuidv4 = require('uuid/v4');
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -33,7 +33,7 @@ export class UtilityService {
 
 
   static generateUUid() {
-    return uuidv1();
+    return uuidv4();
   }
 
   constructor(
@@ -153,14 +153,15 @@ export class UtilityService {
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
-    return generatedMessage.map((message: IGeneratedMessageItem) => {
-
+    return generatedMessage.map((message: IGeneratedMessageItem, index) => {
+      const isLast = index === generatedMessage.length -1;
       let messageData: IMessageData = {
         ...message,
         bot_message_id,
         time: Date.now(),
         messageMediatype: null,
-        sourceType: 'bot'
+        sourceType: 'bot',
+        isLast
       };
 
       if (Object.keys(message)[0] === 'media') {

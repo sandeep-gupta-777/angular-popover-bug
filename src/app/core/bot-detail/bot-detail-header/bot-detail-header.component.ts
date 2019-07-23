@@ -61,7 +61,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
   }
 
-  
+
 
   previewBot() {
     this.chatService.openPreviewFormService(this.bot,this.enterprise_unique_name)
@@ -239,5 +239,9 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     else{
       this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});
     }
+  }
+
+  copySharablePreviewLinkHandler(){
+    this.utilityService.copyToClipboard(`${location.origin}/preview?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`)
   }
 }

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UtilityService} from '../utility.service';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-chat-consumer-form',
@@ -24,8 +25,10 @@ export class ChatConsumerFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  validateAndSubmit(customConsumerDetails){
-
+  validateAndSubmit(form: NgForm){
+    debugger;
+    let customConsumerDetails = form.form.getRawValue();
+    // let customConsumerDetails = form.form.getRawValues();
     this.errorMessage="";
     let doesConsumerFomContainSomeDetail =  this.utilityService.isAtleastOneValueIsDefined(customConsumerDetails);
     if(doesConsumerFomContainSomeDetail){
