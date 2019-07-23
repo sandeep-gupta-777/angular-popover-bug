@@ -223,8 +223,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           new SetUser({ user: value }),
           new SetAllBotListAction({ botList: [] })
         ]).subscribe((user) => {
-            this.router.navigate(['/']);
-            location.reload();
+          // this.router.navigate(['/core/analytics2/volume']);
+          debugger;
+            this.router.navigate(['/'])
+            .then(()=>{location.reload();});
+            
           // const url = this.constantsService.getBotListUrl();
           // const headerData: IHeaderData = { 'content-type': 'application/json' };
           // return this.serverService.makeGetReq<IBotResult>({ url, headerData })

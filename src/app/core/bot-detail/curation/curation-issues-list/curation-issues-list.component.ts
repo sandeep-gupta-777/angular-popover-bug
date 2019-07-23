@@ -41,12 +41,12 @@ export class CurationIssuesListComponent implements OnInit {
   IssuesSelectedSet = [];
   articleSearchMode : boolean = false;
   dialogRefWrapper = { ref: null };
-  corpusState :string;
+  @Input() corpusState :string;
   myESplashScreens = ESplashScreens;
   selectedArticleToAddCuration : number;
   @Input() totallength:number;
   ngOnInit() {
-    this.getCorpus$().subscribe()
+    
     this.SelectedListForm.form.valueChanges
       .subscribe((val)=>{
         let temArray = new Set();
@@ -112,21 +112,7 @@ export class CurationIssuesListComponent implements OnInit {
     });
   }
 
-  getCorpus$() {
-    let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
-    let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
 
-    return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
-      .pipe(
-        map((val) => {
-          this.corpusState = val.state;
-          var j = val.state.charAt(0).toUpperCase();
-          this.corpusState = j + val.state.substr(1).toLowerCase();
-        })
-      )
-  }
 
   // added multi to curation
   ignoreMultiQuery(){

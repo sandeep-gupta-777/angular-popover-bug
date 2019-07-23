@@ -74,6 +74,7 @@ export class CurationComponent implements OnInit {
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
     this.makeCurationSettingsForm();
+    this.getCorpus$().subscribe()
   }
   // setLiveBotUpdatedAt
   setLiveBotUpdatedAt(){
@@ -333,12 +334,14 @@ export class CurationComponent implements OnInit {
       })
     });
   }
+  corpusState:string;
   refershCurrentTabHandler(){
     if(this.activeTab == 0){
       this.getIssuesAggregationData();
       this.setTopArticlesWithIssues();
     }
     if(this.activeTab == 1){
+      this.getCorpus$().subscribe();
       this.IssuesFormSubmitted({
         'order_by' : `-updated_at`
       });
@@ -350,5 +353,20 @@ export class CurationComponent implements OnInit {
         'order_by' : `-updated_at`
       })
     }
+  }
+  getCorpus$() {
+    let headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
+
+    return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
+      .pipe(
+        map((val) => {
+          this.corpusState = val.state;
+          var j = val.state.charAt(0).toUpperCase();
+          this.corpusState = j + val.state.substr(1).toLowerCase();
+        })
+      )
   }
 }

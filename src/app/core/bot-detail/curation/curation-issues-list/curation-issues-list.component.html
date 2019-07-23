@@ -25,27 +25,29 @@
       <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2" [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
         Link and save
       </button>
-      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
+      <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
         Cancel
       </button>
     </div>
     <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
       <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
-
-      <button mat-button color=primary class="btn-theme btn-theme-primary footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
-        Link to existing article
+      <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
+        <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
+        Link to an existing article
       </button>
 
-      <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
-        Create article
+      <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
+        <mat-icon>add</mat-icon>&nbsp; Add to a new article
       </button>
 
       <div class="ml-auto"></div>
 
-      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button mr-2"  (click)="ignoreMultiQuery()">
-        Ignore queries
+      <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button mr-2" (click)="ignoreMultiQuery()" >
+        <mat-icon>remove_circle_outline</mat-icon>&nbsp;
+        Ignore query
       </button>
-      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="SelectedListForm.reset()">
+
+      <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="SelectedListForm.reset()">
         Deselect all
         </button>
     </div>
