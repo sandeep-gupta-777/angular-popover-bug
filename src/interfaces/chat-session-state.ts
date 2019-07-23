@@ -23,6 +23,7 @@ export interface IMessageData extends IGeneratedMessageItem {
   messageMediatype: EBotMessageMediaType;
   bot_message_id: number;
   feedback?: EChatFeedback;
+  isLast?: boolean
 }
 
 export interface IRoomData {

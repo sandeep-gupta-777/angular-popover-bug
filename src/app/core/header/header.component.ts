@@ -68,7 +68,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
-    this.bc = new BroadcastChannel('test_channel');
+    try {
+      this.bc = new BroadcastChannel('test_channel');
+    }catch (e) {
+      console.log(e);
+    }
     // this.bc.onmessage = (ev) => {
     //   location.reload();
     // };
