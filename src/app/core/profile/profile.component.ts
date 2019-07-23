@@ -1,9 +1,9 @@
-import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {IUser} from '../interfaces/user';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
-import {ConstantsService, } from '../../constants.service';
+import {ConstantsService,} from '../../constants.service';
 import {SetUser} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
 import {NgForm} from '@angular/forms';
@@ -34,7 +34,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     public utilityService: UtilityService,
-    public matDialog:MatDialog,
+    public matDialog: MatDialog,
     private store: Store) {
     super(utilityService, matDialog);
   }
@@ -67,8 +67,9 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
 
   openChangePasswordModal(template: TemplateRef<any>) {
     this.showPasswordChangeForm = true;
+
     this.openPrimaryModal(template)
-      .then(()=>{
+      .then(() => {
         this.old_password = this.new_password = this.new_password_confirm = '';
       })
   }
@@ -89,9 +90,13 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
         .subscribe((value: { 'error': boolean, 'message': string }) => {
 
           if (!value.error) {
-          this.showPasswordChangeForm = false; //show success message
-          }
-          else{
+            this.showPasswordChangeForm = false; //show success message
+            try {
+              this.dialogRefWrapper.ref.close()
+            } catch (e) {
+              console.log(e);
+            }
+          } else {
 
             // this.flashErrorMessage(value.message);
             this.showPasswordChangeForm = true; //show form again

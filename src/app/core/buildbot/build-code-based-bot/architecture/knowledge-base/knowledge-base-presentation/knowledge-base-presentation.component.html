@@ -16,12 +16,16 @@
     <!--</button>-->
     <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
       <mat-form-field style="margin-bottom: -1.25em">
-        <input type="text" matInput placeholder="Concept name" required [(ngModel)]="key" name="key">
+        <input type="text" matInput
+               [disabled]="disableAll"
+               placeholder="Concept name" required [(ngModel)]="key" name="key">
       </mat-form-field>
       <div class="d-flex flex-column mx-2">
 
         <mat-form-field style="margin-bottom: -1.25em">
-          <mat-select [(ngModel)]="ner_type" required name="ner_type" placeholder="Concept Type">
+          <mat-select [(ngModel)]="ner_type"
+                      [disabled]="disableAll"
+                      required name="ner_type" placeholder="Concept Type">
             <mat-option value="single_match">Single Match</mat-option>
             <mat-option value="double_match">Double Match</mat-option>
             <mat-option value="with_metadata">With Metadata</mat-option>
@@ -35,6 +39,7 @@
         <label class="m-0 p-0 mb-1">Process Raw Text</label>
         <div style="height: 26px;">
           <mat-slide-toggle
+            [disabled]="disableAll"
             name="process_raw_text"
             color="primary"
             class="d-flex align-items-center mx-1"
@@ -47,6 +52,7 @@
         <label class="m-0 p-0 mb-1">Mask concept value</label>
         <div style="height: 26px;">
           <mat-slide-toggle
+            [disabled]="disableAll"
             name="is_sensitive"
             color="primary"
             class="d-flex align-items-center mx-1"
@@ -60,6 +66,7 @@
         <label class="m-0 p-0 mb-1">Ignore punctuations</label>
         <div style="height: 26px;">
           <mat-slide-toggle
+            [disabled]="disableAll"
             name="ignore_punctuation"
             color="primary"
             class="d-flex align-items-center mx-1"
@@ -168,6 +175,7 @@
     <div class="d-flex-column-last-child-flex-grow-1"
          *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">
       <app-code-editor class="" (textChangedEvent)="textChanged($event)"
+                       [readOnly]="disableAll"
                        [text]="codeTextInputToCodeEditorObj"></app-code-editor>
     </div>
     <app-handsontable

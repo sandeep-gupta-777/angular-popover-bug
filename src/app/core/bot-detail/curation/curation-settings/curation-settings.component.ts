@@ -35,6 +35,9 @@ export class CurationSettingsComponent implements OnInit {
       if(val){
         this.curationSettingsForm.get('curation_settings').enable();
       }
+      if(!this.curationSettingsForm.get('curation_settings').get('low_confidence').get('enabled').value){
+        this.curationSettingsForm.get('curation_settings').get('low_confidence').get('low_confidence_score').disable()
+      }
     })
     this.curationSettingsForm.get('curation_settings').get('low_confidence').get('enabled').valueChanges
     .subscribe((val)=>{
