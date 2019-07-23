@@ -45,7 +45,7 @@
         {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.agent_handover * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
       </div>
     </div>
-    <div class="count-item" style="border:none;">
+    <div class="count-item">
       <mat-icon style="color: #ff8c41;" class="count-icon">live_help</mat-icon>
       <div class="count-text">
         Low confidence
@@ -57,7 +57,7 @@
 
   </div>
   <div class="count py-1 px-3" *ngIf="aggrigationData">
-    <div class="count-item">
+    <div class="count-item"style="border:none;">
       <mat-icon style="color: #193a57;" class="count-icon">list</mat-icon>
       <div class="count-text">
         Partial match

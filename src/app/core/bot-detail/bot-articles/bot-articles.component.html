@@ -121,8 +121,8 @@
             <mat-form-field>
               <input matInput [value]="displayFilePath(Uplodeform.value.file)" readonly>
             </mat-form-field>
-            <label for="avatar"  class="btn btn-theme-secondary-outline upload-button">
-                Browse
+            <label for="avatar" class="btn btn-theme-secondary-outline upload-button">
+              Browse
               <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required
                 accept='text/csv' hidden>
             </label>
@@ -140,10 +140,13 @@
           <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class="errorText">First column must be
             "Category" and second must be "answer"</div>
           <div *ngIf="!Uplodeform.valid" class="errorText">Please upload the file</div>
+          <div *ngIf="noOfArticleFoundInUpload != null" class="successText">First column must be
+            {{noOfArticleFoundInUpload}} articles found</div>
         </div>
         <div class="d-flex pt-2">
-          <button class="btn-theme btn-theme-secondary-outline px-15" (click)="downloadSample()">Download
-            sample</button>
+          <app-button-wrapper class="card--update" [isMatFlatButton]="false" [status]="uploadingSampleData"
+            [text]="'Download sample'" (btnClick)="downloadSample()">
+          </app-button-wrapper>
           <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
             (click)="closeUploadModal()">Cancel</button>
           <app-button-wrapper [disabled]="!Uplodeform.valid" class="card--update" *myIf="[myEAllActions['Update Bots']]"

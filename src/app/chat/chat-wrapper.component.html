@@ -19,7 +19,7 @@
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
-         [routerLink]="['/preview']"
+         [routerLink]="['/preview-dev']"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          [matTooltip]="'Open in new Tab'"
          target="_blank">
@@ -87,15 +87,19 @@
 <!--chat box ends-->
 
 <!--tool tip starts-->
-<div class="preview-tooltip" data-cy="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
-  <img
-    [defaultImage]="'assets/img/no image.svg'"
-    [lazyLoad]="currentBot.logo" alt="">
-</div>
+<ng-container *ngIf="!isFullScreenPreview">
+  <div class="preview-tooltip" data-cy="preview-tooltip" (click)="toggleChatWindow()"
+       *ngIf="(!windowOpen && currentBot)">
+    <img
+      [defaultImage]="'assets/img/no image.svg'"
+      [lazyLoad]="currentBot.logo" alt="">
+  </div>
+</ng-container>
 <!--tool tip ends-->
 
 <!--===============FULL SCREEN BELOW===================-->
-<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
+<!--anon-view-->
+<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_logged_in}">
   <div class="header1 px-3 d-flex align-items-center">
     <img class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-enterprise"
@@ -109,7 +113,8 @@
 
     <button mat-icon-button (click)="showOverlay = true"
             style="margin-left: auto"
-            [class.active]="showOverlay" class="origin"
+            [class.active]="showOverlay"
+            class="origin"
 						#overlayOriginFullScreen1="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
             [matTooltip]="'New custom chat'"
@@ -127,134 +132,86 @@
         }">
     </ng-container>
 
-    <!--<button mat-icon-button (click)="showOverlay_edit_fullscreen = true"-->
-    <!--data-cy="custom-room-form-trigger"-->
-    <!--[class.active]="showOverlay_edit_fullscreen" class="ml-auto"-->
-    <!--#overlayOriginFullScreen1="cdkOverlayOrigin"-->
-    <!--cdkOverlayOrigin>-->
-    <!--<mat-icon>perm_contact_calendar</mat-icon>-->
-    <!--</button>-->
-
-    <!--<app-overlay-->
-    <!--[overlayOrigin]="overlayOriginFullScreen1"-->
-    <!--[showOverlay]="showOverlay_edit_fullscreen"-->
-    <!--[overlayClass]="'bg-transparent'"-->
-    <!--(backdropClick$)="showOverlay_edit_fullscreen = false">-->
-    <!--<div class="dialog-container">-->
-    <!--<app-chat-consumer-form-->
-    <!--*ngIf="showOverlay_edit_fullscreen"-->
-    <!--[customConsumerDetails]="{}"-->
-    <!--(hideOverlay$)="showOverlay_edit_fullscreen = false"-->
-    <!--(saveConsumerDetails$)="startNewChat({consumerDetails: $event, bot:currentBot, isCustomRoom:true})"></app-chat-consumer-form>-->
-    <!--</div>-->
-    <!--</app-overlay>-->
-
-
-    <!--<div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown-->
-    <!--<div dropdownToggle class="user cursor-pointer text-white"><i class="fa fa-user"></i></div>-->
-
-
-    <!--<form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm"-->
-    <!--(ngSubmit)="saveConsumerDetails(form.value)"-->
-    <!--style="width: 240px">-->
-    <!--<p class="heading mb-2">Edit Customer</p>-->
-    <!--<div class="form-group">-->
-    <!--<label>Name</label>-->
-    <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.name"-->
-    <!--name="name" aria-describedby="emailHelp">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<label>Phone</label>-->
-    <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone"-->
-    <!--aria-describedby="emailHelp">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<label>Email</label>-->
-    <!--<input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email" name="email"-->
-    <!--aria-describedby="emailHelp">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<label>Facebook ID</label>-->
-    <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id"-->
-    <!--name="facebook_id" aria-describedby="emailHelp">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<label>UID</label>-->
-    <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid" name="uid"-->
-    <!--aria-describedby="emailHelp">-->
-    <!--</div>-->
-    <!--<button type="submit" class="btn-block btn-theme-primary my-3" (click)="dropdown.hide()">Save Changes</button>-->
-    <!--</form>-->
-    <!--</div>-->
-
   </div>
-  <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
-    <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
+  <div class="header2 px-3 d-flex align-items-center">
     <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-bot"
          [defaultImage]="'assets/img/no image.svg'"
          [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
     <div *ngIf="currentBot" class="d-flex flex-column text-white">
-      <div>{{currentBot.name}}</div>
-      <!--<div class="font-11">{{bot.description}}</div>-->
+      <div class="">{{currentBot.name}}</div>
+      <div class="description hide-mobile">{{currentBot.description}}</div>
     </div>
-    <!---->
-    <!--<div class="room-details ml-auto">-->
-    <!--<div *ngIf="currentRoom" [style.visibility]="currentRoom.roomId?'visible':'hidden'"-->
-    <!--class="d-flex flex-column align-items-end ml-auto mr-4 text-white">-->
-    <!--<div>Room ID:</div>-->
-    <!--<div class="font-11">{{currentRoom.roomId}}</div>-->
-    <!--</div>-->
     <div class="ml-auto"></div>
-    <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
-         class="d-flex mr-3 flex-column align-items-end text-white">
-      <div>Last template:</div>
-      <div class="font-11" data-cy="chat-room-lasttemplaykey">{{currentRoom.lastTemplateKey}}</div>
-    </div>
+    <ng-container *ngIf="!is_logged_in">
+      <button (click)="startNewChatForAnonUser()"
+              class="mat-theme-button mat-theme-button-border" mat-button>
+        <mat-icon>refresh</mat-icon>
+        <span class="hide-mobile">Restart</span>
+      </button>
+      <button (click)="showChatImage = !showChatImage"
+              class="mat-theme-button mat-theme-button-border" mat-button>
+        <mat-icon>error</mat-icon>
+        <span class="hide-mobile">Know more</span>
+      </button>
+      <div
+        *ngIf="showChatImage"
+        (click)="showChatImage = false"
+        class="chat-img-overlay">
+        <i class="fa fa-times close-chat-img-overlay"></i>
+        <div class="chat-know-more-overlay" (click)="$event.stopPropagation()">
 
-    <button mat-icon-button (click)="showOverlay_edit_fullscreen = true"
-            [class.active]="showOverlay" class="origin"
-						#overlayOrigin="cdkOverlayOrigin"
-            data-cy="custom-room-form-trigger"
-            [matTooltip]="'Consumer data'"
-            cdkOverlayOrigin>
-      <mat-icon>perm_contact_calendar</mat-icon>
-    </button>
-    <ng-container
-      [ngTemplateOutlet]="validationTemplate"
-      [ngTemplateOutletContext]="{
+          <header class="chat-know-more-overlay-header">
+            <div class="description-top" style="text-align: center">This bot was built using</div>
+            <div><img src="assets/img/IMI_logo.png" alt=""></div>
+            <strong class="description-bottom">The enterprise bot building platform to automate conversations</strong>
+          </header>
+
+          <div class="chat-know-more-overlay-item" *ngFor="let item of knowMorePanelItems">
+            <img [src]="item.imgUrl" alt="">
+            <div>
+              {{item.title}}
+            </div>
+          </div>
+
+          <a href="https://imimobile.com/products/ai-automation" target="_blank"><button mat-flat-button color="primary"> Know more</button></a>
+
+        </div>
+      </div>
+    </ng-container>
+
+
+    <ng-container *ngIf="is_logged_in">
+      <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
+           class="d-flex mr-3 flex-column align-items-end text-white">
+        <div>Last template:</div>
+        <div class="font-11" data-cy="chat-room-lasttemplaykey">{{currentRoom.lastTemplateKey}}</div>
+      </div>
+
+      <button mat-icon-button (click)="showOverlay_edit_fullscreen = true"
+              [class.active]="showOverlay" class="origin"
+							#overlayOrigin="cdkOverlayOrigin"
+              data-cy="custom-room-form-trigger"
+              [matTooltip]="'Consumer data'"
+              cdkOverlayOrigin>
+        <mat-icon>perm_contact_calendar</mat-icon>
+      </button>
+
+      <ng-container
+        [ngTemplateOutlet]="validationTemplate"
+        [ngTemplateOutletContext]="{
           overlayOrigin: overlayOrigin,
           customConsumerDetails:currentRoom.consumerDetails,
           createNewRoom: false,
           showOverlay: showOverlay_edit_fullscreen,
           isEditMode: true
         }">
+      </ng-container>
     </ng-container>
 
-    <!--<app-overlay-->
-    <!--[overlayOrigin]="overlayOrigin"-->
-    <!--[showOverlay]="showOverlay"-->
-    <!--(backdropClick$)="showOverlay = false"-->
-    <!--[overlayClass]="'bg-transparent'">-->
-    <!--<div class="dialog-container">-->
-    <!--<app-chat-consumer-form-->
-    <!--*ngIf="showOverlay"-->
-    <!--[customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"-->
-    <!--(hideOverlay$)="showOverlay = false"-->
-    <!--[readonly]="frameEnabled === myEChatFrame.CHAT_BOX"-->
-    <!--(saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>-->
-    <!--</div>-->
-    <!--</app-overlay>-->
-    <!--<div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">-->
-    <!--<div>Room UID:</div>-->
-    <!--<div class="font-11" data-cy="chat-room-uid">{{currentRoom.uid}}</div>-->
-    <!--</div>-->
   </div>
+
   <div class="chat-rooms" style="overflow: hidden">
-    <!--<app-chat-list class="mt-4"-->
-    <!--(createCustomRoom$)="createCustomRoom()"-->
-    <!--[currentBot]="currentBot"-->
-    <!--(createNewRoom$)="startNewChat($event)"></app-chat-list>-->
     <app-chat-list class="mt-4"
                    [currentBot]="currentBot"
                    (createCustomRoom$)="createCustomRoom()"
@@ -262,16 +219,6 @@
     ></app-chat-list>
   </div>
   <div class="chat">
-    <!--<app-chat-window-->
-    <!--[selectedAvatar]="selectedAvatar"-->
-    <!--[showBotIsThinking]="showBotIsThinking"-->
-    <!--[room]="currentRoom"-->
-    <!--[allow_feedback]="currentBot.allow_feedback"-->
-    <!--(sendMessageByHuman$)="sendMessageByHuman($event)"-->
-    <!--(chatMessageFeedback$)="sendFeedback($event)"-->
-    <!--[messageDataArray]="messageData">-->
-    <!--</app-chat-window>-->
-
     <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                      [allow_feedback]="currentBot.allow_feedback"
                      [selectedAvatar]="selectedAvatar"

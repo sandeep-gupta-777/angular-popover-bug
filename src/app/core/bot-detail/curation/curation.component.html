@@ -37,7 +37,8 @@
         [isMorePresent]="isMoreCurationIssuesListPresent" [reloadingMore]="curationIssuesListisReloading"
         (loadMoreNext)="load10MoreCurationIssues(false)" (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
         [totallength]="totalLengthCurationIssue" [liveBotUpdatedAt]="liveBotUpdatedAt"
-        (addQueryToArticleByIds)="addQueryToArticleByIds($event)">
+        (addQueryToArticleByIds)="addQueryToArticleByIds($event)"
+        [corpusState]="corpusState">
       </app-curation-issues-list>
       <div *ngIf="
         !curationIssuesListisReloading && 
