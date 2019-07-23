@@ -20,15 +20,9 @@
         </span>
 
         <span class="curation-card-header-icon-list">
-<<<<<<< HEAD
-          <mat-icon style="color: #d94254;" [matTooltip]="toDisplayValue('Bot’s message was downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
-            thumb_down</mat-icon>
-          <mat-icon style="color: #fd901c;" [matTooltip]="toDisplayValue('Bot was unable to understand')" *ngIf="curationItemData.triggered_rules.fallback">
-=======
           <mat-icon style="color: #d94254;" [matTooltip]="Bot’s message was downvoted" *ngIf="curationItemData.triggered_rules.downvoted">
             thumb_down</mat-icon>
           <mat-icon style="color: #fd901c;" [matTooltip]="Bot was unable to understand" *ngIf="curationItemData.triggered_rules.fallback">
->>>>>>> staging
             sentiment_dissatisfied</mat-icon>
           <mat-icon style="color: #00abd3;" [matTooltip]="Added to curation from session" *ngIf="curationItemData.triggered_rules.from_session">
             question_answer</mat-icon>
@@ -36,11 +30,7 @@
             *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
           <mat-icon style="color: #000000;" [matTooltip]="Handed over to agent"
             *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
-<<<<<<< HEAD
-          <mat-icon style="color: #ff8c41;" [matTooltip]="toDisplayValue('Article recognized has a low score')"
-=======
           <mat-icon style="color: #ff8c41;" [matTooltip]="Article recognized has a low score"
->>>>>>> staging
             *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
         </span>
       </div>
