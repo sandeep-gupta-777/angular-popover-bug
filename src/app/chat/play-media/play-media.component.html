@@ -1,6 +1,6 @@
 <ng-container *ngIf="message?.media?.video_url || message?.media?.audio_url || message?.media?.image_url ">
   <ng-container *ngIf="message.media as media">
-    <div class="play-media-wrapper">
+    <div class="play-media-wrapper" [ngClass]="direction">
       <div class="item" *ngIf="media.video_url as src">
         <video controls>
           <source [src]="src">

@@ -49,7 +49,12 @@ export class ChatService {
     }
   ];
 
-  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType },
+                              consumerDetails: IConsumerDetails,
+                              messageByHuman: string,
+                              frameEnabled: EChatFrame,
+                              is_test:boolean = true
+                              ) {
 
     const url = this.constantsService.getStartNewChatLoginUrl();
     let body: any /*: ISendApiRequestPayload */ = {
@@ -57,7 +62,7 @@ export class ChatService {
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web',
-      is_test: true//botDetails.type === EBotType.faqbot
+      is_test//botDetails.type === EBotType.faqbot
     };
 
     let model_id = (this.currentPreviewBot as any).model_id;
@@ -314,7 +319,7 @@ export class ChatService {
     this.messaging.publishMessage(message, pubcallback);
   }
 
-  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
+  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }, is_test = true) {
     const url = this.constantsService.getStartNewChatLoginUrl();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(startNewChatData.bot.id),
@@ -326,7 +331,7 @@ export class ChatService {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test': true,//startNewChatData.bot.bot_type === EBotType.faqbot,
+      is_test,//startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },

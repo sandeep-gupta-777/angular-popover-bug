@@ -70,7 +70,7 @@ export class ChatWrapperComponent implements OnInit {
   showOverlay_edit_fullscreen = false;
   anon_chat_path = ConstantsService.fullscreenchatpath_anon;
   dev_chat_path = ConstantsService.fullscreenchatpath_dev;
-  is_logged_in = location.pathname !== this.anon_chat_path;
+  is_dev_view = location.pathname !== this.anon_chat_path;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -282,7 +282,7 @@ export class ChatWrapperComponent implements OnInit {
     * 1. Post send api to server with first message=> will get back consent message and room roomId
     * 2. create a new room using room roomId
     * */
-    this.chatService.startANewChatUsingSendApi(startNewChatData)
+    this.chatService.startANewChatUsingSendApi(startNewChatData, this.is_dev_view)
       .subscribe((value: IBotPreviewFirstMessage) => {
 
         if (!value.room || !value.room.id) {
@@ -392,7 +392,8 @@ export class ChatWrapperComponent implements OnInit {
           },
           messageData.room.consumerDetails,
           messageByHuman,
-          EChatFrame.CHAT_BOX)
+          EChatFrame.CHAT_BOX,
+          this.is_dev_view)
           .subscribe(() => {
 
             if(messageData.updateConsumerInfo){

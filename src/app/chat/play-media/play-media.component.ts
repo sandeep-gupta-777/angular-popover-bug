@@ -7,7 +7,8 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class PlayMediaComponent implements OnInit {
 
-  @Input() message:any
+  @Input() message:any;
+  @Input() direction:'left'|'right' = 'right';
   constructor() { }
 
   ngOnInit() {

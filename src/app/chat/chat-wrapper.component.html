@@ -17,7 +17,6 @@
           [lazyLoad]="currentBot.logo"
           class="chat-logo" alt="Bot logo">
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
-      <i>{{enterprise_unique_name}}</i>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
          [routerLink]="'/preview-dev'"
@@ -100,7 +99,7 @@
 
 <!--===============FULL SCREEN BELOW===================-->
 <!--anon-view-->
-<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_logged_in}">
+<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_dev_view}">
   <div class="header1 px-3 d-flex align-items-center">
     <img class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-enterprise"
@@ -144,7 +143,7 @@
       <div class="description hide-mobile">{{currentBot.description}}</div>
     </div>
     <div class="ml-auto"></div>
-    <ng-container *ngIf="!is_logged_in">
+    <ng-container *ngIf="!is_dev_view">
       <button (click)="startNewChatForAnonUser()"
               class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>refresh</mat-icon>
@@ -182,7 +181,7 @@
     </ng-container>
 
 
-    <ng-container *ngIf="is_logged_in">
+    <ng-container *ngIf="is_dev_view">
       <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
            class="d-flex mr-3 flex-column align-items-end text-white">
         <div>Last template:</div>
