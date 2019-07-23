@@ -21,6 +21,7 @@ import { TempVariableService } from '../../../temp-variable.service';
 import downloadCsv from 'download-csv';
 import { CategoryIdToNamePipe } from './category-id-to-name.pipe';
 import { ELoadingStatus } from 'src/app/button-wrapper/button-wrapper.component';
+import * as Papa from  'papaparse';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
@@ -511,7 +512,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(err);
     }
   }
-  downloadSample(){
+  uploadingSampleData = ELoadingStatus.default;
+  downloadSample(){ 
+    this.uploadingSampleData = ELoadingStatus.loading;
+    this.serverService.makeGetReqToDownloadFiles({url:'assets/sample_corpus.csv'})
+      .subscribe((data)=>{
+        this.utilityService.downloadText(data, `sample_corpus.csv`);
+        this.uploadingSampleData = ELoadingStatus.success;
+      },
+      ()=>{ this.uploadingSampleData = ELoadingStatus.error;})
     
   }
   getVarientsObjFromQuestionArray(questions) {
@@ -533,6 +542,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   errorArticleMustHaveOneQuestion  : boolean = false;
   errorArticleMustNotHaveDefaultArticle  : boolean = false;
   errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer : boolean = false;
+  noOfArticleFoundInUpload:number;
   uploadingData =  ELoadingStatus.default;
   openCorpusImportModal(template: TemplateRef<any>) {
     this.errorArticleMustHaveCategory=false; 
@@ -545,28 +555,40 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   fileChanged(e) {
     this.file = e.target.files[0];
+    debugger;
     this.errorArticleMustHaveCategory = false;  
     this.errorArticleMustHaveAnswer = false;  
     this.errorArticleMustHaveOneQuestion = false;  
     this.errorArticleMustNotHaveDefaultArticle = false;
     this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+    this.noOfArticleFoundInUpload = null;
   }
   uploadDocument() {
     this.uploadingData =  ELoadingStatus.loading;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       console.log(fileReader.result);
-      let array = this.csvToArray(fileReader.result);
-      console.log(array);
+      // let array = this.csvToArray(fileReader.result);
+      debugger;
+      let array = Papa.parse(fileReader.result).data;
+      if(array.length > 1){
+        if(array[array.length-1][0] == "" ||array[array.length-1].length == 0 ){
+          debugger;
+          array.pop();
+        }
+      }
+      console.log("rrrrrrrrr:::"+array);
       if(array[0][0].toLowerCase().includes('category') && array[0][1].toLowerCase().includes('answer')){
         this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
-        console.log(array);
+        // console.log(array);
         array = this.removeNaN(array);
-        console.log(array);
+        // console.log(array);
         if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion || this.errorArticleMustNotHaveDefaultArticle) ){
           let obj = this.ArrayToObject(array);
+          
+          this.noOfArticleFoundInUpload = obj.length;
           this.uploadDocumentToDB(obj);
-          console.log(obj);
+          
         }else{
           this.uploadingData =  ELoadingStatus.error;
           this.Uplodeform.form.reset();
@@ -628,16 +650,20 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveAnswer = false; 
         this.errorArticleMustHaveOneQuestion = false;
         this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
-
+        this.noOfArticleFoundInUpload = null;
         
       },(val)=>{
         this.uploadingData =  ELoadingStatus.error;
       })
   }
   csvToArray(csv) {
-    csv = csv.replace(/"/g, "");
+    // csv = csv.replace(/"/g, "");
     let rows = csv.split("\n");
-    rows.pop();
+    if(rows.lenght > 1){
+      if(rows[rows.length-1][0] == "")
+        rows.pop();
+    }
+    
     return rows.map(function (row) {
       return row.split(',');
     });
