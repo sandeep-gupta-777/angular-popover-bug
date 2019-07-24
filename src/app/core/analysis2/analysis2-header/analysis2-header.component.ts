@@ -152,6 +152,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     });
 
     this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
+      debugger;
       if(!analytics2HeaderData) return;
       /*move this code to dedicated service*/
       try {
@@ -159,8 +160,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         const url = this.constantsService.getAnalyticsUrl();
         const headerData: any/*IAnalysis2HeaderData*/ = {
           ...analytics2HeaderData,
-          // 'auth-token': this.loggeduser.user.auth_token,
-          // 'user-access-token': this.loggeduser.user.user_access_token,
+          'auth-token': ServerService.getCookie('auth-token'),
+          'user-access-token': ServerService.getCookie('user-access-token'),
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
@@ -175,6 +176,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .pipe(debounceTime(1000))
           .subscribe(() => {
+            debugger;
             const isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
             if (!isHeaderValid) {
               return;

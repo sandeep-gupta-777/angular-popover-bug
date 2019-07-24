@@ -86,8 +86,12 @@ const defaultAnalytics2 = {
 })
 
 export class AnalysisStateReducer2 {
+  constructor(){
+    debugger;
+  }
   @Action(SetAnalysis2HeaderData)
   setAnalysis2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
+    debugger;
     const state: IAnalysis2State = getState();
     if (state) {
       patchState({ analysisHeaderData: {
