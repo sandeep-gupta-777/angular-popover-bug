@@ -1,10 +1,29 @@
 <div class="analysis2-header-row">
-
+  <!-- makeCurationSettingsForm(){
+    this.curationSettingsForm = this.formBuilder.group({
+      "order_by" : [this.bot.allow_curation],
+      "hideIgnored" : [this.bot.allow_curation],
+      "room_id" : [this.bot.allow_curation],
+      "triggered_rules" : [this.bot.allow_curation],
+      "triggered_rules" : [this.bot.allow_curation],
+      "updated_at__range": this.formBuilder.group({
+        "agent_handover": this.formBuilder.group({"enabled":[this.bot.curation_settings.agent_handover.enabled]}),
+        "downvoted": this.formBuilder.group({"enabled":[this.bot.curation_settings.downvoted.enabled]}),
+        "fallback": this.formBuilder.group({"enabled":[this.bot.curation_settings.fallback.enabled]}),
+        "from_session": this.formBuilder.group({"enabled":[this.bot.curation_settings.from_session.enabled]}),
+        "low_confidence": this.formBuilder.group({
+          "enabled":[this.bot.curation_settings.low_confidence.enabled],
+          "low_confidence_score": [this.bot.curation_settings.low_confidence.low_confidence_score,Validators.max(1)]
+        }),
+        "partial_match": this.formBuilder.group({"enabled":[this.bot.curation_settings.partial_match.enabled]}),
+      })
+    });
+  } -->
   <form ngNativeValidate #filterForm="ngForm" class=" d-flex  position-relative p-0">
     <div class="heading">Sort by</div>
     <div class="form-group m-0 padding-input sort-decrease-height" >
       <mat-form-field class="input-width">
-        <mat-select name="order_by" class ="input-width" [(ngModel)] = "tempOrderBy" (ngModelChange)="onSortByChange($event)">
+        <mat-select name="order_by" class ="input-width" [ngModel]="'updated_at'">
           <mat-option value="updated_at" class="sort-radio-item">Last Updated </mat-option>
           <mat-option value="group_by_section" class="sort-radio-item">Articles with most issues </mat-option>
           <mat-option value="room_id" class="sort-radio-item">Issues in the same session </mat-option>

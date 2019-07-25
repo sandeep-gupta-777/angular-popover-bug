@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild, EventEmitter, Output, AfterViewInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, EventEmitter, Output, AfterViewInit, OnDestroy, AfterViewChecked} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {ConstantsService} from "../../../../constants.service";
 
@@ -7,7 +7,7 @@ import {ConstantsService} from "../../../../constants.service";
   templateUrl: './curation-filter.component.html',
   styleUrls: ['./curation-filter.component.scss']
 })
-export class CurationFilterComponent implements OnInit {
+export class CurationFilterComponent implements OnInit,AfterViewInit {
 
   constructor(
     private constantsService : ConstantsService,
@@ -19,24 +19,29 @@ export class CurationFilterComponent implements OnInit {
   @Input() set resolveIssuesOfArticleByCount(count:number){
     if(count){
       this.curationForm.reset();
+      debugger;
       this.curationForm.form.patchValue({
-        "order_by": "room_id",
+        "order_by": "group_by_section",
         "issue_count_filter": 'issue_count_per_section',
         "count": count
       })
-      this.submitedForm();
+      // this.submitedForm();
+      // setTimeout(()=>{
+      //   debugger;
+      //   this.submitedForm()},10)
     }
   }
   @ViewChild('filterForm') curationForm: NgForm;
   maxDate = new Date();
   date = {};
-  tempOrderBy = "updated_at";
   formChangesSubscription;
   ngOnInit() {
     
     if(!this.triggered_rules){
       this.triggered_rules = this.constantsService.getDefaultTriggeredRulesForArticleFilter();
     }
+
+    
 
   }
 
@@ -109,8 +114,23 @@ export class CurationFilterComponent implements OnInit {
     
   }
 
-  onSortByChange(val){
-    this.submitedForm();
+  // onSortByChange(val){
+  //   debugger;
+  //   let x = this.curationForm.form.value;
+  //   this.submitedForm();
+    
+  // }
+  ngAfterViewInit(){
+    debugger;
+    setTimeout(()=>{
+      this.curationForm.form.get('order_by').valueChanges
+      .subscribe((val)=>{
+        debugger;
+        if(val){
+          debugger;
+          this.submitedForm();
+        }
+      }),0})
+    
   }
-  
 }
