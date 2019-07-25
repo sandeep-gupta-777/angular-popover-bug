@@ -67,7 +67,7 @@ export interface IChatFeedback {
 export class ChatWrapperComponent implements OnInit {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
-  is_logged_in = location.pathname === '/preview-dev';
+  is_logged_in = true; //location.pathname === '/preview-dev';
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -209,7 +209,7 @@ export class ChatWrapperComponent implements OnInit {
 
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
-          chatSessionState.consumerDetails = this.currentRoom.consumerDetails;
+          chatSessionState.consumerDetails = this.currentRoom && this.currentRoom.consumerDetails;
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
         }

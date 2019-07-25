@@ -19,7 +19,7 @@
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
-         [routerLink]="['/preview-dev']"
+         [routerLink]="['/preview']"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          [matTooltip]="'Open in new Tab'"
          target="_blank">
@@ -201,7 +201,7 @@
         [ngTemplateOutlet]="validationTemplate"
         [ngTemplateOutletContext]="{
           overlayOrigin: overlayOrigin,
-          customConsumerDetails:currentRoom.consumerDetails,
+          customConsumerDetails:currentRoom?.consumerDetails,
           createNewRoom: false,
           showOverlay: showOverlay_edit_fullscreen,
           isEditMode: true
