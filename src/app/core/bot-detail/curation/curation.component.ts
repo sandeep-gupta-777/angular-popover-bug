@@ -199,7 +199,7 @@ export class CurationComponent implements OnInit {
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
-      this.utilityService.showSuccessToaster("Issues has been successfully added to article.");
+      this.utilityService.showSuccessToaster("Issues have been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - data.curationItemId.length;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
         return !(data.curationItemId.find(c_id => {return c_id == item.id} ))

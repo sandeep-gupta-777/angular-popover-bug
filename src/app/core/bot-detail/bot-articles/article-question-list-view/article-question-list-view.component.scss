@@ -3,8 +3,10 @@
 .article-item{
     justify-content: center;
     width: 100%;
+    transition: 0.3s;
     .showNoParentHover{
         opacity: 0;
+        
     }
     &:hover{
         background-color: #ffffff;
