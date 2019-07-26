@@ -386,6 +386,7 @@ export class CurationComponent implements OnInit {
       "count": section.count
     }
     this.curationIssuesFilterForm.patchValue(value,{onlySelf: true, emitEvent: false})
+    this.curationIssuesFilterForm.get('count').enable();
     this.activeTab = 1;
     this.submitedForm({
       'unsolved' : true,

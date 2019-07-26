@@ -15,8 +15,8 @@
       (btnClick)="openDialog()"></app-button-wrapper>
   </div>
   <mat-tab-group animationDuration="0ms"
-    [selectedIndex]="activeTab===myEBotType.chatbot?0:(activeTab===myEBotType.intelligent?1:2)"
-    (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot:($event.index == 1? myEBotType.intelligent : myEBotType.faqbot ))">
+    [selectedIndex]="activeTab===myEBotType.chatbot?1:(activeTab===myEBotType.intelligent?2:0)"
+    (selectedTabChange)="tabClicked($event.index == 0?myEBotType.faqbot:($event.index == 1? myEBotType.chatbot : myEBotType.intelligent))">
     <mat-tab label="Q&A bots">
         <div class="pl-4 mt-2">
           <app-bot-preview-card-list
