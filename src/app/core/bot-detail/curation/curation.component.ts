@@ -307,7 +307,7 @@ export class CurationComponent implements OnInit {
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
-      this.utilityService.showSuccessToaster("Issues has been successfully added to article.");
+      this.utilityService.showSuccessToaster("Issues have been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - data.curationItemId.length;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
         return !(data.curationItemId.find(c_id => {return c_id == item.id} ))
@@ -386,6 +386,7 @@ export class CurationComponent implements OnInit {
       "count": section.count
     }
     this.curationIssuesFilterForm.patchValue(value,{onlySelf: true, emitEvent: false})
+    this.curationIssuesFilterForm.get('count').enable();
     this.activeTab = 1;
     this.submitedForm({
       'unsolved' : true,
