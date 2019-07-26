@@ -1,17 +1,16 @@
 <div class="analysis2-header-row">
-
-  <form ngNativeValidate #filterForm="ngForm" class=" d-flex  position-relative p-0">
+  <form ngNativeValidate [formGroup]="form" class=" d-flex  position-relative p-0">
     <div class="heading">Sort by</div>
-    <div class="form-group m-0 padding-input sort-decrease-height" >
+    <div class="form-group m-0 padding-input sort-decrease-height">
       <mat-form-field class="input-width">
-        <mat-select name="order_by" class ="input-width" [(ngModel)] = "tempOrderBy" (ngModelChange)="onSortByChange($event)">
+        <mat-select formControlName="order_by" class="input-width" [ngModel]="'updated_at'">
           <mat-option value="updated_at" class="sort-radio-item">Last Updated </mat-option>
           <mat-option value="group_by_section" class="sort-radio-item">Articles with most issues </mat-option>
           <mat-option value="room_id" class="sort-radio-item">Issues in the same session </mat-option>
         </mat-select>
       </mat-form-field>
-    </div> 
-    <!-- <mat-radio-group name="order_by" class="sort-radio-box padding-input" ngModel>
+    </div>
+    <!-- <mat-radio-group formControlName="order_by" class="sort-radio-box padding-input" ngModel>
       <mat-radio-button value="updated_at" class="sort-radio-item" color=primary>Latest Updated </mat-radio-button>
       <mat-radio-button value="room_id" class="sort-radio-item" color=primary>Articles with most issues
       </mat-radio-button>
@@ -20,19 +19,18 @@
     </mat-radio-group> -->
     <div class="divider w-100"></div>
     <div class="heading">Filter by</div>
-    <div  class="m-0 padding-input pt-2" *ngIf="!unsolved">
-        <mat-checkbox name = "hideIgnored" color=primary ngModel >Hide ignored queries</mat-checkbox>
-    </div> 
+    <div class="m-0 padding-input pt-2" *ngIf="!unsolved">
+      <mat-checkbox formControlName="hideIgnored" color=primary ngModel>Hide ignored queries</mat-checkbox>
+    </div>
     <div class="m-0 padding-input ">
       <mat-form-field class=" input-width">
-        <input matInput class="input-width" placeholder="Room ID" name="room_id" type="number"
-          (keyup.enter)="submitedForm()" ngModel>
+        <input matInput class="input-width" placeholder="Room ID" formControlName="room_id" type="number" ngModel>
       </mat-form-field>
     </div>
 
     <div class="form-group m-0 padding-input sort-decrease-height">
       <mat-form-field class="input-width">
-        <mat-select placeholder="Rule triggered" ngModel name="triggered_rules" [value]="triggered_rules[0]">
+        <mat-select placeholder="Rule triggered" ngModel formControlName="triggered_rules" [value]="triggered_rules[0]">
           <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
             {{toDisplayValue(rule)}}
           </mat-option>
@@ -43,7 +41,7 @@
     <div class="m-0 padding-input sort-decrease-height">
 
       <mat-form-field class="input-width">
-        <input matInput readonly placeholder="Choose a date range" name="updated_at__range" [ngModel]="date"
+        <input matInput readonly placeholder="Choose a date range" formControlName="updated_at__range"
           [satDatepicker]="picker" type="text">
         <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
@@ -52,7 +50,7 @@
     <div class="m-0 padding-input count-sub-form sort-decrease-height">
       <mat-form-field class="count-select">
         <mat-label>Articles with issues</mat-label>
-        <mat-select class="count-type" name="issue_count_filter" ngModel>
+        <mat-select class="count-type" formControlName="issue_count_filter" ngModel>
           <mat-option value="issue_count_per_section__gte">
             Areater than equals to
           </mat-option>
@@ -65,23 +63,16 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="count-input-width">
-        <input matInput class="input-width" 
-        [disabled]="!filterForm.value.issue_count_filter"
-        required
-        placeholder="count" 
-        name="count" 
-        type="number"
-        (keyup.enter)="submitedForm()"
-        ngModel>
+        <input matInput class="input-width" [disabled]="!form.value.issue_count_filter" required placeholder="count"
+          formControlName="count" type="number" ngModel>
       </mat-form-field>
     </div>
-  </form>
-
-  <div class="w-100 ">
-    <div class="d-flex flex-row padding-input pb-3">
-      <button class="btn-theme btn-theme-primary filter-btn mr-auto" type="button"
-        (click)="submitedForm()">Filter</button>
-      <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
+    <div class="w-100 ">
+      <div class="d-flex flex-row padding-input pb-3">
+        <button class="btn-theme btn-theme-primary filter-btn mr-auto" type="button" [disabled] = "!form.valid"
+          (click)="submitedForm()">Filter</button>
+        <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>

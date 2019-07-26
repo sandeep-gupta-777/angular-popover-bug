@@ -1,90 +1,146 @@
 <section class="card-section">
-  <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
-       (click)="navigateToBotDetailPage($event)">
-    <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true"
-            (click)="$event.stopPropagation()"
-            (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
-      <mat-icon [ngClass]="{'show-on-parent-hover':!menuOpened}" class="click-save-wrapper">more_horiz</mat-icon>
+  <div
+    class="grid-bot-preview-two"
+    [ngClass]="{ 'grid-pipeline-card': bot.bot_type === 'intelligent' }"
+    (click)="navigateToBotDetailPage($event)"
+  >
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="appMenu"
+      (menuOpened)="menuOpened = true"
+      (click)="$event.stopPropagation()"
+      (menuClosed)="menuOpened = false"
+      class="more-button click-save-wrapper"
+    >
+      <mat-icon
+        [ngClass]="{ 'show-on-parent-hover': !menuOpened }"
+        class="click-save-wrapper"
+        >more_horiz</mat-icon
+      >
     </button>
 
     <figure class="grid-bot-preview-img">
-      <img [defaultImage]="'assets/img/no image.svg'" [lazyLoad]="bot.logo" alt="">
+      <img
+        [defaultImage]="'assets/img/no image.svg'"
+        [lazyLoad]="bot.logo"
+        alt=""
+      />
     </figure>
     <div class="grid-bot-preview-name details1">
-      <h6 class="limit-oneline"
-          [matTooltip]="(bot.name && bot.name.length >24)?bot.name : ''"
-          style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
-      <p class="description limit-oneline"
-         matTooltip="
-          {{bot?.bot_disabled_settings?.bot_disabled?'Disabled':'Updated'}}
-          on {{bot.updated_at|date:'d MMM, yy'}} by {{bot.updated_by|personName}}"
-         style="letter-spacing: 0.1px">
-        {{bot?.bot_disabled_settings?.bot_disabled?'Disabled':'Updated'}}
-        on {{bot.updated_at|date:'d MMM, yy'}}
-        by {{bot.updated_by|personName}}
+      <h6
+        class="limit-oneline"
+        [matTooltip]="bot.name && bot.name.length > 24 ? bot.name : ''"
+        style="color: #474747; letter-spacing: 0.3px"
+      >
+        {{ (bot.name | slice: 0:36) + (bot.name.length > 36 ? '...' : '') }}
+      </h6>
+      <p
+        class="description limit-oneline"
+        matTooltip="
+          {{
+          bot?.bot_disabled_settings?.bot_disabled ? 'Disabled' : 'Updated'
+        }}
+          on {{ bot.updated_at | date: 'd MMM, yy' }} by {{
+          bot.updated_by | personName
+        }}"
+        style="letter-spacing: 0.1px"
+      >
+        {{ bot?.bot_disabled_settings?.bot_disabled ? 'Disabled' : 'Updated' }}
+        on {{ bot.updated_at | date: 'd MMM, yy' }} by
+        {{ bot.updated_by | personName }}
       </p>
     </div>
 
-    <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
+    <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot'">
       <div class="d-flex justify-content-center align-items-center">
-        <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
+        <mat-icon
+          class="icon2"
+          *ngIf="bot.is_manager"
+          [title]="bot.child_bots.length + ' children Bots'"
+        >
           supervisor_account
         </mat-icon>
       </div>
 
-
-      <div class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer">
+      <div
+        class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer"
+      >
         <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
-
-        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
+        <div
+          *myIf="myEAllActions['Send API']"
+          class="preview-button click-save-wrapper"
+          (click)="previewBot($event)"
+        >
           <div
             title="Click to open chat preview window"
-            class="click-save-wrapper">Preview
+            class="click-save-wrapper"
+          >
+            Preview
           </div>
         </div>
         <span class="ml-auto"></span>
-        <app-integration-channel-list *ngIf="!bot?.bot_disabled_settings?.bot_disabled; else disabled" [limit]="7"
-                                      [bot]="bot"></app-integration-channel-list>
+        <app-integration-channel-list
+          *ngIf="!bot?.bot_disabled_settings?.bot_disabled; else disabled"
+          [limit]="7"
+          [bot]="bot"
+        ></app-integration-channel-list>
         <ng-template #disabled>
           <mat-chip-list aria-label="Disabled label">
             <mat-chip color="accent" selected>Disabled</mat-chip>
           </mat-chip-list>
         </ng-template>
-
-
       </div>
     </ng-container>
   </div>
 
-  <div *ngIf="showLoader"
-       class="loader-overlay">
+  <div *ngIf="showLoader" class="loader-overlay">
     <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
   </div>
 </section>
 
-
 <!--Template for modal-->
 
-
 <mat-menu class="more-menu" #appMenu="matMenu">
-  <button mat-menu-item (click)="copySharablePreviewLinkHandler()"><i class="fa fa-share mr-1"></i>
+  <!-- <button mat-menu-item (click)="copySharablePreviewLinkHandler()"><i class="fa fa-share mr-1"></i>
     Share Preview
-  </button>
-  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><mat-icon class = "mat-icon material-icons mr-1">file_copy</mat-icon>Copy
+  </button> -->
+  <button
+    mat-menu-item
+    (click)="utilityService.copyToClipboard(bot.bot_access_token)"
+  >
+    <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>Copy
     Access Token
   </button>
-  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><mat-icon class = "mat-icon material-icons mr-1">file_copy</mat-icon>Copy
+  <button
+    mat-menu-item
+    (click)="utilityService.copyToClipboard(bot.enterprise_id)"
+  >
+    <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>Copy
     Enterprise ID
   </button>
-  <button mat-menu-item
-          *myIf="[myEAllActions['Delete Bots']]"
-          (click)="openDeleteModal(template)"><mat-icon class = "mat-icon material-icons mr-1">delete</mat-icon>Delete
+  <button
+    mat-menu-item
+    *myIf="[myEAllActions['Delete Bots']]"
+    (click)="openDeleteModal(template)"
+  >
+    <mat-icon class="mat-icon material-icons mr-1">delete</mat-icon>Delete
   </button>
-  <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><mat-icon class = "mat-icon material-icons mr-1">bookmark</mat-icon>Pin
+  <button
+    mat-menu-item
+    *ngIf="!bot.store_isPinned"
+    (click)="togglePinBotCard(bot, true)"
+  >
+    <mat-icon class="mat-icon material-icons mr-1">bookmark</mat-icon>Pin
   </button>
 
   <!-- <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><mat-icon class = "mat-icon material-icons">delete</mat-icon>Delete</button> -->
 
-  <button mat-menu-item *ngIf="bot.store_isPinned" (click)="togglePinBotCard(bot, false)">Unpin</button>
+  <button
+    mat-menu-item
+    *ngIf="bot.store_isPinned"
+    (click)="togglePinBotCard(bot, false)"
+  >
+    Unpin
+  </button>
 </mat-menu>

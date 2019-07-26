@@ -67,7 +67,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   ngOnInit() {
 
 
-    this.activeTab = RouteHelperService.getQueryParams(this.activatedRoute, 'type') || EBotType.chatbot;
+    this.activeTab = RouteHelperService.getQueryParams(this.activatedRoute, 'type') || EBotType.faqbot;
     window.scrollTo(0, 0);
     this.serverService.getNSetBotList()
       .subscribe(() => {
