@@ -20,7 +20,7 @@ import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 // import {ChatListComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
 // import {ChatItemComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
 // import {ChatroomComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
-import {ScrollerDirective} from '../scroller.directive';
+// import {ScrollerDirective} from '../scroller.directive';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
