@@ -16,6 +16,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
 import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
+import {HnResolver} from './core.resolver';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
@@ -35,7 +36,7 @@ const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
-  {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
+  {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve:{ message: HnResolver }},
   {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService]},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -80,6 +81,7 @@ const routes: Route[] = [
     // FormsModule
   ],
   providers: [LoginPageGaurdService, ModuleGaurdLoadService,
+    HnResolver
     //   {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
