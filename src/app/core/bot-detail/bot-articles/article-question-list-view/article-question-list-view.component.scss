@@ -3,7 +3,7 @@
 .article-item{
     justify-content: center;
     width: 100%;
-    transition: 0.3s;
+    // transition: 0.7s;
     .showNoParentHover{
         opacity: 0;
         
@@ -11,6 +11,7 @@
     &:hover{
         background-color: #ffffff;
         cursor: pointer;
+        // transition: 0.7s;
         .showNoParentHover{
             opacity: 1;
         }

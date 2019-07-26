@@ -71,18 +71,20 @@
   <button mat-menu-item (click)="copySharablePreviewLinkHandler()"><i class="fa fa-share mr-1"></i>
     Share Preview
   </button>
-  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><mat-icon class = "mat-icon material-icons mr-1">file_copy</mat-icon>Copy
     Access Token
   </button>
-  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><mat-icon class = "mat-icon material-icons mr-1">file_copy</mat-icon>Copy
     Enterprise ID
   </button>
   <button mat-menu-item
           *myIf="[myEAllActions['Delete Bots']]"
-          (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete
+          (click)="openDeleteModal(template)"><mat-icon class = "mat-icon material-icons mr-1">delete</mat-icon>Delete
   </button>
-  <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i
-    class="fa fa-thumb-tack mr-1"></i>Pin
+  <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><mat-icon class = "mat-icon material-icons mr-1">bookmark</mat-icon>Pin
   </button>
+
+  <!-- <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><mat-icon class = "mat-icon material-icons">delete</mat-icon>Delete</button> -->
+
   <button mat-menu-item *ngIf="bot.store_isPinned" (click)="togglePinBotCard(bot, false)">Unpin</button>
 </mat-menu>
