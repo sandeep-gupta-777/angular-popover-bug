@@ -74,9 +74,12 @@
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i
         class="fa fa-copy mr-1"></i>Copy Access Token</button>
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i
-        class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
-    <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
-        class="fa fa-trash mr-1"></i>Delete</button>
+        class="fa fa-copy mr-1"></i>Copy Enterprise ID</button> -->
+        <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><mat-icon class = "mat-icon material-icons mr-1">file_copy</mat-icon>Copy Enterprise ID</button>
+    <!-- <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
+        class="fa fa-trash mr-1"></i>Delete</button> -->
+        <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><mat-icon class = "mat-icon material-icons mr-1">delete</mat-icon>Delete</button>
+
   </mat-menu>
 </div>
 

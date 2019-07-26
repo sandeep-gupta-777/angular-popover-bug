@@ -640,7 +640,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     let url = this.constantsService.putCorpus();
     this.serverService.makePostReq<any>({ headerData, body, url })
       .subscribe((val)=>{
-        this.utilityService.showSuccessToaster("uploded to corpus")
+        this.utilityService.showSuccessToaster("CSV import successful")
         this.uploadingData =  ELoadingStatus.success;
         this.getCorpusAndSetArticleFilterForm$().subscribe((v)=>{
           this.dialogRefWrapper.ref.close();
