@@ -151,9 +151,9 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
-    debugger;
+
     if (this.isFullScreenPreview) {
-      debugger;
+
       this.activatedRoute.queryParamMap.subscribe((queryparam) => {
         const welcomeScreenBotIdStr = queryparam.get('preview');
         const enterprise_unique_name = queryparam.get('enterprise_unique_name');
@@ -419,7 +419,7 @@ export class ChatWrapperComponent implements OnInit {
 
 
   consumerFormSubmitHandler(consumerDetails: IConsumerDetails,createNewRoom:boolean){
-      debugger;
+
     if(createNewRoom){
       this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot})
     }else {

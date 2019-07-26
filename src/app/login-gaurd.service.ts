@@ -24,7 +24,7 @@ export class LoginGaurdService {
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate() {
-      debugger;
+
     /*todo: temporary solution...might not work in SSR*/
     let obj:any = decodeURI(window.location.search)
       .replace('?', '')

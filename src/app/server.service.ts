@@ -128,7 +128,7 @@ export class ServerService {
 
     /*check for logout*/
     if (action === "logout") {
-      EventService.logout$.emit();
+      EventService.logout$.emit(false);
       return;
     }
 
@@ -139,6 +139,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -275,7 +276,7 @@ export class ServerService {
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers}).pipe(
       map((value: any) => {
-        debugger;
+
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {

@@ -555,7 +555,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   fileChanged(e) {
     this.file = e.target.files[0];
-    debugger;
+
     this.errorArticleMustHaveCategory = false;  
     this.errorArticleMustHaveAnswer = false;  
     this.errorArticleMustHaveOneQuestion = false;  
@@ -569,11 +569,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     fileReader.onload = (e) => {
       console.log(fileReader.result);
       // let array = this.csvToArray(fileReader.result);
-      debugger;
+
       let array = Papa.parse(fileReader.result).data;
       if(array.length > 1){
         if(array[array.length-1][0] == "" ||array[array.length-1].length == 0 ){
-          debugger;
+
           array.pop();
         }
       }
@@ -620,7 +620,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveOneQuestion = true; 
         return;
       } 
-      debugger;
+
       if((array[i][0].toLowerCase() == 'default')){
         this.errorArticleMustNotHaveDefaultArticle = true;
         return;

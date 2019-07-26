@@ -155,7 +155,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
-        debugger;
+
         if (!this.bot) {
           this.noSuchBotMessage = 'No such _bot exists in your account';
         }
