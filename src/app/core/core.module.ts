@@ -147,7 +147,7 @@ const routes: Route[] = [
     RoleaccordionComponent,
     HeaderComponent,
 
-    ScrollerDirective,
+    // ScrollerDirective,
     ReportDetailsComponent,
     // BotWelcomeComponent,
     ReportDisplayComponent,
