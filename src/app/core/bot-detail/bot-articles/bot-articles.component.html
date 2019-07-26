@@ -130,16 +130,15 @@
 
 
           <!-- <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required accept='text/csv'> -->
-          <div *ngIf="errorArticleMustHaveCategory" class="errorText">Category name is missing for one or more articles
+          <div *ngIf="errorArticleMustHaveCategory" class="errorText">Category is missing for one or more articles
           </div>
           <div *ngIf="errorArticleMustHaveAnswer" class="errorText">Answer is missing for one or more articles</div>
-          <div *ngIf="errorArticleMustHaveOneQuestion" class="errorText">Question is missing for one or more articles
+          <div *ngIf="errorArticleMustHaveOneQuestion" class="errorText">At least one question needs to be configured in one or more articles
           </div>
-          <div *ngIf="errorArticleMustNotHaveDefaultArticle" class="errorText">Category name is default for one or more
-            articles</div>
-          <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class="errorText">First column must be
-            "Category" and second must be "answer"</div>
-          <div *ngIf="!Uplodeform.valid" class="errorText">Please upload the file</div>
+          <div *ngIf="errorArticleMustNotHaveDefaultArticle" class="errorText"> Category for articles should not be called “Default"
+            </div>
+          <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class="errorText"> First column header must be “Category” and second column header must be “Answer"</div>
+          <!-- <div *ngIf="!Uplodeform.valid" class="errorText">Please upload the file</div> -->
           <div *ngIf="noOfArticleFoundInUpload != null" class="successText">
             {{noOfArticleFoundInUpload}} articles found</div>
         </div>
