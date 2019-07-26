@@ -28,11 +28,12 @@
   </mat-tab>
   <mat-tab label="Issues">
     <section class="curation-issues-wrapper-section" *ngIf="curationIssuesList">
-      <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)" 
+      <app-curation-filter (formSubmitted)="submitedForm($event)" 
+      [form]="curationIssuesFilterForm"
       [hidden]="!curationIssuesList"
         [unsolved]="true" 
-        [resolveIssuesOfArticleByCount]="resolveArticleWithTopIssuesFilterCount"
         style="z-index: 100;"></app-curation-filter>
+        
       <app-curation-issues-list [bot]=" bot" *ngIf="curationIssuesList" [curationItemList]="curationIssuesList"
         [isMorePresent]="isMoreCurationIssuesListPresent" [reloadingMore]="curationIssuesListisReloading"
         (loadMoreNext)="load10MoreCurationIssues(false)" (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
@@ -73,7 +74,7 @@
   <mat-tab label="Resolved">
     <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData" *ngIf="aggregationResolvedData"> </app-curation-resolved-aggrigation>
     <section class="curation-issues-wrapper-section" *ngIf="curationResolvedAndIgnoredList">
-      <app-curation-filter (formSubmitted)="ResolvedFormSubmitted($event)" [hidden]="!curationResolvedAndIgnoredList"
+      <app-curation-filter [form] = "curationResolvedFilterForm" (formSubmitted)="submitedForm($event)" [hidden]="!curationResolvedAndIgnoredList"
         [unsolved]="false" style="z-index: 100;"></app-curation-filter>
       <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
         [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
