@@ -29,7 +29,6 @@
   </button>
 </ng-template>
 
-<!--<i>_loading === myELoadingState.loading {{_status === myELoadingState.loading}}</i>-->
 <ng-template #buttonBody>
   <mat-icon *ngIf="icon" aria-label="Example icon-button with a heart icon">{{icon}}</mat-icon>
   <span *ngIf="_status !== myELoadingState.default" class="loading-overlay"

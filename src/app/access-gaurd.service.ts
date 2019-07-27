@@ -30,8 +30,6 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // return true;
-
     return this.loggeduser$.pipe(map((value: IAuthState) => {
       return this.doAllowAccess(value, route);
     }));
@@ -54,7 +52,6 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.loggeduser$.pipe(map((value: IAuthState) => {
-
      return this.doAllowAccess(value, route);
     }));
   }
@@ -72,5 +69,4 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
     *What does it means for an observable to complete
     * https://github.com/angular/angular/issues/9613*/
   }
-
 }

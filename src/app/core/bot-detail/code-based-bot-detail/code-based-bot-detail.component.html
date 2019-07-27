@@ -14,7 +14,7 @@
                          data-cy="sidebar-setting"
                          [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
                     >
-                        <img class="" src="assets/img/sidebar/bot-config.svg" alt="">
+                        <img class="" src="assets/img/sidebar/bot-config.svg" alt="sidebar bot config">
                         <span style="color: #00ABD3">Settings</span>
                     </div>
                 </a>
@@ -24,7 +24,7 @@
                     <div class="sidebar-nav-list-item"
                          data-cy="sidebar-NLP"
                          [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
-                        <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+                        <img class="" src="assets/img/sidebar/nlp.svg" alt="sidebar nlp">
                         <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
                     </div>
 
@@ -36,7 +36,7 @@
                     <div class="sidebar-nav-list-item"
                          data-cy="sidebar-articles"
                          [ngClass]="{'filter-black':sideBarTab1!=='articles', 'selected-nav':sideBarTab1==='articles'}">
-                        <img class="" src="assets/img/sidebar/article.svg" alt="">
+                        <img class="" src="assets/img/sidebar/article.svg" alt="sidebar article">
                         <span style="color: #00ABD3">Article {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
                     </div>
 
@@ -45,7 +45,7 @@
                 <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type" (click)="sideBarTabChanged('curation')">
                     <div class="sidebar-nav-list-item"
                          [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
-                        <img class="" src="assets/img/sidebar/light-bulb.svg" alt="">
+                        <img class="" src="assets/img/sidebar/light-bulb.svg" alt="sidebar curation">
                         <span style="color: #00ABD3">Curation</span>
                     </div>
 
@@ -59,7 +59,7 @@
                          data-cy="sidebar-logic"
                          [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
                          (click)="sideBarTabChanged('logic')">
-                        <img class="" src="assets/img/sidebar/logic-1.svg" alt="">
+                        <img class="" src="assets/img/sidebar/logic-1.svg" alt="sidebar logic">
                         <span style="color: #00ABD3">Logic</span>
                     </div>
                 </a></ng-container>
@@ -68,7 +68,7 @@
                          data-cy="sidebar-chat"
                         [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
                         (click)="sideBarTabChanged('chat')">
-                        <img  class="" src="assets/img/sidebar/chats.svg" alt="">
+                        <img  class="" src="assets/img/sidebar/chats.svg" alt="sidebar chats">
                         <span style="color: #00ABD3">Sessions</span>
                     </div>
                 </a>
@@ -80,7 +80,7 @@
                          data-cy="sidebar-test"
                          [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
                          (click)="sideBarTabChanged('test')">
-                        <img class="" src="assets/img/sidebar/test.svg" alt=""
+                        <img class="" src="assets/img/sidebar/test.svg" alt="sidebar tessidebar testt"
                              style="padding-right: 3px; padding-left: 3px;">
                         <span style="color: #00ABD3">Test</span>
                     </div>
@@ -92,7 +92,7 @@
                     <div class="sidebar-nav-list-item"
                          [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
                          (click)="sideBarTabChanged('History')">
-                        <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
+                        <img class="" src="assets/img/sidebar/clock-3.svg" alt=sidebar clock""
                              style="padding-right: 3px; padding-left: 3px;">
                         <span style="color: #00ABD3">History</span>
                     </div>
@@ -263,7 +263,7 @@
 <app-imi-loader *ngIf="!bot && !noSuchBotMessage"></app-imi-loader>
 <app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true">
     <div class="d-flex flex-column justify-content-center align-content-center">
-        <i>No such bot in your account</i>
+        <em>No such bot in your account</em>
         <a routerLink="/">Go to home page</a>
     </div>
 </app-imi-loader>
@@ -272,32 +272,32 @@
 <ng-template #placeholder>
     <div class="row row-details">
         <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-            <i class="fa fa-area-chart p-0"></i>
+            <span class="fa fa-area-chart p-0"></span>
             <span class="number">0</span>
             <span class="description">Total Session</span>
         </div>
         <div class="col-2 pb-5 d-flex flex-column align-items-center">
-            <i class="fa fa-users"></i>
+            <span class="fa fa-users"></span>
             <span class="number">0</span>
             <span class="description">Total Users</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-envelope"></i>
+            <span class="fa fa-envelope"></span>
             <span class="number">0</span>
             <span class="description">Total Messages</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-exchange"></i>
+            <span class="fa fa-exchange"></span>
             <span class="number">0</span>
             <span class="description">Average Message Per Session</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-clock-o"></i>
+            <span class="fa fa-clock-o"></span>
             <span class="number">0</span>
             <span class="description">Total Time Spent(hh:mm)</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-hourglass"></i>
+            <span class="fa fa-hourglass"></span>
             <span class="number">0</span>
             <span class="description">Time Spent Per Session (hh:mm)</span>
         </div>

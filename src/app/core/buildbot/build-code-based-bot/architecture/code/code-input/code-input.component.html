@@ -154,7 +154,6 @@
 
   <!--validation start here-->
   <ng-template #validationTemplate let-activeTabName="activeTabName">
-    <!--<i>{{validation[selectedVersion_st.id]|json}}</i>}}-->
     <ng-container>
       <div class="d-flex" style="height:100%"
            *ngIf="(errorMap && errorMap[selectedVersion_st?.id] && errorMap[selectedVersion_st?.id][activeTabName] || {}) as errorObj">
@@ -163,14 +162,14 @@
         </div>
         <div class="validation-bar">
           <div class="dot-indicator">
-            <i class="fa fa-check-circle color-primary" *ngIf="!errorObj?.error"></i>
-            <i class="fa fa-exclamation-triangle color-danger"
-               *ngIf="!!errorObj?.error"></i>
+            <span class="fa fa-check-circle color-primary" *ngIf="!errorObj?.error"></span>
+            <span class="fa fa-exclamation-triangle color-danger"
+               *ngIf="!!errorObj?.error"></span>
 
           </div>
           <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
-            <i data-cy="version-validation-info-toggle" class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
-            <i data-cy="version-validation-info-toggle" class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
+            <span data-cy="version-validation-info-toggle" class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></span>
+            <span data-cy="version-validation-info-toggle" class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></span>
           </div>
         </div>
         <div class="validation-message"
@@ -254,6 +253,6 @@
 <ng-template #cantParseGenTemplateCodeTemplate>
   <div class="d-flex justify-content-center align-items-center"
        style="position:absolute; left: 0; right: 0; bottom: 0;top: 0">
-    <i>Can't parse Gentemplate code</i>
+    <em>Can't parse Gentemplate code</em>
   </div>
 </ng-template>

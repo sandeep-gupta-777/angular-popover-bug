@@ -98,7 +98,7 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
     });
 
     const modifiedTableData2 = modifiedTableData.map((tableGataItem) => {
-      const exclamationIconHTML = `<i class="fa fa-exclamation-triangle color-yellow" title="User not verified"></i>`;
+      const exclamationIconHTML = `<span class="fa fa-exclamation-triangle color-yellow" title="User not verified"></span>`;
       tableGataItem['Email ID'].value = `
               <span class="email-wrapper">
                   ${!tableGataItem.originalSessionData.enterprises[0].is_active ? exclamationIconHTML : ''}

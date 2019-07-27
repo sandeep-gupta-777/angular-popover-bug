@@ -1,5 +1,6 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {IPipelineItemV2} from './pipeline.component';
+import {SortService} from '../../../../../sort.service';
 
 @Pipe({
   name: 'sortPipeline'
@@ -7,16 +8,7 @@ import {IPipelineItemV2} from './pipeline.component';
 export class SortPipelinePipe implements PipeTransform {
 
   transform(value: IPipelineItemV2[], args?: any): any {
-    const x = value.sort((a, b) => {
-      if (a.display_values > b.display_values) {
-        return 1;
-      } else if (a.display_values < b.display_values) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
-    return x;
+    return value.sort(SortService.sortPipeline);
   }
 
 }

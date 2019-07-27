@@ -15,7 +15,7 @@
     All roles
   </div>
   <div class="ml-auto ">
-    <button class="btn-theme btn-theme-primary" (click) = "enterNewRole.emit()" ><i class="fa fa-plus pr-1 "></i>New role</button>
+    <button class="btn-theme btn-theme-primary" (click) = "enterNewRole.emit()" ><span class="fa fa-plus pr-1 "></span>New role</button>
   </div>
 </div>
 <div class="rolePannelGrid pl-3">
@@ -34,39 +34,11 @@
     </div>
     <div class="mt-auto d-flex" style="align-items: center;">
       <div class = "mr-auto cursor-pointer" (click) = "navegateRole(role.id)">
-          <i class="fa fa-cog mr-1"></i>{{role.enterprise_id === 0 ? "View" : "Modify"}}
+          <span class="fa fa-cog mr-1"></span>{{role.enterprise_id === 0 ? "View" : "Modify"}}
       </div>
       <div class= "cursor-pointer" (click) = "openDeletModal(role)" *ngIf="!(role.enterprise_id === 0)">
-          <i class="fa fa-trash mr-1"></i>Delete
+          <span class="fa fa-trash mr-1"></span>Delete
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- <ng-template #roleDeleteModal>
-  <div class="danger-modal" style="min-width: 500px;">
-    <div class="modal-header" style="border:none !important">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete role?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="mx-3 mb-3" style="text-align: left !important;">
-      <form #form="ngForm">
-        <div class="my-1">
-          <p class="mb-3">Do you want to remove {{deleteRole.name}} ?
-          </p>
-        </div>
-        <div class="d-flex" style="flex-direction: row-reverse">
-          <button class=" btn-theme btn-theme-danger mx-1 " (click)="deleteRoleClicked();dialogRefWrapper.ref.close();">Remove
-          </button>
-          <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
-          </button>
-
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template> -->

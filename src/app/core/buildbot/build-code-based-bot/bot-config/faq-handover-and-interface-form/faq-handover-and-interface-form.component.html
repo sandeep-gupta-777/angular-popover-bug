@@ -30,8 +30,6 @@
           [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
       </label>
       <span>
-        <!--<i>{{!!formGroup.disabled}}</i>-->
-        <!--<i>{{disableAgentToggleBAD}}</i>-->
         <span (click)="openAgentHandover()" class ="disabled-slide-button" [ngClass]="{'pointer-events-none':disableAgentToggleBAD}" >
           <mat-slide-toggle [checked]="!!agentHandover"
                             [disabled]="disableAgentToggleBAD"

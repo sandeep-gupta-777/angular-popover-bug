@@ -56,7 +56,7 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center h-75 w-100"
      *ngIf="currentPageNumber>1 && _custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable">
-  <i>No concept for page = {{currentPageNumber}}</i>
+  <em>No concept for page = {{currentPageNumber}}</em>
   <button class="btn-theme mt-1" mat-flat-button color="primary" (click)="pageChanged$.emit(1)">Go to page = 1</button>
 
 </div>

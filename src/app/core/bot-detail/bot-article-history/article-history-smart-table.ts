@@ -26,7 +26,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
             const obj: any = {};
             for (const key in tableDataMetaDict) {
                 if (key === 'description') {
-                    const exclamationIconHTML = `<i class="fa fa-circle color-green icon-postion" title="Corpus is live"></i>`;
+                    const exclamationIconHTML = `<span class="fa fa-circle color-green icon-postion" title="Corpus is live"></span>`;
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
@@ -49,7 +49,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         ...tableDataMetaDict[key],
                         originalKey: key,
                         value: `<div class="dropdown table-dropdown">
-  <i class="fa fa-angle-down arrow-circle"></i>
+  <span class="fa fa-angle-down arrow-circle"></span>
   <div class="dropdown-content px-0">
     ${(corpusTableDataItem.state !== 'live') ? `<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons" >arrow_upward</mat-icon> Make live</p>` : ''}
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">edit</mat-icon> Edit</p>
@@ -66,20 +66,6 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
             obj.originalSessionData = corpusTableDataItem;
             return obj;
         });
-        // let modifiedTableData2 = modifiedTableData.map((tableGataItem) => {
-        //     let exclamationIconHTML = `<i class="fa fa-exclamation-triangle color-yellow" title="User not verified"></i>`;
-        //     tableGataItem['Email ID'].value = `
-        //           <span class="email-wrapper">
-        //               ${!tableGataItem.originalSessionData.enterprises[0].is_active?exclamationIconHTML:''}
-        //               <span>${tableGataItem['Email ID'].value}</span>
-        //           </span>`;
-        //     // tableGataItem.Actions.value = tableGataItem.Actions.value || [];
-        //     // tableGataItem.Actions.value.push({show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary'});
-        //     // tableGataItem.Actions.value.push({show: true, name: 'remove', class: 'fa fa-trash mr-3 color-danger'});
-
-
-        //     return tableGataItem;
-        //   });
         return modifiedTableData;
     }
 

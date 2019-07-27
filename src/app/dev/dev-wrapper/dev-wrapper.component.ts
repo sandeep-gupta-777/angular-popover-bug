@@ -18,7 +18,7 @@ import {Location} from '@angular/common';
                    class="api-list api-list-history"></app-api-doc>
     </section>
     <div style="position: fixed; left: 40px; bottom: 40px; cursor: pointer">
-      <i (click)="location.back()" class="fa fa-external-link"></i>
+      <span (click)="location.back()" class="fa fa-external-link"></span>
     </div>
   `,
   styleUrls: ['./dev-wrapper.component.scss']

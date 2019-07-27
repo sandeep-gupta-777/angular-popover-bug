@@ -2,7 +2,7 @@
          (click)="openLinkInNewTab()"
          [ngClass]="{'bg-message-bot':sourceType==='bot','bg-message-human':sourceType==='human'}">
   <div class="link-preview-section__image-wrapper">
-    <img [src]="linkPreviewData.image" alt="">
+    <img [src]="linkPreviewData.image" alt="Link preview image">
   </div>
   <div class="link-preview-section__text">
     <strong class="link-preview-section__text--title limit-oneline">{{linkPreviewData.title}}</strong>

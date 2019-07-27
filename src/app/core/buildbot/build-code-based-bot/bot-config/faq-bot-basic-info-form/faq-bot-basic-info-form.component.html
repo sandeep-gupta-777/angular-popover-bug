@@ -17,30 +17,16 @@
                     required>
                       </mat-form-field>
       </fieldset>
-      <!-- <fieldset class="col-5" [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
-          <app-bot-config-input
-              displayName="Bot Name"
-              placeholder="Bot Name"
-              [isRequired]="true"
-              formControlName="name"></app-bot-config-input>
-          <app-bot-config-input
-                  displayName="Unique Name"
-                  formControlName="bot_unique_name"
-                  [isRequired]="true"
-                  placeholder="Bot Unique Name"></app-bot-config-input>
-      </fieldset> -->
-      <!-- <div class="col-1"></div> -->
+
       <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class = "pb-4">
-          <!--<div style="font-size: 11px; margin-bottom: 10px">Photo</div>-->
           <div style="display: flex; align-items: center">
               <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
-                   [src]="formGroup.get('logo').value" alt="">
+                   [src]="formGroup.get('logo').value" alt="bot logo">
               <mat-form-field class="w-75">
                   <input type="text"
                          matInput
                          formControlName="logo"
-                         placeholder="URL for the Bot Logo/Brand Image"
-                         >
+                         placeholder="URL for the Bot Logo/Brand Image">
                          <mat-error *ngIf="formGroup.get('logo').hasError('required')">
                             Required
                         </mat-error>

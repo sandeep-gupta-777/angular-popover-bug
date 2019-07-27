@@ -5,7 +5,7 @@
   [ngClass]="{ 'disabled': (currentEnterpriseId === enterprise.enterprise_id.id) }">
   <div class = "enterprise-grid-item">
     <div class = "enterprise-image">
-      <img src="{{enterprise.enterprise_id.logo || 'https://image.ibb.co/hjJ0xA/icon-2x.png' }}  " alt="">
+      <img src="{{enterprise.enterprise_id.logo || 'https://image.ibb.co/hjJ0xA/icon-2x.png' }}" alt="enterprise logo">
     </div>
     <div class = "enterprise-name" >{{enterprise.enterprise_id.name}}</div>
     <div class = "enterprise-role" >{{enterprise.role_id.name}}</div>

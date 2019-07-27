@@ -1,15 +1,7 @@
 <section class="session-modal-section">
   <div class="session-modal-section__header">
-    <!-- <div class="session-modal-section__header--action">
-      <i class="fa fa-angle-left"
-         [ngClass]="{invisible:indexOfCurrentRowSelected<=0 && pageNumberOfCurrentRowSelected<=1}"
-         (click)="selectPrevRow.emit()"></i>
-      <i class="fa fa-angle-right"
-         (click)="selectNextRow.emit()"></i>
-    </div> -->
-
     <div class="session-modal-section__header--img">
-      <img [src]='channelNameToImg(sessionMessageData && sessionMessageData[0]?.platform)'>
+      <img alt="channel name" [src]='channelNameToImg(sessionMessageData && sessionMessageData[0]?.platform)'>
     </div>
     <div class="session-modal-section__header--item">
       <div class="secondary">Room ID:</div>
@@ -31,7 +23,7 @@
       </div>
     </div>
 
-    <div (click)="closeModel$.emit()" class="ml-auto"><i class="fa fa-times cursor-pointer"></i></div>
+    <div (click)="closeModel$.emit()" class="ml-auto"><span class="fa fa-times cursor-pointer"></span></div>
   </div>
   <div class="session-modal-section__body ">
 
@@ -52,8 +44,8 @@
         <mat-icon class= "search-agent ml-3" *ngIf="_session.sendtoagent">headset_mic</mat-icon>
         <div class="found-result" *ngIf="messageSearchKeyword && (messageTextSearchLength > 0)">{{searchEnterPressedCount+1}}/{{messageTextSearchLength}}
           messages found
-          <i class="fa fa-angle-up mx-1" (click)="goToPreviousSearchResult(messageSearchKeyword)"></i>
-          <i class="fa fa-angle-down mx-1" (click)="goToNextSearchResult(messageSearchKeyword)"></i>
+          <span class="fa fa-angle-up mx-1" (click)="goToPreviousSearchResult(messageSearchKeyword)"></span>
+          <span class="fa fa-angle-down mx-1" (click)="goToNextSearchResult(messageSearchKeyword)"></span>
         </div>
         <div class="found-result" *ngIf="messageSearchKeyword && !(messageTextSearchLength > 0)">
            No messages found
@@ -67,12 +59,12 @@
                        (keyup.shift.enter)="goToPreviousSearchResult(messageSearchKeyword)"
                        id="search-session-model" type="search"
                        placeholder="search">
-                <i class="fa fa-search"></i>
+                <span class="fa fa-search"></span>
             </div> -->
       <!--search input ends-->
       <div class="session-messages-container row m-0 my-2 p-1 align-items-start align-content-start">
-        <i class="fa" [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}"
-          *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5" (click)="scrollMessageList()"></i>
+        <span class="fa" [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}"
+          *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5" (click)="scrollMessageList()"></span>
         <div style="height: 100%;width: 100%; padding-right: 5px" class="session-messages-container-list">
           <div class="col-12 px-0 border-hover-txn" style="padding-left: 5px !important;"
                *ngFor="let txnConversationItems of sessionMessageDataCopy|serializeSessionMessage|highlightSessionTexts:messageSearchKeyword; let i=index; trackBy:trackByIndex"
@@ -118,9 +110,9 @@
         </li>
       </ul>
       <div *ngIf="!codeText" class="editor-container" style="width: 100%; height: 100%;">
-        <i class="fa fa-arrow-left" style="font-size: 15px; color: #9e9e9e"></i>
-        <i style="color: #9e9e9e;">Select a transaction to
-          see metadata associated</i>
+        <span class="fa fa-arrow-left" style="font-size: 15px; color: #9e9e9e"></span>
+        <em style="color: #9e9e9e;">Select a transaction to
+          see metadata associated</em>
       </div>
       <app-code-editor *ngIf="codeText" class="child-expand" [text]="{ text: codeText|json}"></app-code-editor>
     </div>

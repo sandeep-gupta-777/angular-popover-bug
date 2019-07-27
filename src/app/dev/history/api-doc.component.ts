@@ -7,7 +7,7 @@ import {IApi, IApiCollection} from '../interfaces';
     <section class="main" [ngClass]="{'border-right':showDoc, 'border-left':showHistory}">
       <header class="theme-section__header" style="margin-bottom: 12px; text-align: center; position: relative">
         <h4>{{!showHistory?'Collection':'History'}}</h4>
-        <i (click)="deleteHistoryHandler()" *ngIf="showHistory" class="fa fa-trash" style="position: absolute;right: 10px;top: 0;transform: translateY(26%);"></i>
+        <span (click)="deleteHistoryHandler()" *ngIf="showHistory" class="fa fa-trash" style="position: absolute;right: 10px;top: 0;transform: translateY(26%);"></span>
       </header>
       <mat-form-field class="api-search-input" style="padding-left: 8px">
         <input matInput placeholder="Search" #search>

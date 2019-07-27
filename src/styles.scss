@@ -698,13 +698,9 @@ h4 {
 //
 
 .speech-bubble {
-  //.Shape {
   width: 51.7px;
   height: 35px;
-  //background-color: #02bde8;
-  //}
   position: relative;
-  background: #1e69de;
   border-radius: 2px;
 
   display: flex;
@@ -756,17 +752,9 @@ h4 {
 }
 
 .float-on-hover-animation {
-  //margin: 20px;
-  //padding: 3px;
-  //outline: 2px solid #DDD;
-  //border: #a1a1a1;
-  //float: left;
   position: absolute;
-  //bottom: 0px;
-  //position: absolute;
   bottom: -20px;
   right: 0;
-  //-webkit-transition: margin 0.5s ease-out
   -webkit-transition: margin 0.5s ease-out;
   -moz-transition: margin 0.5s ease-out;
   -o-transition: margin 0.5s ease-out;
@@ -869,27 +857,16 @@ progressbar {
 @keyframes blinkingText {
   0% {
     opacity: 1.0;
-    color: #000000 !important;
+    color: #000000;
   }
   50% {
     opacity: 0.0;
   }
   100% {
     opacity: 1.0;
-    color: #000000 !important;
+    color: #000000;
   }
 }
-
-//.modal.fade {
-//  display: flex !important;
-//  justify-content: center;
-//  align-items: center;
-//}
-//.modal-matDialog {
-//  vertical-align:middle;
-//  height:18em;
-//  //background-color: rgba(0,0,0,0.5);
-//}
 
 .d-flex-column-custom {
   display: -ms-flexbox !important;
@@ -918,12 +895,6 @@ progressbar {
   align-items: center;
 }
 
-//.modal-matDialog {
-//  vertical-align:middle;
-//  height:18em;
-//  background-color: rgba(0,0,0,0.5);
-//}
-//}
 
 //==========================
 

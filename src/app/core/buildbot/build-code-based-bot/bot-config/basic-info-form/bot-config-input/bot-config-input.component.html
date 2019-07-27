@@ -1,13 +1,3 @@
-<!--<label class="required" for="alterEgo">{{displayName}}</label>-->
-<!--<label-->
-<!--*ngIf="this.ngControl.errors && myObject.keys(this.ngControl.errors)[0]"-->
-<!--[hidden]="!ngControl.hasError(myObject.keys(this.ngControl.errors)[0])" class="text-danger pl-1" for="alterEgo">-->
-<!--<i>{{myObject.keys(this.ngControl.errors)[0]}}</i>-->
-<!--</label>-->
-<!--<label *ngIf="ngControl|errorDescription as errorObj"-->
-<!--[hidden]="!ngControl.hasError(errorObj.name)"-->
-<!--class="text-danger pl-1" for="alterEgo"><i>{{errorObj.description}}</i></label>-->
-
 <mat-form-field class="w-100">
     <input type="text" id="alterEgo"
            matInput
@@ -18,16 +8,4 @@
            [errorStateMatcher]="myConfirmValidParentMatcher"
            [disabled]="isDisabled">
     <mat-error>Required</mat-error>
-    <!--<mat-error></mat-error>-->
-    <!---->
-    <!--<mat-error *ngIf="ngControl.hasError('Image Extension is not correct')">-->
-    <!--<strong>Image Extension is not correct</strong>-->
-    <!--</mat-error>-->
-    <!--<mat-error *ngIf="ngControl.hasError('Must be Https Url')">-->
-    <!--<strong>Must be Https Url</strong>-->
-    <!--</mat-error>-->
 </mat-form-field>
-<!--<i (click)="log()">{{ngControl.hasError('Must be Https Url')}}</i>-->
-<!--<i>{{ngControl.errors|json}}</i>-->
-<!--<br>-->
-<!--<i>{{myObject.keys(ngControl.errors)[0]}}</i>-->

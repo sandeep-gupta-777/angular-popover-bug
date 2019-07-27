@@ -1,7 +1,8 @@
+
 <header>
   <div class="d-flex flex-row heading align-items-center pb-3">
     <div class="heading-title">
-      <i class="fa fa-angle-left cursor-pointer p-1" (click)="goBackToArticle()"></i>
+      <span class="fa fa-angle-left cursor-pointer p-1" (click)="goBackToArticle()"></span>
       {{!articleData.section_id ?  'Create a new article' :
         (
           articleData.section_id == "first_message" ? "Welcome message" :
@@ -12,9 +13,6 @@
     </div>
     <div class="mr-auto">
     </div>
-    <!-- <button mat-flat-button color="primary" style="border-radius: 2px; line-height: 0px">
-            <mat-icon>refresh</mat-icon> Save and train
-        </button> -->
 
     <div *appMyIf="myEAllActions['Update Corpus']">
       <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
@@ -93,7 +91,6 @@
             (click)="addNewQuestion()">
       + Add question
     </button>
-    <!-- <div *ngFor="let question of articleData.questions">{{question}}</div> -->
   </div>
   <div class="response">
     <div class="response-heading">Response</div>
@@ -104,16 +101,9 @@
           [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10" required>
             </textarea>
-        <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
-
       </mat-form-field>
-      <!-- <div *ngFor="let answer of articleData.answers">
-                {{answer.text}}
-            </div> -->
     </div>
-    <!-- <i>{{articleData.questions | json}}</i>
     <hr>
-    <i>{{articleData.answers | json}}</i> -->
   </div>
 
 </div>

@@ -91,7 +91,6 @@
 
       </div>
     </div>
-    <!--<i>hello{{formGroup.get('child_bots').value|slice:0:4}}</i>-->
     <mat-form-field style="width: 100%; margin-bottom: 20px" *ngIf="formGroup.get('is_manager').value">
       <mat-select placeholder="Child Bots"
                   formControlName="child_bots"
@@ -115,7 +114,7 @@
     </mat-form-field>
     <ng-template #isManagerError>
       <label class="text-danger pl-1"
-             for="alterEgo"><i>At least one childbot is requred</i></label>
+             for="alterEgo"><em>At least one childbot is requred</em></label>
     </ng-template>
   </div>
 

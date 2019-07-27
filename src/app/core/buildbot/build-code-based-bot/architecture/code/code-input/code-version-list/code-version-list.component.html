@@ -37,12 +37,12 @@
 				+ "...") : selectedVersion?.comment}}
 
       </div>
-      <i (click)="showVersionList= !showVersionList"
+      <em (click)="showVersionList= !showVersionList"
          data-cy="version-dropdown-toggle"
          *ngIf="versions && versions.length > 1"
          class="fa py-2 px-3 ml-auto cursor-pointer"
          [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
-         style="height: 100%; border-left: 1px solid #e0e0e0;"></i>
+         style="height: 100%; border-left: 1px solid #e0e0e0;"></em>
     </div>
   </div>
   <!--END :: code versions_st details-->
@@ -140,27 +140,24 @@
 					+ "...") : version?.comment}}
         </div>
 
-        <i class=" py-2 px-3 "></i>
+        <em class=" py-2 px-3 "></i>
       </div>
     </div>
   </div>
 </div>
-<!---->
-
 
 <ng-template #ditryDataTemplate let-diff="diff" let-server_diff="server_diff">
-  <!--<ng-container *ngIf="(selectedVersion.updated_fields||{}) as server_diff ">-->
     <div class="d-flex justify-content-left py-1">
-      <i class="fa fa-circle"
-         [ngClass]="{'text-danger':diff.df_template, 'dark-green':server_diff['df_template']}"></i>
-      <i class="fa fa-circle"
-         [ngClass]="{'text-danger':diff.df_rules, 'dark-green':server_diff['df_rules']}"></i>
-      <i class="fa fa-circle"
-         [ngClass]="{'text-danger':diff.generation_rules, 'dark-green':server_diff['generation_rules']}"></i>
-      <i class="fa fa-circle"
-         [ngClass]="{'text-danger':diff.generation_templates, 'dark-green':server_diff['generation_templates']}"></i>
-      <i class="fa fa-circle"
-         [ngClass]="{'text-danger':diff.workflow, 'dark-green':server_diff['workflow']}"></i>
+      <span class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.df_template, 'dark-green':server_diff['df_template']}"></span>
+      <span class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.df_rules, 'dark-green':server_diff['df_rules']}"></span>
+      <span class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.generation_rules, 'dark-green':server_diff['generation_rules']}"></span>
+      <span class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.generation_templates, 'dark-green':server_diff['generation_templates']}"></span>
+      <span class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.workflow, 'dark-green':server_diff['workflow']}"></span>
     </div>
   <!--</ng-container>-->
 </ng-template>

@@ -7,7 +7,7 @@ import {IApi, IApiCollection} from '../../interfaces';
     <section class="main">
       <div class="api-item-section">
         <div class="api-item-section__folder" (click)="showApi=!showApi">
-          <i class="fa fa-folder-o"></i>
+          <span class="fa fa-folder-o"></span>
           <span class="name">{{apiCollection.folder}}</span>
         </div>
         <ng-container *ngIf="showApi">

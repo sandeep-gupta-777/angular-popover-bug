@@ -1,14 +1,5 @@
-<!--<button (click)="click()">click1</button>-->
 <form class="row report-detail-row" #form="ngForm">
   <div class="col-6">
-    <!--<div class="select-theme-primary">-->
-    <!--<label for="" class="Bot required">Bot</label>-->
-    <!--<select class="concept1" type="number" [ngModel] required name="bot_id" #select>-->
-    <!--<option *ngFor="let bot of codebasedBotList let i = index;" [selected]="i===0" [value]="bot.roomId">-->
-    <!--{{bot.name}}-->
-    <!--</option>-->
-    <!--</select>-->
-
     <mat-form-field>
       <mat-select required placeholder="Bot" ngModel name="bot_id" [value]="codebasedBotList[0].id">
         <mat-option *ngFor="let bot of codebasedBotList let i = index;" [value]="bot.id">
@@ -16,18 +7,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <!--</div>-->
   </div>
 
   <div class="col-6">
-    <!--<div class="select-theme-primary">-->
-    <!--<label for="" class="required required">Report type</label>-->
-    <!--<select class="concept1">-->
-    <!--<option value="single_match">Messages</option>-->
-    <!--</select>-->
-    <!--</div>-->
-
-    <mat-form-field>
+     <mat-form-field>
       <!--TODO: hardcoded messges since there is no other option as of now-->
       <mat-select required placeholder="Report type" name="single_match" value="single_match" [ngModel]="'messages'">
         <mat-option value="messages">
@@ -55,21 +38,12 @@
     <!--<p>{{report_id}}</p>-->
     <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
-      <!--<ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none" size="small"></ui-switch>-->
       <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive" color="primary"></mat-slide-toggle>
     </div>
   </div>
 
   <div class="col-6 mt-4">
     <div class="select-theme-primary">
-      <!--<label for="" class="required ">Frequency</label>-->
-      <!--<select class="concept1" ngModel required name="frequency">-->
-      <!--<option value="daily">Daily</option>-->
-      <!--<option value="weekly">Weekly</option>-->
-      <!--<option value="bi-weekly">Bi-weekly</option>-->
-      <!--<option value="monthly">Monthly</option>-->
-      <!--</select>-->
-
       <mat-form-field>
         <mat-select  placeholder="Frequency" ngModel required name="frequency">
           <mat-option value="daily">Daily</mat-option>
@@ -82,20 +56,6 @@
   </div>
 
   <div class="col-5 mt-4">
-      <!--<mat-form-field ngNativeValidate>-->
-          <!--<i>{{start_time}}</i>-->
-        <!--<input-->
-               <!--matInput-->
-               <!--required-->
-               <!--placeholder="Timepicker"-->
-               <!--autocomplete="off"-->
-               <!--class="time-input1 date-input"-->
-               <!--name="start_time"-->
-               <!--roomId="start_time"-->
-               <!--[(ngModel)]="start_time"-->
-        <!--&gt;-->
-      <!--</mat-form-field>-->
-
       <mat-form-field>
           <mat-select required [(ngModel)]="start_time" name="start_time"  placeholder="Time" required>
               <mat-option *ngFor="let item of timeRanges" value="{{item}}">{{item}}</mat-option>
@@ -107,18 +67,6 @@
   <div class="col-12 mt-4">
     <div class="row">
       <div class="col-12 col-md-4 form-group">
-        <!--<mat-form-field>-->
-          <!--<input type="text"-->
-                 <!--placeholder="Select Date"-->
-                 <!--matInput-->
-                 <!--class="date-input"-->
-                 <!--[(ngModel)]="startdate"-->
-                 <!--[minDate]="today"-->
-                 <!--required-->
-                 <!--name="startdate"-->
-                 <!--bsDatepicker [bsConfig]="datePickerConfig">-->
-        <!--</mat-form-field>-->
-
         <mat-form-field>
           <input
                   required

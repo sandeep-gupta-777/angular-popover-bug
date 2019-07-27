@@ -95,7 +95,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
         });
       }
 
-      const is_test: number = originalSessionData['is_test'] && originalSessionData['is_test'];
+      const is_test: number = originalSessionData['is_test'];
       if (is_test) {
         additonalColumns['Metadata'].value.push({
           show: true,

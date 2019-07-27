@@ -1,3 +1,4 @@
+
 <div class="container">
   <!--SOURCE: https://bootsnipp.com/snippets/zDQkr-->
   <div class="row">
@@ -8,15 +9,10 @@
         <!--carasol item starts-->
         <div #caraosalItem class="item p-1" style="border-radius: 2px" *ngFor="let mediaItem of _messageData.media">
           <div class="card m-0 shadow-theme ">
-            <!--<div class="card-header bg-white p-1" style="color: #474747">Featured</div>-->
             <div [ngStyle]="{'background-image': 'url('+ mediaItem.url+')'}"
                  class="card-img-top"
                  style="height: 150px;">
-              <!--<img class="img-fluid"-->
-              <!--[src]="mediaItem.url"-->
-              <!--alt="Card image cap">-->
             </div>
-            <!--<div class="card-body"></div>-->
             <ul class="list-group list-group-flush">
               <li class="list-group-item p-2 limit-three-lines cursor-pointer" [innerHTML]='mediaItem.title|| "No_Title"'>
               </li>

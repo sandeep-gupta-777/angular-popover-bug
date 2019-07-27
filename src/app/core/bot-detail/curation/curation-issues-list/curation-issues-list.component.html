@@ -74,9 +74,9 @@
 </div>
 <div class="load-more" *ngIf="isMorePresent" (click)="load10More()">
   <div *ngIf="!reloadingMore" class = "d-flex align-items-center" >
-    Load more issues&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+    Load more issues&nbsp;&nbsp;<span class="fa fa-angle-down"></span>
   </div>
   <div *ngIf="reloadingMore" class = "d-flex align-items-center">
-    <i class="fa fa-spinner fa-spin"></i>
+    <span class="fa fa-spinner fa-spin"></span>
   </div>
 </div>

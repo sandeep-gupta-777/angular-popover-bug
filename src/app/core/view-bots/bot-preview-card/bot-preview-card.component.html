@@ -8,7 +8,7 @@
     </button>
 
     <figure class="grid-bot-preview-img">
-      <img [defaultImage]="'assets/img/no image.svg'" [lazyLoad]="bot.logo" alt="">
+      <img [defaultImage]="'assets/img/no image.svg'" [lazyLoad]="bot.logo" alt="bot logo">
     </figure>
     <div class="grid-bot-preview-name details1">
       <h6 class="limit-oneline"
@@ -34,9 +34,6 @@
 
 
       <div class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer">
-        <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
-
-
         <div *appMyIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
           <div
             title="Click to open chat preview window"
@@ -51,32 +48,28 @@
             <mat-chip color="accent" selected>Disabled</mat-chip>
           </mat-chip-list>
         </ng-template>
-
-
       </div>
     </ng-container>
   </div>
 
   <div *ngIf="showLoader"
        class="loader-overlay">
-    <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
+    <span class="fa fa-gear fa-spin" style="font-size: 20px"></span>
   </div>
 </section>
-
-
 <!--Template for modal-->
 
 
 <mat-menu class="more-menu" #appMenu="matMenu">
-  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><span class="fa fa-copy mr-1"></span>Copy
     Access Token
   </button>
-  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><span class="fa fa-copy mr-1"></span>Copy
     Enterprise ID
   </button>
   <button mat-menu-item
           *appMyIf="[myEAllActions['Delete Bots']]"
-          (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete
+          (click)="openDeleteModal(template)"><span class="fa fa-trash mr-1"></span>Delete
   </button>
   <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i
     class="fa fa-thumb-tack mr-1"></i>Pin

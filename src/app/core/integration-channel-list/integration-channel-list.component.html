@@ -18,8 +18,8 @@
     class="logo-image no-channel-integrations" alt="">
 
   <img style="height: 24px; width: 24px" *ngIf="'Web Speech'|integrationItemByUname|async as item"
-       [matTooltip]="item?.key" [src]="item?.icon" alt="">
+       [matTooltip]="item?.key" [src]="item?.icon" alt="web speech">
 </div>
 
-<i style="font-size: 11px" *ngIf="(limit && (enabledIntegrationCount > limit))">{{enabledIntegrationCount}}
-  integrations</i>
+<em style="font-size: 11px" *ngIf="(limit && (enabledIntegrationCount > limit))">{{enabledIntegrationCount}}
+  integrations</em>

@@ -60,8 +60,8 @@ export class ServerService {
       if (!value || !value.user) {
         return;
       }
-      this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
-      this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      this.AUTH_TOKEN = value.user.auth_token;
+      this.X_AXIS_TOKEN = value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
         if (!this.roleInfo && appState && appState.roleInfoArr) {
@@ -291,7 +291,7 @@ export class ServerService {
 
         const updated_bot: IBot = val.objects.find((bot_item) => {
 
-          return bot_item.id === bot_item.id;
+          return true//bot_item.id === bot_item.id;/*todo: what the heck is going on here*/
         });
         return this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({data: updated_bot, botId: updated_bot.id})

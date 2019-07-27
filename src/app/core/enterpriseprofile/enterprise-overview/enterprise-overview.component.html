@@ -14,7 +14,7 @@
     <section class="row basic-row bottom-border-line">
         <div class="col-1 logo-wrapper-col ">
             <div class="logo-wrapper">
-                <img [src]="logoUrl.value" alt="">
+                <img [src]="logoUrl.value" alt="logo">
             </div>
         </div>
         <div class="col-11">
@@ -31,15 +31,6 @@
                         </div>
                     </div>
                     <div class="col-5">
-                        <!-- <div class="form-group">
-                          <label for="alterEgo">Email address</label>
-                          <input type="text" class="form-control" formControlName="email">
-                        </div> -->
-
-                        <!-- <div class="form-group">
-                          <label for="alterEgo">Website Url</label>
-                          <input type="text" class="form-control" formControlName="websiteUrl">
-                        </div> -->
                     </div>
                     <div class="col-10">
                         <div class="form-group">
@@ -145,10 +136,8 @@
             <mat-button-toggle value="Active" (click)="showActiveServiceKeysTable = true">Active</mat-button-toggle>
             <mat-button-toggle value="Expired" (click)="showActiveServiceKeysTable = false">Expired</mat-button-toggle>
         </mat-button-toggle-group>
-        <!-- <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
-        <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button> -->
         <div class="ml-auto color-primary cursor-pointer" *ngIf="showActiveServiceKeysTable"
-             (click)="openNewServiceKeyModal()"><i class="fa fa-plus pr-1 "></i> New token
+             (click)="openNewServiceKeyModal()"><span class="fa fa-plus pr-1 "></span> New token
         </div>
     </div>
 </div>
@@ -188,57 +177,3 @@
      *ngIf="!(serviceKeyActiveTableModal?.tableData && serviceKeyActiveTableModal?.tableData.length>0) && showActiveServiceKeysTable">
     No active service keys available.
 </div>
-
-<!-- <ng-template #enterpriseNewServiceKeyModal>
-    <div class="primary-modal" style="min-width: 500px;">
-      <div class="modal-header" style="border:none !important">
-        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">New service key</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="mx-3 mb-3" style="text-align: left !important;">
-        <form #form="ngForm">
-          <div class="my-1">
-            <p class="mb-3">Provide a description for the new service key
-            </p>
-            <form  #descriptionForm="ngForm" >
-              <mat-form-field style = "width : 300px">
-                <input matInput placeholder="Description" ngModel name ="description" value="" required>
-              </mat-form-field>
-            </form>
-          </div>
-          <div class="d-flex" style="flex-direction: row-reverse">
-            <button class=" btn-theme btn-theme-primary mx-1 " [disabled]= "!descriptionForm.valid" (click)="addNewServiceKey() ;dialogRefWrapper.ref.close();">Create
-            </button>
-            <button class=" btn-theme btn-theme-primary-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </ng-template> -->
-
-<!-- <ng-template #expireServiceKeyModal>
-    <div class="danger-modal" style="min-width: 500px;">
-      <div class="modal-header" style="border:none !important">
-        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Expire token?</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="mx-3 mb-3" style="text-align: left !important;">
-        <form #form="ngForm">
-          <div class="my-1">
-            <p class="mb-3">Do you want to expire the selected access token</p>
-          </div>
-          <div class="d-flex" style="flex-direction: row-reverse">
-            <button class=" btn-theme btn-theme-danger mx-1 " (click)="expireServiceKey();dialogRefWrapper.ref.close();">Expire
-            </button>
-            <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </ng-template> -->

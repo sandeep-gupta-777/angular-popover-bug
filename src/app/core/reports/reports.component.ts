@@ -80,7 +80,7 @@ export class ReportsComponent  implements OnInit, OnDestroy {
       additonalColumns['Active'] = sessionsDataForTableItem['Active'];
       const isActive = additonalColumns['Active'].value;
       additonalColumns['Active'].value = `<div class="d-flex align-items-center">
-<i style="font-size: 8px" class="fa fa-circle mr-1 ${isActive ? 'dot-free' : 'dot-paid'}" ></i><span>${isActive ? 'Active' : 'Inactive'}</span>
+<span style="font-size: 8px" class="fa fa-circle mr-1 ${isActive ? 'dot-free' : 'dot-paid'}" ></span><span>${isActive ? 'Active' : 'Inactive'}</span>
 </div>`;
       return {...sessionsDataForTableItem, ...additonalColumns};
     });

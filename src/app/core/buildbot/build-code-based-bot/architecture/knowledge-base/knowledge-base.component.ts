@@ -345,7 +345,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       relativeTo: this.activatedRoute
     });
     this.showTable = false;
-    this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values;
+    this.codeTextInputToCodeEditor = selectedRowData.values;
     if (selectedRowData.ner_type === 'database') {
       /*
       * column_headers is array which will keep the order of headers written by user
