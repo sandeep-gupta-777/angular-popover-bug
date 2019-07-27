@@ -37,7 +37,8 @@
     "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production",
     "ng-test": "ng serve --live-reload false",
     "cypress": "cypress open",
-    "cypress:headless": "cypress run"
+    "cypress:headless": "cypress run",
+    "sonar": "sonar-scanner -Dsonar.projectKey=3c5017265d344cf7b8bf84c02bb983ed62944209 -Dsonar.sources=."
   },
   "private": true,
   "dependencies": {

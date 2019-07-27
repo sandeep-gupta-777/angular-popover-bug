@@ -42,10 +42,7 @@ export class DevWrapperComponent implements OnInit {
     EventService.selectedApiChanged$.subscribe((api) => {
       this.selectedApi = api;
     });
-    this.apiList = [{
-      folder: 'login',
-      apiList: [{body: {'email': 'ayeshreddy.k@imimobile.com', 'password': 'Botwoman@123!'}, headers: {}, method: EHttpVerb.POST, name: 'Login', url: 'https://staging.imibot.ai/api/v1/user/login/'}]
-    }];
+    this.apiList = [];
   }
 
   deleteHistoryHandler() {

@@ -317,8 +317,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginWithCustomEmail(email) {
-    this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
-    this.loginSubmitHandler();
+    // this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
+    // this.loginSubmitHandler();
   }
 
   backToLogin() {
