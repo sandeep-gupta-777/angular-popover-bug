@@ -263,7 +263,7 @@ export class ReportsComponent  implements OnInit, OnDestroy {
           });
         });
 
-        // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());;
+        // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());
         this.reportTableModal.refreshData(this.reportSmartTableData);
       }));
 

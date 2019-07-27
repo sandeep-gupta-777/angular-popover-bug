@@ -189,7 +189,7 @@ export class EnterpriseUsersComponent implements OnInit {
     setTimeout(() => {
 
       this.modifyBotRole = this.selectedUserModify.enterprises[0].role_id;
-      this.isSelectedRoleAdmin = this.modifyBotRole === 2 ? true : false;
+      this.isSelectedRoleAdmin = this.modifyBotRole === 2;
       const formlist = this.modifyBotList.value;
       for (const key of this.selectedUserModify.enterprises[0].bots) {
         formlist[key] = true;

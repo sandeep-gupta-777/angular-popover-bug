@@ -78,7 +78,6 @@
           <div class="message p-2 bg-message-bot" style="display: inline-block">
             <span class="message-text" [innerHtml]="sessionMessage.message||'EMPTY_MESSAGE'"></span>
             <div class="time text-right">
-              <!--{{sessionMessage.created_at|msToHhmm}}-->
               {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
             </div>
           </div>
@@ -95,10 +94,6 @@
       <mat-icon class="user-feedback__icon user-feedback__icon--down">thumb_down</mat-icon>
       <span class="user-feedback__text">Downvoted</span>
     </div>
-
-    <!--<p>{{(sessionMessage|json)}}</p>-->
-    <!--<app-card-carousel  [messageData]="sessionMessage|sessionDataToRichMediaSerializer"></app-card-carousel>-->
-
   </div>
 
 </section>

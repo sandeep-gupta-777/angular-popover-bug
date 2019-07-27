@@ -10,7 +10,7 @@ import {ChatWindowComponent} from './rooms-and-convo-panel/chat-window.component
 import {ChatMessageComponent} from './rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
 import {ChatListComponent} from './rooms-and-convo-panel/chat-room-list/chat-list.component';
 import {ChatItemComponent} from './rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
-import {ChatroomComponent} from './rooms-and-convo-panel/chat-message-list/chatroom.component';
+
 import {BotThinkingBubbleComponent} from './carousel/bot-thinking-bubble/bot-thinking-bubble.component';
 import {BotWelcomeComponent} from './bot-welcome-panel/bot-welcome.component';
 import {RichMediaModule} from '../rich-media.module';
@@ -46,7 +46,6 @@ const routes: Route[] = [
     ChatMessageComponent,
     ChatListComponent,
     ChatItemComponent,
-    ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
     LinkPreviewComponent,
@@ -76,7 +75,6 @@ const routes: Route[] = [
     ChatMessageComponent,
     ChatListComponent,
     ChatItemComponent,
-    ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
 

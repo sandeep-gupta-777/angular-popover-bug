@@ -43,7 +43,6 @@
   </div>
 </ng-container>
 
-<!--<ng-template #splash>-->
 
 <app-splash-screen
   *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable && currentPageNumber===1"
@@ -61,10 +60,6 @@
 
 </div>
 
-<!--</ng-template>-->
-
-<!--<ng-template #rowDetails>-->
-
 <app-knowledge-base-presentation
   *ngIf="!showTable"
   class="h-100 d-flex-column-last-child-flex-grow-1"
@@ -74,4 +69,3 @@
   (deleteNer$)="deleteNer$.emit($event)"
   (updateOrSaveConcept$)="updateOrSaveConcept($event)"
 ></app-knowledge-base-presentation>
-<!--</ng-template>-->

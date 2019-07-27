@@ -63,7 +63,6 @@ export class ViewBotStateReducer {
   @Action(AddNewBotInAllBotList)
   addNewBotInAllBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: AddNewBotInAllBotList) {
     const state = getState();
-    const allBotList = state.allBotList.push(payload.bot);
     patchState({
       allBotList: [...state.allBotList]
     });
@@ -71,19 +70,15 @@ export class ViewBotStateReducer {
 
   @Action(SetCodeBasedBotListAction)
   setCodebasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetCodeBasedBotListAction) {
-    const state = getState();
     patchState({
       codeBasedBotList: payload.botList,
-      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
   @Action(SetPipeLineBasedBotListAction)
   setPipelineBasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetPipeLineBasedBotListAction) {
-    const state = getState();
     patchState({
       pipelineBasedBotList: payload.botList,
-      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 

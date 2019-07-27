@@ -1,4 +1,4 @@
-<!--<p>{{selectedTemplateKeyOutputIndex|json}}</p>-->
+
 <div class="genTempGrid child-expand">
   <!--left sidebar starts-->
   <div class="genTempGridItem left-sidebar intent-header ml-1 position-relative">
@@ -57,9 +57,9 @@
           </mat-select>
         </mat-form-field>
       </form>
-      <!--<ng-template #noChannelsMessageTemplate>-->
+
         <em class="text-danger" *ngIf="!channelList || channelList.length<1" style="font-size: 11px">No Channels</em>
-      <!--</ng-template>-->
+
     </div>
   </div>
 
@@ -72,8 +72,7 @@
       <div class="text-center d-flex flex-wrap justify-content-center mx-5 px-5" style="color: #9e9e9e;">
         <div class="bg-white d-flex justify-content-center align-items-center"
              style="height: 56px; width: 56px; border-radius: 28px">
-          <!--<span class="fa fa-cloud" style="color: #00abd3"></i>-->
-          <span class="fa fa-commenting" style="color: #00abd3; font-size: 25px"></i>
+          <span class="fa fa-commenting" style="color: #00abd3; font-size: 25px"></span>
         </div>
         <div class="w-100">Start configuring responses by adding a new template key from the left panel</div>
       </div>
@@ -82,7 +81,6 @@
     <!--if the value of template key is unpasable, we will show response components-->
     <!--response components list start-->
     <div class="intentItems position-relative ">
-      <!--<div #scrollMe class="" style="position: absolute; top: 0; left: 0; right: 0; min-height: 100%; max-height: 100%; overflow-y: auto; overflow-x: hidden">-->
       <div class="" id="template-output-scroll-container">
         <ng-container
           *ngIf="_templateKeyDict && (_templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'">
@@ -107,22 +105,10 @@
         </ng-container>
 
         <!--if the value of template key is unparsable, we will show code editor-->
-        <!--<ng-container *ngIf="isTemplateKeyOutputUnparsable()">-->
-        <!--<div class="intentItems d-flex-column-last-child-flex-grow-1">-->
-        <!--<div class="d-flex-column-last-child-flex-grow-1 child-expand">-->
-        <!--<app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand"-->
-        <!--[text]="{text:_templateKeyDict[selectedTemplateKeyInLeftSideBar]}"-->
-        <!--(textChangedEvent)="updateSelectedTemplateKeyValue($event)"></app-code-editor>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</ng-container>-->
-
-
         <div style="height: 150px; visibility: hidden"></div>
       </div>
     </div>
     <!--response components list ends-->
-<!---->
     <!--if the value of template key is unparsable, we will show code editor-->
     <ng-container *ngIf="isTemplateKeyOutputUnparsable()">
       <div class="intentItems d-flex-column-last-child-flex-grow-1">
@@ -250,9 +236,7 @@
     <div class="modal-body" style="text-align: left">
       <div class="text-bold">Edit Template key</div>
       <form #templateKeyEditForm="ngForm" class="d-flex align-items-center flex-wrap mt-2">
-        <!--<input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"-->
-        <!--[(ngModel)]="newTemplateKey">-->
-        <!---->
+
         <input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">
         <input ngModel required name="new_key" class="w-100" required type="text" [ngModel]="templateKeyToBeDeleted.value"
                (keyup.enter)="editTemplateKey(templateKeyEditForm)">
@@ -271,50 +255,3 @@
 
   </div>
 </ng-template>
-
-
-<!-- <ng-template #IntentModal>
-  <div class="primary-modal" (clickOutside)="templateKeyCreationError='';newTemplateKey=''">
-    <div class="modal-body" style="text-align: left">
-      <div class="text-bold">Create new template key</div>
-      <div class="d-flex align-items-center flex-wrap mt-2">
-        <input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"
-               (keyup.enter)="createNewTemplatekey()" [(ngModel)]="newTemplateKey">
-        <p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>
-        <div class="d-flex justify-content-end w-100 mt-2">
-          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="clearNewTemplateKeyData()">Cancel</button>
-          <button class="btn-theme btn-theme-primary" [disabled]="!newTemplateKey && newTemplateKey|trimString" (click)="createNewTemplatekey();">
-            Create
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</ng-template> -->
-
-<!-- <ng-template #deleteTemplateKeyModal>
-  <div class="danger-modal">
-    <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Template key?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefWrapper.ref.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0" style="padding:10px !important;">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">This action cannot be undone .Are you sure you wish to delete?</p>
-
-        </div>
-        <div class="d-flex justify-content-end">
-          <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.ref.hide()">Cancel</button>
-          <button class=" btn-theme btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template> -->

@@ -35,7 +35,6 @@
   </div>
 
   <div class="col-5 mt-3 d-flex align-items-center ">
-    <!--<p>{{report_id}}</p>-->
     <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
       <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive" color="primary"></mat-slide-toggle>
@@ -109,7 +108,6 @@
         Schedule emails for multiple recipients, separate with semi-colon(;)
       </div>
       <div class="col-4 text-right ">
-        <!--<ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
         <mat-slide-toggle ngModel name="enabled" color="primary"></mat-slide-toggle>
 
       </div>
@@ -124,7 +122,6 @@
     <div class="row m-0 " [hidden]="deliveryMode!=='sftp'" ngModelGroup='sftp'>
       <div class="col-12 d-flex justify-content-between align-items-center">
         <div class="text-report ">Push reports to a secure location as scheduled</div>
-        <!--<ui-switch [(ngModel)]="isSftpReportEnabled" name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
         <mat-slide-toggle [(ngModel)]="isSftpReportEnabled" color="primary" name="enabled"></mat-slide-toggle>
 
       </div>
@@ -140,7 +137,6 @@
           <input class="input-material mb-3" type="text" ngModel name="username">
           <input class="input-material mb-3" type="password" ngModel name="password">
           <label for="" class=" m-0">Upload directory</label>
-          <!--<button class="btn btn-theme-primary-outline upload-private-key-button">Upload private key</button>-->
           <label for="uploadInput" class="btn btn-theme-secondary-outline upload-private-key-button">
             {{privateKey?'Uploaded':'Upload File'}}
             <input type="file"

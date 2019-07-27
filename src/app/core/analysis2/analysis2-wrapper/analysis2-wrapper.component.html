@@ -8,21 +8,16 @@
       <div class="side-bar  border-right">
         <div class="side-bar-content">
           <a routerLinkActive="font-weight-bold" class="heading  my-3">Analytics</a>
-          <!-- <a [routerLink]="['/core','analytics2','overview']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Overview</a> -->
           <a [routerLink]="['/core','analytics2','volume']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Volume</a>
           <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Performance</a>
-          <!-- &lt;!&ndash; Performance was &ndash;&gt; -->
           <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Engagement</a>
           <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Usage</a>
-           <!-- &lt;!&ndash; engaggment was &ndash;&gt; -->
         </div>
       </div>
 
       <div class="flex-grow-1">
         <router-outlet style="flex-grow: 1"></router-outlet>
       </div>
-      <!-- <app-analysis2-overview></app-analysis2-overview> -->
-
     </div>
 
   </div>

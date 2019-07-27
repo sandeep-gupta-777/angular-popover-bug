@@ -11,7 +11,7 @@ export class FormsService {
   }
 
   getCodeInputForm() {
-    const codeInputForm = this.formBuilder.group({
+    this.formBuilder.group({
       df_template: [''],
       df_rules: [''],
       generation_rules: [''],
@@ -19,7 +19,6 @@ export class FormsService {
       workflow: [''],
       is_ui_view: '',
     });
-
     return this.formBuilder.group({
       df_template: [''],
       df_rules: [''],

@@ -62,10 +62,6 @@ export class IntegrationLogosPipe implements PipeTransform {
           });
           return x;
         });
-
-        if (!arr) {
-
-        }
         return arr;
       } catch (e) {
         LoggingService.error(e);

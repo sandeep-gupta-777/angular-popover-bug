@@ -224,8 +224,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     } else {
       const bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       const type = bot_id ? 'bot' : 'enterprise';
-
-      const newRowData: ICustomNerItem = output = {
+      output = {
         'bot_id': bot_id,
         // "column_headers": any[],
         'column_nermap': {},
@@ -245,7 +244,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
         // "process_raw_text" : false,
         ...body
       };
-      // this.custumNerDataForSmartTable.push(newRowData);
     }
 
     this.updateOrSaveParentNers$.emit(output);

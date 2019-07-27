@@ -49,17 +49,6 @@
 
   <!--START :: code versions_st Buttons-->
   <div class="col-5">
-    <!--<button [disabled]="!selectedVersion || disableSave"-->
-            <!--data-cy="version-save"-->
-            <!--*myIf="myEAllActions['Update Bot Versioning']"-->
-            <!--(click)="saveSelectedVersion$.emit()"-->
-            <!--mat-flat-button-->
-            <!--color="primary"-->
-            <!--class="mat-theme-button">-->
-      <!--<mat-icon>save</mat-icon>-->
-      <!--{{(!versions || !versions.length || versions.length > 0) ? "Save" : "Create"}}-->
-    <!--</button>-->
-
     <app-button-wrapper
       *appMyIf="myEAllActions['Update Bot Versioning']"
       [disabled]="!selectedVersion || disableSave"
@@ -112,7 +101,6 @@
             [ngClass]="{'text-primary':version.id === bot.active_version_id}"
           >{{version.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
         </div>
-        <!--<div class="active-label-text">{{versions_st.id +""+activeVersion.id }}</div>-->
         <div class="count mx-1">{{version.version}}</div>
         <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from
           v{{version.forked_from}}
@@ -159,5 +147,4 @@
       <span class="fa fa-circle"
          [ngClass]="{'text-danger':diff.workflow, 'dark-green':server_diff['workflow']}"></span>
     </div>
-  <!--</ng-container>-->
 </ng-template>

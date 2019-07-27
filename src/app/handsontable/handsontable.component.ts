@@ -107,8 +107,6 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     this.eventService.rerenderHandsonTable$.emit();
 
     setTimeout(() => {
-      const routeName = this.activatedRoute.snapshot.data['routeName'];
-
       const searchField = this.hotTableSearchField.nativeElement;
       let colObject = {};
       if (this.colHeaders && this.columns) {
@@ -170,10 +168,9 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         // autoRowSize: true
       });
 
-      (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
+      (Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
         const search = hot.getPlugin('search');
-        const queryResult = (<any>search).query(this.value);
-
+        const queryResult = search.query(this.value);
         LoggingService.log(queryResult);
         hot.render();
       });

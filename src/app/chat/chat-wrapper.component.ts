@@ -146,14 +146,14 @@ export class ChatWrapperComponent implements OnInit {
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
     if (this.isFullScreenPreview) {
       this.activatedRoute.queryParamMap.subscribe((queryparam) => {
-        const welcomeScreenBotIdStr = queryparam.get('preview');
+        queryparam.get('preview');
         const enterprise_unique_name = queryparam.get('enterprise_unique_name');
         const bot_unique_name = queryparam.get('bot_unique_name');
         if (!bot_unique_name || !enterprise_unique_name) {
           return;
         }
         this.enterprise_unique_name = enterprise_unique_name;
-        if (enterprise_unique_name && bot_unique_name && bot_unique_name) {
+        if (enterprise_unique_name && bot_unique_name) {
           this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
         }
       });
@@ -321,7 +321,7 @@ export class ChatWrapperComponent implements OnInit {
     * Unfortunately currently send api is being used for updating consumer details
     * if message by human is empty,we will proceed to updated consumer details
     * */
-    const updateConsumerDetails = !(messageByHuman && messageByHuman.trim());
+    messageByHuman && messageByHuman.trim();
     if (!messageData.updateConsumerInfo) {
       this.store.dispatch([new AddMessagesToRoomByRoomId({
           id: room.id,

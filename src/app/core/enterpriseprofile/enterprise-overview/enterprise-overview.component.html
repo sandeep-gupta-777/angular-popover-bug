@@ -52,8 +52,6 @@
 
                     <div class="col-5 mr-2">
                         <div class="form-group">
-                            <!-- <label for="name">Enterprise Unique Name</label>
-                            <input type="text" class="form-control" required formControlName="enterprise_unique_name" readonly> -->
                             <mat-form-field class="w-100">
                                 <input type="text" class="form-control" required matInput
                                        placeholder="Enterprise Unique Name" formControlName="enterprise_unique_name"
@@ -63,9 +61,6 @@
                     </div>
                     <div class="col-5">
                         <div class="form-group">
-                            <!-- <label for="alterEgo">Tier Group</label>
-                            <input type="number" class="form-control" disabled formControlName="tier_group">
-                             -->
                             <mat-form-field class="w-100">
                                 <input type="text" class="form-control" disabled matInput placeholder="Tier Group"
                                        formControlName="tier_group">
@@ -74,8 +69,6 @@
                     </div>
                     <div class="col-5">
                         <div class="form-group">
-                            <!-- <label for="alterEgo">Log Retention Period</label>
-                            <input type="text" class="form-control" formControlName="log_retention_period" readonly> -->
                             <mat-form-field class="w-100">
                                 <input type="text" class="form-control" matInput placeholder="Log Retention Period"
                                        formControlName="log_retention_period">
@@ -105,7 +98,6 @@
 <div class="d-flex log-deletion bottom-border-line">
     <div class="unit ml-2 mr-4" *ngFor="let data of logdeletionsummary">
         <div class="date mb-2">
-            <!-- {{data.timestamp |  date : "medium"}} -->
             {{data.timestamp| date:"d MMM yy"}}
         </div>
         <div class="count">

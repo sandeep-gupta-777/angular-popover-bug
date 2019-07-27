@@ -112,7 +112,6 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
         let incno = 0;
         const dataItems = ('data-items');
-        const itemClass = ('.item');
         let id = 0;
         let btnParentSb = '';
         let itemsSplit: any = '';
@@ -144,9 +143,6 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
           //  self.itemWidth = itemWidth;
 
           $(this).css({'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers});
-          //  $(this).find(itemClass).each(function () {
-          //    $(this).outerWidth(itemWidth);
-          //  });
 
           $(self.MultiCarouselInner.nativeElement).find(('.item')).each(function () {
             $(this).outerWidth(itemWidth);
@@ -171,23 +167,19 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
         if (e === 0) {
           translateXval = parseInt(xds, 10) - (<any>parseInt)(itemWidth * s);
           $(rightBtn).removeClass('over');
-          //  $(self.rightLstElementRef.nativeElement).removeClass('over');
 
           if (translateXval <= itemWidth / 2) {
             translateXval = 0;
             $(leftBtn).addClass('over');
-            //  $(self.rightLstElementRef.nativeElement).addClass('over');
           }
         } else if (e === 1) {
           const itemsCondition = $(MultiCarouselInner).width() - $(MultiCarousel).width();
           translateXval = parseInt(xds, 10) + (<any>parseInt)(itemWidth * s);
           $(leftBtn).removeClass('over');
-          //  $(self.leftLstElementRef.nativeElement).removeClass('over');
 
           if (translateXval >= itemsCondition - itemWidth / 2) {
             translateXval = itemsCondition;
             $(rightBtn).addClass('over');
-            //  $(self.rightLstElementRef.nativeElement).addClass('over');
           }
         }
         $(MultiCarouselInner).css('transform', 'translateX(' + -translateXval + 'px)');
@@ -196,8 +188,7 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
       // It is used to get some elements from btn
       function click(ell, ee) {
         const Parent = '#' + $(ee).parent().attr('id');
-        const slide = $(Parent).attr('data-slide');
-        //  ResCarousel(ell, Parent, slide);
+        $(Parent).attr('data-slide');
         ResCarousel(ell);
       }
 

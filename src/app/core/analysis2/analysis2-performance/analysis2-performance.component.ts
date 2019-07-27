@@ -74,14 +74,14 @@ export class Analysis2PerformanceComponent implements OnInit {
               'labels'
             );
           this.chartValue1 =
-            <any>this.u.convertDateTimeGraph(
+            this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity);
 
           this.chartValue2 =
-            <any>this.u.convertDateTimeTwoBarGraph(
+            this.u.convertDateTimeTwoBarGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),

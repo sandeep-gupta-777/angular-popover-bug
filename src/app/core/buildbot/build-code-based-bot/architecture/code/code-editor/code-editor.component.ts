@@ -137,7 +137,6 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   downloadCodeText() {
     /*todo: refactor this*/
     let fileName = this.downloadedFileName;
-    const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
     const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
     const botId = this.activatedRoute.snapshot.params['roomId'];
     // if (buildTab === 'code' && codeTab && botId) {

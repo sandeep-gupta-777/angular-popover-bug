@@ -77,8 +77,6 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         } else {
           this.showSplashScreen = false;
           this.isData = true;
-          const testCaseData = value.objects[0].data;
-
           const testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
             return testcase.bot_id === this.bot.id;
           });

@@ -144,7 +144,6 @@ export class BotCreationStateReducer {
 
   @Action(ResetBuildBotToDefault)
   resetBuildBotToDefault({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>) {
-    const state: IBotCreationState = getState();
     patchState(defaultBuildBotState);
   }
 

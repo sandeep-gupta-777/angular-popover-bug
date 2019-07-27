@@ -257,9 +257,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
         //  var btnParentSb = '';
         //  var itemsSplit: any = '';
         self.MultiCarouselWidth = sampwidth = $(MultiCarousel).width();
-        if (!sampwidth) {
-
-        }
         console.log(sampwidth, '=============');
 
         //  var bodyWidth = $('body').width();
@@ -335,7 +332,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
         self.disableAddNewCarasolItem = false;
 
         //  if(self.controlsClickedCount === self.outputItem.generic_template[0].elements.length){
-        //    --self.controlsClickedCount;;
+        //    --self.controlsClickedCount;
         //  }
       };
 

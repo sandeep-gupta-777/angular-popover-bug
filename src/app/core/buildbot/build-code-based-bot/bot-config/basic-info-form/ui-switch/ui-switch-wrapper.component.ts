@@ -6,7 +6,6 @@ import {MatSlideToggleChange} from '@angular/material';
 @Component({
   selector: 'app-ui-switch',
   templateUrl: './ui-switch-wrapper.component.html',
-  styleUrls: ['./ui-switch-wrapper.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: UiSwitchWrapperComponent,

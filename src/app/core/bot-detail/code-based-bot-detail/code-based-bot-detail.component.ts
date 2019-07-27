@@ -137,7 +137,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
     const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
     if (showConfigStr) {
-      this.showConfig = showConfigStr === 'true'; // (showConfigStr === 'true' || showConfigStr === undefined);;
+      this.showConfig = showConfigStr === 'true'; // (showConfigStr === 'true' || showConfigStr === undefined);
     }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/

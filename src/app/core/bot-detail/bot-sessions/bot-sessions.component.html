@@ -60,9 +60,6 @@
       <li>
         <mat-checkbox name="is_live" [ngModel]="false" color="primary">Hide test sessions</mat-checkbox>
       </li>
-      <!--<li>-->
-        <!--<mat-checkbox name="is_test" [ngModel]="false" color="primary">Live Session</mat-checkbox>-->
-      <!--</li>-->
       <li>
         <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
       </li>
@@ -84,7 +81,6 @@
       </button>
     </div>
   </form>
-  <!---->
 
   <app-smart-table
     *ngIf="sessionsSmartTableDataModal.tableData as tableData"
@@ -133,4 +129,3 @@
     [sessionDataStore]="selectedRow_Session.data_store">
   </app-session-detail-model>
 </ng-template>
-<!---->

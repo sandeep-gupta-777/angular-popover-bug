@@ -1,6 +1,5 @@
 import {Route, RouterModule} from '@angular/router';
 import {CoreWrapperComponent} from './core-wrapper.component';
-import {CreateCustomnerComponent} from './customner/create-customner/create-customner.component';
 import {EnterpriseprofileComponent} from './enterpriseprofile/enterpriseprofile.component';
 import {ProfileComponent} from './profile/profile.component';
 import {ReportsComponent} from './reports/reports.component';
@@ -11,11 +10,9 @@ import {BuildCodeBasedBotComponent} from './buildbot/build-code-based-bot/build-
 import {BuildPipelineBasedBotComponent} from './buildbot/build-pipeline-based-bot/build-pipeline-based-bot.component';
 import {NgModule} from '@angular/core';
 import {RouterFragmentActiveDirective} from '../router-fragment-active.directive';
-import {SignupComponent} from '../auth/signup/signup.component';
 import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
-import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -82,11 +79,11 @@ const routes: Route[] = [
         data: {routeName: ERouteNames['Get Enterprise Knowledge base']},
         canActivate: []
       },
-      {
-        path: 'customner/create',
-        component: CreateCustomnerComponent,
-        data: {routeName: ERouteNames['Create Enterprise Knowledge base']}
-      },
+      // {
+      //   path: 'customner/create',
+      //   component: CreateCustomnerComponent,
+      //   data: {routeName: ERouteNames['Create Enterprise Knowledge base']}
+      // },
       {
         path: 'enterpriseprofile',
         component: EnterpriseprofileComponent,
@@ -121,14 +118,14 @@ const routes: Route[] = [
     RouterFragmentActiveDirective,
     DocumentationComponent,
     ViewCustomnerComponent,
-    CreateCustomnerComponent,
+    // CreateCustomnerComponent,
     ProfileComponent,
     EnterpriseprofileComponent,
     EnterpriseRolesComponent,
     EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
-    SignupComponent,
+    // SignupComponent,
     PipelineTestComponent,
     RolesComponent,
     RoleaccordionComponent,
@@ -139,7 +136,6 @@ const routes: Route[] = [
     // BotWelcomeComponent,
     ReportDisplayComponent,
     ReportControlsComponent,
-    ChatPreviewNewPageComponent,
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,

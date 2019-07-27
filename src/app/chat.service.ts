@@ -18,7 +18,7 @@ import {IBot} from './core/interfaces/IBot';
 import {EBotType, UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
-import {LoggingService} from './logging.service';
+import {ELogType, LoggingService} from './logging.service';
 import {EventService} from './event.service';
 
 declare var IMI: any;
@@ -177,7 +177,6 @@ export class ChatService {
 
     const msgCallBack = {// messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
-        LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
         let statusMessage = null;
         if (statuscode === 2) {
           statusMessage = 'Connected';
@@ -186,7 +185,7 @@ export class ChatService {
         } else {
           statusMessage = 'Not Connected';
         }
-
+        LoggingService.log(`msgCallBack,onConnectionStatusChanged ${statuscode} : ${statusMessage}`, ELogType.log);
       },
       onMessageReceived: function (message) {
 

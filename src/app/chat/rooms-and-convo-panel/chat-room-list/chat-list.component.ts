@@ -34,7 +34,7 @@ export class ChatListComponent implements OnInit {
       if (!chatSessionState || !chatSessionState.rooms) { return; }
       this.chatsessionstate = chatSessionState;
       chatSessionState.rooms.sort(SortService.sortMessageList);
-      const x = this.rooms = chatSessionState.rooms;
+      this.rooms = chatSessionState.rooms;
       this.rooms = [...this.rooms];
     });
   }

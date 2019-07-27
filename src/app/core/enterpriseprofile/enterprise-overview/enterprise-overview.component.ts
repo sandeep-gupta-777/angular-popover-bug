@@ -235,12 +235,9 @@ export class EnterpriseOverviewComponent implements OnInit {
   }
 
   expireServiceKey() {
-    const data = this.expireServicekeyData;
-    // console.log(data.data)
     const disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
     const body = {service_key: this.expireServicekeyData.key};
     const headerData: IHeaderData = {'content-type': 'application/json'};
-    //
     this.serverService.makePostReq<any>({url: disableServiceKeyUrl, body, headerData})
       .subscribe((value) => {
         this.serviceKeys = this.serviceKeys.map((item) => {

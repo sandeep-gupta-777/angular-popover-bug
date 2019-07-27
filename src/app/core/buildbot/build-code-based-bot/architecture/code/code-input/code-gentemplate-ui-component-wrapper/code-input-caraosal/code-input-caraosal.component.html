@@ -1,10 +1,6 @@
-<!--<button (click)="test(carausalForm)">button</button>-->
-
 <input type="text" hidden #activeDropdownButtonIndex [value]="-1">
 
 <form #carausalForm="ngForm" class="row mx-0 px-1 w-100 bg-white template-output-scroll-container">
-
-  <!--<input appUrlValidator ngModel name="test">-->
   <div class="d-flex w-100">
     <div class="d-flex align-items-center">
       <span class="fa fa-picture-o mr-1" style="font-size: 15px; color: #9b9b9b"></span>
@@ -60,7 +56,6 @@
             <li class="list-group-item limit-three-lines flex-column align-items-start cursor-pointer">
               <input appUrlValidator type="text" name="image_url" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
               <div class="d-flex justify-content-between w-100">
-                <!--<span class="faded-text">{{carousalItem?.image_url?.length || 0}}/80</span>-->
                 <em class="faded-text text-danger" *ngIf="!(carousalItem?.image_url|checkImageValidity)">Invalid
                   image</em>
               </div>
@@ -79,10 +74,6 @@
           </ul>
 
           <ul class="list-group list-group-flush p-0 px-1  align-items-center">
-            <!--<li class="list-group-item limit-three-lines w-100 px-0 py-1 border cursor-pointer"-->
-            <!--style="margin-top: 6px;" *ngFor="let button of carousalItem.button">-->
-            <!--{{button.title}}-->
-            <!--</li>-->
 
             <li *ngFor="let button of carousalItem.button; let buttonIndex = index;"
                 (clickOutside)="activeDropdownButtonIndex.value = -1"
@@ -117,8 +108,6 @@
                       </mat-form-field>
                     </li>
                     <li class="d-flex" style="font-size: 11px">
-                      <!--<button class="btn-theme btn-theme-success-sm-outline mx-1" (click)="dropdown.hide()">Cancel</button>-->
-                      <!--<button class="btn-theme btn-theme-success-sm">Save</button>-->
                       <span [ngClass]="{'cursor-not-allowed':!btnConfigForm.valid}" class="mr-1">
                       <span (click)="saveButtonConfig(btnConfigForm, carouselIndex, buttonIndex, activeDropdownButtonIndex)"
                             [ngClass]="{'cursor-pointer-event-none':!btnConfigForm.valid,'cursor-pointer':btnConfigForm.valid, 'text-primary':btnConfigForm.valid, 'text-muted': !btnConfigForm.valid}">

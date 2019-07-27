@@ -42,14 +42,6 @@
                                                  [bot]="bot"></app-faq-handover-and-interface-form>
         </mat-tab>
 
-        <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
-            <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Ml model</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
-            </ng-template>
-            <app-faq-ml-model-form [formGroup]="securityForm"></app-faq-ml-model-form>
-        </mat-tab> -->
-
         <ng-container *appMyIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
                 <ng-template mat-tab-label>
@@ -64,9 +56,6 @@
                         [bot]="bot"></app-integration-option-list>
             </mat-tab>
         </ng-container>
-        <!--<mat-tab label="Avatars" *ngIf="!(bot_type===myEBotType.intelligent)">-->
-            <!--<app-avator-form (pipelineDataChangeHandler$)="pipelineDataChangeHandler$.emit($event)" [bot]="bot"></app-avator-form>-->
-        <!--</mat-tab>-->
     </mat-tab-group>
 
 </div>

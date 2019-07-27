@@ -47,7 +47,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   subTabChanged(selectedSubTab) {
     this.textType = selectedSubTab;
     setTimeout(() => {
-      // this.quickReplyForm.form.patchValue(this.quick_reply);;
+      // this.quickReplyForm.form.patchValue(this.quick_reply);
     });
   }
 
@@ -63,7 +63,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
 
   saveQuickReplyForm(quickReplyForm) {
 
-    const {textType, content_type} = quickReplyForm.value;
+    const {content_type} = quickReplyForm.value;
     let excludedKeys: string[] = [];
     let newQuickReplyFormValue = JSON.parse(JSON.stringify(quickReplyForm.value));
     if (content_type === EQuickReplyTypes.phone || content_type === EQuickReplyTypes.email) {

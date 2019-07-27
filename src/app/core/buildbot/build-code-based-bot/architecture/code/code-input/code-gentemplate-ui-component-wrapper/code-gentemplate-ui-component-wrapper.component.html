@@ -1,7 +1,3 @@
-<!--<a class="vscode-opener" [title]="myNameDebug()" [href]="logDebug()|safeUrl">x</a>-->
-<!--<p>{{outputItem.include|json}}</p>-->
-<!--<p>{{selectedChannel}}</p>-->
-<!--<p>{{outputItem.include|hasChannel:selectedChannel}}</p>-->
 <div class="d-flex show-on-hover-wrapper flex-wrap" *ngIf="outputItem?.include|hasChannel:selectedChannel">
   <div class="controls d-flex flex-column justify-content-between align-items-start"
        [ngClass]="{'always-show':selected, 'show-on-hover-item':!selected}"

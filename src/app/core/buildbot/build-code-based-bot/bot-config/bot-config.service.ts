@@ -167,9 +167,6 @@ export class BotConfigService {
 
   getIntegrationForm(bot: IBot) {
     /*nested form example: https://stackblitz.com/github/Josh-Hicks/NBA-team-app*/
-    const formGroup = this.formBuilder.group({});
-    const integrations = bot.integrations;
-
     const x = this.integration_types.reduce((aggr_temp, integration_type) => {
       const types: string[] = this.getTypesForIntegrationType(integration_type);
       const modalGroups = types.map((type: string) => {

@@ -578,7 +578,7 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = dd + '/' + mm + '/' + yyyy);
+    return (dd + '/' + mm + '/' + yyyy);
   }
 
   convertDateObjectStringToDDMMYY(dateStr: any = '', delimiter = '/') {
@@ -596,7 +596,7 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = dd + delimiter + mm + delimiter + yyyy);
+    return (dd + delimiter + mm + delimiter + yyyy);
 
   }
 
@@ -615,7 +615,6 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    // return (today = dd + delimiter + mm + delimiter + yyyy);
     return (today = yyyy + delimiter + mm + delimiter + dd);
 
   }
@@ -1564,13 +1563,13 @@ export class UtilityService {
 
     const elem: any = document.documentElement;
     if (elem.requestFullscreen) {
-      const x = elem.requestFullscreen();
+      elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
-      const x = elem.mozRequestFullScreen();
+      elem.mozRequestFullScreen();
     } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      const x = elem.webkitRequestFullscreen();
+      elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      const x = elem.msRequestFullscreen();
+      elem.msRequestFullscreen();
     }
   }
 
@@ -1578,15 +1577,14 @@ export class UtilityService {
   closeFullscreen() {
     const myDocument: any = document;
     if (myDocument.exitFullscreen) {
-      const x = myDocument.exitFullscreen();
+      myDocument.exitFullscreen();
     } else if (myDocument.mozCancelFullScreen) { /* Firefox */
-      const x = myDocument.mozCancelFullScreen();
+      myDocument.mozCancelFullScreen();
     } else if (myDocument.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      const x = myDocument.webkitExitFullscreen();
+      myDocument.webkitExitFullscreen();
     } else if (myDocument.msExitFullscreen) { /* IE/Edge */
-      const x = myDocument.msExitFullscreen();
+      myDocument.msExitFullscreen();
     }
-
   }
 
   deDupPrimitiveArray(arr: any[]) {

@@ -153,7 +153,6 @@ export class SessionDetailModelComponent implements OnInit {
       const surl = this.constantsService.getSessionsByIdUrl(activeBotRoomId);
       this.serverService.makeGetReq({url: surl, headerData})
         .subscribe((newSession: ISessionItem) => {
-          const murl = this.constantsService.getSessionsMessageUrl(newSession.id);
           this.serverService.makeGetReq({url: surl, headerData})
             .subscribe((value: ISessionMessage) => {
               const activeBotMessage = value.objects.find(message => message.transaction_id === this.transactionIdSelectedInModel);
@@ -252,7 +251,6 @@ export class SessionDetailModelComponent implements OnInit {
       this.searchEnterPressedCount = 0;
     }
     if (elementDataToScroll) {
-      const didScrollOccur = this.scroll(elementDataToScroll.transaction_id);
       this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
     }
   }
@@ -403,7 +401,6 @@ export class SessionDetailModelComponent implements OnInit {
     let transactionsCount: number;
     transactionsCount = this.scrollDown ? this.sessionMessageDataCopy.length - 1 : 0;
     const lastTransactionId = this.sessionMessageDataCopy[transactionsCount].transaction_id;
-    const lastElement = document.getElementsByClassName(lastTransactionId);
     this.scroll(lastTransactionId);
     this.scrollDown = !this.scrollDown;
   }

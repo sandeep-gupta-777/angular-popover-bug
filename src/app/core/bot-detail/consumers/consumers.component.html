@@ -16,32 +16,6 @@
 </ng-container>
 <app-imi-loader *ngIf="showLoader "></app-imi-loader>
 
-<!--
-<ng-template #Primarytemplat>
-  <div class="primary-modal">
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <label for="" class="mr-1">Reason</label>
-          <input autofocus type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
-                 name="decryptReason">
-        </div>
-        <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                (click)="decryptSubmit();dialogRefWrapper.ref.close()">Submit
-        </button>
-      </form>
-    </div>
-  </div>
-</ng-template> -->
-
-
 <app-splash-screen *ngIf="consumerItems && consumerItems.length===0"
                    [imageHRef]="myESplashScreens.consumers"
                    headingText="No consumers found"

@@ -11,7 +11,6 @@ import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2
 @Component({
   selector: 'app-analysis2-usage',
   templateUrl: './analysis2-usage.component.html',
-  styleUrls: ['./analysis2-usage.component.scss']
 })
 export class Analysis2UsageComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
@@ -50,7 +49,7 @@ export class Analysis2UsageComponent implements OnInit {
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
 
           this.chartValue =
-            <any>this.u.convertDateTimeGraph(
+            this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),

@@ -21,7 +21,6 @@
         <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
       <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
       (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
-                          <!-- (clickedOnArticle)="clickedOnArticle($event)" -->
       <div class="ml-auto"></div>
       <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2" [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
         Link and save

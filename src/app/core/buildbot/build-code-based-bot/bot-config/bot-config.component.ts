@@ -19,7 +19,6 @@ import {ModalConfirmComponent} from '../../../../modal-confirm/modal-confirm.com
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
     return !!(control && control.invalid);
   }
 }

@@ -8,9 +8,6 @@ import {ErrorStateMatcher} from '@angular/material';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    if ('s' === control.value) {
-
-    }
     return control.invalid && control.touched;
   }
 }

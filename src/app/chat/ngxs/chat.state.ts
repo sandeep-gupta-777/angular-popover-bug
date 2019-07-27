@@ -1,27 +1,23 @@
 import {Action, State, StateContext} from '@ngxs/store';
 import {ConstantsService} from '../../constants.service';
 import {
-  AddNewRoom,
-  // AddMessagesToRoomByUId,
-  ChangeFrameAction,
-  ResetChatState,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
-  SetCurrentUId,
-  SetCurrentRoomID,
-  ToggleChatWindow,
-  // AttachRoomIdToRoomByUId,
-  // SetLastTemplateKeyToRoomByUId,
-  DeleteChatRoomsByBotId,
   AddMessagesToRoomByRoomId,
-  SetLastTemplateKeyToRoomByRoomId,
-  SetConsumerDetail,
+  AddNewRoom,
   ChangeBotIsThinkingDisplayByRoomId,
+  ChangeFrameAction,
+  DeleteChatRoomsByBotId,
+  ResetChatState,
+  SetConsumerDetail,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  SetCurrentRoomID,
+  SetCurrentUId,
+  SetLastTemplateKeyToRoomByRoomId,
+  ToggleChatWindow,
   UpdateBotMessage,
   UpdateConsumerByRoomId
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {MyToasterService} from '../../my-toaster.service';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export const defaultChatState: IChatSessionState = {
   frameEnabled: EChatFrame.WELCOME_BOX,
@@ -71,7 +67,6 @@ export class ChatSessionStateReducer {
 
   @Action(SetConsumerDetail)
   setConsumerDetail({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetConsumerDetail) {
-    const state: IChatSessionState = getState();
     patchState({consumerDetails: payload});
   }
 
@@ -159,23 +154,6 @@ export class ChatSessionStateReducer {
     patchState({rooms});
   }
 
-  // @Action(AddMessagesToRoomByUId)
-  // addMessagesToRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoomByUId) {
-  //   let state = getState();
-  //   let rooms = state.rooms;
-  //   let room_id =payload.roomId;
-  //   let room: IRoomData = (rooms && (rooms.find((room) => room.roomId === room_id)));
-  //
-  //   room.messageList = [...room.messageList, ...payload.messageList];
-  //   // state.currentBotDetails = {
-  //   //   ...state.currentBotDetails,
-  //   //   roomId: payload.bot_id,
-  //   //   token: payload.bot_access_token,
-  //   // };
-  //   setState({...state});
-  //
-  // }
-
   @Action(AddMessagesToRoomByRoomId)
   addMessagesToRoomByRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoomByRoomId) {
     const state = getState();
@@ -224,16 +202,12 @@ export class ChatSessionStateReducer {
 
   @Action(ResetChatState)
   resetChatState({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>) {
-    const state: IChatSessionState = getState();
-    const x = defaultChatState;
-
-    setState(x);
+    setState(defaultChatState);
   }
 
   @Action(DeleteChatRoomsByBotId)
   deleteRoomsByBotId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: DeleteChatRoomsByBotId) {
     const state = getState();
-    const rooms = state.rooms;
     const botId = payload.id;
     /*
     * As of now there can be only one current bot in the application.

@@ -20,13 +20,6 @@ import { EAllActions } from '../../../../../typings/enum';
                      placeholder="Consent disclaimer message">
           </mat-form-field>
 
-          <!--<app-bot-config-input-->
-                  <!--style="margin-bottom: 20px"-->
-                  <!--displayName="Consent disclaimer message"-->
-                  <!--placeholder="Consent disclaimer message"-->
-                  <!--[isDisabled]="!formGroup.get('advanced_data_protection').value"-->
-                  <!--formControlName="consent_message"></app-bot-config-input>-->
-
           <div class="switch-wrapper" style="margin-bottom: 20px">
               <div class="form-control d-flex flex-column">
                   <label class="pr-2">Allow anonymization

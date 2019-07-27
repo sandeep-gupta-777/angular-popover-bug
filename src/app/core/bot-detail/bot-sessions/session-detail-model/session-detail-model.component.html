@@ -52,16 +52,6 @@
           </div>
       </div>
 
-      <!-- <div class="search-theme-input-with-search">
-                <input [ngModel]="messageSearchKeyword"
-                       (ngModelChange)="scrollToFirstKeywordMatch($event)"
-                       (keyup.enter)="goToNextSearchResult(messageSearchKeyword)"
-                       (keyup.shift.enter)="goToPreviousSearchResult(messageSearchKeyword)"
-                       id="search-session-model" type="search"
-                       placeholder="search">
-                <span class="fa fa-search"></span>
-            </div> -->
-      <!--search input ends-->
       <div class="session-messages-container row m-0 my-2 p-1 align-items-start align-content-start">
         <span class="fa" [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}"
           *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5" (click)="scrollMessageList()"></span>
@@ -70,7 +60,7 @@
                *ngFor="let txnConversationItems of sessionMessageDataCopy|serializeSessionMessage|highlightSessionTexts:messageSearchKeyword; let i=index; trackBy:trackByIndex"
             [ngClass]="{'border-selected-txn':txnConversationItems.transaction_id === transactionIdSelectedInModel,
 'border-unselected-txn':txnConversationItems.transaction_id !== transactionIdSelectedInModel}">
-            <!--<app-chat-feedback></app-chat-feedback>-->
+
             <app-session-message [txnConversationItems]="txnConversationItems"
             [bot]="bot"
             (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>
@@ -116,6 +106,5 @@
       </div>
       <app-code-editor *ngIf="codeText" class="child-expand" [text]="{ text: codeText|json}"></app-code-editor>
     </div>
-    <!--</div>-->
   </div>
 </section>

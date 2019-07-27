@@ -64,7 +64,6 @@
            data-cy="header-switch-enterprise"
            (click)=changeEnterprise(changeEnterpriseModal)
            *ngIf="enterpriseList && enterpriseList.length > 1">Switch enterprise</a>
-        <!--<mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>-->
         <a mat-menu-item class="header-dropdown-item"
            data-cy="header-enterprise-profile"
            *appMyIf="myEAllActions['Get Enterprise']"

@@ -65,7 +65,7 @@
 
     </div>
     <!--tabs end-->
-    <!---->
+
     <!--architeture starts-->
     <div class="col-12 p-0" style="height: 85%" *ngIf="selectedTab==='architecture' &&  bot ">
       <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *appMyIf="[
@@ -102,15 +102,8 @@
             <app-pipeline
               (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
               [bot]="bot"></app-pipeline>
-            <!--<app-knowledge-base (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
-            <!--[bot]="bot"></app-knowledge-base>-->
             <app-knowledge-base-wrapper [bot]="bot"
                                         *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
-
-            <!--<app-code-input (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='code'"-->
-                            <!--[bot]="bot"></app-code-input>-->
-            <!--<app-integration-option-list (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='integration'"-->
-                                         <!--[bot]="bot"></app-integration-option-list>-->
           </div>
 
         </div>

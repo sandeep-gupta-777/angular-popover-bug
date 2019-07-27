@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
       chat-bot-thinking works!
     </p>
   `,
-  styleUrls: ['./chat-bot-thinking.component.scss']
 })
 export class ChatBotThinkingComponent implements OnInit {
 
