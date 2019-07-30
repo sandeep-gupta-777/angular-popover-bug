@@ -28,7 +28,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
   }
 
   set tableData(val) {
-    alert('BotSessionSmartTableModal: use refreshData instead');
+    //alert('BotSessionSmartTableModal: use refreshData instead');
     throw 'BotSessionSmartTableModal: use refreshData instead';
   }
 

@@ -20,7 +20,7 @@ export class ConsumerSmartTableModal extends AbstractSmartTable {
   }
 
   set tableData(val) {
-    alert('ConsumerSmartTableModal: use refreshData instead');
+    //alert('ConsumerSmartTableModal: use refreshData instead');
     throw 'ConsumerSmartTableModal: use refreshData instead';
   }
 

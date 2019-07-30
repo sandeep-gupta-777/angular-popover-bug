@@ -16,7 +16,7 @@ export class OverlayComponent implements OnInit {
   ngOnInit() {
   }
   test(){
-    alert()
+    //alert()
   }
 
 }

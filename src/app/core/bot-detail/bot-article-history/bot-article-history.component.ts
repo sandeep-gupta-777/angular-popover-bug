@@ -78,7 +78,7 @@ export class BotArticleHistoryComponent implements OnInit {
     let { index, action, corpus_id } = this.getClickedActionDetails($event.target as HTMLElement);
     if (!index || !action || !corpus_id) return;
 
-    // alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
+    // //alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
     if (action == 'makelive') {
       this.makeCorpusLive(corpus_id);
     }

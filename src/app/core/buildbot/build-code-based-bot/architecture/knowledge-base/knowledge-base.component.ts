@@ -395,7 +395,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   }
 
   test(){
-    alert();
+    //alert();
   }
 
   log(selectedRowData) {
