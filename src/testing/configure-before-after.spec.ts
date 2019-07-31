@@ -1,10 +1,10 @@
-import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {ChatFeedbackComponent} from "../app/chat-feedback/chat-feedback.component";
-import {MatIcon, MatIconModule} from "@angular/material";
-import {NO_ERRORS_SCHEMA} from "@angular/core";
-import {RouterModule} from "@angular/router";
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ChatFeedbackComponent} from '../app/chat-feedback/chat-feedback.component';
+import {MatIcon, MatIconModule} from '@angular/material';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {RouterModule} from '@angular/router';
 //
-export function configure(modules:{imports:any[], declarations:any[], providers?:any[]}) {
+export function configure(modules: {imports: any[], declarations: any[], providers?: any[]}) {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       ...modules,
@@ -16,7 +16,7 @@ export function configure(modules:{imports:any[], declarations:any[], providers?
 }
 
 export function getTextContent(fixture) {
-  return fixture.debugElement.nativeElement.textContent
+  return fixture.debugElement.nativeElement.textContent;
 }
 
 export function getElementByDataAttr(fixture, attr) {

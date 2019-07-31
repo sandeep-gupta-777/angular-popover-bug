@@ -13,9 +13,9 @@ import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
-import {BotSessionSmartTableModal} from "../bot-sessions/bot-session-smart-table-modal";
-import {ConsumerSmartTableModal} from "./consumer-smart-table-modal";
-import {EAllActions} from "../../../typings/enum";
+import {BotSessionSmartTableModal} from '../bot-sessions/bot-session-smart-table-modal';
+import {ConsumerSmartTableModal} from './consumer-smart-table-modal';
+import {EAllActions} from '../../../typings/enum';
 import { ESortDir } from '../../../smart-table/smart-table.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class ConsumersComponent implements OnInit {
   showLoader = false;
   isDeCryptAuditAccessDenied = false;
   consumerItems: IConsumerItem[];
-  consumersDecrypted: IConsumerItem; //IConsumerItem
+  consumersDecrypted: IConsumerItem;
   isFullscreen: false;
   consumerItemToBeDecrypted: IConsumerItem;
   // decryptReason: string;
@@ -101,16 +101,16 @@ export class ConsumersComponent implements OnInit {
           message: 'Use the decryption key to decrypt this consumer',
           title: `Decrypt consumer`,
           isActionButtonDanger: false,
-          inputDescription: "Key"
+          inputDescription: 'Key'
         },
         dialog: this.matDialog,
         component: ModalConfirmComponent
-      }).then((data) => {
-        if (data) {
+      }).then((data_temp) => {
+        if (data_temp) {
           // this.decryptSubmit()
-          this.decryptSubmit(data);
+          this.decryptSubmit(data_temp);
         }
-      })
+      });
     }
   }
 
@@ -130,12 +130,12 @@ export class ConsumersComponent implements OnInit {
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
         decryptKey = '';
-        const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
+        const url_temp = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
           .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
           .subscribe((value: { objects: IConsumerItem[] }) => {
             this.consumersDecrypted = value.objects[0];
-            const index = this.consumerItems.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
+            const index = this.consumerItems.findIndex((value_temp) => value_temp.id === this.consumerItemToBeDecrypted.id);
             this.consumerItems[index] = this.consumersDecrypted;
             this.sessionsSmartTableDataModal.refreshData(this.consumerItems);
           });

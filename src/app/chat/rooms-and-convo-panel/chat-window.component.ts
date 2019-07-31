@@ -21,7 +21,7 @@ export class ChatWindowComponent implements OnInit {
     bot_message_id: null,
   }];
 
-  _allow_feedback: boolean = false;
+  _allow_feedback = false;
   @Input() set allow_feedback(val) {
     this._allow_feedback = val;
   }
@@ -50,7 +50,7 @@ export class ChatWindowComponent implements OnInit {
   }
 
   feedback(messageData: IMessageData, isLiked: boolean) {
-    let body = {
+    const body = {
       'bot_message_id': messageData.bot_message_id,
       'feedback': isLiked ? 'POSITIVE' : 'NEGATIVE'
     };

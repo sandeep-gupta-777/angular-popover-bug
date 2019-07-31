@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ResetBuildBotToDefault, SaveNewBotInfo_CodeBased, SaveNewBotInfo_PipelineBased} from './ngxs/buildbot.action';
+import {ResetBuildBotToDefault, SaveNewBotInfoCodeBased, SaveNewBotInfoPipelineBased} from './ngxs/buildbot.action';
 import {IBot} from '../interfaces/IBot';
 import {IBotCreationState} from './ngxs/buildbot.state';
 import {Select, Store} from '@ngxs/store';
@@ -11,7 +11,7 @@ import {EBotType, UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.service';
-import {CODE_BASED_DEFAULT_ICON, PIPELINE_DEFAULT_ICON} from "../../asset.service";
+import {CODE_BASED_DEFAULT_ICON, PIPELINE_DEFAULT_ICON} from '../../asset.service';
 
 import {MatDialog} from '@angular/material';
 import { SideBarService } from 'src/app/side-bar.service';
@@ -21,14 +21,14 @@ import { SideBarService } from 'src/app/side-bar.service';
   styleUrls: ['./buildbot-wrapper.component.scss']
 })
 export class BuildbotWrapperComponent implements OnInit {
-  tag = "BuildbotWrapperComponent";
+  tag = 'BuildbotWrapperComponent';
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   formValidNumber = -1;
   bot: IBot = {};
-  bot_type:EBotType = EBotType.chatbot;
+  bot_type: EBotType = EBotType.chatbot;
   formGroup: FormGroup;
-  dialogRefWrapper = {ref:null};
+  dialogRefWrapper = {ref: null};
   @Output() datachanged$ = new EventEmitter();
   activeTab = 0;
   headings = [
@@ -44,6 +44,7 @@ export class BuildbotWrapperComponent implements OnInit {
     'Provide the neccesary details to complete bot creation'
   ];
   description = this.descriptions[0];
+  loading = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -76,7 +77,7 @@ export class BuildbotWrapperComponent implements OnInit {
   faqbotBuildForm: FormGroup;
   ngOnInit() {
     this.bot_type = (this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type) as EBotType;
-    if(this.bot_type === EBotType.faqbot){
+    if (this.bot_type === EBotType.faqbot) {
       this.description = this.descriptions[3];
     }
     this.faqbotBuildForm = this.botConfigService.getFaqbotBuildForm(this.bot);
@@ -85,32 +86,29 @@ export class BuildbotWrapperComponent implements OnInit {
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
     SideBarService.init(this);
     this.stageValidObj = {
-      0:this.basicInfoForm.valid,
-      1:this.dataManagementForm.valid,
-      2:this.securityForm.valid
+      0: this.basicInfoForm.valid,
+      1: this.dataManagementForm.valid,
+      2: this.securityForm.valid
     };
 
 
-    this.basicInfoForm.valueChanges.subscribe(()=>this.stageValidObj[0] = this.basicInfoForm.valid);
-    this.dataManagementForm.valueChanges.subscribe(()=>this.stageValidObj[1] = this.dataManagementForm.valid);
-    this.securityForm.valueChanges.subscribe(()=>this.stageValidObj[2] = this.securityForm.valid);
-    this.faqbotBuildForm.valueChanges.subscribe(()=>this.stageValidObj[0] = this.faqbotBuildForm.valid);
+    this.basicInfoForm.valueChanges.subscribe(() => this.stageValidObj[0] = this.basicInfoForm.valid);
+    this.dataManagementForm.valueChanges.subscribe(() => this.stageValidObj[1] = this.dataManagementForm.valid);
+    this.securityForm.valueChanges.subscribe(() => this.stageValidObj[2] = this.securityForm.valid);
+    this.faqbotBuildForm.valueChanges.subscribe(() => this.stageValidObj[0] = this.faqbotBuildForm.valid);
 
     if (this.bot_type === EBotType.intelligent) {
       this.stageValidObj = {0: false};
     }
-    if(this.bot_type === EBotType.faqbot){
-      this.stageValidObj = {0:this.faqbotBuildForm.valid};
+    if (this.bot_type === EBotType.faqbot) {
+      this.stageValidObj = {0: this.faqbotBuildForm.valid};
     }
   }
-
-  loading = false;
-
 
   createBot() {
 
     this.loading = true;
-    let combinedForm = this.bot_type === EBotType.chatbot? [this.basicInfoForm, this.dataManagementForm, this.securityForm]: this.bot_type === EBotType.faqbot? [this.faqbotBuildForm]:[this.basicInfoForm];
+    const combinedForm = this.bot_type === EBotType.chatbot ? [this.basicInfoForm, this.dataManagementForm, this.securityForm] : this.bot_type === EBotType.faqbot ? [this.faqbotBuildForm] : [this.basicInfoForm];
     const bot = UtilityService.getCombinedBotData(combinedForm);
     const url = this.constantsService.getCreateNewBot();
     bot.bot_type = this.bot_type;
@@ -124,10 +122,9 @@ export class BuildbotWrapperComponent implements OnInit {
           new ResetBuildBotToDefault()
         ]).subscribe(() => {
 
-          if(createdBot.bot_type == EBotType.faqbot){
-            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build:"articles",openPreview:true}});
-          }
-          else{
+          if (createdBot.bot_type === EBotType.faqbot) {
+            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build: 'articles', openPreview: true}});
+          } else {
             this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
           }
 
@@ -143,11 +140,11 @@ export class BuildbotWrapperComponent implements OnInit {
     const bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
     if (bot_type === EBotType.chatbot) {
       this.store.dispatch([
-        new SaveNewBotInfo_CodeBased({data: data})
+        new SaveNewBotInfoCodeBased({data: data})
       ]);
     } else {
       this.store.dispatch([
-        new SaveNewBotInfo_PipelineBased({data: data})
+        new SaveNewBotInfoPipelineBased({data: data})
       ]);
     }
   }
@@ -174,7 +171,7 @@ export class BuildbotWrapperComponent implements OnInit {
 
   nextStep(activeTab: number) {
     if (activeTab > Object.keys(this.stageValidObj).length - 1) {
-      let invalidIndex = Object.keys(this.stageValidObj).findIndex((key) => !this.stageValidObj[key]);
+      const invalidIndex = Object.keys(this.stageValidObj).findIndex((key) => !this.stageValidObj[key]);
       if (invalidIndex === -1) {
         this.createBot();
       } else {
@@ -191,33 +188,32 @@ export class BuildbotWrapperComponent implements OnInit {
     }
   }
 
-  goBack(){
+  goBack() {
     // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
-    if(this.loading) return;
+    if (this.loading) { return; }
     console.log(SideBarService.buildbotWrapperComponent);
 
     console.log(SideBarService.buildbotData_init);
-    if(SideBarService.isBuildBotDirty()){
+    if (SideBarService.isBuildBotDirty()) {
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
-      .then((data)=>{
-        if(data){
+      .then((data) => {
+        if (data) {
           this.router.navigate(['/']);
         }
-      })
+      });
 
-    }
-    else{
+    } else {
       this.router.navigate(['/']);
     }
   }
 
-  putBuildBotFinalData(){
+  putBuildBotFinalData() {
     return {
       basicInfoForm : this.basicInfoForm.value,
       dataManagementForm : this.dataManagementForm.value,
       securityForm : this.securityForm.value,
       faqbotBuildForm : this.faqbotBuildForm.value
-    }
+    };
   }
 
   updateFormValidNumber(formValidNumber, isValid: boolean) {

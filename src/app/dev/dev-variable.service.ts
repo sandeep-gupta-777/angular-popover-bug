@@ -1,3 +1,3 @@
 export class DevVariableService {
-  static highlightedRowId = 0
+  static highlightedRowId = 0;
 }

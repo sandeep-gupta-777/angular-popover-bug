@@ -1,10 +1,11 @@
+
 <div *ngIf="(loggeduser$|async) as loggedUser" class="row mx-0 my-3 pb-3 bg-white profile-row">
   <div class="profile-header col-12 p-0 pb-2 d-flex justify-content-between align-items-center">
     <h4 class=" m-0 profile-heading-text">Profile Information</h4>
-    <button class="btn-theme btn-theme-primary ml-auto mr-1" *myIf="myEAllActions['Update Password']" (click)="openChangePasswordModal(Primarytemplate)">Change
+    <button class="btn-theme btn-theme-primary ml-auto mr-1" *appMyIf="myEAllActions['Update Password']" (click)="openChangePasswordModal(Primarytemplate)">Change
       Password
     </button>
-    <button class="btn-theme btn-theme-primary" *myIf="myEAllActions['Update User']" (click)="updateProfile()">Update</button>
+    <button class="btn-theme btn-theme-primary" *appMyIf="myEAllActions['Update User']" (click)="updateProfile()">Update</button>
   </div>
 
   <form class="row" #form="ngForm">
@@ -30,7 +31,6 @@
       <span class="value non-editable">{{loggedUser.user.email}}</span>
     </div>
   </form>
-  <!---->
   <section class="row my-2">
     <div class="col-12">
       <h5 class="px-4">Advanced</h5>
@@ -93,17 +93,14 @@
         <div class="col-md-12 d-flex flex-row-reverse justify-content-center"><!--todo: hack-->
           <button type="submit" class="btn-theme btn-theme-primary" (click)="changePassword()">Modify</button>
           <button class="btn-theme btn-theme-primary-outline mr-1" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-          <!--<button class="btn-theme btn-theme-primary" (click)="changePassword()">Submit</button>-->
         </div>
 
       </form>
       <div class="row" *ngIf="!showPasswordChangeForm">
         <div class="col-md-12">
-          <i class="fa fa-check-circle"></i>
+          <span class="fa fa-check-circle"></span>
         </div>
-        <!--<div class="col-md-12 light-text"></div>-->
         <div class="col-md-12"><strong>Password Changed Successfully</strong></div>
-        <!--<div class="col-md-12">9:00 AM</div>-->
       </div>
     </div>
   </div>

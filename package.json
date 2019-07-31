@@ -13,14 +13,12 @@
     "e2e": "ng e2e",
     "fe_build": "cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && ng build --prod",
     "git": "git add . && git commit",
-    "xgit": "node xgit.js",
     "postgit": "git push",
     "server": "cd C:/Users/sandeepkumar.g/Desktop/nodebook/imibot_app_server/static && git pull && cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && npm run fe_build",
     "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/botPlateformFE/stats.json",
     "heroku": "ng build --prod && cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
     "heroku-nobuild": "cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
     "build-old": "ng build --prod && ",
-    "index": "node file-index-script.js",
     "hmr": "ng serve --port 4201 --configuration hmr",
     "develop": "ng build --configuration develop --base-href /static/",
     "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
@@ -39,7 +37,8 @@
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
     "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js",
-    "fcm1": "concat src/firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js"
+    "fcm1": "concat src/firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js",
+    "sonar": "sonar-scanner -Dsonar.projectKey=3c5017265d344cf7b8bf84c02bb983ed62944209 -Dsonar.sources=."
   },
   "private": true,
   "dependencies": {
@@ -112,9 +111,11 @@
     "node-cmd": "^3.0.0",
     "node-sass": "^4.12.0",
     "protractor": "~5.3.0",
+    "stylelint": "^10.1.0",
     "ts-loader": "^5.2.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
+    "tslint-sonarts": "^1.9.0",
     "typescript": "~3.1.6",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0"

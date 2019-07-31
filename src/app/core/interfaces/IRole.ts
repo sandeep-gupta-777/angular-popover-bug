@@ -1,4 +1,4 @@
-import { IMeta } from "./meta";
+import { IMeta } from './meta';
 // export interface IRole {
 
 //         "category" : string;
@@ -21,21 +21,21 @@ import { IMeta } from "./meta";
 
 // }
 export interface IRole {
-    "base_role": number,
-    "created_at": number,
-    "created_by":string,
-    "description"? : string,
-    "enterprise_id": number,
-    "id": number,
-    "is_system_role": boolean,
-    "name":string,
-    "permissions": {
-        "actions": []
-    },
-    "resource_uri":string,
-    "session_expiry_time": number,
-    "updated_at": number,
-    "updated_by":string,
+    'base_role': number;
+    'created_at': number;
+    'created_by': string;
+    'description'?: string;
+    'enterprise_id': number;
+    'id': number;
+    'is_system_role': boolean;
+    'name': string;
+    'permissions': {
+        'actions': []
+    };
+    'resource_uri': string;
+    'session_expiry_time': number;
+    'updated_at': number;
+    'updated_by': string;
 }
 export interface IRoleResult {
     'meta': IMeta;

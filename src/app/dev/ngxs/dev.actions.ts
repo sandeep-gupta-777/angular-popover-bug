@@ -1,4 +1,4 @@
-import {IApi} from "../interfaces";
+import {IApi} from '../interfaces';
 
 export class AddApi {
   static readonly type = '[dev] add api';

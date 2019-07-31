@@ -2,10 +2,8 @@
     <div style="flex-basis: 20px;
     flex-shrink: 0;
     display: flex;
-    justify-content: center;"
-         (click)="show = !show"
-    >
-        <i class="fa" style="padding: 1px" [ngClass]="{'fa-angle-right': !show, 'fa-angle-down':show}"></i>
+    justify-content: center;" (click)="show = !show">
+        <span class="fa" style="padding: 1px" [ngClass]="{'fa-angle-right': !show, 'fa-angle-down':show}"></span>
     </div>
     <section class="accordion-section" (click)="show = !show" style="margin-bottom: 15px; flex-grow: 1">
         <h6 class="accordion-section__heading">

@@ -3,7 +3,7 @@ import {ConstantsService, } from './constants.service';
 import {PermissionService} from './permission.service';
 
 @Directive({
-  selector: '[readonlyselectedroles]'
+  selector: '[appReadonlySelectedRoles]'
 })
 export class HighlightDirective {
   constructor(
@@ -12,7 +12,7 @@ export class HighlightDirective {
     private permissionService: PermissionService
   ) {}
 
-  @Input() set readonlyselectedroles(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
+  @Input() set appReadonlySelectedRoles(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
 
     if (!tabNameInfo) { console.error('tabNameInfo is null or undefined'); }
     let isDenied = true;
@@ -22,7 +22,7 @@ export class HighlightDirective {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
       });
     } else {
-      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); //false;//this.constantsService.isTabAccessDenied(tabName);
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); // false;//this.constantsService.isTabAccessDenied(tabName);
     }
 
     if (isDenied) {

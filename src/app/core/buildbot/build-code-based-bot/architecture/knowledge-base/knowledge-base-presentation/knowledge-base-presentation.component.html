@@ -2,8 +2,8 @@
 
   <header>
     <div style="position: relative;padding-bottom: 16px">
-      <i class="fa fa-angle-left cursor-pointer" title="Go back"
-         style="position: absolute; left: -15px;  font-size: 19px;" (click)="goBack()"></i>
+      <span class="fa fa-angle-left cursor-pointer" title="Go back"
+         style="position: absolute; left: -15px;  font-size: 19px;" (click)="goBack()"></span>
       <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">{{ner_id ? "Edit" : "Create" }} Concept</h6>
       <p style="color: #696969; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase
         exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions;
@@ -12,8 +12,7 @@
   </header>
 
   <div class="child d-flex justify-content-between">
-    <!--<button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back-->
-    <!--</button>-->
+
     <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput
@@ -106,7 +105,7 @@
 
 
         <!-- <app-button-wrapper
-        *myIf="myEAllActions['Update Bot Versioning']"
+        *appMyIf="myEAllActions['Update Bot Versioning']"
         [disabled]="!selectedVersion || disableSave"
         data-cy="version-save"
         [status]="saveOrCreateStatus"
@@ -117,7 +116,7 @@
 
 
         <app-button-wrapper
-        *myIf="myEAllActions['Update Bot Versioning']"
+        *appMyIf="myEAllActions['Update Bot Versioning']"
         
         data-cy="version-save"
         [status]="saveOrCreateStatus"
@@ -148,7 +147,7 @@
                 style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px;padding-left:5px; padding-right:10px;"
                 [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+                *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
           <mat-icon>{{ner_id?'update':'add'}}</mat-icon>
           {{ner_id ? "Update" : "Create" }}
@@ -156,7 +155,7 @@
 
 
         <!-- <app-button-wrapper
-        *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+        *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
         data-cy="version-update"
         [status]="updateOrCreateStatus"
@@ -192,7 +191,7 @@
                 padding-left:5px; padding-right:10px;"
                 [disabled]="!form.valid"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
+                *appMyIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
           <mat-icon>update</mat-icon>
           {{ner_id ? "Update" : "Create" }}
         </button> 
@@ -204,7 +203,7 @@
 
 
       <!-- <app-button-wrapper
-        *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+        *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
         data-cy="version-update"
         [status]="updateOrCreateStatus"
@@ -216,7 +215,7 @@
 
 
       <ng-container
-              *myIf="myEAllActions['Delete Enterprise Knowledge base']">
+        *appMyIf="myEAllActions['Delete Enterprise Knowledge base']">
         <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
           <button mat-button
                   class="mat-theme-button"
@@ -228,10 +227,8 @@
         </div>
       </ng-container>
 
-      <ng-container *myIf="myEAllActions['Delete Bot Knowledge base']">
+      <ng-container *appMyIf="myEAllActions['Delete Bot Knowledge base']">
         <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
-          <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
-          <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->
           <button mat-button
                   class="mat-theme-button"
                   style="min-width: 16px!important; padding: 0"

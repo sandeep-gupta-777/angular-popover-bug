@@ -39,62 +39,12 @@
       <div *ngIf="activeTab==='history' && (reportsHistoryEmpty || reportHistoryLoading)"
            class="report-placeholder">
         <app-imi-loader *ngIf="reportHistoryLoading"></app-imi-loader>
-        <i *ngIf="reportsHistoryEmpty">No Report History</i>
+        <em *ngIf="reportsHistoryEmpty">No Report History</em>
 
       </div>
     </mat-tab>
 
   </mat-tab-group>
-
-  <!---->
-  <!--<div class="col-12" *ngIf="activeTab==='configure'">-->
-  <!--&lt;!&ndash;<div class="col-12 d-flex justify-content-end pb-2">&ndash;&gt;-->
-  <!--&lt;!&ndash;<button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>&ndash;&gt;-->
-  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-  <!--<div class="col-12" style="min-height: 50vh; position: relative">-->
-  <!--<app-smart-table-->
-  <!--*ngIf="reportSmartTableData.length>0"-->
-  <!--[data]="tableData_report"-->
-  <!--(rowClicked$)="goToReportEditComponent($event)"-->
-  <!--[totalRecords]="totalReportRecords"-->
-  <!--[currentPage]="currentPage_reports"-->
-  <!--(pageChanged$)="reportTablePageChanged($event)"-->
-  <!--[settings]="SMART_TABLE_REPORTS_SETTING">-->
-  <!--</app-smart-table>-->
-  <!--<div *ngIf="activeTab==='configure' && (reportsEmpty || reportsLoading)"-->
-  <!--class="report-placeholder">-->
-  <!--&lt;!&ndash;<i *ngIf="reportsLoading">Loading</i>&ndash;&gt;-->
-  <!--<app-imi-loader *ngIf="reportsLoading"></app-imi-loader>-->
-  <!--&lt;!&ndash;<i *ngIf="reportsEmpty">No Reports</i>&ndash;&gt;-->
-  <!--<app-splash-screen *ngIf="reportsEmpty" [imageHRef]="'report.svg'"-->
-  <!--[headingText]="'No reports available '"-->
-  <!--[descriptionText]="'Start by creating a new report'"-->
-  <!--&gt;</app-splash-screen>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-
-  <!--<div class="col-12 mt-2" *ngIf="activeTab==='history'" style="min-height: 50vh; position: relative">-->
-  <!--<div class="col-12">-->
-  <!--<app-smart-table-->
-  <!--*ngIf="reportHistorySmartTableData.length>0"-->
-  <!--[data]="tableData_history"-->
-  <!--(pageChanged$)="reportHistoryTablePageChanged($event)"-->
-  <!--[currentPage]="currentPage_reportsHistory"-->
-  <!--[totalRecords]="totalHistoryReportRecords"-->
-  <!--(customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"-->
-  <!--[settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>-->
-  <!--</div>-->
-  <!--<div *ngIf="activeTab==='history' && (reportsHistoryEmpty || reportHistoryLoading)"-->
-  <!--class="report-placeholder">-->
-  <!--<app-imi-loader *ngIf="reportHistoryLoading"></app-imi-loader>-->
-  <!--<i *ngIf="reportsHistoryEmpty">No Report History</i>-->
-
-  <!--</div>-->
-  <!--</div>-->
-
-
 </div>
 
 

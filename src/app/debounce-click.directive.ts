@@ -1,11 +1,11 @@
-import {Directive, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
+import {Directive, EventEmitter, HostListener, OnDestroy, OnInit, Output} from '@angular/core';
 import {debounceTime} from 'rxjs/operators';
 import {Subject, Subscription} from 'rxjs';
 
 @Directive({
   selector: '[appDebounceClick]'
 })
-export class DebounceClickDirective implements OnInit {
+export class DebounceClickDirective implements OnInit, OnDestroy {
   @Output() debounceClick = new EventEmitter();
   private clicks = new Subject();
   private subscription: Subscription;

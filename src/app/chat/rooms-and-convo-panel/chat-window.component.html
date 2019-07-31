@@ -24,19 +24,13 @@
     </app-chat-message>
   </div>
 </div>
-<!--<div class="footer px-3 py-1 d-flex align-items-center justify-content-between text-muted" style="height: 13%">-->
-<!--<input class="px-2" placeholder="say something..." type="text">-->
-<!--<span class="icon"><i class="fa fa-send cursor-pointer"></i></span>-->
-<!--</div>-->
+
 <!--text input starts-->
 <div *ngIf="_messageDataArray" class="footer d-flex align-items-center text-muted" style="height: 45px">
   <input class="chat-input px-2 flex-grow-1"
          cdkTrapFocus
          data-cy="chat-input"
          placeholder="Write here and press enter to send" autofocus [(ngModel)]="messageByHuman" type="text"
-         (keyup.enter)="sendMessageByHuman(messageByHuman)" style="color:	#696969"> <!--dark grey-->
-  <!--<div class="d-flex justify-content-center px-2">-->
-    <!--<span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>-->
-  <!--</div>-->
+         (keyup.enter)="sendMessageByHuman(messageByHuman)" style="color:	#696969">
 </div>
 <!--text input ends-->

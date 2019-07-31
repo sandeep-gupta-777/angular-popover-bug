@@ -23,9 +23,9 @@ import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
 import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
-import {MyToasterService} from "../../my-toaster.service";
+import {MyToasterService} from '../../my-toaster.service';
 import {LoggingService} from '../../logging.service';
-import {LoadJsService} from "../../core/load-js.service";
+import {LoadJsService} from '../../core/load-js.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -89,8 +89,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     let userValue = null;
 
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
-    let token = this.activatedRoute.snapshot.queryParamMap.get('token');
-    let action = this.activatedRoute.snapshot.queryParamMap.get('action');
+    const token = this.activatedRoute.snapshot.queryParamMap.get('token');
+    const action = this.activatedRoute.snapshot.queryParamMap.get('action');
     if (token && (action === ELoginPanels.reset || action === ELoginPanels.set)) {
       this.panelActive = action;
     }
@@ -128,8 +128,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
           return this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]).pipe(tap(() => {
-            return this.serverService.getNSetBotList()
-          }))
+            return this.serverService.getNSetBotList();
+          }));
         } else {
           return this.serverService.getNSetBotList();
         }
@@ -232,7 +232,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       body = this.loginForm.value;
     } else {
       this.flashErrorMessage('Details not valid');
-      this.disabeLoginButton = false;;
+      this.disabeLoginButton = false;
       return;
     }
     this.disabeLoginButton = true;
@@ -245,7 +245,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             this.userData = user;
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
             if (this.userData.enterprises.length <= 1) {
-              let enterpriseDate = {
+              const enterpriseDate = {
                 enterpriseId: this.userData.enterprises[0].enterprise_id.id,
                 roleId: this.userData.enterprises[0].role_id.id,
                 isActive: this.userData.is_active
@@ -297,7 +297,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         'auth-token': this.userData.auth_token
       };
 
-      return this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData})
+      return this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData});
       // .pipe(
       //   switchMap((value) => {
       //     this.gotUserData$.emit(value);
@@ -315,19 +315,19 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.enterEnterprise(Enterprise)
       .subscribe((value) => {
         this.gotUserData$.emit(value);
-      })
+      });
   }
 
   enterpriseLogout() {
     this.panelActive = ELoginPanels.login;
     this.disabeLoginButton = false;
-    this.errorMessage = "";
-    this.infoMessage = "";
+    this.errorMessage = '';
+    this.infoMessage = '';
   }
 
   loginWithCustomEmail(email) {
-    this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
-    this.loginSubmitHandler();
+    // this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
+    // this.loginSubmitHandler();
   }
 
   backToLogin() {

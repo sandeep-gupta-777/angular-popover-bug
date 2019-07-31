@@ -8,7 +8,7 @@
     style="text-decoration: none; padding: 0px 8px 0px 16px"
     (click)="goBackToDashboard()"
   >
-    <i class="fa fa-angle-left" title="Go to Dashboard"></i>
+    <span class="fa fa-angle-left" title="Go to Dashboard"></span>
   </div>
   <img
     class="row-bot-detail-header__bot-logo"
@@ -20,14 +20,14 @@
   <div class="row-bot-detail-header__bot-details">
     <div [title]="bot.name.length > 90 ? bot.name : ''" style="display: flex">
       {{ (bot.name | slice: 0:90) + (bot.name.length > 90 ? '...' : '') }}
-      <i
+      <span
         class="fa fa-circle"
         [ngClass]="{
           'dark-green': !bot.bot_disabled_settings?.bot_disabled,
           'dark-orange': bot.bot_disabled_settings?.bot_disabled
         }"
         style="margin-left: 2px; font-size: 6px"
-      ></i>
+      ></span>
     </div>
     <div style="font-size: 11px">
       <span>Update on </span> {{ bot.updated_at | date: 'd MMM, yy' }} by
@@ -51,7 +51,7 @@
     style="margin-right: 10px"
   ></app-integration-channel-list>
 
-  <!--<span *myIf="myEAllActions['Get Integrations']">-->
+  <!--<span *appMyIf="myEAllActions['Get Integrations']">-->
   <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
   <!--[src]="integrationsMasterListItem?.icon"-->
   <!--class="logo-image " style="width: 16px;height: 16px" alt="">-->
@@ -69,12 +69,12 @@
     [inCuration]="false"
   ></app-faq-search-box>
 
-  <div *myIf="myEAllActions['Send API']">
+  <div *appMyIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
     <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
     <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <ng-container *myIf="[myEAllActions['Analytics']]">
+    <ng-container *appMyIf="[myEAllActions['Analytics']]">
       <button
         *ngIf="bot.bot_type === myEBotType.chatbot"
         (click)="openAnalyticsForBot()"
@@ -128,11 +128,11 @@
       <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>Copy
       Enterprise ID
     </button>
-    <!-- <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
+    <!-- <button mat-menu-item *appMyIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
         class="fa fa-trash mr-1"></i>Delete</button> -->
     <button
       mat-menu-item
-      *myIf="[myEAllActions['Delete Bots']]"
+      *appMyIf="[myEAllActions['Delete Bots']]"
       (click)="openDeleteModal()"
     >
       <mat-icon class="mat-icon material-icons mr-1">delete</mat-icon>Delete

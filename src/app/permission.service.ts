@@ -7,7 +7,7 @@ import {IUser} from './core/interfaces/user';
 import {IAuthState} from './auth/ngxs/auth.state';
 
 import {ELogType, LoggingService} from './logging.service';
-import {EAllActions, ERoleName, EAPINames} from "./typings/enum";
+import {EAllActions, ERoleName, EAPINames} from './typings/enum';
 import {environment} from '../environments/environment';
 
 @Injectable()
@@ -81,28 +81,28 @@ export class PermissionService {
     [EAllActions['Update Bot Knowledge base']]: true,
     [EAllActions['Delete Bot Knowledge base']]: true,
     [EAllActions['GET ModuleDetail']]: true,
-  [EAllActions['Create Corpus' ]]:true,
-  [EAllActions['Update Corpus' ]]:true,
-  [EAllActions['Get Corpus' ]]:true,
-  [EAllActions['delete Corpus' ]]:true,
-  [EAllActions['Create Category' ]]:true,
-  [EAllActions['Update Category' ]]:true,
-  [EAllActions['Remove Category' ]]:true,
-  [EAllActions['Section Category Change' ]]:true,
-  [EAllActions['Make Corpus Live' ]]:true,
-  [EAllActions['Create Section' ]]:true,
-  [EAllActions['Update Section' ]]:true,
-  [EAllActions['Remove Section' ]]:true,
-  [EAllActions['Get Default Corpus' ]]:true,
-  [EAllActions['Train Corpus' ]]:true,
-  [EAllActions['Section Category Change with Category Creation' ]]:true,
-  [EAllActions['Add message to curation']]:true,
-  [EAllActions['Get FAQbot curation issues']]:true,
-  [EAllActions['Ignore curation issues']]:true,
-  [EAllActions['Link curation issues to an article']]:true,
-  [EAllActions['Add curation issues to a new article']]:true,
-  [EAllActions['Faqbot curation overview counts']]:true,
-  [EAllActions['Faqbot curation top sections']]:true,
+  [EAllActions['Create Corpus' ]]: true,
+  [EAllActions['Update Corpus' ]]: true,
+  [EAllActions['Get Corpus' ]]: true,
+  [EAllActions['delete Corpus' ]]: true,
+  [EAllActions['Create Category' ]]: true,
+  [EAllActions['Update Category' ]]: true,
+  [EAllActions['Remove Category' ]]: true,
+  [EAllActions['Section Category Change' ]]: true,
+  [EAllActions['Make Corpus Live' ]]: true,
+  [EAllActions['Create Section' ]]: true,
+  [EAllActions['Update Section' ]]: true,
+  [EAllActions['Remove Section' ]]: true,
+  [EAllActions['Get Default Corpus' ]]: true,
+  [EAllActions['Train Corpus' ]]: true,
+  [EAllActions['Section Category Change with Category Creation' ]]: true,
+  [EAllActions['Add message to curation']]: true,
+  [EAllActions['Get FAQbot curation issues']]: true,
+  [EAllActions['Ignore curation issues']]: true,
+  [EAllActions['Link curation issues to an article']]: true,
+  [EAllActions['Add curation issues to a new article']]: true,
+  [EAllActions['Faqbot curation overview counts']]: true,
+  [EAllActions['Faqbot curation top sections']]: true,
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};
@@ -135,8 +135,8 @@ export class PermissionService {
     });
 
     this.app$.subscribe((appState) => {
-      ;
-      if(!appState){
+
+      if (!appState) {
         return;
       }
       try {
@@ -152,15 +152,15 @@ export class PermissionService {
         /*for non admin roles*/
         this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/
-       try{
+       try {
          this.loggedUser.role.permissions.actions.forEach((permId: number) => {
            /*find action name for given permission roomId*/
-           if (!masterActionList) return;
+           if (!masterActionList) { return; }
            let actionName;
            try {
               actionName = masterActionList.find((action) => action.id === permId).name;
-          }catch (e) {
-             if(!environment.production){
+          } catch (e) {
+             if (!environment.production) {
                console.error(`can't find action id = ${permId} in masterActionList but its present in role > actions`);
              }
             console.log(e);
@@ -169,8 +169,8 @@ export class PermissionService {
            const y = this.forbiddenActionsToFrontEndMapping;
            delete this.forbiddenActionsToFrontEndMapping[actionName];
          });
-       }catch (e) {
-         debugger
+       } catch (e) {
+
          console.log(e);
        }
 
@@ -204,7 +204,7 @@ export class PermissionService {
 
           let addActionToUser: boolean;
           addActionToUser = action.is_default_action || !!this.loggedUser.role.permissions.actions.find((permId: number) => permId === action.id);
-          if(addActionToUser){
+          if (addActionToUser) {
             const httpVerb = action.permissions.method;
             const path = action.permissions.endpoint;
             const httpVerbPPath = httpVerb + '+' + path;
@@ -231,11 +231,11 @@ export class PermissionService {
       console.error('non valid arguments for findKeyForValueInObject()');
       return;
     }
-    const key = Object.keys(obj).find((key) => obj[key] === value);
+    const key = Object.keys(obj).find((key_temp) => obj[key_temp] === value);
     return key;
   }
 
-  isTabAccessDenied(tabName: string, accessType = '') {//route,tab
+  isTabAccessDenied(tabName: string, accessType = '') {// route,tab
     if (!tabName) {
       return false;
     }
@@ -250,7 +250,8 @@ export class PermissionService {
 
   isApiAccessDenied(url: string, httpVerb: EHttpVerbs) {
 
-    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '', pathName = this.getPathNameFromUrl(url);
+    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '';
+    const pathName = this.getPathNameFromUrl(url);
     const roleName = this.loggedUser && this.loggedUser.role.name;
     if (!url || !httpVerb) {
       console.error('invalid args for isApiAccessDenied');

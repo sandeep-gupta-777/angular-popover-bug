@@ -16,7 +16,6 @@ export interface ReportStateModel {
   }
 })
 
-//same as reducer
 export class ReportsStateReducer {
 
   @Action(SetCurrentEditedReportAction)

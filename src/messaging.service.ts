@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireMessaging } from '@angular/fire/messaging';
-import { mergeMapTo } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs'
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireMessaging} from '@angular/fire/messaging';
+import {mergeMapTo} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class MessagingService {
@@ -20,7 +20,7 @@ export class MessagingService {
         _messaging.onMessage = _messaging.onMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
-    )
+    );
   }
 
   /**
@@ -34,9 +34,9 @@ export class MessagingService {
     this.angularFireAuth.authState.pipe(take(1)).subscribe(
       () => {
         const data = {};
-        data[userId] = token
-        this.angularFireDB.object('fcmTokens/').update(data)
-      })
+        data[userId] = token;
+        this.angularFireDB.object('fcmTokens/').update(data);
+      });
   }
 
   /**
@@ -66,13 +66,13 @@ export class MessagingService {
       (payload) => {
         try {
           alert('message received. check console.');
-          console.log("new message received. ", payload);
+          console.log('new message received. ', payload);
           this.currentMessage.next(payload);
-        }catch (e) {
+        } catch (e) {
           alert('');
         }
-      }, ()=>{
+      }, () => {
         alert('error registering service workers');
-      })
+      });
   }
 }

@@ -10,7 +10,7 @@
                 <div class="banner__flow">
                     <div class="circle"
                          [ngStyle]="{'background-color': activeTab===0?'#00abd3':(activeTab>0?'#34bc6e':'#527a9e')}">
-                        <img src="assets/img/id-card-1.svg" alt="">
+                        <img src="assets/img/id-card-1.svg" alt="profile">
                     </div>
                     <div>Profile</div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="banner__flow-item">
                     <div class="circle"
                          [ngStyle]="{'background-color': activeTab===1?'#00abd3':(activeTab>1?'#34bc6e':'#527a9e')}">
-                        <img src="assets/img/gear-1.svg" alt="">
+                        <img src="assets/img/gear-1.svg" alt="management">
                     </div>
                     <div>Management</div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="banner__flow-item">
                     <div class="circle"
                          [ngStyle]="{'background-color': activeTab===2?'#00abd3':(activeTab>2?'#34bc6e':'#527a9e')}">
-                        <img style="width: 50%" src="assets/img/locked.svg" alt="">
+                        <img style="width: 50%" src="assets/img/locked.svg" alt="security">
                     </div>
                     <div>Security and privacy</div>
                 </div>
@@ -49,8 +49,10 @@
                            [selectedIndex]="activeTab"
                            (selectedIndexChange)="selectedIndexChange($event)">
                 <mat-tab label="Tab 1">
-                    <app-basic-info-form [formGroup]="basicInfoForm" *ngIf="bot_type != myEBotType.faqbot"></app-basic-info-form>
-                    <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm" *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
+                    <app-basic-info-form [formGroup]="basicInfoForm"
+                                         *ngIf="bot_type != myEBotType.faqbot"></app-basic-info-form>
+                    <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm"
+                                                 *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
                 </mat-tab>
                 <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot">
                     <app-data-manage-form [formGroup]="dataManagementForm" [isBuildBot]="true"></app-data-manage-form>
@@ -61,7 +63,7 @@
             </mat-tab-group>
 
             <div (click)="goBack()" class="go-back-button">
-                <i class="fa fa-times"></i>
+                <span class="fa fa-times"></span>
             </div>
             <button *ngIf="activeTab>0" mat-button style="position: absolute;top: 90%;left: 0"
                     (click)="activeTab = activeTab>0?activeTab-1:activeTab">
@@ -70,7 +72,8 @@
             </button>
 
 
-            <button class="next-button" mat-raised-button [disabled]="stageValidObj[activeTab] === false || loading" color="primary"
+            <button class="next-button" mat-raised-button [disabled]="stageValidObj[activeTab] === false || loading"
+                    color="primary"
                     (click)="nextStep(activeTab+1)" type="button">
                 {{activeTab < myObject.keys(stageValidObj).length - 1 ? 'Continue' : 'Done'}}
                 <mat-icon *ngIf="!loading">arrow_right</mat-icon>

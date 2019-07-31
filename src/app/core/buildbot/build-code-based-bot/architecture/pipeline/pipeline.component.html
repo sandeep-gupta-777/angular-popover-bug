@@ -1,7 +1,6 @@
 <section class="pipeline-section" *ngIf="pipelineModulesV2List">
     <header>
         <div class="hide-phone">Select the modules to add in the bot intelligence pipeline and save to update the pipeline</div>
-        <!--<button mat-flat-button style="margin-left: auto" class="mat-theme-button" color="primary" (click)="updateBot()">Update Pipeline</button>-->
       <app-button-wrapper (btnClick)="updateBot()"
                           [status]="updateBotStatus"
                           [text]="'Update Pipeline'" style="margin-left: auto"></app-button-wrapper>
@@ -13,8 +12,8 @@
                  (click)="toggleExpandAllModules()">
                 <span class="mr-1" style="font-size: 11px">{{allMatExpansionExpanded ? 'Collapse' : 'Expand'}}
                     All</span>
-                <i style="align-items: baseline;font-size: 9px" class="fa"
-                   [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></i>
+                <span style="align-items: baseline;font-size: 9px" class="fa"
+                   [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></span>
             </div>
 
             <mat-form-field class="hide-phone" style="margin-bottom: -3px" floatLabel="never">
@@ -58,7 +57,7 @@
                      style="padding: 8px"
                      class="mr-3 module-box" [ngClass]="{'border-custom-top':targetIndexNew ===0}">
                     <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
-                         style="margin-right: 8px" alt="">
+                         style="margin-right: 8px" alt="drag drop">
                     <div class="d-flex flex-column">
                         <ng-container
                                 *ngIf="(aiModule.id| pipeineIdToPipelineModuleWrapper) as pipelineModuleWrapper; else pipelineModuleWrapperNotFound">
@@ -67,16 +66,16 @@
                         </ng-container>
 
                         <ng-template #pipelineModuleWrapperNotFound>
-                            <span class="module">id: <i>{{aiModule.id}}</i> (Not found)</span>
+                            <span class="module">id: <em>{{aiModule.id}}</em> (Not found)</span>
                         </ng-template>
                     </div>
                     <span class="ml-auto"></span>
-                    <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
+                    <span *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
                        (click)="openInputParamModal(Primarytemplat,aiModule);"
                        class="fa fa-cog">
-                    </i>
-                    <i class="fa fa-minus-circle show-on-parent-hover" style="color: #b14250"
-                       (click)="removePipelineItemFromPipelineModal(targetIndexNew,aiModule.id)"></i>
+                    </span>
+                    <span class="fa fa-minus-circle show-on-parent-hover" style="color: #b14250"
+                       (click)="removePipelineItemFromPipelineModal(targetIndexNew,aiModule.id)"></span>
                 </div>
             </div>
         </div>
@@ -102,7 +101,7 @@
         <div class="pb-2">Library configuration</div>
         <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)" >
 
-             <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
+             <mat-form-field *ngIf="selectedPipeline.display_values[Key].type === 'dropdown'">
               <mat-select [placeholder]="selectedPipeline.display_values[Key].display_value" name="{{Key}}"
               [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default">
                     <mat-option *ngFor="let dropi of selectedPipeline.display_values[Key].content | convertToUniqueArray" [value]="dropi"  >
@@ -110,36 +109,14 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          <!-- <div class=""
-               *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
-
-            <label class="mb-0  w-50 "
-                   style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
-            <select class="w-50" style="color: #474747;"
-                    [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default"
-                    name="{{Key}}">
-              <option *ngFor="let dropi of selectedPipeline.display_values[Key].content"
-                      type="button" [value]="dropi">{{dropi}}
-              </option>
-            </select>
-          </div> -->
-          <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'text'" >
+          <mat-form-field *ngIf="selectedPipeline.display_values[Key].type === 'text'" >
             <input matInput [placeholder]="selectedPipeline.display_values[Key].display_value"
             [ngModel]="selectedPipeline.input_params[Key]" name="{{Key}}">
           </mat-form-field>
-          <!-- <div *ngIf="selectedPipeline.display_values[Key].type == 'text'">
-            <label class="mb-0 w-50"
-                   style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
-            <input type="text" class="input-material flex-grow-1 w-50" style="color: #474747;"
-                   [ngModel]="selectedPipeline.input_params[Key]"
-                   name="{{Key}}">
-          </div> -->
-
         </div>
         <div class = "ml-auto">
             <button class="btn-theme btn-theme-primary-outline mr-1"
             (click)="dialogRefWrapper.ref.close()">Cancel</button>
-          <!--<i>{{selectedPipeline.is_added}}</i>-->
           <button class="btn-theme"
                   style="background-color: #00abd3"
             (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">{{selectedPipeline.is_added? 'Update': 'Add >>' }}

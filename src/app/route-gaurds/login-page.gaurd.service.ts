@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, CanActivateChild, CanLoad, Router, RoutesRecognized} from '@angular/router';
-import {AuthGaurdService} from "./auth-gaurd.service";
+import {AuthGaurdService} from './auth-gaurd.service';
 
 @Injectable()
 export class LoginPageGaurdService implements CanActivate, CanActivateChild, CanLoad {
   token;
   action;
+
   constructor(private router: Router) {
     router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
@@ -15,6 +16,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
       }
     });
   }
+
   /*
   * We don't use NGXS state here because we want to keep root module lean
   * */
@@ -22,7 +24,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
 
   canActivate() {
 
-    let obj:any = decodeURI(window.location.search)
+    const obj: any = decodeURI(window.location.search)
       .replace('?', '')
       .split('&')
       .map(param => param.split('='))

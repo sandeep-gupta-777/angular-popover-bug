@@ -11,17 +11,16 @@
   <tr *ngFor="let item of pipeline_modules">
     <td>{{item.library}}</td>
     <td style="position: relative">
-      <i style="position: absolute;left: -10px;top: 10px; font-size: 8px" class="fa fa-circle"
-         [ngStyle]="{'color': item.is_paid === 'paid'? '#f5a623':'#34bc6e'}"></i>
+      <span style="position: absolute;left: -10px;top: 10px; font-size: 8px" class="fa fa-circle"
+         [ngStyle]="{'color': item.is_paid === 'paid'? '#f5a623':'#34bc6e'}"></span>
       {{item.is_paid}}
     </td>
     <td>{{item.pros}}</td>
     <td>{{item.cons}}</td>
     <td (click)="settingsClicked$.emit(item)" class="cursor-pointer">
-      <!--<i>{{item|json}}</i>-->
-      <i [ngClass]="{'opacity-0':!(item && item.input_params && myObject.keys(item.input_params).length>0)}"
+      <span [ngClass]="{'opacity-0':!(item && item.input_params && myObject.keys(item.input_params).length>0)}"
          class="fa fa-cog">
-      </i>
+      </span>
     </td>
     <td *ngIf="!item.is_added; else added"
         (click)="item && item.input_params && myObject.keys(item.input_params).length>0 ?openInputParamModalBeforeAdd$.emit(item): add$.emit(item)"

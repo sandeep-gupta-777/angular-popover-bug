@@ -10,29 +10,29 @@ import { MatPaginator } from '@angular/material';
 export class ArticleQuestionListViewComponent implements OnInit {
 
   constructor() { }
-  @Input() corpus : ICorpus;
+  @Input() corpus: ICorpus;
   @Output() removeFilterItemByIdEvent = new EventEmitter();
   @Output() articleListItemClicked = new EventEmitter();
-  @Input() filter_categorie_id_list:string[];
+  @Input() filter_categorie_id_list: string[];
   currentPage = 0;
-  @Input() set _currentPage(val){
+  @Input() set _currentPage(val) {
 
     this.currentPage = val;
   }
-  sort_articals_by: string = 'updated_at';
+  sort_articals_by = 'updated_at';
   // paginator: MatPaginator;
 
-  removeFilterItemById(id){
+  removeFilterItemById(id) {
     this.currentPage = 0;
     this.removeFilterItemByIdEvent.emit(id);
     // this.paginator.firstPage();
   }
-  listItemClicked(sectionData : IArticleItem){
-    this.articleListItemClicked.emit(sectionData)
+  listItemClicked(sectionData: IArticleItem) {
+    this.articleListItemClicked.emit(sectionData);
   }
-  goToPage(val){
+  goToPage(val) {
 
-    this.currentPage= val.pageIndex;
+    this.currentPage = val.pageIndex;
   }
   ngOnInit() {
   }

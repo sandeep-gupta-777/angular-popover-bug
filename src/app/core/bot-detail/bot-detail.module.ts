@@ -72,7 +72,7 @@ import { ArticleQuestionListViewComponent } from './bot-articles/article-questio
 import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-header.component';
 import { EditAndViewArticlesComponent } from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
 import { CategorieModalInputComponent } from './bot-articles/categorie-modal-input/categorie-modal-input.component';
-import {ConstantsService} from "../../constants.service";
+import {ConstantsService} from '../../constants.service';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
@@ -196,7 +196,7 @@ const routes: Route[] = [
     MatToolbarModule,
     MatListModule,
   ],
-  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe,CategoryIdToNamePipe]
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe]
 })
 export class BotDetailModule {
 

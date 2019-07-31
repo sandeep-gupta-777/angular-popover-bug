@@ -33,19 +33,28 @@ import {IRoleInfo} from '../interfaces/role-info';
 import {LoggingService} from './logging.service';
 import {MyToasterService} from './my-toaster.service';
 import {environment} from '../environments/environment';
-import {ENgxsStogareKey} from "./typings/enum";
+import {ENgxsStogareKey} from './typings/enum';
 
 
 declare var $: any;
 declare let deploy_obj_botplateform_fe;
 import {Storage} from 'session-storage-sync';
-import {identifierModuleUrl} from "@angular/compiler";
+import {identifierModuleUrl} from '@angular/compiler';
 
 @Injectable()
 export class ServerService {
-
   static idTokenMap;
   static storage = new Storage();
+
+  @Select() loggeduser$: Observable<{ user: IUser }>;
+  @Select() app$: Observable<IAppState>;
+  public USER_ACCESS_TOKEN: string = null;
+  roleName: string;
+  public AUTH_TOKEN: string = null;
+  private isLoggedIn = false;
+  roleInfo: IRoleInfo;
+
+
   static getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) {
@@ -57,12 +66,12 @@ export class ServerService {
 
     let bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
     if (!bot_access_token) {
-      let idTokenMap_SS = JSON.parse(sessionStorage.getItem(ENgxsStogareKey.idTokenMap));
-      if(idTokenMap_SS){
-       ServerService.idTokenMap = idTokenMap_SS;
+      const idTokenMap_SS = JSON.parse(sessionStorage.getItem(ENgxsStogareKey.idTokenMap));
+      if (idTokenMap_SS) {
+        ServerService.idTokenMap = idTokenMap_SS;
         bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
-      }else {
-        throw new Error("Bot access token is not set in ServerService. Please see below");
+      } else {
+        throw new Error('Bot access token is not set in ServerService. Please see below');
         console.log('ServerService data: ', ServerService);
       }
     }
@@ -84,22 +93,14 @@ export class ServerService {
     }
   }
 
-  static setSessionStorage(key, value:object){
-    debugger;
+  static setSessionStorage(key, value: object) {
+
     ServerService.storage.session.set(key, value);
   }
 
   static isUserLoggedIn() {
     return ServerService.getCookie('auth-token');
   }
-
-  @Select() loggeduser$: Observable<{ user: IUser }>;
-  @Select() app$: Observable<IAppState>;
-  public USER_ACCESS_TOKEN: string = null;
-  roleName: string;
-  public AUTH_TOKEN: string = null;
-  private isLoggedIn = false;
-  roleInfo: IRoleInfo;
 
   constructor(
     private httpClient: HttpClient,
@@ -115,7 +116,6 @@ export class ServerService {
 
       const idTokenMapStr = sessionStorage.getItem(ENgxsStogareKey.idTokenMap);
       ServerService.idTokenMap = JSON.parse(idTokenMapStr);
-      //console.log('server service idTokenMapStr init', idTokenMapStr);
     } catch (e) {
       LoggingService.error(e);
     }
@@ -129,20 +129,23 @@ export class ServerService {
       // this.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
-        if (!this.roleInfo && appState && appState.roleInfoArr)
+        if (!this.roleInfo && appState && appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role) => {
-            return role.name === value.user.role.name
+            return role.name === value.user.role.name;
           });
-      })
+        }
+      });
     });
 
     this.app$.subscribe((appState) => {/*todo: code repetition: this code should run after logged value has been set*/
-      if (this.roleName)
-        if (appState.roleInfoArr)
+      if (this.roleName) {
+        if (appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role) => {
             return role.name === this.roleName;
           });
-    })
+        }
+      }
+    });
 
 
   }
@@ -175,7 +178,9 @@ export class ServerService {
     if (headerData) {
       for (const key in headerData) {
         /*don't set header data for undefined values*/
-        headerData[key] && (headers = headers.set(key, headerData[key]));
+        if (headerData[key]) {
+          (headers = headers.set(key, headerData[key]));
+        }
       }
     }
     return headers;
@@ -184,13 +189,14 @@ export class ServerService {
   showErrorMessageForErrorTrue({error, message, action}) {
 
     /*check for logout*/
-    if (action === "logout") {
+    if (action === 'logout') {
       EventService.logout$.emit(false);
       return;
     }
 
-    if (message) this.myToasterService.showErrorToaster(message);
-    else {
+    if (message) {
+      this.myToasterService.showErrorToaster(message);
+    } else {
       console.error('error toaster called without error');
     }
   }
@@ -223,7 +229,7 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
   handleErrorFromServer(e) {
@@ -231,7 +237,7 @@ export class ServerService {
     if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action: null});
+      this.showErrorMessageForErrorTrue({error: true, message: 'Some error occurred', action: null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
@@ -259,7 +265,7 @@ export class ServerService {
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
   checkApiAccess(reqObj, verb: EHttpVerbs) {
@@ -271,7 +277,7 @@ export class ServerService {
   }
 
   getNSetRoleInfo() {
-    let getRoleUrl = this.constantsService.getRoleUrl();
+    const getRoleUrl = this.constantsService.getRoleUrl();
     return this.makeGetReq({url: getRoleUrl})
       .pipe(switchMap((val) => {
         if (val) {
@@ -281,10 +287,10 @@ export class ServerService {
         } else {
           return of(1);
         }
-      }))
+      }));
   }
 
-  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
     this.checkApiAccess(reqObj, EHttpVerbs.DELETE);
     const headers = this.createHeaders(reqObj.headerData);
     this.changeProgressBar(true, 0);
@@ -299,13 +305,13 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
-  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
-
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }) {
+    let headers: HttpHeaders;
     this.checkApiAccess(reqObj, EHttpVerbs.POST);
-    const headers = this.createHeaders(reqObj.headerData);
+    headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
       this.changeProgressBar(true, 0);
     }
@@ -323,10 +329,10 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
-  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<any> {
+  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }) {
 
     this.checkApiAccess(reqObj, EHttpVerbs.PUT);
     const headers = this.createHeaders(reqObj.headerData);
@@ -348,9 +354,11 @@ export class ServerService {
   }
 
   checkForLogoutAction(obj) {
-    if(!obj) return;
-    let {action} = obj;
-    if (action === "logout") {
+    if (!obj) {
+      return;
+    }
+    const {action} = obj;
+    if (action === 'logout') {
       EventService.logout$.emit();
       return;
     }
@@ -373,12 +381,12 @@ export class ServerService {
     return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData}).pipe(
       map((val) => {
 
-        const bot: IBot = val.objects.find((bot) => {
+        const updated_bot: IBot = val.objects.find((bot_item) => {
 
-          return bot.id === bot.id;
+          return true; // bot_item.id === bot_item.id;/*todo: what the heck is going on here*/
         });
         return this.store.dispatch([
-          new UpdateBotInfoByIdInBotInBotList({data: bot, botId: bot.id})
+          new UpdateBotInfoByIdInBotInBotList({data: updated_bot, botId: updated_bot.id})
         ]);
       }));
   }
@@ -389,13 +397,13 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    let autoLogoutInterval: number = Infinity;
+    let autoLogoutInterval = Infinity;
     if (this.roleInfo) {
 
       if (this.roleInfo.session_expiry_time === -1) {
         autoLogoutInterval = Infinity;
       } else {
-        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
       }
     }
     if (!this.roleInfo) {
@@ -424,7 +432,7 @@ export class ServerService {
             return {
               ...total,
               [bot.id]: (bot.bot_access_token)
-            }
+            };
           }, {});
           // sessionStorage.setItem(ENgxsStogareKey.idTokenMap, JSON.stringify(idTokenMap));
           ServerService.setSessionStorage(ENgxsStogareKey.idTokenMap, idTokenMap);
@@ -441,10 +449,10 @@ export class ServerService {
     return this.makeGetReq({url, noValidateUser: true})
       .pipe(map((bot: IBot) => {
         ServerService.idTokenMap = {
-        ...(ServerService.idTokenMap||{}),
+          ...(ServerService.idTokenMap || {}),
           [bot.id]: bot.bot_access_token
         };
-        debugger;
+
         return this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
         ]);
@@ -525,7 +533,6 @@ export class ServerService {
   }
 
   deleteNer(ner_id: number, bot?: IBot) {
-    let body: ICustomNerItem;
     let url, headerData: IHeaderData;
     if (bot) {
       url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
@@ -567,172 +574,6 @@ export class ServerService {
       });
   }
 
-
-  // messaging;
-  // currentPreviewBot: IBot;
-  // currentRoomId: number;
-  //
-  // initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : any) {
-  //   if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
-  //     return;
-  //   } else {
-  //     try {
-  //       IMI.IMIconnect.shutdown();
-  //     } catch (e) {
-  //       LoggingService.error(e);
-  //     }
-  //
-  //   }
-  //   this.currentRoomId = currentRoomId;
-  //   this.currentPreviewBot = previewBot;
-  //
-  //   // this.currentPreviewBot = previewBot;
-  //   /*TODO: make initialization happen only once*/
-  //   let imiConnectIntegrationDetails;
-  //   try {
-  //     imiConnectIntegrationDetails = previewBot.integrations.fulfillment_provider_details.imiconnect;
-  //     if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
-  //       LoggingService.log('this is not an imiconnect bot...');
-  //       return;
-  //     }
-  //   } catch (e) {
-  //     LoggingService.log('this is not an imiconnect bot');
-  //     return;
-  //   }
-  //   const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
-  //   const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
-  //   // var streamName = "bot";
-  //   const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-  //   let userId = currentRoomId + '_hellothisissandeep1231312';
-  //   if(obj && obj.consumerDetails){
-  //     userId = obj.consumerDetails.uid;
-  //   }
-  //
-  //   // startNewChatData.consumerDetails.uid
-  //   const config = new IMI.ICConfig(appId, appSecret);
-  //   const messaging = IMI.ICMessaging.getInstance();
-  //
-  //   console.info('========initializing connection with imiconnect with following details');
-  //   LoggingService.log(
-  //     'appId= ' + appId + '\n' +
-  //     'appSecret= ' + appSecret + '\n' +
-  //     'serviceKey= ' + serviceKey + '\n' +
-  //     'userId= ' + userId + '\n');
-  //
-  //
-  //   const prepareMessage = (messageObj) => {
-  //     console.info('============================message from IMICONNECT Has been recieved============================', messageObj);
-  //     const generatedMessagesStr = messageObj.message;
-  //     let generatedMessages: IGeneratedMessageItem[];
-  //     try {
-  //       generatedMessages = JSON.parse(generatedMessagesStr);
-  //     } catch (e) {
-  //       console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
-  //       console.error('Assuming its a string');
-  //       generatedMessages = [{text: generatedMessagesStr, bot_message_id: null}];
-  //     }
-  //     const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, null);
-  //     this.store.dispatch([
-  //       new AddMessagesToRoomByRoomId({
-  //         id: currentRoomId,
-  //         messageList: serializedMessages
-  //       }),
-  //       new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
-  //       // new SetCurrentRoomID({roomId: 123456789.room.roomId})
-  //     ]);
-  //   };
-  //
-  //   const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
-  //     onConnectionStatusChanged: function (statuscode) {
-  //       LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
-  //       let statusMessage = null;
-  //       if (statuscode == 2) {
-  //         statusMessage = 'Connected';
-  //       } else if (statuscode == 6) {
-  //         statusMessage = 'Error while connecting';
-  //       } else {
-  //         statusMessage = 'Not Connected';
-  //       }
-  //
-  //     },
-  //     onMessageReceived: function (message) {
-  //
-  //
-  //       prepareMessage(message);
-  //
-  //       if (message.getType() === IMI.ICMessageType.Message) {
-  //         const callback = {
-  //           onFailure: function (err) {
-  //             LoggingService.log('failed to get topics:');
-  //
-  //             //handleFailure(err);
-  //           }
-  //         };
-  //         messaging.setMessageAsRead(message.getTransactionId(), callback);
-  //       }
-  //     }
-  //   };
-  //
-  //
-  //   messaging.setICMessagingReceiver(msgCallBack);
-  //   const deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
-  //   IMI.IMIconnect.startup(config);
-  //   IMI.IMIconnect.registerListener(
-  //     {
-  //       onFailure: function () {
-  //         LoggingService.log('token got expired...');
-  //       }
-  //     });
-  //
-  //
-  //   const regcallback = {
-  //     onSuccess: function (msg) {
-  //
-  //       try {
-  //         messaging.connect();
-  //         LoggingService.log('onSuccess: reg');
-  //       } catch (ex) {
-  //         LoggingService.log(ex);
-  //       }
-  //
-  //     },
-  //     onFailure: function (err) {
-  //       LoggingService.log('Registration failed');
-  //
-  //     }
-  //   };
-  //   const deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
-  //   LoggingService.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
-  //   IMI.IMIconnect.register(deviceProfile, regcallback);
-  //
-  //
-  //   // //send message
-  //   //     var pubcallback = {
-  //   //       onSuccess: function () {
-  //   //         LoggingService.log("message sent");
-  //   //
-  //   //       },
-  //   //       onFailure: function (errormsg) {
-  //   //         LoggingService.log("failed to send message");
-  //   //       }
-  //   //
-  //   //     };
-  //   //
-  //   //     var message = new IMI.ICMessage();
-  //   //     message.setMessage("Hello this is sample message");
-  //   //
-  //   //     var thread = new IMI.ICThread();
-  //   //     thread.setId("bot");
-  //   //     thread.setTitle("bot");
-  //   //     thread.setStreamName(streamName);
-  //   //
-  //   //     message.setThread(thread);
-  //   //     messaging.publishMessage(message, pubcallback);
-  //
-  //   this.messaging = messaging;
-  // }
-
-
   getNSetConfigData$() {
   }
 
@@ -753,7 +594,7 @@ export class ServerService {
         },
         err => {
           EventService.codeValidationErrorOnUpdate$.emit(err.error);
-          console.log("emited this :::::::::::::", err.error);
+          console.log('emited this :::::::::::::', err.error);
         }));
   }
 
@@ -771,7 +612,7 @@ export class ServerService {
   }
 
   getLinkMetaData(link) {
-    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link})
+    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link});
   }
 
 
@@ -779,26 +620,28 @@ export class ServerService {
     if (!deploy_obj_botplateform_fe || isDevMode() || environment.production) {
       return;
     }
-    let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
+    const lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url: `/static/deploy.json?time=${Date.now()}`})
-      .subscribe((value: { "currentBranch": string, "lastDeploy": number }) => {
-        let lastDeployed_api = value.lastDeploy;
+      .subscribe((value: { 'currentBranch': string, 'lastDeploy': number }) => {
+        const lastDeployed_api = value.lastDeploy;
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
-        let days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
-        if (lastDeployed_api > lastDeployed_Cache) this.myToasterService.showErrorToaster(`your version is ${days} old. 
+        const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if (lastDeployed_api > lastDeployed_Cache) {
+          this.myToasterService.showErrorToaster(`your version is ${days} old.
         Please hard reload (Ctrl + shit + r). `);
-      })
+        }
+      });
   }
 
   timeDifference(current, previous) {
 
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
+    const msPerMinute = 60 * 1000;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerMonth = msPerDay * 30;
+    const msPerYear = msPerDay * 365;
 
-    var elapsed = current - previous;
+    const elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
       return Math.round(elapsed / 1000) + ' seconds ago';

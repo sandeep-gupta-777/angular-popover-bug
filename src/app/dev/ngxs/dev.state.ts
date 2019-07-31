@@ -1,10 +1,10 @@
-import {IApi} from "../interfaces";
-import {Action, State, StateContext, Store} from "@ngxs/store";
-import {ConstantsService} from "../../constants.service";
-import {AddApi, ResetDevState} from "./dev.actions";
+import {IApi} from '../interfaces';
+import {Action, State, StateContext, Store} from '@ngxs/store';
+import {ConstantsService} from '../../constants.service';
+import {AddApi, ResetDevState} from './dev.actions';
 
 export interface IDevState {
-  list: IApi[]
+  list: IApi[];
 }
 //
 const devDefaultState: IDevState = {
@@ -14,7 +14,7 @@ const devDefaultState: IDevState = {
 @State<IDevState>({
   name: 'dev',
   defaults: devDefaultState
-})//same as reducer
+})
 export class DevStateReducer {
 
   constructor(private constantsService: ConstantsService, private store: Store) {
@@ -30,14 +30,14 @@ export class DevStateReducer {
   addApi({patchState, setState, getState, dispatch, }: StateContext<IDevState>, {payload}: AddApi) {
     // LoggingService.log('resetting state', getState());
 
-    let state = getState();
-    if(!state){
-      return
+    const state = getState();
+    if (!state) {
+      return;
     }
-    let index = state.list.findIndex(el=>el.id===payload.api.id);
-    if(index === -1){
+    const index = state.list.findIndex(el => el.id === payload.api.id);
+    if (index === -1) {
       state.list = [...state.list, payload.api];
-    }else {
+    } else {
       state.list[index] = {...state.list[index], ...payload.api};
     }
 

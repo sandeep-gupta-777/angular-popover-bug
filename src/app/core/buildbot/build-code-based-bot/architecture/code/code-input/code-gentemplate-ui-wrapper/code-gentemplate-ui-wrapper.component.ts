@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
-import {EBotVersionTabs} from "../../../../../../../../interfaces/code-input";
+import {EBotVersionTabs} from '../../../../../../../../interfaces/code-input';
 
 export interface ICarousalItem {
   'image_url': string;
@@ -19,7 +19,7 @@ export interface IQuickReplyItem {
   'title': string;
   'payload': string;
   /*custom fields*/
-  textType?: string; //payload, url
+  textType?: string; // payload, url
 }
 
 export interface IOutputItem {
@@ -42,7 +42,7 @@ export interface IOutputItem {
   templateUrl: './code-gentemplate-ui-wrapper.component.html',
   styleUrls: ['./code-gentemplate-ui-wrapper.component.scss']
 })
-export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
+export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
   myEBotVersionTabs = EBotVersionTabs;
   myObject = Object;
@@ -51,25 +51,26 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   newTemplateKey: string;
   templateKeyCreationError = '';
   @ViewChild('channelSelectorForm') channelSelectorForm: NgForm;
-
-  modalRefWrapper = {ref:null};
+  copyModalTemplateSearchKeyword = '';
+  modalRefWrapper = {ref: null};
   selectedChannelOfGenTemplate;
   @Input() bot;
   _templateKeyDict;
-  @Input() set templateKeyDict(val){
+  @Input() set templateKeyDict(val) {
     this._templateKeyDict = val;
 
-    if(Object.keys(this._templateKeyDict))
+    if (Object.keys(this._templateKeyDict)) {
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
+    }
   }
   channelNameList;
-  // @Input() selectedTemplateKeyOutputIndex;
+  //  @Input() selectedTemplateKeyOutputIndex;
   selectedTemplateKeyOutputIndex = [];
   selectedTemplateKeyInLeftSideBar;
-  // @Output() deleteGentemplate = new EventEmitter;
-  // @Output() moveUpGentempate = new EventEmitter;
-  // @Output() moveDownGentempate = new EventEmitter;
-  // @Output() selectGentempate = new EventEmitter;
+  //  @Output() deleteGentemplate = new EventEmitter;
+  //  @Output() moveUpGentempate = new EventEmitter;
+  //  @Output() moveDownGentempate = new EventEmitter;
+  //  @Output() selectGentempate = new EventEmitter;
   @Output() openNewIntentModal$ = new EventEmitter;
   @Output() openEditTemplateKeyModal$ = new EventEmitter();
   @Output() openDeleteTemplateKeyModal$ = new EventEmitter();
@@ -101,7 +102,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   * TODO: temporary:
   * will be called by parent
   * */
-  getTemplateDict(){
+  getTemplateDict() {
     return this._templateKeyDict;
   }
 
@@ -117,10 +118,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   async selectedListCopyModel(IntentSelectionModal) {
-    // this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+    //  this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
 
 
-    let data = await this.utilityService.openDialog({
+    const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: IntentSelectionModal,
       data: null,
@@ -129,7 +130,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     });
 
     if (data) {
-      // this.deleteTemplateKey(tempKey);
+      //  this.deleteTemplateKey(tempKey);
     }
   }
 
@@ -169,7 +170,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       'include': this.createIncludesArray(),
       'generic_template': [{
         'elements': [{
-          'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
+          'image_url': 'https:// s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
           'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
           'title': 'Contract Renewal'
         }]
@@ -192,7 +193,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   createIncludesArray() {
     return Array.isArray(this.channelNameList) ? ['web', ...this.channelNameList] : ['web'];
-    ;
+
   }
 
   scrollToBottom(): void {
@@ -200,11 +201,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     try {
       /*TODO: use ViewChildren instead of class name.
       * TODO: put animation here*/
-      // this.genTempGridItemGrid.nativeElement.scrollTop = this.genTempGridItemGrid.nativeElement.scrollHeight -500;
-      // let arr = this.gentemplateItems.toArray();
-      // let lastItem = arr[arr.length-1]
-      // lastItem.nativeElement.scrollIntoView();
-      // console.log(lastItem.nativeElement);
+      //  this.genTempGridItemGrid.nativeElement.scrollTop = this.genTempGridItemGrid.nativeElement.scrollHeight -500;
+      //  let arr = this.gentemplateItems.toArray();
+      //  let lastItem = arr[arr.length-1]
+      //  lastItem.nativeElement.scrollIntoView();
+      //  console.log(lastItem.nativeElement);
 
       const arr1 = document.getElementsByClassName('gentemplateItem');
       const x = arr1[arr1.length - 1];
@@ -237,7 +238,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
     const selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
     for (const key of selectedIntentDestinationKeys) {
-      // this._templateKeyDict[key].push(...selectedGenTempObjList);
+      //  this._templateKeyDict[key].push(...selectedGenTempObjList);
       this._templateKeyDict[key].push(...JSON.parse(JSON.stringify(selectedGenTempObjList)));
     }
     this.selectedTemplateKeyOutputIndex = [];
@@ -247,17 +248,16 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   selectedListDuplicate() {
 
-    for (let i of this.selectedTemplateKeyOutputIndex) {
+    for (const i of this.selectedTemplateKeyOutputIndex) {
       this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }
     this.selectedTemplateKeyOutputIndex = [];
   }
 
-  copyModalTemplateSearchKeyword = '';
 
   selectAllCheckBoxesInCopyTemplateForm(form: NgForm) {
     const formVal = form.value;
-    for (const key in formVal) {
+    for (const key of Object.keys(formVal)) {
       formVal[key] = true;
     }
     form.form.patchValue(formVal);
@@ -265,7 +265,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   deleteGentemplate(e) {
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
-    // console.log(this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
+    //  console.log(this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
   }
 
   moveUpGentempate(e) {
@@ -275,7 +275,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   moveDownGentempate(e) {
-    if (this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
+    if (this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length === e + 1) {
       console.log('just dot do that , U know Y');
       return;
     }
@@ -292,8 +292,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.templateKeyCreationError = 'This template key already exists';
       this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
-    }
-    else if(Object.keys(this._templateKeyDict).length == 0 && this.newTemplateKey == 'else'){
+    } else if (Object.keys(this._templateKeyDict).length === 0 && this.newTemplateKey === 'else') {
       this.templateKeyCreationError = 'Can not create ELSE template key now';
       this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
@@ -304,7 +303,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       'text': [''],
       'include': this.createIncludesArray(),
     }];
-    // this._templateKeyDict = {...this._templateKeyDict, ...intentUnit};
+    //  this._templateKeyDict = {...this._templateKeyDict, ...intentUnit};
     this._templateKeyDict = Object.assign(this._templateKeyDict, intentUnit);
     this.modalRefWrapper.ref.close();
     this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
@@ -325,8 +324,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   editTemplateKey({old_key, new_key}) {
-    // const new_key = templateKeyEditForm.value;
-    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this._templateKeyDict).find(key => new_key === key);
+    //  const new_key = templateKeyEditForm.value;
+    const doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this._templateKeyDict).find(key => new_key === key);
     if (doesNewKeyAlreadyExistsInTemplateKeyDict) {
       this.templateKeyCreationError = 'Template Key name already exists';
       this.utilityService.showErrorToaster(this.templateKeyCreationError);
@@ -341,12 +340,12 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     this.modalRefWrapper.ref.close();
   }
 
-  // openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
-  //   this.modalRefWrapper = this.modalService.show(deleteTemplateKeyModal);
-  // }
+  //  openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
+  //    this.modalRefWrapper = this.modalService.show(deleteTemplateKeyModal);
+  //  }
 
   async openDeleteTemplateKeyModal(tempKey) {
-    let data = await this.utilityService.openDialog({
+    const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: ModalConfirmComponent,
       data: {
@@ -364,46 +363,46 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  // openEditTemplateKeyModal(EditTemplateKeyModal) {
-  //   this.modalRefWrapper = this.modalService.show(EditTemplateKeyModal);
-  // }
+  //  openEditTemplateKeyModal(EditTemplateKeyModal) {
+  //    this.modalRefWrapper = this.modalService.show(EditTemplateKeyModal);
+  //  }
 
   async openNewIntentModal() {
-    let dialogRefWrapper = this.modalRefWrapper;
-      // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    const dialogRefWrapper = this.modalRefWrapper;
+      //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
       this.utilityService.openDialog({
         dialogRefWrapper: dialogRefWrapper,
-        classStr:'primary-modal-header-border',
-        data:{
-          actionButtonText:`Create`,
+        classStr: 'primary-modal-header-border',
+        data: {
+          actionButtonText: `Create`,
           message: null,
-          title:`Create new template key`,
-          isActionButtonDanger:false,
-          inputDescription: "Template key name"
+          title: `Create new template key`,
+          isActionButtonDanger: false,
+          inputDescription: 'Template key name'
         },
         dialog: this.matDialog,
-        component:ModalConfirmComponent
-      }).then((data)=>{
-        if(data){
+        component: ModalConfirmComponent
+      }).then((data) => {
+        if (data) {
           this.newTemplateKey = data;
           this.createNewTemplatekey();
         }
-      })
+      });
 
-      // this.utilityService.openDialog({
-      //   component: template,
-      //   dialog: this.matDialog,
-      //   classStr: 'primary-modal-header-border',
-      //   dialogRefWrapper: this.dialogRefWrapper
-      // });
+      //  this.utilityService.openDialog({
+      //    component: template,
+      //    dialog: this.matDialog,
+      //    classStr: 'primary-modal-header-border',
+      //    dialogRefWrapper: this.dialogRefWrapper
+      //  });
   }
 
   async openEditTemplateKeyModal(tempKey) {
-    let data = await this.utilityService.openDialog({
+    const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: GentemplateEditKeyComponent,
       data: {
-        old_key:tempKey,
+        old_key: tempKey,
         templateKeyDict: this._templateKeyDict
       },
       dialogRefWrapper: this.modalRefWrapper,
@@ -411,18 +410,18 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     });
 
     if (data) {
-      this.editTemplateKey({old_key:tempKey, new_key:data});
+      this.editTemplateKey({old_key: tempKey, new_key: data});
     }
   }
 
-  // openNewIntentModal(template) {
-  //   this.modalRefWrapper = this.modalService.show(template, {class: 'modal-w-30vw'});
-  //   return;
-  // }
+  //  openNewIntentModal(template) {
+  //    this.modalRefWrapper = this.modalService.show(template, {class: 'modal-w-30vw'});
+  //    return;
+  //  }
 
   deleteTemplateKey(tempKey) {
-    let isELseTemplateKeyPresent = Object.keys(this._templateKeyDict).find(key => 'else' === key);
-    if(Object.keys(this._templateKeyDict).length == 2 && tempKey != 'else' && !!isELseTemplateKeyPresent){
+    const isELseTemplateKeyPresent = Object.keys(this._templateKeyDict).find(key => 'else' === key);
+    if (Object.keys(this._templateKeyDict).length === 2 && tempKey !== 'else' && !!isELseTemplateKeyPresent) {
       this.templateKeyCreationError = 'Can\'t delete this template because ELSE template key will only be remaining';
       this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
@@ -444,8 +443,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   test() {
-    // console.log(this.selectedVersion_st);
-    // console.log(this.bot.store_bot_versions);
+    //  console.log(this.selectedVersion_st);
+    //  console.log(this.bot.store_bot_versions);
     console.log(this._templateKeyDict);
   }
 }

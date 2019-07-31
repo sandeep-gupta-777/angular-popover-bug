@@ -4,13 +4,8 @@
     <div class="chat-grid__header">
               <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
-                <i data-cy="chat-back" class="fa fa-angle-left"></i>
+                <span data-cy="chat-back" class="fa fa-angle-left"></span>
               </span>
-
-      <!--TODO: when clicked open the bot-->
-      <!--<a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">-->
-      <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
-      <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
       <a>
         <img
           [defaultImage]="'assets/img/no image.svg'"
@@ -105,6 +100,7 @@
          data-cy="chat-logo-enterprise"
          [defaultImage]="'assets/img/no image.svg'"
          [lazyLoad]="enterprise_logo"
+         alt="enterprise logo"
          style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
       <div>{{user_first_name}}</div>
@@ -137,7 +133,8 @@
     <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-bot"
          [defaultImage]="'assets/img/no image.svg'"
-         [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+         [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'"
+         alt="Bot logo">
     <div *ngIf="currentBot" class="d-flex flex-column text-white">
       <div class="">{{currentBot.name}}</div>
       <div class="description hide-mobile">{{currentBot.description}}</div>
@@ -158,7 +155,7 @@
         *ngIf="showChatImage"
         (click)="showChatImage = false"
         class="chat-img-overlay">
-        <i class="fa fa-times close-chat-img-overlay"></i>
+        <span class="fa fa-times close-chat-img-overlay"></span>
         <div class="chat-know-more-overlay" (click)="$event.stopPropagation()">
 
           <header class="chat-know-more-overlay-header">
@@ -208,7 +205,6 @@
         }">
       </ng-container>
     </ng-container>
-
   </div>
 
   <div class="chat-rooms" style="overflow: hidden">

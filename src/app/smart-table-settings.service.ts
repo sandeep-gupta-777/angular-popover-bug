@@ -68,7 +68,7 @@ export class SmartTableSettingsService {
       delete: false,
       position: 'right',
       custom: [
-        {name: 'download', title: `<i class="fa fa-download text-dark"></i>`}
+        {name: 'download', title: `<span class="fa fa-download text-dark"></span>`}
       ],
     },
     pager: {

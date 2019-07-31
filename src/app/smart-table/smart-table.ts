@@ -4,8 +4,8 @@
 export abstract class AbstractSmartTable {
 
   abstract tableData;
-  abstract initializeTableData(data:any, tableDataMetaDict:any):void;
-  abstract refreshData(rawData:any):void;
+  abstract initializeTableData(data: any, tableDataMetaDict: any): void;
+  abstract refreshData(rawData: any): void;
 
   constructor(protected rawData, protected metaData, protected dependency) {}
 
@@ -33,11 +33,11 @@ export abstract class AbstractSmartTable {
   * */
   transformDataForMaterialTable(data: any[], tableDataMetaDict) {
     return data.map((consumerTableDataItem) => {
-      let obj:any = {};
-      for (let key in tableDataMetaDict) {
+      const obj: any = {};
+      for (const key of Object.keys(tableDataMetaDict)) {
         obj[tableDataMetaDict[key].displayValue] = {
           ...tableDataMetaDict[key],
-          originalKey:key,
+          originalKey: key,
           value: consumerTableDataItem[key],
           searchValue: consumerTableDataItem[key]
         };

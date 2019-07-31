@@ -11,7 +11,9 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {AbstractControl, FormArray, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-const uuidv4 = require('uuid/v4');
+import {LoggingService} from './logging.service';
+
+const uuidv1 = require('uuid/v4');
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -32,10 +34,6 @@ export enum EFormValidationErrors {
 export class UtilityService {
 
 
-  static generateUUid() {
-    return uuidv4();
-  }
-
   constructor(
     // private toastr: ToastrService,
     private router: Router,
@@ -44,19 +42,6 @@ export class UtilityService {
     // private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
-  }
-
-  static removeAllNonDefinedKeysFromObject(obj: object) {
-    for (let key in obj) {
-      if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
-        delete obj[key];
-      }
-    }
-    return obj;
-  }
-
-  static areAllElementsInArrUnique(arr: any[]): boolean {
-    return (new Set(arr)).size === arr.length;
   }
 
   refreshCodeEditor$ = new EventEmitter();
@@ -70,6 +55,398 @@ export class UtilityService {
     'https://robohash.org/SilverDroid.png',
     'https://robohash.org/SilverDroid.png',
   ];
+
+  masterIntegration_IntegrationKeyDisplayNameMap = null;
+
+
+  static generateUUid() {
+    return uuidv1();
+  }
+
+  static removeAllNonDefinedKeysFromObject(obj: object) {
+    for (const key of Object.keys(obj)) {
+      if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
+        delete obj[key];
+      }
+    }
+    return obj;
+  }
+
+  static areAllElementsInArrUnique(arr: any[]): boolean {
+    return (new Set(arr)).size === arr.length;
+  }
+
+
+  static getEnabledChannelsInBot(bot: IBot): { name: string, displayName: string }[] {
+    if (!bot || bot.integrations && bot.integrations.channels) {
+      return [];
+    }
+    return Object.keys(bot.integrations.channels)
+      .map((integrationKey) => {
+        return {
+          name: integrationKey,
+          displayName: integrationKey
+        };
+      })
+      .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled);
+  }
+
+
+  // tslint:disable-next-line:member-ordering
+  public static convertCsvTextToArray(csv: string): string[][] {
+    let lines = csv.split('\n');
+    lines = lines.map((line) => line.trim());
+    const arr: string[][] = [];
+    for (let i = 0; i < lines.length; ++i) {
+      arr.push(lines[i].split(','));
+    }
+    return arr;
+  }
+
+  public static convertCsvToJson(csv) {
+    const lines = csv.split('\n');
+    const result = [];
+    const headers = lines[0].split(',');
+
+    for (let i = 1; i < lines.length; i++) {
+      const obj = {};
+
+      const row = lines[i];
+      let queryIdx = 0;
+      let startValueIdx = 0;
+      let idx = 0;
+
+      if (row.trim() === '') {
+        continue;
+      }
+
+      while (idx < row.length) {
+        /* if we meet a double quote we skip until the next one */
+        let c = row[idx];
+
+        if (c === '"') {
+          do {
+            c = row[++idx];
+          } while (c !== '"' && idx < row.length - 1);
+        }
+
+        if (c === ',' || /* handle end of line with no comma */ idx === row.length - 1) {
+          /* we've got a value */
+          let value = row.substr(startValueIdx, idx - startValueIdx).trim();
+
+          /* skip first double quote */
+          if (value[0] === '"') {
+            value = value.substr(1);
+          }
+          /* skip last comma */
+          if (value[value.length - 1] === ',') {
+            value = value.substr(0, value.length - 1);
+          }
+          /* skip last double quote */
+          if (value[value.length - 1] === '"') {
+            value = value.substr(0, value.length - 1);
+          }
+
+          const key = headers[queryIdx++];
+          obj[key] = value;
+          startValueIdx = idx + 1;
+        }
+
+        ++idx;
+      }
+
+      result.push(obj);
+    }
+    return result;
+  }
+
+  static cloneObj(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  // getCodeInputForm() {
+  //   let codeInputForm = this.formBuilder.group({
+  //     df_template: [""],
+  //     df_rules: [""],
+  //     generation_rules: [""],
+  //     generation_templates: [""],
+  //     workflow: [""],
+  //     is_ui_view:'',
+  //   });
+  //
+  //   return codeInputForm;
+  // }
+
+  static removeEmptyKeyValues(valClone) {
+    for (const key in valClone) {
+      if (!valClone[key]) {/*if value is "" or undefined */
+        delete valClone[key];
+      }
+    }
+    return valClone;
+  }
+
+  static trimAllObjValues(obj: object) {
+    for (const key in obj) {
+      if (obj[key] && obj[key].trim) {
+        obj[key] = obj[key].trim();
+      }
+    }
+    return obj;
+  }
+
+  static getEnabledIntegrations(bot: IBot) {
+    const allIntegrations = {
+      ...bot.integrations.ccsp_details,
+      ...bot.integrations.channels,
+      ...bot.integrations.fulfillment_provider_details,
+    };
+
+    return Object.keys(allIntegrations).reduce((total, key) => {
+      if (allIntegrations[key].enabled) {
+        return {...total, [key]: allIntegrations[key]};
+      }
+      return total;
+    }, {});
+  }
+
+
+  /*
+  * spaceCase:
+  * Example: sandeep_gupta => Sandeep Gupta
+  * */
+  static spaceCase(str: string, delimiter: string) {
+    if (!str) {
+      return '';
+    }
+    return str.split(delimiter).map((str_temp) => str_temp[0].toUpperCase() + str_temp.slice(1)).join(' ');
+  }
+
+  static getCombinedBotData(forms: (FormGroup | NgForm)[]): IBot {
+    return forms.reduce((aggr, form) => {
+      return {
+        ...aggr,
+        /*getRawValue vs value
+        * Value doesnt return disabled formcontrols
+        * */
+        ...((form as any).getRawValue ? (form as any).getRawValue() : form.value)
+      };
+    }, {});
+  }
+
+
+  /*
+  * isObjectSubSet:
+  * check if smaller object (obj2) is perfect subset of larger object (obj1)
+  * */
+  static isObjectSubSet(largeObj, smallObj) {
+    const obj1_temp = {};
+    for (const key of Object.keys(smallObj)) {
+      obj1_temp[key] = largeObj[key];
+    }
+    const x = UtilityService.deepCompare(obj1_temp, smallObj);
+
+    return x;
+  }
+
+  /**
+   * highlightText: case insensitive highlights
+   * @param string: text to be highlighted
+   * @param keyword keyword
+   */
+  static highlightText(string: string, keyword: string) {
+    if (!string || !keyword) {
+      return string;
+    }
+    /*
+    * Example usage of $1 to get capturing group
+    * "HELLO".replace(/(hell)o/i,`$1sdasdadas`);
+    * */
+    return string.replace(new RegExp(`(${keyword})`, 'ig'), `<span class="text-highlight">$1</span>`);
+  }
+
+  static hasRequiredField(abstractControl: NgControl): boolean {
+
+    if (abstractControl.validator) {
+      const validator = abstractControl.validator({} as AbstractControl);
+      if (validator && validator.required) {
+        return true;
+      }
+    }
+    if (abstractControl['controls']) {
+      for (const controlName in abstractControl['controls']) {
+        if (abstractControl['controls'][controlName]) {
+          if (this.hasRequiredField(abstractControl['controls'][controlName])) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+
+  static replaceHrefWithAnchorTag(str) {
+    if (!str) {
+      return;
+    }
+    const regex: RegExp = /http[s]?:\/\/[\w,.]+/gm;
+    // str.replace(, "SO");
+    regex.exec(str);
+  }
+
+
+  /*
+  * linkify: replaces all texts to <a> links in a string
+  * */
+  static linkify(inputText, className) {
+    let replacedText, replacePattern1, replacePattern2;
+
+    // URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, `<a href="$1" target="_blank" class="${className}">$1</a>`);
+
+    // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, `$1<a href="http://$2" class="${className} target="_blank">$2</a>`);
+
+    // Change email addresses to mailto:: links.
+    // replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    // replacedText = replacedText.replace(replacePattern3, `<a href="mailto:$1" class="${className}>$1</a>`);
+
+    console.log(replacedText);
+    return replacedText;
+
+  }
+
+  static getLinksInText(str: string): string[] {
+    const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    let match = replacePattern1.exec(str);
+
+    const links = [];
+    while (match) {
+      const matchedStr = match[0];
+      links.push(matchedStr);
+      match = replacePattern1.exec(str);
+    }
+    return links;
+
+  }
+
+
+  static deepCompare(x, y): boolean {
+
+    let i, l, leftChain, rightChain;
+
+    function compare2Objects(x_temp, y_temp) {
+      let p;
+
+      // remember that NaN === NaN returns false
+      // and isNaN(undefined) returns true
+      if (isNaN(x_temp) && isNaN(y_temp) && typeof x_temp === 'number' && typeof y_temp === 'number') {
+        return true;
+      }
+
+      // Compare primitives and functions.
+      // Check if both arguments link to the same object.
+      // Especially useful on the step where we compare prototypes
+      if (x_temp === y_temp) {
+        return true;
+      }
+
+      // Works in case when functions are created in constructor.
+      // Comparing dates is a common scenario. Another built-ins?
+      // We can even handle functions passed across iframes
+      if ((typeof x_temp === 'function' && typeof y_temp === 'function') ||
+        (x_temp instanceof Date && y_temp instanceof Date) ||
+        (x_temp instanceof RegExp && y_temp instanceof RegExp) ||
+        (x_temp instanceof String && y_temp instanceof String) ||
+        (x_temp instanceof Number && y_temp instanceof Number)) {
+        return x_temp.toString() === y_temp.toString();
+      }
+
+      // At last checking prototypes as good as we can
+      if (!(x_temp instanceof Object && y_temp instanceof Object)) {
+        return false;
+      }
+
+      if (x_temp.isPrototypeOf(y_temp) || y_temp.isPrototypeOf(x_temp)) {
+        return false;
+      }
+
+      if (x_temp.constructor !== y_temp.constructor) {
+        return false;
+      }
+
+      if (x_temp.prototype !== y_temp.prototype) {
+        return false;
+      }
+
+      // Check for infinitive linking loops
+      if (leftChain.indexOf(x_temp) > -1 || rightChain.indexOf(y_temp) > -1) {
+        return false;
+      }
+
+      // Quick checking of one object being a subset of another.
+      // todo: cache the structure of arguments[0] for performance
+      for (p of Object.keys(y_temp)) {
+        if (y_temp.hasOwnProperty(p) !== x_temp.hasOwnProperty(p)) {
+          return false;
+        } else if (typeof y_temp[p] !== typeof x_temp[p]) {
+          return false;
+        }
+      }
+
+      for (p of Object.keys(x_temp)) {
+        if (y_temp.hasOwnProperty(p) !== x_temp.hasOwnProperty(p)) {
+          return false;
+        } else if (typeof y_temp[p] !== typeof x_temp[p]) {
+          return false;
+        }
+
+        switch (typeof (x_temp[p])) {
+          case 'object':
+          case 'function':
+
+            leftChain.push(x_temp);
+            rightChain.push(y_temp);
+
+            if (!compare2Objects(x_temp[p], y_temp[p])) {
+              return false;
+            }
+
+            leftChain.pop();
+            rightChain.pop();
+            break;
+
+          default:
+            if (x_temp[p] !== y_temp[p]) {
+              return false;
+            }
+            break;
+        }
+      }
+
+      return true;
+    }
+
+    if (arguments.length < 1) {
+      return true; // Die silently? Don't know how to handle such case, please help...
+      // throw "Need two or more arguments to compare";
+    }
+
+    for (i = 1, l = arguments.length; i < l; i++) {
+
+      leftChain = []; // Todo: this can be cached
+      rightChain = [];
+
+      if (!compare2Objects(arguments[0], arguments[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   public openPrimaryModal(IntentModal, matDialog, dialogRefWrapper) {
     return this.openDialog({
@@ -110,8 +487,6 @@ export class UtilityService {
     return 10;
   }
 
-  masterIntegration_IntegrationKeyDisplayNameMap = null;
-
   getDisplayNameForKey_Integration(key: string) {
 
     const masterIntegrationList = this.storeVariableService.getApp().masterIntegrationList;
@@ -137,24 +512,9 @@ export class UtilityService {
     });
   }
 
-
-  static getEnabledChannelsInBot(bot: IBot): { name: string, displayName: string }[] {
-    if (!bot || bot.integrations && bot.integrations.channels) {
-      return [];
-    }
-    return Object.keys(bot.integrations.channels)
-      .map((integrationKey) => {
-        return {
-          name: integrationKey,
-          displayName: integrationKey
-        };
-      })
-      .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled)
-  }
-
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
     return generatedMessage.map((message: IGeneratedMessageItem, index) => {
-      const isLast = index === generatedMessage.length -1;
+      const isLast = index === generatedMessage.length - 1;
       let messageData: IMessageData = {
         ...message,
         bot_message_id,
@@ -168,13 +528,13 @@ export class UtilityService {
         messageData = {
           ...messageData,
           messageMediatype: message.media[0] && message.media[0].type,
-          text: EBotMessageMediaType.image, //this is for preview of last message in chat room list,
+          text: EBotMessageMediaType.image, // this is for preview of last message in chat room list,
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
         messageData = {
           ...messageData,
           messageMediatype: EBotMessageMediaType.quickReply, //
-          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, //this is for preview of last message in chat room list
+          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, // this is for preview of last message in chat room list
         };
       } else {
         /*if message type = text*/
@@ -188,75 +548,6 @@ export class UtilityService {
 
 
     });
-  }
-
-
-  // tslint:disable-next-line:member-ordering
-  public static convertCsvTextToArray(csv: string): string[][] {
-    let lines = csv.split('\n');
-    lines = lines.map((line) => line.trim());
-    let arr: string[][] = [];
-    for (let i = 0; i < lines.length; ++i) {
-      arr.push(lines[i].split(','));
-    }
-    return arr;
-  }
-
-  public static convertCsvToJson(csv) {
-    var lines = csv.split('\n');
-    var result = [];
-    var headers = lines[0].split(',');
-
-    for (var i = 1; i < lines.length; i++) {
-      let obj = {};
-
-      var row = lines[i],
-        queryIdx = 0,
-        startValueIdx = 0,
-        idx = 0;
-
-      if (row.trim() === '') {
-        continue;
-      }
-
-      while (idx < row.length) {
-        /* if we meet a double quote we skip until the next one */
-        var c = row[idx];
-
-        if (c === '"') {
-          do {
-            c = row[++idx];
-          } while (c !== '"' && idx < row.length - 1);
-        }
-
-        if (c === ',' || /* handle end of line with no comma */ idx === row.length - 1) {
-          /* we've got a value */
-          var value = row.substr(startValueIdx, idx - startValueIdx).trim();
-
-          /* skip first double quote */
-          if (value[0] === '"') {
-            value = value.substr(1);
-          }
-          /* skip last comma */
-          if (value[value.length - 1] === ',') {
-            value = value.substr(0, value.length - 1);
-          }
-          /* skip last double quote */
-          if (value[value.length - 1] === '"') {
-            value = value.substr(0, value.length - 1);
-          }
-
-          var key = headers[queryIdx++];
-          obj[key] = value;
-          startValueIdx = idx + 1;
-        }
-
-        ++idx;
-      }
-
-      result.push(obj);
-    }
-    return result;
   }
 
   readInputFileAsText(inputElement): Promise<any> {
@@ -276,7 +567,7 @@ export class UtilityService {
   }
 
   getPriorDate(days_before: number) {
-    let today: any = new Date(Date.now() - days_before * 24 * 3600 * 1000);
+    const today: any = new Date(Date.now() - days_before * 24 * 3600 * 1000);
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
@@ -289,11 +580,11 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = dd + '/' + mm + '/' + yyyy);
+    return (dd + '/' + mm + '/' + yyyy);
   }
 
   convertDateObjectStringToDDMMYY(dateStr: any = '', delimiter = '/') {
-    let today: any = dateStr ? new Date(dateStr) : new Date();
+    const today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; // January is 0!
@@ -307,7 +598,7 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = dd + delimiter + mm + delimiter + yyyy);
+    return (dd + delimiter + mm + delimiter + yyyy);
 
   }
 
@@ -326,7 +617,6 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    // return (today = dd + delimiter + mm + delimiter + yyyy);
     return (today = yyyy + delimiter + mm + delimiter + dd);
 
   }
@@ -375,57 +665,6 @@ export class UtilityService {
         document.body.removeChild(textarea);
       }
     }
-  }
-
-  static cloneObj(obj) {
-    return JSON.parse(JSON.stringify(obj));
-  }
-
-  // getCodeInputForm() {
-  //   let codeInputForm = this.formBuilder.group({
-  //     df_template: [""],
-  //     df_rules: [""],
-  //     generation_rules: [""],
-  //     generation_templates: [""],
-  //     workflow: [""],
-  //     is_ui_view:'',
-  //   });
-  //
-  //   return codeInputForm;
-  // }
-
-  static removeEmptyKeyValues(valClone) {
-    for (let key in valClone) {
-      if (!valClone[key]) {/*if value is "" or undefined */
-        delete valClone[key];
-      }
-    }
-    return valClone;
-  }
-
-  static trimAllObjValues(obj: object) {
-    for (let key in obj) {
-      if (obj[key] && obj[key].trim) {
-        obj[key] = obj[key].trim();
-      }
-    }
-    return obj;
-  }
-
-  static getEnabledIntegrations(bot: IBot) {
-    let allIntegrations = {
-      ...bot.integrations.ccsp_details,
-      ...bot.integrations.channels,
-      ...bot.integrations.fulfillment_provider_details,
-    };
-
-    let x = Object.keys(allIntegrations).reduce((total, key) => {
-      if (allIntegrations[key].enabled) {
-        return {...total, [key]: allIntegrations[key]};
-      }
-      return total;
-    }, {})
-    return x;
   }
 
   findDataByName(convertedData, name) {
@@ -526,9 +765,9 @@ export class UtilityService {
 
       let templateKey;
       if (match[2]) {
-        templateKey = match[2].replace(/\)/g, '',).replace(/\'/g, '').trim();
+        templateKey = match[2].replace(/\)/g, '').replace(/\'/g, '').trim();
       } else {
-        templateKey = match[1].replace(/\)/g, '',).replace(/\'/g, '').trim();
+        templateKey = match[1].replace(/\)/g, '').replace(/\'/g, '').trim();
       }
       // let templateKey, matchedStr = match[0];
       // const matchedStrSplitArr = matchedStr.split('==');
@@ -554,13 +793,13 @@ export class UtilityService {
     // const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
 // more restricted with form of output and \n before output
     // let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm; apprently shoaid made this parser so costraint heavy that its not working
-    let regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
+    const regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
     let match = regex.exec(str);
 
 
     const outputsKeys = [];
     while (match) {
-      let output, matchedStr = match[1];
+      const matchedStr = match[1];
       const matchedAndProcessedStr = matchedStr.trim();
       outputsKeys.push(matchedAndProcessedStr);
       match = regex.exec(str);
@@ -582,6 +821,7 @@ export class UtilityService {
         try {
           templateKeyOutputObj[templates[i]] = eval(outputs[i]);
         } catch (e) {
+          LoggingService.error(e);
           templateKeyOutputObj[templates[i]] = outputs[i];
         }
       }
@@ -597,9 +837,9 @@ export class UtilityService {
 
     try {
       let genTemplateCodeStr = '';
-      let uiDictionaryKeyArray = Object.keys(uiDictionary);
+      const uiDictionaryKeyArray = Object.keys(uiDictionary);
       if (uiDictionary['else']) {
-        var index = uiDictionaryKeyArray.indexOf('else');
+        const index = uiDictionaryKeyArray.indexOf('else');
         if (index > -1) {
           uiDictionaryKeyArray.splice(index, 1);
         }
@@ -608,12 +848,12 @@ export class UtilityService {
       uiDictionaryKeyArray.forEach((templateKey, index) => {
         // let templateKey = Object.keys(templateKeys);
         let elIfStr = '';
-        if (index === 0 && templateKey != 'else') {
-          elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
-        } else if (templateKey == 'else') {
+        if (index === 0 && templateKey !== 'else') {
+          elIfStr = `if(variables['templateKey'] === '${templateKey}'):\n`;
+        } else if (templateKey === 'else') {
           elIfStr = `\nelse:\n`;
-        } else if (index != 0 && templateKey != 'else') {
-          elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
+        } else if (index !== 0 && templateKey !== 'else') {
+          elIfStr = `\nelif(variables['templateKey'] === '${templateKey}'):\n`;
         }
         const outputValues = uiDictionary[templateKey];
         let outPutStr;
@@ -634,9 +874,9 @@ export class UtilityService {
   doesStringIncludesSubstring(string: string, subString: string) {
     try {
       if (!string || !subString) {
-        throw 'invalid input';
+        throw new Error('invalid input');
       }
-      let x = string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
+      const x = string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
       return x;
     } catch (e) {
       return false;
@@ -656,7 +896,7 @@ export class UtilityService {
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
     // <<<<<<< HEAD
-    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
+    startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
     granularity: string = 'day',  // one day
     // =======
     // startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
@@ -672,14 +912,14 @@ export class UtilityService {
     let intervalObj = {};
     if (granularity === 'day' || granularity === 'month' || granularity === 'year') {
       intervalObj = {
-        pointIntervalUnit: granularity,//24*3600*1000  // one day,
+        pointIntervalUnit: granularity, // 24*3600*1000  // one day,
       };
     } else {
       /*pointIntervalUnit doesnt work for hour and week
       *https://api.highcharts.com/highstock/series.column.pointIntervalUnit
       * */
       intervalObj = {
-        pointInterval: this.convertGranularityStrToMs(granularity),//24*3600*1000  // one day,
+        pointInterval: this.convertGranularityStrToMs(granularity), // 24*3600*1000  // one day,
       };
     }
 
@@ -698,7 +938,7 @@ export class UtilityService {
       plotOptions: {
         series: {
 // <<<<<<< HEAD
-          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
+          pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
           ...intervalObj,
           // pointIntervalUnit: granularity,//24*3600*1000  // one day,
 // =======
@@ -836,7 +1076,7 @@ export class UtilityService {
 
     //
     // delete seriesArr[2];
-    seriesArr = seriesArr.filter(arr => arr.name != 'total');
+    seriesArr = seriesArr.filter(arr => arr.name !== 'total');
     template.series = seriesArr;
     return template;
   }
@@ -913,7 +1153,7 @@ export class UtilityService {
 
     return template;
 
-    // if (type == "column") {
+    // if (type === "column") {
 
     //   rawData.forEach((obj) => {
     //     Object.keys(obj).forEach((key) => {
@@ -1086,51 +1326,12 @@ export class UtilityService {
     return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
-
-  /*
-  * spaceCase:
-  * Example: sandeep_gupta => Sandeep Gupta
-  * */
-  static spaceCase(str: string, delimiter: string) {
-    if (!str) {
-      return "";
-    }
-    return str.split(delimiter).map((str) => str[0].toUpperCase() + str.slice(1)).join(" ");
-  }
-
   isManagerValidator(formGroup: FormGroup) {
     const formValue = formGroup.value;
     const is_manager = formValue['is_manager'];
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
     return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
-  }
-
-  static getCombinedBotData(forms: (FormGroup | NgForm)[]): IBot {
-    return forms.reduce((aggr, form) => {
-      return {
-        ...aggr,
-        /*getRawValue vs value
-        * Value doesnt return disabled formcontrols
-        * */
-        ...((form as any).getRawValue?(form as any).getRawValue():form.value)
-      };
-    }, {});
-  }
-
-
-  /*
-  * isObjectSubSet:
-  * check if smaller object (obj2) is perfect subset of larger object (obj1)
-  * */
-  static isObjectSubSet(largeObj, smallObj) {
-    let obj1_temp = {};
-    for (let key in smallObj) {
-      obj1_temp[key] = largeObj[key];
-    }
-    let x = UtilityService.deepCompare(obj1_temp, smallObj);
-
-    return x;
   }
 
   // pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -1205,7 +1406,7 @@ export class UtilityService {
     // LoggingService.log(value);
   }
 
-  downloadArrayAsCSV(data: any[] = [], columns: object = {}, filename?:string, doSanitize = true) {
+  downloadArrayAsCSV(data: any[] = [], columns: object = {}, filename?: string, doSanitize = true) {
     // data = [
     //  { name: 'test1', score: 1, level: 'Z' },
     //  { name: 'test2', score: 2 },
@@ -1216,65 +1417,49 @@ export class UtilityService {
     // columns = { name: '姓名', score: '分数' };
 
     /*sa*/
-    if(doSanitize){
+    if (doSanitize) {
       data = this.sanitizeCSVData(data);
     }
     downloadCsv(data, columns, filename);
   }
 
-  sanitizeCSVData(data){
-    let str:string;
+  sanitizeCSVData(data) {
+    let str: string;
 
-    let removeChar = ['+',"-","@","="];
-    if(typeof data === "object"){
+    const removeChar = ['+', '-', '@', '='];
+    if (typeof data === 'object') {
       try {
         str = JSON.stringify(data);
-      }catch (e) {
+      } catch (e) {
         this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
-        return data
+        return data;
       }
     }
-    if(typeof data === "string"){
+    if (typeof data === 'string') {
       str = data;
     }
 
-    let removedChar:string[] = removeChar.filter(char => str.includes(char));
+    const removedChar: string[] = removeChar.filter(char => str.includes(char));
 
-    if(removedChar.length > 0){
+    if (removedChar.length > 0) {
       this.showErrorToaster(`removed ${removedChar.length} characters from CSV: ${removedChar.join(', ')}`);
       removedChar.forEach(char => str = str.replace(char, ''));
     }
 
-    if(typeof data === "object"){
+    if (typeof data === 'object') {
       try {
         return JSON.parse(str);
-      }catch (e) {
+      } catch (e) {
         this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
-        return data
+        return data;
       }
     }
     return str;
   }
 
-  /**
-   * highlightText: case insensitive highlights
-   * @param string: text to be highlighted
-   * @param keyword keyword
-   */
-  static highlightText(string: string, keyword: string) {
-    if (!string || !keyword) {
-      return string;
-    }
-    /*
-    * Example usage of $1 to get capturing group
-    * "HELLO".replace(/(hell)o/i,`$1sdasdadas`);
-    * */
-    return string.replace(new RegExp(`(${keyword})`, 'ig'), `<span class="text-highlight">$1</span>`);
-  }
-
   areAllAvatorValesDefined(headerObj: object) {
     for (const key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
+      if (headerObj[key] === null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
       }
     }
@@ -1293,7 +1478,7 @@ export class UtilityService {
     };
     headerObj = {...headerDataTemplate, ...headerObj};
     for (const key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
+      if (headerObj[key] === null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
       }
     }
@@ -1339,13 +1524,14 @@ export class UtilityService {
     try {
       return JSON.stringify(obj1) === JSON.stringify(obj2);
     } catch (e) {
+      LoggingService.error(e);
       return false;
     }
   }
 
   emptyObjectWithoutChaningRef(obj) {
     try {
-      for (const key in obj) {
+      for (const key of Object.keys(obj)) {
         delete obj[key];
       }
     } catch (e) {
@@ -1370,12 +1556,12 @@ export class UtilityService {
 
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
-    const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
-      return {...inputParamsObj, ...pipelineItem.input_params};
+    const inputParamsObj: object = pipeline.reduce((inputParamsObj_temp, pipelineItem) => {
+      return {...inputParamsObj_temp, ...pipelineItem.input_params};
     }, {});
 
     for (const param in inputParamsObj) {
-      if (inputParamsObj[param] == null) {
+      if (inputParamsObj[param] === null) {
         return false;
       }
     }
@@ -1417,13 +1603,13 @@ export class UtilityService {
 
     const elem: any = document.documentElement;
     if (elem.requestFullscreen) {
-      const x = elem.requestFullscreen();
+      elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
-      const x = elem.mozRequestFullScreen();
+      elem.mozRequestFullScreen();
     } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      const x = elem.webkitRequestFullscreen();
+      elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      const x = elem.msRequestFullscreen();
+      elem.msRequestFullscreen();
     }
   }
 
@@ -1431,15 +1617,14 @@ export class UtilityService {
   closeFullscreen() {
     const myDocument: any = document;
     if (myDocument.exitFullscreen) {
-      const x = myDocument.exitFullscreen();
+      myDocument.exitFullscreen();
     } else if (myDocument.mozCancelFullScreen) { /* Firefox */
-      const x = myDocument.mozCancelFullScreen();
+      myDocument.mozCancelFullScreen();
     } else if (myDocument.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      const x = myDocument.webkitExitFullscreen();
+      myDocument.webkitExitFullscreen();
     } else if (myDocument.msExitFullscreen) { /* IE/Edge */
-      const x = myDocument.msExitFullscreen();
+      myDocument.msExitFullscreen();
     }
-
   }
 
   deDupPrimitiveArray(arr: any[]) {
@@ -1506,188 +1691,5 @@ export class UtilityService {
       component: ModalConfirmComponent
     });
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-  }
-
-  static hasRequiredField(abstractControl: NgControl): boolean {
-
-    if (abstractControl.validator) {
-      const validator = abstractControl.validator({} as AbstractControl);
-      if (validator && validator.required) {
-        return true;
-      }
-    }
-    if (abstractControl['controls']) {
-      for (const controlName in abstractControl['controls']) {
-        if (abstractControl['controls'][controlName]) {
-          if (this.hasRequiredField(abstractControl['controls'][controlName])) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-
-  static replaceHrefWithAnchorTag(str) {
-    if (!str) {
-      return;
-    }
-    const regex: RegExp = /http[s]?:\/\/[\w,.]+/gm;
-    // str.replace(, "SO");
-    regex.exec(str);
-  }
-
-
-  /*
-  * linkify: replaces all texts to <a> links in a string
-  * */
-  static linkify(inputText, className) {
-    let replacedText, replacePattern1, replacePattern2, replacePattern3;
-
-    // URLs starting with http://, https://, or ftp://
-    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-    replacedText = inputText.replace(replacePattern1, `<a href="$1" target="_blank" class="${className}">$1</a>`);
-
-    // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    replacedText = replacedText.replace(replacePattern2, `$1<a href="http://$2" class="${className} target="_blank">$2</a>`);
-
-    // Change email addresses to mailto:: links.
-    // replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-    // replacedText = replacedText.replace(replacePattern3, `<a href="mailto:$1" class="${className}>$1</a>`);
-
-    console.log(replacedText);
-    return replacedText;
-
-  }
-
-  static getLinksInText(str: string): string[] {
-    const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-    let match = replacePattern1.exec(str);
-
-    const links = [];
-    while (match) {
-      let templateKey, matchedStr = match[0];
-      links.push(matchedStr);
-      match = replacePattern1.exec(str);
-    }
-    return links;
-
-  }
-
-
-  static deepCompare(x, y): boolean {
-
-    var i, l, leftChain, rightChain;
-
-    function compare2Objects(x, y) {
-      var p;
-
-      // remember that NaN === NaN returns false
-      // and isNaN(undefined) returns true
-      if (isNaN(x) && isNaN(y) && typeof x === 'number' && typeof y === 'number') {
-        return true;
-      }
-
-      // Compare primitives and functions.
-      // Check if both arguments link to the same object.
-      // Especially useful on the step where we compare prototypes
-      if (x === y) {
-        return true;
-      }
-
-      // Works in case when functions are created in constructor.
-      // Comparing dates is a common scenario. Another built-ins?
-      // We can even handle functions passed across iframes
-      if ((typeof x === 'function' && typeof y === 'function') ||
-        (x instanceof Date && y instanceof Date) ||
-        (x instanceof RegExp && y instanceof RegExp) ||
-        (x instanceof String && y instanceof String) ||
-        (x instanceof Number && y instanceof Number)) {
-        return x.toString() === y.toString();
-      }
-
-      // At last checking prototypes as good as we can
-      if (!(x instanceof Object && y instanceof Object)) {
-        return false;
-      }
-
-      if (x.isPrototypeOf(y) || y.isPrototypeOf(x)) {
-        return false;
-      }
-
-      if (x.constructor !== y.constructor) {
-        return false;
-      }
-
-      if (x.prototype !== y.prototype) {
-        return false;
-      }
-
-      // Check for infinitive linking loops
-      if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1) {
-        return false;
-      }
-
-      // Quick checking of one object being a subset of another.
-      // todo: cache the structure of arguments[0] for performance
-      for (p in y) {
-        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-          return false;
-        } else if (typeof y[p] !== typeof x[p]) {
-          return false;
-        }
-      }
-
-      for (p in x) {
-        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-          return false;
-        } else if (typeof y[p] !== typeof x[p]) {
-          return false;
-        }
-
-        switch (typeof (x[p])) {
-          case 'object':
-          case 'function':
-
-            leftChain.push(x);
-            rightChain.push(y);
-
-            if (!compare2Objects(x[p], y[p])) {
-              return false;
-            }
-
-            leftChain.pop();
-            rightChain.pop();
-            break;
-
-          default:
-            if (x[p] !== y[p]) {
-              return false;
-            }
-            break;
-        }
-      }
-
-      return true;
-    }
-
-    if (arguments.length < 1) {
-      return true; //Die silently? Don't know how to handle such case, please help...
-      // throw "Need two or more arguments to compare";
-    }
-
-    for (i = 1, l = arguments.length; i < l; i++) {
-
-      leftChain = []; //Todo: this can be cached
-      rightChain = [];
-
-      if (!compare2Objects(arguments[0], arguments[i])) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }

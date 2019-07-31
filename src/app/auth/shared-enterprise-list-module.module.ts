@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EnterpriseListComponent} from "./enterprise-list/enterprise-list.component";
-import {GenericObjFilterPipe} from "../generic-obj-filter.pipe";
+import {EnterpriseListComponent} from './enterprise-list/enterprise-list.component';
+import {GenericObjFilterPipe} from '../generic-obj-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import {GenericObjFilterPipe} from "../generic-obj-filter.pipe";
   imports: [
     CommonModule,
   ],
-  exports:[
+  exports: [
     CommonModule,
     EnterpriseListComponent,
     GenericObjFilterPipe,

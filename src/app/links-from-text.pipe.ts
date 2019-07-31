@@ -7,7 +7,7 @@ import {UtilityService} from './utility.service';
 export class LinksFromTextPipe implements PipeTransform {
 
   transform(text: any, className?: any): any {
-    if(!text) return [];
+    if (!text) { return []; }
     return UtilityService.getLinksInText(text) || [];
   }
 

@@ -10,13 +10,13 @@ export interface ISessionMessageItem {
   'generated_msg': Array<any>;
   'generated_msg_string': string;
   'id': number;
-  'error':boolean;
-  'message': any; //Array<any>| string,
+  'error': boolean;
+  'message': any; // Array<any>| string,
   'message_store': {
     activeBotId?: any;
     activeBotRoomId?: any;
-    sendtoagent? : any;
-    top_match_section?:{
+    sendtoagent?: any;
+    top_match_section?: {
       first_question?: string;
       score?: number;
       section_id?: string;
@@ -28,8 +28,8 @@ export interface ISessionMessageItem {
   'transaction_id': string;
   'updated_at': string;
   'user_type': string;
-  feedback: EChatFeedback,
-  nlp:object;
+  feedback: EChatFeedback;
+  nlp: object;
   /*custom fields*/
   messageByHuman: string;
   curation_state: string;
@@ -42,17 +42,17 @@ export interface ISessionMessage {
 
 export interface ITableColumn {
   [key: string]: {
-    originalKey:string,
+    originalKey: string,
     displayValue: string,
-    type: string,//date, button, badge,
+    type: string, // date, button, badge,
     value: any
     classList?: string,
     name?: string,
     custom?: boolean,
     search?: boolean,
     searchValue?: boolean,
-    dateRange?:boolean
-  }
+    dateRange?: boolean
+  };
 }
 
 export interface ISessionItem {
@@ -64,7 +64,7 @@ export interface ISessionItem {
   'cross_retention_period': boolean;
   'data_store': any;
   'df_state': any;
-  channels: string[],
+  channels: string[];
   'id': number;
   'imichat_agent': {};
   'is_anonymized': boolean;
@@ -77,7 +77,7 @@ export interface ISessionItem {
     'imageUrl': string,
     'name': string
   };
-  'error':boolean,
+  'error': boolean;
   'data_encrypted': boolean;
   'sendtoagent': boolean;
   'total_message_count': number;

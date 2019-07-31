@@ -17,16 +17,15 @@ import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
 import {NgForm} from '@angular/forms';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
-import {EChatFeedback} from '../../../chat/chat-wrapper.component';
-import {BotSessionSmartTableModal} from "./bot-session-smart-table-modal";
+import {BotSessionSmartTableModal} from './bot-session-smart-table-modal';
 
 interface ISessionFilterData {
-  id: number,
-  updated_at: { begin: number, end: number },
-  limit: number,
-  page: number,
-  is_test?:boolean,
-  is_live?:boolean
+  id: number;
+  updated_at: { begin: number, end: number };
+  limit: number;
+  page: number;
+  is_test?: boolean;
+  is_live?: boolean;
 }
 
 @Component({
@@ -59,16 +58,18 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
-  showFilterForm = false;/*filter form will be shown when if table has data when no filters are applied*/
+  showFilterForm = false; /*filter form will be shown when if table has data when no filters are applied*/
   @ViewChild('form') filterForm: NgForm;
   // decryptReason: string;
   filterDataFromTable: ISessionFilterData;
   filterFormData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
-
+  filerFormInitalData;
   sessionsSmartTableDataModal: BotSessionSmartTableModal;
+  @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   channels: IIntegrationMasterListItem[];
+  filterFormDirty = false;
 
   constructor(
     private serverService: ServerService,
@@ -77,10 +78,8 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     private eventService: EventService,
     private store: Store,
     private matDialog: MatDialog,
-  ) {
-  }
+  ) {}
 
-  filterFormDirty = false;
 
   ngOnInit() {
 
@@ -102,7 +101,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   async openDeleteTemplateKeyModal(tempKey) {
 
-    let closeDialogPromise$ = this.utilityService.openDialog({
+    const closeDialogPromise$ = this.utilityService.openDialog({
       dialog: this.matDialog,
       component: this.sessionDetailTemplate,
       data: {
@@ -114,11 +113,11 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'modal-xlg'
     });
-    let data = await closeDialogPromise$;
+    const data = await closeDialogPromise$;
   }
 
 
-  /*todo: implement it better way*/
+  /* todo: implement it better way*/
   refreshSession() {
     this.url = this.constantsService.getBotSessionsUrl(10, 0);
     this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({url: this.url});
@@ -133,21 +132,19 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
 
-
   tableDataFactory() {
 
-    let tableDataModel = new BotSessionSmartTableModal(this.sessions,
+    const tableDataModel = new BotSessionSmartTableModal(this.sessions,
       this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE,
       {constantsService: this.constantsService, bot: this.bot});
     return tableDataModel;
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?) {
-    let isEncrypted: boolean;
     /*
-      * TODO: there is a data_encrypted key it the row itself. Can we use it?
-    * Why do we need to go fetch first message to see if its decrypted or not?
-    * */
+          * TODO: there is a data_encrypted key it the row itself. Can we use it?
+        * Why do we need to go fetch first message to see if its decrypted or not?
+        * */
 
     if (eventData.data.data_encrypted) {
 
@@ -183,7 +180,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     this.performSearchInDbForSession(filterData);
   }
 
-  @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   selectNextRow() {
     // this.selectedRow_Session
@@ -290,7 +286,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((value: { objects: ISessionItem[] }) => {
-            let newSession = value.objects[0];
+            const newSession = value.objects[0];
             /*todo: use perform search in db instead*/
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
@@ -349,8 +345,8 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     this.loadSessionById(id)
       .subscribe((val: { objects: ISessionItem[] }) => {
 
-        let sessionItem = val.objects[0];
-        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
+        const sessionItem = val.objects[0];
+        const index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
         this.sessions[index] = sessionItem;
         this.selectedRow_Session = sessionItem;
         this.sessionsSmartTableDataModal.refreshData(this.sessions);
@@ -369,18 +365,17 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     let url: string;
     let page: number;
     this.filterDataFromTable = JSON.parse(JSON.stringify(filterData || {}));
-    let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData || {}));
+    const filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData || {}));
     let combinedFilterData = {...filterDataFromForm, ...this.filterDataFromTable};
 
     if (Object.keys(combinedFilterData).length > 0) {
       if (combinedFilterData.updated_at) {
-        let x: any;
         /*
         * start and end refer to date 00:00
         * We want end to point to 23:59, so added a day
         * */
-        let begin = new Date((<any>combinedFilterData).updated_at.begin);
-        let end = new Date((<any>combinedFilterData).updated_at.end);
+        const begin = new Date((<any>combinedFilterData).updated_at.begin);
+        const end = new Date((<any>combinedFilterData).updated_at.end);
         end.setDate(end.getDate() + 1);
 
         combinedFilterData.updated_at =
@@ -413,7 +408,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         offset: (combinedFilterData.page - 1) * 10,
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
-      if(combinedFilterData.is_live){
+      if (combinedFilterData.is_live) {
         (combinedFilterData as any).is_test = false;
         delete combinedFilterData.is_live;
       }
@@ -424,7 +419,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       url = this.constantsService.getRoomWithFilters({limit: 10});
       page = 1;
     }
-    url = url.toLowerCase();//todo: this should be handled by backend;
+    url = url.toLowerCase(); // todo: this should be handled by backend;
     return this.serverService.makeGetReq({url, headerData: this.headerData})
       .pipe(
         tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
@@ -455,14 +450,13 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
   sessionFormSubmitted(formData) {
-    let filterData = UtilityService.cloneObj(formData);
-
+    const filterData = UtilityService.cloneObj(formData);
 
 
     this.filterFormData = filterData;
 
-    let channelsObj = filterData.channels;
-    let channelStr = Object.keys(channelsObj).filter(key => channelsObj[key]).join(',');
+    const channelsObj = filterData.channels;
+    const channelStr = Object.keys(channelsObj).filter(key => channelsObj[key]).join(',');
     delete filterData.channels;
     if (channelStr) {
       filterData.channels = channelStr.toLowerCase();
@@ -476,7 +470,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     this.performSearchInDbForSession(filterData)
       .subscribe(() => {
         // this.filterFormDirty  = false;
-        this.filterForm.form.markAsPristine();/*Because we want to disable button when data is unchanged*/
+        this.filterForm.form.markAsPristine(); /*Because we want to disable button when data is unchanged*/
       });
   }
 
@@ -492,7 +486,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  filerFormInitalData;
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -509,10 +502,10 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   test1(obj1, obj2) {
     let isDirty = false;
-    (function compareObj(obj1, obj2) {
-      for (let key of Object.keys(obj1)) {
-        let val1 = obj1[key];
-        let val2 = obj2[key];
+    (function compareObj(obj1_temp, obj2_temp) {
+      for (const key of Object.keys(obj1_temp)) {
+        const val1 = obj1_temp[key];
+        const val2 = obj2_temp[key];
 
         if (val1 && !val2 || !val1 && val2) {
           isDirty = true;
@@ -521,7 +514,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
         if (!(!val1 && !val2)) {
           if (typeof val1 === 'object') {
-            compareObj(val1, val2)
+            compareObj(val1, val2);
           } else if (val1 !== val2) {
             isDirty = true;
             return;

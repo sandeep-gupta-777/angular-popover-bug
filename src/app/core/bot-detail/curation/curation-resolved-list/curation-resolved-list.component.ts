@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 
 @Component({
@@ -9,16 +9,16 @@ import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 export class CurationResolvedListComponent implements OnInit {
 
   constructor() { }
-  
-  @Input() curationItemList : ICurationItem[];
-  @Input() isMorePresent:boolean;
+
+  @Input() curationItemList: ICurationItem[];
+  @Input() isMorePresent: boolean;
   @Output() loadMoreNext = new EventEmitter();
   @Input() totallength: number;
   @Input() reloadingMore: boolean;
   @Input() liveBotUpdatedAt: number;
   ngOnInit() {
   }
-  load10More(){
+  load10More() {
     this.loadMoreNext.emit();
   }
 }

@@ -1,21 +1,12 @@
 import {Injectable} from '@angular/core';
-import {
-  IBot,
-  IBotVersionData,
-  IBotVersionResult,
-  ICodeVersionValidation,
-  IValidationTabItem
-} from "../../../../../interfaces/IBot";
-import {SaveVersionInfoInBot} from "../../../../../view-bots/ngxs/view-bot.action";
-import {ConstantsService} from "../../../../../../constants.service";
-import {ServerService} from "../../../../../../server.service";
-import {Observable} from "rxjs";
-import {IHeaderData} from "../../../../../../../interfaces/header-data";
-import {ModalConfirmComponent} from "../../../../../../modal-confirm/modal-confirm.component";
-import {UtilityService} from "../../../../../../utility.service";
-import {EBotVersionTabs, IVersionDiff, IVersionErrorsMap} from "../../../../../../../interfaces/code-input";
-import {SetErrorMap} from "./ngxs/code-input.action";
-import {map} from "rxjs/operators";
+import {IBot, IBotVersionData, IBotVersionResult, ICodeVersionValidation} from '../../../../../interfaces/IBot';
+import {ConstantsService} from '../../../../../../constants.service';
+import {ServerService} from '../../../../../../server.service';
+import {Observable} from 'rxjs';
+import {IHeaderData} from '../../../../../../../interfaces/header-data';
+import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
+import {UtilityService} from '../../../../../../utility.service';
+import {EBotVersionTabs, IVersionDiff} from '../../../../../../../interfaces/code-input';
 
 declare var zip;
 declare var JSZip;
@@ -24,6 +15,106 @@ declare var saveAs;
 @Injectable()
 export class CodeInputService {
 
+  static dialogRefWrapper;
+  static forkVersionTemplate;
+  static matDialog;
+  static getVersion(versions: IBotVersionData[], versionId: number) {
+    return versions.find((BotVersion) => {
+      return versionId === BotVersion.id;
+    });
+  }
+
+  static getUpdatedFields(oldUpdatedFields: IVersionDiff, newUpdatedFields: IVersionDiff): IVersionDiff {
+    const x = {
+
+      'df_template': oldUpdatedFields['df_template'] || newUpdatedFields['df_template'],
+      'df_rules': oldUpdatedFields['df_rules'] || newUpdatedFields['df_rules'],
+      'generation_rules': oldUpdatedFields['generation_rules'] || newUpdatedFields['generation_rules'],
+      'generation_templates': oldUpdatedFields['generation_templates'] || newUpdatedFields['generation_templates'],
+      'workflow': oldUpdatedFields['workflow'] || newUpdatedFields['workflow'],
+    };
+
+    return x;
+
+  }
+
+  static getActiveTabNameByTabCount(tabCount: number): EBotVersionTabs {
+    return EBotVersionTabs[Object.keys(EBotVersionTabs)[tabCount]];
+  }
+
+
+  static calculateDiff(version1, version2): IVersionDiff {
+    const x = {
+      'df_template': version1['df_template'] !== version2['df_template'],
+      'df_rules': version1['df_rules'] !== version2['df_rules'],
+      'generation_rules': version1['generation_rules'] !== version2['generation_rules'],
+      'generation_templates': version1['generation_templates'] !== version2['generation_templates'],
+      'workflow': version1['workflow'] !== version2['workflow'],
+    };
+
+    return x;
+  }
+
+  static initializeVersionDiff() {
+    return {
+      'df_template': false,
+      'df_rules': false,
+      'generation_rules': false,
+      'generation_templates': false,
+      'workflow': false,
+    };
+  }
+
+  static initializeValidationItem(): ICodeVersionValidation {
+    return {
+      'df_rules': null,
+      'df_template': null,
+      'generation_rules': null,
+      'generation_templates': null,
+      'workflow': null,
+    };
+  }
+
+
+  static getChangedFields(version_local: IBotVersionData, version_store: IBotVersionData) {
+    return {
+      df_template: version_local['df_template'] !== version_store['df_template'],
+      df_rules: version_local['df_rules'] !== version_store['df_rules'],
+      generation_rules: version_local['generation_rules'] !== version_store['generation_rules'],
+      generation_templates: version_local['generation_templates'] !== version_store['generation_templates'],
+      workflow: version_local['workflow'] !== version_store['workflow'],
+    };
+  }
+
+  static validationPassed(validation) {
+    const isFailed = (validation.df_template && validation.df_template.error) ||
+      (validation.df_rules && validation.df_rules.error) ||
+      (validation.workflow && validation.workflow.error) ||
+      (validation.generation_rules && validation.generation_rules.error) ||
+      (validation.generation_templates && validation.generation_templates.error);
+    return !isFailed;
+  }
+
+  static downloadZip(bot: IBot, version: IBotVersionData) {
+    const zip_temp = new JSZip();
+    this.addFileToZip(zip_temp, 'df_template.py', version.df_template);
+    this.addFileToZip(zip_temp, 'df_rules.py', version.df_rules);
+    this.addFileToZip(zip_temp, 'generation_rules.py', version.generation_rules);
+    this.addFileToZip(zip_temp, 'generation_templates.py', version.generation_templates);
+    this.addFileToZip(zip_temp, 'workflow.py', version.workflow);
+    // var img = zip.folder("images");
+    // img.file("smile.gif", imgData, {base64: true});
+    zip_temp.generateAsync({type: 'blob'})
+      .then((content) => {
+        // see FileSaver.js
+        saveAs(content, `${bot.bot_unique_name}_codeV${version.version}`);
+      });
+  }
+
+  static addFileToZip(zip_temp: any, name: string, text: string) {
+    zip_temp.file(name, text);
+  }
+
   constructor(
     private constantsService: ConstantsService,
     private utilityService: UtilityService,
@@ -31,43 +122,11 @@ export class CodeInputService {
   ) {
   }
 
-  static dialogRefWrapper;
-  static forkVersionTemplate;
-  static matDialog;
 
   static init(dialogRefWrapper, forkVersionTemplate, matDialog) {
     this.dialogRefWrapper = dialogRefWrapper;
     this.forkVersionTemplate = forkVersionTemplate;
     CodeInputService.matDialog = matDialog;
-  }
-
-  getAllVersions(botId, bot_access_token): Observable<IBotVersionResult> {
-
-    const url = this.constantsService.getAllVersionsByBotId();
-    // let botId = this.bot.roomId;
-    return this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
-    // .subscribe((botVersionResult) => {
-    // botVersionResult.objects.forEach((Versions) => {
-    //   Versions.changed_fields = {
-    //     'df_template': false,
-    //     'df_rules': false,
-    //     'generation_rules': false,
-    //     'generation_template': false,
-    //     'workflows': false
-    //   };
-    //   Versions.validation = {
-    //     'df_template': {error: false},
-    //     'df_rules': {error: false},
-    //     'generation_rules': {error: false},
-    //     'generation_templates': {error: false},
-    //     'workflow': {error: false},
-    //   };
-    // });
-
-    // this.store.dispatch([
-    //   new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
-    // ]);
-    // });
   }
 
   static createChannelList(bot: IBot) {
@@ -100,19 +159,27 @@ export class CodeInputService {
   }
 
 
+  getAllVersions(botId, bot_access_token): Observable<IBotVersionResult> {
+    const url = this.constantsService.getAllVersionsByBotId();
+    return this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}});
+  }
+
+
+
   saveVersion(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const url = this.constantsService.getSaveVersionByVersionId(version.id);
-    return this.serverService.makePutReq({url, body: version, headerData})
+    return this.serverService.makePutReq({url, body: version, headerData});
   }
+
   changeToCodeViewPermanently(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const url = this.constantsService.getSaveVersionByVersionId(version.id);
-    return this.serverService.makePutReq({url, body: {'is_ui_view': !version.is_ui_view}, headerData})
+    return this.serverService.makePutReq({url, body: {'is_ui_view': !version.is_ui_view}, headerData});
   }
 
   createNewVersion(bot: IBot, version: IBotVersionData) {
@@ -120,7 +187,7 @@ export class CodeInputService {
       'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const url = this.constantsService.getCreateNewVersionByBotId(bot.id);
-    return this.serverService.makePostReq({url, body: version, headerData})
+    return this.serverService.makePostReq({url, body: version, headerData});
   }
 
   validateCode$(bot: IBot, version: IBotVersionData) {
@@ -128,7 +195,7 @@ export class CodeInputService {
       'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const codeValidationUrl = this.constantsService.codeValidationUrl();
-    return this.serverService.makePostReq<any>({headerData, body: version, url: codeValidationUrl})
+    return this.serverService.makePostReq<any>({headerData, body: version, url: codeValidationUrl});
   }
 
 
@@ -137,14 +204,14 @@ export class CodeInputService {
       dialogRefWrapper: CodeInputService.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
       data: {
-        actionButtonText: "Fork an inactive Versions",
+        actionButtonText: 'Fork an inactive Versions',
         message: 'This active version has errors, please rectify the errors before saving. You can also fork a new inactive version from this and save it with errors, but you cannot activate it.',
         title: 'Version save failed',
         isActionButtonDanger: true
       },
       dialog: CodeInputService.matDialog,
       component: ModalConfirmComponent
-    })
+    });
   }
 
   showSaveWithErrorDialog() {
@@ -152,114 +219,18 @@ export class CodeInputService {
       dialogRefWrapper: CodeInputService.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
       data: {
-        actionButtonText: "Save with errors",
-        message: "Errors are found in the versions, do you want to save the versions? This versions cannot be activated with errors.",
+        actionButtonText: 'Save with errors',
+        message: 'Errors are found in the versions, do you want to save the versions? This versions cannot be activated with errors.',
         title: `Save version with errors`,
         isActionButtonDanger: true,
         inputDescription: null,
-        closeButtonText: "Keep editing"
+        closeButtonText: 'Keep editing'
       },
       dialog: CodeInputService.matDialog,
       component: ModalConfirmComponent
-    })
-  }
-
-  static getVersion(versions: IBotVersionData[], versionId: number) {
-    return versions.find((BotVersion) => {
-      return versionId === BotVersion.id;
     });
   }
 
-  static getUpdatedFields(oldUpdatedFields: IVersionDiff, newUpdatedFields: IVersionDiff): IVersionDiff {
-    let x = {
-
-      'df_template': oldUpdatedFields['df_template'] || newUpdatedFields['df_template'],
-      'df_rules': oldUpdatedFields['df_rules'] || newUpdatedFields['df_rules'],
-      'generation_rules': oldUpdatedFields['generation_rules'] || newUpdatedFields['generation_rules'],
-      'generation_templates': oldUpdatedFields['generation_templates'] || newUpdatedFields['generation_templates'],
-      'workflow': oldUpdatedFields['workflow'] || newUpdatedFields['workflow'],
-    };
-
-    return x
-
-  }
-
-  static getActiveTabNameByTabCount(tabCount: number): EBotVersionTabs {
-    return EBotVersionTabs[Object.keys(EBotVersionTabs)[tabCount]]
-  }
-
-
-  static calculateDiff(version1, version2): IVersionDiff {
-    let x = {
-      'df_template': version1['df_template'] !== version2['df_template'],
-      'df_rules': version1['df_rules'] !== version2['df_rules'],
-      'generation_rules': version1['generation_rules'] !== version2['generation_rules'],
-      'generation_templates': version1['generation_templates'] !== version2['generation_templates'],
-      'workflow': version1['workflow'] !== version2['workflow'],
-    };
-
-    return x;
-  }
-
-  static initializeVersionDiff() {
-    return {
-      'df_template': false,
-      'df_rules': false,
-      'generation_rules': false,
-      'generation_templates': false,
-      'workflow': false,
-    };
-  }
-
-  static initializeValidationItem(): ICodeVersionValidation {
-    return {
-      'df_rules': null,
-      'df_template': null,
-      'generation_rules': null,
-      'generation_templates': null,
-      'workflow': null,
-    }
-  }
-
-
-  static getChangedFields(version_local: IBotVersionData, version_store: IBotVersionData) {
-    return {
-      df_template: version_local['df_template'] !== version_store['df_template'],
-      df_rules: version_local['df_rules'] !== version_store['df_rules'],
-      generation_rules: version_local['generation_rules'] !== version_store['generation_rules'],
-      generation_templates: version_local['generation_templates'] !== version_store['generation_templates'],
-      workflow: version_local['workflow'] !== version_store['workflow'],
-    }
-  }
-
-  static validationPassed(validation) {
-    let isFailed = (validation.df_template && validation.df_template.error) ||
-      (validation.df_rules && validation.df_rules.error) ||
-      (validation.workflow && validation.workflow.error) ||
-      (validation.generation_rules && validation.generation_rules.error) ||
-      (validation.generation_templates && validation.generation_templates.error)
-    return !isFailed;
-  }
-
-  static downloadZip(bot: IBot, version: IBotVersionData) {
-    var zip = new JSZip();
-    this.addFileToZip(zip, 'df_template.py', version.df_template);
-    this.addFileToZip(zip, 'df_rules.py', version.df_rules);
-    this.addFileToZip(zip, 'generation_rules.py', version.generation_rules);
-    this.addFileToZip(zip, 'generation_templates.py', version.generation_templates);
-    this.addFileToZip(zip, 'workflow.py', version.workflow);
-    // var img = zip.folder("images");
-    // img.file("smile.gif", imgData, {base64: true});
-    zip.generateAsync({type: 'blob'})
-      .then((content) => {
-        // see FileSaver.js
-        saveAs(content, `${bot.bot_unique_name}_codeV${version.version}`);
-      });
-  }
-
-  static addFileToZip(zip: any, name: string, text: string) {
-    zip.file(name, text);
-  }
 
   openPrimaryModal(IntentModal) {/*TODO: move it to modal service*/
     return this.utilityService.openDialog({
@@ -286,12 +257,12 @@ export class CodeInputService {
 
     const codeValidationUrl = this.constantsService.codeValidationUrl();
 
-    return this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
+    return this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl});
 
   }
 
   activateVersion(bot: IBot, active_version_id) {
-    return this.serverService.updateBot({id: bot.id, active_version_id, bot_access_token: ServerService.getBotTokenById(bot.id)})
+    return this.serverService.updateBot({id: bot.id, active_version_id, bot_access_token: ServerService.getBotTokenById(bot.id)});
       // .pipe(map(
       //   () => {
       //   },

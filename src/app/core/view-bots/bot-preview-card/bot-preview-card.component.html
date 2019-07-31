@@ -68,7 +68,7 @@
         <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
         <div
-          *myIf="myEAllActions['Send API']"
+          *appMyIf="myEAllActions['Send API']"
           class="preview-button click-save-wrapper"
           (click)="previewBot($event)"
         >
@@ -95,7 +95,7 @@
   </div>
 
   <div *ngIf="showLoader" class="loader-overlay">
-    <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
+    <span class="fa fa-gear fa-spin" style="font-size: 20px"></span>
   </div>
 </section>
 
@@ -123,7 +123,7 @@
   </button>
   <button
     mat-menu-item
-    *myIf="[myEAllActions['Delete Bots']]"
+    *appMyIf="[myEAllActions['Delete Bots']]"
     (click)="openDeleteModal(template)"
   >
     <mat-icon class="mat-icon material-icons mr-1">delete</mat-icon>Delete
@@ -136,7 +136,7 @@
     <mat-icon class="mat-icon material-icons mr-1">bookmark</mat-icon>Pin
   </button>
 
-  <!-- <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><mat-icon class = "mat-icon material-icons">delete</mat-icon>Delete</button> -->
+  <!-- <button mat-menu-item *appMyIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><mat-icon class = "mat-icon material-icons">delete</mat-icon>Delete</button> -->
 
   <button
     mat-menu-item

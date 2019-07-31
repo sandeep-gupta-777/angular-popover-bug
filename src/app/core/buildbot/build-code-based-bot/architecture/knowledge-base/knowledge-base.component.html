@@ -8,7 +8,7 @@
             class="mat-theme-button ml-auto new-bot-cta"
             style="margin-left: auto"
             (click)="reinitialise()"
-            *myIf="myEAllActions['Create Enterprise Knowledge base']"
+            *appMyIf="myEAllActions['Create Enterprise Knowledge base']"
     >+ New Concept
     </button>
   </div>
@@ -20,7 +20,7 @@
             class="mat-theme-button ml-auto new-bot-cta"
             style="margin-right: 10px; margin-left: auto"
             (click)="reinitialise()"
-            *myIf="myEAllActions['Create Bot Knowledge base']"
+            *appMyIf="myEAllActions['Create Bot Knowledge base']"
     >
       + New Concept
     </button>
@@ -43,7 +43,6 @@
   </div>
 </ng-container>
 
-<!--<ng-template #splash>-->
 
 <app-splash-screen
   *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable && currentPageNumber===1"
@@ -56,14 +55,10 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center h-75 w-100"
      *ngIf="currentPageNumber>1 && _custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable">
-  <i>No concept for page = {{currentPageNumber}}</i>
+  <em>No concept for page = {{currentPageNumber}}</em>
   <button class="btn-theme mt-1" mat-flat-button color="primary" (click)="pageChanged$.emit(1)">Go to page = 1</button>
 
 </div>
-
-<!--</ng-template>-->
-
-<!--<ng-template #rowDetails>-->
 
 <app-knowledge-base-presentation
   *ngIf="!showTable"
@@ -74,4 +69,3 @@
   (deleteNer$)="deleteNer$.emit($event)"
   (updateOrSaveConcept$)="updateOrSaveConcept($event)"
 ></app-knowledge-base-presentation>
-<!--</ng-template>-->

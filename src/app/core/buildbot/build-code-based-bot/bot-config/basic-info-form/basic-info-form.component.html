@@ -1,9 +1,4 @@
 <form [formGroup]="formGroup" class="bot-creation-form bot-creation-form-grid">
-    <!--<app-bot-config-input-->
-            <!--displayName="Bot Name"-->
-            <!--placeholder="Bot Name"-->
-            <!--[isRequired]="true"-->
-            <!--formControlName="name"></app-bot-config-input>-->
 
     <mat-form-field class="w-100">
         <input type="text"
@@ -15,17 +10,14 @@
     <div class="logo-input">
         <div class="logo-input-wrapper">
             <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
-                 [src]="formGroup.get('logo').value" alt="">
+                 [src]="formGroup.get('logo').value" alt="bot logo">
             <!--TODO: app-bot-config-input is not used because we want to show custom errors-->
             <mat-form-field class="w-100">
                 <input type="text"
                        matInput
                        formControlName="logo"
                        placeholder="URL for the Bot Logo/Brand Image">
-                <!---->
-                <mat-error *ngIf="formGroup.get('logo').hasError('required')">
-                    Required
-                </mat-error>
+                <mat-error *ngIf="formGroup.get('logo').hasError('required')">Required</mat-error>
 
                 <mat-error
                         *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
@@ -40,12 +32,6 @@
             </mat-form-field>
         </div>
     </div>
-
-    <!--<app-bot-config-input-->
-            <!--displayName="Unique Name"-->
-            <!--formControlName="bot_unique_name"-->
-            <!--[isRequired]="true"-->
-            <!--placeholder="Bot Unique Name"></app-bot-config-input>-->
 
     <mat-form-field class="w-100">
         <input type="text"
@@ -70,7 +56,7 @@
     <div class="spacer"></div>
 
     <ng-container *ngIf="myEBotType.intelligent !== bot_type">
-        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot == bot_type" >
+        <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot === bot_type" >
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
@@ -80,7 +66,7 @@
 
             </mat-form-field>
         </fieldset>
-        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
+        <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"
                           cdkTextareaAutosize

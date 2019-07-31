@@ -1,7 +1,7 @@
-import {ISessionItem} from "../../../../interfaces/sessions";
-import {IBot} from "../../interfaces/IBot";
-import {ConstantsService} from "../../../constants.service";
-import {AbstractSmartTable} from "../../../smart-table/smart-table";
+import {ISessionItem} from '../../../../interfaces/sessions';
+import {IBot} from '../../interfaces/IBot';
+import {ConstantsService} from '../../../constants.service';
+import {AbstractSmartTable} from '../../../smart-table/smart-table';
 
 export class ConsumerSmartTableModal extends AbstractSmartTable {
 
@@ -21,7 +21,7 @@ export class ConsumerSmartTableModal extends AbstractSmartTable {
 
   set tableData(val) {
     alert('ConsumerSmartTableModal: use refreshData instead');
-    throw 'ConsumerSmartTableModal: use refreshData instead';
+    throw new Error('ConsumerSmartTableModal: use refreshData instead');
   }
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
@@ -36,15 +36,15 @@ export class ConsumerSmartTableModal extends AbstractSmartTable {
   }
 
   private customTransformSessionDataForMaterialTable(session: ISessionItem[]) {
-    let tableData = this.transformDataForMaterialTable(session, this.metaData);
-    tableData.map((tableRow)=>{
-      let additonalColumns: any = {
-        Actions:tableRow['Actions'],
+    const tableData = this.transformDataForMaterialTable(session, this.metaData);
+    tableData.map((tableRow) => {
+      const additonalColumns: any = {
+        Actions: tableRow['Actions'],
       };
 
       additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
-      console.log('131312312',tableRow['originalSessionData']);
-      if(tableRow['originalSessionData']['data_encrypted']){
+      console.log('131312312', tableRow['originalSessionData']);
+      if (tableRow['originalSessionData']['data_encrypted']) {
         // additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
 
         additonalColumns['Actions'].value.push({

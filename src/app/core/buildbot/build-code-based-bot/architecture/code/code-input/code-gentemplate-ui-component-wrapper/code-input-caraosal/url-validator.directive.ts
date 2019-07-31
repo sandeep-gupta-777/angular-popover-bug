@@ -11,7 +11,7 @@ import {UtilityService} from '../../../../../../../../utility.service';
   }]
 })
 export class UrlValidatorDirective implements Validator {
-  constructor(private utilityService: UtilityService){}
+  constructor(private utilityService: UtilityService) {}
   validate(formControl: FormControl): ValidationErrors | null {
     return this.utilityService.imageUrlHavingValidExtnError(formControl)
       || this.utilityService.imageUrlHttpsError(formControl);

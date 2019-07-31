@@ -1,4 +1,4 @@
-<img src="assets/img/side-design.svg" class="imi-fixed-logo" alt="">
+<img alt="imi corner banner" src="assets/img/side-design.svg" class="imi-fixed-logo">
 
 <div class="login-grid" [ngClass]="{'enterprise-pushing-left':panelActive==='enterprise-list-display'}">
   <!--left logo box starts-->
@@ -37,8 +37,8 @@
 
         <!--TODO: set form info-->
         <div class="user-info">
-          <i class="custom-text-danger" *ngIf="errorMessage" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
-          <i class="custom-text-primary" *ngIf="infoMessage" [ngClass]="{'visible':infoMessage}">{{infoMessage}}</i>
+          <em class="custom-text-danger" *ngIf="errorMessage" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</em>
+          <em class="custom-text-primary" *ngIf="infoMessage" [ngClass]="{'visible':infoMessage}">{{infoMessage}}</em>
         </div>
       </form>
     </div>
@@ -78,9 +78,9 @@
 
       <div [hidden]="panelActive!==myELoginPanels.set" style="display: flex;justify-content: center; align-items: center; position:absolute;top: -35%;left: -5%;right: -20%; height: 60px; background-color: #e5faff">
  
-              <img src="assets/img/baseline-how_to_reg-24px.svg" 
+              <img src="assets/img/baseline-how_to_reg-24px.svg"
              style="width: 24px; height: 24px; margin: 0 15px; "
-             alt="varified user">
+             alt="password verify">
              <div style="color: #474747">Please set your password to verify your account.</div>
       </div>
 
@@ -117,7 +117,7 @@
   <section *ngIf="panelActive==='email-reset-link-notify'" class="right">
     <div class="forgot-password-container d-flex flex-column align-items-center">
       <div class="checkmark border-circle">
-        <i class="fa fa-check"></i>
+        <span class="fa fa-check"></span>
       </div>
       <div class="hero-text">Password Reset Email Sent</div>
       <div class="text-center mb-2" style="width: 70%">
@@ -131,7 +131,7 @@
   <section *ngIf="panelActive==='password-reset-notify'" class="right">
     <div class="forgot-password-container d-flex flex-column align-items-center">
       <div class="checkmark border-circle">
-        <i class="fa fa-check"></i>
+        <span class="fa fa-check"></span>
       </div>
       <div class="hero-text">Password Updated Successfully</div>
       <div class="text-center mb-2" style="width: 70%">
@@ -144,7 +144,7 @@
   <section *ngIf="panelActive==='enterprise-list-display'" class="enterprise-flex mx-4">
     <div class="d-flex mb-2">
       <div style="font-size: 20px">Welcome {{userData.first_name}} {{userData.last_name}}</div>
-      <div class="color-primary cursor-pointer ml-auto" (click)="enterpriseLogout()"><i class="fa fa-power-off"> </i>
+      <div class="color-primary cursor-pointer ml-auto" (click)="enterpriseLogout()"><span class="fa fa-power-off"> </span>
         Log out
       </div>
     </div>
@@ -160,18 +160,6 @@
       [searchEnterprise]="searchEnterprise"
       (clickedEnterprise)="clickedEnterprise($event)"
       [currentEnterpriseId]="-1"></app-enterprise-list>
-    <!-- <div class="enterprise-grid h-100">
-      <div class = "enterprise-grid-item"
-      *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
-      (click) = enterEnterprise(enterprise.enterprise_id.roomId,enterprise.role_id.roomId)>
-        <div class = "enterprise-image">
-          <img src="{{enterprise.enterprise_id.logo}}" alt="">
-        </div>
-        <div class = "enterprise-name" >{{enterprise.enterprise_id.name}}</div>
-        <div class = "enterprise-role" >{{enterprise.role_id.name}}</div>
-      </div>
-
-    </div> -->
   </section>
 
   <!--right login form ends-->

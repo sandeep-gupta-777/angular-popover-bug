@@ -1,4 +1,4 @@
-import {ComponentFixture} from "@angular/core/testing";
+import {ComponentFixture} from '@angular/core/testing';
 
 class Page<C> {
   // getter properties wait to query the DOM until called.
@@ -43,7 +43,7 @@ class Page<C> {
   private queryAll<T>(selector: string): T[] {
     return this.fixture.nativeElement.querySelectorAll(selector);
   }
-  
+
   getElementByDataAttr(attr: string) {
     return this.fixture.debugElement.nativeElement.querySelector(`[data-cy="${attr}"]`);
   }

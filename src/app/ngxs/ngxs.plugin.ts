@@ -25,6 +25,6 @@
 //   return next(state, action).pipe(tap(result => {
 //     ConstantsService.state = state;
 //     LoggingService.log('Action happened!', result);
-//     localStorage.setItem('LOCALSTORAGE_APP_STATE', JSON.stringify(result));;
+//     localStorage.setItem('LOCALSTORAGE_APP_STATE', JSON.stringify(result));
 //   }));
 // }

@@ -7,7 +7,7 @@ import {ResetAppState} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {ResetAuthToDefaultState, SetUser} from '../../auth/ngxs/auth.action';
-import {ConstantsService,} from '../../constants.service';
+import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
@@ -21,8 +21,8 @@ import {ModalImplementer} from 'src/app/modal-implementer';
 import {MatDialog} from '@angular/material';
 import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
 import {environment} from '../../../environments/environment';
-import {EventService} from "../../event.service";
-import {Session} from "inspector";
+import {EventService} from '../../event.service';
+import {Session} from 'inspector';
 
 @Component({
   selector: 'app-header',
@@ -33,8 +33,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   defaultImage = 'assets/img/no image.svg';
   image = 'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?fm=jpg';
-  // offset = 100;
-
   bc;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
@@ -70,15 +68,15 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   ngOnInit() {
     try {
       this.bc = new BroadcastChannel('test_channel');
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
     // this.bc.onmessage = (ev) => {
     //   location.reload();
     // };
-    let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
+    const getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
-    EventService.logout$.subscribe((shouldCallLogoutApi?)=>{
+    EventService.logout$.subscribe((shouldCallLogoutApi?) => {
       this.logout(shouldCallLogoutApi);
     });
 
@@ -103,7 +101,9 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
             return;
           }
           this.autoLogOutTime = autoLogOutTime;
-          this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
+          if (this.logoutSetTimeoutRef) {
+            clearTimeout(this.logoutSetTimeoutRef);
+          }
 
 
           /*creating a new Timeout*/
@@ -112,7 +112,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
             // alert('You session has expired. Logging out');
             this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
             try {
-              //TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
+              // TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
             } catch (e) {
               LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
             }
@@ -166,18 +166,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     /*if apis are being mocked, dont expire tokens*/
-    if(!environment.mock && shouldCallLogoutApi){
-      this.serverService.makeGetReq({ url: this.url })
+    if (!environment.mock && shouldCallLogoutApi) {
+      this.serverService.makeGetReq({url: this.url})
         .subscribe((v) => {
           // this.utilityService.showSuccessToaster('Logged Out');
-          location.reload()
-        },_=>{
+          location.reload();
+        }, _ => {
           this.router.navigate(['auth', 'login'])
-            .then(()=>{
-              setTimeout(()=>{
-                location.reload()
-              },0)/*hack*/
-            })
+            .then(() => {
+              setTimeout(() => {
+                location.reload();
+              }, 0); /* hack*/
+            });
         });
       this.bc.postMessage('This is a test message.');
     }
@@ -201,16 +201,16 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           this.router.navigate(['auth', 'login'])
             .then(() => {
               setTimeout(() => {
-                location.reload()
-              }, 1000)/*hack*/
-            })
+                location.reload();
+              }, 1000); /*hack*/
+            });
         }, () => {
           this.router.navigate(['auth', 'login'])
             .then(() => {
               setTimeout(() => {
-                location.reload()
-              }, 1000)/*hack*/
-            })
+                location.reload();
+              }, 1000); /*hack*/
+            });
         });
       this.bc.postMessage('This is a test message.');
     }
@@ -220,7 +220,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   changeEnterprise(template: TemplateRef<any>) {
-    let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
+    const getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
     this.serverService.makeGetReq({url: getAllEnterpriseUrl})
       .subscribe((value: any) => {
@@ -239,52 +239,54 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   enterEnterprise(Enterprise) {
     if (Enterprise.isActive) {
-      let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
-      let body = {
-        "user_id": this.userData.id,
-        "enterprise_id": Enterprise.enterpriseId,
-        "role_id": Enterprise.roleId
-      }
-      let headerData = {
-        "auth-token": this.userData.auth_token
-      }
+      const enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+      const body = {
+        'user_id': this.userData.id,
+        'enterprise_id': Enterprise.enterpriseId,
+        'role_id': Enterprise.roleId
+      };
+      const headerData = {
+        'auth-token': this.userData.auth_token
+      };
 
       this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData})
         .subscribe((value) => {
 
-        this.store.dispatch([
-          new SetUser({ user: value }),
-          new SetAllBotListAction({ botList: [] })
-        ]).subscribe((user) => {
-          // this.router.navigate(['/core/analytics2/volume']);
+          this.store.dispatch([
+            new SetUser({user: value}),
+            new SetAllBotListAction({botList: []})
+          ]).subscribe((user) => {
+            // this.router.navigate(['/core/analytics2/volume']);
 
             this.router.navigate(['/'])
-            .then(()=>{location.reload();});
-            
-          // const url = this.constantsService.getBotListUrl();
-          // const headerData: IHeaderData = { 'content-type': 'application/json' };
-          // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
-          //   .subscribe((botResult) => {
-          //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-          //       .subscribe(async () => {
-                  // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
-                  // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-                  //   .subscribe((value: IEnterpriseProfileInfo) => {
-                  //     this.store.dispatch([
-                  //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
-                  //     ]).subscribe(() => {
+              .then(() => {
+                location.reload();
+              });
 
-                  //     });
-                  //   });
+            // const url = this.constantsService.getBotListUrl();
+            // const headerData: IHeaderData = { 'content-type': 'application/json' };
+            // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
+            //   .subscribe((botResult) => {
+            //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
+            //       .subscribe(async () => {
+            // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
+            // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+            //   .subscribe((value: IEnterpriseProfileInfo) => {
+            //     this.store.dispatch([
+            //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
+            //     ]).subscribe(() => {
+
+            //     });
+            //   });
             //     });
 
             // });
 
-          })
+          });
           // this.gotUserData$.emit(value);
         });
     } else {
-      this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.")
+      this.utilityService.showErrorToaster('Please verify this enterprise before trying to login.');
     }
 
   }

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ICurationIssuesAggregation} from "../../../../interfaces/faqbots";
+import {ICurationIssuesAggregation} from '../../../../interfaces/faqbots';
 
 @Component({
   selector: 'app-curation-issues-aggregation-bar',
@@ -9,7 +9,7 @@ import {ICurationIssuesAggregation} from "../../../../interfaces/faqbots";
 export class CurationIssuesAggregationBarComponent implements OnInit {
 
   constructor() { }
-@Input() aggrigationData : ICurationIssuesAggregation ;
+@Input() aggrigationData: ICurationIssuesAggregation ;
   ngOnInit() {
   }
 

@@ -46,15 +46,15 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
 
   subTabChanged(selectedSubTab) {
     this.textType = selectedSubTab;
-    setTimeout(()=>{
-      // this.quickReplyForm.form.patchValue(this.quick_reply);;
+    setTimeout(() => {
+      // this.quickReplyForm.form.patchValue(this.quick_reply);
     });
   }
 
-  removeAllKeysFromObjectUnlessMentioned(newQuickReplyFormValue, excludedKeys:string[]){
-    for(let key in newQuickReplyFormValue){
-      let doesKeyExistsInExcludedArr = excludedKeys.findIndex(value => key===value) !== -1;
-      if(!doesKeyExistsInExcludedArr ){
+  removeAllKeysFromObjectUnlessMentioned(newQuickReplyFormValue, excludedKeys: string[]) {
+    for (const key of Object.keys(newQuickReplyFormValue)) {
+      const doesKeyExistsInExcludedArr = excludedKeys.findIndex(value => key === value) !== -1;
+      if (!doesKeyExistsInExcludedArr ) {
         delete newQuickReplyFormValue[key];
       }
     }
@@ -63,15 +63,15 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
 
   saveQuickReplyForm(quickReplyForm) {
 
-    let {textType,content_type} = quickReplyForm.value;
-    let excludedKeys:string[] = [];
+    const {content_type} = quickReplyForm.value;
+    let excludedKeys: string[] = [];
     let newQuickReplyFormValue = JSON.parse(JSON.stringify(quickReplyForm.value));
-    if(content_type===EQuickReplyTypes.phone || content_type=== EQuickReplyTypes.email){
-      excludedKeys = ['content_type','title'];
-    }else if(content_type===EQuickReplyTypes.text){
-      excludedKeys = ['content_type','title','payload', 'url', ''];
-    }else if(content_type===EQuickReplyTypes.location){
-      excludedKeys = ['content_type','title','icon'];
+    if (content_type === EQuickReplyTypes.phone || content_type === EQuickReplyTypes.email) {
+      excludedKeys = ['content_type', 'title'];
+    } else if (content_type === EQuickReplyTypes.text) {
+      excludedKeys = ['content_type', 'title', 'payload', 'url', ''];
+    } else if (content_type === EQuickReplyTypes.location) {
+      excludedKeys = ['content_type', 'title', 'icon'];
     }
     newQuickReplyFormValue = this.removeAllKeysFromObjectUnlessMentioned(newQuickReplyFormValue, excludedKeys);
 
@@ -85,7 +85,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
     //   newQuickReplyFormValue.icon = "";
     // }
 
-    this.removeAllKeysFromObjectUnlessMentioned(this.quick_reply,[]);
+    this.removeAllKeysFromObjectUnlessMentioned(this.quick_reply, []);
     Object.assign(this.quick_reply, newQuickReplyFormValue);
     this.quickReplyForm.form.patchValue(newQuickReplyFormValue);
     setTimeout(() => {

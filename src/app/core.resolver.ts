@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Resolve } from '@angular/router';
-import {Observable, of} from "rxjs";
-import {fromPromise} from "rxjs/internal-compatibility";
-import {LoadJsService} from "./core/load-js.service";
+import {Resolve} from '@angular/router';
+import {Observable, of} from 'rxjs';
+import {fromPromise} from 'rxjs/internal-compatibility';
+import {LoadJsService} from './core/load-js.service';
 
 @Injectable()
 export class HnResolver implements Resolve<Observable<string>> {
-  constructor() {}
+  constructor() {
+  }
 
   resolve() {
     return fromPromise(LoadJsService.load());
