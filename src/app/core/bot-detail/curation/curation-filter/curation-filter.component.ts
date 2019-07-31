@@ -61,7 +61,7 @@ export class CurationFilterComponent implements OnInit {
   }
 
   // onSortByChange(val){
-  //   debugger;
+  //
   //   let x = this.curationForm.form.value;
   //   this.submitedForm();
     

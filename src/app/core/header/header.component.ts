@@ -78,8 +78,8 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
-    EventService.logout$.subscribe(()=>{
-      this.logout();
+    EventService.logout$.subscribe((shouldCallLogoutApi?)=>{
+      this.logout(shouldCallLogoutApi);
     });
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
@@ -150,8 +150,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.bc.postMessage('This is a test message.');
   }
 
-  logout() {
-
+  logout(shouldCallLogoutApi = true) {
 
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
@@ -162,10 +161,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     /*if apis are being mocked, dont expire tokens*/
-    if(!environment.mock){
+    if(!environment.mock && shouldCallLogoutApi){
       this.serverService.makeGetReq({ url: this.url })
         .subscribe((v) => {
-          this.utilityService.showSuccessToaster('Logged Out');
+          // this.utilityService.showSuccessToaster('Logged Out');
+          location.reload()
+        },_=>{
+          this.router.navigate(['auth', 'login'])
+            .then(()=>{
+              setTimeout(()=>{
+                location.reload()
+              },0)/*hack*/
+            })
         });
       this.bc.postMessage('This is a test message.');
     }
@@ -182,12 +189,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['auth', 'login'])
-      .then(()=>{
-        setTimeout(()=>{
-          location.reload()
-        },1000)/*hack*/
-      })
 
 
   }
@@ -228,7 +229,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           new SetAllBotListAction({ botList: [] })
         ]).subscribe((user) => {
           // this.router.navigate(['/core/analytics2/volume']);
-          debugger;
+
             this.router.navigate(['/'])
             .then(()=>{location.reload();});
             

@@ -87,7 +87,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       console.log(e);
     }
     let userValue = null;
-    debugger;
+
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
     let token = this.activatedRoute.snapshot.queryParamMap.get('token');
     let action = this.activatedRoute.snapshot.queryParamMap.get('action');

@@ -16,14 +16,13 @@ import {UtilityService} from '../../../utility.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {IHeaderData} from "../../../../interfaces/header-data";
 import {ELoadingStatus} from "../../../button-wrapper/button-wrapper.component";
-import {forkJoin} from "rxjs";
 @Component({
   selector: 'app-curation',
   templateUrl: './curation.component.html',
   styleUrls: ['./curation.component.scss']
 })
 export class CurationComponent implements OnInit {
-
+  myELoadingStatus = ELoadingStatus;
   constructor(
     private formBuilder: FormBuilder,
     private constantsService: ConstantsService,
@@ -83,7 +82,7 @@ export class CurationComponent implements OnInit {
   this.curationIssuesFilterForm.get('order_by').valueChanges
     .subscribe((val)=>{
       if(val){
-        debugger;
+
         let data = {
           'unsolved' : true,
           'value' : {...this.curationIssuesFilterForm.value,'order_by':val}
@@ -198,7 +197,7 @@ export class CurationComponent implements OnInit {
   }
   // getting 10
   load10MoreCurationIssues$(innit: boolean){
-    debugger;
+
     this.curationIssuesListisReloading = true;
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
@@ -379,7 +378,7 @@ export class CurationComponent implements OnInit {
 }
   resolveArticleWithTopIssues(section){
     this.curationIssuesFilterForm.reset();
-    debugger;
+
     let value = {
       "order_by": "group_by_section",
       "issue_count_filter": 'issue_count_per_section',
@@ -394,7 +393,7 @@ export class CurationComponent implements OnInit {
     })
   }
   atlestOneCurationSettingsNeeded(curationSettingsForm){
-    debugger;
+
     let ans = false;
     let arr = Object.keys(curationSettingsForm.get('curation_settings').value)
     arr.forEach(v=>{
