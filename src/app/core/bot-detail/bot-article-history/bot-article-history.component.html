@@ -1,0 +1,20 @@
+<header>
+  <div class="d-flex flex-row heading">
+    <strong class="heading-title">
+      History</strong>
+  </div>
+  <div style="color: #696969;font-size: 11px">See all the instances when knowledge base was trained and revert to a
+    previously created version
+  </div>
+</header>
+<app-smart-table class="history-table"
+                  [currentPage]="currentPage"
+                  [totalRecords]="totalHistoryLength"
+                 (click)="tableClickHandler($event)"
+                 *ngIf="ArticleHistorySmartTableObj && ArticleHistorySmartTableObj.tableData"
+                 [data]="ArticleHistorySmartTableObj.tableData"
+                 (performSearchInDB$)="goToPage($event)"  >
+</app-smart-table>
+<app-imi-loader *ngIf="isReloading">
+</app-imi-loader>
+

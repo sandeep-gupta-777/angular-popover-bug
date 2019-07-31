@@ -1,46 +1,71 @@
 <form role="menu" #form="ngForm"
-      (ngSubmit)="validateAndSubmit(form.value)"
+      (ngSubmit)="validateAndSubmit(form)"
       style="width: 200px">
-  <p class="heading mb-3">{{readonly?'Customer Details':'Edit Customer'}}</p>
+  <p class="mb-3">{{readonly ? 'Consumer details' : title}}</p>
 
   <fieldset [disabled]="readonly">
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.name">
+    <mat-form-field>
       <input matInput placeholder="Name" type="text" [ngModel]="customConsumerDetails?.name"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              name="name" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.phone">
+    <mat-form-field >
       <input matInput placeholder="Phone" type="text" [ngModel]="customConsumerDetails?.phone" name="phone"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.email">
-      <input matInput placeholder="Email" type="email" email [ngModel]="customConsumerDetails?.email"
+    <mat-form-field >
+      <input matInput placeholder="Email" type="text" [ngModel]="customConsumerDetails?.email"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              name="email" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.facebook_id">
+    <mat-form-field>
       <input matInput placeholder="Facebook ID" type="text" [ngModel]="customConsumerDetails?.facebook_id"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              name="facebook_id" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.uid">
-      <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid"
-             data-cy="edit-consumer-uid"
-             name="uid"
-             aria-describedby="emailHelp">
-    </mat-form-field>
+    <!--todo: disabled is not working on mat-form-field-->
+    <fieldset>
+      <mat-form-field>
+        <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid||uuid"
+               [disabled]="true"
+               data-cy="edit-consumer-uid"
+               name="uid"
+               aria-describedby="emailHelp">
+      </mat-form-field>
+    </fieldset>
 
   </fieldset>
-  <div class="d-flex justify-content-center">
+  <div *ngIf="!readonly">
     <!--<button  mat-flat-button color="primary" class="btn-theme">Save Changes</button>-->
-    <button *ngIf="!readonly"
-            data-cy="edit-consumer-submit"
-            type="submit" class="mat-theme-button mat-theme-button-border" mat-button>
-      Save Changes
+    <button
+      data-cy="edit-consumer-submit"
+      color="primary"
+      style="margin-right: 10px; border: none !important;"
+      type="submit" class="mat-theme-button" mat-flat-button>
+      {{buttonText}}
     </button>
+
+    <button
+      data-cy="edit-consumer-cancel"
+      (click)="hideOverlay$.emit()"
+      type="button" class="mat-theme-button mat-theme-button-border" mat-button>
+      Cancel
+    </button>
+
   </div>
-  <p *ngIf="errorMessage" class="text-danger mt-2 text-center font-11" >{{errorMessage}}</p>
+  <p *ngIf="errorMessage" class="text-danger mt-2 text-center font-11">{{errorMessage}}</p>
 </form>
+
+<button *ngIf="readonly"
+        data-cy="edit-consumer-edit"
+        (click)="readonly = false"
+        type="button" class="mat-theme-button mat-theme-button-border" mat-button>
+  Edit
+</button>
 
 

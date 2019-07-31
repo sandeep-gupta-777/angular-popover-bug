@@ -21,7 +21,8 @@
     align-items: center;
 
     .fa {
-      font-size: 25px;
+      font-size: 22px;
+      padding-right: 3px;
       cursor: pointer;
 
       &:hover {
@@ -69,6 +70,9 @@
 
   .dark-green {
     color: #8cd82f;
+  }
+  .dark-orange {
+    color: #f48a42;
   }
 
   .more {
@@ -163,8 +167,8 @@
     font-size: 17px;
     padding-top: 8px;
     padding-left: 10px;
-    color: rgba(247, 247, 247, 0.33) !important;  
-    
+    color: rgba(247, 247, 247, 0.33) !important;
+
   }
   input{
     height: 32px;
@@ -173,12 +177,34 @@
     margin-right: 11px;
     background-color: #203c55;
     width: 300px;
-    color: rgba(255, 255, 255, 0.33) !important;  
+    color: rgba(255, 255, 255, 0.33) !important;
     padding-left: 34px;
-    
+
   }
   input:focus{
     outline: none;
   }
 
   }
+
+
+
+
+  .mat-menu-item .mat-icon {
+    margin-right: 0px;
+    vertical-align: middle;
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    font-size: 14px;
+}
+
+
+button.mat-menu-item{
+  display: flex;
+  align-items: center;
+}
+
+.fa-share{
+  color: rgba(0, 0, 0, 0.54);
+}

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, ViewChild, Output, EventEmitter, AfterViewInit} from '@angular/core';
 import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
@@ -25,6 +25,7 @@ import {tap} from 'rxjs/internal/operators';
 import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {MyToasterService} from "../../my-toaster.service";
 import {LoggingService} from '../../logging.service';
+import {LoadJsService} from "../../core/load-js.service";
 
 enum ELoginPanels {
   set = 'set',
@@ -41,7 +42,7 @@ enum ELoginPanels {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends MessageDisplayBase implements OnInit {
+export class LoginComponent extends MessageDisplayBase implements OnInit, AfterViewInit {
   myELoginPanels = ELoginPanels;
   panelActive: ELoginPanels = ELoginPanels.login;
   disabeLoginButton = false;
@@ -86,6 +87,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       console.log(e);
     }
     let userValue = null;
+
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
     let token = this.activatedRoute.snapshot.queryParamMap.get('token');
     let action = this.activatedRoute.snapshot.queryParamMap.get('action');
@@ -324,6 +326,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = ELoginPanels.login;
     this.router.navigate(['/login'], {queryParams: {token: null, action: null}});
 
+  }
+
+  ngAfterViewInit(): void {
+    LoadJsService.load();
   }
 
 

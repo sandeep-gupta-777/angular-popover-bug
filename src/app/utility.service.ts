@@ -11,7 +11,7 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {AbstractControl, FormArray, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-const uuidv1 = require('uuid/v4');
+const uuidv4 = require('uuid/v4');
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -33,7 +33,7 @@ export class UtilityService {
 
 
   static generateUUid() {
-    return uuidv1();
+    return uuidv4();
   }
 
   constructor(
@@ -153,14 +153,15 @@ export class UtilityService {
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
-    return generatedMessage.map((message: IGeneratedMessageItem) => {
-
+    return generatedMessage.map((message: IGeneratedMessageItem, index) => {
+      const isLast = index === generatedMessage.length -1;
       let messageData: IMessageData = {
         ...message,
         bot_message_id,
         time: Date.now(),
         messageMediatype: null,
-        sourceType: 'bot'
+        sourceType: 'bot',
+        isLast
       };
 
       if (Object.keys(message)[0] === 'media') {
@@ -1109,7 +1110,10 @@ export class UtilityService {
     return forms.reduce((aggr, form) => {
       return {
         ...aggr,
-        ...form.value
+        /*getRawValue vs value
+        * Value doesnt return disabled formcontrols
+        * */
+        ...((form as any).getRawValue?(form as any).getRawValue():form.value)
       };
     }, {});
   }
@@ -1201,7 +1205,7 @@ export class UtilityService {
     // LoggingService.log(value);
   }
 
-  downloadArrayAsCSV(data: any[] = [], columns: object = {}) {
+  downloadArrayAsCSV(data: any[] = [], columns: object = {}, filename?:string) {
     // data = [
     //  { name: 'test1', score: 1, level: 'Z' },
     //  { name: 'test2', score: 2 },
@@ -1211,7 +1215,7 @@ export class UtilityService {
     //
     // columns = { name: '姓名', score: '分数' };
 
-    downloadCsv(data, columns);
+    downloadCsv(data, columns, filename);
   }
 
   /**

@@ -35,7 +35,7 @@ import {EAllActions, ERoleName} from "../../../typings/enum";
   styleUrls: ['./bot-preview-card.component.scss']
 })
 export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
-  defaultImage = 'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg';
+  defaultImage = 'assets/img/no image.svg';
   @Input() bot: IBot;
   showLoader = false;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -201,7 +201,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
         else{
           this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
         }
-        
+
         /*TODO:improve it*/
 
       } else {
@@ -217,5 +217,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
   menuOpened = false;
 
-
+  copySharablePreviewLinkHandler(){
+    this.utilityService.copyToClipboard(`${location.origin}/preview?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`)
+  }
 }

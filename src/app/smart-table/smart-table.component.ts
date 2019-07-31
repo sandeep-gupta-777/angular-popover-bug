@@ -67,7 +67,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   log(x) {
     console.log(x);
-    // alert();
+    // //alert();
   }
 
   removeEmptyKeyValues(valClone) {

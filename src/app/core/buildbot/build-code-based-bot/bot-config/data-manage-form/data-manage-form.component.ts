@@ -1,18 +1,15 @@
-import {debounceTime} from 'rxjs/operators';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
-import {ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
 import {Select, Store} from '@ngxs/store';
 import {EBotType, UtilityService} from '../../../../../utility.service';
-import {ConstantsService, } from '../../../../../constants.service';
+import {ConstantsService,} from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
-import {distinctUntilChanged, map, skip, takeWhile} from 'rxjs/internal/operators';
-import {LoggingService} from '../../../../../logging.service';
+import {map, takeWhile} from 'rxjs/internal/operators';
 import {EAllActions} from "../../../../../typings/enum";
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -22,14 +19,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DataManageFormComponent implements OnInit {
 
-  _bot: Partial<IBot> = {};
-  myEBotType =  EBotType;
+  myEBotType = EBotType;
   myEAllActions = EAllActions;
   bot_type;
   @Input() formGroup: FormGroup;
   @Output() dataValid$ = new EventEmitter();
+  @Output() disableBot$ = new EventEmitter();
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Input() formData: any;
+  @Input() isBuildBot: any = false;
   codebasedBotList: IBot[];
 
   constructor(
@@ -48,15 +46,38 @@ export class DataManageFormComponent implements OnInit {
 
     this.botlist$
       .pipe(
-        takeWhile((botlist)=>{
+        takeWhile((botlist) => {
           return botlist && !!botlist.allBotList;
         }),
         map((botlist) => {
-        return botlist.allBotList.filter((bot) => bot.bot_type === EBotType.chatbot);
-      }))
+          return botlist.allBotList.filter((bot) => bot.bot_type === EBotType.chatbot);
+        }))
       .subscribe((codebasedBotList) => {
         this.codebasedBotList = codebasedBotList;
       });
+
+    this.manageBotDisableReadOnlyStatus();
+  }
+
+  manageBotDisableReadOnlyStatus(){
+    let bot_disabled_settingsFG = this.formGroup.get('bot_disabled_settings');
+    bot_disabled_settingsFG
+      .get('bot_disabled')
+      .valueChanges.subscribe((bot_disabled) => {
+      this.toggleReadOnlyStatusForBotDisabledSection(!bot_disabled)
+    });
+    this.toggleReadOnlyStatusForBotDisabledSection(!bot_disabled_settingsFG.get('bot_disabled').value);
+  }
+
+  toggleReadOnlyStatusForBotDisabledSection(shouldMakeReadOnly: boolean) {
+    let bot_disabled_settingsFG = this.formGroup.get('bot_disabled_settings');
+    if (shouldMakeReadOnly) {
+      bot_disabled_settingsFG.get('disabled_message').disable();
+      bot_disabled_settingsFG.get('agent_handover').disable();
+    } else {
+      bot_disabled_settingsFG.get('disabled_message').enable();
+      bot_disabled_settingsFG.get('agent_handover').enable();
+    }
   }
 
 

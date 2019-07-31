@@ -1,0 +1,31 @@
+.curation-issues-wrapper-section{
+    display: grid;
+    grid-template-columns: 255px 1fr;
+    grid-gap: 44px;
+    app-curation-filter{
+        display: block;
+    }
+    app-curation-issues-list{
+        display: block;
+    }
+}
+.card--update {
+    //border: 1px solid #e0e0e0;
+    //padding: 0 8px;
+    //border-radius: 2px;
+    position: absolute;
+    right: 123px;
+    margin-top: 10px;
+    z-index: 20;
+    @media screen and (max-width: 780px) {
+      position: relative;
+      //width: 35%;
+      margin-left: auto;
+    }
+  }
+
+  ::ng-deep{
+    .mat-tab-header{
+        margin-top: 0px;
+    }
+  }

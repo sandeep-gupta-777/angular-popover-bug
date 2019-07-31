@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UtilityService} from '../utility.service';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-chat-consumer-form',
@@ -10,7 +11,13 @@ export class ChatConsumerFormComponent implements OnInit {
 
   @Input() customConsumerDetails;
   @Input() readonly  = false;
+  @Input() title  = 'Create room with consumer';
+  @Input() buttonText:string;
   @Output() saveConsumerDetails$ = new EventEmitter();
+  @Output() hideOverlay$ = new EventEmitter();
+  isEditMode = false;
+  test = true;
+  uuid = UtilityService.generateUUid();
 
   errorMessage = "";
   constructor(private utilityService:UtilityService) { }
@@ -18,8 +25,10 @@ export class ChatConsumerFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  validateAndSubmit(customConsumerDetails){
+  validateAndSubmit(form: NgForm){
 
+    let customConsumerDetails = form.form.getRawValue();
+    // let customConsumerDetails = form.form.getRawValues();
     this.errorMessage="";
     let doesConsumerFomContainSomeDetail =  this.utilityService.isAtleastOneValueIsDefined(customConsumerDetails);
     if(doesConsumerFomContainSomeDetail){

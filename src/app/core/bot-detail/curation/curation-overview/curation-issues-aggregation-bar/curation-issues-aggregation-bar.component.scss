@@ -1,0 +1,97 @@
+.issues-aggregation{
+    height: 112px;
+    border-radius: 2px;
+    border: solid 1px #eaeaea;
+    background-color: #ffffff;
+    display: grid;
+    grid-template-columns: 6fr 5fr 5fr 5fr;
+    align-items: center;
+    margin-top:16px;
+    .total-count{
+        height: 100%;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr;
+        justify-content: center;
+        align-items: center;
+        border-right: solid 1px #eaeaea;
+        padding: 12px 12px;
+        .total{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .total-icon{
+                width: 32px;
+                height: 32px;
+                color: #07b117;
+                border-radius: 50%;
+                margin-right: 9px; 
+                
+            }
+            .total-title{
+                font-size: 16px;
+            }
+            .total-number{
+                margin-left: auto;
+                font-size: 20px;
+                font-weight: bold;
+                color: #d94254;
+                margin-right:32px;
+
+            }
+        }
+        .today{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .today-text{
+                font-size: 13px;
+                margin-left: 42px;
+            }
+            .today-number{
+                margin-left: auto;
+                font-size: 13px;
+                font-weight: 400;
+                color: #4a4a4a;
+                margin-right:32px;
+            }
+        }
+    }
+    .count{
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        align-items: center;
+        
+        height: 100%;
+        padding: 15px 12px !important;
+            .count-item{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                padding: 0px 16px;
+                font-size: 13px;
+                color: #4a4a4a;
+                border-right: solid 1px #eaeaea;
+                height: 100%;
+                .count-icon{
+                    font-size: 16px;
+                    height: auto;
+                    width: auto;
+                    padding-right: 7px;
+                }
+                .count-text{
+                    font-size: 13px;
+                    color: #4a4a4a;
+                }
+                .count-number{
+                    font-size: 16px;
+                    font-weight: 400;
+                    margin-left: auto;
+                }
+            }
+            
+    }
+}

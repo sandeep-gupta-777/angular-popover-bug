@@ -61,7 +61,7 @@ import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.compone
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {InfoIconComponent} from './info-icon/info-icon.component';
-import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher, MatCardModule} from '@angular/material';
 import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
 import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
@@ -77,6 +77,13 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
 import {BreakpointService} from "./core/breakpoint.service";
 import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
+import { CurationComponent } from './core/bot-detail/curation/curation.component';
+import { CurationIssuesComponent } from './core/bot-detail/curation/curation-issues/curation-issues.component';
+import { CurationFilterComponent } from './core/bot-detail/curation/curation-filter/curation-filter.component';
+import { CurationIssuesListComponent } from './core/bot-detail/curation/curation-issues-list/curation-issues-list.component';
+import { CurationResolvedListComponent } from './core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component';
+import {FilePreviewOverlayService} from "./overlay.service";
+import {OverlayModule} from "@angular/cdk/overlay";
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -139,6 +146,9 @@ import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent,
+
+    // todo: put it inside view bot details moduel
+    
   ],
   imports: [
     SharedEnterpriseListModuleModule,
@@ -151,7 +161,7 @@ import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
     ClickOutsideModule,
     MatProgressSpinnerModule,
     LazyLoadImageModule,
-
+    MatCardModule
   ],
   exports: [
     ButtonWrapperComponent,
@@ -220,7 +230,8 @@ import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
-    FaqBotBasicInfoFormComponent
+    FaqBotBasicInfoFormComponent,
+    MatCardModule
   ],
   providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
 })

@@ -9,6 +9,7 @@ import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
 import {environment} from '../environments/environment';
 import {EAllActions} from "./typings/enum";
+import { style } from '@angular/animations';
 
 declare var Handsontable: any;
 
@@ -53,7 +54,16 @@ export class ConstantsService {
     }
     return x;
   }
-
+  getDefaultTriggeredRulesForArticleFilter(){
+    return [
+      "agent_handover",
+      "downvoted",
+      "fallback",
+      "from_session",
+      "low_confidence",
+      "partial_match"
+    ];
+  }
   NEW_BOT_VERSION_TEMPLATE = {
     'bot_id': 0,
     'comment': '',
@@ -252,15 +262,21 @@ export class ConstantsService {
   getCorpusForFAQBot(bot_id){
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
+  putCorpus(){
+    return this.BACKEND_URL + `api/v1/corpus/`;
+  }
+  getLiveCorpus(){
+    return this.BACKEND_URL + `api/v1/corpus/?state=live`;
+  }
+  getAllCorpusForFAQBot(limit,offset){
+    return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
+  }
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
   }
   getUpdateAgentHandoverUrl(){
     return this.BACKEND_URL + `api/v1/bot/updateagenthandover/`;
   }
-
-
-
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
@@ -454,7 +470,7 @@ export class ConstantsService {
 
   /*Enterprise NER*/
   getEnterpriseNer(limit: number = 10, offset: number = 0) {
-    return this.BACKEND_URL + `api/v1/customner/?type=enterprise&limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/?type=enterprise&limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   getEnterpriseNerById(id) {
@@ -514,6 +530,33 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
+  curationIssuesListUrl(limit,offset){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
+  }
+  curationResolvedAndIgnoredListUrl(limit,offset){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?limit=${limit}&offset=${offset}`;
+  }
+  curationIssueIgnoreUrl(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
+  }
+  curationIssueLinkToExistingSectionUrl(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
+  }
+  addCurationToNewSection(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`;
+  }
+  getAggregationResolved(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=resolved,ignored`;
+  }
+  getAggregationIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=in_curation`
+  }
+  getTopArticlesWithIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/topsectionissues/`;
+  }
+  addMessageToCurationFromSession(){
+    return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
@@ -984,8 +1027,6 @@ export class ConstantsService {
     //   searchValue: true,
     // },
   };
-
-
   SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     id: {
       originalKey: 'id',
@@ -1062,6 +1103,29 @@ export class ConstantsService {
       search: false,
       searchValue: false,
     },
+  };
+
+  
+  SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
+    description: {
+      originalKey: 'description',
+      value: '',
+      type: 'string',
+      displayValue:'Description of trained knowledge base',
+
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Updated on',
+    },
+    'actions': {
+      originalKey: '',
+      value: '',
+      type: 'string',
+      displayValue: 'Actions',
+    }
   };
 
 }

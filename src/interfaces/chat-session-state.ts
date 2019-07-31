@@ -23,6 +23,7 @@ export interface IMessageData extends IGeneratedMessageItem {
   messageMediatype: EBotMessageMediaType;
   bot_message_id: number;
   feedback?: EChatFeedback;
+  isLast?: boolean
 }
 
 export interface IRoomData {
@@ -32,7 +33,7 @@ export interface IRoomData {
   bot_id?: number;
   bot_access_token?: string;
   bot?: IBot;
-  'messageList': IMessageData[];
+  messageList?: IMessageData[];
   uid?: string;
   'selectedAvatar'?: {
     'id'?: number,
@@ -79,4 +80,5 @@ export interface IChatSessionState {
   currentUId: string;
   rooms: IRoomData[];
   consumerDetails: IConsumerDetails;
+  id?:any
 }

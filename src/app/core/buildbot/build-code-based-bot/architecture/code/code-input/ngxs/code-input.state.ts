@@ -149,7 +149,7 @@ export class VersionStateReducer {
 
     state.versions = [...state.versions];
     state.versions_pristine = [...state.versions_pristine];
-    this.utilityService.showSuccessToaster('New Version saved');
+    this.utilityService.showSuccessToaster(`Version ${payload.version.version} saved`);
     patchState({...state});
   }
 
@@ -292,8 +292,8 @@ export class VersionStateReducer {
           this.store.dispatch([new SaveVersion$({bot, version})]);
           this.codeInputService.activateVersion(payload.bot, payload.version.id).subscribe();/*TODO:1.use switch map 2. make an action for this*/
         } else {
-
-          setTimeout(() => this.utilityService.showErrorToaster('Plase correct errors in code before activating it'));;
+          this.utilityService.showErrorToaster('Plase correct errors in code before activating it')
+          // setTimeout(() => );;
         }
         let validation = CodeInputService.initializeValidationItem();
         validation = {

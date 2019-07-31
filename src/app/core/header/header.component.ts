@@ -32,7 +32,7 @@ import {EventService} from "../../event.service";
 })
 export class HeaderComponent extends ModalImplementer implements OnInit {
 
-  defaultImage = 'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg';
+  defaultImage = 'assets/img/no image.svg';
   image = 'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?fm=jpg';
   // offset = 100;
 
@@ -68,14 +68,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
-    this.bc = new BroadcastChannel('test_channel');
+    try {
+      this.bc = new BroadcastChannel('test_channel');
+    }catch (e) {
+      console.log(e);
+    }
     // this.bc.onmessage = (ev) => {
     //   location.reload();
     // };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
-    EventService.logout$.subscribe(()=>{
-      this.logout();
+    EventService.logout$.subscribe((shouldCallLogoutApi?)=>{
+      this.logout(shouldCallLogoutApi);
     });
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
@@ -146,8 +150,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.bc.postMessage('This is a test message.');
   }
 
-  logout() {
-
+  logout(shouldCallLogoutApi = true) {
 
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
@@ -158,10 +161,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     /*if apis are being mocked, dont expire tokens*/
-    if(!environment.mock){
+    if(!environment.mock && shouldCallLogoutApi){
       this.serverService.makeGetReq({ url: this.url })
         .subscribe((v) => {
-          this.utilityService.showSuccessToaster('Logged Out');
+          // this.utilityService.showSuccessToaster('Logged Out');
+          location.reload()
+        },_=>{
+          this.router.navigate(['auth', 'login'])
+            .then(()=>{
+              setTimeout(()=>{
+                location.reload()
+              },0)/*hack*/
+            })
         });
       this.bc.postMessage('This is a test message.');
     }
@@ -178,12 +189,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['auth', 'login'])
-      .then(()=>{
-        setTimeout(()=>{
-          location.reload()
-        },1000)/*hack*/
-      })
 
 
   }
@@ -223,8 +228,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           new SetUser({ user: value }),
           new SetAllBotListAction({ botList: [] })
         ]).subscribe((user) => {
-            this.router.navigate(['/']);
-            location.reload();
+          // this.router.navigate(['/core/analytics2/volume']);
+
+            this.router.navigate(['/'])
+            .then(()=>{location.reload();});
+            
           // const url = this.constantsService.getBotListUrl();
           // const headerData: IHeaderData = { 'content-type': 'application/json' };
           // return this.serverService.makeGetReq<IBotResult>({ url, headerData })

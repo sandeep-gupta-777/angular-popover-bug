@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="172" height="100" viewBox="0 0 172 100">
+    <g fill="none" fill-rule="evenodd">
+        <text fill="#474747" font-family="IBMPlexSans, IBM Plex Sans" font-size="13" transform="translate(-1 -12)">
+            <tspan x="0" y="109">No issues found, search again</tspan>
+        </text>
+        <path fill="#00ABD3" fill-rule="nonzero" d="M98.029 44.025h-3.162l-1.12-1.08a25.9 25.9 0 0 0 6.283-16.93C100.03 11.647 88.383 0 74.015 0S48 11.647 48 26.015 59.647 52.03 74.015 52.03a25.9 25.9 0 0 0 16.93-6.284l1.08 1.12v3.163L112.037 70 118 64.037 98.029 44.025zm-24.014 0c-9.966 0-18.01-8.044-18.01-18.01 0-9.966 8.044-18.01 18.01-18.01 9.966 0 18.01 8.044 18.01 18.01 0 9.966-8.044 18.01-18.01 18.01z"/>
+        <path d="M36-12h96v96H36z"/>
+    </g>
+</svg>

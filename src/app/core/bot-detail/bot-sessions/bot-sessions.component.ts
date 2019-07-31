@@ -9,7 +9,6 @@ import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
@@ -25,7 +24,9 @@ interface ISessionFilterData {
   id: number,
   updated_at: { begin: number, end: number },
   limit: number,
-  page: number
+  page: number,
+  is_test?:boolean,
+  is_live?:boolean
 }
 
 @Component({
@@ -403,6 +404,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         }
       });
 
+
       // if(combinedFilterData.feedback ===  true){
       //   combinedFilterData.feedback = EChatFeedback.NEGATIVE;
       // }
@@ -411,6 +413,10 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         offset: (combinedFilterData.page - 1) * 10,
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
+      if(combinedFilterData.is_live){
+        (combinedFilterData as any).is_test = false;
+        delete combinedFilterData.is_live;
+      }
       delete combinedFilterData.page;
       UtilityService.removeAllNonDefinedKeysFromObject(combinedFilterData);
       url = this.constantsService.getRoomWithFilters(combinedFilterData);
@@ -450,6 +456,9 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   sessionFormSubmitted(formData) {
     let filterData = UtilityService.cloneObj(formData);
+
+
+
     this.filterFormData = filterData;
 
     let channelsObj = filterData.channels;
@@ -491,7 +500,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       this.filterForm
         .valueChanges
         .subscribe((formData) => {
-
           // this.filterFormDirty = JSON.stringify(this.filerFormInitalData)!==JSON.stringify(formData);
           this.filterFormDirty = this.test1(formData, this.filerFormInitalData);
         });

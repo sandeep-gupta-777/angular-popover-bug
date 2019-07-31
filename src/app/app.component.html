@@ -1,1 +1,12 @@
-<router-outlet></router-outlet>
+<router-outlet>
+</router-outlet>
+
+<div class="vertical-centered-box" *ngIf="loading" style="z-index: 1000000000000;">
+  <div class="content">
+    <div class="loader-circle"></div>
+    <div class="loader-line-mask">
+      <div class="loader-line"></div>
+    </div>
+    <img src="https://staging.imibot.ai/static/favicon.ico">
+  </div>
+</div>

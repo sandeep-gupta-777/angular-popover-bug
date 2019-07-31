@@ -1,123 +1,123 @@
-<form [formGroup]="formGroup" *ngIf="_bot" class="bot-creation-form">
+<form [formGroup]="formGroup" class="bot-creation-form-grid">
+  <ng-container *ngIf="!isBuildBot">
+    <p class="subheading full-width">Bot status</p>
 
-    <div class="row m-0">
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-
-            <div class="switch-wrapper" style="margin-bottom: 20px" *ngIf="(bot_type===myEBotType.chatbot)">
-                <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Room Close Callback <app-info-icon [text]="'Trigger callback api before a room is about to close'"></app-info-icon></label>
-
-                    <app-ui-switch
-                            formControlName="room_close_callback"
-                            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-                    ></app-ui-switch>
-
-                </div>
-            </div>
-
-            <div class="switch-wrapper" style="margin-bottom: 20px">
-                <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Allow Feedback <app-info-icon [text]="'Request feedback for every bot message in a session'"></app-info-icon></label>
-
-                    <app-ui-switch
-                            formControlName="allow_feedback"
-                            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-                    ></app-ui-switch>
-                    <!---->
-                </div>
-            </div>
-
-
-            <!--<div class="switch-wrapper">-->
-                <!--<div class="form-control d-flex flex-column">-->
-                    <!--<label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>-->
-                    <!--<app-ui-switch-->
-                            <!--formControlName="advanced_data_protection"-->
-                            <!--[(ngModel)]="advanced_data_protection"-->
-                            <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
-                    <!--&gt;</app-ui-switch>-->
-                <!--</div>-->
-            <!--</div>-->
-        </fieldset>
-        <div class="col-1"></div>
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-
-            <!--<app-bot-config-input-->
-                    <!--style="margin-bottom: 20px"-->
-                    <!--onkeydown="return event.keyCode !== 69"-->
-            <!--displayName="Session Close Time [mins]"-->
-            <!--formControlName="room_persistence_time"-->
-            <!--[isRequired]="true"-->
-            <!--placeholder="Session Close Time [mins]"></app-bot-config-input>-->
-
-            <mat-form-field class="w-100" style="margin-bottom: 20px">
-                <input matInput formControlName="room_persistence_time" type="number" class=""
-                       onkeydown="return event.keyCode !== 69"
-                       placeholder="Session Close Time [mins]">
-            </mat-form-field>
-
-            <mat-form-field class="w-100" style="margin-bottom: 20px">
-                <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
-                       onkeydown="return event.keyCode !== 69"
-                       placeholder="Transactions Per Billing Unit">
-            </mat-form-field>
-
-            <!--<div class="switch-wrapper">-->
-            <!--<div class="form-control d-flex flex-column">-->
-            <!--<label class="pr-2">Persist Anonymized Conversation Logs</label>-->
-            <!--<app-ui-switch-->
-            <!--formControlName="allow_anonymization"-->
-            <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
-            <!--&gt;</app-ui-switch>-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <!--<div class="switch-wrapper">-->
-            <!--<div class="form-control d-flex flex-column">-->
-            <!--<label class="pr-2">Blanket consent for all consumers</label>-->
-            <!--<app-ui-switch-->
-            <!--formControlName="blanket_consent"-->
-            <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
-            <!--&gt;</app-ui-switch>-->
-            <!--</div>-->
-            <!--</div>-->
-        </fieldset>
-        <div class="col-7" style="padding-left: 15px" *ngIf="(bot_type===myEBotType.chatbot)">
-            <div class="" >
-                <div class="d-flex align-items-center" style="margin-bottom: 20px">
-                    <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon [text]="'Will it orchestrate other bots?'"></app-info-icon></label>
-                    <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
-
-                </div>
-            </div>
-            <!--<i>hello{{formGroup.get('child_bots').value|slice:0:4}}</i>-->
-            <mat-form-field style="width: 100%; margin-bottom: 20px" *ngIf="formGroup.get('is_manager').value">
-                <mat-select placeholder="Child Bots"
-                            formControlName="child_bots"
-                            multiple >
-
-
-                    <mat-select-trigger *ngIf="formGroup.get('child_bots') && formGroup.get('child_bots').value">
-                        <span *ngFor="let botId of formGroup.get('child_bots').value|slice:0:4; let last = last">
-                            {{(botId|botById|async)?.name || ("Not found (id =)"+ botId)}}<span *ngIf="!last">,</span>
-                        </span>
-                        <span style="opacity: 0.75;font-size: 0.75em;" *ngIf="formGroup.get('child_bots').value.length> 4 ">
-                            (+ {{formGroup.get('child_bots').value.length -4 }} more)
-                        </span>
-                    </mat-select-trigger>
-                    <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
-                        <mat-option [value]="bot.id">
-                            {{bot.name}}
-                        </mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            <ng-template #isManagerError>
-                <label class="text-danger pl-1"
-                       for="alterEgo"><i>At least one childbot is requred</i></label>
-            </ng-template>
+    <div class="full-width" formGroupName="bot_disabled_settings">
+      <div class="bot-creation-form-grid" style="padding: 0">
+        <div class="switch-wrapper">
+          <label>
+            Disable Bot
+            <app-info-icon [text]="'Pauses the bot from responding back to the user'"></app-info-icon>
+          </label>
+          <mat-slide-toggle color="primary" formControlName="bot_disabled"></mat-slide-toggle>
         </div>
+
+        <mat-form-field class="w-100" ngNativeValidate>
+                <textarea type="text" id="alterEgo"
+                          formControlName="disabled_message"
+                          matInput
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="3"
+                          placeholder="Disabled Message*"></textarea>
+          <mat-error>Required</mat-error>
+        </mat-form-field>
+
+        <div class="switch-wrapper small-dia-radio" >
+          <label style="margin-bottom: 10px">
+            Fallback action
+            <app-info-icon [text]="'What should happen for incoming messages to the bot?'"></app-info-icon>
+          </label>
+          <mat-radio-group aria-label="Select an option" formControlName="agent_handover">
+            <mat-radio-button color="primary" [value]="false">Do nothing</mat-radio-button>
+            <mat-radio-button color="primary" [value]="true">Send to Agent</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
     </div>
+  </ng-container>
+
+
+  <p class="full-width subheading" style="margin-top: 30px">Session Management</p>
+
+
+  <div class="switch-wrapper" style="margin-bottom: 20px" *ngIf="(bot_type===myEBotType.chatbot)">
+    <div class="form-control d-flex flex-column">
+      <label class="pr-2">Room Close Callback
+        <app-info-icon [text]="'Trigger callback api before a room is about to close'"></app-info-icon>
+      </label>
+
+      <app-ui-switch
+        formControlName="room_close_callback"
+        [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+      ></app-ui-switch>
+
+    </div>
+  </div>
+
+  <mat-form-field class="w-100" style="margin-bottom: 20px">
+    <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
+           onkeydown="return event.keyCode !== 69"
+           placeholder="Transactions Per Billing Unit">
+  </mat-form-field>
+
+  <div class="switch-wrapper" style="margin-bottom: 20px">
+    <div class="form-control d-flex flex-column">
+      <label class="pr-2">Allow Feedback
+        <app-info-icon [text]="'Request feedback for every bot message in a session'"></app-info-icon>
+      </label>
+
+      <app-ui-switch
+        formControlName="allow_feedback"
+        [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+      ></app-ui-switch>
+      <!---->
+    </div>
+  </div>
+
+  <mat-form-field class="w-100" style="margin-bottom: 20px">
+    <input matInput formControlName="room_persistence_time" type="number" class=""
+           onkeydown="return event.keyCode !== 69"
+           placeholder="Session Close Time [mins]">
+  </mat-form-field>
+
+  <div *ngIf="(bot_type===myEBotType.chatbot)">
+    <div class="">
+      <div class="d-flex align-items-center" style="margin-bottom: 20px">
+        <label class="pr-2 mb-0">Is Manager Bot?
+          <app-info-icon [text]="'Will it orchestrate other bots?'"></app-info-icon>
+        </label>
+        <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
+
+      </div>
+    </div>
+    <!--<i>hello{{formGroup.get('child_bots').value|slice:0:4}}</i>-->
+    <mat-form-field style="width: 100%; margin-bottom: 20px" *ngIf="formGroup.get('is_manager').value">
+      <mat-select placeholder="Child Bots"
+                  formControlName="child_bots"
+                  multiple>
+
+
+        <mat-select-trigger *ngIf="formGroup.get('child_bots') && formGroup.get('child_bots').value">
+                        <span *ngFor="let botId of formGroup.get('child_bots').value|slice:0:4; let last = last">
+                            {{(botId|botById|async)?.name || ("Not found (id =)" + botId)}}<span *ngIf="!last">,</span>
+                        </span>
+          <span style="opacity: 0.75;font-size: 0.75em;" *ngIf="formGroup.get('child_bots').value.length> 4 ">
+                            (+ {{formGroup.get('child_bots').value.length - 4 }} more)
+                        </span>
+        </mat-select-trigger>
+        <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
+          <mat-option [value]="bot.id">
+            {{bot.name}}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    <ng-template #isManagerError>
+      <label class="text-danger pl-1"
+             for="alterEgo"><i>At least one childbot is requred</i></label>
+    </ng-template>
+  </div>
 
 </form>
 

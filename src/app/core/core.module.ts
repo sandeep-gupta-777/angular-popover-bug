@@ -20,7 +20,7 @@ import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 // import {ChatListComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
 // import {ChatItemComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
 // import {ChatroomComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
-import {ScrollerDirective} from '../scroller.directive';
+// import {ScrollerDirective} from '../scroller.directive';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
@@ -69,6 +69,7 @@ import {HttpRequestInterceptor} from '../interceptor';
 import {MatSidenavModule} from '@angular/material';
 import {DevHttpInterceptorService} from "../dev/dev-http-interceptor.service";
 import {LazyLoadImageModule} from "ng-lazyload-image";
+import {HnResolver} from "../core.resolver";
 
 const routes: Route[] = [
   {
@@ -77,6 +78,7 @@ const routes: Route[] = [
     component: CoreWrapperComponent,
     canActivate: [],
     canActivateChild: [AccessGaurdService],
+    resolve:{ message: HnResolver },
     children: [
       {
         path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: []
@@ -145,7 +147,7 @@ const routes: Route[] = [
     RoleaccordionComponent,
     HeaderComponent,
 
-    ScrollerDirective,
+    // ScrollerDirective,
     ReportDetailsComponent,
     // BotWelcomeComponent,
     ReportDisplayComponent,
@@ -194,6 +196,7 @@ const routes: Route[] = [
     DatePipe,
     SmartTableSettingsService,
     FormsService,
+    HnResolver
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,

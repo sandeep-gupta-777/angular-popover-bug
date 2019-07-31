@@ -1,0 +1,85 @@
+<form [formGroup]="curationSettingsForm" s>
+  <div class="form-control d-flex flex-column pl-0 mb-3" style="border: none;">
+    <label class="py-1 curation_status_label">Enable curation
+      <app-info-icon [text]="'Enable messages to be curated based on the rules below'"></app-info-icon>
+    </label>
+    <span>
+      <span>
+        <mat-slide-toggle color=primary formControlName="allow_curation"></mat-slide-toggle>
+      </span>
+    </span>
+  </div>
+
+  <div class = "curation_settings_items_heading">
+    <div class = "first">
+        System defined curation rules
+    </div> 
+    <div class = "ml-auto">
+        Status
+    </div> 
+  </div>
+  <fieldset formGroupName="curation_settings">
+
+    <div class="curation_settings_item " formGroupName="fallback">
+      <div class="curation_settings_data">
+        <div class="curation_settings_name">Fallback message</div>
+        <div class="curation_settings_description">Add all messages for which the bot replies with fallback message to
+          curation</div>
+      </div>
+      <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
+    </div>
+
+    <div class="curation_settings_item " formGroupName="partial_match">
+      <div class="curation_settings_data">
+        <div class="curation_settings_name">Partial match</div>
+        <div class="curation_settings_description">Add all messages for which the bot was not able to disambiguate
+          between the choices and replied with the partial match message</div>
+      </div>
+      <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
+    </div>
+
+    <div class="curation_settings_item " formGroupName="agent_handover">
+      <div class="curation_settings_data">
+        <div class="curation_settings_name">Agent handover </div>
+        <div class="curation_settings_description">If agent handover happens automatically without the user requesting
+          it explicitly, those messages will be added to curation console </div>
+      </div>
+      <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
+    </div>
+
+    <div class="curation_settings_item " formGroupName="downvoted">
+      <div class="curation_settings_data">
+        <div class="curation_settings_name">Downvoted in preview</div>
+        <div class="curation_settings_description">Messages which were downvoted in bot preview will be added to
+          curation console</div>
+      </div>
+      <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
+    </div>
+
+    <div class="curation_settings_item " formGroupName="from_session">
+      <div class="curation_settings_data">
+        <div class="curation_settings_name">Added from sessions </div>
+        <div class="curation_settings_description">Able to add new curation queries from live or past sessions </div>
+      </div>
+      <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
+    </div>
+
+    <div class="curation_settings_item_low_confidence " formGroupName="low_confidence">
+      <div class = "curation_settings_item">
+          <div class="curation_settings_data">
+              <div class="curation_settings_name">Low confidence</div>
+              <div class="curation_settings_description">Add all messages to curation for which the score lies between maximum
+                score for low confidence and minimum threshold score </div>
+            </div>
+            <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
+      </div> 
+      
+      <mat-form-field class="curation_settings_item_low_confidence_input">
+          <input matInput placeholder="Max low confidence score" formControlName="low_confidence_score" 
+          type="number" 
+          required>
+        </mat-form-field>
+    </div>
+
+  </fieldset>
+</form>

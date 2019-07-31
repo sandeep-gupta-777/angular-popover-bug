@@ -30,6 +30,9 @@ import {ReducerListService} from '../reducer-list.service';
 import {ChatSessionStateReducer} from './ngxs/chat.state';
 import {LayoutModule} from '@angular/cdk/layout';
 import { ChatBotThinkingComponent } from './rooms-and-convo-panel/chat-message-list/chat-message/chat-bot-thinking/chat-bot-thinking.component';
+import {FilePreviewOverlayService} from "../overlay.service";
+import {OverlayModule} from "@angular/cdk/overlay";
+import {HnResolver} from '../core.resolver';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -50,6 +53,9 @@ const routes: Route[] = [
     LinkPreviewComponent,
     ChatBotThinkingComponent,
   ],
+  entryComponents: [
+    ChatConsumerFormComponent
+  ],
   imports: [
     CommonModule,
     RichMediaModule,
@@ -60,7 +66,8 @@ const routes: Route[] = [
     MyMaterialModule,
     NgxsModule.forFeature([ChatSessionStateReducer]),
     SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
-    LayoutModule
+    LayoutModule,
+    OverlayModule
 
   ],
   exports: [
@@ -75,7 +82,16 @@ const routes: Route[] = [
     BotWelcomeComponent,
 
   ],
-  providers: [DatePipe,StoreVariableService, UtilityService, MyToasterService,ConstantsService, ServerService, ChatService],
+  providers: [
+    DatePipe,
+    StoreVariableService,
+    UtilityService,
+    MyToasterService,
+    ConstantsService,
+    ServerService,
+    ChatService,
+    FilePreviewOverlayService
+  ],
 })
 export class ChatModule {
 

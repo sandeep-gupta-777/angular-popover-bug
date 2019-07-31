@@ -12,6 +12,7 @@ import {EventService} from '../../../../../../event.service';
 import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 import {SideBarService} from '../../../../../../side-bar.service';
 import {EAllActions} from "../../../../../../typings/enum";
+import {PermissionService} from "../../../../../../permission.service";
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -22,8 +23,12 @@ import {EAllActions} from "../../../../../../typings/enum";
 export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit, AfterViewInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
+  is_sensitive = false;
+  ignore_punctuation = false;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
+  disableAll = this.permissionService.isTabAccessDenied(EAllActions['Update Bot Knowledge base']);
+
 
   // @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
@@ -31,13 +36,15 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       return;
     }
     this._selectedRowData = value;
-
     this.key = value.key;
     if (value.ner_type) {
       this.ner_type = value.ner_type;
     }
     this.conflict_policy = value.conflict_policy || this.conflict_policy;
     this.process_raw_text = !!value.process_raw_text;
+    this.is_sensitive = !!value.is_sensitive;
+    this.ignore_punctuation = !!value.ignore_punctuation;
+    
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     if (value.ner_type === 'regex') {
@@ -93,6 +100,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
+    private permissionService: PermissionService,
     public matDialog: MatDialog
   ) {
     super(utilityService, matDialog);
@@ -209,7 +217,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       codeTextOutPutFromCodeEditor: codeTextFromEditor || '',
       handsontableData: tableData,
       //   ...this.handsontableComponent.getHotTableData(),
-      process_raw_text: this.process_raw_text
+      process_raw_text: this.process_raw_text,
+      is_sensitive: this.is_sensitive,
+      ignore_punctuation: this.ignore_punctuation
     };
     const ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (ner_id_str) {

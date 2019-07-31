@@ -28,7 +28,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
   }
 
   set tableData(val) {
-    alert('BotSessionSmartTableModal: use refreshData instead');
+    //alert('BotSessionSmartTableModal: use refreshData instead');
     throw 'BotSessionSmartTableModal: use refreshData instead';
   }
 
@@ -92,6 +92,16 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
           name: name,
           iconName: 'thumb_down',
           class: 'thumb_down'
+        });
+      }
+
+      let is_test: number = originalSessionData['is_test'] && originalSessionData['is_test'];
+      if (is_test) {
+        additonalColumns['Metadata'].value.push({
+          show: true,
+          name: 'Test session',
+          iconName: 'build',
+          class: 'build'
         });
       }
 

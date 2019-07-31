@@ -6,16 +6,26 @@
   <div class="main-frame">
     <app-article-question-list-view [corpus]="corpus" [filter_categorie_id_list]="filter_categorie_id_list"
       (removeFilterItemByIdEvent)="removeFilterItemById($event)"
-      (articleListItemClicked)="openArticleEditAndView($event)"
-      [_currentPage]="currentPageOfArtcle||0">
+      (articleListItemClicked)="openArticleEditAndView($event)" [_currentPage]="currentPageOfArtcle||0">
     </app-article-question-list-view>
     <div>
       <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
-        <div class="for-border"></div>
-        <div class="action-item pt-2 pb-1 cursor-pointer" style="font-size:13px" (click)="openArticleCreate()" *myIf="myEAllActions['Create Section']">
-          <mat-icon class="material-icons">add</mat-icon> Create new article
+        <!-- <div class="for-border"></div> -->
+        <div class="action-item pt-2 pb-2 cursor-pointer">
+          <button class="create-new-category-button btn-theme cursor-pointer" mat-stroked-button style="font-size:13px"
+            (click)="openArticleCreate()" *myIf="myEAllActions['Create Section']">
+            <mat-icon class="material-icons">add</mat-icon>Create new article
+          </button>
         </div>
-        <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)" *myIf="myEAllActions['Update Category']">
+        <div class="action-item py-1 cursor-pointer" *myIf="myEAllActions['Update Category']"
+          (click)="openCorpusImportModal(ImportArticlesTemplate)">
+          <mat-icon class="material-icons">publish</mat-icon>Import articles from csv
+        </div>
+        <div class="action-item py-1 cursor-pointer" (click)="openCorpusExportModal()">
+          <mat-icon class="material-icons">get_app</mat-icon>Export articles to csv
+        </div>
+        <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)"
+          *myIf="myEAllActions['Update Category']">
           <mat-icon class="material-icons">folder</mat-icon>Modify categories
         </div>
       </div>
@@ -25,10 +35,11 @@
   </div>
 </div>
 <div style="height: 100%" *ngIf="loaded && showEditAndViewArtical">
-  <app-edit-and-view-articles style="height: 100%" [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus && corpus.category_mapping" [corpus] = "corpus"
-    (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
-    (saveAndTrain)="trainBotAndGetCorpus('')" (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
-    (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
+  <app-edit-and-view-articles style="height: 100%" [bot]="bot" [article]="selectedArticle"
+    [category_mapping]="corpus && corpus.category_mapping" [corpus]="corpus" (goBack)="goBackToArticalList();"
+    (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()" (saveAndTrain)="trainBotAndGetCorpus('')"
+    (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
+    (trainAndUpdate)="trainAndUpdate($event)"></app-edit-and-view-articles>
 </div>
 
 <ng-template #categoriesTemplate>
@@ -49,18 +60,16 @@
     <div class="modal-body pt-0 ">
       <div class="d-flex flex-column">
         <div class="d-flex flex-row mb-2" style="height: 34px;">
-          <button class="mat-theme-button cursor-pointer mr-2" mat-button *ngIf = "!showCreateNewCategoryInput"
+          <button class="mat-theme-button cursor-pointer mr-2" mat-button *ngIf="!showCreateNewCategoryInput"
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
             (click)="showCreateNewCategoryInput = true">
             + Add category
           </button>
 
-          <app-categorie-modal-input *ngIf = "showCreateNewCategoryInput"
-            [typeIsEdit] = 'false'
+          <app-categorie-modal-input *ngIf="showCreateNewCategoryInput" [typeIsEdit]='false'
             (categoryUpdate)="categoryUpdate($event)"
-            (makeShowCreateNewCategoryInputFalse) = "showCreateNewCategoryInput = false"
-            (categoryCreate) = "categoryCreate($event)"
-            >
+            (makeShowCreateNewCategoryInputFalse)="showCreateNewCategoryInput = false"
+            (categoryCreate)="categoryCreate($event)">
           </app-categorie-modal-input>
 
           <mat-form-field class="ml-auto" style="width: 150px;">
@@ -73,16 +82,85 @@
 
           <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
             [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
-            [categorieClone]="categorie" [categorieMappingReal]="corpus && corpus.category_mapping"
-            [typeIsEdit] = "true"
-            (categoryUpdate)="categoryUpdate($event)"
-            (categoryDelete)= "categoryDelete($event)"
+            [categorieClone]="categorie" [categorieMappingReal]="corpus && corpus.category_mapping" [typeIsEdit]="true"
+            (categoryUpdate)="categoryUpdate($event)" (categoryDelete)="categoryDelete($event)"
             (cancelCategoryEditToUnchangedValue)="cancelCategoryEditToUnchangedValue()">
           </app-categorie-modal-input>
 
         </div>
       </div>
 
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ImportArticlesTemplate>
+  <div class="primary-modal" style="width: 37vw;">
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;font-size: 16px;">Import articles from
+        csv
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0 ">
+      <div class="pb-2">
+        <div>Criteria to check before importing</div>
+        <ul>
+          <li>Column headers should be present for all columns, specifically for question variants</li>
+          <li>Each article must have category name,answer and atleast one question</li>
+          <li>Default articles can be configured only in the articles page, no need to add them here</li>
+        </ul>
+      </div>
+      <form #Uplodeform="ngForm">
+        <div class="d-flex flex-column">
+          <!-- <label for="avatar" class="mb-1"> Csv File</label> -->
+          <div>
+            <mat-form-field>
+              <input matInput [value]="displayFilePath(Uplodeform.value.file)" readonly>
+            </mat-form-field>
+            <label for="avatar" class="btn btn-theme-secondary-outline upload-button">
+              Browse
+              <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required
+                accept='text/csv' hidden>
+            </label>
+          </div>
+
+
+          <!-- <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required accept='text/csv'> -->
+          <div *ngIf="errorArticleMustHaveCategory" class="errorText">Category is missing for one or more articles
+          </div>
+          <div *ngIf="errorArticleMustHaveAnswer" class="errorText">Answer is missing for one or more articles</div>
+          <div *ngIf="errorArticleMustHaveOneQuestion" class="errorText">At least one question needs to be configured in one or more articles
+          </div>
+          <div *ngIf="errorArticleMustNotHaveDefaultArticle" class="errorText"> Category for articles should not be called “Default"
+            </div>
+          <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class="errorText"> First column header must be “Category” and second column header must be “Answer"</div>
+          <!-- <div *ngIf="!Uplodeform.valid" class="errorText">Please upload the file</div> -->
+          <div *ngIf="noOfArticleFoundInUpload != null" class="successText">
+            {{noOfArticleFoundInUpload}} articles found</div>
+        </div>
+        <div class="d-flex pt-2">
+          <!-- <app-button-wrapper class="card--update" [isMatFlatButton]="false" [status]="uploadingSampleData"
+            [text]="'Download sample'" (btnClick)="downloadSample()">
+          </app-button-wrapper> -->
+
+          <button mat-button class="mat-theme-button" style="border: 1px solid #e0e0e0;"
+              type="button"
+              (click)="downloadSample()">Download sample
+      </button>
+
+
+          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
+            (click)="closeUploadModal()">Cancel</button>
+          <app-button-wrapper [disabled]="!Uplodeform.valid" class="card--update" *myIf="[myEAllActions['Update Bots']]"
+            [isMatFlatButton]="true" [status]="uploadingData" [text]="'Import'" (btnClick)="uploadDocument()">
+          </app-button-wrapper>
+          <!-- <button class="btn-theme px-15 btn-theme-primary" (click)=""></button> -->
+        </div>
+      </form>
     </div>
   </div>
 </ng-template>

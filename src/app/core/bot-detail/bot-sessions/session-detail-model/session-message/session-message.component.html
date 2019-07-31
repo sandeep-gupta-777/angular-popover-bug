@@ -1,11 +1,13 @@
 <section class="session-message-section" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
-  <div class="d-flex txId-icons pl-1 mb-1 ">
+  <div class="d-flex txId-icons pl-1 mb-1 mt-3">
         <span class="meta-text cursor-pointer mb-2 " (click)="utilityService.copyToClipboard(txnId)"
         [innerHtml]="'Txn Id: '+ txnId_highlighting">
    </span>
-   <span class ="ml-auto"></span>
+   <span></span>
       <mat-icon class= "search-error ml-1" *ngIf="hasError">error_outline</mat-icon>
       <mat-icon class= "search-agent ml-1" *ngIf="hasAgentHandover">headset_mic</mat-icon>
+      <mat-icon class= "search-flag ml-1" *ngIf="bot.bot_type == 'faqbot' && inCuration" matTooltip="Message in curation">flag</mat-icon>
+      <mat-icon class= "notInCuration ml-1" *ngIf="bot.bot_type == 'faqbot' && !inCuration && !isFirstMessage" (click)="addMessageToCuration($event)" matTooltip="Add to curation">flag</mat-icon>
   </div>
 
 
