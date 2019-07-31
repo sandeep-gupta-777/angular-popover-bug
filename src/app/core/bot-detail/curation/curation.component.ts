@@ -23,7 +23,7 @@ import {forkJoin} from "rxjs";
   styleUrls: ['./curation.component.scss']
 })
 export class CurationComponent implements OnInit {
-
+  myELoadingStatus = ELoadingStatus;
   constructor(
     private formBuilder: FormBuilder,
     private constantsService: ConstantsService,
