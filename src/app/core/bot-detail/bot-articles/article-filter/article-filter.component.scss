@@ -1,61 +1,80 @@
 @import "~src/sass/main";
-.article-action-side-bar{
-    .for-border{
-        height: 45px;
-        border-bottom : solid 1px #e0e0e0;
+
+.article-action-side-bar {
+  .for-border {
+    height: 45px;
+    border-bottom: solid 1px #e0e0e0;
+  }
+
+  .action-item {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #474747;
+
+    mat-icon {
+      font-size: 15px;
+      height: auto;
+      width: auto;
+      padding-right: 3px;
     }
-    .action-item{
-        display: flex;
-        align-items: center;
-        font-size: 11px;
-        color: #474747;
-        mat-icon{
-            font-size: 15px;
-            height: auto;
-            width: auto;
-            padding-right: 3px; 
-        }
+  }
+
+  .filter-categories-heading {
+    color: #474747;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+    margin-top: 16px;
+  }
+
+  .filter-categories-box {
+    background-color: #ffffff;
+    border-radius: 2px;
+
+    .search-input {
+      height: 45px;
     }
-    .filter-categories-heading{
-        color: #474747;
-        font-size: 13px;
-        font-weight: bold;
-        line-height: 1;
-        margin-top : 16px;
+
+    .categories-section {
+      font-size: 13px;
+      color: #474747;
+      border-bottom: solid 1px #e0e0e0;
+      height: 250px;
+      overflow-y: auto;
     }
-    .filter-categories-box{
-        background-color: #ffffff;
-        border-radius: 2px;
-        .search-input{
-            height:45px;
-        }
-        .categories-section{
-            font-size: 13px;
-            color: #474747;
-            border-bottom: solid 1px #e0e0e0;
-            height:250px;
-            overflow-y: auto;
-        }
-        .filter-btn{
-        }
-        .clear-btn{
-            background-color: transparent;
-            color: #474747;
-            border: solid 1px #e0e0e0;
-        }
+
+    .filter-btn {
     }
-    
+
+    .clear-btn {
+      background-color: transparent;
+      color: #474747;
+      border: solid 1px #e0e0e0;
+    }
+  }
+
 }
 
-::ng-deep{
-    .checkbox-filter{
-        span{
-            white-space: normal;
-            word-break: break-all;
-        }
+.article-filter-section {
+  ::ng-deep {
+    .checkbox-filter {
+      span {
+        white-space: normal;
+        word-break: break-all;
+      }
     }
-    .mat-checkbox-inner-container{
-        vertical-align: top !important;
-        margin-top: 8px !important; 
+
+    .mat-checkbox-inner-container {
+      vertical-align: top !important;
+      margin-top: 4 !important;
     }
+  //   .mat-checkbox.mat-accent {
+  //     .mat-checkbox-inner-container {
+  //        margin: 2px 8px auto 0;
+  //     }
+  //  }
+  }
 }
+
+

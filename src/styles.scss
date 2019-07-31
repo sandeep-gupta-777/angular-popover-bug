@@ -1041,7 +1041,8 @@ progressbar {
 }
 
 .bg-message-bot {
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
+  background-color: #e0e0e0;
 
   .time, .message-text {
     color: #474747 !important;
@@ -1419,3 +1420,10 @@ mat-dialog-container {
 }
 
 
+
+.absolute-center{
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}

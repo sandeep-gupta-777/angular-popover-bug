@@ -201,7 +201,7 @@
         [ngTemplateOutlet]="validationTemplate"
         [ngTemplateOutletContext]="{
           overlayOrigin: overlayOrigin,
-          customConsumerDetails:currentRoom.consumerDetails,
+          customConsumerDetails:currentRoom?.consumerDetails,
           createNewRoom: false,
           showOverlay: showOverlay_edit_fullscreen,
           isEditMode: true

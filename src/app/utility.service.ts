@@ -153,14 +153,15 @@ export class UtilityService {
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
-    return generatedMessage.map((message: IGeneratedMessageItem) => {
-
+    return generatedMessage.map((message: IGeneratedMessageItem, index) => {
+      const isLast = index === generatedMessage.length -1;
       let messageData: IMessageData = {
         ...message,
         bot_message_id,
         time: Date.now(),
         messageMediatype: null,
-        sourceType: 'bot'
+        sourceType: 'bot',
+        isLast
       };
 
       if (Object.keys(message)[0] === 'media') {

@@ -15,15 +15,13 @@ import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
 import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
-import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
-import { SetErrorImageProps } from 'ng-lazyload-image';
-import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
 import {HnResolver} from "./core.resolver";
 import {AngularFireDatabaseModule} from "@angular/fire/database";
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import {AngularFireMessagingModule} from "@angular/fire/messaging";
 import {AngularFireModule} from "@angular/fire";
 import {MessagingService} from "../messaging.service";
+import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";

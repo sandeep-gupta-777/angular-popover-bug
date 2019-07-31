@@ -213,7 +213,7 @@ export class ChatWrapperComponent implements OnInit {
 
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
-          chatSessionState.consumerDetails = this.currentRoom.consumerDetails;
+          chatSessionState.consumerDetails = this.currentRoom && this.currentRoom.consumerDetails;
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
         }
@@ -424,7 +424,7 @@ export class ChatWrapperComponent implements OnInit {
 
 
   consumerFormSubmitHandler(consumerDetails: IConsumerDetails,createNewRoom:boolean){
-      debugger;
+
     if(createNewRoom){
       this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot})
     }else {

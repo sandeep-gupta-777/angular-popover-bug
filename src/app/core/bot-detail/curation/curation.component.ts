@@ -22,7 +22,7 @@ import {ELoadingStatus} from "../../../button-wrapper/button-wrapper.component";
   styleUrls: ['./curation.component.scss']
 })
 export class CurationComponent implements OnInit {
-
+  myELoadingStatus = ELoadingStatus;
   constructor(
     private formBuilder: FormBuilder,
     private constantsService: ConstantsService,
@@ -55,10 +55,11 @@ export class CurationComponent implements OnInit {
   issuesAggrigationData : ICurationIssuesAggregation;
   topArticlesWithIssues: any[];
   topArticlesWithIssuesReloading:boolean = false;
-  resolveArticleWithTopIssuesFilterCount : number;
   activeTab:number = 0;
   curationSettingsForm : FormGroup;
-  updateSettingsLoading = ELoadingStatus.default
+  updateSettingsLoading = ELoadingStatus.default;
+  curationIssuesFilterForm : FormGroup;
+  curationResolvedFilterForm : FormGroup;
   ngOnInit() {
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
@@ -74,6 +75,112 @@ export class CurationComponent implements OnInit {
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
     this.makeCurationSettingsForm();
+    this.getCorpus$().subscribe();
+    this.makeCurationIssuesFilterForm();
+    this.makeCurationResolvedFilterForm();
+
+  this.curationIssuesFilterForm.get('order_by').valueChanges
+    .subscribe((val)=>{
+      if(val){
+
+        let data = {
+          'unsolved' : true,
+          'value' : {...this.curationIssuesFilterForm.value,'order_by':val}
+        }
+        this.submitedForm(data);
+      }
+    })
+    this.curationResolvedFilterForm.get('order_by').valueChanges
+    .subscribe((val)=>{
+      if(val){
+        let data = {
+          'unsolved' : false,
+          'value' : {...this.curationResolvedFilterForm.value,'order_by':val}
+        }
+        this.submitedForm(data);
+      }
+    })
+    this.curationIssuesFilterForm.get('count').disable();
+    this.curationResolvedFilterForm.get('count').disable();
+    this.curationIssuesFilterForm.get('issue_count_filter').valueChanges
+    .subscribe((val)=>{
+      if(!!val) {this.curationIssuesFilterForm.get('count').enable()}
+      else {this.curationIssuesFilterForm.get('count').disable()}
+    })
+    this.curationResolvedFilterForm.get('issue_count_filter').valueChanges
+    .subscribe((val)=>{
+      if(!!val) {this.curationResolvedFilterForm.get('count').enable()}
+      else {this.curationResolvedFilterForm.get('count').disable()}
+    })
+  }
+  // filter curation form 
+  makeCurationIssuesFilterForm(){
+    this.curationIssuesFilterForm = this.formBuilder.group({
+      "order_by" : ['updated_at'],
+      "room_id" : [],
+      "triggered_rules" : [],
+      "updated_at__range" : [],
+      "issue_count_filter" : [],
+      "count" : []
+    });
+  }
+  makeCurationResolvedFilterForm(){
+    this.curationResolvedFilterForm = this.formBuilder.group({
+      "order_by" : ['updated_at'],
+      "hideIgnored" : [],
+      "room_id" : [],
+      "triggered_rules" : [],
+      "updated_at__range" : [],
+      "issue_count_filter" : [],
+      "count" : []
+    });
+  }
+  submitedForm(data){
+    let body = {};
+    let unsolved = data.unsolved;
+    let value = data.value;
+    for (var key in value) {
+      if (value[key]) {
+        body[key] = value[key];
+      }
+    }
+    if(body['updated_at__range'] && Object.keys(body['updated_at__range']).length > 0 ){
+      body['updated_at__range'] = body['updated_at__range']["begin"].getTime()+','+(body['updated_at__range']["end"].getTime()+86340000);
+    }else{
+      delete body['updated_at__range'];
+    }
+
+    if(body['issue_count_filter'] && body['count']){
+      body[body['issue_count_filter']]  = body['count'];
+      delete body['issue_count_filter'];
+      delete body['count'];
+    }else{
+      delete body['issue_count_filter'];
+      delete body['count'];
+    }
+    
+    if(body['order_by']){
+      body['order_by'] = `-${body['order_by']}`;
+    }else{
+      body['order_by'] = `-updated_at`;
+    }
+    if(unsolved){
+      delete body['hideIgnored'];
+    }else{
+      if(body['hideIgnored']){
+        body['curation_state__in']="resolved";
+        delete body['hideIgnored'];
+      }else{
+        body['curation_state__in']="resolved,ignored";
+        delete body['hideIgnored'];
+      }
+    }
+    
+    if(unsolved){
+      this.IssuesFormSubmitted(body)
+    }else{
+      this.ResolvedFormSubmitted(body)
+    }
   }
   // setLiveBotUpdatedAt
   setLiveBotUpdatedAt(){
@@ -90,6 +197,7 @@ export class CurationComponent implements OnInit {
   }
   // getting 10
   load10MoreCurationIssues$(innit: boolean){
+
     this.curationIssuesListisReloading = true;
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
@@ -198,7 +306,7 @@ export class CurationComponent implements OnInit {
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
-      this.utilityService.showSuccessToaster("Issues has been successfully added to article.");
+      this.utilityService.showSuccessToaster("Issues have been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - data.curationItemId.length;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
         return !(data.curationItemId.find(c_id => {return c_id == item.id} ))
@@ -269,11 +377,23 @@ export class CurationComponent implements OnInit {
       });
 }
   resolveArticleWithTopIssues(section){
-    this.resolveArticleWithTopIssuesFilterCount = section.count;
+    this.curationIssuesFilterForm.reset();
+
+    let value = {
+      "order_by": "group_by_section",
+      "issue_count_filter": 'issue_count_per_section',
+      "count": section.count
+    }
+    this.curationIssuesFilterForm.patchValue(value,{onlySelf: true, emitEvent: false})
+    this.curationIssuesFilterForm.get('count').enable();
     this.activeTab = 1;
+    this.submitedForm({
+      'unsolved' : true,
+      'value' : {...this.curationIssuesFilterForm.value,...value}
+    })
   }
   atlestOneCurationSettingsNeeded(curationSettingsForm){
-    debugger;
+
     let ans = false;
     let arr = Object.keys(curationSettingsForm.get('curation_settings').value)
     arr.forEach(v=>{
@@ -333,12 +453,14 @@ export class CurationComponent implements OnInit {
       })
     });
   }
+  corpusState:string;
   refershCurrentTabHandler(){
     if(this.activeTab == 0){
       this.getIssuesAggregationData();
       this.setTopArticlesWithIssues();
     }
     if(this.activeTab == 1){
+      this.getCorpus$().subscribe();
       this.IssuesFormSubmitted({
         'order_by' : `-updated_at`
       });
@@ -350,5 +472,20 @@ export class CurationComponent implements OnInit {
         'order_by' : `-updated_at`
       })
     }
+  }
+  getCorpus$() {
+    let headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
+
+    return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
+      .pipe(
+        map((val) => {
+          this.corpusState = val.state;
+          var j = val.state.charAt(0).toUpperCase();
+          this.corpusState = j + val.state.substr(1).toLowerCase();
+        })
+      )
   }
 }

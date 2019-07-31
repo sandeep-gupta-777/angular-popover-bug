@@ -12,6 +12,7 @@ import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
 import { NgForm } from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 import {TempVariableService} from "../../../../temp-variable.service";
+import {EAllActions} from '../../../../typings/enum';
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -19,7 +20,7 @@ import {TempVariableService} from "../../../../temp-variable.service";
   styleUrls: ['./curation-issues-list.component.scss']
 })
 export class CurationIssuesListComponent implements OnInit {
-
+  myEAllActions = EAllActions;
   constructor(
     private utilityService:UtilityService,
     private constantsService : ConstantsService,
@@ -41,12 +42,12 @@ export class CurationIssuesListComponent implements OnInit {
   IssuesSelectedSet = [];
   articleSearchMode : boolean = false;
   dialogRefWrapper = { ref: null };
-  corpusState :string;
+  @Input() corpusState :string;
   myESplashScreens = ESplashScreens;
   selectedArticleToAddCuration : number;
   @Input() totallength:number;
   ngOnInit() {
-    this.getCorpus$().subscribe()
+    
     this.SelectedListForm.form.valueChanges
       .subscribe((val)=>{
         let temArray = new Set();
@@ -112,21 +113,7 @@ export class CurationIssuesListComponent implements OnInit {
     });
   }
 
-  getCorpus$() {
-    let headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    };
-    let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
 
-    return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
-      .pipe(
-        map((val) => {
-          this.corpusState = val.state;
-          var j = val.state.charAt(0).toUpperCase();
-          this.corpusState = j + val.state.substr(1).toLowerCase();
-        })
-      )
-  }
 
   // added multi to curation
   ignoreMultiQuery(){

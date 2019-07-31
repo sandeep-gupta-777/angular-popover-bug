@@ -185,7 +185,7 @@ export class ServerService {
 
     /*check for logout*/
     if (action === "logout") {
-      EventService.logout$.emit();
+      EventService.logout$.emit(false);
       return;
     }
 
@@ -314,6 +314,7 @@ export class ServerService {
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {
+        this.checkForLogoutAction(value);
         this.increaseAutoLogoutTime();
         if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
@@ -333,6 +334,7 @@ export class ServerService {
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers}).pipe(
       map((value: any) => {
+
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {

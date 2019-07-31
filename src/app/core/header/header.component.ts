@@ -68,14 +68,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
-    this.bc = new BroadcastChannel('test_channel');
+    try {
+      this.bc = new BroadcastChannel('test_channel');
+    }catch (e) {
+      console.log(e);
+    }
     // this.bc.onmessage = (ev) => {
     //   location.reload();
     // };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
-    EventService.logout$.subscribe(() => {
-      this.logout();
+    EventService.logout$.subscribe((shouldCallLogoutApi?)=>{
+      this.logout(shouldCallLogoutApi);
     });
 
     this.serverService.makeGetReq({url: getAllEnterpriseUrl})
@@ -149,8 +153,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.bc.postMessage('This is a test message.');
   }
 
-  logout() {
-
+  logout(shouldCallLogoutApi = true) {
 
     if (!this.userData) {/*TODO: ring fancing: BAD*/
       return;
@@ -163,6 +166,21 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     /*if apis are being mocked, dont expire tokens*/
+    if(!environment.mock && shouldCallLogoutApi){
+      this.serverService.makeGetReq({ url: this.url })
+        .subscribe((v) => {
+          // this.utilityService.showSuccessToaster('Logged Out');
+          location.reload()
+        },_=>{
+          this.router.navigate(['auth', 'login'])
+            .then(()=>{
+              setTimeout(()=>{
+                location.reload()
+              },0)/*hack*/
+            })
+        });
+      this.bc.postMessage('This is a test message.');
+    }
     this.store.dispatch([
       new ResetBotListAction(),
       new ResetAuthToDefaultState(),
@@ -174,6 +192,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     ]).subscribe(() => {
       this.store.dispatch([new ResetChatState()]);
     });
+    this.serverService.removeTokens();
 
     if (!environment.mock) {
       this.serverService.makeGetReq({url: this.url})
@@ -233,27 +252,30 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData})
         .subscribe((value) => {
 
-          this.store.dispatch([
-            new SetUser({user: value}),
-            new SetAllBotListAction({botList: []})
-          ]).subscribe((user) => {
-            this.router.navigate(['/']);
-            location.reload();
-            // const url = this.constantsService.getBotListUrl();
-            // const headerData: IHeaderData = { 'content-type': 'application/json' };
-            // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
-            //   .subscribe((botResult) => {
-            //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-            //       .subscribe(async () => {
-            // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
-            // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-            //   .subscribe((value: IEnterpriseProfileInfo) => {
-            //     this.store.dispatch([
-            //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
-            //     ]).subscribe(() => {
+        this.store.dispatch([
+          new SetUser({ user: value }),
+          new SetAllBotListAction({ botList: [] })
+        ]).subscribe((user) => {
+          // this.router.navigate(['/core/analytics2/volume']);
 
-            //     });
-            //   });
+            this.router.navigate(['/'])
+            .then(()=>{location.reload();});
+            
+          // const url = this.constantsService.getBotListUrl();
+          // const headerData: IHeaderData = { 'content-type': 'application/json' };
+          // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
+          //   .subscribe((botResult) => {
+          //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
+          //       .subscribe(async () => {
+                  // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
+                  // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+                  //   .subscribe((value: IEnterpriseProfileInfo) => {
+                  //     this.store.dispatch([
+                  //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
+                  //     ]).subscribe(() => {
+
+                  //     });
+                  //   });
             //     });
 
             // });
