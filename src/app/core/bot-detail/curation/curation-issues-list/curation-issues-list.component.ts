@@ -12,6 +12,7 @@ import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
 import { NgForm } from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 import {TempVariableService} from "../../../../temp-variable.service";
+import {EAllActions} from '../../../../typings/enum';
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -19,7 +20,7 @@ import {TempVariableService} from "../../../../temp-variable.service";
   styleUrls: ['./curation-issues-list.component.scss']
 })
 export class CurationIssuesListComponent implements OnInit {
-
+  myEAllActions = EAllActions;
   constructor(
     private utilityService:UtilityService,
     private constantsService : ConstantsService,

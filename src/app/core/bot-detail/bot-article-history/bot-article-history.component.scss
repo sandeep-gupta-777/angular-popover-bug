@@ -30,6 +30,13 @@
         top: -25% !important;
     }
     .history-table{
+
+        ::ng-deep{
+            .search-theme-input-with-search{
+                width: 100%;
+            }
+        }
+
         table{
             th, td{
                 padding-top: 8px;
@@ -43,8 +50,6 @@
                 // table-layout: fixed;
             }
 
-
-            
 
 
         }

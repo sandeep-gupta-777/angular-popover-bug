@@ -16,7 +16,6 @@ import {UtilityService} from '../../../utility.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {IHeaderData} from "../../../../interfaces/header-data";
 import {ELoadingStatus} from "../../../button-wrapper/button-wrapper.component";
-import {forkJoin} from "rxjs";
 @Component({
   selector: 'app-curation',
   templateUrl: './curation.component.html',

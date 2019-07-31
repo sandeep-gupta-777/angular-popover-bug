@@ -9,11 +9,14 @@
     {{corpusState}} {{!!corpusState ? "corpus" : ""}}
   </div>
 
-  <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer train-button" mat-button
-    (click)="openTrainModal()" *ngIf="corpusState == 'Saved'">
-    <mat-icon>autorenew</mat-icon>
-    Train
-  </button>
+  <ng-container *myIf="myEAllActions['Train Corpus']">
+    <button mat-button
+            class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer train-button"
+            (click)="openTrainModal()" *ngIf="corpusState == 'Saved'">
+      <mat-icon>autorenew</mat-icon>
+      Train
+    </button>
+  </ng-container>
 </div>
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
     
@@ -36,7 +39,9 @@
         Link to an existing article
       </button>
 
-      <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
+      <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2"
+              *myIf="myEAllActions['Add curation issues to a new article']"
+              (click)="addMultiIssueToNewArticle()" >
         <mat-icon>add</mat-icon>&nbsp; Add to a new article
       </button>
 
