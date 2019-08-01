@@ -6,7 +6,7 @@ import {fromPromise} from 'rxjs/internal-compatibility';
 import {LoadJsService} from './core/load-js.service';
 
 @Injectable()
-export class HnResolver implements Resolve<Observable<string>> {
+export class ScriptsLoadResolver implements Resolve<Observable<string>> {
   constructor() {
   }
 

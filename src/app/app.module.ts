@@ -15,7 +15,7 @@ import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {BrowserModule} from '@angular/platform-browser';
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
-import {HnResolver} from './core.resolver';
+import {ScriptsLoadResolver} from './script-load.resolver';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireMessagingModule} from '@angular/fire/messaging';
@@ -41,8 +41,8 @@ const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
-  {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve: {message: HnResolver}},
-  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService], resolve: {message: HnResolver}},
+  {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve: {message: ScriptsLoadResolver}},
+  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService], resolve: {message: ScriptsLoadResolver}},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
@@ -94,7 +94,7 @@ const routes: Route[] = [
   ],
   providers: [LoginPageGaurdService, ModuleGaurdLoadService,
     MessagingService,
-    HnResolver
+    ScriptsLoadResolver
     //   {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,

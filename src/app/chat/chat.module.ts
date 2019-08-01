@@ -32,7 +32,7 @@ import {LayoutModule} from '@angular/cdk/layout';
 import {ChatBotThinkingComponent} from './rooms-and-convo-panel/chat-message-list/chat-message/chat-bot-thinking/chat-bot-thinking.component';
 import {FilePreviewOverlayService} from '../overlay.service';
 import {OverlayModule} from '@angular/cdk/overlay';
-import {HnResolver} from '../core.resolver';
+import {ScriptsLoadResolver} from '../script-load.resolver';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
