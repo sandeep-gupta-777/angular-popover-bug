@@ -60,8 +60,13 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
-
     this.showLoader = true;
+    this.refreshTest();
+    this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
+    this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
+
+  }
+  refreshTest(){
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -77,6 +82,11 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         } else {
           this.showSplashScreen = false;
           this.isData = true;
+          if (value.objects[0].status === 'RUNNING') {
+            this.cancelTestFlag = true;
+          }else{
+            this.cancelTestFlag = false;
+          }
           const testCaseData = value.objects[0].data;
 
           const testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
@@ -84,6 +94,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
           });
 
           this.testCaseData =
+            // tslint:disable-next-line:max-line-length
             (testCaseDataForBot && testCaseDataForBot.data && testCaseDataForBot.data.length > 0) ? testCaseDataForBot.data : [['NO_TEST_DATA', 'NO_TEST_DATA', 'NO_TEST_DATA']];
           // this.testCaseId = value.objects[0].roomId;
           this.testCaseId = testCaseDataForBot && testCaseDataForBot.id;
@@ -91,10 +102,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         }
         this.initDone$.emit(this);
       });
-    this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
-    this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
-
   afterTabledataChange(data) {
 
     if (data) {
