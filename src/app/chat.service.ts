@@ -208,7 +208,7 @@ export class ChatService {
       },
       onMessageReceived: function (message) {
 
-        alert();
+        //alert();
         prepareMessage(message);
 
         if (message.getType() === IMI.ICMessageType.Message) {
