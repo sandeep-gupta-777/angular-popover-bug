@@ -158,8 +158,6 @@ export class ServerService {
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData: IHeaderData = {};
-    console.log(this.USER_ACCESS_TOKEN);
-    console.log(this.AUTH_TOKEN);
     if (!this.USER_ACCESS_TOKEN) {
 
     }

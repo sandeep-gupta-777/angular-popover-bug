@@ -92,7 +92,9 @@ const routes: Route[] = [
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [LoginPageGaurdService, ModuleGaurdLoadService,
+  providers: [
+    LoginPageGaurdService,
+    ModuleGaurdLoadService,
     MessagingService,
     HnResolver
     //   {

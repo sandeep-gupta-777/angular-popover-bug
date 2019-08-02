@@ -26,6 +26,7 @@ import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {MyToasterService} from '../../my-toaster.service';
 import {LoggingService} from '../../logging.service';
 import {LoadJsService} from '../../core/load-js.service';
+import {MessagingService} from '../../../messaging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -235,6 +236,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       this.disabeLoginButton = false;
       return;
     }
+    body = {
+      ...body,
+      fcm_token: MessagingService.fcm_token
+    };
     this.disabeLoginButton = true;
     const headerData: IHeaderData = {
       'auth-token': null,
@@ -291,7 +296,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       const body = {
         'user_id': this.userData.id,
         'enterprise_id': Enterprise.enterpriseId,
-        'role_id': Enterprise.roleId
+        'role_id': Enterprise.roleId,
+        fcm_token: MessagingService.fcm_token
       };
       const headerData = {
         'auth-token': this.userData.auth_token
