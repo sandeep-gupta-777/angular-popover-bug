@@ -36,26 +36,25 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         ${(corpusTableDataItem.state === 'live') ? exclamationIconHTML : ''}
                         <span>${corpusTableDataItem[key]}</span>
                     </span>`,
-            searchValue: corpusTableDataItem[key]
-          };
-        } else if (key === 'updated_at') {
-          const date = new Date(corpusTableDataItem[key]);
-          obj[tableDataMetaDict[key].displayValue] = {
-            ...tableDataMetaDict[key],
-            originalKey: key,
-            value: this.dependency.datePipe.transform(date, 'd MMM') + '\' ' + this.dependency.datePipe.transform(date, 'yy') + ', ' + this.dependency.datePipe.transform(date, 'shortTime') + ' by ' + corpusTableDataItem['updated_by'],
-            searchValue: this.dependency.datePipe.transform(date, 'date') + corpusTableDataItem['updated_by']
-          };
-        } else if (key === 'actions') {
-          obj[tableDataMetaDict[key].displayValue] = {
-            ...tableDataMetaDict[key],
-            originalKey: key,
-            value: `<div class="dropdown table-dropdown">
+                        searchValue: corpusTableDataItem[key]
+                    };
+                } else if (key === 'updated_at') {
+                    const date = new Date(corpusTableDataItem[key]);
+                    obj[tableDataMetaDict[key].displayValue] = {
+                        ...tableDataMetaDict[key],
+                        originalKey: key,
+                        value: this.dependency.datePipe.transform(date, 'd MMM') + '\' ' + this.dependency.datePipe.transform(date, 'yy') + ', ' + this.dependency.datePipe.transform(date, 'shortTime') + ' by ' + corpusTableDataItem['updated_by'],
+                        searchValue: this.dependency.datePipe.transform(date, 'date') + corpusTableDataItem['updated_by']
+                    };
+                } else if (key === 'actions') {
+                    obj[tableDataMetaDict[key].displayValue] = {
+                        ...tableDataMetaDict[key],
+                        originalKey: key,
+                        value: `<div class="dropdown table-dropdown">
+
   <span class="fa fa-angle-down arrow-circle"></span>
-  <div class="dropdown-content px-0">
-    ${(corpusTableDataItem.state !== 'live') ? `<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}">
-    <mat-icon class = "mat-icon material-icons" >arrow_upward</mat-icon>
-    Make live</p>` : ''}
+  <div class=" px-0 dropdown-content ${index > 5 ? 'location-bottom' : 'location'}">
+    ${(corpusTableDataItem.state != 'live') ? `<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons" >arrow_upward</mat-icon> Make live</p>` : ''}
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">edit</mat-icon> Edit</p>
     <hr>
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_preview_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">chat_bubble</mat-icon> Preview</p>

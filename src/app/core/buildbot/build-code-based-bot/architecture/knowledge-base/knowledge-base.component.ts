@@ -390,8 +390,10 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     });
   }
 
-  test() {
-    alert();
+
+  test(){
+    //alert();
+
   }
 
   log(selectedRowData) {

@@ -85,6 +85,7 @@
     "saturn-datepicker": "^7.0.2",
     "session-storage-sync": "^0.6.0",
     "uuid": "^3.3.2",
+    "webpack": "^4.38.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

@@ -86,6 +86,9 @@ export class BotArticleHistoryComponent implements OnInit {
 
     // alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
     if (action === 'makelive') {
+
+    // //alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
+
       this.makeCorpusLive(corpus_id);
     }
     if (action === 'edit') {

@@ -13,7 +13,7 @@ class HostComponent {
 
   feedback: EChatFeedback;
   outputHandler(data) {
-    alert();
+    //alert();
   }
 }
 

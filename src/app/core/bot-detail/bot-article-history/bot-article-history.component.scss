@@ -25,9 +25,13 @@
           display: flex;
           
     }
-    .table-dropdown .dropdown-content{
+    .table-dropdown .location{
         right: 0% !important;
         top: -25% !important;
+    }
+    .table-dropdown .location-bottom{
+        right: 0% !important;
+        bottom: 0% !important;
     }
     .history-table{
 

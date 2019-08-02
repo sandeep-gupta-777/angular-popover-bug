@@ -8,7 +8,7 @@
       class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
           <div class="header--img">
-            <img alt="web" [src]='channelNameToImg("web")'>
+            <img [src]='channelNameToImg(curationItemData && curationItemData.platform)'>
           </div>
           <div class="room-id pl-2">
             Room ID: {{curationItemData.room_id}} </div>
