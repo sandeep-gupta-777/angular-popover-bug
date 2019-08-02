@@ -786,9 +786,9 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/deletelogs/enterpriselogdeletionsummary/'; // https://dev.imibot.ai/api/v1/deletelogs/enterpriselogdeletionsummary/
   }
 
-  getBotListUrl() {
+  getBotListUrl(is_dashboard = false) {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
-    return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
+    return this.BACKEND_URL + `api/v1/bot/?limit=1000&is_dashboard=${is_dashboard}`;
   }
 
   getRoleUrl() {

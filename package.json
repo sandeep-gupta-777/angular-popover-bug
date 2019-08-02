@@ -19,7 +19,7 @@
     "heroku": "ng build --prod && cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
     "heroku-nobuild": "cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
     "build-old": "ng build --prod && ",
-    "hmr": "ng serve --port 4201 --configuration hmr",
+    "hmr": "ng serve --port 4201 --configuration hmr -o",
     "develop": "ng build --configuration develop --base-href /static/",
     "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
     "staging-github": "npm run xgit && ng build --configuration staging --base-href /imibot-fe/",

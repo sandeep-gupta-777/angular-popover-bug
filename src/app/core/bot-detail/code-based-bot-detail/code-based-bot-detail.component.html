@@ -114,7 +114,7 @@
                     <!---->
                 </div>
             </mat-toolbar>
-            <div class="app-container" style="flex-grow: 1;" [ngClass]="{'overflowYAuto':!shouldDisableGlobalScroll()}">
+            <div *ngIf="!showLoader else loader" class="app-container" style="flex-grow: 1;" [ngClass]="{'overflowYAuto':!shouldDisableGlobalScroll()}">
                 <div class="architecture" style="">
                     <ng-container *ngIf="sideBarTab1 === 'setting'">
                         <header>
@@ -276,7 +276,10 @@
 
 </div>
 
-<app-imi-loader *ngIf="!bot && !noSuchBotMessage"></app-imi-loader>
+<ng-template #loader>
+    <app-imi-loader *ngIf="showLoader"></app-imi-loader>
+</ng-template>
+
 <app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true">
     <div class="d-flex flex-column justify-content-center align-content-center">
         <em>No such bot in your account</em>

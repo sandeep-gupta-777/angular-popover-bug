@@ -1,7 +1,7 @@
 import {Component, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -20,6 +20,7 @@ import {DatePipe} from '@angular/common';
 import {EAllActions, ERoleName, ESideBarTab} from '../../../typings/enum';
 import {BreakpointState} from '@angular/cdk/layout';
 import {BreakpointService} from '../../breakpoint.service';
+import {switchMap, take} from 'rxjs/operators';
 
 // export enum ESideBarTab {
 //   setting = 'setting',
@@ -121,10 +122,8 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     });
 
     EventService.botDataDirty$.subscribe((value) => {
-
       this.dirtySideBarTabs = {...this.dirtySideBarTabs, ...value};
     });
-
 
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
     const roleName = this.constantsService.loggedUser.role.name;
@@ -146,20 +145,37 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       this.logicTabClicked = true;
     }
     /*this.bot$ = */
-    this.botlist$.subscribe((botListState) => {
+    const currentBot$ = this.botlist$
+      .pipe(switchMap((botListState: ViewBotStateModel) => {
+          if (botListState.allBotList) {
+            this.bot = botListState.allBotList.find((bot) => {
+              return bot.id === this.bot_id;
+            });
 
-      if (botListState.allBotList) {
-        this.bot = botListState.allBotList.find((bot) => {
-          return bot.id === this.bot_id;
-        });
+            if (!this.bot) {
+              this.noSuchBotMessage = 'No such _bot exists in your account';
+            }
+          }
+          LoggingService.log('Bot Opened' + this.bot);
+          return of(this.bot);
+        })
+      );
 
-        if (!this.bot) {
-          this.noSuchBotMessage = 'No such _bot exists in your account';
-        }
-      }
-      LoggingService.log('Bot Opened' + this.bot);
-      return this.bot;
-    });
+    currentBot$.subscribe();
+
+    currentBot$.pipe(
+      take(1),
+      switchMap((bot: IBot) => {
+        this.showLoader = true;
+        return this.serverService.fetchSpecificBotFromServerAndUpdateBotList(bot);
+      }),
+      take(1)
+    )
+      .subscribe(() => {
+        this.showLoader = false;
+      });
+
+
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || this.selectedSideBarTab;
 
     this.start_date = this.utilityService.getPriorDate(0);

@@ -373,7 +373,7 @@ export class ServerService {
     }
   }
 
-  fetchSpecificBotFromServerAndUpdateBotList(bot) {
+  fetchSpecificBotFromServerAndUpdateBotList(bot: IBot) {
     const getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(bot.id)
@@ -414,8 +414,8 @@ export class ServerService {
     ]);
   }
 
-  getNSetBotList(noValidateUser?) {
-    const url = this.constantsService.getBotListUrl();
+  getNSetBotList(noValidateUser?, is_dashboard?) {
+    const url = this.constantsService.getBotListUrl(is_dashboard);
     const headerData: IHeaderData = {'content-type': 'application/json'};
 
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(

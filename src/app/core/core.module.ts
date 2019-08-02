@@ -54,6 +54,8 @@ import {MatSidenavModule} from '@angular/material';
 import {DevHttpInterceptorService} from '../dev/dev-http-interceptor.service';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ScriptsLoadResolver} from '../script-load.resolver';
+import {BotAccessTokenResolver} from '../bot-access-token.resolver';
+import {BotResolver} from '../bot.resolver';
 
 const routes: Route[] = [
   {
@@ -62,13 +64,14 @@ const routes: Route[] = [
     component: CoreWrapperComponent,
     canActivate: [],
     canActivateChild: [AccessGaurdService],
-    resolve: { message: ScriptsLoadResolver },
+    resolve: {message: ScriptsLoadResolver, token: BotAccessTokenResolver},
     children: [
       {
-        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: []
+        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: [],
       },
       {
-        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: []
+        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: [],
+        resolve: {bot: BotResolver},
       },
       {
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: []
@@ -180,7 +183,9 @@ const routes: Route[] = [
     DatePipe,
     SmartTableSettingsService,
     FormsService,
-    ScriptsLoadResolver
+    ScriptsLoadResolver,
+    BotAccessTokenResolver,
+    BotResolver
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
