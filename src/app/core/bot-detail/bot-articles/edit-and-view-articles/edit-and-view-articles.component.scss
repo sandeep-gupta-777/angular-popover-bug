@@ -135,3 +135,16 @@ header{
   textarea.mat-input-element{
     padding: 0 !important;  
   }
+.addQuestionPanel{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    background-color: #ffffff;
+    textarea{
+        background-color: transparent;
+
+    }
+    textarea.mat-input-element{
+        padding: 0 !important;
+    }
+}

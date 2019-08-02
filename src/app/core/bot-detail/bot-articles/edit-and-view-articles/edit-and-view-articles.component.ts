@@ -75,7 +75,6 @@ export class EditAndViewArticlesComponent implements OnInit {
   currentModal: string;
   JSON = JSON;
   dialogRefWrapper = {ref: null};
-
   ngOnInit() {
 
     this.loggeduser$
@@ -103,8 +102,8 @@ export class EditAndViewArticlesComponent implements OnInit {
     }
   }
 
-  addNewQuestion() {
-    this.articleData.questions.push('');
+  addNewQuestion(text) {
+    this.articleData.questions.push(text);
     setTimeout(() => {
       const textareaArr = this.questionTextArea.toArray();
       const lastChild = textareaArr[textareaArr.length - 1];
