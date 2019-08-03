@@ -25,19 +25,7 @@ declare var IMI: any;
 
 @Injectable()
 export class ChatService {
-
-  constructor(
-    private store: Store,
-    private serverService: ServerService,
-    private utilityService: UtilityService,
-    private constantsService: ConstantsService) {
-  }
-
-  messaging;
-  currentPreviewBot: IBot;
-  currentRoomId: number;
-
-  knowMorePanelItems = [
+  static knowMorePanelItems = [
     {
       imgUrl: 'assets/img/chat/bot.svg',
       title: 'Contextualise bot interactions with artificial intelligence'
@@ -52,6 +40,18 @@ export class ChatService {
       title: 'Integrate various services within your flow to help user'
     }
   ];
+
+  constructor(
+    private store: Store,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
+    private constantsService: ConstantsService) {
+  }
+
+  messaging;
+  currentPreviewBot: IBot;
+  currentRoomId: number;
+
 
   sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType },
                               consumerDetails: IConsumerDetails,
