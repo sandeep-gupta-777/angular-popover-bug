@@ -100,8 +100,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       map((value: IUser) => {
 
         this.userValue = userValue = value;
-        this.serverService.USER_ACCESS_TOKEN = this.userValue.user_access_token;
-        this.serverService.AUTH_TOKEN = this.userValue.auth_token;
+        ServerService.USER_ACCESS_TOKEN = this.userValue.user_access_token;
+        ServerService.AUTH_TOKEN = this.userValue.auth_token;
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {
@@ -144,7 +144,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         delete this.userValue.user_access_token;
         delete this.userValue.auth_token;
         return this.store.dispatch([
-          new SetUser({user: this.userValue}),
+          new SetUser({user: this.userValue, is_loggedIn: true}),
         ]);
       }),
       switchMap(() => {
@@ -159,7 +159,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // } else {
         //   this.router.navigate(['/']);
         // }
-        debugger;
+
         return of(this.router.navigate(['/']));
       }),
       catchError((e) => {

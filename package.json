@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng s",
+    "start": "ng s -o",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -85,7 +85,6 @@
     "saturn-datepicker": "^7.0.2",
     "session-storage-sync": "^0.6.0",
     "uuid": "^3.3.2",
-    "webpack": "^4.38.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

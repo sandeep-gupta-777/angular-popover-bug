@@ -24,7 +24,7 @@ export class LoginGaurdService {
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate() {
-    debugger;
+
     /*todo: temporary solution...might not work in SSR*/
     const obj: any = decodeURI(window.location.search)
       .replace('?', '')
@@ -40,7 +40,7 @@ export class LoginGaurdService {
     }
 
     return this.loggeduser$.pipe(map((value: IAuthState) => {
-      if (!value || value.user === null) {
+      if (!value || !value.is_loggedIn) {
         return true;
       } else {
         this.router.navigate(['/core/viewbots']);

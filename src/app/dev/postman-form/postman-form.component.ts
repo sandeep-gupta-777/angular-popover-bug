@@ -47,8 +47,8 @@ export class PostmanFormComponent implements OnInit {
 
   ngOnInit() {
     const header: IHeaderData = {
-      'user-access-token': this.serverService.USER_ACCESS_TOKEN,
-      'auth-token': this.serverService.AUTH_TOKEN
+      'user-access-token': ServerService.USER_ACCESS_TOKEN,
+      'auth-token': ServerService.AUTH_TOKEN
     };
     this._apiDetails.headers = header;
     this.postManForm = this.devService.createPostmanForm(this.devService.prePostmanPatchTransform(this._apiDetails));

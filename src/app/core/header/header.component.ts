@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ResetAppState} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
-import {ResetAuthToDefaultState, SetUser} from '../../auth/ngxs/auth.action';
+import {ResetAuthToDefaultState, ResetLoggedInStatus, SetUser} from '../../auth/ngxs/auth.action';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
@@ -72,7 +72,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       console.log(e);
     }
     // this.bc.onmessage = (ev) => {
-    // //   location.reload();
+    //   location.reload();
     // };
     const getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
@@ -110,7 +110,9 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           this.logoutSetTimeoutRef = setTimeout(() => {
 
             // alert('You session has expired. Logging out');
-            this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
+            if (this.logoutSetTimeoutRef) {
+              clearTimeout(this.logoutSetTimeoutRef);
+            }
             try {
               // TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
             } catch (e) {
@@ -119,7 +121,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
             LoggingService.log('============================autologout============================');
             this.logout();
-            // // document.location.reload(); /*To destroy all timeouts just in case*/
+            // document.location.reload(); /*To destroy all timeouts just in case*/
           }, (autoLogOutTime - Date.now()));
 
           // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
@@ -154,23 +156,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout(shouldCallLogoutApi = true) {
-    debugger;
-
-    this.store.dispatch([
-      new ResetBotListAction(),
-      new ResetAuthToDefaultState(),
-      new ResetEnterpriseUsersAction(),
-      new ResetBuildBotToDefault(),
-      new ResetAnalytics2GraphData(),
-      new ResetAnalytics2HeaderData(),
-      new ResetAppState()
-    ]).subscribe(() => {
-      this.store.dispatch([new ResetChatState()])
-        .subscribe(() => {
-          this.router.navigate(['auth', 'login']);
-        });
-    });
-    return;
 
     if (!this.userData) {/*TODO: ring fancing: BAD*/
       return;
@@ -180,48 +165,31 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     ServerService.resetCookie();
     sessionStorage.clear();
 
-    // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
-    /*if apis are being mocked, dont expire tokens*/
-    if (!environment.mock && shouldCallLogoutApi) {
-      this.serverService.makeGetReq({url: this.url})
-        .subscribe((v) => {
-          // this.utilityService.showSuccessToaster('Logged Out');
-          // location.reload();
-        }, _ => {
-          this.router.navigate(['auth', 'login'])
-            .then(() => {
-              setTimeout(() => {
-                // location.reload();
-              }, 0); /* hack*/
-            });
+    this.store.dispatch([
+      new ResetBotListAction(),
+      // new ResetAuthToDefaultState(),/*can't reset auth state to default as its being used on this page*/
+      new ResetLoggedInStatus(),
+      new ResetEnterpriseUsersAction(),
+      new ResetBuildBotToDefault(),
+      new ResetAnalytics2GraphData(),
+      new ResetAnalytics2HeaderData(),
+      new ResetAppState()
+    ]).subscribe(() => {
+      this.store.dispatch([new ResetChatState()])
+        .subscribe(() => {
+          if (!environment.mock) {
+            this.serverService.makeGetReq({url: this.url})
+              .subscribe((v) => {
+                this.utilityService.showSuccessToaster('Logged Out');
+                this.router.navigate(['auth', 'login']);
+              }, () => {
+                this.router.navigate(['auth', 'login']);
+              });
+            this.bc.postMessage('This is a test message.');
+          }
         });
-      this.bc.postMessage('This is a test message.');
-    }
-
-    this.serverService.removeTokens();
-
-    if (!environment.mock) {
-      this.serverService.makeGetReq({url: this.url})
-        .subscribe((v) => {
-          this.utilityService.showSuccessToaster('Logged Out');
-          this.router.navigate(['auth', 'login'])
-            .then(() => {
-              setTimeout(() => {
-                // location.reload();
-              }, 1000); /*hack*/
-            });
-        }, () => {
-          this.router.navigate(['auth', 'login'])
-            .then(() => {
-              setTimeout(() => {
-                // location.reload();
-              }, 1000); /*hack*/
-            });
-        });
-      this.bc.postMessage('This is a test message.');
-    }
-
+    });
     this.serverService.removeTokens();
 
   }
@@ -260,14 +228,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
         .subscribe((value) => {
 
           this.store.dispatch([
-            new SetUser({user: value}),
+            new SetUser({user: value, is_loggedIn: true}),
             new SetAllBotListAction({botList: []})
           ]).subscribe((user) => {
             // this.router.navigate(['/core/analytics2/volume']);
 
             this.router.navigate(['/'])
               .then(() => {
-                // location.reload();
+                location.reload();
               });
 
             // const url = this.constantsService.getBotListUrl();

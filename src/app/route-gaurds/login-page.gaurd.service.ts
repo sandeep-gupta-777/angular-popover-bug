@@ -23,7 +23,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
 
 
   canActivate() {
-    debugger;
+
     const obj: any = decodeURI(window.location.search)
       .replace('?', '')
       .split('&')

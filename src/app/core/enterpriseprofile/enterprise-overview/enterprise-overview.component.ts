@@ -225,7 +225,7 @@ export class EnterpriseOverviewComponent implements OnInit {
           this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body: enterpriseBody, headerData})
             .subscribe((value) => {
               this.store.dispatch([
-                new SetUser({user: value}),
+                new SetUser({user: value, is_loggedIn: true}),
               ]);
 
             });

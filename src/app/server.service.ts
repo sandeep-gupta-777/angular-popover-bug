@@ -45,12 +45,12 @@ import {identifierModuleUrl} from '@angular/compiler';
 export class ServerService {
   static idTokenMap;
   static storage = new Storage();
+  static AUTH_TOKEN: string = null;
+  static USER_ACCESS_TOKEN: string = null;
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
-  public USER_ACCESS_TOKEN: string = null;
   roleName: string;
-  public AUTH_TOKEN: string = null;
   private isLoggedIn = false;
   roleInfo: IRoleInfo;
 
@@ -78,8 +78,13 @@ export class ServerService {
     return bot_access_token;
   }
 
-  static setCookie(name, value) {
+  static setCookie(name: string, value: string) {
     document.cookie = `${name}=${value}; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT`;
+    if (name === 'auth-token') {
+      ServerService.AUTH_TOKEN = value;
+    } else if (name === 'user-access-token') {
+      ServerService.USER_ACCESS_TOKEN = value;
+    }
   }
 
   static resetCookie() {
@@ -109,11 +114,10 @@ export class ServerService {
     private router: Router,
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
-    this.AUTH_TOKEN = ServerService.getCookie('auth-token');
-    this.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
+    ServerService.AUTH_TOKEN = ServerService.getCookie('auth-token');
+    ServerService.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
 
     try {
-
       const idTokenMapStr = sessionStorage.getItem(ENgxsStogareKey.idTokenMap);
       ServerService.idTokenMap = JSON.parse(idTokenMapStr);
     } catch (e) {
@@ -125,8 +129,8 @@ export class ServerService {
       if (!value || !value.user) {
         return;
       }
-      // this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
-      // this.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      // ServerService.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
+      // ServerService.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
         if (!this.roleInfo && appState && appState.roleInfoArr) {
@@ -151,23 +155,23 @@ export class ServerService {
   }
 
   removeTokens() {
-    this.USER_ACCESS_TOKEN = null;
-    this.AUTH_TOKEN = null;
+    ServerService.USER_ACCESS_TOKEN = null;
+    ServerService.AUTH_TOKEN = null;
   }
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData: IHeaderData = {};
-    // console.log(this.USER_ACCESS_TOKEN);
-    // console.log(this.AUTH_TOKEN);
-    if (!this.USER_ACCESS_TOKEN) {
+    // console.log(ServerService.USER_ACCESS_TOKEN);
+    // console.log(ServerService.AUTH_TOKEN);
+    if (!ServerService.USER_ACCESS_TOKEN) {
 
     }
-    if (!this.AUTH_TOKEN) {
+    if (!ServerService.AUTH_TOKEN) {
 
     }
-    tokenData = {'user-access-token': this.USER_ACCESS_TOKEN};
-    tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
+    tokenData = {'user-access-token': ServerService.USER_ACCESS_TOKEN};
+    tokenData = {...tokenData, 'auth-token': ServerService.AUTH_TOKEN};
     tokenData = {...tokenData, 'content-type': 'application/json'};
 
     headerData = {
@@ -415,6 +419,7 @@ export class ServerService {
   }
 
   getNSetBotList(noValidateUser?, is_dashboard?) {
+
     const url = this.constantsService.getBotListUrl(is_dashboard);
     const headerData: IHeaderData = {'content-type': 'application/json'};
 

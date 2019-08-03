@@ -60,7 +60,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
         const updatedUser: IUser = {...this.loggeduser, ...value};
         this.utilityService.showSuccessToaster('Updated profile');
         this.store.dispatch([
-          new SetUser({user: updatedUser})
+          new SetUser({user: updatedUser, is_loggedIn: true})
         ]);
       });
   }
