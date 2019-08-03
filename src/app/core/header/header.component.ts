@@ -72,7 +72,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       console.log(e);
     }
     // this.bc.onmessage = (ev) => {
-    //   location.reload();
+    // //   location.reload();
     // };
     const getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
@@ -119,7 +119,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
             LoggingService.log('============================autologout============================');
             this.logout();
-            // document.location.reload(); /*To destroy all timeouts just in case*/
+            // // document.location.reload(); /*To destroy all timeouts just in case*/
           }, (autoLogOutTime - Date.now()));
 
           // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
@@ -154,6 +154,23 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout(shouldCallLogoutApi = true) {
+    debugger;
+
+    this.store.dispatch([
+      new ResetBotListAction(),
+      new ResetAuthToDefaultState(),
+      new ResetEnterpriseUsersAction(),
+      new ResetBuildBotToDefault(),
+      new ResetAnalytics2GraphData(),
+      new ResetAnalytics2HeaderData(),
+      new ResetAppState()
+    ]).subscribe(() => {
+      this.store.dispatch([new ResetChatState()])
+        .subscribe(() => {
+          this.router.navigate(['auth', 'login']);
+        });
+    });
+    return;
 
     if (!this.userData) {/*TODO: ring fancing: BAD*/
       return;
@@ -170,28 +187,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.serverService.makeGetReq({url: this.url})
         .subscribe((v) => {
           // this.utilityService.showSuccessToaster('Logged Out');
-          location.reload();
+          // location.reload();
         }, _ => {
           this.router.navigate(['auth', 'login'])
             .then(() => {
               setTimeout(() => {
-                location.reload();
+                // location.reload();
               }, 0); /* hack*/
             });
         });
       this.bc.postMessage('This is a test message.');
     }
-    this.store.dispatch([
-      new ResetBotListAction(),
-      new ResetAuthToDefaultState(),
-      new ResetEnterpriseUsersAction(),
-      new ResetBuildBotToDefault(),
-      new ResetAnalytics2GraphData(),
-      new ResetAnalytics2HeaderData(),
-      new ResetAppState()
-    ]).subscribe(() => {
-      this.store.dispatch([new ResetChatState()]);
-    });
+
     this.serverService.removeTokens();
 
     if (!environment.mock) {
@@ -201,14 +208,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           this.router.navigate(['auth', 'login'])
             .then(() => {
               setTimeout(() => {
-                location.reload();
+                // location.reload();
               }, 1000); /*hack*/
             });
         }, () => {
           this.router.navigate(['auth', 'login'])
             .then(() => {
               setTimeout(() => {
-                location.reload();
+                // location.reload();
               }, 1000); /*hack*/
             });
         });
@@ -260,7 +267,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
             this.router.navigate(['/'])
               .then(() => {
-                location.reload();
+                // location.reload();
               });
 
             // const url = this.constantsService.getBotListUrl();

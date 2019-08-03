@@ -159,6 +159,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // } else {
         //   this.router.navigate(['/']);
         // }
+        debugger;
         return of(this.router.navigate(['/']));
       }),
       catchError((e) => {

@@ -64,7 +64,7 @@ const routes: Route[] = [
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: true}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([]),
     // AuthModule,

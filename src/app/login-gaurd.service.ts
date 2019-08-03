@@ -24,7 +24,7 @@ export class LoginGaurdService {
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate() {
-
+    debugger;
     /*todo: temporary solution...might not work in SSR*/
     const obj: any = decodeURI(window.location.search)
       .replace('?', '')
@@ -43,7 +43,7 @@ export class LoginGaurdService {
       if (!value || value.user === null) {
         return true;
       } else {
-        this.router.navigate(['.']);
+        this.router.navigate(['/core/viewbots']);
         return false;
       }
     }));

@@ -23,7 +23,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
 
 
   canActivate() {
-
+    debugger;
     const obj: any = decodeURI(window.location.search)
       .replace('?', '')
       .split('&')
@@ -37,12 +37,13 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
       return true;
     }
 
-
-    if (AuthGaurdService.doesAuthTokenExists()) {
-      this.router.navigate(['/']);
-    } else {
-      return true;
-    }
+    return true;
+    // todo: uncomment this
+    // if (AuthGaurdService.doesAuthTokenExists()) {
+    //   this.router.navigate(['/']);
+    // } else {
+    //   return true;
+    // }
   }
 
   canActivateChild() {

@@ -14,7 +14,7 @@ export class BotResolver implements Resolve<Observable<any>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    debugger;
+
     return of(1);
     // try {
     //   console.log(state.url);
