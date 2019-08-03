@@ -92,9 +92,11 @@
 </ng-container>
 <!--tool tip ends-->
 
+<app-imi-loader *ngIf="isFullScreenPreview && showFullScreenLoader"></app-imi-loader>
+
 <!--===============FULL SCREEN BELOW===================-->
-<!--anon-view-->
-<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_dev_view}">
+<!--<i>showFullScreenLoader: {{showFullScreenLoader}}</i>-->
+<div *ngIf="isFullScreenPreview && !showFullScreenLoader" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_dev_view}">
   <div class="header1 px-3 d-flex align-items-center">
     <img class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-enterprise"
@@ -151,30 +153,9 @@
         <mat-icon>error</mat-icon>
         <span class="hide-mobile">Know more</span>
       </button>
-      <div
-        *ngIf="showChatImage"
-        (click)="showChatImage = false"
-        class="chat-img-overlay">
-        <span class="fa fa-times close-chat-img-overlay"></span>
-        <div class="chat-know-more-overlay" (click)="$event.stopPropagation()">
-
-          <header class="chat-know-more-overlay-header">
-            <div class="description-top" style="text-align: center">This bot was built using</div>
-            <div><img src="assets/img/IMI_logo.png" alt=""></div>
-            <strong class="description-bottom">The enterprise bot building platform to automate conversations</strong>
-          </header>
-
-          <div class="chat-know-more-overlay-item" *ngFor="let item of knowMorePanelItems">
-            <img [src]="item.imgUrl" alt="">
-            <div>
-              {{item.title}}
-            </div>
-          </div>
-
-          <a href="https://imimobile.com/products/ai-automation" target="_blank"><button mat-flat-button color="primary"> Know more</button></a>
-
-        </div>
-      </div>
+      <app-chat-know-more-panel [hidden]="!showChatImage"
+                                class="know-more-comp"
+                                (click)="showChatImage = false"></app-chat-know-more-panel>
     </ng-container>
 
 
@@ -217,6 +198,7 @@
   <div class="chat">
     <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                      [allow_feedback]="currentBot.allow_feedback"
+                     [isAnonView]="!is_dev_view"
                      [selectedAvatar]="selectedAvatar"
                      [room]="currentRoom"
                      [bot]="currentBot"

@@ -100,7 +100,7 @@ export class ChatWrapperComponent implements OnInit {
   user_email;
   showBotIsThinking = false;
   showChatImage = false;
-  knowMorePanelItems = this.chatService.knowMorePanelItems;
+  showFullScreenLoader = true;
 
   constructor(private store: Store,
               private serverService: ServerService,
@@ -264,6 +264,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   startNewChatForAnonUser() {
+    debugger;
     this.startNewChat({
       consumerDetails: {uid: UtilityService.generateUUid()},
       bot: this.currentBot,
@@ -274,6 +275,7 @@ export class ChatWrapperComponent implements OnInit {
 
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
+    debugger;
     this.showOverlay_edit_fullscreen = false;
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot; // todo: is it really required?
 
@@ -285,7 +287,7 @@ export class ChatWrapperComponent implements OnInit {
     * */
     this.chatService.startANewChatUsingSendApi(startNewChatData, this.is_dev_view)
       .subscribe((value: IBotPreviewFirstMessage) => {
-
+        this.showFullScreenLoader = false;
         if (!value.room || !value.room.id) {
           // alert('api not supported. Maybe kill switch?');
           console.error('api not supported. Maybe kill switch?');
@@ -319,6 +321,8 @@ export class ChatWrapperComponent implements OnInit {
           new SetCurrentRoomID({id: value.room.id}),
           new ChangeBotIsThinkingDisplayByRoomId({roomId: value.room.id, shouldShowBotIsThinking: false})
         ]);
+      }, (err) => {
+        this.showFullScreenLoader = false;
       });
   }
 

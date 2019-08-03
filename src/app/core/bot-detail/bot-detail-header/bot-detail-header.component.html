@@ -107,13 +107,15 @@
   </button>
   <!---->
   <mat-menu class="cutom-md-menu" #appMenu="matMenu">
-    <!--    <button mat-menu-item (click)="copySharablePreviewLinkHandler()"><i-->
-    <!--      class="fa fa-share mr-1"></i>Share Preview</button>-->
+    <button mat-menu-item (click)="copySharablePreviewLinkHandler()">
+      <span class="fa fa-share mr-1"></span>Share Preview
+    </button>
     <button
       mat-menu-item
       (click)="utilityService.copyToClipboard(bot.bot_access_token)"
     >
-    <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>Copy Access Token
+      <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>
+      Copy Access Token
     </button>
     <!-- <button
       mat-menu-item
@@ -125,7 +127,8 @@
       mat-menu-item
       (click)="utilityService.copyToClipboard(bot.enterprise_id)"
     >
-      <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>Copy
+      <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>
+      Copy
       Enterprise ID
     </button>
     <!-- <button mat-menu-item *appMyIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
@@ -135,7 +138,8 @@
       *appMyIf="[myEAllActions['Delete Bots']]"
       (click)="openDeleteModal()"
     >
-      <mat-icon class="mat-icon material-icons mr-1">delete</mat-icon>Delete
+      <mat-icon class="mat-icon material-icons mr-1">delete</mat-icon>
+      Delete
     </button>
   </mat-menu>
 </div>
