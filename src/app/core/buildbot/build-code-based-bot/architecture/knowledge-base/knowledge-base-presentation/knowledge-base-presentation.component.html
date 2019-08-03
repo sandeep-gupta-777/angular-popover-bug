@@ -92,38 +92,8 @@
         </div>
 
       </div>
-
-
-
-
-
-
       
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto" style="display:flex;" >
-
-
-
-
-        <!-- <app-button-wrapper
-        *appMyIf="myEAllActions['Update Bot Versioning']"
-        [disabled]="!selectedVersion || disableSave"
-        data-cy="version-save"
-        [status]="saveOrCreateStatus"
-        (btnClick)="saveSelectedVersion$.emit()"
-        [text]="(!versions || !versions.length || versions.length > 0) ? 'Save' : 'Create'"
-        [icon]="'save'"></app-button-wrapper>
-
-
-
-        <app-button-wrapper
-        *appMyIf="myEAllActions['Update Bot Versioning']"
-        
-        data-cy="version-save"
-        [status]="saveOrCreateStatus"
-        (btnClick)="goBackWithoutModal()"
-        [text]="Cancel"
-        ><mat-icon>cancel</mat-icon>Cancel</app-button-wrapper> -->
-
 
         <button mat-flat-button
                 class="mat-theme-button"
@@ -132,14 +102,6 @@
           <mat-icon>cancel</mat-icon>
           Cancel
         </button> 
-
-
-        <!-- <app-button-wrapper 
-        (btnClick)="goBackWithoutModal()"
-        [text]="'Cancel'"
-        [icon]="'cancel'"></app-button-wrapper> -->
-
-
 
        <button mat-flat-button
                 color="primary"
@@ -154,15 +116,7 @@
         </button> 
 
 
-        <!-- <app-button-wrapper
-        *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
-        [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
-        data-cy="version-update"
-        [status]="updateOrCreateStatus"
-        (btnClick)="updateOrSaveConcept()"
-        [text]="ner_id? 'Update' : 'Create'"
-        [icon]="ner_id?'update':'add'"></app-button-wrapper>
- -->
+
 
 
       </div>
@@ -174,15 +128,7 @@
                 (click)="goBackWithoutModal()">
           <mat-icon>cancel</mat-icon>
           Cancel
-        </button> 
-
-
-        <!-- <app-button-wrapper 
-        (btnClick)="goBackWithoutModal()"
-        [text]="'Cancel'"
-        [icon]="'cancel'"></app-button-wrapper> -->
-
-
+        </button>
 
       <button mat-flat-button
                 color="primary"
@@ -194,25 +140,8 @@
                 *appMyIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
           <mat-icon>update</mat-icon>
           {{ner_id ? "Update" : "Create" }}
-        </button> 
-      
-
-      <!--update/create button ends-->
-
-
-
-
-      <!-- <app-button-wrapper
-        *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
-        [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
-        data-cy="version-update"
-        [status]="updateOrCreateStatus"
-        (btnClick)="updateOrSaveConcept()"
-        [text]="ner_id? 'Update' : 'Create'"
-        [icon]="ner_id?'update':'add'"></app-button-wrapper> -->
-
+        </button>
       </div> 
-
 
       <ng-container
         *appMyIf="myEAllActions['Delete Enterprise Knowledge base']">
@@ -240,7 +169,7 @@
       </ng-container>
     </form>
   </div>
-  <!---->
+
   <div class="mt-2 d-flex-column-last-child-flex-grow-1 child">
     <div class="d-flex-column-last-child-flex-grow-1"
          *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">

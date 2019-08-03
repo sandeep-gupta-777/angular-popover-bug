@@ -1,4 +1,4 @@
-<!---->
+
 <div
   class="row-bot-detail-header d-flex align-items-center"
   *ngIf="bot && bot.name"
@@ -51,18 +51,6 @@
     style="margin-right: 10px"
   ></app-integration-channel-list>
 
-  <!--<span *appMyIf="myEAllActions['Get Integrations']">-->
-  <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
-  <!--[src]="integrationsMasterListItem?.icon"-->
-  <!--class="logo-image " style="width: 16px;height: 16px" alt="">-->
-  <!--<img roomId="roomId" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"-->
-  <!--[src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">-->
-  <!--</span>-->
-  <!--<span *ngIf="myObject.keys(bot.integrations).length>4" class="more">-->
-  <!--+{{myObject.keys(bot.integrations).length-4}} More-->
-  <!--</span>-->
-  <!--<div class="headerDivider mx-2"></div>-->
-
   <app-faq-search-box
     *ngIf="bot.bot_type == 'faqbot'"
     [bot]="bot"
@@ -70,10 +58,7 @@
   ></app-faq-search-box>
 
   <div *appMyIf="myEAllActions['Send API']">
-    <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
-    <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
-    <!--<span class="action">Preview</span>-->
-    <!--</div>-->
+
     <ng-container *appMyIf="[myEAllActions['Analytics']]">
       <button
         *ngIf="bot.bot_type === myEBotType.chatbot"
@@ -105,7 +90,7 @@
   >
     <mat-icon>more_vert</mat-icon>
   </button>
-  <!---->
+
   <mat-menu class="cutom-md-menu" #appMenu="matMenu">
     <button mat-menu-item (click)="copySharablePreviewLinkHandler()">
       <span class="fa fa-share mr-1"></span>Share Preview
@@ -117,12 +102,6 @@
       <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>
       Copy Access Token
     </button>
-    <!-- <button
-      mat-menu-item
-      (click)="utilityService.copyToClipboard(bot.enterprise_id)"
-    >
-      <i class="fa fa-copy mr-1"></i>Copy Enterprise ID
-    </button> -->
     <button
       mat-menu-item
       (click)="utilityService.copyToClipboard(bot.enterprise_id)"
@@ -131,8 +110,6 @@
       Copy
       Enterprise ID
     </button>
-    <!-- <button mat-menu-item *appMyIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
-        class="fa fa-trash mr-1"></i>Delete</button> -->
     <button
       mat-menu-item
       *appMyIf="[myEAllActions['Delete Bots']]"

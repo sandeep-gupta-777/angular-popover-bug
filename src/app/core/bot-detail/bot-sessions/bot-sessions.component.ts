@@ -155,7 +155,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
           this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
           // this.selectedRow_Session = value.objects.find(session => session.roomId === eventData.data.roomId);
-          // (<any>this.selectedRow_Session).highlight = true;
+          // (this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined) {
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
           }
@@ -374,8 +374,8 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         * start and end refer to date 00:00
         * We want end to point to 23:59, so added a day
         * */
-        const begin = new Date((<any>combinedFilterData).updated_at.begin);
-        const end = new Date((<any>combinedFilterData).updated_at.end);
+        const begin = new Date((combinedFilterData).updated_at.begin);
+        const end = new Date((combinedFilterData).updated_at.end);
         end.setDate(end.getDate() + 1);
 
         combinedFilterData.updated_at =
@@ -409,7 +409,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
       if (combinedFilterData.is_live) {
-        (combinedFilterData as any).is_test = false;
+        (combinedFilterData).is_test = false;
         delete combinedFilterData.is_live;
       }
       delete combinedFilterData.page;

@@ -166,7 +166,7 @@ export class ChatWrapperComponent implements OnInit {
           return;
         }
         this.enterprise_unique_name = enterprise_unique_name;
-        if (enterprise_unique_name && bot_unique_name && bot_unique_name) {
+        if (enterprise_unique_name && bot_unique_name) {
           this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name)
             .subscribe(() => {
               this.startNewChatForAnonUser();
@@ -342,7 +342,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData, updateConsumerInfo?: boolean }) {
-    const messageByHuman = messageData.messageByHuman && messageData.messageByHuman.trim();
+    let messageByHuman = messageData.messageByHuman && messageData.messageByHuman.trim();
     if (!messageByHuman && !messageData.updateConsumerInfo) {
       return;
     }
@@ -352,7 +352,7 @@ export class ChatWrapperComponent implements OnInit {
     * if message by human is empty,we will proceed to updated consumer details
     * */
     if (messageByHuman) {
-      messageByHuman.trim();
+      messageByHuman = messageByHuman.trim();
     }
     if (!messageData.updateConsumerInfo) {
       this.store.dispatch([new AddMessagesToRoomByRoomId({

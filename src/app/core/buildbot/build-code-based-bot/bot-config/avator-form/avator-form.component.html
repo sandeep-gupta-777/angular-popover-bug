@@ -13,6 +13,8 @@
             [appReadonlySelectedRoles]="myEAllActions['Update Bots']"
             formArrayName="avatars"
             *ngFor="let formGroup of formArray.controls; let i = index">
+    <legend style="display: none;">Update bot details</legend>
+
     <div [formGroupName]="i">
       <span class="fa fa-trash cursor-pointer" (click)="deleteAvator(i)" *appMyIf="myEAllActions['Update Bots']"></span>
       <img class="logo-md rounded-circle align-self-center"

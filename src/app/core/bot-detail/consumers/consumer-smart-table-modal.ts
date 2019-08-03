@@ -38,7 +38,7 @@ export class ConsumerSmartTableModal extends AbstractSmartTable {
 
   private customTransformSessionDataForMaterialTable(session: ISessionItem[]) {
     const tableData = this.transformDataForMaterialTable(session, this.metaData);
-    tableData.map((tableRow) => {
+    tableData.forEach((tableRow) => {
       const additonalColumns: any = {
         Actions: tableRow['Actions'],
       };

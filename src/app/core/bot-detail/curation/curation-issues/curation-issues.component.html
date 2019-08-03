@@ -8,7 +8,7 @@
       class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
           <div class="header--img">
-            <img [src]='channelNameToImg(curationItemData && curationItemData.platform)'>
+            <img alt="channel logo" [src]='channelNameToImg(curationItemData && curationItemData.platform)'>
           </div>
           <div class="room-id pl-2">
             Room ID: {{curationItemData.room_id}} </div>
@@ -51,8 +51,7 @@
           </div>
           <div class='column-2' *ngIf="curationItemData.section_id === 'partial_match'">
             <p style="font-size: 11px">Bot understood it partially as</p>
-            <!-- {{curationItemData.generated_msg[0].text | removeTopAndBottomAndGetAsArray | json}} -->
-            <!-- <p style="font-size: 13px" *ngFor="let t of curationItemData.generated_msg[0].text | removeTopAndBottomAndGetAsArray" innerHTML={{t}}></p> -->
+
             <p style="font-size: 13px" innerHTML={{curationItemData.first_question}}></p>
           </div>
         </div>

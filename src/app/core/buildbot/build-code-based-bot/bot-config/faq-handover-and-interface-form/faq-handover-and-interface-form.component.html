@@ -1,5 +1,6 @@
 <form [formGroup]="formGroup">
   <fieldset class="pb-4 pl-3" formGroupName="bot_metadata">
+    <legend style="display: none;">bot meta data</legend>
     <div style="width: 100%" class="py-2">Inference</div>
     <div class="interface-form-grid">
       <mat-form-field>
@@ -18,6 +19,8 @@
   </fieldset>
 
   <fieldset class="pb-4">
+    <legend style="display: none;">Agent Handover</legend>
+
     <div style="width: 100%" class="pl-3">Agent Handover</div>
     <div class="form-control d-flex flex-column pl-3 " style="border: none;">
       <label class="py-1 handover-toggle">Allow agent handover
@@ -35,6 +38,8 @@
     </div>
   </fieldset>
   <fieldset class="pb-4" formGroupName="agent_handover_setting">
+    <legend style="display: none;">agent handover setting</legend>
+
     <div class="interface-form-grid">
 
       <div formGroupName="fallback_count">

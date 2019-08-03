@@ -57,7 +57,8 @@
 
     <ng-container *ngIf="myEBotType.intelligent !== bot_type">
         <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot === bot_type" >
-            <mat-form-field class="w-100">
+          <legend style="display: none;">first messgae</legend>
+          <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"
@@ -67,7 +68,8 @@
             </mat-form-field>
         </fieldset>
         <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
-            <mat-form-field class="w-100">
+          <legend style="display: none;">Recipients</legend>
+          <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"

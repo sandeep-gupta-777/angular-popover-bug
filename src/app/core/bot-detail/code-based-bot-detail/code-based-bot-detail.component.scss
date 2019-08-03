@@ -233,12 +233,6 @@ app-integration-option-list {
 }
 
 
-::ng-deep {
-  .mat-tab-body-wrapper {
-    height: 100%; /*TODO: check why its needed....for knowledge base editor*/
-  }
-}
-
 mat-tab-group {
   //padding-left: 56px;
   mat-tab {
@@ -248,6 +242,11 @@ mat-tab-group {
 
 
 ::ng-deep {
+
+  .mat-tab-body-wrapper {
+    height: 100%; /*TODO: check why its needed....for knowledge base editor*/
+  }
+
   .mat-tab-nav-bar, .mat-tab-header {
     border-bottom: 1px solid transparent;
   }
@@ -260,9 +259,7 @@ mat-tab-group {
     margin-bottom: 8px;
     margin-top: 8px;
   }
-}
 
-::ng-deep {
   .hide-headers {
     mat-tab-header {
       display: none !important;
@@ -285,13 +282,6 @@ mat-tab-group {
   }
 }
 
-//::ng-deep{
-//  .site-sidenav, .site-sidenav.md-locked-open-add-active, .site-sidenav.md-locked-open {
-//    width: 100px;
-//    min-width: 100px;
-//    max-width: 100px;
-//  }
-//}
 .sidebar-logo__image {
   width: 27px;
   height: 27px;
@@ -300,7 +290,6 @@ mat-tab-group {
 
 .mat-list-item-sidebar {
   margin-bottom: 24px;
-  //
 }
 
 .sidebar-nav-list-item {

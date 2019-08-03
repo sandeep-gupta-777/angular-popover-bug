@@ -1,7 +1,8 @@
 <form [formGroup]="formGroup" >
   <div class="d-flex flex-column">
       <fieldset class = "d-flex flex-column pb-4">
-            <mat-form-field [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class="w-50">
+        <legend style="display: none;">update bot details</legend>
+        <mat-form-field [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class="w-50">
                     <input matInput
                     displayName="Bot Name"
                     placeholder="Bot Name"
@@ -19,7 +20,9 @@
       </fieldset>
 
       <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class = "pb-4">
-          <div style="display: flex; align-items: center">
+        <legend style="display: none;">Update bot details</legend>
+
+        <div style="display: flex; align-items: center">
               <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
                    [src]="formGroup.get('logo').value" alt="bot logo">
               <mat-form-field class="w-75">
@@ -45,6 +48,7 @@
 
       </fieldset>
       <fieldset class = "pb-4">
+        <legend style="display: none;">Feedback</legend>
 
             <div class="form-control d-flex flex-column">
                 <label class="py-1">Allow feedback <app-info-icon [text]="'Request feedback for message in a session'"></app-info-icon></label>

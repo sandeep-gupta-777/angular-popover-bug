@@ -542,7 +542,7 @@ export class ServerService {
     if (bot) {
       url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
       headerData = {
-        'bot-access-token': (bot && ServerService.getBotTokenById(bot.id)) || null
+        'bot-access-token': (ServerService.getBotTokenById(bot.id)) || null
       };
     } else {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);

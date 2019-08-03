@@ -102,11 +102,9 @@
 <!--Template for modal-->
 
 <mat-menu class="more-menu" #appMenu="matMenu">
-  <button mat-menu-item (click)="copySharablePreviewLinkHandler()"><i class="fa fa-share mr-1"></i>
+  <button mat-menu-item (click)="copySharablePreviewLinkHandler()"><span class="fa fa-share mr-1"></span>
     Share Preview
   </button>
-<!--  <button mat-menu-item (click)="utilityService.copyToClipboard(ServerService.getBotTokenById(bot.id))"><i class="fa fa-copy mr-1"></i>Copy-->
-<!--  </button>-->
   <button
     mat-menu-item
     (click)="utilityService.copyToClipboard(bot.bot_access_token)"
@@ -135,8 +133,6 @@
   >
     <mat-icon class="mat-icon material-icons mr-1">bookmark</mat-icon>Pin
   </button>
-
-  <!-- <button mat-menu-item *appMyIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><mat-icon class = "mat-icon material-icons">delete</mat-icon>Delete</button> -->
 
   <button
     mat-menu-item

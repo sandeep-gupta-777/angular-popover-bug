@@ -32,6 +32,6 @@
          data-cy="chat-input"
          placeholder="Write here and press enter to send" autofocus [(ngModel)]="messageByHuman" type="text"
          (keyup.enter)="sendMessageByHuman(messageByHuman)" style="color:	#696969">
-  <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+  <span class="icon"><span class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></span></span>
 </div>
 <!--text input ends-->

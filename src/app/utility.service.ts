@@ -636,7 +636,7 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = mm + delimiter + dd + delimiter + yyyy);
+    return (mm + delimiter + dd + delimiter + yyyy);
 
   }
 

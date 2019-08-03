@@ -225,8 +225,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
-
-    const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
     if (this.loginForm.valid) {

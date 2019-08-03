@@ -33,6 +33,7 @@ $custom-typography: mat-typography-config(
   $input: mat-typography-level(inherit, 1.125, 400)
 );
 @include mat-core($custom-typography);
+
 .unicorn-title {
   @include mat-typography-level-to-styles($custom-typography, title);
 }
@@ -106,6 +107,7 @@ button {
 // Be sure that you only ever include this mixin once!
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
+
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $candy-app-primary: mat-palette($mat-indigo);
@@ -693,8 +695,6 @@ h4 {
     @include typography(11px, $line-height-normal, $font-weight-300, $color-text-normal);
   }
 }
-
-//
 
 .speech-bubble {
   width: 51.7px;
@@ -1390,8 +1390,7 @@ mat-dialog-container {
 }
 
 
-
-.absolute-center{
+.absolute-center {
   top: 50%;
   left: 50%;
   position: absolute;
