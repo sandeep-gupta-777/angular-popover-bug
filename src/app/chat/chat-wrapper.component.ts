@@ -264,7 +264,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   startNewChatForAnonUser() {
-    debugger;
+
     this.startNewChat({
       consumerDetails: {uid: UtilityService.generateUUid()},
       bot: this.currentBot,
@@ -275,7 +275,7 @@ export class ChatWrapperComponent implements OnInit {
 
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
-    debugger;
+
     this.showOverlay_edit_fullscreen = false;
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot; // todo: is it really required?
 
