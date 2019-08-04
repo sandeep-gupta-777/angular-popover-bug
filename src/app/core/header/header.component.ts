@@ -178,15 +178,19 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     ]).subscribe(() => {
       this.store.dispatch([new ResetChatState()])
         .subscribe(() => {
-          if (!environment.mock) {
+          if (!environment.mock && shouldCallLogoutApi) {
+            this.router.navigate(['auth', 'login']);
             this.serverService.makeGetReq({url: this.url})
               .subscribe((v) => {
                 this.utilityService.showSuccessToaster('Logged Out');
-                this.router.navigate(['auth', 'login']);
+                // this.router.navigate(['auth', 'login']);
               }, () => {
-                this.router.navigate(['auth', 'login']);
+                // this.router.navigate(['auth', 'login']);
               });
             this.bc.postMessage('This is a test message.');
+          } else {
+            //
+            this.router.navigate(['auth', 'login']);
           }
         });
     });
