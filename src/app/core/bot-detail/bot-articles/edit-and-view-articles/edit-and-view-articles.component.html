@@ -80,7 +80,7 @@
                 cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
               </textarea>
     </mat-form-field>
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button *appMyIf="myEAllActions['Update Corpus']"
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button *appMyIf="myEAllActions['Update Corpus']" [disabled]="!questionForm.value.questionText"
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
             (click)="addNewQuestion(questionForm.value.questionText);questionForm.reset()">
       + Add question
