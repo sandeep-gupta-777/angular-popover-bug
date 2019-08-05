@@ -67,9 +67,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginEmails = [
-    'ayeshreddy.k@imimobile.com',
-    'puspita.m@imimobile.com',
-    'puspita.m@gmail.com'
   ];
   isConfigDataSet = false;
   @ViewChild('loginForm') loginForm: NgForm;

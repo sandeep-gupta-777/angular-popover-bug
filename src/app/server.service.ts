@@ -225,9 +225,9 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         debugger;
-        if (e.status === 401) {
-          this.checkForLogoutAction({action: 'logout'});
-        }
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         // this.checkForLogoutAction(value);
         return this.handleErrorFromServer(e);
       }));
@@ -305,9 +305,9 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
-        if (e.status === 401) {
-          this.checkForLogoutAction({action: 'logout'});
-        }
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         return this.handleErrorFromServer(e);
       }));
   }
@@ -332,9 +332,9 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
-        if (e.status === 401) {
-          this.checkForLogoutAction({action: 'logout'});
-        }
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         return this.handleErrorFromServer(e);
       }));
   }
@@ -356,9 +356,9 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
-        if (e.status === 401) {
-          this.checkForLogoutAction({action: 'logout'});
-        }
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         return this.handleErrorFromServer(e);
       }));
   }

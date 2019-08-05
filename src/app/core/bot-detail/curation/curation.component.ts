@@ -67,6 +67,7 @@ export class CurationComponent implements OnInit {
   curationResolvedFilterForm: FormGroup;
 
   ngOnInit() {
+    debugger;
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
       room_id: [''],
@@ -82,6 +83,7 @@ export class CurationComponent implements OnInit {
     this.setTopArticlesWithIssues();
     this.makeCurationSettingsForm();
     this.getCorpus$().subscribe();
+    debugger;
     this.makeCurationIssuesFilterForm();
     this.makeCurationResolvedFilterForm();
 
@@ -500,7 +502,7 @@ export class CurationComponent implements OnInit {
 
   getCorpus$() {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
 
