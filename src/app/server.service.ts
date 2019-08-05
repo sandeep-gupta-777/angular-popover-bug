@@ -162,14 +162,6 @@ export class ServerService {
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData: IHeaderData = {};
-    // console.log(ServerService.USER_ACCESS_TOKEN);
-    // console.log(ServerService.AUTH_TOKEN);
-    if (!ServerService.USER_ACCESS_TOKEN) {
-
-    }
-    if (!ServerService.AUTH_TOKEN) {
-
-    }
     tokenData = {'user-access-token': ServerService.USER_ACCESS_TOKEN};
     tokenData = {...tokenData, 'auth-token': ServerService.AUTH_TOKEN};
     tokenData = {...tokenData, 'content-type': 'application/json'};

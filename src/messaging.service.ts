@@ -9,6 +9,7 @@ import {BehaviorSubject} from 'rxjs';
 @Injectable()
 export class MessagingService {
 
+  static fcm_token = null;
   currentMessage = new BehaviorSubject(null);
 
   constructor(
@@ -48,7 +49,7 @@ export class MessagingService {
 
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
-
+        MessagingService.fcm_token = token;
         console.log(token);
         this.updateToken(userId, token);
       },

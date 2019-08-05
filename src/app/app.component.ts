@@ -31,11 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         console.log('Service worker registration failed, error:', err);
       });
     }
-//
     console.info('App bootstrap success!');
-    console.info(document.cookie);
-
-
   }
 
   ngAfterViewInit() {
