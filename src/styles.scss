@@ -16,21 +16,21 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
   //$font-family:   '"Helvetica", sans-serif',
-  $font-family: '' IBM Plex Sans ', sans-serif',
-  $display-4: mat-typography-level(112px, 112px, 300),
-  $display-3: mat-typography-level(56px, 56px, 400),
-  $display-2: mat-typography-level(45px, 48px, 400),
-  $display-1: mat-typography-level(34px, 40px, 400),
-  $headline: mat-typography-level(24px, 32px, 400),
-  $title: mat-typography-level(20px, 32px, 500),
-  $subheading-2: mat-typography-level(16px, 28px, 400),
-  $subheading-1: mat-typography-level(15px, 24px, 400),
-  $body-2: mat-typography-level(14px, 24px, 500),
-  $body-1: mat-typography-level(14px, 20px, 400),
-  $caption: mat-typography-level(11px, 20px, 400),
-  $button: mat-typography-level(14px, 14px, 500),
-    // Line-height must be unit-less fraction of the font-size.
-  $input: mat-typography-level(inherit, 1.125, 400)
+        $font-family: '' IBM Plex Sans ', sans-serif',
+        $display-4: mat-typography-level(112px, 112px, 300),
+        $display-3: mat-typography-level(56px, 56px, 400),
+        $display-2: mat-typography-level(45px, 48px, 400),
+        $display-1: mat-typography-level(34px, 40px, 400),
+        $headline: mat-typography-level(24px, 32px, 400),
+        $title: mat-typography-level(20px, 32px, 500),
+        $subheading-2: mat-typography-level(16px, 28px, 400),
+        $subheading-1: mat-typography-level(15px, 24px, 400),
+        $body-2: mat-typography-level(14px, 24px, 500),
+        $body-1: mat-typography-level(14px, 20px, 400),
+        $caption: mat-typography-level(11px, 20px, 400),
+        $button: mat-typography-level(14px, 14px, 500),
+          // Line-height must be unit-less fraction of the font-size.
+        $input: mat-typography-level(inherit, 1.125, 400)
 );
 @include mat-core($custom-typography);
 .unicorn-title {
@@ -63,36 +63,36 @@ $custom-typography: mat-typography-config(
 }
 
 $mat-indigo: (
-  50: #e8eaf6,
-  100: #c5cae9,
-  200: #9fa8da,
-  300: #7986cb,
-  400: #5c6bc0,
-  500: $color-primary,
-  600: #3949ab,
-  700: #303f9f,
-  800: #283593,
-  900: #1a237e,
-  A100: #8c9eff,
-  A200: #536dfe,
-  A400: #3d5afe,
-  A700: #304ffe,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $light-primary-text,
-    400: $light-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text,
-  )
+        50: #e8eaf6,
+        100: #c5cae9,
+        200: #9fa8da,
+        300: #7986cb,
+        400: #5c6bc0,
+        500: $color-primary,
+        600: #3949ab,
+        700: #303f9f,
+        800: #283593,
+        900: #1a237e,
+        A100: #8c9eff,
+        A200: #536dfe,
+        A400: #3d5afe,
+        A700: #304ffe,
+        contrast: (
+                50: $dark-primary-text,
+                100: $dark-primary-text,
+                200: $dark-primary-text,
+                300: $light-primary-text,
+                400: $light-primary-text,
+                500: $light-primary-text,
+                600: $light-primary-text,
+                700: $light-primary-text,
+                800: $light-primary-text,
+                900: $light-primary-text,
+                A100: $dark-primary-text,
+                A200: $light-primary-text,
+                A400: $light-primary-text,
+                A700: $light-primary-text,
+        )
 );
 
 button {
@@ -694,7 +694,9 @@ h4 {
   }
 }
 
-//
+.rtl {
+  text-align: right;
+}
 
 .speech-bubble {
   width: 51.7px;
@@ -1390,8 +1392,7 @@ mat-dialog-container {
 }
 
 
-
-.absolute-center{
+.absolute-center {
   top: 50%;
   left: 50%;
   position: absolute;

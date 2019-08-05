@@ -62,7 +62,7 @@ export interface ISendApiResponsePayload {
   'bot_msg': string;
   bot_message_id: number;
   'generated_msg': IGeneratedMessageItem[];
-  'messageStore': { 'endflow': true, 'templateKey': 'A1' };
+  'messageStore': { 'endflow': true, 'templateKey': 'A1', response_language:string };
   'room': {
     'agent_handover': false,
     'allow_anonymization': false,

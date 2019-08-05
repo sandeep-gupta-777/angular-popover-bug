@@ -14,10 +14,11 @@ export class SerializeSessionMessagePipe implements PipeTransform {
 
   /*this pipe will create new array for each txn roomId which will be storing convo for that txn roomId*/
   transform(sessionMessages: ISessionMessageItem[], args?: any): ITxnSessionMessagesItem[] {
-
+debugger;
     if (!sessionMessages) { return; }
     const txnConversationItems: ITxnSessionMessagesItem[] = [];
     sessionMessages.forEach((sessionMessage) => {
+      // sessionMessage.message_store.response_language
       const txnId = sessionMessage.transaction_id;
       const conversationObjectForGivenTxnId: ITxnSessionMessagesItem = txnConversationItems.find(item => item.transaction_id === txnId);
       if (conversationObjectForGivenTxnId && conversationObjectForGivenTxnId.convoList) {
