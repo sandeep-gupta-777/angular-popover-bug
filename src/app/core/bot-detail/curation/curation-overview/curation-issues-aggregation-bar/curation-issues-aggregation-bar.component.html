@@ -17,7 +17,7 @@
   <div class="count py-1 px-3" *ngIf="aggrigationData">
     <div class="count-item">
       <mat-icon style="color: #fd901c;" class="count-icon">sentiment_dissatisfied</mat-icon>
-      <div class="count-text">
+      <div class="count-text" (click)=openIssueFiltered(filteredTemplate)></div>>
         Fallback
       </div>
       <div class="count-number">
@@ -78,3 +78,8 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #filteredTemplate>
+  
+</ng-template>
