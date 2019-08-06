@@ -9,6 +9,11 @@
 /node_modules
 node_modules1
 
+cypress/screenshots
+cypress/videos
+cypress/screenshots/
+cypress/videos/
+
 # IDEs and editors
 /.idea
 .idea/workspace.xml
