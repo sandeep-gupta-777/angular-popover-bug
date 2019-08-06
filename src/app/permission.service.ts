@@ -12,11 +12,8 @@ import {environment} from '../environments/environment';
 
 @Injectable()
 export class PermissionService {
-  @Select() app$: Observable<IAppState>;
-  @Select() loggeduser$: Observable<{ user: IUser }>;
-  loggedUser: IUser;
-  advanced_data_protection;
-  allBackEndActionsToFrontEndTabMapping2 = {
+
+  private static allBackEndActionsToFrontEndTabMapping2 = {
     [EAllActions['Get Bots']]: true,
     [EAllActions['Create Bots']]: true,
     [EAllActions['Update Bots']]: true,
@@ -81,32 +78,32 @@ export class PermissionService {
     [EAllActions['Update Bot Knowledge base']]: true,
     [EAllActions['Delete Bot Knowledge base']]: true,
     [EAllActions['GET ModuleDetail']]: true,
-  [EAllActions['Create Corpus' ]]: true,
-  [EAllActions['Update Corpus' ]]: true,
-  [EAllActions['Get Corpus' ]]: true,
-  [EAllActions['delete Corpus' ]]: true,
-  [EAllActions['Create Category' ]]: true,
-  [EAllActions['Update Category' ]]: true,
-  [EAllActions['Remove Category' ]]: true,
-  [EAllActions['Section Category Change' ]]: true,
-  [EAllActions['Make Corpus Live' ]]: true,
-  [EAllActions['Create Section' ]]: true,
-  [EAllActions['Update Section' ]]: true,
-  [EAllActions['Remove Section' ]]: true,
-  [EAllActions['Get Default Corpus' ]]: true,
-  [EAllActions['Train Corpus' ]]: true,
-  [EAllActions['Section Category Change with Category Creation' ]]: true,
-  [EAllActions['Add message to curation']]: true,
-  [EAllActions['Get FAQbot curation issues']]: true,
-  [EAllActions['Ignore curation issues']]: true,
-  [EAllActions['Link curation issues to an article']]: true,
-  [EAllActions['Add curation issues to a new article']]: true,
-  [EAllActions['Faqbot curation overview counts']]: true,
-  [EAllActions['Faqbot curation top sections']]: true,
+    [EAllActions['Create Corpus']]: true,
+    [EAllActions['Update Corpus']]: true,
+    [EAllActions['Get Corpus']]: true,
+    [EAllActions['delete Corpus']]: true,
+    [EAllActions['Create Category']]: true,
+    [EAllActions['Update Category']]: true,
+    [EAllActions['Remove Category']]: true,
+    [EAllActions['Section Category Change']]: true,
+    [EAllActions['Make Corpus Live']]: true,
+    [EAllActions['Create Section']]: true,
+    [EAllActions['Update Section']]: true,
+    [EAllActions['Remove Section']]: true,
+    [EAllActions['Get Default Corpus']]: true,
+    [EAllActions['Train Corpus']]: true,
+    [EAllActions['Section Category Change with Category Creation']]: true,
+    [EAllActions['Add message to curation']]: true,
+    [EAllActions['Get FAQbot curation issues']]: true,
+    [EAllActions['Ignore curation issues']]: true,
+    [EAllActions['Link curation issues to an article']]: true,
+    [EAllActions['Add curation issues to a new article']]: true,
+    [EAllActions['Faqbot curation overview counts']]: true,
+    [EAllActions['Faqbot curation top sections']]: true,
   };
-  forbiddenActionsToFrontEndMapping = {};
-  allowedApiHttpVerbPPathToActionNamesMapping = {};
-  ApiAccessAllowedUrlList: string[] = [
+  private static forbiddenActionsToFrontEndMapping = {};
+  private static allowedApiHttpVerbPPathToActionNamesMapping = {};
+  private static ApiAccessAllowedUrlList: string[] = [
     '/api/v1/actions/',
     '/api/v1/user/login/',
     '/api/v1/user/resetpasswordurl/',
@@ -126,16 +123,17 @@ export class PermissionService {
     ''
   ];
 
+  @Select() app$: Observable<IAppState>;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
+  loggedUser: IUser;
+  advanced_data_protection;
+
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
-      if (loggeduser && loggeduser.user) {
-        this.loggedUser = loggeduser.user;
-      }
-    //
+      this.loggedUser = loggeduser.user;
     });
 
     this.app$.subscribe((appState) => {
-
       if (!appState) {
         return;
       }
@@ -145,34 +143,36 @@ export class PermissionService {
           return;
         }
         if (this.loggedUser.role.name === 'Admin') {
-          this.forbiddenActionsToFrontEndMapping = [];
+          PermissionService.forbiddenActionsToFrontEndMapping = [];
           return;
         }
-
+        debugger;
         /*for non admin roles*/
-        this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
+        PermissionService.forbiddenActionsToFrontEndMapping = {...PermissionService.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/
-       try {
-         this.loggedUser.role.permissions.actions.forEach((permId: number) => {
-           /*find action name for given permission roomId*/
-           if (!masterActionList) { return; }
-           let actionName;
-           try {
+        try {
+          this.loggedUser.role.permissions.actions.forEach((permId: number) => {
+            /*find action name for given permission roomId*/
+            if (!masterActionList) {
+              return;
+            }
+            let actionName;
+            try {
               actionName = masterActionList.find((action) => action.id === permId).name;
-          } catch (e) {
-             if (!environment.production) {
-               console.error(`can't find action id = ${permId} in masterActionList but its present in role > actions`);
-             }
-            console.log(e);
-          }
-           const x = this.forbiddenActionsToFrontEndMapping[actionName];
-           const y = this.forbiddenActionsToFrontEndMapping;
-           delete this.forbiddenActionsToFrontEndMapping[actionName];
-         });
-       } catch (e) {
+            } catch (e) {
+              if (!environment.production) {
+                console.error(`can't find action id = ${permId} in masterActionList but its present in role > actions`);
+              }
+              console.log(e);
+            }
+            const x = PermissionService.forbiddenActionsToFrontEndMapping[actionName];
+            const y = PermissionService.forbiddenActionsToFrontEndMapping;
+            delete PermissionService.forbiddenActionsToFrontEndMapping[actionName];
+          });
+        } catch (e) {
 
-         console.log(e);
-       }
+          console.log(e);
+        }
 
 
         /*
@@ -188,7 +188,7 @@ export class PermissionService {
           return actionToHttpVerbPPathNameMap;
         });
 
-        this.allowedApiHttpVerbPPathToActionNamesMapping = {};
+        PermissionService.allowedApiHttpVerbPPathToActionNamesMapping = {};
         /*add the explicit permissions */
         // this.loggeduser.role.permissions.actions.forEach((permId: number) => {
         //   /*find action name for given permission roomId*/
@@ -196,7 +196,7 @@ export class PermissionService {
         //   const httpVerb = action.permissions.method;
         //   const path = action.permissions.endpoint;
         //   const httpVerbPPath = httpVerb + '+' + path;
-        //   this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
+        //   PermissionService.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
         // });
 
         /*add the explicit and default permissions */
@@ -208,7 +208,7 @@ export class PermissionService {
             const httpVerb = action.permissions.method;
             const path = action.permissions.endpoint;
             const httpVerbPPath = httpVerb + '+' + path;
-            this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
+            PermissionService.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
           }
         });
 
@@ -222,7 +222,7 @@ export class PermissionService {
   }
 
   isInApiAccessAllowedUrlList(pathName) {
-    const check = this.ApiAccessAllowedUrlList.find(x => x === pathName);
+    const check = PermissionService.ApiAccessAllowedUrlList.find(x => x === pathName);
     return !!check;
   }
 
@@ -239,8 +239,8 @@ export class PermissionService {
     if (!tabName) {
       return false;
     }
-    const isDenied = !!this.forbiddenActionsToFrontEndMapping[tabName];
-    LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping);
+    const isDenied = !!PermissionService.forbiddenActionsToFrontEndMapping[tabName];
+    LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, PermissionService.forbiddenActionsToFrontEndMapping);
     return isDenied;
   }
 
@@ -267,10 +267,10 @@ export class PermissionService {
     } else {
       httpVerbAndPathKey = httpVerb + '+' + pathName;
 
-      isAllowed = !!this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbAndPathKey];
+      isAllowed = !!PermissionService.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbAndPathKey];
     }
 
-    LoggingService.logMultiple(`${logMessage} role = ${roleName}. Checked Api access for ${httpVerbAndPathKey} and the access was ${isAllowed ? 'Allowed' : 'Denied'}. This is forbiddenApiToActionNamesMapping:`, this.allowedApiHttpVerbPPathToActionNamesMapping);
+    LoggingService.logMultiple(`${logMessage} role = ${roleName}. Checked Api access for ${httpVerbAndPathKey} and the access was ${isAllowed ? 'Allowed' : 'Denied'}. This is forbiddenApiToActionNamesMapping:`, PermissionService.allowedApiHttpVerbPPathToActionNamesMapping);
     return !isAllowed;
   }
 

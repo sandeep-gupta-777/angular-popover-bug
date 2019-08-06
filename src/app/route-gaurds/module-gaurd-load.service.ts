@@ -10,10 +10,10 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
   * We don't use NGXS state here because we want to keep root module lean
   * */
   doesAuthTokenExists() {
-
+    debugger;
 
     try {/*TODO: implement it better*/
-      return !!JSON.parse(localStorage.getItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY)).loggeduser.user;
+      return !!JSON.parse(localStorage.getItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY)).loggeduser.is_loggedIn;
     } catch (e) {
       return false;
     }
@@ -21,25 +21,24 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
 
   canActivate() {
 
-
     if (AuthGaurdService.doesAuthTokenExists()) {
       return true;
     } else {
       setTimeout(() => {
         this.router.navigate(['auth', 'login']);
-      }, 1000);
+      });
       return false;
     }
   }
 
   canActivateChild() {
-
+    debugger;
 
     return this.canActivate();
   }
 
   canLoad() {
-
+    debugger;
     return this.canActivate();
   }
 

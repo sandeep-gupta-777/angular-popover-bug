@@ -76,10 +76,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // };
     const getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
-    EventService.logout$.subscribe((shouldCallLogoutApi?) => {
-      this.logout(shouldCallLogoutApi);
-    });
-
     this.serverService.makeGetReq({url: getAllEnterpriseUrl})
       .subscribe((value: any) => {
         this.enterpriseList = value.enterprises;
@@ -120,7 +116,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
             }
 
             LoggingService.log('============================autologout============================');
-            this.logout();
+            this.serverService.logout();
             // document.location.reload(); /*To destroy all timeouts just in case*/
           }, (autoLogOutTime - Date.now()));
 
@@ -151,51 +147,12 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // })
   }
 
-  test() {
-    this.bc.postMessage('This is a test message.');
+  logout(){
+    this.serverService.logout();
   }
 
-  logout(shouldCallLogoutApi = true) {
-
-    if (!this.userData) {/*TODO: ring fancing: BAD*/
-      return;
-    }
-
-    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
-    ServerService.resetCookie();
-    sessionStorage.clear();
-
-    this.url = this.constantsService.getLogoutUrl();
-    this.store.dispatch([
-      new ResetBotListAction(),
-      // new ResetAuthToDefaultState(),/*can't reset auth state to default as its being used on this page*/
-      new ResetLoggedInStatus(),
-      new ResetEnterpriseUsersAction(),
-      new ResetBuildBotToDefault(),
-      new ResetAnalytics2GraphData(),
-      new ResetAnalytics2HeaderData(),
-      new ResetAppState()
-    ]).subscribe(() => {
-      this.store.dispatch([new ResetChatState()])
-        .subscribe(() => {
-          if (!environment.mock && shouldCallLogoutApi) {
-            this.router.navigate(['auth', 'login']);
-            this.serverService.makeGetReq({url: this.url})
-              .subscribe((v) => {
-                this.utilityService.showSuccessToaster('Logged Out');
-                // this.router.navigate(['auth', 'login']);
-              }, () => {
-                // this.router.navigate(['auth', 'login']);
-              });
-            this.bc.postMessage('This is a test message.');
-          } else {
-            //
-            this.router.navigate(['auth', 'login']);
-          }
-        });
-    });
-    this.serverService.removeTokens();
-
+  test() {
+    this.bc.postMessage('This is a test message.');
   }
 
   changeEnterprise(template: TemplateRef<any>) {

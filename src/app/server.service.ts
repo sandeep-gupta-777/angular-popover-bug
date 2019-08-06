@@ -8,6 +8,7 @@ import {IUser} from './core/interfaces/user';
 import {IHeaderData} from '../interfaces/header-data';
 import {IOverviewInfoResponse} from '../interfaces/Analytics2/overview-info';
 import {
+  ResetBotListAction,
   SaveVersionInfoInBot,
   SetAllBotListAction,
   UpdateBotInfoByIdInBotInBotList
@@ -15,6 +16,7 @@ import {
 import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
+  ResetAppState,
   SetAutoLogoutTime,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
@@ -23,7 +25,7 @@ import {
 } from './ngxs/app.action';
 import {IIntegrationMasterListItem} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
-import {SetCurrentBotDetailsAndResetChatStateIfBotMismatch} from './chat/ngxs/chat.action';
+import {ResetChatState, SetCurrentBotDetailsAndResetChatStateIfBotMismatch} from './chat/ngxs/chat.action';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {EventService} from './event.service';
@@ -40,6 +42,10 @@ declare var $: any;
 declare let deploy_obj_botplateform_fe;
 import {Storage} from 'session-storage-sync';
 import {identifierModuleUrl} from '@angular/compiler';
+import {ResetAuthToDefaultState, ResetLoggedInStatus} from './auth/ngxs/auth.action';
+import {ResetEnterpriseUsersAction} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {ResetBuildBotToDefault} from './core/buildbot/ngxs/buildbot.action';
+import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from './core/analysis2/ngxs/analysis.action';
 
 @Injectable()
 export class ServerService {
@@ -114,6 +120,11 @@ export class ServerService {
     private router: Router,
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
+
+    EventService.logout$.subscribe((shouldCallLogoutApi?) => {
+      this.logout(shouldCallLogoutApi);
+    });
+
     ServerService.AUTH_TOKEN = ServerService.getCookie('auth-token');
     ServerService.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
 
@@ -371,10 +382,62 @@ export class ServerService {
     if (action === 'logout') {
       /* temporary*/
       localStorage.clear();
-      location.reload();
       EventService.logout$.emit();
+      // location.reload();
       return;
     }
+  }
+
+  logout(shouldCallLogoutApi = true) {
+
+    // if (!this.userData) {/*TODO: ring fancing: BAD*/
+    //   return;
+    // }
+
+    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
+    ServerService.resetCookie();
+    sessionStorage.clear();
+    const url = this.constantsService.getLogoutUrl();
+    this.store.dispatch([
+      new ResetBotListAction(),
+      new ResetLoggedInStatus(),
+      new ResetEnterpriseUsersAction(),
+      new ResetBuildBotToDefault(),
+      new ResetAnalytics2GraphData(),
+      new ResetAnalytics2HeaderData(),
+      new ResetAppState()
+    ]).subscribe(() => {
+      this.store.dispatch([new ResetChatState()])
+        .subscribe(() => {
+          if (!environment.mock && shouldCallLogoutApi) {
+            this.router.navigate(['auth', 'login'])
+              .then(() => {
+                this.store.dispatch([
+                    new ResetAuthToDefaultState()/*can't reset auth state to default as its being used on this page*/
+                  ]
+                );
+              });
+            this.makeGetReq({url})
+              .subscribe((v) => {
+                this.myToasterService.showSuccessToaster('Logged Out');
+              }, () => {
+                // this.router.navigate(['auth', 'login']);
+              });
+            // this.bc.postMessage('This is a test message.');
+          } else {
+            this.router.navigate(['auth', 'login'])
+              .then(() => {
+                this.store.dispatch([
+                    new ResetAuthToDefaultState()/*can't reset auth state to default as its being used on this page*/
+                  ]
+                );
+
+              });
+          }
+        });
+    });
+    this.removeTokens();
+
   }
 
 
