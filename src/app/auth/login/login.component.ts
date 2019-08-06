@@ -66,8 +66,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     super();
   }
 
-  loginEmails = [
-  ];
+  loginEmails = [];
   isConfigDataSet = false;
   @ViewChild('loginForm') loginForm: NgForm;
   @ViewChild('emailForPasswordResetForm') emailForPasswordResetForm: NgForm;
@@ -96,10 +95,13 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
 
     this.gotUserData$.pipe(
       map((value: IUser) => {
-
+        debugger;
         this.userValue = userValue = value;
-        ServerService.USER_ACCESS_TOKEN = this.userValue.user_access_token;
-        ServerService.AUTH_TOKEN = this.userValue.auth_token;
+        ServerService.setCookie('auth-token', value.auth_token);
+        ServerService.setCookie('user-access-token', value.user_access_token);
+        console.log('AUTH_TOKEN', ServerService.AUTH_TOKEN);
+        console.log('USER_ACCESS_TOKEN', ServerService.USER_ACCESS_TOKEN);
+        console.log('document.cookie', document.cookie);
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {
@@ -137,10 +139,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // document.cookie = `auth-token=${this.userData.auth_token};`;
         // document.cookie = `user-access-token=${this.userData.user_access_token}`;
         // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
-        ServerService.setCookie('auth-token', this.userData.auth_token);
-        ServerService.setCookie('user-access-token', this.userData.user_access_token);
-        delete this.userValue.user_access_token;
-        delete this.userValue.auth_token;
         return this.store.dispatch([
           new SetUser({user: this.userValue, is_loggedIn: true}),
         ]);
@@ -165,7 +163,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         return this.loginFailedHandler();
       })
     )
-      .subscribe(() => {});
+      .subscribe(() => {
+      });
 
   }
 
