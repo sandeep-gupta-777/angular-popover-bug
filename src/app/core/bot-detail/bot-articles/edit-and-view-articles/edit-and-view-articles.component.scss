@@ -22,7 +22,7 @@ header{
 
 .main-block{
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 1.25fr 1fr;
     grid-column-gap: 10px;
     height: 65vh;
     grid-template-rows: 65vh;
@@ -39,7 +39,7 @@ header{
     }
     .question-list-item{
         // height : 45px;
-        width : 85%;
+        width : 95%;
         .onParentHover{
             opacity: 0;
           }
@@ -56,24 +56,28 @@ header{
     }
     .response{
         .response-heading{
+            display: flex;
+            flex-direction: column;
             font-size: 13px;
             font-weight: bold;
             color: #474747;
             padding-bottom: .25rem;
         }
-        .response-items{
-            width: 100%;
-            .answer-list-item{
-                width: 100%;
-                border: solid 1px #d8d8d8;
-                border-radius: 4px;
-                textarea{
-                    background-color: transparent;
-            }
-            }
-
+        .response-template{
 
         }
+
+        //.response-items{
+        //    width: 100%;
+        //    .answer-list-item{
+        //        width: 100%;
+        //        border: solid 1px #d8d8d8;
+        //        border-radius: 4px;
+        //        textarea{
+        //            background-color: transparent;
+        //    }
+        //    }
+        //}
     }
 }
 .first-message-main-block{
@@ -138,7 +142,7 @@ header{
 .addQuestionPanel{
     display: flex;
     flex-direction: column;
-    width: 85%;
+    width: 95%;
     background-color: #ffffff;
     textarea{
         background-color: transparent;

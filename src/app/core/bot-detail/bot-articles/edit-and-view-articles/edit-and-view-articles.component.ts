@@ -26,6 +26,7 @@ import {PermissionService} from 'src/app/permission.service';
 import {MatDialog} from '@angular/material';
 import {UtilityService} from 'src/app/utility.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 // [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
 
@@ -69,14 +70,15 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   userRole;
+  showAnswerCodeView = false;
   myEAllActions = EAllActions;
   myERoleName = ERoleName;
   article_id: number;
   currentModal: string;
   JSON = JSON;
   dialogRefWrapper = {ref: null};
-  ngOnInit() {
 
+  ngOnInit() {
     this.loggeduser$
       .subscribe((value: IAuthState) => {
         if (value && value.user !== null) {
@@ -85,6 +87,7 @@ export class EditAndViewArticlesComponent implements OnInit {
       });
 
   }
+
 
   trackByIndex(index: number, obj: any): any {
     return index;

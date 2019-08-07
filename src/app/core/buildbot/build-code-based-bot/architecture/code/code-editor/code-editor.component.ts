@@ -39,7 +39,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   @Input() set text(editorCodeObj: { text: string }) {
-
+    debugger;
     if (!editorCodeObj) {
       return;
     }

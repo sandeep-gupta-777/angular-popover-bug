@@ -54,6 +54,7 @@ import {MatSidenavModule} from '@angular/material';
 import {DevHttpInterceptorService} from '../dev/dev-http-interceptor.service';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {HnResolver} from '../core.resolver';
+import { GentemplateSidebarComponent } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 
 const routes: Route[] = [
   {
@@ -140,6 +141,7 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
+    GentemplateSidebarComponent,
   ],
   entryComponents: [
     ModalConfirmComponent,
@@ -164,6 +166,9 @@ const routes: Route[] = [
       ...ReducerListService.list,
       VersionStateReducer,
     ])
+  ],
+  exports: [
+    GentemplateSidebarComponent
   ],
   providers: [
     EventService,
