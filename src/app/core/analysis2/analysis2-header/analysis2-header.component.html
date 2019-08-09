@@ -3,9 +3,9 @@
       class=" d-flex align-items-center analysis2-header-row position-relative" #form="ngForm">
 
 
-  <div class="heading ml-4">Filter Data</div>
+<!--  <div class="heading ml-4">Filter Data</div>-->
 
-  <div class="form-group m-0 mr-4 ml-auto">
+  <div class="form-group m-0 mr-4">
     <mat-form-field>
       <mat-select placeholder="Select bot" [(ngModel)]="bot_id" name="botId">
         <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="bot.id">
