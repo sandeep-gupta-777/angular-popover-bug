@@ -8,7 +8,6 @@ import {Component, Input, OnInit} from '@angular/core';
 export class AnswerTemplateWrapperComponent implements OnInit {
 
   constructor() { }
-  selectedTemplateKeyOutputIndex = [];
   channelList = [ { "name": "all", "displayName": "All" }, { "name": "facebook", "displayName": "facebook" }, { "name": "skype", "displayName": "skype" } ];
   @Input() answerObject;
   ngOnInit() {
@@ -47,7 +46,6 @@ export class AnswerTemplateWrapperComponent implements OnInit {
     };
     this.answerObject.push(quickReplyUnit);
     setTimeout(() => this.scrollToBottom());
-
   }
 
   addImageCaraosalUnit() {
@@ -63,7 +61,6 @@ export class AnswerTemplateWrapperComponent implements OnInit {
     };
     this.answerObject.push(caraosalUnit);
     setTimeout(() => this.scrollToBottom());
-
   }
 
   addTextUnit() {
@@ -72,9 +69,26 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       'text': ['']
     };
     this.answerObject.push(textUnit);
-    this.answerObject = [...this.answerObject]
     setTimeout(() => this.scrollToBottom());
+  }
+  deleteGentemplate(e) {
+    this.answerObject.splice(e, 1);
+  }
 
+  moveUpGentempate(e) {
+    const temp = this.answerObject[e];
+    this.answerObject[e] = this.answerObject[e - 1];
+    this.answerObject[e - 1] = temp;
+  }
+
+  moveDownGentempate(e) {
+    if (this.answerObject.length === e + 1) {
+      console.log('just dot do that , U know Y');
+      return;
+    }
+    const temp = this.answerObject[e];
+    this.answerObject[e] = this.answerObject[e + 1];
+    this.answerObject[e + 1] = temp;
   }
   scrollToBottom(): void {
     try {

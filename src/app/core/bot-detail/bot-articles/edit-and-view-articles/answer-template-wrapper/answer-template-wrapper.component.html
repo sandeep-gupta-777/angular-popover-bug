@@ -5,13 +5,17 @@
              *ngFor="let outputItem of answerObject; let i = index">
             <app-code-gentemplate-ui-component-wrapper
                     [selectedChannel]="'web'"
+                    [removeSelect]="true"
                     [outputItem]="outputItem"
                     #gentemplateItem
                     class="gentemplateItem"
                     [myIndex]=i
                     [channelList]="channelList"
-                    [totalResponseTemplateComponentCount]="3"
-                    [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
+                    [removeGenTemplateSelect]="true"
+                    [totalResponseTemplateComponentCount]="answerObject.length"
+                    (deleteTemplate)="deleteGentemplate($event)"
+                    (moveTempUp)="moveUpGentempate($event)"
+                    (moveTempDown)="moveDownGentempate($event)"
             >
             </app-code-gentemplate-ui-component-wrapper>
         </div>
@@ -21,7 +25,4 @@
     </div>
 </div>
 
-<!--(deleteTemplate)="deleteGentemplate($event)"-->
-<!--(moveTempUp)="moveUpGentempate($event)"-->
-<!--(moveTempDown)="moveDownGentempate($event)"-->
-<!--(selectionChanged)="selectGentempate($event)"-->
+

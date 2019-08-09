@@ -334,8 +334,6 @@ export class EditAndViewArticlesComponent implements OnInit {
     });
 
   }
-
-
 }
 
 

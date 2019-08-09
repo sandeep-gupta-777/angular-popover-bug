@@ -16,6 +16,8 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   @Input() selectedChannel: string;
   @Input() channelList: {name: string}[];
   @Input() totalResponseTemplateComponentCount: number;
+  @Input() removeGenTemplateSelect = false;
+  @Input() removeSelect = false;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();

@@ -96,11 +96,10 @@
       <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
       </mat-icon>
     </mat-form-field>
-      {{articleData.answers | json}}
   </div>
   <div class="response">
     <div class="response-heading">Response
-        <mat-slide-toggle [(ngModel)]="showAnswerCodeView"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="showAnswerCodeView" class ="ml-auto mr-3" color="primary"></mat-slide-toggle>
     </div>
     <div class="response-template">
 <!--      <mat-form-field class="question-list-item w-100" appearance="outline" color=basic-->
@@ -111,10 +110,13 @@
 <!--            </textarea>-->
 <!--      </mat-form-field>-->
         <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="!showAnswerCodeView"></app-answer-template-wrapper>
-        <div *ngIf="articleData && true"><app-code-editor
-
-
+        <div *ngIf="articleData && showAnswerCodeView">
+            <app-code-editor
+                    style="height: 55vh"
                     [text]="{text: articleData.answers|json}"
+                    [readOnly]="true"
+                    [doShowValidationsIcon]="false"
+                    [doShowUploadDownloadButton]="false"
             ></app-code-editor>
         </div>
 

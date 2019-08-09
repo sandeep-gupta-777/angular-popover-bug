@@ -4,9 +4,11 @@
        [ngClass]="{'always-show':selected, 'show-on-hover-item':!selected}"
        style="flex-basis: 18px;">
 
-    <label class="container-chekbox text-dark p-0">
+    <label class="container-chekbox text-dark p-0" *ngIf="!removeSelect">
       <input type="checkbox" class="" [(ngModel)]="selected" (ngModelChange)="onSelected($event)">
       <span class="checkmark"></span>
+    </label>
+    <label class="container-chekbox text-dark p-0" *ngIf="removeSelect">
     </label>
 
     <div class="d-flex flex-column">
@@ -30,7 +32,6 @@
                           [myIndex]=i
                           [channelNameList]="channelNameList"
     ></app-code-gentemplate>
-
 
     <app-code-input-caraosal *ngIf="outputItem.generic_template  && ((outputItem|dataType)!=='string')"
                              #gentemplateItem
