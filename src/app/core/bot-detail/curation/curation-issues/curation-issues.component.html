@@ -7,9 +7,10 @@
       [ngClass]="selected? 'curation-card-header-wrapper-selected': '' " 
       class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
-          <div class="header--img">
-            <!-- curationItemData && curationItemData.platform &&  -->
-            <img [src]='channelNameToImg(curationItemData && curationItemData.platform)'>
+          
+          <div class="header--img" (click)="curationIssueIconClicked(curationItemData.room_id)"> 
+            
+            <img [src]='channelNameToImg(curationItemData && curationItemData.platform)' >
           </div>
           <div class="room-id pl-2">
             Room ID: {{curationItemData.room_id}} </div>
@@ -129,3 +130,17 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+
+
+<ng-template #sessionDetailTemplate>
+  <app-session-detail-model
+    [session]="selectedRow_Session"
+    [bot]="bot"
+    (closeModel$)="dialogRefWrapper.ref.close()"
+    [pageNumberOfCurrentRowSelected]=0
+    [indexOfCurrentRowSelected]=0
+    [finalDfState]="selectedRow_Session.df_state"
+    [sessionDataStore]="selectedRow_Session.data_store">
+  </app-session-detail-model>
+</ng-template>

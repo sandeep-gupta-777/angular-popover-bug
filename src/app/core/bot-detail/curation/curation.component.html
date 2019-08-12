@@ -24,6 +24,8 @@
                     [TopArticlesWithIssues]="topArticlesWithIssues"
                     [issuesAggrigationData]="issuesAggrigationData"
                     (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
+                    (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
+                    
             ></app-curation-overview>
         </mat-tab>
         <mat-tab label="Issues">

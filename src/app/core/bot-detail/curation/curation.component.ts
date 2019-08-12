@@ -392,6 +392,24 @@ export class CurationComponent implements OnInit {
       'value' : {...this.curationIssuesFilterForm.value,...value}
     })
   }
+
+  filterArticleWithTriggeredRule(triggeredRule){
+    this.curationIssuesFilterForm.reset();
+
+    let value = {
+      "triggered_rules" : triggeredRule,
+    }
+    this.curationIssuesFilterForm.patchValue(value,{onlySelf: true, emitEvent: false})
+    this.activeTab = 1;
+    this.submitedForm({
+      'unsolved' : true,
+      'value' : {...this.curationIssuesFilterForm.value,...value}
+    })
+  }
+
+
+
+
   atlestOneCurationSettingsNeeded(curationSettingsForm){
 
     let ans = false;
