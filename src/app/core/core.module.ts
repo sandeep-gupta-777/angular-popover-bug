@@ -56,7 +56,6 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ScriptsLoadResolver} from '../script-load.resolver';
 import {BotAccessTokenResolver} from '../bot-access-token.resolver';
 import {BotResolver} from '../bot.resolver';
-import {HnResolver} from '../core.resolver';
 import { GentemplateSidebarComponent } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 
 
