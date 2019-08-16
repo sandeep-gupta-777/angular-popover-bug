@@ -162,7 +162,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     });
 
     this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData: any) => {
-
+      debugger;
       if (!analytics2HeaderData) {
         return;
       }
@@ -184,6 +184,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) {
           return;
         }
+        debugger;
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .pipe(debounceTime(1000))
           .subscribe(() => {
@@ -204,12 +205,14 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
               'user-access-token': headerData['user-access-token'],
               'bot-access-token': headerData['bot-access-token']
             };
-
+          debugger;
             this.makeGetReqSub = this.serverService.makeGetReq({url: newUrl, headerData: newheaderData})
               .pipe(take(1))
               .subscribe((response: any) => {
+              debugger;
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
                   const responseCopy: IOverviewInfoResponse = response;
+                debugger;
                   this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
