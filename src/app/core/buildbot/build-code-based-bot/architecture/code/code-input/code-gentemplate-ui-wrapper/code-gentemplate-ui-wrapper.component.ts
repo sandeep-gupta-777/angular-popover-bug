@@ -133,10 +133,19 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       //  this.deleteTemplateKey(tempKey);
     }
   }
-
+  genTemplateTypeClicked(tab: string) {
+    if (tab === 'text') {
+      this.addTextUnit();
+    } else if (tab === 'carousel') {
+      this.addImageCaraosalUnit()
+    } else if (tab === 'quick_reply') {
+      this.addQuickReplyUnit()
+    } else if (tab === 'code_input') {
+      this.addCodeUnit();
+    }
+  }
+  
   addCodeUnit() {
-
-
     const codeUnit = {
       'include': this.createIncludesArray(),
       'code': ['Write ur text here .....']
