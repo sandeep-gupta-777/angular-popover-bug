@@ -26,6 +26,7 @@ import {PermissionService} from 'src/app/permission.service';
 import {MatDialog} from '@angular/material';
 import {UtilityService} from 'src/app/utility.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 // [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
 
@@ -69,6 +70,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   userRole;
+  showAnswerCodeView = false;
   myEAllActions = EAllActions;
   myERoleName = ERoleName;
   article_id: number;
@@ -77,7 +79,6 @@ export class EditAndViewArticlesComponent implements OnInit {
   dialogRefWrapper = {ref: null};
 
   ngOnInit() {
-
     this.loggeduser$
       .subscribe((value: IAuthState) => {
         if (value && value.user !== null) {
@@ -86,6 +87,7 @@ export class EditAndViewArticlesComponent implements OnInit {
       });
 
   }
+
 
   trackByIndex(index: number, obj: any): any {
     return index;
@@ -103,8 +105,8 @@ export class EditAndViewArticlesComponent implements OnInit {
     }
   }
 
-  addNewQuestion() {
-    this.articleData.questions.push('');
+  addNewQuestion(text) {
+    this.articleData.questions.push(text);
     setTimeout(() => {
       const textareaArr = this.questionTextArea.toArray();
       const lastChild = textareaArr[textareaArr.length - 1];
@@ -332,8 +334,6 @@ export class EditAndViewArticlesComponent implements OnInit {
     });
 
   }
-
-
 }
 
 
