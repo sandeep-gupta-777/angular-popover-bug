@@ -235,7 +235,7 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
-        debugger;
+
         // if (e.status === 401) {
         //   this.checkForLogoutAction({action: 'logout'});
         // }

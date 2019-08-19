@@ -1,4 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Store} from '@ngxs/store';
+import {BreakpointObserver} from '@angular/cdk/layout';
 // import {Chart, MapChart} from 'angular-highcharts';
 // import * as Highcharts from 'highcharts';
 
@@ -8,17 +10,26 @@ declare var Highcharts: any;
   selector: 'app-chart',
   templateUrl: './chart.component.html'
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, AfterViewInit {
+
+  constructor(
+    public breakpointObserver: BreakpointObserver
+  ) {
+  }
 
   // chart: Chart;
   _data;
   _chartValue;
+  didAfterViewInitRun = false;
+  @ViewChild('highchart') chartReff: ElementRef;
   @Input() title = '';
 
   @Input() set chartValue(_chartValue) {
     // this._chartValue = _chartValue;
-
-    this.init(_chartValue);
+    this._chartValue = _chartValue;
+    if (this.didAfterViewInitRun) {
+      this.init(_chartValue);
+    }
   }
 
   @Input() highChartThemeValue: any;
@@ -32,7 +43,12 @@ export class ChartComponent implements OnInit {
     // this.init();
   }
 
+  @Input() shoudResize = false;
+
+  chartObj: any;
+
   ngOnInit() {
+
   }
 
   addPoint() {
@@ -66,8 +82,8 @@ export class ChartComponent implements OnInit {
     console.log(options);
 
     Highcharts.setOptions({/*day was one day/granularity off : https://stackoverflow.com/questions/10353386/highcharts-data-off-by-one-day/13740847*/
-      global : {
-        useUTC : false
+      global: {
+        useUTC: false
       },
       chart: {
         style: {
@@ -78,45 +94,64 @@ export class ChartComponent implements OnInit {
     });
 
 
-    Highcharts.chart('container-highcharts',
-        {
-          credits: false,
+    this.chartObj = Highcharts.chart(this.chartReff.nativeElement,
+      {
+        credits: false,
 
-          // xAxis: {
-          //   categories: ['Template key 1', 'Template key 2', 'Template key 3', 'Template key 4', 'Template key 5']
-          // },
-          title: {
-            text: ''
-          },
-          //
-          // plotOptions: {
-          //   series: {
-          //     pointStart: Date.UTC(2010, 0, 2),
-          //     pointInterval:24*3600*1000  // one day
-          //   }
-          // },
+        // xAxis: {
+        //   categories: ['Template key 1', 'Template key 2', 'Template key 3', 'Template key 4', 'Template key 5']
+        // },
+        title: {
+          text: ''
+        },
+        //
+        // plotOptions: {
+        //   series: {
+        //     pointStart: Date.UTC(2010, 0, 2),
+        //     pointInterval:24*3600*1000  // one day
+        //   }
+        // },
 
-          // series: [{
-          //   name:'sandeep',
-          //   data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-          // }, {
-          //   name:'gupta',
-          //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
-          // }],
-          ..._chartValue,
-          exporting: {
-            enabled: true,
-            // menuItems: ["printChart", "separator", "downloadPNG", "downloadJPEG", "downloadPDF", "downloadSVG"]
+        // series: [{
+        //   name:'sandeep',
+        //   data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+        // }, {
+        //   name:'gupta',
+        //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
+        // }],
+        ..._chartValue,
+        exporting: {
+          enabled: true,
+          // menuItems: ["printChart", "separator", "downloadPNG", "downloadJPEG", "downloadPDF", "downloadSVG"]
 
-            buttons: {// http://jsfiddle.net/9qsdgjt8/1/ almost saved life
-              contextButton: {
-                menuItems: ['printChart', 'separator', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG', 'downloadCSV']
-              }
+          buttons: {// http://jsfiddle.net/9qsdgjt8/1/ almost saved life
+            contextButton: {
+              menuItems: ['printChart', 'separator', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG', 'downloadCSV']
             }
           }
         }
+      }
     );
 
+  }
+
+  ngAfterViewInit(): void {
+    this.init(this._chartValue);
+    this.didAfterViewInitRun = true;
+    if (this.shoudResize) {
+      this.breakpointObserver.observe('(max-width: 1300px)').subscribe((val) => {
+        try {
+          if (this.chartObj) {
+            if (val.matches) {
+              this.chartObj.setSize(150, 150, false);
+            } else {
+              this.chartObj.setSize(250, 250, false);
+            }
+          }
+        } catch (e) {
+        }
+      });
+    }
   }
 
 }

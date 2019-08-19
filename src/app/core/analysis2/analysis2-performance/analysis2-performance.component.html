@@ -16,21 +16,21 @@
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'totalFlows'}"
       (click)="tabClicked('totalFlows')" [ngClass]="{'tab-active':activeTab==='totalFlows'}"><strong>Flows triggered</strong></a>
   </li>
-  
- 
+
+
 </ul>
 <!--Tabbing ends-->
 
 
-<app-chart *ngIf="activeTab==='totalSessions'"  [chartValue]="chartValue2" 
+<app-chart *ngIf="activeTab==='totalSessions'"  [chartValue]="chartValue2"
   [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>
-
+{{chartValue|json}}
 <app-chart *ngIf="activeTab==='topgenerationtemplates'"  [chartValue]="chartValue"
   [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>
 
-<app-chart *ngIf="activeTab==='totalFlows'"  [chartValue]="chartValue1" 
+<app-chart *ngIf="activeTab==='totalFlows'"  [chartValue]="chartValue1"
   [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 

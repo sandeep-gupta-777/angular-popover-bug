@@ -146,7 +146,7 @@ export class PermissionService {
           PermissionService.forbiddenActionsToFrontEndMapping = [];
           return;
         }
-        debugger;
+
         /*for non admin roles*/
         PermissionService.forbiddenActionsToFrontEndMapping = {...PermissionService.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/

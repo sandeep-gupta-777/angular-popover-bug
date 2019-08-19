@@ -16,7 +16,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
     }
   }
   genTemplateTypeClicked(tab:string){
-    debugger;
+
       if (tab === 'text') {
         this.addTextUnit();
       } else if (tab === 'carousel') {

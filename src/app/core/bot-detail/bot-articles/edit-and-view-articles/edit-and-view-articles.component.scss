@@ -27,7 +27,25 @@ header{
     grid-column-gap: 10px;
     grid-template-rows: 1fr;
     overflow-y: auto;
+  .first-message-info{
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    height: max-content;
+    .questions-heading{
+      font-size: 13px;
+      font-weight: bold;
+      color: #474747;
+      padding-bottom: .25rem;
+    }
+    .icon{
+      font-size: 14px;
+      padding-left: 3px;
+      padding-top: 3px;
+      color:$color-primary;
+    }
 
+  }
     .questions-list{
     display: flex;
     flex-direction: column;
@@ -137,7 +155,7 @@ header{
   }
 
   textarea.mat-input-element{
-    padding: 0 !important;  
+    padding: 0 !important;
   }
 .addQuestionPanel{
     display: flex;
