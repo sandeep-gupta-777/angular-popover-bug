@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BotSessionsComponent} from '../../bot-detail/bot-sessions/bot-sessions.component';
-import {SaveNewBotInfo_CodeBased, SaveNewBotInfo_PipelineBased} from '../ngxs/buildbot.action';
+import {SaveNewBotInfoCodeBased, SaveNewBotInfoPipelineBased} from '../ngxs/buildbot.action';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
@@ -47,7 +47,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
 
   ngOnInit() {
     // ;
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; // todo: not a robust code
     this.botcreationstate$.subscribe((value) => {
       // LoggingService.log('test');
       if (!value || !value.pipeLineBased) { return; }
@@ -74,7 +74,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
   datachanged(data: IBot) {
     // ;
     this.store.dispatch([
-      new SaveNewBotInfo_PipelineBased({data: data})
+      new SaveNewBotInfoPipelineBased({data: data})
     ]);
   }
 

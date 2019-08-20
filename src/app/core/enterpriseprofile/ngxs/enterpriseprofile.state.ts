@@ -31,21 +31,21 @@ export class EnterpriseprofileStateReducer {
 
   @Action(SetEnterpriseInfoAction)
   SetEnterpriseInfo({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseInfoAction) {
-    patchState(payload.enterpriseInfo);//{...state,payload.enterpriseInfo}
+    patchState(payload.enterpriseInfo);
   }
 
   // shoaib
   @Action(SetEnterpriseUsersAction)
   setEnterpriseUsers({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseUsersAction) {
     //
-    // alert("reducer");
+    // //alert("reducer");
     patchState({enterpriseusers: payload.enterpriseUsers});
   }
 
   @Action(SetEnterpriseServiceKeyAction)
   setEnterpriseServiceKeyAction({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseServiceKeyAction) {
 
-    // alert("reducer");
+    // //alert("reducer");
     patchState({service_key: payload.service_key});
   }
 

@@ -12,7 +12,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../../utility.service';
 import {KnowledgeBaseComponent} from '../../buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
-import {EventService} from "../../../event.service";
+import {EventService} from '../../../event.service';
 import { SideBarService } from 'src/app/side-bar.service';
 
 @Component({
@@ -66,8 +66,8 @@ export class ViewCustomnerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
-    private ngZone:NgZone,
-    private changeDetectorRef:ChangeDetectorRef,
+    private ngZone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef,
     public constantsService: ConstantsService) {
   }
 
@@ -76,7 +76,7 @@ export class ViewCustomnerComponent implements OnInit {
   ngOnInit() {
     EventService
       .createConceptFullScreen$
-      .subscribe((isFullscreen:boolean)=>{
+      .subscribe((isFullscreen: boolean) => {
         this.showHeader = !isFullscreen;
       });
 
@@ -141,7 +141,7 @@ export class ViewCustomnerComponent implements OnInit {
         } else {
           this.custumNerDataForSmartTable.push({...value, highlight: true});
         }
-        
+
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
         this.changeDetectorRef.detectChanges();
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
@@ -165,7 +165,7 @@ export class ViewCustomnerComponent implements OnInit {
 
         this.utilityService.showSuccessToaster('Deleted customner');
         this.router.navigate([`/core/customner`]);
-        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
+        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id === ner_id);
         if (indexToBeDeleted !== -1) { this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1); }
         this.knowledgeBaseComponent.showNerSmartTable();
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
@@ -173,7 +173,7 @@ export class ViewCustomnerComponent implements OnInit {
       });
   }
 
-  test(){
+  test() {
   }
 
 }

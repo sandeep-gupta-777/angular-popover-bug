@@ -7,20 +7,20 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { ConstantsService } from 'src/app/constants.service';
-import { ICurationItem } from 'src/app/core/interfaces/faqbots';
-import { IBot } from '../../../interfaces/IBot';
-import { TempVariableService } from '../../../../temp-variable.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EAllActions } from 'src/app/typings/enum';
-import { ISessionItem, ISessions } from 'src/interfaces/sessions';
-import { Observable } from 'rxjs';
-import { ServerService } from 'src/app/server.service';
-import { UtilityService } from 'src/app/utility.service';
-import { MatDialog } from '@angular/material';
-import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
-import { IHeaderData } from 'src/interfaces/header-data';
-import { BotSessionSmartTableModal } from '../../bot-sessions/bot-session-smart-table-modal';
+import {ConstantsService} from 'src/app/constants.service';
+import {ICurationItem} from 'src/app/core/interfaces/faqbots';
+import {IBot} from '../../../interfaces/IBot';
+import {TempVariableService} from '../../../../temp-variable.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {EAllActions} from 'src/app/typings/enum';
+import {ISessionItem, ISessions} from 'src/interfaces/sessions';
+import {Observable} from 'rxjs';
+import {ServerService} from 'src/app/server.service';
+import {UtilityService} from 'src/app/utility.service';
+import {MatDialog} from '@angular/material';
+import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
+import {IHeaderData} from 'src/interfaces/header-data';
+import {BotSessionSmartTableModal} from '../../bot-sessions/bot-session-smart-table-modal';
 
 
 @Component({
@@ -36,7 +36,8 @@ export class CurationIssuesComponent implements OnInit {
     private serverService: ServerService,
     private utilityService: UtilityService,
     private matDialog: MatDialog
-  ) {}
+  ) {
+  }
 
   @Input() bot: IBot;
   @Input() isResolved: boolean;
@@ -54,20 +55,24 @@ export class CurationIssuesComponent implements OnInit {
   sessionsSmartTableDataModal: BotSessionSmartTableModal;
 
   selectedArticleFirstQuestion: number;
-  dialogRefWrapper = { ref: null };
+  dialogRefWrapper = {ref: null};
   selectedRow_Session: ISessionItem;
   sessions: ISessionItem[] = [];
   url: string;
   sessionItemToBeDecrypted: ISessionItem;
+
   // sessionitem: string;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
   channelNameToImg(channel: string) {
     let iconObj = this.constantsService.getIntegrationIconForChannelName(
       channel
     );
     return iconObj && iconObj.icon;
   }
+
   toDisplayValue(value: string) {
     var pieces = value.split('_');
     for (var i = 0; i < pieces.length; i++) {
@@ -76,25 +81,29 @@ export class CurationIssuesComponent implements OnInit {
     }
     return pieces.join(' ');
   }
+
   ignoreQuery(curationItemId) {
     this.ignoreQueryEvent.emit([curationItemId]);
   }
+
   clickedOnArticle(section_id) {
     if (section_id) {
       this.selectedArticleToAddCuration = section_id;
     }
   }
+
   addIssueToNewArticle() {
     TempVariableService.firstQuestionListForNewArticle = [
       this.curationItemData.user_message
     ];
     TempVariableService.curationIds = [this.curationItemData.id];
     this.router.navigate(['.'], {
-      queryParams: { build: 'articles', section_id: null },
+      queryParams: {build: 'articles', section_id: null},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
   }
+
   addIssueToThisArticle() {
     this.addQueryToArticleEvent.emit({
       section_id: this.selectedArticleToAddCuration,
@@ -106,19 +115,17 @@ export class CurationIssuesComponent implements OnInit {
   curationIssueIconClicked(roomId) {
     // debugger;
     let isEncrypted: boolean;
-   
+
     // No need of calling decrypt as curation window will not show any issue if encrypted
 
     if (roomId.data_encrypted) {
 
-    this.openSessionRowDecryptModal(roomId);
+      this.openSessionRowDecryptModal(roomId);
+    } else {
+      this.selectedRow_Session = <any>{id: roomId};
+      this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
     }
 
-    else {
-    this.selectedRow_Session = <any>{ id: roomId };
-    this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
-    }
-  
   }
 
   openSessionRowDecryptModal(sessionToBeDecryptedId) {
@@ -149,7 +156,7 @@ export class CurationIssuesComponent implements OnInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: { 'bot-access-token': this.bot.bot_access_token }
+      headerData: {'bot-access-token': this.bot.bot_access_token}
     });
   }
 
@@ -180,12 +187,12 @@ export class CurationIssuesComponent implements OnInit {
       message: decryptReason
     };
     const url = this.constantsService.getDecryptUrl();
-    this.serverService.makePostReq({ headerData, body, url }).subscribe(() => {
+    this.serverService.makePostReq({headerData, body, url}).subscribe(() => {
       const surl = this.constantsService.getSessionsByIdUrl(
         sessionTobeDecryptedId
       );
       this.serverService
-        .makeGetReq({ url: surl, headerData })
+        .makeGetReq({url: surl, headerData})
         .subscribe((value: { objects: ISessionItem[] }) => {
           let newSession = value.objects[0];
           /*todo: use perform search in db instead*/

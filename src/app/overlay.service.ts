@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {Overlay} from "@angular/cdk/overlay";
-import {ComponentPortal} from "@angular/cdk/portal";
-import {ChatConsumerFormComponent} from "./chat-consumer-form/chat-consumer-form.component";
+import {Injectable} from '@angular/core';
+import {Overlay} from '@angular/cdk/overlay';
+import {ComponentPortal} from '@angular/cdk/portal';
+import {ChatConsumerFormComponent} from './chat-consumer-form/chat-consumer-form.component';
 // import {ChatConsumerFormComponent} from "./chat-consumer-form/chat-consumer-form.component";
 // import {ChatConsumerFormComponent} from "./chat-consumer-form/chat-consumer-form.component";
 

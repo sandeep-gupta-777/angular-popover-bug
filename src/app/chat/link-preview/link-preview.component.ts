@@ -10,21 +10,22 @@ import {ILinkPreview} from '../../core/interfaces/meta';
 export class LinkPreviewComponent implements OnInit {
 
   @Input() sourceType;
-  @Input() link:string;
-  linkPreviewData:ILinkPreview;
-  constructor(private serverService:ServerService) { }
+  @Input() link: string;
+  linkPreviewData: ILinkPreview;
+  constructor(private serverService: ServerService) { }
 
   ngOnInit() {
-    if(this.link)
+    if (this.link) {
     this.serverService.getLinkMetaData(this.link)
-        .subscribe((val:ILinkPreview)=>{
+        .subscribe((val: ILinkPreview) => {
           this.linkPreviewData = val;
-        },(err)=>{
-          console.log(err)
-        })
+        }, (err) => {
+          console.log(err);
+        });
+    }
   }
-  openLinkInNewTab(){
-    window.open(this.link,'_blank');
+  openLinkInNewTab() {
+    window.open(this.link, '_blank');
   }
 
 }

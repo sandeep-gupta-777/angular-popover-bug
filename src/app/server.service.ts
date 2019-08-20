@@ -7,9 +7,8 @@ import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
 import {IHeaderData} from '../interfaces/header-data';
 import {IOverviewInfoResponse} from '../interfaces/Analytics2/overview-info';
-
-import {UtilityService} from './utility.service';
 import {
+  ResetBotListAction,
   SaveVersionInfoInBot,
   SetAllBotListAction,
   UpdateBotInfoByIdInBotInBotList
@@ -17,53 +16,102 @@ import {
 import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
+  ResetAppState,
   SetAutoLogoutTime,
-  SetBackendURlRoot,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
-  SetPipelineItemsV2, SetRoleInfo
+  SetPipelineItemsV2,
+  SetRoleInfo
 } from './ngxs/app.action';
 import {IIntegrationMasterListItem} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
-
-
-import {IConsumerDetails} from './chat/ngxs/chat.state';
-import {IMessageData, IRoomData, IChatSessionState} from '../interfaces/chat-session-state';
-import {
-  AddMessagesToRoomByRoomId,
-  ChangeBotIsThinkingDisplayByRoomId,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch
-} from './chat/ngxs/chat.action';
-import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {ResetChatState, SetCurrentBotDetailsAndResetChatStateIfBotMismatch} from './chat/ngxs/chat.action';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {EventService} from './event.service';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IAppState} from './ngxs/app.state';
-import {take} from 'rxjs/internal/operators';
 import {IRoleInfo} from '../interfaces/role-info';
-import {ELogType, LoggingService} from './logging.service';
-import {
-  SetEnterpriseInfoAction,
-  SetEnterpriseUsersAction
-} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {MyToasterService} from "./my-toaster.service";
-import {environment} from "../environments/environment";
+import {LoggingService} from './logging.service';
+import {MyToasterService} from './my-toaster.service';
+import {environment} from '../environments/environment';
+import {ENgxsStogareKey} from './typings/enum';
 
 
 declare var $: any;
 declare let deploy_obj_botplateform_fe;
+import {Storage} from 'session-storage-sync';
+import {identifierModuleUrl} from '@angular/compiler';
+import {ResetAuthToDefaultState, ResetLoggedInStatus} from './auth/ngxs/auth.action';
+import {ResetEnterpriseUsersAction} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {ResetBuildBotToDefault} from './core/buildbot/ngxs/buildbot.action';
+import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from './core/analysis2/ngxs/analysis.action';
 
 @Injectable()
 export class ServerService {
+  static idTokenMap;
+  static storage = new Storage();
+  static AUTH_TOKEN: string = null;
+  static USER_ACCESS_TOKEN: string = null;
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
-  public X_AXIS_TOKEN: string = null;
   roleName: string;
-  public AUTH_TOKEN: string = null;
   private isLoggedIn = false;
   roleInfo: IRoleInfo;
+
+
+  static getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+      return match[2];
+    }
+  }
+
+  static getBotTokenById(id: number) {
+
+    let bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
+    if (!bot_access_token) {
+      const idTokenMap_SS = JSON.parse(sessionStorage.getItem(ENgxsStogareKey.idTokenMap));
+      if (idTokenMap_SS) {
+        ServerService.idTokenMap = idTokenMap_SS;
+        bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
+      } else {
+        throw new Error('Bot access token is not set in ServerService. Please see below');
+        console.log('ServerService data: ', ServerService);
+      }
+    }
+    return bot_access_token;
+  }
+
+  static setCookie(name: string, value: string) {
+    document.cookie = `${name}=${value}; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT`;
+    if (name === 'auth-token') {
+      ServerService.AUTH_TOKEN = value;
+    } else if (name === 'user-access-token') {
+      ServerService.USER_ACCESS_TOKEN = value;
+    }
+  }
+
+  static resetCookie() {
+    const cookies = document.cookie.split(';');
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf('=');
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
+  }
+
+  static setSessionStorage(key, value: object) {
+
+    ServerService.storage.session.set(key, value);
+  }
+
+  static isUserLoggedIn() {
+    return ServerService.getCookie('auth-token');
+  }
 
   constructor(
     private httpClient: HttpClient,
@@ -72,42 +120,61 @@ export class ServerService {
     private router: Router,
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
+
+    EventService.logout$.subscribe((shouldCallLogoutApi?) => {
+      this.logout(shouldCallLogoutApi);
+    });
+
+    ServerService.AUTH_TOKEN = ServerService.getCookie('auth-token');
+    ServerService.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
+
+    try {
+      const idTokenMapStr = sessionStorage.getItem(ENgxsStogareKey.idTokenMap);
+      ServerService.idTokenMap = JSON.parse(idTokenMapStr);
+    } catch (e) {
+      LoggingService.error(e);
+    }
+
     this.loggeduser$.subscribe((value) => {
+
       if (!value || !value.user) {
         return;
       }
-      this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
-      this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      // ServerService.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
+      // ServerService.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
-        if (!this.roleInfo && appState && appState.roleInfoArr)
+        if (!this.roleInfo && appState && appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role) => {
-            return role.name === value.user.role.name
+            return role.name === value.user.role.name;
           });
-      })
+        }
+      });
     });
 
     this.app$.subscribe((appState) => {/*todo: code repetition: this code should run after logged value has been set*/
-      if (this.roleName)
-        if (appState.roleInfoArr)
+      if (this.roleName) {
+        if (appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role) => {
             return role.name === this.roleName;
           });
-    })
+        }
+      }
+    });
 
 
   }
 
   removeTokens() {
-    this.X_AXIS_TOKEN = null;
-    this.AUTH_TOKEN = null;
+    ServerService.USER_ACCESS_TOKEN = null;
+    ServerService.AUTH_TOKEN = null;
   }
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData: IHeaderData = {};
-    tokenData = {'user-access-token': this.X_AXIS_TOKEN};
-    tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
+    tokenData = {'user-access-token': ServerService.USER_ACCESS_TOKEN};
+    tokenData = {...tokenData, 'auth-token': ServerService.AUTH_TOKEN};
     tokenData = {...tokenData, 'content-type': 'application/json'};
 
     headerData = {
@@ -118,7 +185,9 @@ export class ServerService {
     if (headerData) {
       for (const key in headerData) {
         /*don't set header data for undefined values*/
-        headerData[key] && (headers = headers.set(key, headerData[key]));
+        if (headerData[key]) {
+          (headers = headers.set(key, headerData[key]));
+        }
       }
     }
     return headers;
@@ -127,13 +196,14 @@ export class ServerService {
   showErrorMessageForErrorTrue({error, message, action}) {
 
     /*check for logout*/
-    if (action === "logout") {
+    if (action === 'logout') {
       EventService.logout$.emit(false);
       return;
     }
 
-    if (message) this.myToasterService.showErrorToaster(message);
-    else {
+    if (message) {
+      this.myToasterService.showErrorToaster(message);
+    } else {
       console.error('error toaster called without error');
     }
   }
@@ -165,8 +235,13 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
+
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
+        // this.checkForLogoutAction(value);
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
   handleErrorFromServer(e) {
@@ -174,7 +249,7 @@ export class ServerService {
     if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action: null});
+      this.showErrorMessageForErrorTrue({error: true, message: 'Some error occurred', action: null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
@@ -202,7 +277,7 @@ export class ServerService {
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
   checkApiAccess(reqObj, verb: EHttpVerbs) {
@@ -213,21 +288,21 @@ export class ServerService {
     }
   }
 
-  getNSetRoleInfo(){
-    let getRoleUrl = this.constantsService.getRoleUrl();
+  getNSetRoleInfo() {
+    const getRoleUrl = this.constantsService.getRoleUrl();
     return this.makeGetReq({url: getRoleUrl})
-      .pipe(switchMap((val)=>{
-        if(val){
+      .pipe(switchMap((val) => {
+        if (val) {
           return this.store.dispatch([
             new SetRoleInfo({roleInfoArr: val.objects})
           ]);
-        }else {
+        } else {
           return of(1);
         }
-      }))
+      }));
   }
 
-  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
     this.checkApiAccess(reqObj, EHttpVerbs.DELETE);
     const headers = this.createHeaders(reqObj.headerData);
     this.changeProgressBar(true, 0);
@@ -241,14 +316,17 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
-  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
-
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }) {
+    let headers: HttpHeaders;
     this.checkApiAccess(reqObj, EHttpVerbs.POST);
-    const headers = this.createHeaders(reqObj.headerData);
+    headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
       this.changeProgressBar(true, 0);
     }
@@ -262,13 +340,17 @@ export class ServerService {
         if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
         }
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         return this.handleErrorFromServer(e);
-      }),);
+      }));
   }
 
-  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<any> {
+  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }) {
 
     this.checkApiAccess(reqObj, EHttpVerbs.PUT);
     const headers = this.createHeaders(reqObj.headerData);
@@ -285,17 +367,77 @@ export class ServerService {
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
+        // if (e.status === 401) {
+        //   this.checkForLogoutAction({action: 'logout'});
+        // }
         return this.handleErrorFromServer(e);
       }));
   }
 
-  checkForLogoutAction(obj) {
-    if(!obj) return;
-    let {action} = obj;
-    if (action === "logout") {
-      EventService.logout$.emit();
+  checkForLogoutAction(obj: { action: string }) {
+    if (!obj) {
       return;
     }
+    const {action} = obj;
+    if (action === 'logout') {
+      /* temporary*/
+      localStorage.clear();
+      EventService.logout$.emit();
+      // location.reload();
+      return;
+    }
+  }
+
+  logout(shouldCallLogoutApi = true) {
+
+    // if (!this.userData) {/*TODO: ring fancing: BAD*/
+    //   return;
+    // }
+
+    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
+    ServerService.resetCookie();
+    sessionStorage.clear();
+    const url = this.constantsService.getLogoutUrl();
+    this.store.dispatch([
+      new ResetBotListAction(),
+      new ResetLoggedInStatus(),
+      new ResetEnterpriseUsersAction(),
+      new ResetBuildBotToDefault(),
+      new ResetAnalytics2GraphData(),
+      new ResetAnalytics2HeaderData(),
+      new ResetAppState()
+    ]).subscribe(() => {
+      this.store.dispatch([new ResetChatState()])
+        .subscribe(() => {
+          if (!environment.mock && shouldCallLogoutApi) {
+            this.router.navigate(['auth', 'login'])
+              .then(() => {
+                this.store.dispatch([
+                    new ResetAuthToDefaultState()/*can't reset auth state to default as its being used on this page*/
+                  ]
+                );
+              });
+            this.makeGetReq({url})
+              .subscribe((v) => {
+                this.myToasterService.showSuccessToaster('Logged Out');
+              }, () => {
+                // this.router.navigate(['auth', 'login']);
+              });
+            // this.bc.postMessage('This is a test message.');
+          } else {
+            this.router.navigate(['auth', 'login'])
+              .then(() => {
+                this.store.dispatch([
+                    new ResetAuthToDefaultState()/*can't reset auth state to default as its being used on this page*/
+                  ]
+                );
+
+              });
+          }
+        });
+    });
+    this.removeTokens();
+
   }
 
 
@@ -307,20 +449,20 @@ export class ServerService {
     }
   }
 
-  fetchSpecificBotFromServerAndUpdateBotList(bot) {
+  fetchSpecificBotFromServerAndUpdateBotList(bot: IBot) {
     const getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData}).pipe(
       map((val) => {
 
-        const bot: IBot = val.objects.find((bot) => {
+        const updated_bot: IBot = val.objects.find((bot_item) => {
 
-          return bot.id === bot.id;
+          return true; // bot_item.id === bot_item.id;/*todo: what the heck is going on here*/
         });
         return this.store.dispatch([
-          new UpdateBotInfoByIdInBotInBotList({data: bot, botId: bot.id})
+          new UpdateBotInfoByIdInBotInBotList({data: updated_bot, botId: updated_bot.id})
         ]);
       }));
   }
@@ -331,13 +473,13 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    let autoLogoutInterval: number = Infinity;
-    if(this.roleInfo){
+    let autoLogoutInterval = Infinity;
+    if (this.roleInfo) {
 
-      if(this.roleInfo.session_expiry_time===-1){
+      if (this.roleInfo.session_expiry_time === -1) {
         autoLogoutInterval = Infinity;
-      }else {
-        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+      } else {
+        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
       }
     }
     if (!this.roleInfo) {
@@ -348,28 +490,46 @@ export class ServerService {
     ]);
   }
 
-  getNSetBotList(noValidateUser?) {
-    const url = this.constantsService.getBotListUrl();
+  getNSetBotList(noValidateUser?, is_dashboard?) {
+
+    const url = this.constantsService.getBotListUrl(is_dashboard);
     const headerData: IHeaderData = {'content-type': 'application/json'};
 
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
-      tap((botResult) => {
+      tap((botResult: { objects: IBot[] }) => {
         // let botList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
         // botResult.objects.forEach((bot) => {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
-        if(botResult)
-        this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
+        if (botResult) {
+
+          const idTokenMap = botResult.objects.reduce((total, bot) => {
+            return {
+              ...total,
+              [bot.id]: (bot.bot_access_token)
+            };
+          }, {});
+          // sessionStorage.setItem(ENgxsStogareKey.idTokenMap, JSON.stringify(idTokenMap));
+          ServerService.setSessionStorage(ENgxsStogareKey.idTokenMap, idTokenMap);
+          ServerService.idTokenMap = idTokenMap;
+          this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
+        }
       }));
 
   }
 
   getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
+
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
     return this.makeGetReq({url, noValidateUser: true})
       .pipe(map((bot: IBot) => {
+        ServerService.idTokenMap = {
+          ...(ServerService.idTokenMap || {}),
+          [bot.id]: bot.bot_access_token
+        };
+
         return this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
         ]);
@@ -402,13 +562,13 @@ export class ServerService {
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
       .pipe(switchMap((value) => {
-        if(value){
+        if (value) {
           return this.store.dispatch([
             new SetMasterIntegrationsList({
               masterIntegrationList: value.objects
             })
           ]);
-        }else {
+        } else {
           return of(1);
         }
       }));
@@ -431,7 +591,7 @@ export class ServerService {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
     let body: ICustomNerItem;
-    const headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
+    const headerData: IHeaderData = {'bot-access-token': bot && ServerService.getBotTokenById(bot.id)};
     let url, methodStr;
     if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
       url = this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
@@ -450,12 +610,11 @@ export class ServerService {
   }
 
   deleteNer(ner_id: number, bot?: IBot) {
-    let body: ICustomNerItem;
     let url, headerData: IHeaderData;
     if (bot) {
       url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
       headerData = {
-        'bot-access-token': (bot && bot.bot_access_token) || null
+        'bot-access-token': (ServerService.getBotTokenById(bot.id)) || null
       };
     } else {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
@@ -492,172 +651,6 @@ export class ServerService {
       });
   }
 
-
-  // messaging;
-  // currentPreviewBot: IBot;
-  // currentRoomId: number;
-  //
-  // initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : any) {
-  //   if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
-  //     return;
-  //   } else {
-  //     try {
-  //       IMI.IMIconnect.shutdown();
-  //     } catch (e) {
-  //       LoggingService.error(e);
-  //     }
-  //
-  //   }
-  //   this.currentRoomId = currentRoomId;
-  //   this.currentPreviewBot = previewBot;
-  //
-  //   // this.currentPreviewBot = previewBot;
-  //   /*TODO: make initialization happen only once*/
-  //   let imiConnectIntegrationDetails;
-  //   try {
-  //     imiConnectIntegrationDetails = previewBot.integrations.fulfillment_provider_details.imiconnect;
-  //     if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
-  //       LoggingService.log('this is not an imiconnect bot...');
-  //       return;
-  //     }
-  //   } catch (e) {
-  //     LoggingService.log('this is not an imiconnect bot');
-  //     return;
-  //   }
-  //   const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
-  //   const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
-  //   // var streamName = "bot";
-  //   const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-  //   let userId = currentRoomId + '_hellothisissandeep1231312';
-  //   if(obj && obj.consumerDetails){
-  //     userId = obj.consumerDetails.uid;
-  //   }
-  //
-  //   // startNewChatData.consumerDetails.uid
-  //   const config = new IMI.ICConfig(appId, appSecret);
-  //   const messaging = IMI.ICMessaging.getInstance();
-  //
-  //   console.info('========initializing connection with imiconnect with following details');
-  //   LoggingService.log(
-  //     'appId= ' + appId + '\n' +
-  //     'appSecret= ' + appSecret + '\n' +
-  //     'serviceKey= ' + serviceKey + '\n' +
-  //     'userId= ' + userId + '\n');
-  //
-  //
-  //   const prepareMessage = (messageObj) => {
-  //     console.info('============================message from IMICONNECT Has been recieved============================', messageObj);
-  //     const generatedMessagesStr = messageObj.message;
-  //     let generatedMessages: IGeneratedMessageItem[];
-  //     try {
-  //       generatedMessages = JSON.parse(generatedMessagesStr);
-  //     } catch (e) {
-  //       console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
-  //       console.error('Assuming its a string');
-  //       generatedMessages = [{text: generatedMessagesStr, bot_message_id: null}];
-  //     }
-  //     const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, null);
-  //     this.store.dispatch([
-  //       new AddMessagesToRoomByRoomId({
-  //         id: currentRoomId,
-  //         messageList: serializedMessages
-  //       }),
-  //       new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
-  //       // new SetCurrentRoomID({roomId: 123456789.room.roomId})
-  //     ]);
-  //   };
-  //
-  //   const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
-  //     onConnectionStatusChanged: function (statuscode) {
-  //       LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
-  //       let statusMessage = null;
-  //       if (statuscode == 2) {
-  //         statusMessage = 'Connected';
-  //       } else if (statuscode == 6) {
-  //         statusMessage = 'Error while connecting';
-  //       } else {
-  //         statusMessage = 'Not Connected';
-  //       }
-  //
-  //     },
-  //     onMessageReceived: function (message) {
-  //
-  //
-  //       prepareMessage(message);
-  //
-  //       if (message.getType() === IMI.ICMessageType.Message) {
-  //         const callback = {
-  //           onFailure: function (err) {
-  //             LoggingService.log('failed to get topics:');
-  //
-  //             //handleFailure(err);
-  //           }
-  //         };
-  //         messaging.setMessageAsRead(message.getTransactionId(), callback);
-  //       }
-  //     }
-  //   };
-  //
-  //
-  //   messaging.setICMessagingReceiver(msgCallBack);
-  //   const deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
-  //   IMI.IMIconnect.startup(config);
-  //   IMI.IMIconnect.registerListener(
-  //     {
-  //       onFailure: function () {
-  //         LoggingService.log('token got expired...');
-  //       }
-  //     });
-  //
-  //
-  //   const regcallback = {
-  //     onSuccess: function (msg) {
-  //
-  //       try {
-  //         messaging.connect();
-  //         LoggingService.log('onSuccess: reg');
-  //       } catch (ex) {
-  //         LoggingService.log(ex);
-  //       }
-  //
-  //     },
-  //     onFailure: function (err) {
-  //       LoggingService.log('Registration failed');
-  //
-  //     }
-  //   };
-  //   const deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
-  //   LoggingService.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
-  //   IMI.IMIconnect.register(deviceProfile, regcallback);
-  //
-  //
-  //   // //send message
-  //   //     var pubcallback = {
-  //   //       onSuccess: function () {
-  //   //         LoggingService.log("message sent");
-  //   //
-  //   //       },
-  //   //       onFailure: function (errormsg) {
-  //   //         LoggingService.log("failed to send message");
-  //   //       }
-  //   //
-  //   //     };
-  //   //
-  //   //     var message = new IMI.ICMessage();
-  //   //     message.setMessage("Hello this is sample message");
-  //   //
-  //   //     var thread = new IMI.ICThread();
-  //   //     thread.setId("bot");
-  //   //     thread.setTitle("bot");
-  //   //     thread.setStreamName(streamName);
-  //   //
-  //   //     message.setThread(thread);
-  //   //     messaging.publishMessage(message, pubcallback);
-  //
-  //   this.messaging = messaging;
-  // }
-
-
   getNSetConfigData$() {
   }
 
@@ -665,7 +658,7 @@ export class ServerService {
   updateBot(bot: IBot) {
     const url = this.constantsService.updateBotUrl(bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
 
     return this.makePutReq({url, body: bot, headerData})
@@ -678,15 +671,9 @@ export class ServerService {
         },
         err => {
           EventService.codeValidationErrorOnUpdate$.emit(err.error);
-          console.log("emited this :::::::::::::", err.error);
+          console.log('emited this :::::::::::::', err.error);
         }));
   }
-
-
-
-
-
-
 
 
   getNSetMasterPermissionsList() {
@@ -702,7 +689,7 @@ export class ServerService {
   }
 
   getLinkMetaData(link) {
-    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link})
+    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link});
   }
 
 
@@ -710,26 +697,28 @@ export class ServerService {
     if (!deploy_obj_botplateform_fe || isDevMode() || environment.production) {
       return;
     }
-    let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
+    const lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url: `/static/deploy.json?time=${Date.now()}`})
-      .subscribe((value: { "currentBranch": string, "lastDeploy": number }) => {
-        let lastDeployed_api = value.lastDeploy;
+      .subscribe((value: { 'currentBranch': string, 'lastDeploy': number }) => {
+        const lastDeployed_api = value.lastDeploy;
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
-        let days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
-        if (lastDeployed_api > lastDeployed_Cache) this.myToasterService.showErrorToaster(`your version is ${days} old. 
+        const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if (lastDeployed_api > lastDeployed_Cache) {
+          this.myToasterService.showErrorToaster(`your version is ${days} old.
         Please hard reload (Ctrl + shit + r). `);
-      })
+        }
+      });
   }
 
   timeDifference(current, previous) {
 
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
+    const msPerMinute = 60 * 1000;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerMonth = msPerDay * 30;
+    const msPerYear = msPerDay * 365;
 
-    var elapsed = current - previous;
+    const elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
       return Math.round(elapsed / 1000) + ' seconds ago';

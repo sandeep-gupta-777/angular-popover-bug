@@ -2,13 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {Select, Store} from '@ngxs/store';
 import {EBotType, UtilityService} from '../../../../../utility.service';
-import {ConstantsService,} from '../../../../../constants.service';
+import {ConstantsService, } from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {map, takeWhile} from 'rxjs/internal/operators';
-import {EAllActions} from "../../../../../typings/enum";
+import {EAllActions} from '../../../../../typings/enum';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -59,18 +59,18 @@ export class DataManageFormComponent implements OnInit {
     this.manageBotDisableReadOnlyStatus();
   }
 
-  manageBotDisableReadOnlyStatus(){
-    let bot_disabled_settingsFG = this.formGroup.get('bot_disabled_settings');
+  manageBotDisableReadOnlyStatus() {
+    const bot_disabled_settingsFG = this.formGroup.get('bot_disabled_settings');
     bot_disabled_settingsFG
       .get('bot_disabled')
       .valueChanges.subscribe((bot_disabled) => {
-      this.toggleReadOnlyStatusForBotDisabledSection(!bot_disabled)
+      this.toggleReadOnlyStatusForBotDisabledSection(!bot_disabled);
     });
     this.toggleReadOnlyStatusForBotDisabledSection(!bot_disabled_settingsFG.get('bot_disabled').value);
   }
 
   toggleReadOnlyStatusForBotDisabledSection(shouldMakeReadOnly: boolean) {
-    let bot_disabled_settingsFG = this.formGroup.get('bot_disabled_settings');
+    const bot_disabled_settingsFG = this.formGroup.get('bot_disabled_settings');
     if (shouldMakeReadOnly) {
       bot_disabled_settingsFG.get('disabled_message').disable();
       bot_disabled_settingsFG.get('agent_handover').disable();

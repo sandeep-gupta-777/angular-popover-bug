@@ -2,29 +2,25 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {
-  IReportList,
   IReportHistory,
+  IReportHistoryItem,
+  IReportList,
   IReportTypeItem,
   ISmartTableReportDataItem,
-  ISmartTableReportHisoryDataItem, IReportHistoryItem
+  ISmartTableReportHisoryDataItem
 } from '../../../interfaces/report';
 import {ObjectArrayCrudService} from '../../object-array-crud.service';
 import {Select, Store} from '@ngxs/store';
-import {forkJoin, Observable, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ViewBotStateModel} from '../view-bots/ngxs/view-bot.state';
-import {IBot} from '../interfaces/IBot';
 import {SmartTableSettingsService} from '../../smart-table-settings.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TempVariableService} from '../../temp-variable.service';
-import {IHeaderData} from '../../../interfaces/header-data';
 import {SetCurrentEditedReportAction} from './ngxs/reports.action';
-import {DatePipe} from '@angular/common';
-import {ISessionItem} from '../../../interfaces/sessions';
 import {UtilityService} from '../../utility.service';
-import {ELogType, LoggingService} from '../../logging.service';
+import {LoggingService} from '../../logging.service';
 import {MaterialTableImplementer} from '../../material-table-implementer';
-import {catchError, finalize, switchMap, tap} from 'rxjs/internal/operators';
-import {ConsumerSmartTableModal} from '../bot-detail/consumers/consumer-smart-table-modal';
+import {finalize, switchMap, tap} from 'rxjs/internal/operators';
 import {ReportSmartTableModal} from './report-smart-table';
 import {ReportHistorySmartTable} from './report-history-smart-table';
 
@@ -34,7 +30,7 @@ import {ReportHistorySmartTable} from './report-history-smart-table';
   styleUrls: ['./reports.component.scss'],
   providers: [TempVariableService]
 })
-export class ReportsComponent extends MaterialTableImplementer implements OnInit {
+export class ReportsComponent  implements OnInit, OnDestroy {
   tableData;
   tableData_report;
   tableData_history;
@@ -43,9 +39,28 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   error_message;
   isLoading: boolean;
 
+  reportSmartTableData: ISmartTableReportDataItem[] = [];
+  reportHistorySmartTableData: ISmartTableReportHisoryDataItem[] = [];
+  SMART_TABLE_REPORTS_SETTING = this.smartTableSettingsService.SMART_TABLE_REPORTS_SETTING;
+  SMART_TABLE_REPORT_HISTORY_SETTING = this.smartTableSettingsService.SMART_TABLE_REPORTS_HISTORY_SETTING;
+
+  @Select() botlist$: Observable<ViewBotStateModel>;
+  activeTab = 'configure';
+  totalReportRecords: number;
+  totalHistoryReportRecords: number;
+  reportTypes;
+  botlist$_sub: Subscription;
+  reportTableModal: ReportSmartTableModal;
+  reportHistoryTableModal: ReportHistorySmartTable;
+
+  reportsLoading = false;
+  reportsEmpty = false;
+  reportHistoryLoading = false;
+  reportsHistoryEmpty = false;
+
   reportTableFactory() {
     return new ReportSmartTableModal(this.tableData_report,
-      this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE,);
+      this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE);
   }
 
   reportHistoryTableFactory() {
@@ -58,14 +73,14 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   initializeTableData_report(data: any, tableDataMetaDict: any): void {
-    this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
+    // this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
 
     this.tableData_report = this.tableData_report.map((sessionsDataForTableItem) => {
-      let additonalColumns: any = {};
+      const additonalColumns: any = {};
       additonalColumns['Active'] = sessionsDataForTableItem['Active'];
-      let isActive = additonalColumns['Active'].value;
+      const isActive = additonalColumns['Active'].value;
       additonalColumns['Active'].value = `<div class="d-flex align-items-center">
-<i style="font-size: 8px" class="fa fa-circle mr-1 ${isActive ? 'dot-free' : 'dot-paid'}" ></i><span>${isActive ? 'Active' : 'Inactive'}</span>
+<span style="font-size: 8px" class="fa fa-circle mr-1 ${isActive ? 'dot-free' : 'dot-paid'}" ></span><span>${isActive ? 'Active' : 'Inactive'}</span>
 </div>`;
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
@@ -76,9 +91,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   initializeTableData_reportHistory(data: any, tableDataMetaDict: any): void {
-    this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
+    // this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
     this.tableData_history = this.tableData_history.map((sessionsDataForTableItem) => {
-      let additonalColumns: any = {};
+      const additonalColumns: any = {};
       /*actions*/
       additonalColumns['Actions'] = sessionsDataForTableItem['Actions'];
       additonalColumns['Actions'].value = [];
@@ -86,13 +101,6 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
   }
-
-  reportSmartTableData: ISmartTableReportDataItem[] = [];
-  reportHistorySmartTableData: ISmartTableReportHisoryDataItem[] = [];
-  SMART_TABLE_REPORTS_SETTING = this.smartTableSettingsService.SMART_TABLE_REPORTS_SETTING;
-  SMART_TABLE_REPORT_HISTORY_SETTING = this.smartTableSettingsService.SMART_TABLE_REPORTS_HISTORY_SETTING;
-
-  @Select() botlist$: Observable<ViewBotStateModel>;
 
   constructor(
     private constantsService: ConstantsService,
@@ -105,16 +113,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     private utilityService: UtilityService,
     private store: Store,
   ) {
-    super();
+    // super();
   }
 
-  activeTab = 'configure';
-  totalReportRecords: number;
-  totalHistoryReportRecords: number;
-  reportTypes;
-  botlist$_sub: Subscription;
-  reportTableModal: ReportSmartTableModal;
-  reportHistoryTableModal: ReportHistorySmartTable;
 
   ngOnInit() {
     this.error_message = 'Loading';
@@ -152,16 +153,11 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
       });
   }
 
-  //
-  reportsLoading = false;
-  reportsEmpty = false;
-  reportHistoryLoading = false;
-  reportsHistoryEmpty = false;
 
   loadReportHistory(limit: number, offset: number) {
 
-    let order_by = -1;
-    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, order_by);
+    const order_by = -1;
+    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, order_by);
     return this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .pipe(tap((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;
@@ -175,9 +171,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
             try {
               botName = this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name;
-            }catch (e) {
-              console.log("couldn't find bot")
-              botName = "BOT_NOT_FOUND"
+            } catch (e) {
+              console.log('couldn\'t find bot');
+              botName = 'BOT_NOT_FOUND';
             }
 
             this.reportHistorySmartTableData.push({
@@ -202,14 +198,15 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
         window.scrollTo({top: 0, behavior: 'smooth'});
       });
   }
-  scrollToTop(){
+
+  scrollToTop() {
     window.scrollTo({top: 0, behavior: 'smooth'});
     // const c = document.documentElement.scrollTop || document.body.scrollTop;
     // if (c > 0) {
     //   window.requestAnimationFrame(<any>this.scrollToTop());
     //   window.scrollTo(0, c - c / 8);
     // }
-  };
+  }
 
   customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
     const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
@@ -266,7 +263,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
           });
         });
 
-        // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());;
+        // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());
         this.reportTableModal.refreshData(this.reportSmartTableData);
       }));
 
@@ -298,7 +295,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   ngOnDestroy(): void {
-    this.botlist$_sub && this.botlist$_sub.unsubscribe();
+    if (this.botlist$_sub) {
+      this.botlist$_sub.unsubscribe();
+    }
   }
 
   getTableDataMetaDict(): any {

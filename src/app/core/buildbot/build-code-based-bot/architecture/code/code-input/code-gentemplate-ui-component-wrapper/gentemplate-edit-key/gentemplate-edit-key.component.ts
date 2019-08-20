@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {EBotType} from '../../../../../../../../utility.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DialogData} from '../../../../../../../view-bots/create-bot-dialog/create-bot-dialog.component';
@@ -29,9 +29,8 @@ export class GentemplateEditKeyComponent implements OnInit {
   }
 
   editTemplateKey() {
-    let old_key = this.data['old_key'];
-    let new_key = this.newTemplateKey;
-    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
+    const new_key = this.newTemplateKey;
+    const doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
     if (doesNewKeyAlreadyExistsInTemplateKeyDict) {
       this.templateKeyCreationError = 'Template Key name already exists';
       return;

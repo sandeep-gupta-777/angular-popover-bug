@@ -23,9 +23,10 @@ import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
 import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
-import {MyToasterService} from "../../my-toaster.service";
+import {MyToasterService} from '../../my-toaster.service';
 import {LoggingService} from '../../logging.service';
-import {LoadJsService} from "../../core/load-js.service";
+import {LoadJsService} from '../../core/load-js.service';
+import {MessagingService} from '../../../messaging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -65,11 +66,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     super();
   }
 
-  loginEmails = [
-    'ayeshreddy.k@imimobile.com',
-    'puspita.m@imimobile.com',
-    'puspita.m@gmail.com'
-  ];
+  loginEmails = [];
   isConfigDataSet = false;
   @ViewChild('loginForm') loginForm: NgForm;
   @ViewChild('emailForPasswordResetForm') emailForPasswordResetForm: NgForm;
@@ -89,8 +86,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     let userValue = null;
 
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
-    let token = this.activatedRoute.snapshot.queryParamMap.get('token');
-    let action = this.activatedRoute.snapshot.queryParamMap.get('action');
+    const token = this.activatedRoute.snapshot.queryParamMap.get('token');
+    const action = this.activatedRoute.snapshot.queryParamMap.get('action');
     if (token && (action === ELoginPanels.reset || action === ELoginPanels.set)) {
       this.panelActive = action;
     }
@@ -100,8 +97,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       map((value: IUser) => {
 
         this.userValue = userValue = value;
-        this.serverService.X_AXIS_TOKEN = this.userValue.user_access_token;
-        this.serverService.AUTH_TOKEN = this.userValue.auth_token;
+        ServerService.setCookie('auth-token', value.auth_token);
+        ServerService.setCookie('user-access-token', value.user_access_token);
+        console.log('AUTH_TOKEN', ServerService.AUTH_TOKEN);
+        console.log('USER_ACCESS_TOKEN', ServerService.USER_ACCESS_TOKEN);
+        console.log('document.cookie', document.cookie);
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {
@@ -128,15 +128,19 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
           return this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]).pipe(tap(() => {
-            return this.serverService.getNSetBotList()
-          }))
+            return this.serverService.getNSetBotList();
+          }));
         } else {
           return this.serverService.getNSetBotList();
         }
       }),
       switchMap(() => {
+        // document.cookie = `user-access-token-test=${this.userData.user_access_token}`;
+        // document.cookie = `auth-token=${this.userData.auth_token};`;
+        // document.cookie = `user-access-token=${this.userData.user_access_token}`;
+        // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
         return this.store.dispatch([
-          new SetUser({user: this.userValue}),
+          new SetUser({user: this.userValue, is_loggedIn: true}),
         ]);
       }),
       switchMap(() => {
@@ -151,6 +155,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // } else {
         //   this.router.navigate(['/']);
         // }
+
         return of(this.router.navigate(['/']));
       }),
       catchError((e) => {
@@ -158,7 +163,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         return this.loginFailedHandler();
       })
     )
-      .subscribe(() => {});
+      .subscribe(() => {
+      });
 
   }
 
@@ -216,17 +222,19 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
-
-    const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
     if (this.loginForm.valid) {
       body = this.loginForm.value;
     } else {
       this.flashErrorMessage('Details not valid');
-      this.disabeLoginButton = false;;
+      this.disabeLoginButton = false;
       return;
     }
+    body = {
+      ...body,
+      fcm_token: MessagingService.fcm_token
+    };
     this.disabeLoginButton = true;
     const headerData: IHeaderData = {
       'auth-token': null,
@@ -237,7 +245,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             this.userData = user;
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
             if (this.userData.enterprises.length <= 1) {
-              let enterpriseDate = {
+              const enterpriseDate = {
                 enterpriseId: this.userData.enterprises[0].enterprise_id.id,
                 roleId: this.userData.enterprises[0].role_id.id,
                 isActive: this.userData.is_active
@@ -283,13 +291,14 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       const body = {
         'user_id': this.userData.id,
         'enterprise_id': Enterprise.enterpriseId,
-        'role_id': Enterprise.roleId
+        'role_id': Enterprise.roleId,
+        fcm_token: MessagingService.fcm_token
       };
       const headerData = {
         'auth-token': this.userData.auth_token
       };
 
-      return this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData})
+      return this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData});
       // .pipe(
       //   switchMap((value) => {
       //     this.gotUserData$.emit(value);
@@ -307,19 +316,19 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.enterEnterprise(Enterprise)
       .subscribe((value) => {
         this.gotUserData$.emit(value);
-      })
+      });
   }
 
   enterpriseLogout() {
     this.panelActive = ELoginPanels.login;
     this.disabeLoginButton = false;
-    this.errorMessage = "";
-    this.infoMessage = "";
+    this.errorMessage = '';
+    this.infoMessage = '';
   }
 
   loginWithCustomEmail(email) {
-    this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
-    this.loginSubmitHandler();
+    // this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
+    // this.loginSubmitHandler();
   }
 
   backToLogin() {

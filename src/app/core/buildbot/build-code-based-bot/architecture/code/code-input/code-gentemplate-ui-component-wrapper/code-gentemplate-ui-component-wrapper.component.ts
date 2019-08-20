@@ -16,6 +16,8 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   @Input() selectedChannel: string;
   @Input() channelList: {name: string}[];
   @Input() totalResponseTemplateComponentCount: number;
+  @Input() removeGenTemplateSelect = false;
+  @Input() removeSelect = false;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
@@ -37,7 +39,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
   delete(i) {
     this.selected = false;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.deleteTemplate.emit(i);
       this.selectionChanged.emit(JSON.stringify({
         select: false,
@@ -54,7 +56,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     }));
     this.selectionChanged.emit(JSON.stringify({
       select: false,
-      index: this.myIndex-1
+      index: this.myIndex - 1
     }));
   }
 
@@ -66,7 +68,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     }));
     this.selectionChanged.emit(JSON.stringify({
       select: false,
-      index: this.myIndex+1
+      index: this.myIndex + 1
     }));
   }
 
@@ -75,7 +77,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     this.variantsIter = [...this._variants];
   }
 
-  onSelected(isSelected:boolean) {
+  onSelected(isSelected: boolean) {
 
     this.selectionChanged.emit(JSON.stringify({
       select: isSelected,
@@ -83,9 +85,9 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     }));
   }
 
-  removeThisChannel(channel: string,i) {
+  removeThisChannel(channel: string, i) {
     //
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    const isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
       this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
     } else {

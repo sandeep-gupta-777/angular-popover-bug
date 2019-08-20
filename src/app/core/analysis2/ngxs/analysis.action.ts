@@ -93,7 +93,7 @@ export class SetTotalRooms {
   constructor(public payload: { data: ITotalRoomsItem[]}) {
   }
 }
-export class SetSessionhandling{
+export class SetSessionhandling {
   static readonly type = '[analytics2] SetSessionhandling';
   constructor(public payload: { data: any[]}) {
   }

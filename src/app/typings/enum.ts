@@ -17,7 +17,7 @@ export enum EAllActions {
   'Update Bots' = 'Update Bots',
   'Delete Bots' = 'Delete Bots',
   'Get Bots Anonymous' = 'Get Bots Anonymous',
-  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base', //Get Enterprise Knowledge base
+  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base', // Get Enterprise Knowledge base
   'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
   'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
   'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
@@ -76,20 +76,20 @@ export enum EAllActions {
   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
   'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
   'ModuleDetail' = 'ModuleDetail',
-  'Create Corpus' = 'Create Corpus' ,
-  'Update Corpus' = 'Update Corpus' ,
-  'Get Corpus' = 'Get Corpus' ,
-  'delete Corpus' = 'delete Corpus' ,
-  'Create Category' = 'Create Category' ,
-  'Update Category' = 'Update Category' ,
-  'Remove Category' = 'Remove Category' ,
-  'Section Category Change' = 'Section Category Change' ,
-  'Make Corpus Live' = 'Make Corpus Live' ,
-  'Create Section' = 'Create Section' ,
-  'Update Section' = 'Update Section' ,
-  'Remove Section' = 'Remove Section' ,
-  'Get Default Corpus' = 'Get Default Corpus' ,
-  'Train Corpus' = 'Train Corpus' ,
+  'Create Corpus' = 'Create Corpus',
+  'Update Corpus' = 'Update Corpus',
+  'Get Corpus' = 'Get Corpus',
+  'delete Corpus' = 'delete Corpus',
+  'Create Category' = 'Create Category',
+  'Update Category' = 'Update Category',
+  'Remove Category' = 'Remove Category',
+  'Section Category Change' = 'Section Category Change',
+  'Make Corpus Live' = 'Make Corpus Live',
+  'Create Section' = 'Create Section',
+  'Update Section' = 'Update Section',
+  'Remove Section' = 'Remove Section',
+  'Get Default Corpus' = 'Get Default Corpus',
+  'Train Corpus' = 'Train Corpus',
   'Section Category Change with Category Creation' = 'Section Category Change with Category Creation',
   'Add message to curation' = 'Add message to curation',
   'Get FAQbot curation issues' = 'Get FAQbot curation issues',
@@ -113,5 +113,6 @@ export enum ESideBarTab {
 
 export enum ENgxsStogareKey {
   /*https://stackoverflow.com/questions/53839884/how-to-change-the-default-state-key-for-storage-plugin*/
-  IMI_BOT_STORAGE_KEY = '@@STATE'
+  IMI_BOT_STORAGE_KEY = '@@STATE',
+  idTokenMap = 'idTokenMap'
 }

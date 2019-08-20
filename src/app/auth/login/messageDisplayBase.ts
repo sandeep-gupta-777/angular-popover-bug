@@ -1,7 +1,7 @@
 import {LoggingService} from '../../logging.service';
 
 
-declare const Offline:any;
+declare const Offline: any;
 
 export class MessageDisplayBase {
   errorMessage: string;
@@ -24,7 +24,7 @@ export class MessageDisplayBase {
 
     try {
       clearInterval(this.setIntervelRef);
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
     this.errorMessage = message;
@@ -35,7 +35,7 @@ export class MessageDisplayBase {
   }
   flashInfoMessage(message: string, time_ms: number = 3000) {
     // this.addOneDotInInfoMessageSetIntervalRef && clearInterval(this.addOneDotInInfoMessageSetIntervalRef);
-    this.errorMessage = "";
+    this.errorMessage = '';
     this.infoMessage = message;
     // this.errorMessage = '';
     // try {

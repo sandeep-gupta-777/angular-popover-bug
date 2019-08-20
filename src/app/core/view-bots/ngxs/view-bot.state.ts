@@ -25,11 +25,20 @@ export interface ViewBotStateModel {
   }
 })
 
-//same as reducer
+// same as reducer
 export class ViewBotStateReducer {
 
   constructor(private activatedRoute: ActivatedRoute) {
 
+  }
+
+  static getCodeBased(x) {
+    return x.botlist.botList;
+  }
+
+  static getPipelineBased(x) {
+    // ;
+    return x.botlist.pipelineBasedBotList;
   }
 
   @Action(SetAllBotListAction)
@@ -54,7 +63,6 @@ export class ViewBotStateReducer {
   @Action(AddNewBotInAllBotList)
   addNewBotInAllBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: AddNewBotInAllBotList) {
     const state = getState();
-    const allBotList = state.allBotList.push(payload.bot);
     patchState({
       allBotList: [...state.allBotList]
     });
@@ -62,19 +70,15 @@ export class ViewBotStateReducer {
 
   @Action(SetCodeBasedBotListAction)
   setCodebasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetCodeBasedBotListAction) {
-    const state = getState();
     patchState({
       codeBasedBotList: payload.botList,
-      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
   @Action(SetPipeLineBasedBotListAction)
   setPipelineBasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetPipeLineBasedBotListAction) {
-    const state = getState();
     patchState({
       pipelineBasedBotList: payload.botList,
-      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -93,7 +97,7 @@ export class ViewBotStateReducer {
                        {payload}: SaveVersionInfoInBot) {
 
     const state: ViewBotStateModel = getState();
-    const bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
+    const bot: IBot = state.allBotList.find((bot_temp) => bot_temp.id === payload.botId);
     // "updated_fields"?: {
     //   "df_template"?: boolean,
     //   "df_rules"?: boolean,
@@ -122,7 +126,7 @@ export class ViewBotStateReducer {
   updateVersionInfoByIdInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                              {payload}: UpdateVersionInfoByIdInBot) {
     const state: ViewBotStateModel = getState();
-    const bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
+    const bot: IBot = state.allBotList.find((bot_temp) => bot_temp.id === payload.botId);
 
     const store_bot_versions = bot.store_bot_versions || (bot.store_bot_versions = []);
     const index = store_bot_versions.findIndex((version) => version.id === payload.data.id);
@@ -140,7 +144,7 @@ export class ViewBotStateReducer {
                                   {payload}: UpdateBotInfoByIdInBotInBotList) {
     const state: ViewBotStateModel = getState();
 
-    let allBotList_new = state.allBotList.map((bot) => {
+    const allBotList_new = state.allBotList.map((bot) => {
       if (bot.id === payload.botId) {
         return {...bot, ...payload.data};
       } else {
@@ -149,16 +153,7 @@ export class ViewBotStateReducer {
       // return  ? {...bot, ...payload.data} : bot;
     });
 
-    patchState({allBotList:allBotList_new});
-  }
-
-  static getCodeBased(x) {
-    return x.botlist.botList;
-  }
-
-  static getPipelineBased(x) {
-    // ;
-    return x.botlist.pipelineBasedBotList;
+    patchState({allBotList: allBotList_new});
   }
 
   // static getBotById(state){

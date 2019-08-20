@@ -23,13 +23,15 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
   editor;
   _text;
-  @Input() downloadedFileName = 'code.py'
+  @Input() downloadedFileName = 'code.py';
   editorCodeObjRef: { text: string } = {text: ''};
   @Output() validateClick = new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
   @Input() doShowUploadDownloadButton = true;
   @Input() doShowValidationsIcon = false;
   @Input() readOnly = false;
+  options: any = {maxLines: 20, printMargin: false};
+  onChanges: Function;
 
   constructor(
     private utilityService: UtilityService,
@@ -37,7 +39,6 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   @Input() set text(editorCodeObj: { text: string }) {
-
     if (!editorCodeObj) {
       return;
     }
@@ -46,15 +47,21 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
     this._text = editorCodeObj.text;
 
     try {
-      this.editor && this.editor.setValue(editorCodeObj.text);
+      if (this.editor) {
+        this.editor.setValue(editorCodeObj.text);
+      }
     } catch (e) {
       console.log(e);
     }
     setTimeout(() => {
       /*https://github.com/codemirror/CodeMirror/issues/2469*/
-      this.editor && this.editor.refresh();
+      if (this.editor) {
+        this.editor.refresh();
+      }
     }, 0);
-    this.editor && this.editor.setSize('100%', '100%');
+    if (this.editor) {
+      this.editor.setSize('100%', '100%');
+    }
   }
 
   @Output() textChangedEvent: EventEmitter<string> = new EventEmitter<string>();
@@ -62,11 +69,12 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   ngOnInit() {
 
     this.utilityService.refreshCodeEditor$.subscribe(() => {
-      this.editor && this.editor.refresh();
+      if (this.editor) {
+        this.editor.refresh();
+      }
     });
 
     const editor = this.codeEditor.nativeElement;
-    var currentHandle = null, currentLine;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
       lineWrapping: true,
@@ -79,7 +87,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       readOnly: this.readOnly,
       //   onCursorActivity: function updateLineInfo(cm) {
       //   var line = cm.getCursor().line, handle = cm.getLineHandle(line);
-      //   if (handle == currentHandle && line == currentLine) return;
+      //   if (handle === currentHandle && line == currentLine) return;
       //   if (currentHandle) {
       //     cm.setLineClass(currentHandle, null, null);
       //     cm.clearMarker(currentHandle);
@@ -93,7 +101,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
         'Ctrl-Q': function (cm) {
           cm.foldCode(cm.getCursor());
         },
-        "Ctrl-Space": "autocomplete",
+        'Ctrl-Space': 'autocomplete',
       },
       foldGutter: true,
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
@@ -103,28 +111,31 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
     //   this.editor.setLineClass(this.editor.getLineHandle(1), null, 'bg-white');
     // },1000);
 
-    this.editor.on('keydown', editor => {
+    this.editor.on('keydown', editor_temp => {
       setTimeout(() => {
-        this.editorCodeObjRef.text = editor.getValue();
-        this.textChangedEvent.emit(editor.getValue());
+        this.editorCodeObjRef.text = editor_temp.getValue();
+        this.textChangedEvent.emit(editor_temp.getValue());
         try {
-          this.onChanges(editor.getValue());
+          this.onChanges(editor_temp.getValue());
         } catch (e) {
           console.log(e);
         }
       });
     });
-    this._text && this.editor.setValue(this._text);
+    if (this._text) {
+      this.editor.setValue(this._text);
+    }
     setTimeout(() => {
       /*https://github.com/codemirror/CodeMirror/issues/2469*/
-      this.editor && this.editor.refresh();
+      if (this.editor) {
+        this.editor.refresh();
+      }
     }, 0);
   }
 
   downloadCodeText() {
     /*todo: refactor this*/
     let fileName = this.downloadedFileName;
-    const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
     const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
     const botId = this.activatedRoute.snapshot.params['roomId'];
     // if (buildTab === 'code' && codeTab && botId) {
@@ -143,18 +154,21 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   ngAfterViewInit() {
-    this.editor && this.editor.setSize('100%', '100%'); //TODO: codemirror is exceeding its parent width by 30px
-    this.editor && this.editor.refresh();
+    if (this.editor) {
+      this.editor.setSize('100%', '100%'); // TODO: codemirror is exceeding its parent width by 30px
+
+    }
+    if (this.editor) {
+      this.editor.refresh();
+    }
   }
 
   async openFile(inputEl) {
     const codeText = await this.utilityService.readInputFileAsText(inputEl);
-    this.editor && this.editor.setValue(codeText);
+    if (this.editor) {
+      this.editor.setValue(codeText);
+    }
   }
-
-
-  options: any = {maxLines: 20, printMargin: false};
-  onChanges: Function;
 
   registerOnChange(fn: any): void {
     this.onChanges = fn;

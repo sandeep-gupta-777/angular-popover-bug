@@ -1,22 +1,3 @@
-<!--<div class="d-flex-column-custom justify-content-end mb-3" *ngIf="!showSplashScreen && !showLoader">-->
-  <!--<div class="d-flex align-items-center justify-content-end">-->
-    <!--&lt;!&ndash; <i class="fa fa-plus pr-4"></i>-->
-    <!--<i class="fa fa-minus pr-4"></i> &ndash;&gt;-->
-    <!--<button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>-->
-    <!--<div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">-->
-      <!--<button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update Test-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--<div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">-->
-      <!--<button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create Test-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--<button class="btn-theme btn-theme-danger mr-2" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test-->
-    <!--</button>-->
-    <!--<button class="btn-theme btn-theme-primary mr-2" (click)="beginTest(Primarytemplat)" *ngIf="!cancelTestFlag">Begin Test-->
-    <!--</button>-->
-  <!--</div>-->
-<!--</div>-->
 
 <app-handsontable
   *ngIf="testCaseData && !showSplashScreen && !showLoader"
@@ -28,18 +9,13 @@
   (rowChanged$)="onTableChange()"
   (csvUploaded$)="testCaseData = $event"
   (afterTabledataChange$)="afterTabledataChange($event)">
-  <!---->
   <div class="d-flex-column-custom justify-content-end my-1" *ngIf="!showSplashScreen && !showLoader">
     <div class="d-flex align-items-center justify-content-end">
-      <!-- <i class="fa fa-plus pr-4"></i>
-      <i class="fa fa-minus pr-4"></i> -->
-      <!--<button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>-->
-      <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
-        <!--<button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update Test</button>-->
+      <div *appMyIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
         <!--TODO: removing *ngIf condition for now. Reason changes arent detected when cell data is deleted using del key-->
         <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData">Update Test</button>
       </div>
-      <div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
+      <div *appMyIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
         <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData">Create Test
         </button>
       </div>
@@ -70,7 +46,6 @@
 
 <ng-template #Primarytemplat>
   <div class="danger-modal">
-    <!--<div class="top-dec"></div>-->
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Test is already running</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">

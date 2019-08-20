@@ -2,21 +2,23 @@
 <form class="grid-avator" [formGroup]="formGroup">
   <div class="d-flex flex-column align-items-center justify-content-center border"
        style="margin-bottom: 1px"
-       [readonlyselectedroles]="myEAllActions['Update Bots']">
-    <i class="fa fa-plus text-info cursor-pointer"></i>
+       [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
+    <span class="fa fa-plus text-info cursor-pointer"></span>
     <div class="text-info cursor-pointer my-3 hover-under-line" (click)="createPrebuiltAvatarRow(true)">Create</div>
     <div class="text-info cursor-pointer hover-under-line" (click)="createPrebuiltAvatarRow(false)">Generate</div>
   </div>
 
   <fieldset class="avator-item border py-2 px-3 d-flex flex-column"
             style="margin-bottom: 1px;"
-            [readonlyselectedroles]="myEAllActions['Update Bots']"
+            [appReadonlySelectedRoles]="myEAllActions['Update Bots']"
             formArrayName="avatars"
             *ngFor="let formGroup of formArray.controls; let i = index">
+    <legend style="display: none;">Update bot details</legend>
+
     <div [formGroupName]="i">
-      <i class="fa fa-trash cursor-pointer" (click)="deleteAvator(i)" *myIf="myEAllActions['Update Bots']"></i>
+      <span class="fa fa-trash cursor-pointer" (click)="deleteAvator(i)" *appMyIf="myEAllActions['Update Bots']"></span>
       <img class="logo-md rounded-circle align-self-center"
-           [src]="imageUrlInput.value">
+           [src]="imageUrlInput.value" alt="avator">
 
       <div class="form-group">
         <label for="alterEgo" class="required">Avatar Name</label>

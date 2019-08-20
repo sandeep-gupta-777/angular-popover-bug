@@ -2,7 +2,7 @@ import {Directive, Input, ElementRef, TemplateRef, ViewContainerRef} from '@angu
 import {PermissionService} from './permission.service';
 
 @Directive({
-  selector: '[myIf]'
+  selector: '[appMyIf]'
 })
 export class MyIfDirective {
 
@@ -14,7 +14,7 @@ export class MyIfDirective {
   ) {
   }
 
-  @Input() set myIf(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
+  @Input() set appMyIf(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
     /*TODO: make it accept array as well*/
     // let isDenied:boolean =  this.constantsService.isAccessDeniedDynamic(tabName);
     // let isDenied:boolean =  this.constantsService.isTabAccessDenied(tabName);
@@ -27,7 +27,7 @@ export class MyIfDirective {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
       });
     } else {
-      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); //false;//this.constantsService.isTabAccessDenied(tabName);
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); // false;//this.constantsService.isTabAccessDenied(tabName);
 
     }
     if (!isDenied) {

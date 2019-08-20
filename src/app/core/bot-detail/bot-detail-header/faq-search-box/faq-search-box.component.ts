@@ -16,51 +16,51 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FaqSearchBoxComponent implements OnInit {
 
   constructor(
-    private serverService:ServerService,
-    private constantsService:ConstantsService,
-    private router:Router,
-    private activatedRoute:ActivatedRoute
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
-  @Input() bot : IBot;
+  @Input() bot: IBot;
   @Output() clickedOnArticle = new EventEmitter();
-  @Input() inCuration:boolean;
-  corpus : ICorpus;
-  searchAricleString:string;
-  input_foused:boolean = false;
+  @Input() inCuration: boolean;
+  corpus: ICorpus;
+  searchAricleString: string;
+  input_foused = false;
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$().subscribe();
-    EventService.faqHeaderSearchBarReloadData.subscribe((value)=>{
-      if(value){
+    EventService.faqHeaderSearchBarReloadData.subscribe((value) => {
+      if (value) {
         this.corpus = value;
       }
-    })
+    });
   }
-  navigateToArticleById(body){
+  navigateToArticleById(body) {
 
-    this.input_foused = false
-    if(this.inCuration){
+    this.input_foused = false;
+    if (this.inCuration) {
       this.clickedOnArticle.emit(body.section_id);
-      this.searchAricleString = body.question.replace('<strong>', "").replace('</strong>', "");
+      this.searchAricleString = body.question.replace('<strong>', '').replace('</strong>', '');
     }
-    if(!this.inCuration){
+    if (!this.inCuration) {
       this.router.navigate(['.'], {
-        queryParams: {build:'articles',isArticle:true,section_id:body.section_id},
+        queryParams: {build: 'articles', isArticle: true, section_id: body.section_id},
         relativeTo: this.activatedRoute,
         queryParamsHandling: 'merge'
-      })
+      });
     }
 
   }
   getCorpusAndSetArticleFilterForm$() {
-    let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
-    let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
+    const getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
     return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
       .pipe(
         map((val) => {
           this.corpus = val;
         })
-      )
+      );
   }
 }

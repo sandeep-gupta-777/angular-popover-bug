@@ -1,15 +1,3 @@
-<!-- <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
-    <div class="col-12 p-0">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-          <h4>Users management</h4>
-        </div>
-        <div class="card-header-description d-flex justify-content-between justify-content-center align-items-center">
-          Manage users of your enterprise by adding new ones, modifying and removing existing ones.
-        </div>
-      </div>
-    </div>
-  </header> -->
 <header class="row mt-3 pb-3  ">
   <div class="col-12 p-0">
     <div class="card-header">
@@ -26,17 +14,9 @@
   <div class="card-header">
     All Users
   </div>
-  <button class="btn-theme btn-theme-primary ml-auto mr-3" (click)="openUserEditModal(NewUserModal)"><i class="fa fa-plus pr-1 "></i>New
+  <button class="btn-theme btn-theme-primary ml-auto mr-3" (click)="openUserEditModal(NewUserModal)"><span class="fa fa-plus pr-1 "></span>New
     User</button>
 </div>
-<!-- <div class="d-flex">
-    <div class="d-inline-block " *ngIf="role==='Admin'">
-      All Users
-    </div>
-    <div class="ml-auto ">
-      <button class="btn-theme btn-theme-primary" (click)="openUserEditModal(NewUserModal)">New User</button>
-    </div>
-  </div> -->
 
 <div class="row profile-row" *ngIf="role==='Admin'">
 
@@ -71,15 +51,6 @@
             <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
               {{role.name}}
             </mat-option>
-            <!-- <mat-option [value]="role.roomId">
-                  Admin
-                </mat-option> -->
-            <!-- <mat-option [value]="12">
-                Admin
-              </mat-option>
-              <mat-option [value]="12">
-                developer
-              </mat-option> -->
           </mat-select>
         </mat-form-field>
       </form>
@@ -100,7 +71,6 @@
           <input type="text"  matInput placeholder="Search bots" [(ngModel)]="searchBotsInModify">
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
       </div>
     </div>
     <div class="modal-body" style="padding-top: 10px!important;">
@@ -117,10 +87,6 @@
           <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2" [disabled]="!modifyBotRole" (click)="modifyUser();dialogRefWrapper.ref.close()">Modify
           </button>
-          <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
-                    [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
-                    form="modelGenTempNameForm">Copy now
-            </button> -->
         </div>
       </div>
     </div>
@@ -142,8 +108,6 @@
     </div>
     <div class="w-100 pl-3" style="align-items: center;">
       <div class="user-modal-heading mb-2">User details</div>
-      <!-- {{roleMap | json}} -->
-      <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="loginSubmitHandler()" #loginForm="ngForm"> -->
       <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
         <mat-form-field class="pr-3">
           <input matInput placeholder="First name" ngModel name="first_name" required>
@@ -151,9 +115,6 @@
         <mat-form-field class="pr-3">
           <input matInput placeholder="Last name" name="last_name" ngModel required>
         </mat-form-field>
-
-        <!-- <input required class="form-theme-control my-1 mx-2" style="width: 200px" ngModel name="first_name" placeholder="First name">
-        <input required class="form-theme-control my-1 mx-2" style="width: 200px" name="last_name" ngModel placeholder="Last name"> -->
         <mat-form-field>
           <mat-select required placeholder="Select role" [(ngModel)]="newBotRole" (ngModelChange)="newUserRoleChanged($event)"
             name="role" style="padding-bottom: .26rem;font-size: 16px;">
@@ -184,15 +145,10 @@
           <input type="text" matInput placeholder="Search bots" [(ngModel)]="searchBots">
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-
-        <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
-
       </div>
     </div>
     <div class="modal-body" style="padding-top: 10px!important;">
       <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-
-        <!-- <form class="modelBotNames" roomId="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
         <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 185px;">
           <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBots.toLowerCase())">
             <div style="width: 120px;overflow-wrap: break-word;padding-left: 17px;"> {{bot.name}}</div>
@@ -205,10 +161,6 @@
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" [disabled]="!newBotDetails.valid"
             (click)="addNewUser();dialogRefWrapper.ref.close()">Add new user
           </button>
-          <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
-                    [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
-                    form="modelGenTempNameForm">Copy now
-            </button> -->
         </div>
       </div>
     </div>

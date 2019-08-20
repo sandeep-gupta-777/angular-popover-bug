@@ -5,7 +5,7 @@
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
   <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
     <div class="message p-2"
-         [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
+         [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human', rtl: messageData.response_language === 'ar'}"
          style="display: inline-block; overflow-x: visible; position: relative">
             <span class="message-text" *ngIf="messageData?.sourceType==='human'"
                   [innerHtml]="messageData?.text|linkify:'text-white'"></span>
@@ -24,6 +24,7 @@
 <div class="row mt-1 style-children-scrollbar-x"
      style="position: relative"
      *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
+  <app-play-media [direction]="'left'" [message]="messageData"></app-play-media>
 
   <div class="col-12 text-left p-0 "
        style="overflow-x: auto"
@@ -36,14 +37,13 @@
   </div>
   <div class="col-12 text-left px-0"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
-    <!--<div class="d-inline-block">-->
     <app-quick-reply
       style="overflow-x: auto; width: 100%"
       [isFullScreenPreview]="isFullScreenPreview"
       [messageData]="messageData"
       (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
     ></app-quick-reply>
-    <!--</div>-->
+
   </div>
   <span [hidden]="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking">
     <div class="col-12 text-left p-0 d-flex"
@@ -52,7 +52,8 @@
       <img class="rounded-circle"
            [defaultImage]="'assets/img/no image.svg'"
            [lazyLoad]="messageData?.sourceType==='bot'?bot.logo:'https://image.flaticon.com/icons/svg/17/17004.svg'"
-           style="width: 32px;height: 32px; border-radius: 50%" alt="">
+           style="width: 32px;height: 32px; border-radius: 50%"
+           alt="bot logo">
     </div>
     <div class="bg-message-bot d-flex align-items-center px-2">
       <app-bot-thinking-bubble [bot]="bot" class="d-block"></app-bot-thinking-bubble>
@@ -69,11 +70,14 @@
     class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
 </div>
 
+
+
+
 <div class="row d-flex align-items-center session-expire-info-row"
      data-cy="chat-session_expired"
      *ngIf="messageData.sourceType==='session_expired'">
   <hr>
-  <i class="px-2">New session started</i>
+  <em class="px-2">New session started</em>
   <hr>
 </div>
 

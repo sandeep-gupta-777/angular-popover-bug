@@ -15,7 +15,7 @@
   //
   //  .CodeMirror-scroll {
   //    //height: auto;
-  //    max-height: 40vh;;
+  //    max-height: 40vh;
   //  }
 
   .CodeMirror, .CodeMirror-scroll {
@@ -389,7 +389,7 @@ button{
 }
 
 .hover-change-background {
-  background-color: #f0f3f4;;
+  background-color: #f0f3f4;
 
   &:hover {
     background-color: #ededed;
@@ -490,10 +490,6 @@ app-code-editor {
   border: solid 1px #e0e0e0;
   @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
   outline: none;
-}
-
-.input-material {
-
 }
 
 

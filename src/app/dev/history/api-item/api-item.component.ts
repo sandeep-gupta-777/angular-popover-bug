@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IApi, IApiCollection} from "../../interfaces";
-import {EventService} from "../../../event.service";
-import {DevVariableService} from "../../dev-variable.service";
+import {IApi, IApiCollection} from '../../interfaces';
+import {EventService} from '../../../event.service';
+import {DevVariableService} from '../../dev-variable.service';
 
 @Component({
   selector: 'app-api-item',
@@ -18,7 +18,7 @@ import {DevVariableService} from "../../dev-variable.service";
 export class ApiItemComponent implements OnInit {
 
   @Input() api: IApi;
-  @Input() highlighted:boolean;
+  @Input() highlighted: boolean;
   myDevVariableService = DevVariableService;
 
   constructor() {

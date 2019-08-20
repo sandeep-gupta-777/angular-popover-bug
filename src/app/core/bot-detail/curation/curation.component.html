@@ -15,7 +15,6 @@
             [icon]="'refresh'"
             (btnClick)="refershCurrentTabHandler()">
     </app-button-wrapper>
-    <!-- [status]="updateSettingsLoading" -->
     <mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTab">
         <mat-tab label="Overview">
             <app-curation-overview
@@ -63,7 +62,7 @@
         !curationIssuesListisReloading &&
         objToSrt(IssuesFilterQueryParams) == '&order_by=-updated_at' &&
         curationIssuesList &&
-        curationIssuesList.length == 0 &&
+        curationIssuesList.length === 0 &&
         !isMoreCurationIssuesListPresent">
                     <app-splash-screen [imageHRef]="myESplashScreens.curation_all_resolved"
                                        class="d-flex justify-content-center align-items-center"

@@ -5,7 +5,6 @@ import {DialogData} from '../core/view-bots/create-bot-dialog/create-bot-dialog.
 @Component({
   selector: 'app-modal-wrapper',
   templateUrl: './modal-wrapper.component.html',
-  styleUrls: ['./modal-wrapper.component.scss']
 })
 export class ModalWrapperComponent {
 
@@ -13,7 +12,6 @@ export class ModalWrapperComponent {
 
   constructor(
     public dialogRef: MatDialogRef<any>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData)
-  {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // import {Chart, Highcharts} from 'angular-highcharts';
-declare const Highcharts:any
-declare const Chart:any
+declare const Highcharts: any;
+declare const Chart: any;
 import {IChartSetting, ISeriesDataItem} from '../interfaces/chart-setting';
 import {UtilityService} from './utility.service';
 
@@ -229,15 +229,6 @@ export class ChartSettingService {
     ]
   };
 
-  // createChartSettingBySeriesData(){
-  //   this.chartSetting.series = this.createSeriesDataFromArray(this.test);
-  // }
-
-  createSeriesDataFromArray(array: any[], xAxisLabel) {
-    // return this.utilityService.convert(this.test,"labels");
-    return this.utilityService.convert(array, xAxisLabel, 'Users');
-  }
-
 
   rawData = [{
     x: 1,
@@ -443,5 +434,14 @@ export class ChartSettingService {
       'totalusers': 0
     }
   ];
+
+  // createChartSettingBySeriesData(){
+  //   this.chartSetting.series = this.createSeriesDataFromArray(this.test);
+  // }
+
+  createSeriesDataFromArray(array: any[], xAxisLabel) {
+    // return this.utilityService.convert(this.test,"labels");
+    return this.utilityService.convert(array, xAxisLabel, 'Users');
+  }
 
 }

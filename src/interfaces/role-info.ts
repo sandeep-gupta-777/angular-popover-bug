@@ -7,7 +7,7 @@ export interface IRoleInfo {
   is_system_role: false;
   name: string;
   permissions: {
-    actions:number[]
+    actions: number[]
   };
   session_expiry_time: number;
   updated_at: number;

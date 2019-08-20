@@ -2,6 +2,7 @@ import { Component, VERSION, ViewChild, Directive, forwardRef } from '@angular/c
 import { Validator, FormGroup, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Directive({
+  /* tslint:disable*/
   selector: '[ngModelGroup][requiredIfOneFilledValidator]',
   providers: [{
     provide: NG_VALIDATORS,
@@ -10,11 +11,7 @@ import { Validator, FormGroup, NG_VALIDATORS, AbstractControl, ValidationErrors 
   }]
 })
 export class RequiredIfOneFilledValidator implements Validator {
-  constructor(){
-  }
   validate(group: AbstractControl): ValidationErrors | null {
-
-    const controls = (group as FormGroup).controls;
     const formData = group.value;
     if (formData.enabled) {
       for (const key in formData) {

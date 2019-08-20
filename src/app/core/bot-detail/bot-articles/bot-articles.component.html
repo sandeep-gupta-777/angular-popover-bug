@@ -10,14 +10,13 @@
     </app-article-question-list-view>
     <div>
       <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
-        <!-- <div class="for-border"></div> -->
         <div class="action-item pt-2 pb-2 cursor-pointer">
           <button class="create-new-category-button btn-theme cursor-pointer" mat-stroked-button style="font-size:13px"
-            (click)="openArticleCreate()" *myIf="myEAllActions['Create Section']">
+                  (click)="openArticleCreate()" *appMyIf="myEAllActions['Create Section']">
             <mat-icon class="material-icons">add</mat-icon>Create new article
           </button>
         </div>
-        <div class="action-item py-1 cursor-pointer" *myIf="myEAllActions['Update Category']"
+        <div class="action-item py-1 cursor-pointer" *appMyIf="myEAllActions['Update Category']"
           (click)="openCorpusImportModal(ImportArticlesTemplate)">
           <mat-icon class="material-icons">publish</mat-icon>Import articles from csv
         </div>
@@ -25,7 +24,7 @@
           <mat-icon class="material-icons">get_app</mat-icon>Export articles to csv
         </div>
         <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)"
-          *myIf="myEAllActions['Update Category']">
+             *appMyIf="myEAllActions['Update Category']">
           <mat-icon class="material-icons">folder</mat-icon>Modify categories
         </div>
       </div>
@@ -77,7 +76,6 @@
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
-        <!-- <p>{{corpus.category_mapping | json}}</p> -->
         <div class="d-flex flex-column" style="overflow-y: auto;height: 35vh;">
 
           <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
@@ -116,7 +114,6 @@
       </div>
       <form #Uplodeform="ngForm">
         <div class="d-flex flex-column">
-          <!-- <label for="avatar" class="mb-1"> Csv File</label> -->
           <div>
             <mat-form-field>
               <input matInput [value]="displayFilePath(Uplodeform.value.file)" readonly>
@@ -129,7 +126,6 @@
           </div>
 
 
-          <!-- <input type="file" id="avatar" name="file" ngModel (change)="fileChanged($event)" required accept='text/csv'> -->
           <div *ngIf="errorArticleMustHaveCategory" class="errorText">Category is missing for one or more articles
           </div>
           <div *ngIf="errorArticleMustHaveAnswer" class="errorText">Answer is missing for one or more articles</div>
@@ -138,14 +134,10 @@
           <div *ngIf="errorArticleMustNotHaveDefaultArticle" class="errorText"> Category for articles should not be called “Default"
             </div>
           <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class="errorText"> First column header must be “Category” and second column header must be “Answer"</div>
-          <!-- <div *ngIf="!Uplodeform.valid" class="errorText">Please upload the file</div> -->
           <div *ngIf="noOfArticleFoundInUpload != null" class="successText">
             {{noOfArticleFoundInUpload}} articles found</div>
         </div>
         <div class="d-flex pt-2">
-          <!-- <app-button-wrapper class="card--update" [isMatFlatButton]="false" [status]="uploadingSampleData"
-            [text]="'Download sample'" (btnClick)="downloadSample()">
-          </app-button-wrapper> -->
 
           <button mat-button class="mat-theme-button" style="border: 1px solid #e0e0e0;"
               type="button"
@@ -155,10 +147,9 @@
 
           <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
             (click)="closeUploadModal()">Cancel</button>
-          <app-button-wrapper [disabled]="!Uplodeform.valid" class="card--update" *myIf="[myEAllActions['Update Bots']]"
+          <app-button-wrapper [disabled]="!Uplodeform.valid" class="card--update" *appMyIf="[myEAllActions['Update Bots']]"
             [isMatFlatButton]="true" [status]="uploadingData" [text]="'Import'" (btnClick)="uploadDocument()">
           </app-button-wrapper>
-          <!-- <button class="btn-theme px-15 btn-theme-primary" (click)=""></button> -->
         </div>
       </form>
     </div>

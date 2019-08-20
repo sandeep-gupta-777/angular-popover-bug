@@ -9,12 +9,43 @@
 
 .footer {
   grid-area: f;
-  //grid-row: 2/span2;
-  //border-top: 1px solid $color-primary;
   position: relative;
   padding: 3px 10px;
-  //height: 50px !important;
-  //background-color: rgb(236, 236, 236);;
+  height: 45px;
+  display: flex;
+  align-items: center;
+
+  &.footer-anon-view {
+    border-top: 1px solid #e0e0e0;
+
+    .fa {
+      color: white;
+      transform: rotate(45deg);
+    }
+
+    .icon {
+      font-size: 14px;
+      border-radius: 50%;
+      height: 32px;
+      width: 32px;
+      display: flex;
+      background: #2b4f70;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        .fa {
+          transform: rotate(0deg);
+          transition-duration: .3s;
+        }
+      }
+    }
+
+    input {
+      background-color: transparent;
+    }
+  }
 
   input {
     height: 80%;
@@ -33,15 +64,12 @@
   .icon {
     color: $color-primary;
     font-size: 25px;
+    display: none;
   }
 }
 
 app-chat-message {
   display: block;
-}
-
-.chat-input {
-
 }
 
 //.card{

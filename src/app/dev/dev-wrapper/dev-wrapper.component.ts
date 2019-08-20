@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {IApi, IApiCollection} from "../interfaces";
-import {EHttpVerb} from "../enums";
-import {EventService} from "../../event.service";
-import {Select, Store} from "@ngxs/store";
-import {Observable} from "rxjs";
-import {IDevState} from "../ngxs/dev.state";
-import {AddApi, ResetDevState} from "../ngxs/dev.actions";
+import {IApi, IApiCollection} from '../interfaces';
+import {EHttpVerb} from '../enums';
+import {EventService} from '../../event.service';
+import {Select, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {IDevState} from '../ngxs/dev.state';
+import {AddApi, ResetDevState} from '../ngxs/dev.actions';
 import {Location} from '@angular/common';
 
 @Component({
@@ -18,7 +18,7 @@ import {Location} from '@angular/common';
                    class="api-list api-list-history"></app-api-doc>
     </section>
     <div style="position: fixed; left: 40px; bottom: 40px; cursor: pointer">
-      <i (click)="location.back()" class="fa fa-external-link"></i>
+      <span (click)="location.back()" class="fa fa-external-link"></span>
     </div>
   `,
   styleUrls: ['./dev-wrapper.component.scss']
@@ -27,28 +27,24 @@ export class DevWrapperComponent implements OnInit {
 
   apiList: IApiCollection[];
   appHistoryList: IApi[];
-  selectedApi:IApi = {url: 'test', method: EHttpVerb.GET, name: "test", headers: {}, body: {}};
+  selectedApi: IApi = {url: 'test', method: EHttpVerb.GET, name: 'test', headers: {}, body: {}};
   @Select() dev$: Observable<IDevState>;
-  constructor(private changeDetectorRef:ChangeDetectorRef, private store: Store, public location:Location) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private store: Store, public location: Location) {
   }
 
   ngOnInit() {
-    this.dev$.subscribe((devState)=>{
-      if(!devState){
-        return
+    this.dev$.subscribe((devState) => {
+      if (!devState) {
+        return;
       }
       this.appHistoryList = devState.list;
     });
-    EventService.selectedApiChanged$.subscribe((api)=>{
+    EventService.selectedApiChanged$.subscribe((api) => {
       this.selectedApi = api;
     });
-    this.apiList = [{
-      folder: 'login',
-      apiList: [{body: {"email":"ayeshreddy.k@imimobile.com","password":"Botwoman@123!"}, headers: {}, method: EHttpVerb.POST, name: 'Login', url: 'https://staging.imibot.ai/api/v1/user/login/'}]
-    }]
   }
 
-  deleteHistoryHandler(){
+  deleteHistoryHandler() {
     this.store.dispatch(new ResetDevState());
   }
 }

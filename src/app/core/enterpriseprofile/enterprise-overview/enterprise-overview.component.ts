@@ -1,12 +1,16 @@
-import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ConstantsService} from 'src/app/constants.service';
 import {UtilityService} from 'src/app/utility.service';
-import {FormBuilder, FormControl, FormGroup, Validators, NgForm} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {ServerService} from 'src/app/server.service';
 import {Select, Store} from '@ngxs/store';
 import {IEnterpriseProfileInfo} from 'src/interfaces/enterprise-profile';
-import {SetEnterpriseInfoAction, SetEnterpriseUsersAction, SetEnterpriseServiceKeyAction} from '../ngxs/enterpriseprofile.action';
+import {
+  SetEnterpriseInfoAction,
+  SetEnterpriseServiceKeyAction,
+  SetEnterpriseUsersAction
+} from '../ngxs/enterpriseprofile.action';
 import {SetUser} from 'src/app/auth/ngxs/auth.action';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {Observable} from 'rxjs';
@@ -35,7 +39,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   role: string;
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
-  showActiveServiceKeysTable: boolean = true;
+  showActiveServiceKeysTable = true;
   expireServicekeyData;
   logoError;
   enterpriseUserBotList: number[];
@@ -44,6 +48,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   serviceKeyExpiredTableModal: EnterpriseOverviewSmartTable;
   serviceKeyActiveTableModal: EnterpriseOverviewSmartTable;
   myESortDir = ESortDir;
+  formGroup: FormGroup;
 
   constructor(
     private store: Store,
@@ -94,8 +99,8 @@ export class EnterpriseOverviewComponent implements OnInit {
 
   addNewServiceKey(description) {
     // enterprise/generate_service_key/
-    let generateServiceKeyUrl = this.constantsService.generateServiceKeyUrl();
-    let body = {'description': description};
+    const generateServiceKeyUrl = this.constantsService.generateServiceKeyUrl();
+    const body = {'description': description};
 
     const headerData: IHeaderData = {'content-type': 'application/json'};
 
@@ -103,15 +108,12 @@ export class EnterpriseOverviewComponent implements OnInit {
       .subscribe((value) => {
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
-        //
         this.utilityService.showSuccessToaster('New service key added successfully');
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({service_key: this.serviceKeys})
         ]);
       });
   }
-
-  formGroup: FormGroup;
 
   enterpriseOverViewTableFactory(data, metaData) {
     return new EnterpriseOverviewSmartTable(data, metaData);
@@ -132,10 +134,12 @@ export class EnterpriseOverviewComponent implements OnInit {
     });
 
     this.loggeduser$.subscribe(({user}) => {
-      if (!user) return;
+      if (!user) {
+        return;
+      }
       this.userid = user.id;
       this.role = user.role.name;
-      this.enterpriseId = user.enterprise_id; //enterprise_id
+      this.enterpriseId = user.enterprise_id;
       const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
@@ -165,7 +169,7 @@ export class EnterpriseOverviewComponent implements OnInit {
             ...value,
             enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
 
-              if (enterpriseuser.role_id == 2) {
+              if (enterpriseuser.role_id === 2) {
                 this.enterpriseUserBotList = enterpriseuser.bots;
               }
               return {
@@ -179,13 +183,13 @@ export class EnterpriseOverviewComponent implements OnInit {
     this.loggeduserenterpriseinfo$
       .subscribe((enterprise) => {
         this.serviceKeys = enterprise.service_key;
-        let expiredTableData = enterprise.service_key.filter(data => data.enabled != true);
-        expiredTableData = expiredTableData.filter(data => typeof data.description == 'string');
+        let expiredTableData = enterprise.service_key.filter(data => data.enabled !== true);
+        expiredTableData = expiredTableData.filter(data => typeof data.description === 'string');
         expiredTableData.sort(function (a, b) {
           return -a.created_at + b.created_at;
         });
-        let activeTableData = enterprise.service_key.filter(data => data.enabled == true);
-        activeTableData = activeTableData.filter(data => typeof data.description == 'string');
+        let activeTableData = enterprise.service_key.filter(data => data.enabled === true);
+        activeTableData = activeTableData.filter(data => typeof data.description === 'string');
         activeTableData.sort(function (a, b) {
           return -a.expired_at + b.expired_at;
         });
@@ -212,8 +216,8 @@ export class EnterpriseOverviewComponent implements OnInit {
         this.store.dispatch([
           new SetEnterpriseInfoAction({enterpriseInfo: body}),
         ]).subscribe((entprisedetails) => {
-          let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
-          let enterpriseBody = {
+          const enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+          const enterpriseBody = {
             'user_id': entprisedetails[0].loggeduser.user.id,
             'enterprise_id': entprisedetails[0].loggeduser.user.enterprise_id,
             'role_id': entprisedetails[0].loggeduser.user.role_id
@@ -221,7 +225,7 @@ export class EnterpriseOverviewComponent implements OnInit {
           this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body: enterpriseBody, headerData})
             .subscribe((value) => {
               this.store.dispatch([
-                new SetUser({user: value}),
+                new SetUser({user: value, is_loggedIn: true}),
               ]);
 
             });
@@ -231,16 +235,13 @@ export class EnterpriseOverviewComponent implements OnInit {
   }
 
   expireServiceKey() {
-    let data = this.expireServicekeyData;
-    // console.log(data.data)
-    let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
-    let body = {service_key: this.expireServicekeyData.key};
+    const disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
+    const body = {service_key: this.expireServicekeyData.key};
     const headerData: IHeaderData = {'content-type': 'application/json'};
-    //
     this.serverService.makePostReq<any>({url: disableServiceKeyUrl, body, headerData})
       .subscribe((value) => {
         this.serviceKeys = this.serviceKeys.map((item) => {
-          if (item['key'] == body.service_key) {
+          if (item['key'] === body.service_key) {
             return value;
           } else {
             return item;
@@ -269,8 +270,8 @@ export class EnterpriseOverviewComponent implements OnInit {
         },
         dialog: this.matDialog,
         component: ModalConfirmComponent
-      }).then((data) => {
-        if (data) {
+      }).then((data_temp) => {
+        if (data_temp) {
           this.expireServiceKey();
         }
       });

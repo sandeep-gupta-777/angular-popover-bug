@@ -7,7 +7,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 @import '~@angular/material/theming';
 
 .htContextMenu {
-  z-index: 10000000000000 !important;/*temp fix for prod*/
+  z-index: 10000000000000 !important; /*temp fix for prod*/
 }
 
 /*typography*/
@@ -33,6 +33,7 @@ $custom-typography: mat-typography-config(
         $input: mat-typography-level(inherit, 1.125, 400)
 );
 @include mat-core($custom-typography);
+
 .unicorn-title {
   @include mat-typography-level-to-styles($custom-typography, title);
 }
@@ -106,6 +107,7 @@ button {
 // Be sure that you only ever include this mixin once!
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
+
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $candy-app-primary: mat-palette($mat-indigo);
@@ -208,7 +210,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 //  background-color: $color-primary-v2;
 //}
 
-.bg-transparent{
+.bg-transparent {
   background-color: transparent !important;
 }
 
@@ -368,7 +370,6 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   background-color: white !important;
   border-radius: 2px;
   border: 1px solid;
-  font-size: $font-size-xs;
   color: $color-primary;
 
   padding: 1px 5px;
@@ -695,16 +696,14 @@ h4 {
   }
 }
 
-//
+.rtl {
+  text-align: right;
+}
 
 .speech-bubble {
-  //.Shape {
   width: 51.7px;
   height: 35px;
-  //background-color: #02bde8;
-  //}
   position: relative;
-  background: #1e69de;
   border-radius: 2px;
 
   display: flex;
@@ -756,17 +755,9 @@ h4 {
 }
 
 .float-on-hover-animation {
-  //margin: 20px;
-  //padding: 3px;
-  //outline: 2px solid #DDD;
-  //border: #a1a1a1;
-  //float: left;
   position: absolute;
-  //bottom: 0px;
-  //position: absolute;
   bottom: -20px;
   right: 0;
-  //-webkit-transition: margin 0.5s ease-out
   -webkit-transition: margin 0.5s ease-out;
   -moz-transition: margin 0.5s ease-out;
   -o-transition: margin 0.5s ease-out;
@@ -869,27 +860,16 @@ progressbar {
 @keyframes blinkingText {
   0% {
     opacity: 1.0;
-    color: #000000 !important;
+    color: #000000;
   }
   50% {
     opacity: 0.0;
   }
   100% {
     opacity: 1.0;
-    color: #000000 !important;
+    color: #000000;
   }
 }
-
-//.modal.fade {
-//  display: flex !important;
-//  justify-content: center;
-//  align-items: center;
-//}
-//.modal-matDialog {
-//  vertical-align:middle;
-//  height:18em;
-//  //background-color: rgba(0,0,0,0.5);
-//}
 
 .d-flex-column-custom {
   display: -ms-flexbox !important;
@@ -918,12 +898,6 @@ progressbar {
   align-items: center;
 }
 
-//.modal-matDialog {
-//  vertical-align:middle;
-//  height:18em;
-//  background-color: rgba(0,0,0,0.5);
-//}
-//}
 
 //==========================
 
@@ -1163,13 +1137,13 @@ mat-dialog-container {
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-underline {
-  background-color: #e0e0e0;;
+  background-color: #e0e0e0;
 }
 
 
 .mat-standard-chip {
   min-height: 0px !important;
-  height: 20px !important;;
+  height: 20px !important;
 }
 
 .mat-form-field-wrapper {
@@ -1256,6 +1230,7 @@ mat-dialog-container {
   font-size: 13px !important;
   line-height: 0px !important;
   border-radius: 2px !important;
+
   mat-icon {
     line-height: 23px;
     font-size: 17px;
@@ -1266,10 +1241,11 @@ mat-dialog-container {
   background-color: transparent !important;
 }
 
-.dot-paid{
+.dot-paid {
   color: #f5a623;
 }
-.dot-free{
+
+.dot-free {
   color: #34bc6e;
 }
 
@@ -1279,11 +1255,11 @@ mat-dialog-container {
   margin-right: 10px !important;
 }
 
-.mat-header-custom{
+.mat-header-custom {
   & .mat-tab-nav-bar, .mat-tab-header {
     border-bottom: 1px solid transparent;
 
-    .mat-tab-label{
+    .mat-tab-label {
       height: 30px;
     }
   }
@@ -1308,10 +1284,9 @@ mat-dialog-container {
 }
 
 
-.pointer-events-none{
+.pointer-events-none {
   pointer-events: none
 }
-
 
 
 .mat-input-element {
@@ -1319,13 +1294,13 @@ mat-dialog-container {
   height: 17px;
 }
 
-.hide-phone{
+.hide-phone {
   @media screen and (max-width: 780px) {
     display: none !important;
   }
 }
 
-.show-phone{
+.show-phone {
   display: none !important;
   @media screen and (max-width: 780px) {
     display: initial !important;
@@ -1342,10 +1317,11 @@ mat-dialog-container {
 //  display: inline-block;
 //}
 
-.table-dropdown{
+.table-dropdown {
 
   position: relative;
   display: inline-block;
+
   .dropdown-content {
     display: none;
     position: absolute;
@@ -1355,14 +1331,17 @@ mat-dialog-container {
     border: 1px solid #d8d8d8;
     padding: 10px;
     z-index: 1;
-    p{
+
+    p {
       margin-bottom: 8px;
     }
-    hr{
+
+    hr {
       margin: 0px;
       margin-bottom: 8px;
     }
-    .fa{
+
+    .fa {
       color: #9e9e9e;
     }
   }
@@ -1371,7 +1350,7 @@ mat-dialog-container {
     display: block;
   }
 
-  .arrow-circle{
+  .arrow-circle {
     border-radius: 50%;
     width: 15px;
     height: 15px;
@@ -1384,8 +1363,38 @@ mat-dialog-container {
 
 }
 
+.play-media-wrapper {
 
-.absolute-center{
+  &.left {
+    .item {
+      justify-content: flex-start;
+    }
+  }
+
+  &.right {
+    .item {
+      justify-content: flex-end;
+    }
+  }
+
+  .item {
+    display: flex;
+    margin-bottom: 8px;
+
+    audio {
+      max-width: 90%;
+      max-height: 100px;
+    }
+
+    img, video {
+      max-width: 90%;
+      max-height: 200px;
+    }
+  }
+}
+
+
+.absolute-center {
   top: 50%;
   left: 50%;
   position: absolute;

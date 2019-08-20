@@ -1,0 +1,21 @@
+<ng-container *ngIf="message?.media?.video_url || message?.media?.audio_url || message?.media?.image_url ">
+  <ng-container *ngIf="message.media as media">
+    <div class="play-media-wrapper" [ngClass]="direction">
+      <div class="item" *ngIf="media.video_url as src">
+        <video controls>
+          <source [src]="src">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+      <div class="item" *ngIf="media.audio_url as src">
+        <audio controls>
+          <source [src]="src">
+          Your browser does not support HTML5 audio.
+        </audio>
+      </div>
+      <div class="item" *ngIf="media.image_url as src">
+        <img [src]="src" alt="">
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

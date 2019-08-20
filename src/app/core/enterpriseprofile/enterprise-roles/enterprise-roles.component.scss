@@ -1,7 +1,7 @@
 @import "./../../../../sass/main";
 
 .rolePannelGrid{
-    font-family: Helvetica;
+    font-family: Helvetica, serif;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     justify-content: start;

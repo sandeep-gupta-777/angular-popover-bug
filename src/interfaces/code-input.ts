@@ -1,4 +1,4 @@
-import {IValidationTabItem} from "../app/core/interfaces/IBot";
+import {IValidationTabItem} from '../app/core/interfaces/IBot';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -18,20 +18,20 @@ export enum EBotVersionTabs {
 // }
 
 export interface IBotVersionErrorMap {
-  [index: string]/*version id*/: IValidationTabItem
+  [index: string]/*version id*/: IValidationTabItem;
 }
 
 export interface IVersionDiff {
-  df_template?: boolean,
-  df_rules?: boolean,
-  generation_rules?: boolean,
-  generation_templates?: boolean,
-  workflow?: boolean,
+  df_template?: boolean;
+  df_rules?: boolean;
+  generation_rules?: boolean;
+  generation_templates?: boolean;
+  workflow?: boolean;
 }
 
 export interface IVersionDiffMap {
-  [index: string]: IVersionDiff
+  [index: string]: IVersionDiff;
 }
 export interface IVersionErrorsMap {
-  [index: string]: any/*TODO: complete this interface*/
+  [index: string]: any; /*TODO: complete this interface*/
 }

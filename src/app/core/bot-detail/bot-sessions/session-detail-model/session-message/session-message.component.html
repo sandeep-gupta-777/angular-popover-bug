@@ -16,7 +16,7 @@
     <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
       <div class="row mx-1 mt-1">
         <div class ="humanMessageProfilePic mr-1">
-            <img src="assets/img/humanMessageProfile.svg">
+            <img alt="human face"  src="assets/img/humanMessageProfile.svg">
         </div>
         <div class="col-10 p-0">
           <div class =" flex-row d-inline-flex align-items-center bg-message-human-wrapper">
@@ -38,28 +38,19 @@
       <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate" class ="d-flex flex-column">
         <!--TODO:HACK:: sometimes data from backend is not {text:"hi"} but just "hi"-->
         <div class ="botMessageProfilePic mx-1 ml-auto">
-            <img [src]="bot.logo">
+            <img alt="bot logo" [src]="bot.logo">
         </div>
         <div class="row flex-row-reverse mr-32" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
 
           <div class="col-10 p-0 pb-1 d-flex flex-column justify-content-end" *ngIf="message.text">
             <div class="message p-2"
+                 [ngClass]="{rtl: sessionMessage.message_store.response_language === 'ar'}"
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#e0e0e0' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
                  >
               <span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>
             </div>
             </div>
-          <!--<div class="col-10 p-0 pb-1 d-flex justify-content-end" *ngIf="message.text">-->
-            <!--<div class="message p-2"-->
-                 <!--[ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"-->
-                 <!--&gt;-->
-              <!--<span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>-->
-              <!--<div class="time text-right">-->
-                <!--{{sessionMessage.created_at|msToHhmm}}-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
           <!--bot text reply ends-->
 
           <!--bot rich media reply starts-->
@@ -77,6 +68,7 @@
             *ngIf="message && message.quick_reply"
             >
           </app-quick-reply>
+          <app-play-media [message]="message"></app-play-media>
           <!--bot rich media reply ends-->
         </div>
         <div class="time text-right my-1 mr-32">
@@ -85,10 +77,9 @@
       </div>
       <ng-template #messageIsStringNotObjectTemplate>
         <div class="col-12 p-1 text-right p-0">
-          <div class="message p-2 bg-message-bot" style="display: inline-block">
+          <div class="message p-2 bg-message-bot" style="display: inline-block; text-align: right">
             <span class="message-text" [innerHtml]="sessionMessage.message||'EMPTY_MESSAGE'"></span>
             <div class="time text-right">
-              <!--{{sessionMessage.created_at|msToHhmm}}-->
               {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
             </div>
           </div>
@@ -105,10 +96,6 @@
       <mat-icon class="user-feedback__icon user-feedback__icon--down">thumb_down</mat-icon>
       <span class="user-feedback__text">Downvoted</span>
     </div>
-
-    <!--<p>{{(sessionMessage|json)}}</p>-->
-    <!--<app-card-carousel  [messageData]="sessionMessage|sessionDataToRichMediaSerializer"></app-card-carousel>-->
-
   </div>
 
 </section>

@@ -11,16 +11,16 @@ export class ArticalHeaderComponent implements OnInit {
 
   constructor() { }
   myEAllActions = EAllActions;
-  @Input() corpus : ICorpus;
+  @Input() corpus: ICorpus;
   @Output() train = new EventEmitter();
   @Output() makeLive = new EventEmitter();
   ngOnInit() {
   }
-  trainOrMakeLive(){
-    if(this.corpus.state == 'saved'){
-      this.train.emit()
+  trainOrMakeLive() {
+    if (this.corpus.state === 'saved') {
+      this.train.emit();
     }
-    if(this.corpus.state == 'trained'){
+    if (this.corpus.state === 'trained') {
       // make LIve
       this.makeLive.emit();
     }

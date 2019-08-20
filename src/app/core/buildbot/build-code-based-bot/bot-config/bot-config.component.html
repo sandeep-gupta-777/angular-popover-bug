@@ -1,7 +1,7 @@
 <div class="card bot-creation-form" style="border-radius: 0">
     <app-button-wrapper
       class="card--update"
-      *myIf="[myEAllActions['Update Bots']]"
+      *appMyIf="[myEAllActions['Update Bots']]"
       [isMatFlatButton]="false"
       [status]="updateBotLoading"
       [text]="'Update Bot'"
@@ -42,15 +42,7 @@
                                                  [bot]="bot"></app-faq-handover-and-interface-form>
         </mat-tab>
 
-        <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
-            <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Ml model</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
-            </ng-template>
-            <app-faq-ml-model-form [formGroup]="securityForm"></app-faq-ml-model-form>
-        </mat-tab> -->
-
-        <ng-container *myIf="[myEAllActions['Get Integrations']]">
+        <ng-container *appMyIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
                 <ng-template mat-tab-label>
                     <span [ngStyle]="{'color': !integrationForm?.valid?'red':'#474747'}">Integrations</span>
@@ -64,9 +56,6 @@
                         [bot]="bot"></app-integration-option-list>
             </mat-tab>
         </ng-container>
-        <!--<mat-tab label="Avatars" *ngIf="!(bot_type===myEBotType.intelligent)">-->
-            <!--<app-avator-form (pipelineDataChangeHandler$)="pipelineDataChangeHandler$.emit($event)" [bot]="bot"></app-avator-form>-->
-        <!--</mat-tab>-->
     </mat-tab-group>
 
 </div>

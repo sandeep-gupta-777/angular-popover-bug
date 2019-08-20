@@ -4,22 +4,27 @@ import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {ServiceWorkerModule} from "@angular/service-worker";
-import {environment} from "../environments/environment";
-import {ModuleGaurdLoadService} from "./route-gaurds/module-gaurd-load.service";
-import {NgxsModule} from "@ngxs/store";
-import {LoginPageGaurdService} from "./route-gaurds/login-page.gaurd.service";
-import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
-import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
-import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
+import {ModuleGaurdLoadService} from './route-gaurds/module-gaurd-load.service';
+import {NgxsModule} from '@ngxs/store';
+import {LoginPageGaurdService} from './route-gaurds/login-page.gaurd.service';
+import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
+import {BrowserModule} from '@angular/platform-browser';
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
+import {ScriptsLoadResolver} from './script-load.resolver';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireMessagingModule} from '@angular/fire/messaging';
+import {AngularFireModule} from '@angular/fire';
+import {MessagingService} from '../messaging.service';
 import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
-import {HnResolver} from './core.resolver';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
-  (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+  (<any>element).src = 'http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg';
 };
 export const lazyOption = {
   // setErrorImage: x,
@@ -27,7 +32,7 @@ export const lazyOption = {
   //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
   // },
   preset: intersectionObserverPreset
-}
+};
 
 export const lazyOption1 = {lazyOption};
 
@@ -36,8 +41,8 @@ const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
-  {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve:{ message: HnResolver }},
-  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService]},
+  {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve: {message: ScriptsLoadResolver}},
+  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService], resolve: {message: ScriptsLoadResolver}},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
@@ -59,18 +64,20 @@ const routes: Route[] = [
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: true}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([]),
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
-    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),//Comment this before pushing to git
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}), // Comment this before pushing to git
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 
     // ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
-    ServiceWorkerModule.register('/static/ngsw-worker.js', {enabled: environment.production}),
+
+    // ServiceWorkerModule.register('/static/combined-worker.js', {enabled: environment.production}),
+
     // MatSnackBarModule,
     //   FormsModule,
     //   ReactiveFormsModule,
@@ -79,9 +86,17 @@ const routes: Route[] = [
     /**/
     // ReactiveFormsModule,
     // FormsModule
+
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [LoginPageGaurdService, ModuleGaurdLoadService,
-    HnResolver
+  providers: [
+    LoginPageGaurdService,
+    ModuleGaurdLoadService,
+    MessagingService,
+    ScriptsLoadResolver
     //   {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
@@ -96,7 +111,9 @@ export class AppModule {
   }
 
   hmrOnInit(store) {
-    if (!store || !store.state) return;
+    if (!store || !store.state) {
+      return;
+    }
     // console.log('HMR store', store);
     // console.log('store.state.data:', store.state.data)
     // inject AppStore here and update it
@@ -111,7 +128,7 @@ export class AppModule {
   }
 
   hmrOnDestroy(store) {
-    var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
     // inject your AppStore and grab state then set it on store
@@ -126,7 +143,7 @@ export class AppModule {
 
   hmrAfterDestroy(store) {
     // display new elements
-    store.disposeOldHosts()
+    store.disposeOldHosts();
     delete store.disposeOldHosts;
     // anything you need done the component is removed
   }

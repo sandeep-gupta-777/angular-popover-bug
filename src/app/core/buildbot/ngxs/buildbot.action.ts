@@ -2,15 +2,15 @@ import {IAvatarList, IBasicInfo, ICustomners, IIntegration, IPipeline, ISaveData
 import {IPipelineItem} from '../../../../interfaces/ai-module';
 import {IBot, ICodeData} from '../../interfaces/IBot';
 
-export class SaveNewBotInfo_CodeBased {
+export class SaveNewBotInfoCodeBased {
   static readonly type = '[build-bots] set new codebased bot info1';
   constructor(public payload: { data: IBot }) {}
 }
-export class SaveNewBotInfo_PipelineBased {
+export class SaveNewBotInfoPipelineBased {
   static readonly type = '[build-bots] set new pipeline based bot info';
   constructor(public payload: { data: IBot }) {}
 }
-export class SaveDataManagment {
+export class SaveDataManagement {
   static readonly type = '[build-bots] set data management info';
   constructor(public payload: { data: ISaveDataManagment }) {}
 }

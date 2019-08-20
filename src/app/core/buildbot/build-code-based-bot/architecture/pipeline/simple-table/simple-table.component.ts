@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IPipelineItem} from '../../../../../../../interfaces/ai-module';
-import {pipelineData} from '../../../../../../../interfaces/bot-creation';
 
 @Component({
   selector: 'app-simple-table',
@@ -9,18 +8,18 @@ import {pipelineData} from '../../../../../../../interfaces/bot-creation';
 })
 export class SimpleTableComponent implements OnInit {
 
-  @Input() tableData: {pipeline_modules:IPipelineItem[]};
+  @Input() tableData: {pipeline_modules: IPipelineItem[]};
   @Input() modalUpdateButtonText: string;
   pipeline_modules: IPipelineItem[];
-  @Input() set searchKeyword(val){
-    if(!val) {
+  @Input() set searchKeyword(val) {
+    if (!val) {
       this.pipeline_modules = this.tableData && this.tableData.pipeline_modules;
       return;
-    };
-    this.pipeline_modules = this.tableData.pipeline_modules.filter((item)=>{
+    }
+    this.pipeline_modules = this.tableData.pipeline_modules.filter((item) => {
       return item.library.toLowerCase().includes(val.toLowerCase());
     });
-    if(this.pipeline_modules.length===0){
+    if (this.pipeline_modules.length === 0) {
       this.pipeline_modules = this.tableData.pipeline_modules;
     }
   }
@@ -35,7 +34,7 @@ export class SimpleTableComponent implements OnInit {
     this.pipeline_modules = this.tableData.pipeline_modules;
   }
 
-  log(x){
+  log(x) {
     console.log(x);
   }
 

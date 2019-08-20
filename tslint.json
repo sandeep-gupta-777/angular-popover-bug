@@ -10,6 +10,7 @@
       true,
       "check-space"
     ],
+    "ordered-imports":false,
     "curly": true,
     "deprecation": {
       "severity": "warn"
@@ -28,10 +29,11 @@
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [
-      true,
+      false,
       140
     ],
     "member-access": false,
+
     "member-ordering": [
       true,
       {
@@ -46,13 +48,14 @@
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
-      true,
+      false,
       "debug",
       "info",
       "time",
       "timeEnd",
       "trace"
     ],
+    "vars-on-top": false,
     "no-construct": true,
     "no-duplicate-super": true,
     "no-empty": false,

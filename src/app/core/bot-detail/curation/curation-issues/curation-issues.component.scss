@@ -1,7 +1,6 @@
 @import '~src/sass/main';
 
 .curation-issues-wrapper {
-  display: flex;
   flex-basis: 65%;
   flex-grow: 0;
   display: block;
@@ -22,7 +21,6 @@
 .column {
   display: flex;
   flex-direction: column;
-  flex-basis: 100%;
   flex: 1;
   padding-left: 2em;
 }
@@ -50,7 +48,7 @@
   border-radius: 2px;
   border: solid 1px #eaeaea;
   background-color: #ffffff;
-  font-family: IBMPlexSans;
+  font-family: IBMPlexSans, sans-serif;
   box-shadow: none;
   color: #474747;
   .curation-card-header-wrapper {

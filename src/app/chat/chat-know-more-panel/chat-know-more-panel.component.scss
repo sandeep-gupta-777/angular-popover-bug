@@ -1,0 +1,82 @@
+.chat-img-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100000;
+  display: flex;
+  background-color: rgba(99, 99, 99, 0.3);
+  max-width: 100%;
+  @media screen and (max-width: 786px) {
+    width: 100%;
+    height: auto;
+  }
+
+  .chat-know-more-overlay {
+    background-color: white;
+    //border: 1px solid red;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 40px;
+    //justify-content: center;
+    @media screen and (min-width: 786px) {
+      height: 100%;
+      width: 30vw;
+    }
+
+    .chat-know-more-overlay-header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      img{
+        height: 55px;
+      }
+
+      .description-bottom {
+        max-width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+    }
+
+    .chat-know-more-overlay-item{
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      img{
+        width: 65px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.close-chat-img-overlay {
+  position: absolute;
+  right: 2vw;
+  top: 2vw;
+  z-index: 10000;
+  color: black !important;
+  font-size: 18px;
+  cursor: pointer;
+  @media screen and (max-width: 786px) {
+    top: 10vw;
+    right: 10vw;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .hide-mobile {
+    display: none;
+  }
+}

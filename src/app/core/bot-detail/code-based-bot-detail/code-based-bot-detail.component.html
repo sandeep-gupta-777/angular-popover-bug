@@ -15,11 +15,11 @@
                          data-cy="sidebar-setting"
                          [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
                     >
-                        <img class="" src="assets/img/sidebar/bot-config.svg" alt="">
+                        <img class="" src="assets/img/sidebar/bot-config.svg" alt="sidebar bot config">
                         <span style="color: #00ABD3">Settings</span>
                     </div>
                 </a>
-                <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                     <a mat-list-item class="mat-list-item-sidebar"
                        (click)="sideBarTabChanged(myESideBarTab.input)" *ngIf="bot.bot_type != myEBotType.faqbot">
                         <div class="sidebar-nav-list-item"
@@ -42,7 +42,7 @@
                     </div>
 
                 </a>
-                <ng-container *myIf="[myEAllActions['Get FAQbot curation issues']]">
+                <ng-container *appMyIf="[myEAllActions['Get FAQbot curation issues']]">
                     <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
                        (click)="sideBarTabChanged('curation')">
                         <div class="sidebar-nav-list-item"
@@ -53,7 +53,7 @@
 
                     </a>
                 </ng-container>
-                <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
+                <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
                     <a mat-list-item class="mat-list-item-sidebar"
                        *ngIf="bot.bot_type === myEBotType.chatbot"
                        (click)="sideBarTabChanged(myESideBarTab.logic)">
@@ -75,7 +75,7 @@
                         <span style="color: #00ABD3">Sessions</span>
                     </div>
                 </a>
-                <ng-container *myIf="myEAllActions['Get Bot Testcases']">
+                <ng-container *appMyIf="myEAllActions['Get Bot Testcases']">
                     <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)"
                        *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot">
                         <!--TODO: remove faq bot condition-->
@@ -114,7 +114,7 @@
                     <!---->
                 </div>
             </mat-toolbar>
-            <div class="app-container" style="flex-grow: 1;" [ngClass]="{'overflowYAuto':!shouldDisableGlobalScroll()}">
+            <div *ngIf="!showLoader else loader" class="app-container" style="flex-grow: 1;" [ngClass]="{'overflowYAuto':!shouldDisableGlobalScroll()}">
                 <div class="architecture" style="">
                     <ng-container *ngIf="sideBarTab1 === 'setting'">
                         <header>
@@ -158,7 +158,7 @@
                                                  [bot]="bot"></app-bot-article-history>
                     </ng-container>
 
-                    <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                    <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                         <ng-container *ngIf="sideBarTab1 === 'input'">
                             <header *ngIf="!goFullScreen">
                                 <div style="padding-bottom: 8px"><strong
@@ -178,14 +178,14 @@
                                 </div>
                             </header>
                             <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
-                                <mat-tab label="Pipeline" *myIf="[myEAllActions['Get Pipeline Module']]">
+                                <mat-tab label="Pipeline" *appMyIf="[myEAllActions['Get Pipeline Module']]">
                                     <app-pipeline
                                             (datachanged$)="pipelineDataChangeHandler($event)"
                                             *ngIf="selectedSideBarTab==='pipeline'"
                                             (initDone$)="mySideBarService.init($event)"
                                             [bot]="bot"></app-pipeline>
                                 </mat-tab>
-                                <mat-tab label="Knowledge base" *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                                <mat-tab label="Knowledge base" *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                                     <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
                                                                 (initDone$)="mySideBarService.init($event)"
                                                                 [bot]="bot"></app-knowledge-base-wrapper>
@@ -193,7 +193,7 @@
                             </mat-tab-group>
                         </ng-container>
                     </ng-container>
-                    <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
+                    <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
                         <div style="height: 100%"
                              *ngIf="logicTabClicked"
                              [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
@@ -226,7 +226,7 @@
                         </header>
                         <mat-tab-group style="height: 100%">
                             <mat-tab label="Sessions"
-                                     *myIf="[myEAllActions['Get Sessions']]"
+                                     *appMyIf="[myEAllActions['Get Sessions']]"
 
                             >
                                 <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
@@ -236,7 +236,7 @@
                                 </div>
                             </mat-tab>
                             <mat-tab label="Consumers"
-                                     *myIf="[myEAllActions['Get Consumers']]"
+                                     *appMyIf="[myEAllActions['Get Consumers']]"
 
                             >
                                 <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper"
@@ -247,15 +247,14 @@
                                 </div>
                             </mat-tab>
                         </mat-tab-group>
-                        <!---->
 
                     </ng-container>
-                    <ng-container *myIf="[myEAllActions['Get Bot Testcases']]">
+                    <ng-container *appMyIf="[myEAllActions['Get Bot Testcases']]">
                         <ng-container *ngIf="sideBarTab1 === 'test' && bot.bot_type !== myEBotType.intelligent"
 
                         >
                             <header>
-                                <!---->
+
                                 <div style="padding-bottom: 8px"><strong
                                         style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test</strong>
                                 </div>
@@ -277,10 +276,13 @@
 
 </div>
 
-<app-imi-loader *ngIf="!bot && !noSuchBotMessage"></app-imi-loader>
+<ng-template #loader>
+    <app-imi-loader *ngIf="showLoader"></app-imi-loader>
+</ng-template>
+
 <app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true">
     <div class="d-flex flex-column justify-content-center align-content-center">
-        <i>No such bot in your account</i>
+        <em>No such bot in your account</em>
         <a routerLink="/">Go to home page</a>
     </div>
 </app-imi-loader>
@@ -289,32 +291,32 @@
 <ng-template #placeholder>
     <div class="row row-details">
         <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-            <i class="fa fa-area-chart p-0"></i>
+            <span class="fa fa-area-chart p-0"></span>
             <span class="number">0</span>
             <span class="description">Total Session</span>
         </div>
         <div class="col-2 pb-5 d-flex flex-column align-items-center">
-            <i class="fa fa-users"></i>
+            <span class="fa fa-users"></span>
             <span class="number">0</span>
             <span class="description">Total Users</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-envelope"></i>
+            <span class="fa fa-envelope"></span>
             <span class="number">0</span>
             <span class="description">Total Messages</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-exchange"></i>
+            <span class="fa fa-exchange"></span>
             <span class="number">0</span>
             <span class="description">Average Message Per Session</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-clock-o"></i>
+            <span class="fa fa-clock-o"></span>
             <span class="number">0</span>
             <span class="description">Total Time Spent(hh:mm)</span>
         </div>
         <div class="col-2 d-flex flex-column align-items-center">
-            <i class="fa fa-hourglass"></i>
+            <span class="fa fa-hourglass"></span>
             <span class="number">0</span>
             <span class="description">Time Spent Per Session (hh:mm)</span>
         </div>

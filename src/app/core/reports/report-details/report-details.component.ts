@@ -59,8 +59,8 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
         dialogRefWrapper: this.dialogRefWrapper,
         classStr: 'danger-modal-header-border',
         data: {
-          actionButtonText: "Delete",
-          message: "This will delete the report and all it’s instances from history will also be removed. Are you sure you want to delete it?",
+          actionButtonText: 'Delete',
+          message: 'This will delete the report and all it’s instances from history will also be removed. Are you sure you want to delete it?',
           title: `Delete Report?`,
           isActionButtonDanger: true,
           inputDescription: null
@@ -72,7 +72,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
         if (data) {
           this.deleteReport();
         }
-      })
+      });
   }
 
   deleteReport() {
@@ -85,17 +85,17 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
       });
   }
 
-  removeTrailingColons(str:string){
-    return str.replace(/(^;)|(;$)/g, "")
+  removeTrailingColons(str: string) {
+    return str.replace(/(^;)|(;$)/g, '');
   }
 
-  getRecipientsArr(reportFormData){
+  getRecipientsArr(reportFormData) {
     try {
-      let recipientsStrColonDelimited = this.removeTrailingColons(reportFormData.delivery['email'].recipients);
-      return recipientsStrColonDelimited.split(';').filter((str:string)=>{
-        return str.trim().replace(';',"");
-      })
-    }catch (e) {
+      const recipientsStrColonDelimited = this.removeTrailingColons(reportFormData.delivery['email'].recipients);
+      return recipientsStrColonDelimited.split(';').filter((str: string) => {
+        return str.trim().replace(';', '');
+      });
+    } catch (e) {
       console.error(e);
     }
   }
@@ -112,13 +112,13 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     this.reportFormData.delivery = <any>[{
       ...this.reportFormData.delivery['sftp'],
       delivery_type: 'sftp',
-      enabled:this.reportFormData.delivery['sftp'].enabled||false,
+      enabled: this.reportFormData.delivery['sftp'].enabled || false,
     },
       {
         ...this.reportFormData.delivery['email'],
         delivery_type: 'email',
-        enabled:this.reportFormData.delivery['email'].enabled||false,
-        recipients:  this.getRecipientsArr(this.reportFormData)||[]
+        enabled: this.reportFormData.delivery['email'].enabled || false,
+        recipients:  this.getRecipientsArr(this.reportFormData) || []
       }
     ];
 
@@ -152,8 +152,8 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
         });
     } else {
       delete body.id;
-      const report_bot: IBot = this.allBotList.find((bot) => bot.id == body.bot_id);
-      const headerData: IHeaderData = {'bot-access-token': report_bot.bot_access_token};
+      const report_bot: IBot = this.allBotList.find((bot) => bot.id === body.bot_id);
+      const headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(report_bot.id)};
       this.serverService.makePostReq({url, body, headerData})
         .subscribe((value: IReportItem) => {
           this.router.navigate([`core/reports/edit/${value.id}`]);
