@@ -11,22 +11,23 @@
       <a [routerLink]="['/core','analytics2','volume']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
         <div class="sidebar-nav-list-item">
           <img class="" src="assets/img/analytics/stopwatch.svg" alt="">
-          <span style="color: #00ABD3">Volume</span>
-        </div>
-      </a>
-      <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
-        <div class="sidebar-nav-list-item">
-          <img class="" src="assets/img/analytics/filter-2.svg" alt="">
-          <span style="color: #00ABD3">Performance</span>
+          <span style="color: #00ABD3">Activity</span>
         </div>
       </a>
       <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
         <div class="sidebar-nav-list-item">
-          <img class="" src="assets/img/analytics/like-3.svg" alt="">
-          <span style="color: #00ABD3">Engagement</span>
+          <img class="" src="assets/img/analytics/filter-2.svg" alt="">
+
+          <span style="color: #00ABD3">Retention</span>
         </div>
       </a>
-      <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
+      <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
+        <div class="sidebar-nav-list-item">
+          <img class="" src="assets/img/analytics/like-3.svg" alt="">
+          <span style="color: #00ABD3">Behavior</span>
+        </div>
+      </a>
+      <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="filter-black" class="mat-list-item-sidebar" *ngIf="false">
         <div class="sidebar-nav-list-item">
           <img class="" src="assets/img/sidebar/light-bulb.svg" alt="">
           <span style="color: #00ABD3">Usage</span>

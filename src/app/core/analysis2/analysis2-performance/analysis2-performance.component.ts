@@ -15,7 +15,7 @@ import { UtilityService } from '../../../utility.service';
 })
 export class Analysis2PerformanceComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
-  activeTab = 'topgenerationtemplates';
+  activeTab = 'totalSessions';
   chartValue: any;
   chartValue1: any;
   chartValue2: any;

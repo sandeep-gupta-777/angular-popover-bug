@@ -6,13 +6,13 @@
       (click)="tabClicked('totalSessions')" [ngClass]="{'tab-active':activeTab==='totalSessions'}"><strong>Sessions wise</strong></a>
   </li>
 
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="false">
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'topgenerationtemplates'}"
       (click)="tabClicked('topgenerationtemplates')" [ngClass]="{'tab-active':activeTab==='topgenerationtemplates'}"><strong>Template
         key</strong></a>
   </li>
 
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="false">
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'totalFlows'}"
       (click)="tabClicked('totalFlows')" [ngClass]="{'tab-active':activeTab==='totalFlows'}"><strong>Flows triggered</strong></a>
   </li>
@@ -25,7 +25,6 @@
 <app-chart *ngIf="activeTab==='totalSessions'"  [chartValue]="chartValue2"
   [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>
-{{chartValue|json}}
 <app-chart *ngIf="activeTab==='topgenerationtemplates'"  [chartValue]="chartValue"
   [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>

@@ -114,10 +114,10 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
     }));
     this.data$ = this.analysisstate2$.pipe(map((analysisState) => {
       if(analysisState.overviewInfo){
-        this.chartValue.series[0].data[0][1] = analysisState.overviewInfo.totalSessions['bot handled'];
-        this.chartValue.series[0].data[1][1] = analysisState.overviewInfo.totalSessions['agent handled'];
-        this.chartValue2.series[0].data[0][1] = analysisState.overviewInfo.totalMessages['bot'];
-        this.chartValue2.series[0].data[1][1] = analysisState.overviewInfo.totalMessages['human'];
+        this.chartValue.series[0].data[0][1] = analysisState.overviewInfo.totalSessions['bot handled'] || 1;
+        this.chartValue.series[0].data[1][1] = analysisState.overviewInfo.totalSessions['agent handled'] || 1;
+        this.chartValue2.series[0].data[0][1] = analysisState.overviewInfo.totalMessages['bot'] || 1;
+        this.chartValue2.series[0].data[1][1] = analysisState.overviewInfo.totalMessages['human'] || 1;
       }
       return analysisState.overviewInfo;
     }));
