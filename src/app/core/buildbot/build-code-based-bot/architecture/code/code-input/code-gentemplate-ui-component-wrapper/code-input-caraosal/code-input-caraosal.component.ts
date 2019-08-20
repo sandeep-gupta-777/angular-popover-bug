@@ -88,6 +88,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   totalItemsInCarasol: number;
   MultiCarouselWidth: number;
   controlsClickedCount = 0;
+  Number = Number;
 
   removeThisChannel(channel: string) {
     const isChannelPresent = this.outputItem.include.find(e => e === channel);
@@ -404,6 +405,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   changeActiveButtonIndex(activeDropdownButtonIndex, buttonIndex) {
+    debugger;
     setTimeout(() => {
       activeDropdownButtonIndex.value = buttonIndex;
     });

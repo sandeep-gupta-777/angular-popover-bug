@@ -1,4 +1,4 @@
-<input type="text" hidden #activeDropdownButtonIndex [value]="-1">
+<input type="text" hidden #activeDropdownButtonIndex [value]=-1>
 
 <form #carausalForm="ngForm" class="row mx-0 px-1 w-100 bg-white template-output-scroll-container">
   <div class="d-flex w-100">
@@ -74,7 +74,6 @@
           </ul>
 
           <ul class="list-group list-group-flush p-0 px-1  align-items-center">
-
             <li *ngFor="let button of carousalItem.button; let buttonIndex = index;"
                 (clickOutside)="activeDropdownButtonIndex.value = -1"
                 class="list-group-item limit-three-lines w-100 px-0 py-0 border"
@@ -85,7 +84,7 @@
                 <div style="position: relative" class="text-center w-100 py-1"
                      (click)="changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex)">
                   <span>{{button.title}}</span>
-                  <ul *ngIf="buttonIndex === activeDropdownButtonIndex.value"
+                  <ul *ngIf="buttonIndex === Number(activeDropdownButtonIndex.value)"
                       style="position: absolute; top: 0; list-style-type: none;"
                       class="p-2 bg-white dialog-container"
                       id="button-configure-dropdown" role="menu">
