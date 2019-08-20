@@ -28,6 +28,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   @Input() bot: IBot;
   myEBotType = EBotType;
   myObject = Object;
+  ServerService = ServerService;
   myEAllActions = EAllActions;
   showSpinIcon = false;
   @Output() refreshBotDetails$ = new EventEmitter();
