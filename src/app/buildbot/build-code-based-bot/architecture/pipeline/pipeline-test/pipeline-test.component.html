@@ -1,0 +1,34 @@
+<header>
+  <div style="padding-bottom: 8px"><strong
+          style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test pipeline bot</strong>
+  </div>
+  <div class="hide-phone" style="color: #696969;font-size: 11px">
+    Run the pipeline bot by providing it inputs which the bot needs to see how it works
+  </div>
+</header>
+
+<div class = "pipeline-test-body">
+<!--  60 - 40-->
+  <div class = "test-body">
+    <div class = heading>Inputs</div>
+    <form #pipelineTestForm="ngForm" class = "d-flex">
+      <mat-form-field>
+        <mat-label>Message type</mat-label>
+        <mat-select name="msg_type">
+          <mat-option value="text">
+           Text
+          </mat-option>
+          <mat-option value="url">
+            Url
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <textarea matInput name="msg" type="text"
+                #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
+            </textarea>
+    </form>
+  </div>
+  <div class = "response-body">
+    <div class = heading>Responses</div>
+  </div>
+</div>

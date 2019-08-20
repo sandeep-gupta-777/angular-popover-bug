@@ -90,6 +90,7 @@ import { CurationResolvedAggrigationComponent } from './curation/curation-resolv
 import { CurationOverviewComponent } from './curation/curation-overview/curation-overview.component';
 import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
 import { RemoveTopAndBottomAndGetAsArrayPipe } from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
+import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
 
 
 const routes: Route[] = [
@@ -177,9 +178,10 @@ const routes: Route[] = [
     CurationOverviewComponent,
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
+    PipelineTestComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
-  //
+    //
   ],
   imports: [
     RichMediaModule,
