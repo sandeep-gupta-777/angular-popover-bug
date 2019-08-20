@@ -1,0 +1,26 @@
+.pipeline-test-body{
+  display: flex;
+  flex-direction: row;
+  flex:1;
+  .test-body{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    .test-form{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .type-select{
+
+      }
+      .test-textarea{
+        width: 100%;
+      }
+    }
+  }
+  .response-body{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+  }
+}

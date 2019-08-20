@@ -10,6 +10,7 @@ export class PipelineTestComponent implements OnInit {
 
   constructor() { }
   @Input() bot: IBot;
+  testResponse:any = {};
   ngOnInit() {
   }
 

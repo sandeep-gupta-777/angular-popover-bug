@@ -13,7 +13,6 @@ import {NgModule} from '@angular/core';
 import {RouterFragmentActiveDirective} from '../router-fragment-active.directive';
 import {SignupComponent} from '../auth/signup/signup.component';
 // import {BotWelcomeComponent} from '../chat/bot-welcome-panel/bot-welcome.component';
-import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 // import {ChatWindowComponent} from '../chat/rooms-and-convo-panel/chat-window.component';
 // import {ChatWrapperComponent} from '../chat/chat-wrapper.component';
 // import {ChatMessageComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
@@ -142,7 +141,6 @@ const routes: Route[] = [
     ReportsComponent,
     CoreWrapperComponent,
     SignupComponent,
-    PipelineTestComponent,
     RolesComponent,
     RoleaccordionComponent,
     HeaderComponent,

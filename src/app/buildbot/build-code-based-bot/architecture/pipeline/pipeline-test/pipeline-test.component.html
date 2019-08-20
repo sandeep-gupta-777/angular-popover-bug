@@ -11,10 +11,10 @@
 <!--  60 - 40-->
   <div class = "test-body">
     <div class = heading>Inputs</div>
-    <form #pipelineTestForm="ngForm" class = "d-flex">
-      <mat-form-field>
+    <form #pipelineTestForm="ngForm" class = "test-form">
+      <mat-form-field class = "type-select">
         <mat-label>Message type</mat-label>
-        <mat-select name="msg_type">
+        <mat-select name="msg_type" value="text">
           <mat-option value="text">
            Text
           </mat-option>
@@ -23,12 +23,23 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <textarea matInput name="msg" type="text"
+      <mat-form-field class ="test-textarea">
+      <textarea matInput name="msg" type="text" color="basic" appearance="outline"
                 #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
             </textarea>
+      </mat-form-field>
     </form>
   </div>
   <div class = "response-body">
     <div class = heading>Responses</div>
+    <div class = "code">
+      <app-code-editor
+              style="height: 55vh"
+              [text]="{text: testResponse|json}"
+              [readOnly]="true"
+              [doShowValidationsIcon]="false"
+              [doShowUploadDownloadButton]="true"
+      ></app-code-editor>
+    </div>
   </div>
 </div>
