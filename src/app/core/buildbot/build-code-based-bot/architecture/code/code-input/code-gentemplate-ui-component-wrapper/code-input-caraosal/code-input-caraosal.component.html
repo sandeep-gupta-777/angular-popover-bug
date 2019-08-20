@@ -72,7 +72,6 @@
                      placeholder="URL" style="width: 100%">
             </li>
           </ul>
-
           <ul class="list-group list-group-flush p-0 px-1  align-items-center">
             <li *ngFor="let button of carousalItem.button; let buttonIndex = index;"
                 (clickOutside)="activeDropdownButtonIndex.value = -1"
@@ -97,7 +96,10 @@
                       </mat-form-field>
                     </li>
                     <li role="menuitem">
-                      <mat-form-field>
+                      <div style="font-size: 11px;text-align: left;color: #858585;}" *ngIf = "inArticleResponse && bot">Payload*</div>
+                        <app-faq-search-box class = "articleSearchInArticle" [bot]="bot" [inCuration]="true" *ngIf = "inArticleResponse && bot"
+                                            (clickedOnArticle)="btnConfigForm.form.patchValue({payload:$event})"> </app-faq-search-box>
+                      <mat-form-field  [hidden]="inArticleResponse">
                         <input matInput type="text" name="payload" [ngModel]="button.payload" placeholder="Payload">
                       </mat-form-field>
                     </li>

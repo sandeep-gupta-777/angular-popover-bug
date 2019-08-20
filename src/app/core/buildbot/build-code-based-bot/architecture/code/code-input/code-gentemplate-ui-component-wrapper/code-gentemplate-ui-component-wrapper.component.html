@@ -39,6 +39,8 @@
                              [outputItem]="outputItem"
                              [myIndex]=i
                              [channelNameList]="channelNameList"
+                             [bot] = "bot"
+                             [inArticleResponse] = "inArticleResponse"
     ></app-code-input-caraosal>
     <app-code-quick-reply-wrapper *ngIf="outputItem.quick_reply"
                                   #gentemplateItem class="gentemplateItem"

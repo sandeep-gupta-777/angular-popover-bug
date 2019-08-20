@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IOutputItem} from '../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {IBot} from '../../../../../../interfaces/IBot';
 
 @Component({
   selector: 'app-code-gentemplate-ui-component-wrapper',
@@ -11,6 +12,8 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   _variants: string[];
   channelNameList: string[];
   @Input() outputItem: IOutputItem;
+  @Input() bot: IBot;
+  @Input() inArticleResponse: boolean;
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
   @Input() selectedChannel: string;

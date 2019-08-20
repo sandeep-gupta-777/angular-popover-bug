@@ -18,6 +18,7 @@ import {NgForm} from '@angular/forms';
 import {ICarousalItem, IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 import {UtilityService} from '../../../../../../../../utility.service';
 import {EventService} from '../../../../../../../../event.service';
+import {IBot} from '../../../../../../../interfaces/IBot';
 
 declare var $: any;
 
@@ -35,6 +36,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
 
   showOverlay: boolean;
   @ViewChild('mainInput') mainInput: ElementRef;
+  @Input() bot: IBot;
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
   @Input() isParentSessionsModal = false;
@@ -64,7 +66,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   ResCarouselSize1;
   myECarasoulMoveDirection = ECarasoulMoveDirection;
   selected: boolean;
-
+  @Input() inArticleResponse = false;
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
     /*when parent components empty selectedTemplateKeyOutputIndex array,
    *we should turn this.selected to false
@@ -414,6 +416,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   test(arg) {
     console.log(arg);
   }
-
+  clickedOnArticle(val){
+    debugger;
+  }
 
 }
