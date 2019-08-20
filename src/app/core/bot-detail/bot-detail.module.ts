@@ -90,6 +90,8 @@ import { CurationResolvedAggrigationComponent } from './curation/curation-resolv
 import { CurationOverviewComponent } from './curation/curation-overview/curation-overview.component';
 import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
 import { RemoveTopAndBottomAndGetAsArrayPipe } from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
+import { AnswerTemplateWrapperComponent } from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
+import {CoreModule} from '../core.module';
 
 
 const routes: Route[] = [
@@ -177,6 +179,7 @@ const routes: Route[] = [
     CurationOverviewComponent,
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
+    AnswerTemplateWrapperComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //
@@ -195,6 +198,7 @@ const routes: Route[] = [
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
+    CoreModule,
   ],
   providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe]
 })
