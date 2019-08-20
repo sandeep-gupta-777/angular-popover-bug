@@ -92,10 +92,15 @@ export class ChatService {
     return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true})
       .pipe(
         tap((response: ISendApiResponsePayload) => {
+
+          let response_language;
           /*recieved chat reply from bot*/
+          if (response.messageStore.response_language) {
+            response_language = response.messageStore.response_language;
+          }
           const generatedMessages = response.generated_msg;
           const bot_message_id = response.bot_message_id;
-          const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id);
+          const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id, response_language);
 
           this.store.dispatch([
             new AddMessagesToRoomByRoomId({

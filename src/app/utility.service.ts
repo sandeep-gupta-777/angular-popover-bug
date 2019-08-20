@@ -512,7 +512,7 @@ export class UtilityService {
     });
   }
 
-  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
+  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number, response_language?): IMessageData[] {
     return generatedMessage.map((message: IGeneratedMessageItem, index) => {
       const isLast = index === generatedMessage.length - 1;
       let messageData: IMessageData = {
@@ -521,7 +521,8 @@ export class UtilityService {
         time: Date.now(),
         messageMediatype: null,
         sourceType: 'bot',
-        isLast
+        isLast,
+        response_language
       };
 
       if (Object.keys(message)[0] === 'media') {
@@ -895,13 +896,8 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    // <<<<<<< HEAD
     startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
     granularity: string = 'day',  // one day
-    // =======
-    // startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
-    // granularity_Ms: number = 24 * 3600 * 1000,  // one day
-    // >>>>>>> develop
   ) {
 
 
@@ -937,14 +933,8 @@ export class UtilityService {
       //   },
       plotOptions: {
         series: {
-// <<<<<<< HEAD
           pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
           ...intervalObj,
-          // pointIntervalUnit: granularity,//24*3600*1000  // one day,
-// =======
-          // pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
-          // pointInterval: granularity_Ms,// 24*3600*1000  // one day,
-// >>>>>>> develop
           label: {
             enabled: false
           }

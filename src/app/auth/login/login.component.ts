@@ -95,7 +95,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
 
     this.gotUserData$.pipe(
       map((value: IUser) => {
-        debugger;
+
         this.userValue = userValue = value;
         ServerService.setCookie('auth-token', value.auth_token);
         ServerService.setCookie('user-access-token', value.user_access_token);

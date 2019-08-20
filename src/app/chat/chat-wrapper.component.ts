@@ -354,6 +354,7 @@ export class ChatWrapperComponent implements OnInit {
     if (messageByHuman) {
       messageByHuman = messageByHuman.trim();
     }
+
     if (!messageData.updateConsumerInfo) {
       this.store.dispatch([new AddMessagesToRoomByRoomId({
           id: room.id,

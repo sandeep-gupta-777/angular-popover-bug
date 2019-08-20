@@ -67,7 +67,7 @@ export class CurationComponent implements OnInit {
   curationResolvedFilterForm: FormGroup;
 
   ngOnInit() {
-    debugger;
+
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
       room_id: [''],
@@ -83,7 +83,7 @@ export class CurationComponent implements OnInit {
     this.setTopArticlesWithIssues();
     this.makeCurationSettingsForm();
     this.getCorpus$().subscribe();
-    debugger;
+
     this.makeCurationIssuesFilterForm();
     this.makeCurationResolvedFilterForm();
 
