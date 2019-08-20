@@ -47,8 +47,23 @@
     .code{
       display: flex;
       flex:1;
+      align-items: center;
+      justify-content: center;
       .code-editor{
         height: 100% !important;
+      }
+      .splash-screen{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: 150px;
+        align-items: center;
+        justify-content: center;
+        .splash-text{
+          font-size: 13px;
+          color: #c8c8c8;
+        }
       }
     }
   }

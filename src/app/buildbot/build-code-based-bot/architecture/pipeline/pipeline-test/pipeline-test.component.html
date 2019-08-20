@@ -7,7 +7,8 @@
       Run the pipeline bot by providing it inputs which the bot needs to see how it works
     </div>
   </div>
-  <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border ml-auto">
+  <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border ml-auto" [disabled]="!testForm.valid"
+  (click)="test()">
     Test pipeline
   </button>
 </div>
@@ -19,7 +20,7 @@
     <form #pipelineTestForm="ngForm" class = "test-form">
       <mat-form-field class = "type-select">
         <mat-label>Message type</mat-label>
-        <mat-select name="msg_type"  [ngModel] = "'text'" >
+        <mat-select name="msg_type"  [ngModel] = "'text'" required>
           <mat-option value="text">
            Text
           </mat-option>
@@ -30,7 +31,7 @@
       </mat-form-field>
       <div class="textarea-heading">Message</div>
 <div class="test-textarea">
-  <textarea matInput name="msg" type="text" ngModel
+  <textarea matInput name="msg" type="text" ngModel required
             #autosize="cdkTextareaAutosize" cdkTextareaAutosize>
             </textarea>
 </div>
@@ -43,12 +44,15 @@
     <div class = "code">
       <app-code-editor
               class="code-editor"
-              style="height: 55vh"
               [text]="{text: testResponse|json}"
               [readOnly]="true"
               [doShowValidationsIcon]="false"
               [doShowUploadDownloadButton]="true"
       ></app-code-editor>
+      <div class = "splash-screen" *ngIf="!testResponse">
+        <img src="assets/img/rocket.svg">
+        <div class = "splash-text">Test your bot now to see response here</div>
+      </div>
     </div>
   </div>
 </div>

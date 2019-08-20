@@ -557,6 +557,9 @@ export class ConstantsService {
   addMessageToCurationFromSession(){
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`
   }
+  pipelineTestUrl(){
+    return this.BACKEND_URL + `api/v1/webhook/intelligent/`;
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
