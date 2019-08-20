@@ -1,11 +1,16 @@
-<header>
-  <div style="padding-bottom: 8px"><strong
-          style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test pipeline bot</strong>
+<div class = "d-flex flex-direction-row">
+  <div>
+    <div style="padding-bottom: 8px"><strong
+            style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test pipeline bot</strong>
+    </div>
+    <div class="hide-phone" style="color: #696969;font-size: 11px;margin-bottom: 16px;">
+      Run the pipeline bot by providing it inputs which the bot needs to see how it works
+    </div>
   </div>
-  <div class="hide-phone" style="color: #696969;font-size: 11px">
-    Run the pipeline bot by providing it inputs which the bot needs to see how it works
-  </div>
-</header>
+  <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border ml-auto">
+    Test pipeline
+  </button>
+</div>
 
 <div class = "pipeline-test-body">
 <!--  60 - 40-->
@@ -14,7 +19,7 @@
     <form #pipelineTestForm="ngForm" class = "test-form">
       <mat-form-field class = "type-select">
         <mat-label>Message type</mat-label>
-        <mat-select name="msg_type" value="text">
+        <mat-select name="msg_type"  [ngModel] = "'text'" >
           <mat-option value="text">
            Text
           </mat-option>
@@ -23,17 +28,21 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class ="test-textarea">
-      <textarea matInput name="msg" type="text" color="basic" appearance="outline"
-                #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
+      <div class="textarea-heading">Message</div>
+<div class="test-textarea">
+  <textarea matInput name="msg" type="text" ngModel
+            #autosize="cdkTextareaAutosize" cdkTextareaAutosize>
             </textarea>
-      </mat-form-field>
+</div>
+
+
     </form>
   </div>
   <div class = "response-body">
     <div class = heading>Responses</div>
     <div class = "code">
       <app-code-editor
+              class="code-editor"
               style="height: 55vh"
               [text]="{text: testResponse|json}"
               [readOnly]="true"
