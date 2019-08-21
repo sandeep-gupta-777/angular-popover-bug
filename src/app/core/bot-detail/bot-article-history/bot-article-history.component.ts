@@ -190,8 +190,10 @@ export class BotArticleHistoryComponent implements OnInit {
       new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
 
+
+
     /*TODO: integrate this with store*/
-    EventService.startANewChat$.emit({
+    EventService.startANewChat({
       bot: {...this.bot, ...corpusDetails}, consumerDetails: {uid: this.utilityService.createRandomUid()},
     });
   }
