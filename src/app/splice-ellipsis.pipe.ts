@@ -5,14 +5,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SpliceEllipsisPipe implements PipeTransform {
 
-  transform(str: string, length:number, ellipsis:boolean): any {
-    if(!str){
+  transform(str: string, length: number, ellipsis: boolean): any {
+    if (!str) {
       return '';
     }
-    if(str.length<length){
+    if (str.length < length) {
       return str;
     }
-    return str.slice(0, length) + "...";
+    return str.slice(0, length) + '...';
   }
 
 }

@@ -89,7 +89,7 @@ export interface ISmartTableReportDataItem extends IReportItem {
 }
 
 export interface ISmartTableReportHisoryDataItem extends IReportHistoryItem {
-  bot: string; //name of bot
-  name: string; //name of reportItem$ type
-  created_at: number;  //created_at in IReportHistory
+  bot: string; // name of bot
+  name: string; // name of reportItem$ type
+  created_at: number;  // created_at in IReportHistory
 }

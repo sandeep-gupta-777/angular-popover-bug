@@ -10,8 +10,7 @@ import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-analysis2-volume',
-  templateUrl: './analysis2-volume.component.html',
-  styleUrls: ['./analysis2-volume.component.scss']
+  templateUrl: './analysis2-volume.component.html'
 })
 export class Analysis2VolumeComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
@@ -45,7 +44,7 @@ export class Analysis2VolumeComponent implements OnInit {
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalTimeOfRooms}
       }));
     }
-    //adding new now
+    // adding new now
     if (this.activeTab === 'totalSessions') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalSessions}
@@ -65,7 +64,7 @@ export class Analysis2VolumeComponent implements OnInit {
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
           //
           this.chartValue =
-            <any>this.u.convertDateTimeGraph(
+            this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),

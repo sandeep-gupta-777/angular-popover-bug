@@ -9,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class InfoIconComponent implements OnInit {
 
-  @Input() text:string;
+  @Input() text: string;
   constructor() {
   }
 

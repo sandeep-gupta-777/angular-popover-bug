@@ -21,8 +21,8 @@ export interface ITotalSessions {
     }
     ];
   'total'?: {
-    'bothandled'?: 55,
+    'bothandled'?: number,
     'nonbothandled'?: 0,
-    'total'?: 55
+    'total'?: number
   };
 }

@@ -2,7 +2,7 @@ import {AfterContentInit, AfterViewInit, Component, EventEmitter, Input, OnInit,
 import {Select, Selector, Store} from '@ngxs/store';
 import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../../../../../../../interfaces/integration-option';
-import {SaveNewBotInfo_CodeBased, SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
+import {SaveNewBotInfoCodeBased, SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ConstantsService} from '../../../../../../constants.service';
@@ -61,10 +61,10 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this._bot = this.bot; //todo: we need to one...remove bot
+    this._bot = this.bot; // todo: we need to one...remove bot
     this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
-      if(!value.masterIntegrationList){
+      if (!value.masterIntegrationList) {
         return;
       }
       this.integration_types =  Array.from(new Set(this.masterIntegrationList.map(item => item.integration_type)));
@@ -112,7 +112,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     this.formValue = {...this.formValue};
 
     this.f_new.form.patchValue(this.formValue);
-    /*TODO: this should not be requiredClass to form but removing it doesnt patch
+    /* TODO: this should not be requiredClass to form but removing it doesnt patch
     * the form when reset is clicked in bot header. Not sure why.
     * */
   }

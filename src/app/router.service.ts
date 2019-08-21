@@ -4,9 +4,9 @@ import {  Router } from '@angular/router';
 @Injectable()
 export class RouterService {
   constructor(
-    private router : Router
+    private router: Router
   ) { }
-  addQueryParams(params : {}  ){
+  addQueryParams(params: {}  ) {
 
     // console.log(route.url);
 

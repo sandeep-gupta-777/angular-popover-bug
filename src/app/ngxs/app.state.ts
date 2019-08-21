@@ -32,8 +32,8 @@ export interface IAppState {
   showBackendUrlRootButton: boolean;
   enterpriseNerData: ICustomNerItem[];
   autoLogoutTime: number;
-  pipelineModulesV2List:IPipelineItemV2[];
-  roleInfoArr:IRoleInfo[]
+  pipelineModulesV2List: IPipelineItemV2[];
+  roleInfoArr: IRoleInfo[];
 }
 //
 const appDefaultState: IAppState = {
@@ -45,19 +45,19 @@ const appDefaultState: IAppState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions: null,
-  backendUrlRoot: 'https://imibot.ai/',////'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
+  backendUrlRoot: 'https://imibot.ai/', //// 'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
   autoLogoutTime: Date.now() + 3600 * 1000,
-  pipelineModulesV2List:[],
-  roleInfoArr:null
+  pipelineModulesV2List: [],
+  roleInfoArr: null
 };
 
 @State<IAppState>({
   name: 'app',
   defaults: appDefaultState
-})//same as reducer
+})// same as reducer
 export class AppStateReducer {
 
   constructor(private constantsService: ConstantsService, private store: Store) {
@@ -69,7 +69,7 @@ export class AppStateReducer {
   }
 
   // @Action(ResetStoreToDefault)
-  // resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext<any>) {
+  // resetStoreToDefault({patchState, setState, getState, dispatch}: StateContext<any>) {
   //   this.store.reset(appDefaultState);
   //   LoggingService.log('resetting state', getState());
   // }
@@ -99,7 +99,7 @@ export class AppStateReducer {
 
   @Action(SetBackendURlRoot)
   setBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetBackendURlRoot) {
-    console.log("backend root:", payload);
+    console.log('backend root:', payload);
     patchState({backendUrlRoot: payload.payload.url});
   }
 
@@ -126,9 +126,9 @@ export class AppStateReducer {
 
   @Action(ResetAppState)
   resetAppState({patchState, setState, getState, dispatch, }: StateContext<any>, payload: ResetAppState) {
-    let state:IAppState = getState();
+    const state: IAppState = getState();
     /*when app is reset, backendUrlRoot must not reset, since its only set when login page reloads*/
-    let backendUrlRoot = state.backendUrlRoot;
+    const backendUrlRoot = state.backendUrlRoot;
     patchState({...appDefaultState, backendUrlRoot});
   }
   @Action(SetRoleInfo)

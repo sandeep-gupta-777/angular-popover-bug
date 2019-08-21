@@ -18,13 +18,28 @@ import {IBot} from './core/interfaces/IBot';
 import {EBotType, UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
-import {LoggingService} from "./logging.service";
+import {ELogType, LoggingService} from './logging.service';
 import {EventService} from './event.service';
 
 declare var IMI: any;
 
 @Injectable()
 export class ChatService {
+  static knowMorePanelItems = [
+    {
+      imgUrl: 'assets/img/chat/bot.svg',
+      title: 'Contextualise bot interactions with artificial intelligence'
+    }, {
+      imgUrl: 'assets/img/chat/group-5.svg',
+      title: 'Provide seamless omnichannel experience'
+    }, {
+      imgUrl: 'assets/img/chat/browser.svg',
+      title: 'Orchestrate individual bots using a controller'
+    }, {
+      imgUrl: 'assets/img/chat/group-2.svg',
+      title: 'Integrate various services within your flow to help user'
+    }
+  ];
 
   constructor(
     private store: Store,
@@ -33,23 +48,17 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
-  knowMorePanelItems = [
-    {
-      imgUrl: 'assets/img/chat/bot.svg',
-      title: 'Contextualise bot interactions with artificial intelligence'
-    },{
-      imgUrl: 'assets/img/chat/group-5.svg',
-      title: 'Provide seamless omnichannel experience'
-    },{
-      imgUrl: 'assets/img/chat/browser.svg',
-      title: 'Orchestrate individual bots using a controller'
-    },{
-      imgUrl: 'assets/img/chat/group-2.svg',
-      title: 'Integrate various services within your flow to help user'
-    }
-  ];
+  messaging;
+  currentPreviewBot: IBot;
+  currentRoomId: number;
 
-  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+
+  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType },
+                              consumerDetails: IConsumerDetails,
+                              messageByHuman: string,
+                              frameEnabled: EChatFrame,
+                              is_test: boolean = true
+  ) {
 
     const url = this.constantsService.getStartNewChatLoginUrl();
     let body: any /*: ISendApiRequestPayload */ = {
@@ -57,17 +66,17 @@ export class ChatService {
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web',
-      is_test: true//botDetails.type === EBotType.faqbot
+      is_test // botDetails.type === EBotType.faqbot
     };
 
-    let model_id = (this.currentPreviewBot as any).model_id;
-    let model_version_id = (this.currentPreviewBot as any).model_version_id;
+    const model_id = (this.currentPreviewBot as any).model_id;
+    const model_version_id = (this.currentPreviewBot as any).model_version_id;
     if (model_id && model_version_id) {
       body = {
         ...body,
         model_id,
         model_version_id
-      }
+      };
     }
     const headerData: IHeaderData = {
       'bot-access-token': botDetails.bot_access_token,
@@ -83,10 +92,15 @@ export class ChatService {
     return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true})
       .pipe(
         tap((response: ISendApiResponsePayload) => {
+
+          let response_language;
           /*recieved chat reply from bot*/
+          if (response.messageStore.response_language) {
+            response_language = response.messageStore.response_language;
+          }
           const generatedMessages = response.generated_msg;
           const bot_message_id = response.bot_message_id;
-          const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id);
+          const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id, response_language);
 
           this.store.dispatch([
             new AddMessagesToRoomByRoomId({
@@ -112,10 +126,6 @@ export class ChatService {
   navigate(frameEnabled: EChatFrame) {
     this.store.dispatch(new ChangeFrameAction({frameEnabled: frameEnabled}));
   }
-
-  messaging;
-  currentPreviewBot: IBot;
-  currentRoomId: number;
 
   initializeIMIConnect(previewBot: IBot, currentRoomId: number, startNewChatData: any) {
 
@@ -145,10 +155,10 @@ export class ChatService {
       LoggingService.log('this is not an imiconnect bot');
       return;
     }
-    const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
-    const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
+    const appId = imiConnectIntegrationDetails.appId; // 'GS23064017';
+    const appSecret = imiConnectIntegrationDetails.appSecret; // 'uZi6B5Zg';
     // var streamName = "bot";
-    const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
+    const serviceKey = imiConnectIntegrationDetails.serviceKey; // '3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
     // let userId = currentRoomId + '_hellothisissandeep1231312';
     let userId = startNewChatData.consumerDetails.uid;
     if (startNewChatData && startNewChatData.consumerDetails) {
@@ -189,22 +199,21 @@ export class ChatService {
       ]);
     };
 
-    const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
+    const msgCallBack = {// messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
-        LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
         let statusMessage = null;
-        if (statuscode == 2) {
+        if (statuscode === 2) {
           statusMessage = 'Connected';
-        } else if (statuscode == 6) {
+        } else if (statuscode === 6) {
           statusMessage = 'Error while connecting';
         } else {
           statusMessage = 'Not Connected';
         }
-
+        LoggingService.log(`msgCallBack,onConnectionStatusChanged ${statuscode} : ${statusMessage}`, ELogType.log);
       },
       onMessageReceived: function (message) {
 
-        alert();
+        //alert();
         prepareMessage(message);
 
         if (message.getType() === IMI.ICMessageType.Message) {
@@ -212,7 +221,7 @@ export class ChatService {
             onFailure: function (err) {
               LoggingService.log('failed to get topics:');
 
-              //handleFailure(err);
+              // handleFailure(err);
             }
           };
           messaging.setMessageAsRead(message.getTransactionId(), callback);
@@ -279,18 +288,16 @@ export class ChatService {
     this.messaging = messaging;
   }
 
-  currentRoom: IRoomData;
-
   sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
 
-    let streamName: string; //'gsureg';
+    let streamName: string; // 'gsureg';
     try {
       streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
     } catch (e) {
       LoggingService.log(e);
     }
     // this.currentRoom = currentRoom;
-    //send message
+    // send message
     const pubcallback = {
       onSuccess: function () {
         LoggingService.log('message sent');
@@ -314,10 +321,10 @@ export class ChatService {
     this.messaging.publishMessage(message, pubcallback);
   }
 
-  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
+  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }, is_test = true) {
     const url = this.constantsService.getStartNewChatLoginUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': startNewChatData.bot.bot_access_token,
+      'bot-access-token': ServerService.getBotTokenById(startNewChatData.bot.id),
       'auth-token': null,
       'user-access-token': null,
       'content-type': 'application/json'
@@ -326,21 +333,21 @@ export class ChatService {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test': true,//startNewChatData.bot.bot_type === EBotType.faqbot,
+      is_test, // startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },
       'consumer': startNewChatData.consumerDetails,
     };
 
-    let model_id = (this.currentPreviewBot as any).model_id;
-    let model_version_id = (this.currentPreviewBot as any).model_version_id;
+    const model_id = (this.currentPreviewBot as any).model_id;
+    const model_version_id = (this.currentPreviewBot as any).model_version_id;
     if (model_id && model_version_id) {
       body = {
         ...body,
         model_id,
         model_version_id
-      }
+      };
     }
 
     return this.serverService.makePostReq({url, body, headerData});

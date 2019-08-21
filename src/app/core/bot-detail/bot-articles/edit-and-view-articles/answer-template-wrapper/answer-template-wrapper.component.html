@@ -1,0 +1,28 @@
+<!--*ngIf="_templateKeyDict && (_templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'"-->
+<div class = "d-flex flex-row">
+    <div class = "w-100 d-flex flex-column template-view">
+        <div class="py-1 px-0 mb-3 "
+             *ngFor="let outputItem of answerObject; let i = index">
+            <app-code-gentemplate-ui-component-wrapper
+                    [selectedChannel]="'web'"
+                    [removeSelect]="true"
+                    [outputItem]="outputItem"
+                    #gentemplateItem
+                    class="gentemplateItem"
+                    [myIndex]=i
+                    [channelList]="channelList"
+                    [removeGenTemplateSelect]="true"
+                    [totalResponseTemplateComponentCount]="answerObject.length"
+                    (deleteTemplate)="deleteGentemplate($event)"
+                    (moveTempUp)="moveUpGentempate($event)"
+                    (moveTempDown)="moveDownGentempate($event)"
+            >
+            </app-code-gentemplate-ui-component-wrapper>
+        </div>
+    </div>
+    <div class = "template-sidebar">
+        <app-gentemplate-sidebar (genTemplateTypeClicked$)="genTemplateTypeClicked($event)"></app-gentemplate-sidebar>
+    </div>
+</div>
+
+

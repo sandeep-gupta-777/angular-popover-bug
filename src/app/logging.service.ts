@@ -29,7 +29,7 @@ export class LoggingService {
 
   static error(item: any) {
     if (!isDevMode()) { return; }
-    console.error("LOGGING SERVICE::", item);
+    console.error('LOGGING SERVICE::', item);
   }
 
   static group(items: any[]) {

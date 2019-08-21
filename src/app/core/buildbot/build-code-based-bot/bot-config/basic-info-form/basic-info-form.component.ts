@@ -10,7 +10,7 @@ import {EBotType, UtilityService} from '../../../../../utility.service';
 import {ConstantsService, } from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {PermissionService} from '../../../../../permission.service';
-import {EAllActions} from "../../../../../typings/enum";
+import {EAllActions} from '../../../../../typings/enum';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class BasicInfoFormComponent implements OnInit {
   _bot: Partial<IBot> = {};
   bot_type;
   formData: Partial<IBot>;
-  @Input() botId:number;
+  @Input() botId: number;
   @Input() formGroup: FormGroup;
   myEAllActions = EAllActions;
   myEBotType = EBotType;
@@ -42,19 +42,19 @@ export class BasicInfoFormComponent implements OnInit {
     this.bot_type = this.activatedRoute.snapshot.data.bot_type || this.activatedRoute.snapshot.queryParamMap.get('bot_type');
 
     /*todo: why is this here and not in parent?*/
-    if(!this.botId){/*only for new bots*/
+    if (!this.botId) {/*only for new bots*/
       this.formGroup.get('name').valueChanges.subscribe((value) => {
-        if(value){
-          const uniqueName = value.replace(/\s/g, "");
+        if (value) {
+          const uniqueName = value.replace(/\s/g, '');
           this.formGroup.get('bot_unique_name').patchValue(uniqueName);
-        }else {
-          this.formGroup.get('bot_unique_name').patchValue("");
+        } else {
+          this.formGroup.get('bot_unique_name').patchValue('');
         }
       });
     }
   }
 
-  log(formGroup){
+  log(formGroup) {
     console.log(formGroup);
   }
 }

@@ -14,9 +14,6 @@ header{
 .category-edit{
     display: flex;
     flex-direction: column;
-    .category-label{
-
-    }
     .category-name{
         color : $color-primary;
     }
@@ -24,13 +21,31 @@ header{
 
 
 .main-block{
+    flex:1;
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 1.25fr 1fr;
     grid-column-gap: 10px;
-    height: 65vh;
-    grid-template-rows: 65vh;
+    grid-template-rows: 1fr;
     overflow-y: auto;
+  .first-message-info{
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    height: max-content;
+    .questions-heading{
+      font-size: 13px;
+      font-weight: bold;
+      color: #474747;
+      padding-bottom: .25rem;
+    }
+    .icon{
+      font-size: 14px;
+      padding-left: 3px;
+      padding-top: 3px;
+      color:$color-primary;
+    }
 
+  }
     .questions-list{
     display: flex;
     flex-direction: column;
@@ -42,7 +57,7 @@ header{
     }
     .question-list-item{
         // height : 45px;
-        width : 85%;
+        width : 95%;
         .onParentHover{
             opacity: 0;
           }
@@ -59,24 +74,28 @@ header{
     }
     .response{
         .response-heading{
+            display: flex;
+            flex-direction: row;
             font-size: 13px;
             font-weight: bold;
             color: #474747;
             padding-bottom: .25rem;
         }
-        .response-items{
-            width: 100%;
-            .answer-list-item{
-                width: 100%;
-                border: solid 1px #d8d8d8;
-                border-radius: 4px;
-                textarea{
-                    background-color: transparent;
-            }
-            }
-
-
+        .response-template{
+            height:55vh;
         }
+
+        //.response-items{
+        //    width: 100%;
+        //    .answer-list-item{
+        //        width: 100%;
+        //        border: solid 1px #d8d8d8;
+        //        border-radius: 4px;
+        //        textarea{
+        //            background-color: transparent;
+        //    }
+        //    }
+        //}
     }
 }
 .first-message-main-block{
@@ -136,5 +155,18 @@ header{
   }
 
   textarea.mat-input-element{
-    padding: 0 !important;  
+    padding: 0 !important;
   }
+.addQuestionPanel{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    background-color: #ffffff;
+    textarea{
+        background-color: transparent;
+
+    }
+    textarea.mat-input-element{
+        padding: 0 !important;
+    }
+}

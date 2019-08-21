@@ -1,20 +1,19 @@
 <div class="container px-5 pb-5 my-3">
   <div class="row">
     <div class="col-12 py-3 d-flex align-items-center">
-      <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
+      <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><span class="fa fa-angle-left pr-2"></span></a>
       <a class="p-0 h4 ">{{report_id?'Edit':'Create'}} a report subscription</a>
       <button class="btn-theme btn-theme-primary-outline bg-transparent ml-auto mr-3" routerLink="/core/reports">Cancel</button>
       <button class="btn-theme btn-theme-primary" *ngIf="!report_id"
               [disabled]="!(myEventService.reportFormIsValid|async)"
               (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
       <button class="btn-theme btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
-      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel()"></i>
+      <span class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel()"></span>
     </div>
   </div>
 
   <div class="row" style="margin-left: 20px; margin-right: 20px">
     <div class="col-12 pr-5 col-md-5">
-      <!--<app-report-controls [reportFormData]="reportFormData"></app-report-controls>-->
       <app-report-controls ></app-report-controls>
     </div>
     <div class="d-none d-flex col-md-7 border-left">
@@ -30,7 +29,6 @@
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
-
     </div>
 
     <div class="modal-body">
@@ -44,7 +42,7 @@
           <strong *ngIf="reportFormData?.delivery[1]?.delivery_type">Email</strong>
         </div>
         <div class  = "col-md-12">
-          <i class="fa fa-check-circle" ></i>
+          <span class="fa fa-check-circle" ></span>
         </div>
         <div class = "col-md-12 light-text">The next delivery is scheduled on</div>
         <div class="col-md-12"><strong>{{reportFormData.startdate|date:'mediumDate'}}</strong></div>
@@ -52,35 +50,7 @@
       </div>
     </div>
   </div>
-  <!---->
 </ng-template>
-
-
-
-<!-- <ng-template #reportDeleteTemplate>
-
-  <div class="danger-modal center-modal">
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Report?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">This will delete the report and all it’s instances from history
-            will also be removed. Are you sure you want to delete it?</p>
-        </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-        <button class=" btn-theme btn-theme-danger" (click)="deleteReport()">Delete</button>
-      </form>
-    </div>
-  </div>
-
-
-</ng-template> -->
 
 <ng-template #unsubscribeTemplate>
   <div class="danger-modal">

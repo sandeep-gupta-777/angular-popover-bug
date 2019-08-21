@@ -24,7 +24,7 @@ export class Analysis2WrapperComponent implements OnInit {
     this.allCodeBasedBotList$ = this.botlist$
       .pipe(
         take(1),
-        map((value) => value.allBotList.filter(bot=> bot.bot_type === EBotType.chatbot)));
+        map((value) => value.allBotList.filter(bot => bot.bot_type === EBotType.chatbot)));
   }
 
 }

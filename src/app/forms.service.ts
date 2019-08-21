@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {FormArray, FormBuilder} from "@angular/forms";
+import {FormArray, FormBuilder} from '@angular/forms';
 
 
 @Injectable()
@@ -11,21 +11,20 @@ export class FormsService {
   }
 
   getCodeInputForm() {
-    let codeInputForm = this.formBuilder.group({
-      df_template: [""],
-      df_rules: [""],
-      generation_rules: [""],
-      generation_templates: [""],
-      workflow: [""],
-      is_ui_view:'',
+    this.formBuilder.group({
+      df_template: [''],
+      df_rules: [''],
+      generation_rules: [''],
+      generation_templates: [''],
+      workflow: [''],
+      is_ui_view: '',
     });
-
     return this.formBuilder.group({
-      df_template: [""],
-      df_rules: [""],
-      generation_rules: [""],
-      generation_templates: [""],
-      workflow: [""],
+      df_template: [''],
+      df_rules: [''],
+      generation_rules: [''],
+      generation_templates: [''],
+      workflow: [''],
       is_ui_view: '',
     });
   }

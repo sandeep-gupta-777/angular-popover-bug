@@ -1,13 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RoutesRecognized} from '@angular/router';
-import {IProfilePermission} from '../../interfaces/profile-action-permission';
-import {SetMasterProfilePermissions} from '../ngxs/app.action';
 import {ServerService} from '../server.service';
-import {ConstantsService} from '../constants.service';
-import {Store} from '@ngxs/store';
-import {EventService} from "../event.service";
-import {LoggingService} from "../logging.service";
-import {LoadJsService} from "./load-js.service";
+import {EventService} from '../event.service';
+import {LoadJsService} from './load-js.service';
 
 @Component({
   selector: 'app-core-wrapper',
@@ -27,12 +22,12 @@ export class CoreWrapperComponent implements OnInit {
     private router: Router,
     private serverService: ServerService,
   ) {
-      LoadJsService.load();
+    LoadJsService.load();
   }
 
   ngOnInit() {
-    this.serverService.compareDeployDates();//TODO: after refactor
-    this.initializeProgressBarSubscription();//todo: after refactor
+    this.serverService.compareDeployDates(); // TODO: after refactor
+    this.initializeProgressBarSubscription(); // todo: after refactor
     this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
     this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
     this.router.events.subscribe((data) => {
@@ -51,7 +46,9 @@ export class CoreWrapperComponent implements OnInit {
 
       if (loading) {/*if loading = true, slowly increase progressbar*/
         this.showProgressbar = true;
-        this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+        if (this.currentIntervalRef) {
+          clearInterval(this.currentIntervalRef);
+        }
         this.progressVal = value;
         // this.progressVal = 0;
         this.currentIntervalRef = setInterval(() => {
@@ -65,7 +62,9 @@ export class CoreWrapperComponent implements OnInit {
       } else {
         setTimeout(() => {
           this.progressVal = 100;
-          this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+          if (this.currentIntervalRef) {
+            clearInterval(this.currentIntervalRef);
+          }
           setTimeout(() => {
             this.showProgressbar = false;
           }, 500);

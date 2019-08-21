@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {EventService} from '../../../../../../../event.service';
-import {MatDialog} from "@angular/material";
-import {UtilityService} from "../../../../../../../utility.service";
-import {EAllActions} from "../../../../../../../typings/enum";
-import {ELoadingStatus} from "../../../../../../../button-wrapper/button-wrapper.component";
+import {MatDialog} from '@angular/material';
+import {UtilityService} from '../../../../../../../utility.service';
+import {EAllActions} from '../../../../../../../typings/enum';
+import {ELoadingStatus} from '../../../../../../../button-wrapper/button-wrapper.component';
 
 @Component({
   selector: 'app-code-version-list',
   templateUrl: './code-version-list.component.html',
   styleUrls: ['./code-version-list.component.scss']
 })
-export class CodeVersionListComponent implements OnInit {
+export class CodeVersionListComponent implements OnInit, OnChanges {
 
   myEAllActions = EAllActions;
   @Input() selectedVersion;
@@ -26,20 +26,20 @@ export class CodeVersionListComponent implements OnInit {
   @Output() openForkNewVersionModal$ = new EventEmitter();
   showVersionList = false;
   disableSave = false;
-  selectedVersionComment:string;
-  dialogRefWrapper = {ref:null};
-  constructor(private matDialog:MatDialog, private utilityService:UtilityService) { }
+  selectedVersionComment: string;
+  dialogRefWrapper = {ref: null};
+  constructor(private matDialog: MatDialog, private utilityService: UtilityService) { }
 
   ngOnInit() {
     this.selectedVersionComment = this.selectedVersion.comment;
-    EventService.disableSaveButton_codeInput$.subscribe((disableSave)=>{
+    EventService.disableSaveButton_codeInput$.subscribe((disableSave) => {
       this.disableSave = disableSave;
     });
   }
 
-  confirmActivateVersionModal(){
+  confirmActivateVersionModal() {
     this.activateVersion$.emit(this.selectedVersion.id);
-    //TODO: implement modal below
+    // TODO: implement modal below
     // this.utilityService.confirmActivateVersionModal(this.dialogRefWrapper, this.matDialog)
     //   .then((data)=>{
     //     this.dialogRefWrapper.ref.close();
@@ -52,7 +52,7 @@ export class CodeVersionListComponent implements OnInit {
 
   ngOnChanges() {
 
-    this.selectedVersionComment = this.selectedVersion.comment
+    this.selectedVersionComment = this.selectedVersion.comment;
     // You can also use categoryId.previousValue and
     // categoryId.firstChange for comparing old and new values
 

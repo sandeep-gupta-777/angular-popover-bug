@@ -1,41 +1,10 @@
 @import "./../../../../../sass/main";
 
-.select-theme-primary {
-  //select {
-  //  font-family: Helvetica;
-  //  font-size: 12px;
-  //  font-weight: normal;
-  //  font-style: normal;
-  //  font-stretch: normal;
-  //  line-height: normal;
-  //  letter-spacing: normal;
-  //  color: #9e9e9e;
-  //  //width: 182px !important;
-  //  max-width: 100% !important;
-  //  height: 32px !important;
-  //  border-radius: 2px;
-  //  border: solid 1px #e0e0e0;
-  //  &:focus {
-  //    outline: none;
-  //  }
-  //  padding: 8px;
-  //}
-
-}
-
 .report-detail-row {
 
   label {
-    //padding-bottom: 0;
-    //margin-bottom: 5px;
     display: block;
-    //font-family: Helvetica;
     font-size: 11px;
-    //font-weight: normal;
-    //font-style: normal;
-    //font-stretch: normal;
-    //line-height: normal;
-    //letter-spacing: normal;
     color: #9e9e9e;
     margin-right: 4px;
   }
@@ -71,10 +40,6 @@ textarea {
     margin-bottom: 0 !important;
   }
 
-  //input{
-  //  padding: 4px ;
-  //  color: $color-secondary;
-  //}
   .upload-private-key-button {
     grid-row: auto/ span 2;
   }

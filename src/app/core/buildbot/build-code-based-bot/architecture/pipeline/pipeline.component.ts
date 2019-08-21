@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  IterableDiffers,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {IPipelineItem} from '../../../../../../interfaces/ai-module';
@@ -18,15 +28,15 @@ import {MatDialog} from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {EventService} from '../../../../../event.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
-import {ELoadingStatus} from "../../../../../button-wrapper/button-wrapper.component";
+import {ELoadingStatus} from '../../../../../button-wrapper/button-wrapper.component';
 
 
 export interface IPipelineItemV2 {
-  description: string,
-  display_values: string,
-  id: string,
-  unique_name: string,
-  pipeline_modules: IPipelineItem[]
+  description: string;
+  display_values: string;
+  id: string;
+  unique_name: string;
+  pipeline_modules: IPipelineItem[];
 }
 
 @Component({
@@ -34,13 +44,27 @@ export interface IPipelineItemV2 {
   templateUrl: './pipeline.component.html',
   styleUrls: ['./pipeline.component.scss'],
 })
-export class PipelineComponent extends ModalImplementer implements OnInit, OnDestroy {
-  tag = "PipelineComponent";
+export class PipelineComponent extends ModalImplementer implements OnInit, OnDestroy, DoCheck {
+
+  constructor(
+    private objectArrayCrudService: ObjectArrayCrudService,
+    private _iterableDiffers: IterableDiffers,
+    private activatedRoute: ActivatedRoute,
+    private constantsService: ConstantsService,
+    private aimService: AimService,
+    private serverService: ServerService,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
+    private store: Store) {
+    super(utilityService, matDialog);
+    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
+  }
+  tag = 'PipelineComponent';
   allMatExpansionExpanded = false;
   masterModuleCount: number;
   panelOpenState = false;
   myObject = Object;
-  pipeLineSrc: string = 'assets/img/pipeline-no-hover-drag.svg';
+  pipeLineSrc = 'assets/img/pipeline-no-hover-drag.svg';
   _bot: IBot;
   @Output() initDone$ = new EventEmitter<PipelineComponent>();
   @Input() bot: IBot;
@@ -62,19 +86,10 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   @Output() botData$ = new EventEmitter();
   pipelineModulesV2List: IPipelineItemV2[];
 
-  constructor(
-    private objectArrayCrudService: ObjectArrayCrudService,
-    private _iterableDiffers: IterableDiffers,
-    private activatedRoute: ActivatedRoute,
-    private constantsService: ConstantsService,
-    private aimService: AimService,
-    private serverService: ServerService,
-    public utilityService: UtilityService,
-    public matDialog: MatDialog,
-    private store: Store) {
-    super(utilityService, matDialog);
-    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
-  }
+  _expandedPipelineModules = {};
+
+  updateBotStatus: ELoadingStatus = ELoadingStatus.default;
+  updateBotStatusText = '';
 
   countMasterModules(pipelineModulesV2List: IPipelineItemV2[]) {
 
@@ -86,11 +101,12 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   mergeInputParams() {
     this.pipelineModulesV2List.forEach((pipelineModulesV2) => {
       pipelineModulesV2.pipeline_modules.forEach((masterPipelineItem) => {
-        let index: number = this.pipeLine.findIndex((pipeLineItem) => {
+        const index: number = this.pipeLine.findIndex((pipeLineItem) => {
           return masterPipelineItem.unique_name === pipeLineItem.unique_name;
         });
-        if (index !== -1)
+        if (index !== -1) {
           masterPipelineItem.input_params = {...masterPipelineItem.input_params, ...this.pipeLine[index].input_params};
+        }
       });
     });
   }
@@ -113,7 +129,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
 
     // this.pipeLine = [...this._bot.pipelines] || [];
-    let url = this.constantsService.getAllPipelineModuleUrl();
+    const url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
 
       // this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
@@ -215,7 +231,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     if (Pipelineform.valid) {
       console.log(Pipelineform.value);
       this.selectedPipeline.input_params = Pipelineform.value;
-      let index = this.pipeLine.findIndex(item => item.id === this.selectedPipeline.id)
+      const index = this.pipeLine.findIndex(item => item.id === this.selectedPipeline.id);
       if (index === -1) {
         this.addPipelineItemToPipeline(this.selectedPipeline);
       } else {
@@ -231,8 +247,8 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
     console.log('=========>', pipelineItem);
 
-    let pipeLineTemp = this.pipeLine.filter(item => {
-      return item.id !== pipelineItem.id
+    const pipeLineTemp = this.pipeLine.filter(item => {
+      return item.id !== pipelineItem.id;
     });
     this.pipeLine = pipeLineTemp;
     this.pipeLine.push(pipelineItem);
@@ -246,12 +262,12 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
 
   removePipelineItemFromPipelineModal(index: number, aiModuleId: number) {
 
-    let pipelineModules = this.pipelineModulesV2List
-    let displayNamePipeline = pipelineModules.find((wrapper) => {
+    const pipelineModules = this.pipelineModulesV2List;
+    const displayNamePipeline = pipelineModules.find((wrapper) => {
       return !!wrapper.pipeline_modules.find((module) => {
         return module.id === aiModuleId;
-      })
-    })
+      });
+    });
     // let displayNamePipeline = displayNamePipelineArray.find((pipeline)=>{
     //   return pipeline.id === aiModuleId;
     // })
@@ -270,24 +286,24 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
       if (data) {
         this.removePipelineItemFromPipeline(index);
       }
-    })
+    });
   }
 
   removePipelineItemFromPipeline(index: number) {
-    console.log(this.pipeLine)
+    console.log(this.pipeLine);
     this.pipeLine.splice(index, 1);
     this.botData$.emit({pipelines: this.pipeLine});
-    console.log(this.pipeLine)
+    console.log(this.pipeLine);
 
   }
 
   toggleExpandAllModules() {
 
-    if (!this.allMatExpansionExpanded) {//collapse all
+    if (!this.allMatExpansionExpanded) {// collapse all
       this.pipelineModulesV2List.forEach((value, index) => {
         this._expandedPipelineModules[value.id] = true;
       });
-    } else {//collapse all
+    } else {// collapse all
       this._expandedPipelineModules = {};
     }
     this._expandedPipelineModules = {...this._expandedPipelineModules};
@@ -298,8 +314,6 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   log() {
     console.log(this.pipeLine);
   }
-
-  _expandedPipelineModules = {};
   // get expandedPipelineModules (){
   //   return this._expandedPipelineModules;
   // }
@@ -308,16 +322,13 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this._expandedPipelineModules = {...this._expandedPipelineModules};
   }
 
-  updateBotStatus: ELoadingStatus = ELoadingStatus.default;
-  updateBotStatusText = "";
-
   updateBot() {
     // EventService.updateBotinit$.emit();
-    let bot: IBot = {pipelines: this.pipeLine, id: this._bot.id, bot_access_token: this.bot.bot_access_token};
+    const bot: IBot = {pipelines: this.pipeLine, id: this._bot.id, bot_access_token: ServerService.getBotTokenById(this.bot.id)};
     this.updateBotStatus = ELoadingStatus.loading;
     this.serverService.updateBot(bot).subscribe(() => {
       this.updateBotStatus = ELoadingStatus.success;
-      this.updateBotStatusText = "suceess";
+      this.updateBotStatusText = 'suceess';
     });
   }
 

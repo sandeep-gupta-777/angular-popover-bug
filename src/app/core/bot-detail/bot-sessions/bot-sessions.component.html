@@ -1,5 +1,3 @@
-<!--<i>{{totalSessionRecords}}</i>-->
-<!--<i>{{pageNumberOfCurrentRowSelected}}</i>-->
 <section class="bot-session-section">
   <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results hide-phone">
     <strong>Refine Results</strong>
@@ -42,7 +40,7 @@
           <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary"
                         [ngModel]="false"
                         name="{{channel.key}}" [title]="channel.unique_name">
-            <img [src]="channel.icon" [alt]="channel.unique_name">
+            <img alt="channel icon" [src]="channel.icon" [alt]="channel.unique_name">
           </mat-checkbox>
         </li>
       </ul>
@@ -62,9 +60,6 @@
       <li>
         <mat-checkbox name="is_live" [ngModel]="false" color="primary">Hide test sessions</mat-checkbox>
       </li>
-      <!--<li>-->
-        <!--<mat-checkbox name="is_test" [ngModel]="false" color="primary">Live Session</mat-checkbox>-->
-      <!--</li>-->
       <li>
         <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
       </li>
@@ -86,7 +81,6 @@
       </button>
     </div>
   </form>
-  <!---->
 
   <app-smart-table
     *ngIf="sessionsSmartTableDataModal.tableData as tableData"
@@ -103,7 +97,7 @@
     <!--ng-content starts-->
     <div *ngIf="bot.advanced_data_protection && !showLoader && !showSplashScreen"
          style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
-      <i class="fa fa-lock" style="color: orange"></i>
+      <span class="fa fa-lock" style="color: orange"></span>
       All the sessions are encrypted, use the decryption key to view individual session of interest
     </div>
     <!--ng-content ends-->
@@ -135,4 +129,3 @@
     [sessionDataStore]="selectedRow_Session.data_store">
   </app-session-detail-model>
 </ng-template>
-<!---->

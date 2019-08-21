@@ -4,13 +4,13 @@ import {HttpClientModule} from '@angular/common/http';
 import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ClickOutsideModule} from 'ng-click-outside';
-import {ChatWrapperComponent} from './chat-wrapper.component';;
+import {ChatWrapperComponent} from './chat-wrapper.component';
 import {MsToHhMmPipe} from '../ms-to-hh-mm.pipe';
 import {ChatWindowComponent} from './rooms-and-convo-panel/chat-window.component';
 import {ChatMessageComponent} from './rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
 import {ChatListComponent} from './rooms-and-convo-panel/chat-room-list/chat-list.component';
 import {ChatItemComponent} from './rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
-import {ChatroomComponent} from './rooms-and-convo-panel/chat-message-list/chatroom.component';
+
 import {BotThinkingBubbleComponent} from './carousel/bot-thinking-bubble/bot-thinking-bubble.component';
 import {BotWelcomeComponent} from './bot-welcome-panel/bot-welcome.component';
 import {RichMediaModule} from '../rich-media.module';
@@ -19,7 +19,7 @@ import {ChatService} from '../chat.service';
 import {MyMaterialModule} from '../my-material.module';
 import {ChatConsumerFormComponent} from '../chat-consumer-form/chat-consumer-form.component';
 import {SharedModule} from '../shared.module';
-import { LinkPreviewComponent } from './link-preview/link-preview.component';
+import {LinkPreviewComponent} from './link-preview/link-preview.component';
 import {ConstantsService} from '../constants.service';
 import {MyToasterService} from '../my-toaster.service';
 import {UtilityService} from '../utility.service';
@@ -29,10 +29,11 @@ import {VersionStateReducer} from '../core/buildbot/build-code-based-bot/archite
 import {ReducerListService} from '../reducer-list.service';
 import {ChatSessionStateReducer} from './ngxs/chat.state';
 import {LayoutModule} from '@angular/cdk/layout';
-import { ChatBotThinkingComponent } from './rooms-and-convo-panel/chat-message-list/chat-message/chat-bot-thinking/chat-bot-thinking.component';
-import {FilePreviewOverlayService} from "../overlay.service";
-import {OverlayModule} from "@angular/cdk/overlay";
-import {HnResolver} from '../core.resolver';
+import {ChatBotThinkingComponent} from './rooms-and-convo-panel/chat-message-list/chat-message/chat-bot-thinking/chat-bot-thinking.component';
+import {FilePreviewOverlayService} from '../overlay.service';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {ScriptsLoadResolver} from '../script-load.resolver';
+import { ChatKnowMorePanelComponent } from './chat-know-more-panel/chat-know-more-panel.component';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -47,11 +48,11 @@ const routes: Route[] = [
     ChatMessageComponent,
     ChatListComponent,
     ChatItemComponent,
-    ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
     LinkPreviewComponent,
     ChatBotThinkingComponent,
+    ChatKnowMorePanelComponent,
   ],
   entryComponents: [
     ChatConsumerFormComponent
@@ -65,7 +66,7 @@ const routes: Route[] = [
     ClickOutsideModule,
     MyMaterialModule,
     NgxsModule.forFeature([ChatSessionStateReducer]),
-    SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
+    SharedModule, // TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
     LayoutModule,
     OverlayModule
 
@@ -77,7 +78,6 @@ const routes: Route[] = [
     ChatMessageComponent,
     ChatListComponent,
     ChatItemComponent,
-    ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
 

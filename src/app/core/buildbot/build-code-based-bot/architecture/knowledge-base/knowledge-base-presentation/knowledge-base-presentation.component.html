@@ -2,8 +2,8 @@
 
   <header>
     <div style="position: relative;padding-bottom: 16px">
-      <i class="fa fa-angle-left cursor-pointer" title="Go back"
-         style="position: absolute; left: -15px;  font-size: 19px;" (click)="goBack()"></i>
+      <span class="fa fa-angle-left cursor-pointer" title="Go back"
+         style="position: absolute; left: -15px;  font-size: 19px;" (click)="goBack()"></span>
       <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">{{ner_id ? "Edit" : "Create" }} Concept</h6>
       <p style="color: #696969; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase
         exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions;
@@ -12,8 +12,7 @@
   </header>
 
   <div class="child d-flex justify-content-between">
-    <!--<button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back-->
-    <!--</button>-->
+
     <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput
@@ -93,38 +92,8 @@
         </div>
 
       </div>
-
-
-
-
-
-
       
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto" style="display:flex;" >
-
-
-
-
-        <!-- <app-button-wrapper
-        *myIf="myEAllActions['Update Bot Versioning']"
-        [disabled]="!selectedVersion || disableSave"
-        data-cy="version-save"
-        [status]="saveOrCreateStatus"
-        (btnClick)="saveSelectedVersion$.emit()"
-        [text]="(!versions || !versions.length || versions.length > 0) ? 'Save' : 'Create'"
-        [icon]="'save'"></app-button-wrapper>
-
-
-
-        <app-button-wrapper
-        *myIf="myEAllActions['Update Bot Versioning']"
-        
-        data-cy="version-save"
-        [status]="saveOrCreateStatus"
-        (btnClick)="goBackWithoutModal()"
-        [text]="Cancel"
-        ><mat-icon>cancel</mat-icon>Cancel</app-button-wrapper> -->
-
 
         <button mat-flat-button
                 class="mat-theme-button"
@@ -134,36 +103,20 @@
           Cancel
         </button> 
 
-
-        <!-- <app-button-wrapper 
-        (btnClick)="goBackWithoutModal()"
-        [text]="'Cancel'"
-        [icon]="'cancel'"></app-button-wrapper> -->
-
-
-
        <button mat-flat-button
                 color="primary"
                 class="mat-theme-button"
                 style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px;padding-left:5px; padding-right:10px;"
                 [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+                *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
           <mat-icon>{{ner_id?'update':'add'}}</mat-icon>
           {{ner_id ? "Update" : "Create" }}
         </button> 
 
 
-        <!-- <app-button-wrapper
-        *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
-        [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
-        data-cy="version-update"
-        [status]="updateOrCreateStatus"
-        (btnClick)="updateOrSaveConcept()"
-        [text]="ner_id? 'Update' : 'Create'"
-        [icon]="ner_id?'update':'add'"></app-button-wrapper>
- -->
+
 
 
       </div>
@@ -175,15 +128,7 @@
                 (click)="goBackWithoutModal()">
           <mat-icon>cancel</mat-icon>
           Cancel
-        </button> 
-
-
-        <!-- <app-button-wrapper 
-        (btnClick)="goBackWithoutModal()"
-        [text]="'Cancel'"
-        [icon]="'cancel'"></app-button-wrapper> -->
-
-
+        </button>
 
       <button mat-flat-button
                 color="primary"
@@ -192,31 +137,14 @@
                 padding-left:5px; padding-right:10px;"
                 [disabled]="!form.valid"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
+                *appMyIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
           <mat-icon>update</mat-icon>
           {{ner_id ? "Update" : "Create" }}
-        </button> 
-      
-
-      <!--update/create button ends-->
-
-
-
-
-      <!-- <app-button-wrapper
-        *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
-        [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
-        data-cy="version-update"
-        [status]="updateOrCreateStatus"
-        (btnClick)="updateOrSaveConcept()"
-        [text]="ner_id? 'Update' : 'Create'"
-        [icon]="ner_id?'update':'add'"></app-button-wrapper> -->
-
+        </button>
       </div> 
 
-
       <ng-container
-              *myIf="myEAllActions['Delete Enterprise Knowledge base']">
+        *appMyIf="myEAllActions['Delete Enterprise Knowledge base']">
         <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
           <button mat-button
                   class="mat-theme-button"
@@ -228,10 +156,8 @@
         </div>
       </ng-container>
 
-      <ng-container *myIf="myEAllActions['Delete Bot Knowledge base']">
+      <ng-container *appMyIf="myEAllActions['Delete Bot Knowledge base']">
         <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
-          <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
-          <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->
           <button mat-button
                   class="mat-theme-button"
                   style="min-width: 16px!important; padding: 0"
@@ -243,7 +169,7 @@
       </ng-container>
     </form>
   </div>
-  <!---->
+
   <div class="mt-2 d-flex-column-last-child-flex-grow-1 child">
     <div class="d-flex-column-last-child-flex-grow-1"
          *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">

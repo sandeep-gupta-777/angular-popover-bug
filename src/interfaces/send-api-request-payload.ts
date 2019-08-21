@@ -27,21 +27,24 @@ export interface ISendApiRequestPayload {
 
 export interface IGeneratedMessageItem {
   'text'?: string;
-  bot_message_id: number,
-  'media'?: [
-    {
-      'buttons': [
-        {
-          'title': 'URL Button',
-          'type': 'web_url', //title
-          'url': 'https://www.messenger.com/'/*TODO: we are not getting payload*/
-        }
-        ],
-      'title': 'this is sample text for image ,it is optional', //use this
-      'type': EBotMessageMediaType//"image",//use this
-      'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'//use this
-    }
-    ];
+  bot_message_id: number;
+  'media'?: any;
+  // {
+  //   'buttons': [
+  //     {
+  //       'title': 'URL Button',
+  //       'type': 'web_url', //title
+  //       'url': 'https://www.messenger.com/'/*TODO: we are not getting payload*/
+  //     }
+  //     ],
+  //   'title': 'this is sample text for image ,it is optional', //use this
+  //   'type': EBotMessageMediaType//"image",//use this
+  //   'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'//use this
+  //   'video_url': string
+  //   'audio_url': string
+  //   'image_url': string
+  // }[],
+
   quick_reply?: {
     'quick_replies': [
       {
@@ -59,13 +62,13 @@ export interface ISendApiResponsePayload {
   'bot_msg': string;
   bot_message_id: number;
   'generated_msg': IGeneratedMessageItem[];
-  'messageStore': { 'endflow': true, 'templateKey': 'A1' };
+  'messageStore': { 'endflow': true, 'templateKey': 'A1', response_language:string };
   'room': {
     'agent_handover': false,
     'allow_anonymization': false,
-    'bot_id': number//1,
+    'bot_id': number// 1,
     'consent_permissions': any[],
-    'consumer_id': number, //43,
+    'consumer_id': number, // 43,
     'cross_retention_period': false,
     'data_store': {},
     'df_state': {

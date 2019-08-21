@@ -4,13 +4,8 @@
     <div class="chat-grid__header">
               <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
-                <i data-cy="chat-back" class="fa fa-angle-left"></i>
+                <span data-cy="chat-back" class="fa fa-angle-left"></span>
               </span>
-
-      <!--TODO: when clicked open the bot-->
-      <!--<a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">-->
-      <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
-      <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
       <a>
         <img
           [defaultImage]="'assets/img/no image.svg'"
@@ -19,7 +14,7 @@
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
-         [routerLink]="['/preview']"
+         [routerLink]="'/preview-dev'"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          [matTooltip]="'Open in new Tab'"
          target="_blank">
@@ -97,14 +92,17 @@
 </ng-container>
 <!--tool tip ends-->
 
+<app-imi-loader *ngIf="isFullScreenPreview && showFullScreenLoader"></app-imi-loader>
+
 <!--===============FULL SCREEN BELOW===================-->
-<!--anon-view-->
-<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_logged_in}">
+<!--<i>showFullScreenLoader: {{showFullScreenLoader}}</i>-->
+<div *ngIf="isFullScreenPreview && !showFullScreenLoader" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_dev_view}">
   <div class="header1 px-3 d-flex align-items-center">
     <img class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-enterprise"
          [defaultImage]="'assets/img/no image.svg'"
          [lazyLoad]="enterprise_logo"
+         alt="enterprise logo"
          style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
       <div>{{user_first_name}}</div>
@@ -137,13 +135,14 @@
     <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-bot"
          [defaultImage]="'assets/img/no image.svg'"
-         [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+         [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'"
+         alt="Bot logo">
     <div *ngIf="currentBot" class="d-flex flex-column text-white">
       <div class="">{{currentBot.name}}</div>
       <div class="description hide-mobile">{{currentBot.description}}</div>
     </div>
     <div class="ml-auto"></div>
-    <ng-container *ngIf="!is_logged_in">
+    <ng-container *ngIf="!is_dev_view">
       <button (click)="startNewChatForAnonUser()"
               class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>refresh</mat-icon>
@@ -154,34 +153,13 @@
         <mat-icon>error</mat-icon>
         <span class="hide-mobile">Know more</span>
       </button>
-      <div
-        *ngIf="showChatImage"
-        (click)="showChatImage = false"
-        class="chat-img-overlay">
-        <i class="fa fa-times close-chat-img-overlay"></i>
-        <div class="chat-know-more-overlay" (click)="$event.stopPropagation()">
-
-          <header class="chat-know-more-overlay-header">
-            <div class="description-top" style="text-align: center">This bot was built using</div>
-            <div><img src="assets/img/IMI_logo.png" alt=""></div>
-            <strong class="description-bottom">The enterprise bot building platform to automate conversations</strong>
-          </header>
-
-          <div class="chat-know-more-overlay-item" *ngFor="let item of knowMorePanelItems">
-            <img [src]="item.imgUrl" alt="">
-            <div>
-              {{item.title}}
-            </div>
-          </div>
-
-          <a href="https://imimobile.com/products/ai-automation" target="_blank"><button mat-flat-button color="primary"> Know more</button></a>
-
-        </div>
-      </div>
+      <app-chat-know-more-panel [hidden]="!showChatImage"
+                                class="know-more-comp"
+                                (click)="showChatImage = false"></app-chat-know-more-panel>
     </ng-container>
 
 
-    <ng-container *ngIf="is_logged_in">
+    <ng-container *ngIf="is_dev_view">
       <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
            class="d-flex mr-3 flex-column align-items-end text-white">
         <div>Last template:</div>
@@ -208,7 +186,6 @@
         }">
       </ng-container>
     </ng-container>
-
   </div>
 
   <div class="chat-rooms" style="overflow: hidden">
@@ -221,6 +198,7 @@
   <div class="chat">
     <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                      [allow_feedback]="currentBot.allow_feedback"
+                     [isAnonView]="!is_dev_view"
                      [selectedAvatar]="selectedAvatar"
                      [room]="currentRoom"
                      [bot]="currentBot"

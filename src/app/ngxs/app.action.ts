@@ -71,7 +71,7 @@ export class SetBackendURlRoot {
   constructor(public payload: {
     url: string
   }) {
-    console.log("SetBackendURlRoot ACTION:", payload);
+    console.log('SetBackendURlRoot ACTION:', payload);
   }
 }
 
@@ -113,7 +113,7 @@ export class SetAutoLogoutTime {
 export class SetRoleInfo {
   static readonly type = '[app] set role info';
 
-  constructor(public payload: {roleInfoArr:IRoleInfo[]}) {}
+  constructor(public payload: {roleInfoArr: IRoleInfo[]}) {}
 }
 
 

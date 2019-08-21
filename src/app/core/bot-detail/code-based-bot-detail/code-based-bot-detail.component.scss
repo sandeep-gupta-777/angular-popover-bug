@@ -14,9 +14,7 @@
   }
   grid-template-rows: 56px 1fr;
   //grid-gap: 8px;
-  grid-template-areas:
-          '. . .'
-          '. architecture architecture';
+  grid-template-areas: '. . .' '. architecture architecture';
 
   .sidebar {
     position: fixed;
@@ -60,7 +58,6 @@
       }
 
       li {
-        border-right: 2px solid transparent !important;
         cursor: pointer;
         display: flex;
         flex-direction: column;
@@ -71,8 +68,8 @@
         padding-bottom: 3px;
         border-right: 1px solid transparent;
 
-        img{
-          width:50%;
+        img {
+          width: 50%;
         }
 
         &:hover {
@@ -93,7 +90,7 @@
   .header {
     //grid-area: header;
     position: fixed;
-    width: calc(100vw - 56px);;//56
+    width: calc(100vw - 56px); //56
     top: 0;
     left: 56px;
     z-index: 100;
@@ -168,7 +165,7 @@
 //}
 
 //.heading {
-//  font-family: Helvetica;
+//  font-family: Helvetica, serif;
 //  font-size: 16px;
 //  font-weight: bold;
 //  font-style: normal;
@@ -218,7 +215,7 @@ app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
   display: flex;
 }
 
-app-code-input{
+app-code-input {
   height: calc(100% - 50px);
 }
 
@@ -236,12 +233,6 @@ app-integration-option-list {
 }
 
 
-::ng-deep {
-  .mat-tab-body-wrapper {
-    height: 100%; /*TODO: check why its needed....for knowledge base editor*/
-  }
-}
-
 mat-tab-group {
   //padding-left: 56px;
   mat-tab {
@@ -251,6 +242,11 @@ mat-tab-group {
 
 
 ::ng-deep {
+
+  .mat-tab-body-wrapper {
+    height: 100%; /*TODO: check why its needed....for knowledge base editor*/
+  }
+
   .mat-tab-nav-bar, .mat-tab-header {
     border-bottom: 1px solid transparent;
   }
@@ -263,50 +259,40 @@ mat-tab-group {
     margin-bottom: 8px;
     margin-top: 8px;
   }
-}
 
-::ng-deep{
   .hide-headers {
     mat-tab-header {
       display: none !important;
     }
   }
-  .mat-list-item-content{
+
+  .mat-list-item-content {
 
     margin: 16px 0;
-    padding: 0!important;
+    padding: 0 !important;
   }
 
 
-
-  .app-container{
+  .app-container {
     //height: calc(100vh - 56px);
     padding: 16px 130px 16px 115px !important;
-    @media screen and (max-width: 780px){
+    @media screen and (max-width: 780px) {
       padding: 10px !important;
     }
   }
 }
 
-//::ng-deep{
-//  .site-sidenav, .site-sidenav.md-locked-open-add-active, .site-sidenav.md-locked-open {
-//    width: 100px;
-//    min-width: 100px;
-//    max-width: 100px;
-//  }
-//}
 .sidebar-logo__image {
   width: 27px;
   height: 27px;
   cursor: pointer;
 }
 
-.mat-list-item-sidebar{
+.mat-list-item-sidebar {
   margin-bottom: 24px;
-//
 }
 
-.sidebar-nav-list-item{
+.sidebar-nav-list-item {
   width: 100%;
   display: flex;
   flex-direction: column !important;
@@ -314,7 +300,8 @@ mat-tab-group {
   align-items: center !important;
   font-size: 11px;
   padding: 0;
-  img{
+
+  img {
     margin-bottom: 6px;
     padding: 0;
     width: 27px;
@@ -322,6 +309,6 @@ mat-tab-group {
   }
 }
 
-.overflowYAuto{
+.overflowYAuto {
   overflow-y: auto;
 }

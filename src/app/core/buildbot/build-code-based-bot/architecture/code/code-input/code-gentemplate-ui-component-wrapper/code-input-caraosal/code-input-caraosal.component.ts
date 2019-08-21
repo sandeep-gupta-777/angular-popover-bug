@@ -1,4 +1,6 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,7 +17,6 @@ import {LoggingService} from '../../../../../../../../logging.service';
 import {NgForm} from '@angular/forms';
 import {ICarousalItem, IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 import {UtilityService} from '../../../../../../../../utility.service';
-import {debounce} from 'rxjs/operators';
 import {EventService} from '../../../../../../../../event.service';
 
 declare var $: any;
@@ -30,9 +31,9 @@ enum ECarasoulMoveDirection {
   templateUrl: './code-input-caraosal.component.html',
   styleUrls: ['./code-input-caraosal.component.scss']
 })
-export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
+export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
 
-  showOverlay:boolean;
+  showOverlay: boolean;
   @ViewChild('mainInput') mainInput: ElementRef;
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
@@ -52,12 +53,15 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   @ViewChild('MultiCarousel') MultiCarousel: ElementRef;
   @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
   @ViewChild('addNewCarasolPlaceholder') addNewCarasolPlaceholder: ElementRef;
-
-  // @ViewChild('carauoselForm') caraoselForm: NgForm;
+  @Output() disableSaveButton$ = new EventEmitter();
+  //  @ViewChild('carauoselForm') caraoselForm: NgForm;
   @ViewChild('carausalForm') carausalForm: NgForm;
+  slideCarousel: Function;
   itemWidth;
   disableAddNewCarasolItem = false;
   _messageData: IMessageData;
+  x = 0;
+  ResCarouselSize1;
   myECarasoulMoveDirection = ECarasoulMoveDirection;
   selected: boolean;
 
@@ -75,9 +79,11 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private utilityService:UtilityService,
-    private eventService:EventService,
-  ){}
+    private utilityService: UtilityService,
+    private eventService: EventService,
+  ) {
+  }
+
   carasolItemShownInOneScreen: number;
   totalItemsInCarasol: number;
   MultiCarouselWidth: number;
@@ -109,16 +115,15 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     this.moveTempDown.emit(i);
   }
 
-  @Output() disableSaveButton$ = new EventEmitter();
   ngOnInit() {
-    // co
-    this.carasolItemShownInOneScreen = 1.5; //this.isFullScreenPreview ? 4 : 2;
-    this.totalItemsInCarasol = 2; //this._messageData.media.length;
+    //  co
+    this.carasolItemShownInOneScreen = 1.5; // this.isFullScreenPreview ? 4 : 2;
+    this.totalItemsInCarasol = 2; // this._messageData.media.length;
     this.carausalForm.statusChanges
-      .subscribe((result)=>{
-        let isValid = result === 'VALID';
+      .subscribe((result) => {
+        const isValid = result === 'VALID';
         EventService.disableSaveButton_codeInput$.emit(!isValid);
-      })
+      });
 
 
   }
@@ -135,7 +140,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   deleteCarasolItem(index) {
     const carasolItems = this.outputItem.generic_template[0].elements;
     if (index === carasolItems.length - 1) {
-      // --this.controlsClickedCount;
+      //  --this.controlsClickedCount;
       this.slideCarousel(ECarasoulMoveDirection.left);
     }
     if (carasolItems.length === 1) {
@@ -146,7 +151,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     return;
   }
 
-  x = 0;
 
   duplicateCarasolItem(index) {
     const carasolItems = this.outputItem.generic_template[0].elements;
@@ -162,15 +166,15 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       $(this.MultiCarouselInner.nativeElement).find(('.item')).each(function () {
         $(this).outerWidth(self.itemWidth);
       });
-      // ;
+      //  ;
 
-      // setTimeout(() => {/*first add item, then in next tick force .item with recalculation*/
-      //   this.carasolItems.forEach((item) => {
-      //     console.log(item)
-      //     $(item.nav).outerWidth(self.itemWidth);
-      //   });
-      //   this.controlsClickedCount = 0;
-      // });
+      //  setTimeout(() => {/*first add item, then in next tick force .item with recalculation*/
+      //    this.carasolItems.forEach((item) => {
+      //      console.log(item)
+      //      $(item.nav).outerWidth(self.itemWidth);
+      //    });
+      //    this.controlsClickedCount = 0;
+      //  });
 
 
       this.slideCarousel(ECarasoulMoveDirection.right);
@@ -178,7 +182,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   resetCarasolSlide() {
-    // $('.MultiCarousel-inner').css('transform', 'translateX(' + ((this.MultiCarouselWidth - this.itemWidth) / 2) + 'px)');
+    //  $('.MultiCarousel-inner').css('transform', 'translateX(' + ((this.MultiCarouselWidth - this.itemWidth) / 2) + 'px)');
     $(this.MultiCarouselInner.nativeElement).css('transform', 'translateX(' + ((this.MultiCarouselWidth - this.itemWidth) / 2) + 'px)');
   }
 
@@ -197,38 +201,37 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     }));
   }
 
-  ResCarouselSize1;
 
   ngAfterViewInit() {
 
     console.log('===================ngAfterViewInit===============================================');
-    // this.mainInput.nativeElement.focus();
+    //  this.mainInput.nativeElement.focus();
 
     const self = this;
     self.carasolItems = self.caraosalItem.toArray();
 
     $(document).ready(() => {
       const CardCarouselComponent_this = this;
-      const MultiCarousel = this.MultiCarousel.nativeElement; //('.MultiCarousel');
-      const MultiCarouselInner = this.MultiCarouselInner.nativeElement; //('.MultiCarousel-inner');
+      const MultiCarousel = this.MultiCarousel.nativeElement; // ('.MultiCarousel');
+      const MultiCarouselInner = this.MultiCarouselInner.nativeElement; // ('.MultiCarousel-inner');
       let itemWidth: any = '';
       let itemNumbers: any = '';
       let sampwidth: any = '';
 
-      // $('.leftLst, .rightLst').click(function () {
+      //  $('.leftLst, .rightLst').click(function () {
 
-      // let sideControlsClickHandler = function ($event) {
-      //   let condition = $('#MultiCarousel').hasClass('leftLst');
-      //   if (condition)
-      //     click(0, this);
-      //   else
-      //     click(1, this);
+      //  let sideControlsClickHandler = function ($event) {
+      //    let condition = $('#MultiCarousel').hasClass('leftLst');
+      //    if (condition)
+      //      click(0, this);
+      //    else
+      //      click(1, this);
       //
-      //   $event.stopPropagation();
-      // };
+      //    $event.stopPropagation();
+      //  };
 
-      // this.rightLstElementRef && $(this.rightLstElementRef.nativeElement).click(sideControlsClickHandler);
-      // this.leftLstElementRef && $(this.leftLstElementRef.nativeElement).click(sideControlsClickHandler);
+      //  this.rightLstElementRef && $(this.rightLstElementRef.nativeElement).click(sideControlsClickHandler);
+      //  this.leftLstElementRef && $(this.leftLstElementRef.nativeElement).click(sideControlsClickHandler);
 
       setTimeout(() => {
         ResCarouselSize();
@@ -241,52 +244,49 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
         });
       });
 
-      //this function define the size of the items
+      // this function define the size of the items
       function ResCarouselSize() {
 
         self.controlsClickedCount = 0;
-        // var incno = 0;
-        // var dataItems = ('data-items');
+        //  var incno = 0;
+        //  var dataItems = ('data-items');
         console.log(self.caraosalItem.toArray());
 
-        var itemClass = ('.item');
+        const itemClass = ('.item');
         let id = 0;
-        // var btnParentSb = '';
-        // var itemsSplit: any = '';
+        //  var btnParentSb = '';
+        //  var itemsSplit: any = '';
         self.MultiCarouselWidth = sampwidth = $(MultiCarousel).width();
-        if (!sampwidth) {
-
-        }
         console.log(sampwidth, '=============');
 
-        // var bodyWidth = $('body').width();
+        //  var bodyWidth = $('body').width();
         $(MultiCarouselInner).each(function () {
 
           id = id + 1;
-          // itemNumbers = $(this).find(itemClass).length;
+          //  itemNumbers = $(this).find(itemClass).length;
           itemNumbers = self.carasolItems.length;
-          // btnParentSb = $(this).parent().attr(dataItems);
-          // itemsSplit = btnParentSb.split(',');
+          //  btnParentSb = $(this).parent().attr(dataItems);
+          //  itemsSplit = btnParentSb.split(',');
           $(this).parent().attr('id', 'MultiCarousel' + id);
 
           itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
 
-          // if (bodyWidth >= 1200) {
-          //   // incno = this.carasolItemShownInOneScreen;//itemsSplit[3];
-          //   itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          // }
-          // else if (bodyWidth >= 992) {
-          //   incno = itemsSplit[2];
-          //   itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          // }
-          // else if (bodyWidth >= 768) {
-          //   incno = itemsSplit[1];
-          //   itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          // }
-          // else {
-          //   incno = itemsSplit[0];
-          //   itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          // }
+          //  if (bodyWidth >= 1200) {
+          //    //  incno = this.carasolItemShownInOneScreen;// itemsSplit[3];
+          //    itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
+          //  }
+          //  else if (bodyWidth >= 992) {
+          //    incno = itemsSplit[2];
+          //    itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
+          //  }
+          //  else if (bodyWidth >= 768) {
+          //    incno = itemsSplit[1];
+          //    itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
+          //  }
+          //  else {
+          //    incno = itemsSplit[0];
+          //    itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
+          //  }
           self.itemWidth = itemWidth;
           console.log(sampwidth, itemWidth);
           $(this).css({'transform': 'translateX(0px)', 'width': 10 + itemWidth * itemNumbers});
@@ -295,12 +295,12 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
           $(this).find(itemClass).each(function () {
             $(this).outerWidth(itemWidth);
           });
-          // self.carasolItems.forEach((item) => {
-          //   $(item.nativeElement).outerWidth(itemWidth);
-          // });
+          //  self.carasolItems.forEach((item) => {
+          //    $(item.nativeElement).outerWidth(itemWidth);
+          //  });
 
-          // $('.leftLst').addClass('over');
-          // $('.rightLst').removeClass('over');
+          //  $('.leftLst').addClass('over');
+          //  $('.rightLst').removeClass('over');
 
         });
       }
@@ -308,9 +308,9 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       self.ResCarouselSize1 = ResCarouselSize;
 
 
-      //this function used to move the items
+      // this function used to move the items
       self.slideCarousel = function slideCarousel(direction: ECarasoulMoveDirection) {
-        // alert("sider");
+        //  alert("sider");
 
         if (self.outputItem.generic_template[0].elements.length === 1) {
           self.resetCarasolSlide();
@@ -320,7 +320,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
           self.bringAddNewCarasolPlaceholderAtCenter();
         }
 
-        if (direction == ECarasoulMoveDirection.left) {
+        if (direction === ECarasoulMoveDirection.left) {
           $(MultiCarouselInner).css('transform', 'translateX(' + (currentSlideLength() + itemWidth) + 'px)');
           --self.controlsClickedCount;
         }
@@ -331,24 +331,22 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
         self.disableAddNewCarasolItem = false;
 
-        // if(self.controlsClickedCount === self.outputItem.generic_template[0].elements.length){
-        //   --self.controlsClickedCount;;
-        // }
+        //  if(self.controlsClickedCount === self.outputItem.generic_template[0].elements.length){
+        //    --self.controlsClickedCount;
+        //  }
       };
 
 
       function currentSlideLength() {
         const divStyle = $(MultiCarouselInner).css('transform');
         const values = divStyle.match(/-?[\d\.]+/g);
-        const slideLength: number = parseFloat(values[4]); //xds = length by which carousal has been moved
+        const slideLength: number = parseFloat(values[4]); // xds = length by which carousal has been moved
         console.log(slideLength);
         return slideLength;
       }
 
     });
   }
-
-  slideCarousel: Function;
 
   swapCarasolItems(initialIndex, finalIndex) {
     const carasolItems = this.outputItem.generic_template[0].elements;
@@ -360,10 +358,10 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   pushNewCarasolItem() {
-    this.disableAddNewCarasolItem =true;
+    this.disableAddNewCarasolItem = true;
     const carasolItems = this.outputItem.generic_template[0].elements;
     const emptyCaraosalItem: ICarousalItem = {
-      'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
+      'image_url': 'https:// s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
       'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
       'title': 'Contract Renewal'
     };
@@ -379,8 +377,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked() {
-    //TODO: this is being called many times, check it
-    // console.log('=================ngAfterViewChecked====================');
+    // TODO: this is being called many times, check it
+    //  console.log('=================ngAfterViewChecked====================');
     if (this.x) {
 
       this.ResCarouselSize1();
@@ -397,24 +395,23 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     console.log(this.outputItem.generic_template[0].elements[carasolItemIndex]);
   }
 
-  deleteCaraousalButton(carouselIndex, buttonIndex){
+  deleteCaraousalButton(carouselIndex, buttonIndex) {
     try {
-      this.outputItem.generic_template[0].elements[carouselIndex].button.splice(buttonIndex,1);
-    }catch (e) {
+      this.outputItem.generic_template[0].elements[carouselIndex].button.splice(buttonIndex, 1);
+    } catch (e) {
       console.log(e);
     }
   }
 
-  changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex){
-    setTimeout(()=>{
+  changeActiveButtonIndex(activeDropdownButtonIndex, buttonIndex) {
+    setTimeout(() => {
       activeDropdownButtonIndex.value = buttonIndex;
-    })
+    });
   }
 
-test(arg){
+  test(arg) {
     console.log(arg);
-}
-
+  }
 
 
 }

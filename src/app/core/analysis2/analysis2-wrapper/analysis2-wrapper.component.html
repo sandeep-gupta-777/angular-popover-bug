@@ -1,32 +1,64 @@
-<div class="grid-analysis2" *ngIf="(allCodeBasedBotList$|async) && (allCodeBasedBotList$|async).length>0; else splashscreen">
-  <app-analysis2-header [allbotList]="(allCodeBasedBotList$|async)" class="header border"></app-analysis2-header>
-  <app-analysis2-body class="body"></app-analysis2-body>
+<div class = "analytics-grid">
+  <div class="side-bar  border-right">
+    <div class="side-bar-content">
+      <!--    <a routerLinkActive="font-weight-bold" class="heading  my-3">Analytics</a>-->
+      <a [routerLink]="['/core','analytics2','overview']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
+        <div class="sidebar-nav-list-item">
+          <img class="" src="assets/img/analytics/pie-chart.svg" alt="">
+          <span style="color: #00ABD3">Overview</span>
+        </div>
+      </a>
+      <a [routerLink]="['/core','analytics2','volume']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
+        <div class="sidebar-nav-list-item">
+          <img class="" src="assets/img/analytics/stopwatch.svg" alt="">
+          <span style="color: #00ABD3">Activity</span>
+        </div>
+      </a>
+      <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
+        <div class="sidebar-nav-list-item">
+          <img class="" src="assets/img/analytics/filter-2.svg" alt="">
 
-  <div class="body">
-    <div class="d-flex row-body bg-white border mt-4">
+          <span style="color: #00ABD3">Retention</span>
+        </div>
+      </a>
+      <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
+        <div class="sidebar-nav-list-item">
+          <img class="" src="assets/img/analytics/like-3.svg" alt="">
+          <span style="color: #00ABD3">Behavior</span>
+        </div>
+      </a>
+      <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="filter-black" class="mat-list-item-sidebar" *ngIf="false">
+        <div class="sidebar-nav-list-item">
+          <img class="" src="assets/img/sidebar/light-bulb.svg" alt="">
+          <span style="color: #00ABD3">Usage</span>
+        </div>
+      </a>
 
-      <div class="side-bar  border-right">
-        <div class="side-bar-content">
-          <a routerLinkActive="font-weight-bold" class="heading  my-3">Analytics</a>
-          <!-- <a [routerLink]="['/core','analytics2','overview']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Overview</a> -->
-          <a [routerLink]="['/core','analytics2','volume']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Volume</a>
-          <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Performance</a>
-          <!-- &lt;!&ndash; Performance was &ndash;&gt; -->
-          <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Engagement</a>
-          <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Usage</a>
-           <!-- &lt;!&ndash; engaggment was &ndash;&gt; -->
+      <!--    <a [routerLink]="['/core','analytics2','overview']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Overview</a>-->
+      <!--    <a [routerLink]="['/core','analytics2','volume']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Volume</a>-->
+      <!--    <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Performance</a>-->
+      <!--    <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Engagement</a>-->
+      <!--    <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Usage</a>-->
+    </div>
+  </div>
+
+  <div class="grid-analysis2" *ngIf="(allCodeBasedBotList$|async) && (allCodeBasedBotList$|async).length>0; else splashscreen">
+    <div class = "overview-heading">
+      <div class = "heading">Overview</div>
+      <div class = "heading-discription">See how the bot is performing overall and take a decision to where to dig deep into</div>
+    </div>
+    <app-analysis2-header [allbotList]="(allCodeBasedBotList$|async)" class="header"></app-analysis2-header>
+    <div class="body">
+      <div class="d-flex row-body">
+        <div class="flex-grow-1">
+          <router-outlet style="flex-grow: 1"></router-outlet>
         </div>
       </div>
 
-      <div class="flex-grow-1">
-        <router-outlet style="flex-grow: 1"></router-outlet>
-      </div>
-      <!-- <app-analysis2-overview></app-analysis2-overview> -->
-
     </div>
-
   </div>
 </div>
+
 <ng-template
         #splashscreen>
 <app-splash-screen

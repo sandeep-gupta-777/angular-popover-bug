@@ -16,7 +16,7 @@ export class IntegrationNameFormatterPipe implements PipeTransform {
     });
   }
   transform(integration_type: any, args?: any): any {
-    const masterIntegrationItem =   this.masterIntegrationList.find((masterIntegrationItem) => masterIntegrationItem.integration_type === integration_type);
+    const masterIntegrationItem =   this.masterIntegrationList.find((masterIntegrationItem_temp) => masterIntegrationItem_temp.integration_type === integration_type);
     return masterIntegrationItem.type;
   }
 

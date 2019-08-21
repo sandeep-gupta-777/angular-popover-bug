@@ -11,7 +11,6 @@ import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2
 @Component({
   selector: 'app-analysis2-engagement',
   templateUrl: './analysis2-engagement.component.html',
-  styleUrls: ['./analysis2-engagement.component.scss']
 })
 export class Analysis2EngagementComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
@@ -60,7 +59,7 @@ export class Analysis2EngagementComponent implements OnInit {
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
 
           this.chartValue =
-            <any>this.u.convertDateTimeGraph(
+            this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),

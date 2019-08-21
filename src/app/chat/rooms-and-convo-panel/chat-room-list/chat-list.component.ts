@@ -5,7 +5,8 @@ import {IChatSessionState, IRoomData} from '../../../../interfaces/chat-session-
 import {IBot} from '../../../core/interfaces/IBot';
 import {ViewBotStateModel} from '../../../core/view-bots/ngxs/view-bot.state';
 import {IConsumerDetails} from '../../ngxs/chat.state';
-import {UtilityService} from "../../../utility.service";
+import {UtilityService} from '../../../utility.service';
+import {SortService} from '../../../sort.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -32,16 +33,9 @@ export class ChatListComponent implements OnInit {
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       if (!chatSessionState || !chatSessionState.rooms) { return; }
       this.chatsessionstate = chatSessionState;
-
-      const x = this.rooms = chatSessionState.rooms.sort((obj1, obj2) => {
-        return obj2.messageList[obj2.messageList.length - 1].time - obj1.messageList[obj1.messageList.length - 1].time;
-      });
+      chatSessionState.rooms.sort(SortService.sortMessageList);
+      this.rooms = chatSessionState.rooms;
       this.rooms = [...this.rooms];
-      // this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.roomId;
-      // if (!this.bot_id) return;
-      // this.botlist$.subscribe((value) => {
-      //   this.bot = value.allBotList.find(value => value.roomId === this.bot_id);
-      // });
     });
   }
 

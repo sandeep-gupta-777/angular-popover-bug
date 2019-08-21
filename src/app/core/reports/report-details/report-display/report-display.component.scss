@@ -8,20 +8,20 @@ table{
   th{
     width: 96px;
     height: 18px;
-    font-family: Helvetica;
+    font-family: Helvetica, serif;
     font-size: 13px;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.38;
     letter-spacing: 0.4px;
-    color: #474747;;
+    color: #474747;
   }
 
   td{
     width: 181px;
     height: 14px;
-    font-family: Helvetica;
+    font-family: Helvetica, serif;
     font-size: 11px;
     font-weight: normal;
     font-style: normal;
@@ -32,6 +32,6 @@ table{
   }
 
   .border-bottom-custom{
-    border-bottom: solid 2px #e0e0e0 !important;;
+    border-bottom: solid 2px #e0e0e0 !important;
   }
 }

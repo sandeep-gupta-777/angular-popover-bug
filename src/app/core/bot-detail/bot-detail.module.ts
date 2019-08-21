@@ -72,7 +72,7 @@ import { ArticleQuestionListViewComponent } from './bot-articles/article-questio
 import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-header.component';
 import { EditAndViewArticlesComponent } from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
 import { CategorieModalInputComponent } from './bot-articles/categorie-modal-input/categorie-modal-input.component';
-import {ConstantsService} from "../../constants.service";
+import {ConstantsService} from '../../constants.service';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
@@ -90,7 +90,9 @@ import { CurationResolvedAggrigationComponent } from './curation/curation-resolv
 import { CurationOverviewComponent } from './curation/curation-overview/curation-overview.component';
 import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
 import { RemoveTopAndBottomAndGetAsArrayPipe } from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
+import { AnswerTemplateWrapperComponent } from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
 import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
+import { GentemplateSidebarComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 
 
 const routes: Route[] = [
@@ -178,7 +180,9 @@ const routes: Route[] = [
     CurationOverviewComponent,
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
+    AnswerTemplateWrapperComponent,
     PipelineTestComponent,
+    GentemplateSidebarComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
     //
@@ -198,7 +202,7 @@ const routes: Route[] = [
     MatToolbarModule,
     MatListModule,
   ],
-  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe,CategoryIdToNamePipe]
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe]
 })
 export class BotDetailModule {
 

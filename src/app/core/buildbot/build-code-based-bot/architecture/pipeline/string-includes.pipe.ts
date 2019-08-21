@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StringIncludesPipe implements PipeTransform {
 
   transform(string: string, substring?: any): any {
-    if(!string || !substring) return false;
+    if (!string || !substring) { return false; }
     return string.toLowerCase().includes(substring.toLowerCase());
   }
 

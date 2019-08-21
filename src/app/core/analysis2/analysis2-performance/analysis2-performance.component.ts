@@ -15,7 +15,7 @@ import { UtilityService } from '../../../utility.service';
 })
 export class Analysis2PerformanceComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
-  activeTab = 'topgenerationtemplates';
+  activeTab = 'totalSessions';
   chartValue: any;
   chartValue1: any;
   chartValue2: any;
@@ -65,7 +65,7 @@ export class Analysis2PerformanceComponent implements OnInit {
       .subscribe((value: IAnalysis2State) => {
         try {
 
-          const granularity:string = value.analysisHeaderData.granularity;
+          const granularity: string = value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
 
           this.chartValue =
@@ -74,14 +74,14 @@ export class Analysis2PerformanceComponent implements OnInit {
               'labels'
             );
           this.chartValue1 =
-            <any>this.u.convertDateTimeGraph(
+            this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity);
 
           this.chartValue2 =
-            <any>this.u.convertDateTimeTwoBarGraph(
+            this.u.convertDateTimeTwoBarGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),

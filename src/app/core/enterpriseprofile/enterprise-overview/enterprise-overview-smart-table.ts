@@ -24,7 +24,7 @@ export class EnterpriseOverviewSmartTable extends AbstractSmartTable {
 
   set tableData(val) {
     alert('ConsumerSmartTableModal: use refreshData instead');
-    throw 'ConsumerSmartTableModal: use refreshData instead';
+    throw new Error('ConsumerSmartTableModal: use refreshData instead');
   }
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
@@ -39,26 +39,23 @@ export class EnterpriseOverviewSmartTable extends AbstractSmartTable {
   }
 
   private customTransformSessionDataForMaterialTable(data: ISessionItem[]) {
-    let tableDataMetaDict = this.metaData;
+    const tableDataMetaDict = this.metaData;
     if (!data) {
       return null;
     }
-    if (data.length == 0) {
+    if (data.length === 0) {
       return null;
     }
     // @ts-ignore
-    if (data.length == 1 && data[0] == {}) {
+    if (data.length === 1 && data[0] === {}) {
       return null;
     }
     //
-    let x = data.map((consumerTableDataItem) => {
-      let obj: any = {};
-      //
+    const x = data.map((consumerTableDataItem) => {
+      const obj: any = {};
 
-      for (let key in tableDataMetaDict) {
-        //||
-
-        if (key == 'key') {
+      for (const key in tableDataMetaDict) {
+        if (key === 'key') {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
@@ -68,32 +65,32 @@ export class EnterpriseOverviewSmartTable extends AbstractSmartTable {
                      </div>`,
             searchValue: consumerTableDataItem[key]
           };
-        } else if (key == 'description') {
+        } else if (key === 'description') {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
             value: consumerTableDataItem[key],
             searchValue: consumerTableDataItem[key]
           };
-        } else if (key == 'created_at' || key == 'expired_at') {
+        } else if (key === 'created_at' || key === 'expired_at') {
           if (consumerTableDataItem[key]) {
-            let time = new Date(consumerTableDataItem[key]);
+            const time = new Date(consumerTableDataItem[key]);
             obj[tableDataMetaDict[key].displayValue] = {
               ...tableDataMetaDict[key],
               originalKey: key,
-              value: time.getDate() + " " + time.toLocaleString('en-us', {month: 'short'}) + " " + time.getFullYear().toString().substr(-2),
-              searchValue: time.getDate() + " " + time.toLocaleString('en-us', {month: 'short'}) + " " + time.getFullYear().toString().substr(-2)
+              value: time.getDate() + ' ' + time.toLocaleString('en-us', {month: 'short'}) + ' ' + time.getFullYear().toString().substr(-2),
+              searchValue: time.getDate() + ' ' + time.toLocaleString('en-us', {month: 'short'}) + ' ' + time.getFullYear().toString().substr(-2)
             };
           } else {
             obj[tableDataMetaDict[key].displayValue] = {
               ...tableDataMetaDict[key],
               originalKey: key,
-              value: "No Data",
-              searchValue: "No Data"
+              value: 'No Data',
+              searchValue: 'No Data'
             };
           }
 
-        } else if (key == 'actions') {
+        } else if (key === 'actions') {
 
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
@@ -114,8 +111,8 @@ export class EnterpriseOverviewSmartTable extends AbstractSmartTable {
             obj[tableDataMetaDict[key].displayValue] = {
               ...tableDataMetaDict[key],
               originalKey: key,
-              value: "No Data",
-              searchValue: "No Data"
+              value: 'No Data',
+              searchValue: 'No Data'
             };
           }
 

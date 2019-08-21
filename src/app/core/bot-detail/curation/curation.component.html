@@ -15,7 +15,6 @@
             [icon]="'refresh'"
             (btnClick)="refershCurrentTabHandler()">
     </app-button-wrapper>
-    <!-- [status]="updateSettingsLoading" -->
     <mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTab">
         <mat-tab label="Overview">
             <app-curation-overview
@@ -24,6 +23,8 @@
                     [TopArticlesWithIssues]="topArticlesWithIssues"
                     [issuesAggrigationData]="issuesAggrigationData"
                     (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
+                    (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
+                    
             ></app-curation-overview>
         </mat-tab>
         <mat-tab label="Issues">
@@ -61,7 +62,7 @@
         !curationIssuesListisReloading &&
         objToSrt(IssuesFilterQueryParams) == '&order_by=-updated_at' &&
         curationIssuesList &&
-        curationIssuesList.length == 0 &&
+        curationIssuesList.length === 0 &&
         !isMoreCurationIssuesListPresent">
                     <app-splash-screen [imageHRef]="myESplashScreens.curation_all_resolved"
                                        class="d-flex justify-content-center align-items-center"
@@ -83,6 +84,7 @@
                                      [hidden]="!curationResolvedAndIgnoredList"
                                      [unsolved]="false" style="z-index: 100;"></app-curation-filter>
                 <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
+                                            [bot]="bot"
                                             [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
                                             (loadMoreNext)="load10MoreCurationResolvedAndIgnored(false)"
                                             [totallength]="totalLengthCurationResolvedAndIgnored"

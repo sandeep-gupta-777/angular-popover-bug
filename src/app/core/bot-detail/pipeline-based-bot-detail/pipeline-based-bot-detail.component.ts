@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
-import {EAllActions} from "../../../typings/enum";
+import {EAllActions} from '../../../typings/enum';
 
 @Component({
   selector: 'app-pipeline-based-bot-detail',
@@ -108,7 +108,7 @@ myEAllActions = EAllActions;
   refreshBotDetails() {
     this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
       .subscribe((bot) => console.log('bot fetched', bot));
-    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, ServerService.getBotTokenById(this.bot.id));
   }
 
   togglePanel() {

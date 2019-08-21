@@ -1,19 +1,16 @@
 import {Component, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {ViewBotStateModel, ViewBotStateReducer} from '../../view-bots/ngxs/view-bot.state';
-import {Observable} from 'rxjs';
+import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
+import {Observable, of} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
 import {EBotType, UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
-import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
 import {ConstantsService} from '../../../constants.service';
-import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
-import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
 import {EventService} from '../../../event.service';
 import {SideBarService} from '../../../side-bar.service';
@@ -21,8 +18,9 @@ import {PipelineComponent} from '../../buildbot/build-code-based-bot/architectur
 import {MatDialog} from '@angular/material';
 import {DatePipe} from '@angular/common';
 import {EAllActions, ERoleName, ESideBarTab} from '../../../typings/enum';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {BreakpointState} from '@angular/cdk/layout';
 import {BreakpointService} from '../../breakpoint.service';
+import {switchMap, take} from 'rxjs/operators';
 
 // export enum ESideBarTab {
 //   setting = 'setting',
@@ -47,6 +45,8 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   myESideBarTab = ESideBarTab;
   mySideBarService = SideBarService;
   isArchitectureFullScreen = false;
+  spinReloadSessionTableSpinner = false;
+
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -75,21 +75,6 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   isPortrait: Observable<BreakpointState>;
   isLandscape: Observable<BreakpointState>;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private serverService: ServerService,
-    private store: Store,
-    private matDialog: MatDialog,
-    public bps:BreakpointService,
-    private _iterableDiffers: IterableDiffers,
-    private constantsService: ConstantsService,
-    public eventService: EventService,
-    public utilityService: UtilityService) {
-
-  }
-
-
   goFullScreen;
   botConfigData;
   dirtySideBarTabs = {
@@ -100,14 +85,27 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     [ESideBarTab.test]: false,
   };
 
+  pipeline: boolean;
+  kb: boolean;
+  KB_DATA;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private serverService: ServerService,
+    private store: Store,
+    private matDialog: MatDialog,
+    public bps: BreakpointService,
+    private _iterableDiffers: IterableDiffers,
+    private constantsService: ConstantsService,
+    public eventService: EventService,
+    public utilityService: UtilityService) {
+
+  }
 
   changePipelineDirtyStatus(pipeline: boolean, kb: boolean) {
     this.dirtySideBarTabs[ESideBarTab.input] = pipeline || kb;
   }
-
-  pipeline: boolean;
-  kb: boolean;
-  KB_DATA;
 
   ngOnInit() {
 
@@ -124,14 +122,12 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     });
 
     EventService.botDataDirty$.subscribe((value) => {
-
       this.dirtySideBarTabs = {...this.dirtySideBarTabs, ...value};
     });
 
-
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
     const roleName = this.constantsService.loggedUser.role.name;
-    this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
+    this.showConfig = roleName !== ERoleName.Admin; // if its admin don't expand bot config by default
     if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
       this.sideBarTab1 = ESideBarTab.setting;
     }
@@ -140,7 +136,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
     const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
     if (showConfigStr) {
-      this.showConfig = showConfigStr === 'true'; //(showConfigStr === 'true' || showConfigStr == undefined);;
+      this.showConfig = showConfigStr === 'true'; // (showConfigStr === 'true' || showConfigStr === undefined);
     }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
@@ -149,20 +145,37 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       this.logicTabClicked = true;
     }
     /*this.bot$ = */
-    this.botlist$.subscribe((botListState) => {
+    const currentBot$ = this.botlist$
+      .pipe(switchMap((botListState: ViewBotStateModel) => {
+          if (botListState.allBotList) {
+            this.bot = botListState.allBotList.find((bot) => {
+              return bot.id === this.bot_id;
+            });
 
-      if (botListState.allBotList) {
-        this.bot = botListState.allBotList.find((bot) => {
-          return bot.id === this.bot_id;
-        });
+            if (!this.bot) {
+              this.noSuchBotMessage = 'No such _bot exists in your account';
+            }
+          }
+          LoggingService.log('Bot Opened' + this.bot);
+          return of(this.bot);
+        })
+      );
 
-        if (!this.bot) {
-          this.noSuchBotMessage = 'No such _bot exists in your account';
-        }
-      }
-      LoggingService.log('Bot Opened' + this.bot);
-      return this.bot;
-    });
+    currentBot$.subscribe();
+
+    currentBot$.pipe(
+      take(1),
+      switchMap((bot: IBot) => {
+        this.showLoader = true;
+        return this.serverService.fetchSpecificBotFromServerAndUpdateBotList(bot);
+      }),
+      take(1)
+    )
+      .subscribe(() => {
+        this.showLoader = false;
+      });
+
+
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || this.selectedSideBarTab;
 
     this.start_date = this.utilityService.getPriorDate(0);
@@ -185,14 +198,14 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   refreshBotDetails() {
     this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
       .subscribe(() => {
-        this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+        this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, ServerService.getBotTokenById(this.bot.id));
       });
-    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.roomId, this.bot.bot_access_token);
+    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.roomId, ServerService.getBotTokenById(this.bot.id));
 
 
     // let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     // let headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
+    //   'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     // };
     // this.serverService.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
     //   .subscribe((val) => {
@@ -221,7 +234,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     //     this.refreshCodeEditor();
     //   }, 10000);
     // }
-    if (sideBarTabChanged != this.sideBarTab1) {
+    if (sideBarTabChanged !== this.sideBarTab1) {
       if (SideBarService.isTabDirty(this.sideBarTab1)) {
         this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
           .then((data) => {
@@ -230,16 +243,16 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
               this.goFullScreen = false;
               this.sideBarTab1 = sideBarTabChanged;
               // core/botdetail/chatbot/398
-              setTimeout(()=>{
-                this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}}).then(()=>{
+              setTimeout(() => {
+                this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}}).then(() => {
                   if (sideBarTabChanged === ESideBarTab.logic) {
                     setTimeout(() => {
                       this.logicTabClicked = true;
                       this.refreshCodeEditor();
                     });
                   }
-                })
-              },0);
+                });
+              }, 0);
             }
           });
       } else {
@@ -247,22 +260,22 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
         this.goFullScreen = false;
         this.sideBarTab1 = sideBarTabChanged;
         // core/botdetail/chatbot/398
-        setTimeout(()=>{
+        setTimeout(() => {
           this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}})
-            .then(()=>{
+            .then(() => {
               if (sideBarTabChanged === ESideBarTab.logic) {
                 setTimeout(() => {
                   this.logicTabClicked = true;
                   this.refreshCodeEditor();
                 });
               }
-            })
-        },0);
+            });
+        }, 0);
       }
     }
 
     window.scroll({top: 0, left: 0, behavior: 'smooth'});
-    ;
+
 
     // if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
     //   return;
@@ -301,8 +314,8 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
 
   pipelineDataChangeHandler({pipelines}) {
-    let bot = {pipelines};
-    let isDirty = !UtilityService.isObjectSubSet(this.bot, bot);
+    const bot = {pipelines};
+    const isDirty = !UtilityService.isObjectSubSet(this.bot, bot);
     this.dirtySideBarTabs[ESideBarTab.input] = isDirty;
   }
 
@@ -318,8 +331,6 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     });
   }
 
-  spinReloadSessionTableSpinner = false;
-
   reloadSessionsHandler() {
     this.spinReloadSessionTableSpinner = true;
     setTimeout(() => this.spinReloadSessionTableSpinner = false, 2000);
@@ -332,7 +343,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
 
   botConfigDataChangeHandler(basicInfoData: IBot, tabName) {
-    let isDirty = !UtilityService.isObjectSubSet(this.bot, basicInfoData);
+    const isDirty = !UtilityService.isObjectSubSet(this.bot, basicInfoData);
     this.dirtySideBarTabs[ESideBarTab.setting] = isDirty;
   }
 
@@ -352,19 +363,21 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
   }
 
-  logoClickHandler(left){
+  logoClickHandler(left) {
     if (this.bps.isMobile) {
-      left.close()
+      left.close();
     } else {
       this.router.navigate(['/']);
     }
   }
 
-  shouldDisableGlobalScroll(){
+  shouldDisableGlobalScroll() {
 
-    let build = this.activatedRoute.snapshot.queryParamMap.get('build');
-    let is_article = this.activatedRoute.snapshot.queryParamMap.get('is_article');
-    if(build === 'input' || (build === "articles" && (is_article === "true"))) return false;
+    const build = this.activatedRoute.snapshot.queryParamMap.get('build');
+    const is_article = this.activatedRoute.snapshot.queryParamMap.get('is_article');
+    if (build === 'input' || (build === 'articles' && (is_article === 'true'))) {
+      return false;
+    }
     return true;
   }
 }

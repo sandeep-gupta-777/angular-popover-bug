@@ -1,5 +1,6 @@
 <form [formGroup]="formGroup">
   <fieldset class="pb-4 pl-3" formGroupName="bot_metadata">
+    <legend style="display: none;">bot meta data</legend>
     <div style="width: 100%" class="py-2">Inference</div>
     <div class="interface-form-grid">
       <mat-form-field>
@@ -14,15 +15,12 @@
         <input matInput type="number" displayName="No. of results to store for each message" formControlName="n_results"
                placeholder="No. of results to store for each message" >
       </mat-form-field>
-      <!-- <mat-form-field>
-        <input matInput type="number" displayName="Max low confidence score" formControlName="low_confidence_score"
-               placeholder="Max low confidence score" >
-      </mat-form-field> -->
     </div>
   </fieldset>
 
-    <!--<button (click)="agentHandover = !agentHandover">{{agentHandover}}</button>-->
   <fieldset class="pb-4">
+    <legend style="display: none;">Agent Handover</legend>
+
     <div style="width: 100%" class="pl-3">Agent Handover</div>
     <div class="form-control d-flex flex-column pl-3 " style="border: none;">
       <label class="py-1 handover-toggle">Allow agent handover
@@ -30,8 +28,6 @@
           [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
       </label>
       <span>
-        <!--<i>{{!!formGroup.disabled}}</i>-->
-        <!--<i>{{disableAgentToggleBAD}}</i>-->
         <span (click)="openAgentHandover()" class ="disabled-slide-button" [ngClass]="{'pointer-events-none':disableAgentToggleBAD}" >
           <mat-slide-toggle [checked]="!!agentHandover"
                             [disabled]="disableAgentToggleBAD"
@@ -42,6 +38,8 @@
     </div>
   </fieldset>
   <fieldset class="pb-4" formGroupName="agent_handover_setting">
+    <legend style="display: none;">agent handover setting</legend>
+
     <div class="interface-form-grid">
 
       <div formGroupName="fallback_count">

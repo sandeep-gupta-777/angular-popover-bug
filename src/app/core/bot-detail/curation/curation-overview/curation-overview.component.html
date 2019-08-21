@@ -1,5 +1,5 @@
 <div>
-  <app-curation-issues-aggregation-bar [aggrigationData]="issuesAggrigationData"></app-curation-issues-aggregation-bar>
+  <app-curation-issues-aggregation-bar [aggrigationData]="issuesAggrigationData"  (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"></app-curation-issues-aggregation-bar>
 </div>
 <div class="overview-heading">Top articles with most issues</div>
 <div class="d-flex w-100 article flex-column pr-4">
@@ -15,11 +15,11 @@
       Action
     </div>
   </div>
-  <div *ngIf="TopArticlesWithIssues && TopArticlesWithIssues.length == 0">
+  <div *ngIf="TopArticlesWithIssues && TopArticlesWithIssues.length === 0">
     <app-splash-screen [imageHRef]="myESplashScreens.search"
           class="d-flex justify-content-center align-items-center mt-4" [descriptionText]="">
                   </app-splash-screen>
-  </div> 
+  </div>
   <div class="article-item py-2 px-4" *ngFor="let section of TopArticlesWithIssues">
     <div class="first">
       <div class="catagory">{{section.category_name}}</div>

@@ -23,7 +23,7 @@
   //
   //  .CodeMirror-scroll {
   //    //height: auto;
-  //    max-height: 40vh;;
+  //    max-height: 40vh;
   //  }
 
   .CodeMirror,.CodeMirror-scroll  {
@@ -105,10 +105,10 @@
 .genTempGrid {
   display: grid;
   //width: 80vw;
-  grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 220px 1fr 85px;
   grid-template-rows: 30px calc(100% - 30px);
   grid-template-areas :
-    'left centerHeader bot-templates'
+    'left centerHeader bot-templates-header'
     'left genTempGridItem bot-templates'
 ;
   background-color: #f7f7f7;
@@ -122,8 +122,11 @@
   .genTempGridItemGrid{
     grid-area: genTempGridItem;
   }
-  .bot-templates{
+  .bot-templates {
     grid-area: bot-templates;
+  }
+  .bot-template-heading {
+    grid-area: bot-templates-header;
   }
 }
 
@@ -177,7 +180,8 @@
     color: #9b9b9b;
   }
   &:hover{
-    border: 1px solid $color-primary;
+    background-color: #ffffff;
+    //border: 1px solid $color-primary;
   }
 }
 .show-on-hover:hover .hide-it{
@@ -212,35 +216,20 @@
     padding-left: 8px;
   }
 }
-
+.bot-template-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+}
 .bot-templates {
-  ul {
+  border: 1px solid  #e0e0e0;
+  .static-template-list {
     list-style-type: none;
     padding: 0;
-    padding-right: 30px;
-    padding-left: 15px;
-    > li {
-      color: #474747;
-      background-color: #ffffff;
-      height: 40px;
-      margin-bottom: 8px;
-      border-radius: 2px;
-      list-style-type: none;
-      display: flex;
-      align-items: center;
-      padding: 5px;
-      .fa {
-        font-size: 12px;
-        margin-right: 8px;
-      }
-    }
-    .bot-template-heading {
-      flex-direction: column;
-      height: auto;
-    }
-    .bot-template-heading {
-      background-color: #f7f7f7;
-    }
+    //.bot-template-heading {
+    //  background-color: #f7f7f7;
+    //}
   }
 }
 

@@ -12,11 +12,11 @@ import { IRole } from 'src/app/core/interfaces/IRole';
   styleUrls: ['./roleaccordion.component.scss']
 })
 export class RoleaccordionComponent implements OnInit {
-  @Input() show : boolean ;
-  @Input() categoryName : string;
-  @Input() roles : IRole[];
-  @Input() addedPermissions : number[];
-  @Input() serchedAction : string;
+  @Input() show: boolean ;
+  @Input() categoryName: string;
+  @Input() roles: IRole[];
+  @Input() addedPermissions: number[];
+  @Input() serchedAction: string;
   @Input() systemRole: string;
   @Output() removePermission  = new EventEmitter();
   @Output() addPermission  = new EventEmitter();
@@ -24,42 +24,42 @@ export class RoleaccordionComponent implements OnInit {
   constructor(
   ) { }
 
-  isPermission( id: number):boolean{
+  isPermission( id: number): boolean {
     //
-    return !!this.addedPermissions.find(num => num == id );
+    return !!this.addedPermissions.find(num => num === id );
   }
-  isCategory():boolean{
+  isCategory(): boolean {
     let ans = true;
     this.roles.forEach(role => {
       ans = this.isPermission(role.id) && ans;
     });
     return ans;
   }
-  removePermissionById(id){
-    if(this.systemRole) return;
-    this.removePermission.emit({roleIds : id})
+  removePermissionById(id) {
+    if (this.systemRole) { return; }
+    this.removePermission.emit({roleIds : id});
   }
 
-  addPermissionById(id){
-    if(this.systemRole) return;
-    this.addPermission.emit({roleIds:id})
+  addPermissionById(id) {
+    if (this.systemRole) { return; }
+    this.addPermission.emit({roleIds: id});
   }
-  selectAll(){
-    let list = this.roles.map(role => {return role.id});
+  selectAll() {
+    const list = this.roles.map(role => role.id);
     this.addPermissionById(list);
     event.stopPropagation() ;
   }
-  deselectAll(){
-    let list = this.roles.map(role => {return role.id});
+  deselectAll() {
+    const list = this.roles.map(role => role.id);
     this.removePermissionById(list);
     event.stopPropagation() ;
   }
   ngOnInit() {
   }
   isAllHidden(value) {
-    let ans:boolean = true;
+    let ans = true;
     this.roles.forEach(role => {
-      ans = ans && !role.name.toUpperCase().includes(value)
+      ans = ans && !role.name.toUpperCase().includes(value);
     });
 
     return ans;

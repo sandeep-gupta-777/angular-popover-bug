@@ -9,7 +9,9 @@ export class NumberOfTrueKeysPipe implements PipeTransform {
     let numberOfTrueKeys = 0;
     try {
       for (const key of Object.keys(obj)) {
-        obj[key] && ++numberOfTrueKeys;
+        if (obj[key]) {
+          ++numberOfTrueKeys;
+        }
       }
     } catch (e) {
       console.log(e);

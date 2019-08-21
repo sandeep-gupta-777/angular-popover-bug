@@ -1,4 +1,3 @@
-<!--<app-modal-confirm></app-modal-confirm>-->
 
 <mat-progress-bar
   [hidden]="!showProgressbar"
@@ -18,21 +17,7 @@
     <app-footer style="margin-top: 16px; display: block"></app-footer>
   </div>
 </div>
-<!--<div class="mt-2" *ngIf="!isBotDetail && !isBuildBot">-->
-  <!--<app-footer></app-footer>-->
-<!--</div>-->
-
-<!--<div style="position: fixed; right: 0px; bottom: 0px;z-index:102">-->
-  <!--&lt;!&ndash;<router-outlet name="preview"></router-outlet>&ndash;&gt;-->
-  <!--<router-outlet name="aux"></router-outlet>-->
-
-<!--</div>-->
 
 <div *ngIf="!isFullScreenPreview" style="position: fixed; right: 0px; bottom: 0px;z-index:102000000">
   <app-chat-wrapper></app-chat-wrapper>
 </div>
-
-
-<!--<div style="position: fixed; left: 40px; bottom: 40px; cursor: pointer; z-index: 10000000000000">-->
-  <!--<a routerLink="/postman"><i class="fa fa-external-link"></i></a>-->
-<!--</div>-->

@@ -9,10 +9,10 @@ import { NgForm } from '@angular/forms';
   templateUrl: './modal-confirm.component.html',
   styleUrls: ['./modal-confirm.component.scss']
 })
-export class ModalConfirmComponent{
+export class ModalConfirmComponent {
 
-  dataCopy:any;
-  inputData:string = "";
+  dataCopy: any;
+  inputData = '';
   @Output() actionItemClicked$ = new EventEmitter();
   // @ViewChild('inputForm') Form: NgForm;
   constructor(
@@ -22,7 +22,7 @@ export class ModalConfirmComponent{
   }
 
 
-  closeDialog(data:any){
+  closeDialog(data: any) {
 
     this.dialogRef.close(data);
   }

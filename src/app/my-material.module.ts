@@ -43,7 +43,7 @@ import {CommonModule} from '@angular/common';
 import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {FormsModule} from '@angular/forms';
 import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
-import {A11yModule} from "@angular/cdk/a11y";
+import {A11yModule} from '@angular/cdk/a11y';
 import {LayoutModule} from '@angular/cdk/layout';
 
 const materialModules = [
@@ -58,7 +58,7 @@ const materialModules = [
   MatDialogModule,
   MatIconModule,
   MatInputModule,
-  //remove in production
+  // remove in production
   MatButtonToggleModule,
   MatChipsModule,
   MatDatepickerModule,
@@ -96,7 +96,7 @@ const materialDeclarations = [
 ];
 
 @NgModule({
-  declarations:materialDeclarations,
+  declarations: materialDeclarations,
   imports: [...materialModules],
   exports: [...materialModules, ...materialDeclarations],
 })

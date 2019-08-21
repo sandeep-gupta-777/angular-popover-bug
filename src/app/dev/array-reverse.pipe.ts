@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class ReverseArrayPipe implements PipeTransform {
   transform(value) {
-    if(!value){
+    if (!value) {
       return [];
     }
     return value.slice().reverse();

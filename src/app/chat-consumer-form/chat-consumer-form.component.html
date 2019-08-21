@@ -4,6 +4,7 @@
   <p class="mb-3">{{readonly ? 'Consumer details' : title}}</p>
 
   <fieldset [disabled]="readonly">
+    <legend style="display: none;">consumer details</legend>
     <mat-form-field>
       <input matInput placeholder="Name" type="text" [ngModel]="customConsumerDetails?.name"
              [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
@@ -30,6 +31,7 @@
 
     <!--todo: disabled is not working on mat-form-field-->
     <fieldset>
+      <legend style="display: none;">consumer uid</legend>
       <mat-form-field>
         <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid||uuid"
                [disabled]="true"
@@ -41,7 +43,6 @@
 
   </fieldset>
   <div *ngIf="!readonly">
-    <!--<button  mat-flat-button color="primary" class="btn-theme">Save Changes</button>-->
     <button
       data-cy="edit-consumer-submit"
       color="primary"

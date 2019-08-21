@@ -26,7 +26,7 @@ export class LoginGaurdService {
   canActivate() {
 
     /*todo: temporary solution...might not work in SSR*/
-    let obj:any = decodeURI(window.location.search)
+    const obj: any = decodeURI(window.location.search)
       .replace('?', '')
       .split('&')
       .map(param => param.split('='))
@@ -40,10 +40,10 @@ export class LoginGaurdService {
     }
 
     return this.loggeduser$.pipe(map((value: IAuthState) => {
-      if (!value || value.user == null) {
+      if (!value || !value.is_loggedIn) {
         return true;
       } else {
-        this.router.navigate(['.']);
+        this.router.navigate(['/core/viewbots']);
         return false;
       }
     }));

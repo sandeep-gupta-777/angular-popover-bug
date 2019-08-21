@@ -8,13 +8,13 @@ import {FormControl} from '@angular/forms';
 export class CheckImageValidityPipe implements PipeTransform {
 
 
-  constructor(private utilityService:UtilityService) {
+  constructor(private utilityService: UtilityService) {
   }
 
   transform(url: string): any {
     console.log();
-    let x =  !this.utilityService.imageUrlHavingValidExtnError(new FormControl(url)) &&
-      !this.utilityService.imageUrlHttpsError(new FormControl(url))
+    const x =  !this.utilityService.imageUrlHavingValidExtnError(new FormControl(url)) &&
+      !this.utilityService.imageUrlHttpsError(new FormControl(url));
     return x;
   }
 

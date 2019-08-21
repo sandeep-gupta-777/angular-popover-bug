@@ -1,5 +1,4 @@
-
-import {map,  take } from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {
   ActivatedRoute, ActivatedRouteSnapshot,
@@ -24,21 +23,19 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
     private constantsService: ConstantsService,
     private permissionService: PermissionService,
     private activatedRoute: ActivatedRoute
-    ) {
+  ) {
   }
 
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // return true;
-
     return this.loggeduser$.pipe(map((value: IAuthState) => {
       return this.doAllowAccess(value, route);
     }));
   }
 
-  doAllowAccess(value, route: ActivatedRouteSnapshot) {
-    if (value && value.user != null) {
+  doAllowAccess(value: IAuthState, route: ActivatedRouteSnapshot) {
+    if (value && value.is_loggedIn != null) {
 
       const routeName = route.data['routeName'];
       if (!this.permissionService.isRouteAccessDenied(routeName)) {
@@ -54,8 +51,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.loggeduser$.pipe(map((value: IAuthState) => {
-
-     return this.doAllowAccess(value, route);
+      return this.doAllowAccess(value, route);
     }));
   }
 
@@ -67,10 +63,9 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
         this.router.navigate(['auth', 'login']);
         return false;
       }
-    }),take(1),);
+    }), take(1),);
     /*OMG:
     *What does it means for an observable to complete
     * https://github.com/angular/angular/issues/9613*/
   }
-
 }

@@ -10,11 +10,12 @@ import {UtilityService} from '../../../../../../../../utility.service';
 })
 export class CodeGentemplateComponent implements OnInit {
 
-  constructor(private utilityService:UtilityService) {
+  constructor(private utilityService: UtilityService) {
   }
+  showJsonInvalidError;
 
   outputItem: IOutputItem;
-  @Input() set _outputItem(val:IOutputItem) {
+  @Input() set _outputItem(val: IOutputItem) {
     this.outputItem =   val;
     this.outputItemClone = {...val};
   }
@@ -60,15 +61,14 @@ export class CodeGentemplateComponent implements OnInit {
     this.outputItemClone = {...this.outputItem};
   }
 
-  showJsonInvalidError
   codeEditorTextCHanged(data) {
     console.log();
     try {
-      let newCodeStr_parsed = JSON.parse(data);
+      const newCodeStr_parsed = JSON.parse(data);
       this.utilityService.emptyObjectWithoutChaningRef(this.outputItem);
       this.outputItem = Object.assign(this.outputItem, newCodeStr_parsed);
       this.showJsonInvalidError = false;
-    }catch (e) {
+    } catch (e) {
       this.showJsonInvalidError = true;
       console.log(e);
     }

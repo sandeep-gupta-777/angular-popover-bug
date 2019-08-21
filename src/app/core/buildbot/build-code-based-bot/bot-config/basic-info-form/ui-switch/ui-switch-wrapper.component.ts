@@ -6,7 +6,6 @@ import {MatSlideToggleChange} from '@angular/material';
 @Component({
   selector: 'app-ui-switch',
   templateUrl: './ui-switch-wrapper.component.html',
-  styleUrls: ['./ui-switch-wrapper.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: UiSwitchWrapperComponent,
@@ -21,7 +20,7 @@ export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
   }
 
   valueChanged(matSlideToggleChange: MatSlideToggleChange) {
-    let isOn = matSlideToggleChange.checked;
+    const isOn = matSlideToggleChange.checked;
     try {
       this.onChanges(isOn);
     } catch (e) {

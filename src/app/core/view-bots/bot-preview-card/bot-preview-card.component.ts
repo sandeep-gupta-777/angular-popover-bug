@@ -26,8 +26,8 @@ import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.c
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ModalImplementer} from '../../../modal-implementer';
-import {EventService} from "../../../event.service";
-import {EAllActions, ERoleName} from "../../../typings/enum";
+import {EventService} from '../../../event.service';
+import {EAllActions, ERoleName} from '../../../typings/enum';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -37,6 +37,7 @@ import {EAllActions, ERoleName} from "../../../typings/enum";
 export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
   defaultImage = 'assets/img/no image.svg';
   @Input() bot: IBot;
+  ServerService = ServerService;
   showLoader = false;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
@@ -51,6 +52,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   role: string;
   enterprise_unique_name: string;
   myEAllActions = EAllActions;
+  menuOpened = false;
 
   constructor(
     public utilityService: UtilityService,
@@ -91,7 +93,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
 
-  previewBot(event:Event) {
+  previewBot(event: Event) {
     event.stopPropagation();
     // this.router.navigate(['', {outlets: {preview: 'preview'}}]);
     this.store.dispatch([
@@ -103,7 +105,8 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
     ]);
 
     /*TODO: integrate this with store*/
-    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    EventService.startANewChat$.emit({
+      bot: this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
     });
 
   }
@@ -123,23 +126,23 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
     await this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
-      classStr:'danger-modal-header-border',
-      data:{
-        actionButtonText:"Delete bot",
-        message: "This action cannot be undone. Are you sure you wish to delete?",
-        title:`Delete bot ${this.bot.name}?`,
-        isActionButtonDanger:true,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Delete bot',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
+        title: `Delete bot ${this.bot.name}?`,
+        isActionButtonDanger: true,
         inputDescription: null,
-        closeButtonText: "Keep bot"
+        closeButtonText: 'Keep bot'
       },
       dialog: this.matDialog,
-      component:ModalConfirmComponent
-    }).then((data)=>{
+      component: ModalConfirmComponent
+    }).then((data) => {
 
-      if(data){
+      if (data) {
         this.deleteBot();
       }
-    })
+    });
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 
@@ -162,7 +165,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
     // this.modalRefWrapper.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.serverService.makeDeleteReq({url, headerData})
       .subscribe((value) => {
@@ -176,8 +179,8 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       });
   }
 
-  navigateToBotDetailPage(event) {//preview-button
-    if(this.bot.bot_type !== EBotType.chatbot){
+  navigateToBotDetailPage(event) {// preview-button
+    if (this.bot.bot_type !== EBotType.chatbot) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
       return;
     }
@@ -190,15 +193,14 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
       if (ERoleName.Tester === this.role) {
         // this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.roomId,build:"testing"}});
-        if(this.bot.bot_type === 'chatbot'){
+        if (this.bot.bot_type === 'chatbot') {
           this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
             queryParams: {
               preview: this.bot.id,
               build: 'test'
             }
           });
-        }
-        else{
+        } else {
           this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
         }
 
@@ -215,9 +217,8 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
     this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
 
-  menuOpened = false;
 
-  copySharablePreviewLinkHandler(){
-    this.utilityService.copyToClipboard(`${location.origin}/preview?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`)
+  copySharablePreviewLinkHandler() {
+    this.utilityService.copyToClipboard(`${location.host}${ConstantsService.fullscreenchatpath_anon}/?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`);
   }
 }

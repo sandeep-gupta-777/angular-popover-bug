@@ -1,18 +1,17 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
-import {ConstantsService, ERouteNames,} from '../../../../../../constants.service';
+import {ConstantsService, ERouteNames} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
-import {ELogType, LoggingService} from '../../../../../../logging.service';
+import {LoggingService} from '../../../../../../logging.service';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {EventService} from '../../../../../../event.service';
 import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 import {SideBarService} from '../../../../../../side-bar.service';
-import {EAllActions} from "../../../../../../typings/enum";
-import {PermissionService} from "../../../../../../permission.service";
+import {EAllActions} from '../../../../../../typings/enum';
+import {PermissionService} from '../../../../../../permission.service';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -44,7 +43,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     this.process_raw_text = !!value.process_raw_text;
     this.is_sensitive = !!value.is_sensitive;
     this.ignore_punctuation = !!value.ignore_punctuation;
-    
+
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     if (value.ner_type === 'regex') {
@@ -152,9 +151,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   updateOrSaveConcept() {
 
-    let outputData = this.createOutPutData();
-    let ner_type = outputData.ner_type;
-    let codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;
+    const outputData = this.createOutPutData();
+    const ner_type = outputData.ner_type;
+    const codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;
     if (this.ner_type === 'regex') {
       if (!codeTextOutPutFromCodeEditor) {
         this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accepts String`);
@@ -170,6 +169,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       try {
         outputData.codeTextOutPutFromCodeEditor = eval(codeTextOutPutFromCodeEditor);
       } catch (e) {
+        LoggingService.log(e);
         this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
         return;
       }
@@ -198,16 +198,18 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
       } catch (e) {
         // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
+        LoggingService.log(e);
         try {
           codeTextFromEditor = eval(this.codeTextOutPutFromCodeEditor);
         } catch (e) {
+          LoggingService.log(e);
           this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
           return;
         }
       }
     }
-    let tableData = this.handsontableData.filter((array :any)=>{
-      return !!array.find(element => {return (element !== null) && (element !== undefined) && (element !== '')});
+    const tableData = this.handsontableData.filter((array: any) => {
+      return !!array.find(element => (element !== null) && (element !== undefined) && (element !== ''));
     });
     const outputData = {
       mode: this.ner_id ? 'Update' : 'Create',
@@ -240,18 +242,17 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   async goBack() {
 
-    let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
-    if(isDirty){
-      let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);
-      if(data){
+    const isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
+    if (isDirty) {
+      const data = await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog);
+      if (data) {
         // this.showTable$.emit();
         // this._selectedRowData = {};
         // EventService.createConceptFullScreen$.emit(false);
         // SideBarService.resetKB();
         this.goBackWithoutModal();
       }
-    }
-    else{
+    } else {
       // this.showTable$.emit();
       // this._selectedRowData = {};
       // EventService.createConceptFullScreen$.emit(false);
@@ -259,7 +260,8 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       this.goBackWithoutModal();
     }
   }
-  goBackWithoutModal(){
+
+  goBackWithoutModal() {
     EventService.kbRefresh$.emit();
     this.showTable$.emit();
     this._selectedRowData = {};

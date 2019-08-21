@@ -14,18 +14,11 @@ import { EAllActions } from '../../../../../typings/enum';
                      onkeydown="return event.keyCode !== 69"
                      placeholder="Data retention period((in days)">
           </mat-form-field>
-          
+
           <mat-form-field class="w-100">
               <input matInput formControlName="consent_message"
                      placeholder="Consent disclaimer message">
           </mat-form-field>
-
-          <!--<app-bot-config-input-->
-                  <!--style="margin-bottom: 20px"-->
-                  <!--displayName="Consent disclaimer message"-->
-                  <!--placeholder="Consent disclaimer message"-->
-                  <!--[isDisabled]="!formGroup.get('advanced_data_protection').value"-->
-                  <!--formControlName="consent_message"></app-bot-config-input>-->
 
           <div class="switch-wrapper" style="margin-bottom: 20px">
               <div class="form-control d-flex flex-column">
@@ -38,7 +31,7 @@ import { EAllActions } from '../../../../../typings/enum';
                   ></app-ui-switch>
               </div>
           </div>
-        
+
 
         <div class="switch-wrapper" style="margin-bottom: 20px">
           <div class="form-control d-flex flex-column">
@@ -73,18 +66,18 @@ export class SecurityComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.formGroup.get("advanced_data_protection").value) {
-      this.formGroup.get("consent_message").enable();
+    if (this.formGroup.get('advanced_data_protection').value) {
+      this.formGroup.get('consent_message').enable();
     } else {
-      this.formGroup.get("consent_message").disable();
+      this.formGroup.get('consent_message').disable();
     }
-    this.formGroup.get("advanced_data_protection").valueChanges.subscribe((data) => {
+    this.formGroup.get('advanced_data_protection').valueChanges.subscribe((data) => {
       if (data) {
-        this.formGroup.get("consent_message").enable();
+        this.formGroup.get('consent_message').enable();
       } else {
-        this.formGroup.get("consent_message").disable();
+        this.formGroup.get('consent_message').disable();
       }
 
-    })
+    });
   }
 }

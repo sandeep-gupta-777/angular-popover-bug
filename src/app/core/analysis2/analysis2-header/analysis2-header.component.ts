@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {BotConfigComponent} from '../../buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {IBot} from '../../interfaces/IBot';
 import {Observable, Subscription} from 'rxjs';
 import {NgForm} from '@angular/forms';
@@ -7,20 +6,29 @@ import {ConstantsService} from '../../../constants.service';
 
 import {Select, Store} from '@ngxs/store';
 import {
+  ResetAnalytics2GraphData,
+  ResetAnalytics2HeaderData,
   SetAnalysis2HeaderData,
-  SetOverviewInfoData,
-  SetChannelWiseFlowsPerSession,
-  SetUserAcquisition,
-  SetTotalMessages,
-  SetUserLoyalty,
   SetChannelWiseAverageSessionTime,
-  SetTotalFlows,
-  SetFlowsPerRoom,
-  SetTotalRooms,
-  SetRoomDuration,
+  SetChannelWiseFlowsPerSession,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates, SetSessionhandling
+  SetFlowsPerRoom,
+  SetMessagespersession,
+  SetOverviewInfoData,
+  SetRoomDuration,
+  SetSessionhandling,
+  SetSessionsperuser,
+  SetTimepersession,
+  SetTopgenerationtemplates,
+  SetTotalFlows,
+  SetTotalMessages,
+  SetTotalRooms,
+  SetTotalTimeOfRooms,
+  SetUsagetrackingInfo,
+  SetUserAcquisition,
+  SetUserLoyalty,
+  TotalSessions
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -33,7 +41,6 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {IChannelWiseFlowsPerSessionResponseBody} from '../../../../interfaces/Analytics2/volume-sessions';
 import {IUserAcquisitionResponseBody} from '../../../../interfaces/Analytics2/volume-users';
 import {ITotalMessagesResponseBody} from '../../../../interfaces/Analytics2/volume-messages';
-import {IAverageRoomTimeResponseBody} from '../../../../interfaces/Analytics2/volume-time';
 import {IUserLoyaltyResponseBody} from '../../../../interfaces/Analytics2/engagement-userLoyalty';
 import {IChannelWiseAverageSessionTimeResponseBody} from '../../../../interfaces/Analytics2/engagement-averageSessionTime';
 import {ITotalFlowsResponseBody} from '../../../../interfaces/Analytics2/performance-flows';
@@ -43,8 +50,9 @@ import {IRoomDurationResponseBody} from '../../../../interfaces/Analytics2/perfo
 import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
 import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ELogType, LoggingService} from '../../../logging.service';
+import {LoggingService} from '../../../logging.service';
 import {debounceTime, take} from 'rxjs/operators';
+import {RouterService} from '../../../router.service';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -76,13 +84,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   granularityList = [
-    {value:'hour', displayValue: 'Hourly'},
-    {value:'day', displayValue: 'Daily'},
-    {value:'week', displayValue: 'Weekly'},
-    {value:'month', displayValue: 'Monthly'},
-    {value:'year', displayValue: 'Yearly'}
+    {value: 'hour', displayValue: 'Hourly'},
+    {value: 'day', displayValue: 'Daily'},
+    {value: 'week', displayValue: 'Weekly'},
+    {value: 'month', displayValue: 'Monthly'},
+    {value: 'year', displayValue: 'Yearly'}
   ];
-  //startdate = new Date(new Date().setDate(new Date().getDate() - 30));
+  // startdate = new Date(new Date().setDate(new Date().getDate() - 30));
   //   enddate = new Date();
   date = {
     begin: new Date(new Date().setDate(new Date().getDate() - 30)),
@@ -107,12 +115,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     private constantsService: ConstantsService,
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
   ) {
   }
 
   formData;
   bot_id;
+
   ngOnInit() {
 
     /*
@@ -126,10 +135,12 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           return;
         }
         this.formData = formData;
-        if (!this.f.valid) return;
+        if (!this.f.valid) {
+          return;
+        }
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
-          'bot-access-token': selectedBot.bot_access_token,
+          'bot-access-token': ServerService.getBotTokenById(selectedBot.id),
           platform: 'web',
           ...formData,
           startdate: formData && formData.date_range.begin,
@@ -151,30 +162,34 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       this.loggeduser = loggeduser;
     });
 
-    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
-      if(!analytics2HeaderData) return;
+    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData: any) => {
+
+      if (!analytics2HeaderData) {
+        return;
+      }
       /*move this code to dedicated service*/
       try {
         this.f.form.patchValue(analytics2HeaderData);
         const url = this.constantsService.getAnalyticsUrl();
-        const headerData: any/*IAnalysis2HeaderData*/ = {
+        const headerData: any /*IAnalysis2HeaderData*/ = {
           ...analytics2HeaderData,
-          'auth-token': this.loggeduser.user.auth_token,
-          'user-access-token': this.loggeduser.user.user_access_token,
+          'auth-token': ServerService.getCookie('auth-token'),
+          'user-access-token': ServerService.getCookie('user-access-token'),
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
         delete headerData.date_range;
-        //asdas
         if (!this.utilityService.areAllValesDefined(headerData)) {
           return;
         }
         if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) {
           return;
         }
+
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .pipe(debounceTime(1000))
           .subscribe(() => {
+
             const isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
             if (!isHeaderValid) {
               return;
@@ -185,18 +200,20 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
 
-            let newUrl = this.makeNewUrlFormHeaderData(url, headerData)
-            let newheaderData = {
+            const newUrl = this.makeNewUrlFormHeaderData(url, headerData);
+            const newheaderData = {
               'auth-token': headerData['auth-token'],
               'user-access-token': headerData['user-access-token'],
               'bot-access-token': headerData['bot-access-token']
-            }
+            };
 
-            this.makeGetReqSub = this.serverService.makeGetReq({url : newUrl,headerData:newheaderData})
+            this.makeGetReqSub = this.serverService.makeGetReq({url: newUrl, headerData: newheaderData})
               .pipe(take(1))
               .subscribe((response: any) => {
+
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
                   const responseCopy: IOverviewInfoResponse = response;
+
                   this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
@@ -292,24 +309,29 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     });
 
   }
-  makeNewUrlFormHeaderData(url:string, headerData:IAnalysis2HeaderData){
 
-    url = url + `?type=${headerData.type}&startdate=${headerData.startdate}&enddate=${headerData.enddate}&platform=${headerData.platform}&granularity=${headerData.granularity}&is_test=false`
+  makeNewUrlFormHeaderData(url: string, headerData: IAnalysis2HeaderData) {
+
+    url = url + `?type=${headerData.type}&startdate=${headerData.startdate}&enddate=${headerData.enddate}&platform=${headerData.platform}&granularity=${headerData.granularity}&is_test=false`;
     return url;
   }
+
   isHeaderValid(startDate, endDate, granularity) {
     startDate = new Date(startDate);
     endDate = new Date(endDate);
     const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
     const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     if (startDate > endDate) {
+      this.route.navigate([], {queryParams: {error: true}});
       this.errorMessage = 'start date is larger than end date';
       return false;
     }
     if (diffDays > 30 && granularity === 'hour') {
+      this.route.navigate([], {queryParams: {error: true}});
       this.errorMessage = 'Granularity hour is not allowed for time range higher than 1 month';
       return false;
     }
+    this.route.navigate([], {queryParams: {error: false}});
     this.errorMessage = null;
     return true;
   }
@@ -341,13 +363,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         }
       });
 
-      let bot_id = this.activatedRoute.snapshot.queryParamMap.get('bot_id');
-      if(bot_id){
+      const bot_id = this.activatedRoute.snapshot.queryParamMap.get('bot_id');
+      if (bot_id) {
         this.bot_id = Number(bot_id);
       }
 
       if (this._allbotList) {
-        this.f.form.patchValue({botId: this.bot_id||this._allbotList[0].id, platform: this.channelList[0].name});
+        this.f.form.patchValue({botId: this.bot_id || this._allbotList[0].id, platform: this.channelList[0].name});
       }
     }, 0);
   }
@@ -357,15 +379,23 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngOnDestroy(): void {
-    this.analytics2HeaderDataSub && this.analytics2HeaderDataSub.unsubscribe();
-    this.loggeduser && this.loggeduserSub.unsubscribe();
-    this.formChangesSub && this.formChangesSub.unsubscribe();
-    this.makeGetReqSub && this.makeGetReqSub.unsubscribe();
+    if (this.analytics2HeaderDataSub) {
+      this.analytics2HeaderDataSub.unsubscribe();
+    }
+    if (this.loggeduser) {
+      this.loggeduserSub.unsubscribe();
+    }
+    if (this.formChangesSub) {
+      this.formChangesSub.unsubscribe();
+    }
+    if (this.makeGetReqSub) {
+      this.makeGetReqSub.unsubscribe();
+    }
     this.store.dispatch([new ResetAnalytics2HeaderData(), new ResetAnalytics2GraphData()]);
     // this.store.dispatch([]);
   }
 
-  log(){
+  log() {
     console.log(this.f);
   }
 }

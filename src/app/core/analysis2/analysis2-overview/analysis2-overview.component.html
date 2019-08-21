@@ -1,95 +1,249 @@
-<div class="container-fluid" *ngIf="(data$|async) as data">
-  <div class="row">
-    <div class="col-12 header d-flex align-items-center">
-      <div class="heading mb-0">
-        Summery
+<!--<div class="container-fluid" *ngIf="(data$|async) as data">-->
+<!--  {{data | json}}-->
+<!--  <div class="row">-->
+<!--    <div class="col-12 header d-flex align-items-center">-->
+<!--      <div class="heading mb-0">-->
+<!--        Summery-->
+<!--      </div>-->
+<!--      <div class="pl-1 text-muted"> (Compared over previous range)</div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="row display-data-row">-->
+<!--    &lt;!&ndash;q1 starts&ndash;&gt;-->
+<!--    <div class="col-6 border-right border-bottom pb-5">-->
+<!--      <div class="heading mb-12">Total Session</div>-->
+<!--      <div class="font-20 mb-32">{{data.totalSessions}}</div>-->
+<!--      <div class="d-flex justify-content-between font-20 mb-2">-->
+<!--        <div>40%</div>-->
+<!--        <div>20%</div>-->
+<!--        <div>20%</div>-->
+<!--      </div>-->
+<!--      <div class="d-flex justify-content-between">-->
+<!--        <div>Completed by bot</div>-->
+<!--        <div>Agent Handover</div>-->
+<!--        <div>User Abandoned</div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash;q2 starts&ndash;&gt;-->
+<!--    <div class="col-6 border-bottom">-->
+<!--      <div class="heading mb-12">Total Users</div>-->
+<!--      <div class="font-26 mb-32">{{data.totalUsers}}</div>-->
+<!--      <div class="d-flex justify-content-between mb-2">-->
+<!--        <div class="d-flex flex-column align-items-center">-->
+<!--          <div class="font-20 mb-2">40%</div>-->
+<!--          <div>New</div>-->
+<!--        </div>-->
+<!--        <div class="d-flex flex-column align-items-center">-->
+<!--          <div class="font-20 mb-2">60%</div>-->
+<!--          <div>Returning</div>-->
+<!--        </div>-->
+<!--        <div class="d-flex flex-column align-items-center">-->
+<!--          <div class="font-20 mb-2">345k</div>-->
+<!--          <div>Message exchanges</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;q3 starts&ndash;&gt;-->
+<!--    <div class="col-6 border-right q3">-->
+<!--      <div class="row m-0 ">-->
+<!--        <div class="col-6 p-0 heading mb-12">Avg time spent on bot(h:m)</div>-->
+<!--        <div class="col-6 p-0 heading mb-12">Avg session per user</div>-->
+<!--      </div>-->
+<!--      <div class="row m-0 mb-32">-->
+<!--        <div class="col-6 p-0 font-26">{{data.averageTime.hours+':'+data.averageTime.minutes}}</div>-->
+<!--        <div class="col-6 p-0 font-26">-->
+<!--          <div>2.4</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="row m-0">-->
+<!--        <div class="col-12 p-0 heading mb-12">Total time spent(h:m)</div>-->
+<!--        <div class="col-12 p-0 font-26">{{data.totalTime.hours+':'+data.totalTime.minutes}}</div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash;q4 starts&ndash;&gt;-->
+<!--    <div class="col-6 q4">-->
+
+<!--      <div class="row m-0">-->
+<!--        <div class="col-6 p-0 heading mb-12">Top flows triggered</div>-->
+<!--        <div class="col-6 p-0 heading mb-12">-->
+<!--            <div>Top template keys triggered</div>-->
+<!--        </div>-->
+<!--        <div class="row m-0">-->
+<!--          <div class="col-5 mb-32 p-0 d-flex justify-content-between">-->
+<!--            <span>Do_you_deliver</span>-->
+<!--            <span class="font-20">2%</span>-->
+<!--          </div>-->
+<!--          <div class="col-1 mb-32"></div>-->
+<!--          <div class="col-6 p-0 d-flex justify-content-between">-->
+<!--            <span>Do_you_deliver</span>-->
+<!--            <span class="font-20">2%</span>-->
+<!--          </div>-->
+<!--          <div class="col-5 p-0 d-flex justify-content-between">-->
+<!--            <span>Do_you_deliver</span>-->
+<!--            <span class="font-20">2%</span>-->
+<!--          </div>-->
+<!--          <div class="col-1"></div>-->
+<!--          <div class="col-6 p-0 d-flex justify-content-between">-->
+<!--            <span>Do_you_deliver</span>-->
+<!--            <span class="font-20">2%</span>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<div class = "overview-wrapper-loder" *ngIf="!(data$|async) && !errorInHeader">
+  <app-imi-loader ></app-imi-loader>
+</div>
+
+<div class = "overview-wrapper" *ngIf="(data$|async) as data">
+  <div class = "section-heading heading">
+    Sessions
+  </div>
+  <div class="section-data">
+    <div class = "big-box">
+      <div class = "text">
+        <div class="name">
+          Total sessions
+        </div>
+        <div class="number">
+          {{data.totalSessions['total']}}
+        </div>
       </div>
-      <div class="pl-1 text-muted"> (Compared over previous range)</div>
+      <div class = "chart">
+        <app-chart  [chartValue]="chartValue" [shoudResize] = true [exportEnable] = false>
+        </app-chart>
+      </div>
+    </div>
+    <div class = "small-boxes">
+      <div class = "small-box">
+      <div class = "text">
+        <div class="name">
+          Bot handled
+        </div>
+        <div class="number">
+          {{data.totalSessions['bot handled']}}
+        </div>
+      </div>
+        <div class = "icon">
+          <img class="" src="assets/img/analytics/bot-icon.svg" alt="">
+        </div>
+      </div>
+      <div class = "small-box">
+        <div class = "text">
+          <div class="name">
+            Handed over
+          </div>
+          <div class="number">
+            {{data.totalSessions['agent handled']}}
+          </div>
+        </div>
+        <div class = "icon">
+          <mat-icon>headset_mic</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class = "big-box">
+      <div class = "text">
+        <div class="name">
+          Total Messages
+        </div>
+        <div class="number">
+          {{data.totalMessages['agent'] + data.totalMessages['bot'] + data.totalMessages['human'] }}
+        </div>
+      </div>
+      <div class = "chart">
+        <app-chart  [chartValue]="chartValue" [shoudResize] = true [exportEnable] = false>
+        </app-chart>
+      </div>
+    </div>
+    <div class = "small-boxes">
+      <div class = "small-box">
+        <div class = "text">
+          <div class="name">
+            Bot messages
+          </div>
+          <div class="number">
+            {{data.totalMessages['bot']}}
+          </div>
+        </div>
+        <div class = "icon">
+          <img class="" src="assets/img/analytics/bot-icon.svg" alt="">
+        </div>
+      </div>
+      <div class = "small-box">
+        <div class = "text">
+          <div class="name">
+            Human messages
+          </div>
+          <div class="number">
+            {{data.totalMessages['human']}}
+          </div>
+        </div>
+        <div class = "icon">
+          <img class="" src="assets/img/analytics/baseline-person.svg" alt="">
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row display-data-row">
-    <!--q1 starts-->
-    <div class="col-6 border-right border-bottom pb-5">
-      <div class="heading mb-12">Total Session</div>
-      <div class="font-20 mb-32">{{data.totalSessions}}</div>
-      <div class="d-flex justify-content-between font-20 mb-2">
-        <div>40%</div>
-        <div>20%</div>
-        <div>20%</div>
+  <div class = "engagement-heading heading">
+    Engagement
+  </div>
+  <div class = "engagement-data">
+    <div class = "small-box">
+      <div class = "text">
+        <div class="name">
+          Lifetime users
+        </div>
+        <div class="number">
+          {{data.totalUsers}}
+        </div>
       </div>
-      <div class="d-flex justify-content-between">
-        <div>Completed by bot</div>
-        <div>Agent Handover</div>
-        <div>User Abandoned</div>
-      </div>
-    </div>
-
-    <!--q2 starts-->
-    <div class="col-6 border-bottom">
-      <div class="heading mb-12">Total Users</div>
-      <div class="font-26 mb-32">{{data.totalUsers}}</div>
-      <div class="d-flex justify-content-between mb-2">
-        <div class="d-flex flex-column align-items-center">
-          <div class="font-20 mb-2">40%</div>
-          <div>New</div>
-        </div>
-        <div class="d-flex flex-column align-items-center">
-          <div class="font-20 mb-2">60%</div>
-          <div>Returning</div>
-        </div>
-        <div class="d-flex flex-column align-items-center">
-          <div class="font-20 mb-2">345k</div>
-          <div>Message exchanges</div>
-        </div>
+      <div class = "icon">
+        <img class="" src="assets/img/analytics/baseline-2-people.svg" alt="">
       </div>
     </div>
-    <!--q3 starts-->
-    <div class="col-6 border-right q3">
-      <div class="row m-0 ">
-        <div class="col-6 p-0 heading mb-12">Avg time spent on bot(h:m)</div>
-        <div class="col-6 p-0 heading mb-12">Avg session per user</div>
-      </div>
-      <div class="row m-0 mb-32">
-        <div class="col-6 p-0 font-26">{{data.averageTime.hours+':'+data.averageTime.minutes}}</div>
-        <div class="col-6 p-0 font-26">
-          <div>2.4</div>
+    <div class = "long-box">
+      <div class = "text">
+        <div class="name">
+          Average session time
+        </div>
+        <div class="number">
+          {{ data.averageTime['days']*24*60 + data.averageTime['hours']*60 + data.averageTime['minutes']}} <div style="font-size: 13px">mins</div>
         </div>
       </div>
-      <div class="row m-0">
-        <div class="col-12 p-0 heading mb-12">Total time spent(h:m)</div>
-        <div class="col-12 p-0 font-26">{{data.totalTime.hours+':'+data.totalTime.minutes}}</div>
+      <div class = "icon">
+        <img class="" src="assets/img/analytics/baseline-timer.svg" alt="">
       </div>
     </div>
-
-    <!--q4 starts-->
-    <div class="col-6 q4">
-
-      <div class="row m-0">
-        <div class="col-6 p-0 heading mb-12">Top flows triggered</div>
-        <div class="col-6 p-0 heading mb-12">
-            <div>Top template keys triggered</div>
+    <div class = "long-box">
+      <div class = "text">
+        <div class="name">
+          Average messages per session
         </div>
-        <div class="row m-0">
-          <div class="col-5 mb-32 p-0 d-flex justify-content-between">
-            <span>Do_you_deliver</span>
-            <span class="font-20">2%</span>
-          </div>
-          <div class="col-1 mb-32"></div>
-          <div class="col-6 p-0 d-flex justify-content-between">
-            <span>Do_you_deliver</span>
-            <span class="font-20">2%</span>
-          </div>
-          <div class="col-5 p-0 d-flex justify-content-between">
-            <span>Do_you_deliver</span>
-            <span class="font-20">2%</span>
-          </div>
-          <div class="col-1"></div>
-          <div class="col-6 p-0 d-flex justify-content-between">
-            <span>Do_you_deliver</span>
-            <span class="font-20">2%</span>
-          </div>
+        <div class="number">
+          {{data.averageMessages}}
         </div>
-
+      </div>
+      <div class = "icon">
+        <img class="" src="assets/img/analytics/baseline-message.svg" alt="">
+      </div>
+    </div>
+    <div class = "small-box">
+      <div class = "text">
+        <div class="name">
+          Total session time
+        </div>
+        <div class="number">
+          {{ data.totalTime['days']*24*60 + data.totalTime['hours']*60 + data.totalTime['minutes']}} <div style="font-size: 13px">mins</div>
+        </div>
+      </div>
+      <div class = "icon">
+        <img class="" src="assets/img/analytics/outline-watch.svg" alt="">
       </div>
     </div>
   </div>
+</div>

@@ -13,9 +13,9 @@ export class IntegrationItemByUnamePipe implements PipeTransform {
   transform(unique_name: string, args?: any): any {
     return this.app$.pipe(
       take(1),
-      map((appState:IAppState)=>{
-        return appState.masterIntegrationList.find(e=>e.unique_name===unique_name);
+      map((appState: IAppState) => {
+        return appState.masterIntegrationList.find(e => e.unique_name === unique_name);
       })
-    )
+    );
   }
 }
