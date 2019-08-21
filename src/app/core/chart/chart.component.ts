@@ -23,7 +23,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
   didAfterViewInitRun = false;
   @ViewChild('highchart') chartReff: ElementRef;
   @Input() title = '';
-
+  @Input() exportEnable = true;
   @Input() set chartValue(_chartValue) {
     // this._chartValue = _chartValue;
     this._chartValue = _chartValue;
@@ -121,7 +121,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
         // }],
         ..._chartValue,
         exporting: {
-          enabled: true,
+          enabled: this.exportEnable,
           // menuItems: ["printChart", "separator", "downloadPNG", "downloadJPEG", "downloadPDF", "downloadSVG"]
 
           buttons: {// http://jsfiddle.net/9qsdgjt8/1/ almost saved life

@@ -95,7 +95,6 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
-{{!(data$|async) && !errorInHeader}}  {{errorInHeader}}
 <div class = "overview-wrapper-loder" *ngIf="!(data$|async) && !errorInHeader">
   <app-imi-loader ></app-imi-loader>
 </div>
@@ -115,7 +114,7 @@
         </div>
       </div>
       <div class = "chart">
-        <app-chart  [chartValue]="chartValue" [shoudResize] = true>
+        <app-chart  [chartValue]="chartValue" [shoudResize] = true [exportEnable] = false>
         </app-chart>
       </div>
     </div>
@@ -123,7 +122,7 @@
       <div class = "small-box">
       <div class = "text">
         <div class="name">
-          Bot headled
+          Bot handled
         </div>
         <div class="number">
           {{data.totalSessions['bot handled']}}
@@ -157,7 +156,7 @@
         </div>
       </div>
       <div class = "chart">
-        <app-chart  [chartValue]="chartValue" [shoudResize] = true>
+        <app-chart  [chartValue]="chartValue" [shoudResize] = true [exportEnable] = false>
         </app-chart>
       </div>
     </div>
