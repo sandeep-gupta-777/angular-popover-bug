@@ -1,7 +1,9 @@
 <section class="session-modal-section">
   <div class="session-modal-section__header">
     <div class="session-modal-section__header--img">
-      <img alt="channel name" [src]='channelNameToImg(sessionMessageData && sessionMessageData[0]?.platform)'>
+      <img alt="channel name"
+           [defaultImage]="'assets/img/no image.svg'"
+           [lazyLoad]='channelNameToImg(sessionMessageData && sessionMessageData[0]?.platform)'>
     </div>
     <div class="session-modal-section__header--item">
       <div class="secondary">Room ID:</div>

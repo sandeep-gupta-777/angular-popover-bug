@@ -7,7 +7,9 @@
         {{totallength}} issues resolved
     </div>
 </div>
-<app-curation-issues *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem"
+<app-curation-issues
+  [bot]="bot"
+  *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem"
                      [isResolved]=true></app-curation-issues>
 <div class="load-more" *ngIf="isMorePresent" (click)="load10More()">
     <div *ngIf="!reloadingMore" class="d-flex align-items-center">

@@ -75,6 +75,7 @@ export class SessionDetailModelComponent implements OnInit {
 
 
   ngOnInit() {
+    debugger;
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });

@@ -1,3 +1,4 @@
+
 <div class="curation-issues-wrapper">
   <mat-card class="curation-card-master">
 
@@ -7,9 +8,9 @@
       [ngClass]="selected? 'curation-card-header-wrapper-selected': '' "
       class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
-          
-          <div class="header--img" (click)="curationIssueIconClicked(curationItemData.room_id)"> 
-            
+
+          <div class="header--img" (click)="curationIssueIconClicked(curationItemData.room_id)">
+
             <img [src]='channelNameToImg(curationItemData && curationItemData.platform)' >
           </div>
           <div class="room-id pl-2">
@@ -67,8 +68,8 @@
         <div *ngIf="selected">
           <div class ="d-flex w-100">
               Query is selected. Deselect to take action on this specific query.
-          </div> 
-        </div> 
+          </div>
+        </div>
         <div *ngIf="!selected">
             <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
                 <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
@@ -86,7 +87,7 @@
                   <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
                   Link to an existing article
                 </button>
-      
+
                 <button mat-button
                         style="border: solid 1px #eaeaea;"
                         class="mat-theme-button footer-btn px-2"
@@ -94,15 +95,15 @@
                         *appMyIf="myEAllActions['Add curation issues to a new article']">
                   <mat-icon>add</mat-icon>&nbsp; Add to a new article
                 </button>
-      
+
                 <div class="ml-auto"></div>
-      
+
                 <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="ignoreQuery(curationItemData.id)" *appMyIf="myEAllActions['Ignore curation issues']">
                   <mat-icon>remove_circle_outline</mat-icon>&nbsp;
                   Ignore query
                 </button>
               </div>
-          </div> 
+          </div>
       </div>
       <div *ngIf="isResolved === true" class="d-flex w-100 resolved-footer">
 
@@ -128,7 +129,6 @@
     </mat-card-actions>
   </mat-card>
 </div>
-
 
 
 <ng-template #sessionDetailTemplate>
