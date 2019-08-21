@@ -624,7 +624,7 @@ export class ConstantsService {
   });
 
   constructor() {
-    console.log('environment=>>>', environment);
+    console.log('environment:', environment);
     this.app$.subscribe((appState) => {
       if (!appState) {
         return;

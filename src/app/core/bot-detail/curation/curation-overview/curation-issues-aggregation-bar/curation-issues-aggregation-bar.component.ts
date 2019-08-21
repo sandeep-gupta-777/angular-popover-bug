@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ICurationIssuesAggregation} from '../../../../interfaces/faqbots';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {ICurationIssuesAggregation, ICurationItem} from "../../../../interfaces/faqbots";
 
 @Component({
   selector: 'app-curation-issues-aggregation-bar',
@@ -9,8 +9,14 @@ import {ICurationIssuesAggregation} from '../../../../interfaces/faqbots';
 export class CurationIssuesAggregationBarComponent implements OnInit {
 
   constructor() { }
-@Input() aggrigationData: ICurationIssuesAggregation ;
+@Input() aggrigationData : ICurationIssuesAggregation ;
+@Input() reloading: boolean;
+@Output() filterArticleWithTriggeredRule$ = new EventEmitter();
   ngOnInit() {
+    
   }
-
+  
+  filterArticleWithTriggeredRule(filterToken){
+    this.filterArticleWithTriggeredRule$.emit(filterToken);
+  }
 }

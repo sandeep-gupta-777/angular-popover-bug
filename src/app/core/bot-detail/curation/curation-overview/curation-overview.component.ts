@@ -14,12 +14,17 @@ export class CurationOverviewComponent implements OnInit {
   @Input() TopArticlesWithIssues: any[];
   @Input() reloading: boolean;
   @Output() resolveArticleWithTopIssues$ = new EventEmitter();
+  @Output() filterArticleWithTriggeredRule$ = new EventEmitter();
   myESplashScreens = ESplashScreens;
   ngOnInit() {
 
   }
   resolveArticleWithTopIssues(section) {
     this.resolveArticleWithTopIssues$.emit(section);
+  }
+
+  filterArticleWithTriggeredRule(filterToken){
+    this.filterArticleWithTriggeredRule$.emit(filterToken);
   }
 
 }

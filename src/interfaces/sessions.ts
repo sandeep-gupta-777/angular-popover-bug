@@ -13,6 +13,7 @@ export interface ISessionMessageItem {
   'error': boolean;
   'message': any; // Array<any>| string,
   'message_store': {
+    response_language: string,
     activeBotId?: any;
     activeBotRoomId?: any;
     sendtoagent?: any;

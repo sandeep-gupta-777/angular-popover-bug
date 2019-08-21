@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICurationItem } from 'src/app/core/interfaces/faqbots';
+import {IBot} from '../../../interfaces/IBot';
 
 @Component({
   selector: 'app-curation-resolved-list',
@@ -16,6 +17,7 @@ export class CurationResolvedListComponent implements OnInit {
   @Input() totallength: number;
   @Input() reloadingMore: boolean;
   @Input() liveBotUpdatedAt: number;
+  @Input() bot: IBot;
   ngOnInit() {
   }
   load10More() {

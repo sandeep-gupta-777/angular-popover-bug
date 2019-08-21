@@ -418,7 +418,24 @@ export class CurationComponent implements OnInit {
     });
   }
 
-  atlestOneCurationSettingsNeeded(curationSettingsForm) {
+  filterArticleWithTriggeredRule(triggeredRule){
+    this.curationIssuesFilterForm.reset();
+
+    let value = {
+      "triggered_rules" : triggeredRule,
+    }
+    this.curationIssuesFilterForm.patchValue(value,{onlySelf: true, emitEvent: false})
+    this.activeTab = 1;
+    this.submitedForm({
+      'unsolved' : true,
+      'value' : {...this.curationIssuesFilterForm.value,...value}
+    })
+  }
+
+
+
+
+  atlestOneCurationSettingsNeeded(curationSettingsForm){
 
     let ans = false;
     const arr = Object.keys(curationSettingsForm.get('curation_settings').value);

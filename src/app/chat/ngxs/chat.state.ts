@@ -49,6 +49,8 @@ export class ChatSessionStateReducer {
 
   constructor(private constantsService: ConstantsService,
               private myToasterService: MyToasterService) {
+    debugger;
+
 
   }
 
@@ -139,6 +141,7 @@ export class ChatSessionStateReducer {
 
   @Action(UpdateConsumerByRoomId)
   updateConsumerByRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: UpdateConsumerByRoomId) {
+    debugger;
     const state = getState();
     /*first check if room roomId already */
     const rooms = state.rooms.map(room => {
@@ -159,6 +162,7 @@ export class ChatSessionStateReducer {
     const state = getState();
     const rooms = state.rooms;
     const room_id = payload.id;
+    debugger;
 
     let room: IRoomData = (rooms && (rooms.find((room_temp) => room_temp.id === room_id)));
     if (!room) {

@@ -23,6 +23,8 @@
                     [TopArticlesWithIssues]="topArticlesWithIssues"
                     [issuesAggrigationData]="issuesAggrigationData"
                     (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
+                    (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
+                    
             ></app-curation-overview>
         </mat-tab>
         <mat-tab label="Issues">
@@ -82,6 +84,7 @@
                                      [hidden]="!curationResolvedAndIgnoredList"
                                      [unsolved]="false" style="z-index: 100;"></app-curation-filter>
                 <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
+                                            [bot]="bot"
                                             [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
                                             (loadMoreNext)="load10MoreCurationResolvedAndIgnored(false)"
                                             [totallength]="totalLengthCurationResolvedAndIgnored"

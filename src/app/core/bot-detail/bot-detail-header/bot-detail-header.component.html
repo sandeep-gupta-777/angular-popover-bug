@@ -97,7 +97,7 @@
     </button>
     <button
       mat-menu-item
-      (click)="utilityService.copyToClipboard(bot.bot_access_token)"
+      (click)="utilityService.copyToClipboard(ServerService.getBotTokenById(this.bot.id))"
     >
       <mat-icon class="mat-icon material-icons mr-1">file_copy</mat-icon>
       Copy Access Token
