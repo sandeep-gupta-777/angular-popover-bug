@@ -225,10 +225,3 @@
   font-weight: bold;
   color: #474747;
 }
-::ng-deep{
-  .chart{
-    #container-highcharts{
-      overflow: auto !important;
-    }
-  }
-}
