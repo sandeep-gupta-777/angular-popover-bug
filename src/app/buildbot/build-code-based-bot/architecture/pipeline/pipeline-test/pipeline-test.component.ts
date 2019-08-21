@@ -35,7 +35,10 @@ export class PipelineTestComponent implements OnInit {
         body: this.testForm.value
       }).subscribe((value) => {
         this.testResponse = value;
-        debugger;
-      });
+      },
+        (err) => {
+          this.testResponse = '';
+        }
+      );
   }
 }
