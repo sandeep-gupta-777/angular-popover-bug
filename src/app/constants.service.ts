@@ -987,6 +987,9 @@ export class ConstantsService {
     return urlObj.href;
   }
 
+  pipelineTestUrl(){
+    return this.BACKEND_URL + `api/v1/webhook/intelligent/`;
+  }
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);

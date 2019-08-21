@@ -91,7 +91,8 @@ import { CurationOverviewComponent } from './curation/curation-overview/curation
 import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
 import { RemoveTopAndBottomAndGetAsArrayPipe } from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
 import { AnswerTemplateWrapperComponent } from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
-import {CoreModule} from '../core.module';
+import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
+import { GentemplateSidebarComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 
 
 const routes: Route[] = [
@@ -180,9 +181,11 @@ const routes: Route[] = [
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
     AnswerTemplateWrapperComponent,
+    PipelineTestComponent,
+    GentemplateSidebarComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
-  //
+    //
   ],
   imports: [
     RichMediaModule,
@@ -198,7 +201,6 @@ const routes: Route[] = [
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
-    CoreModule,
   ],
   providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe]
 })

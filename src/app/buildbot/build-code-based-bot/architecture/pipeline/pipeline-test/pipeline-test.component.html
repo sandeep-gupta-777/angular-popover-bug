@@ -1,0 +1,58 @@
+<div class = "d-flex flex-direction-row">
+  <div>
+    <div style="padding-bottom: 8px"><strong
+            style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test pipeline bot</strong>
+    </div>
+    <div class="hide-phone" style="color: #696969;font-size: 11px;margin-bottom: 16px;">
+      Run the pipeline bot by providing it inputs which the bot needs to see how it works
+    </div>
+  </div>
+  <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border ml-auto" [disabled]="!testForm.valid"
+  (click)="test()">
+    Test pipeline
+  </button>
+</div>
+
+<div class = "pipeline-test-body">
+<!--  60 - 40-->
+  <div class = "test-body">
+    <div class = heading>Inputs</div>
+    <form #pipelineTestForm="ngForm" class = "test-form">
+      <mat-form-field class = "type-select">
+        <mat-label>Message type</mat-label>
+        <mat-select name="msg_type"  [ngModel] = "'text'" required>
+          <mat-option value="text">
+           Text
+          </mat-option>
+          <mat-option value="url">
+            Url
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="textarea-heading">Message</div>
+<div class="test-textarea">
+  <textarea matInput name="msg" type="text" ngModel required
+            #autosize="cdkTextareaAutosize" cdkTextareaAutosize>
+            </textarea>
+</div>
+
+
+    </form>
+  </div>
+  <div class = "response-body">
+    <div class = heading>Responses</div>
+    <div class = "code">
+      <app-code-editor
+              class="code-editor"
+              [text]="{text: testResponse|json}"
+              [readOnly]="true"
+              [doShowValidationsIcon]="false"
+              [doShowUploadDownloadButton]="true"
+      ></app-code-editor>
+      <div class = "splash-screen" *ngIf="!testResponse">
+        <img src="assets/img/rocket.svg">
+        <div class = "splash-text">Test your bot now to see response here</div>
+      </div>
+    </div>
+  </div>
+</div>

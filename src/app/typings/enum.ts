@@ -108,7 +108,8 @@ export enum ESideBarTab {
   chat = 'chat',
   test = 'test',
   History = 'History',
-  faqbot = 'faqbot'
+  faqbot = 'faqbot',
+  pipelineTest = 'pipelineTest'
 }
 
 export enum ENgxsStogareKey {
