@@ -95,6 +95,10 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
+{{!(data$|async) && !errorInHeader}}  {{errorInHeader}}
+<div class = "overview-wrapper-loder" *ngIf="!(data$|async) && !errorInHeader">
+  <app-imi-loader ></app-imi-loader>
+</div>
 
 <div class = "overview-wrapper" *ngIf="(data$|async) as data">
   <div class = "section-heading heading">

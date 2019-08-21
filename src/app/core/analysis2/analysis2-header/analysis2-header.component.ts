@@ -52,6 +52,7 @@ import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/e
 import {ActivatedRoute, Router} from '@angular/router';
 import {LoggingService} from '../../../logging.service';
 import {debounceTime, take} from 'rxjs/operators';
+import {RouterService} from '../../../router.service';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -114,7 +115,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     private constantsService: ConstantsService,
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
   ) {
   }
 
@@ -321,13 +322,16 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
     const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     if (startDate > endDate) {
+      this.route.navigate([], {queryParams: {error: true}});
       this.errorMessage = 'start date is larger than end date';
       return false;
     }
     if (diffDays > 30 && granularity === 'hour') {
+      this.route.navigate([], {queryParams: {error: true}});
       this.errorMessage = 'Granularity hour is not allowed for time range higher than 1 month';
       return false;
     }
+    this.route.navigate([], {queryParams: {error: false}});
     this.errorMessage = null;
     return true;
   }

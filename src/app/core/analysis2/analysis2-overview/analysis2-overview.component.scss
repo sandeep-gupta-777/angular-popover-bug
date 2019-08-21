@@ -33,6 +33,14 @@
 //.mb-12{
 //  margin-bottom: 12px !important;
 //}
+.overview-wrapper-loder{
+  height: 100%;
+  position: relative;
+  max-height: 500px;
+  border: none;
+  background-color: #f0f3f4;
+}
+
 .overview-wrapper{
   display: grid;
   height: 100%;
@@ -216,4 +224,11 @@
   font-size: 13px;
   font-weight: bold;
   color: #474747;
+}
+::ng-deep{
+  .chart{
+    #container-highcharts{
+      overflow: auto !important;
+    }
+  }
 }

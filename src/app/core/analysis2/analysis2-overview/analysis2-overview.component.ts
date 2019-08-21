@@ -11,6 +11,7 @@ import {SetAnalysis2HeaderData} from '../ngxs/analysis.action';
 import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
 import {BreakpointService} from '../../breakpoint.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-analysis2-overview',
@@ -22,6 +23,7 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
   data: Partial<IOverviewInfo>;
   data$: Observable<IOverviewInfo>;
+  errorInHeader: boolean;
   chartValue = {
     chart: {
       type: 'pie',
@@ -103,17 +105,20 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
 
   };
   constructor(
-    private store: Store
+    private store: Store,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-
+    this.activatedRoute.queryParams.subscribe((par) => {
+      this.errorInHeader = par.error && par.error === 'true';
+    })
     this.store.dispatch(new SetAnalysis2HeaderData({
       analysisHeaderData: {type: EAnalysis2TypesEnum.overviewinfo}
     }));
     this.data$ = this.analysisstate2$.pipe(map((analysisState) => {
-      if(analysisState.overviewInfo){
+      if (analysisState.overviewInfo){
         this.chartValue.series[0].data[0][1] = analysisState.overviewInfo.totalSessions['bot handled'] || 1;
         this.chartValue.series[0].data[1][1] = analysisState.overviewInfo.totalSessions['agent handled'] || 1;
         this.chartValue2.series[0].data[0][1] = analysisState.overviewInfo.totalMessages['bot'] || 1;
