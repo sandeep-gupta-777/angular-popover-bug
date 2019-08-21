@@ -31,7 +31,12 @@ export class PipelineTestComponent implements OnInit {
   test() {
       this.serverService.makePostReq({
         url: this.constantsService.pipelineTestUrl(),
-        headerData: {'bot-access-token': this.bot.bot_access_token},
+        headerData: {
+          'bot-access-token': this.bot.bot_access_token,
+          'auth-token': null,
+          'user-access-token': null,
+          'content-type': 'application/json'
+        },
         body: this.testForm.value
       }).subscribe((value) => {
         this.testResponse = value;
