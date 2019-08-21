@@ -30,6 +30,7 @@
     "prod": "ng build --configuration prod --base-href /static/",
     "github-deploy": "npm run staging-github && cd dist/botPlateformFE && git init && git add --all && git commit -m 'deploy' && git remote add origin https://github.com/goodmite/imibot-fe.git && git push origin master -f",
     "deploy": "node jenkins1.js",
+    "final": "npm run git && node jenkins1.js",
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",

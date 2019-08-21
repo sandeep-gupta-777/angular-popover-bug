@@ -231,7 +231,6 @@ export class ServerService {
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
-        this.increaseAutoLogoutTime();
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
@@ -272,7 +271,6 @@ export class ServerService {
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
-        this.increaseAutoLogoutTime();
         this.checkForLogoutAction(value);
       }),
       catchError((e: any) => {
@@ -312,7 +310,6 @@ export class ServerService {
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
-        this.increaseAutoLogoutTime();
         this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
@@ -336,7 +333,6 @@ export class ServerService {
       }),
       tap((value) => {
         this.checkForLogoutAction(value);
-        this.increaseAutoLogoutTime();
         if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
         }
@@ -362,7 +358,6 @@ export class ServerService {
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {
-        this.increaseAutoLogoutTime();
         this.changeProgressBar(false, 100);
         this.checkForLogoutAction(value);
       }),
@@ -375,17 +370,17 @@ export class ServerService {
   }
 
   checkForLogoutAction(obj: { action: string }) {
-    if (!obj) {
-      return;
-    }
-    const {action} = obj;
-    if (action === 'logout') {
-      /* temporary*/
-      localStorage.clear();
-      EventService.logout$.emit();
-      // location.reload();
-      return;
-    }
+    // if (!obj) {
+    //   return;
+    // }
+    // const {action} = obj;
+    // if (action === 'logout') {
+    //   /* temporary*/
+    //   localStorage.clear();
+    //   EventService.logout$.emit();
+    //   // location.reload();
+    //   return;
+    // }
   }
 
   logout(shouldCallLogoutApi = true) {
@@ -473,21 +468,21 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    let autoLogoutInterval = Infinity;
-    if (this.roleInfo) {
-
-      if (this.roleInfo.session_expiry_time === -1) {
-        autoLogoutInterval = Infinity;
-      } else {
-        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
-      }
-    }
-    if (!this.roleInfo) {
-      // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
-    }
-    this.store.dispatch([
-      new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
-    ]);
+    // let autoLogoutInterval = Infinity;
+    // if (this.roleInfo) {
+    //
+    //   if (this.roleInfo.session_expiry_time === -1) {
+    //     autoLogoutInterval = Infinity;
+    //   } else {
+    //     autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
+    //   }
+    // }
+    // if (!this.roleInfo) {
+    //   // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
+    // }
+    // this.store.dispatch([
+    //   new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
+    // ]);
   }
 
   getNSetBotList(noValidateUser?, is_dashboard?) {
