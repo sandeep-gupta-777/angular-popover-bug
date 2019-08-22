@@ -95,7 +95,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
 
     this.gotUserData$.pipe(
       map((value: IUser) => {
-
         this.userValue = userValue = value;
         ServerService.setCookie('auth-token', value.auth_token);
         ServerService.setCookie('user-access-token', value.user_access_token);
@@ -154,15 +153,14 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // }
 
         return of(this.router.navigate(['/']));
-      }),
-      catchError((e) => {
-        LoggingService.error(e);
-        return this.loginFailedHandler();
       })
     )
       .subscribe(() => {
+      }, (e) => {
+        LoggingService.error(e);
+        return this.loginFailedHandler();
       });
-
+    //
   }
 
   sendEmailForReset() {
