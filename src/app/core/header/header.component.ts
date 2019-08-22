@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable, Subscription} from 'rxjs';
 import {IUser} from '../interfaces/user';
@@ -29,7 +29,7 @@ import {Session} from 'inspector';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent extends ModalImplementer implements OnInit {
+export class HeaderComponent extends ModalImplementer implements OnInit, OnDestroy {
 
   defaultImage = 'assets/img/no image.svg';
   image = 'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?fm=jpg';
@@ -65,7 +65,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     super(utilityService, matDialog);
   }
 
+  logout$Sub: Subscription;
+
   ngOnInit() {
+
+    this.logout$ = EventService.logout$.subscribe((shouldCallLogoutApi?) => {
+      this.serverService.logout(shouldCallLogoutApi);
+    });
+
     try {
       this.bc = new BroadcastChannel('test_channel');
     } catch (e) {
@@ -147,7 +154,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // })
   }
 
-  logout(){
+  logout() {
     this.serverService.logout();
   }
 
@@ -225,5 +232,13 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.utilityService.showErrorToaster('Please verify this enterprise before trying to login.');
     }
 
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.logout$Sub.unsubscribe();
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

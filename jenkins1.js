@@ -19,7 +19,8 @@ inquirer
     if (answers.branch === 'staging') {
       branch = env = 'staging';
     } else if (answers.branch === 'staging-v2') {
-      branch = env = 'v2';
+      env = 'v2';
+      branch = "develop"
     } else if (answers.branch === 'develop') {
       branch = 'develop';
       env = 'dev';

@@ -121,9 +121,7 @@ export class ServerService {
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
 
-    EventService.logout$.subscribe((shouldCallLogoutApi?) => {
-      this.logout(shouldCallLogoutApi);
-    });
+
 
     ServerService.AUTH_TOKEN = ServerService.getCookie('auth-token');
     ServerService.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
