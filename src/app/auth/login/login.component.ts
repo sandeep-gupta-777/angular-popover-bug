@@ -99,9 +99,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         this.userValue = userValue = value;
         ServerService.setCookie('auth-token', value.auth_token);
         ServerService.setCookie('user-access-token', value.user_access_token);
-        console.log('AUTH_TOKEN', ServerService.AUTH_TOKEN);
-        console.log('USER_ACCESS_TOKEN', ServerService.USER_ACCESS_TOKEN);
-        console.log('document.cookie', document.cookie);
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {

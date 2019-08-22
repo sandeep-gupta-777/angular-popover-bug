@@ -69,7 +69,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
 
   ngOnInit() {
 
-    this.logout$ = EventService.logout$.subscribe((shouldCallLogoutApi?) => {
+    this.logout$Sub = EventService.logout$.subscribe((shouldCallLogoutApi?) => {
       this.serverService.logout(shouldCallLogoutApi);
     });
 
