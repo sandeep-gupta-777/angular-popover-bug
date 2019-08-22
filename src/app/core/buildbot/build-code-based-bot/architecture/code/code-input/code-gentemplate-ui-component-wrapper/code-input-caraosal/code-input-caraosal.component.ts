@@ -416,8 +416,5 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   test(arg) {
     console.log(arg);
   }
-  clickedOnArticle(val){
-    debugger;
-  }
 
 }

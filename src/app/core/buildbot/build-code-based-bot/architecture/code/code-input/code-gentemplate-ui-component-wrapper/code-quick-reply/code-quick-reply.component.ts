@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {IQuickReplyItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {IBot} from '../../../../../../../interfaces/IBot';
 
 export enum EQuickReplyTypes {
   text = 'text',
@@ -24,6 +25,8 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   myEQuickReplySubTabsType = EQuickReplySubTabsType;
   textType: string = EQuickReplySubTabsType.payload;
   content_type: string;
+  @Input() bot: IBot;
+  @Input() inArticleResponse = false;
   @Input() quick_reply: IQuickReplyItem;
   @ViewChild('quickReplyForm') quickReplyForm: NgForm;
   @Output() hideQuickReplyDropdown$ = new EventEmitter();
@@ -92,7 +95,9 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
       this.hideQuickReplyDropdown$.emit();
     });
   }
-
+  enterArticleSearch(val){
+    this.quickReplyForm.form.patchValue({payload: val.searchedAricleString});
+  }
   ngAfterViewInit() {
     setTimeout(() => {
       this.quickReplyForm.form.patchValue(this.quick_reply);

@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {IBot} from '../core/interfaces/IBot';
 
 @Component({
   selector: 'app-code-quick-reply-wrapper',
@@ -28,7 +29,8 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() sendMessageToBotServer$ = new EventEmitter();
-
+  @Input() bot: IBot;
+  @Input() inArticleResponse = false;
   @ViewChild('mainInput') mainInput: ElementRef;
   selected;
 

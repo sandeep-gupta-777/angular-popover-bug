@@ -13,7 +13,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   channelNameList: string[];
   @Input() outputItem: IOutputItem;
   @Input() bot: IBot;
-  @Input() inArticleResponse: boolean;
+  @Input() inArticleResponse = false;
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
   @Input() selectedChannel: string;

@@ -3,7 +3,6 @@
       class="p-3 bg-white shadow-theme"
       style="width: 200px"
       (submit)="saveQuickReplyForm(quickReplyForm)">
-
   <input type="text" [ngModel]="content_type" name="content_type" hidden>
   <!--first tabbing row starts-->
   <ul class="nav nav-tabs theme-tabbing mb-1 bg-white">
@@ -15,8 +14,6 @@
          [queryParams]="{build:'architecture'}">Text</a>
     </li>
   </ul>
-
-
 
   <div>
     <label class="required">Reply Label</label>
@@ -38,7 +35,10 @@
 
     <div [hidden]="textType !== myEQuickReplySubTabsType.payload">
       <label class="required">Payload Text</label>
-      <input type="text" ngModel name="payload"
+      <app-faq-search-box class = "articleSearchInArticle" [bot]="bot" [inCuration]="true" *ngIf = "inArticleResponse && bot"
+                          (click) = "$event.stopPropagation()"
+                          (clickedOnArticle)="enterArticleSearch($event)"> </app-faq-search-box>
+      <input type="text" ngModel name="payload" [hidden]="inArticleResponse"
              class="form-control">
     </div>
   </div>

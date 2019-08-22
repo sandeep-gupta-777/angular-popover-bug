@@ -47,8 +47,9 @@
                                   [outputItem]="outputItem"
                                   [myIndex]=i
                                   [channelNameList]="channelNameList"
+                                  [bot] = "bot"
+                                  [inArticleResponse] = "inArticleResponse"
     ></app-code-quick-reply-wrapper>
-
     <div class="pb-1 pl-1">
       <img alt="integration logo" *ngFor="let channel of channelNameList" class="logo-image mx-1 cursor-pointer"
            (click)="removeThisChannel(channel,$event)" [src]="(channel|logosByIntegrationName)?.icon"
