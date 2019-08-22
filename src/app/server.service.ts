@@ -169,8 +169,12 @@ export class ServerService {
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
-    let tokenData: IHeaderData = {};
-    tokenData = {'user-access-token': ServerService.USER_ACCESS_TOKEN};
+    let tokenData: IHeaderData = {
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
+    };
+    tokenData = {...tokenData, 'user-access-token': ServerService.USER_ACCESS_TOKEN};
     tokenData = {...tokenData, 'auth-token': ServerService.AUTH_TOKEN};
     tokenData = {...tokenData, 'content-type': 'application/json'};
 
