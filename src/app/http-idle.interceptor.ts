@@ -69,7 +69,6 @@ export class HttpIdleInterceptor implements HttpInterceptor {
   }
 
   increaseAutoLogoutTime() {
-    console.log('increaseAutoLogoutTime');
     let autoLogoutInterval = Infinity;
     if (this.roleInfo) {
 
@@ -85,6 +84,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
     this.store.dispatch([
       new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
     ]);
+    console.log('increaseAutoLogoutTime', autoLogoutInterval, this.roleInfo.session_expiry_time);
   }
 
   checkForLogoutAction(obj: { action: string }) {

@@ -851,11 +851,11 @@ export class UtilityService {
         // let templateKey = Object.keys(templateKeys);
         let elIfStr = '';
         if (index === 0 && templateKey !== 'else') {
-          elIfStr = `if(variables['templateKey'] === '${templateKey}'):\n`;
+          elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
         } else if (templateKey === 'else') {
           elIfStr = `\nelse:\n`;
         } else if (index !== 0 && templateKey !== 'else') {
-          elIfStr = `\nelif(variables['templateKey'] === '${templateKey}'):\n`;
+          elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
         }
         const outputValues = uiDictionary[templateKey];
         let outPutStr;
