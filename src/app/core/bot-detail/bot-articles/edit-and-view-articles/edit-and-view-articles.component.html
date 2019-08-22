@@ -122,13 +122,6 @@
         <mat-slide-toggle [(ngModel)]="showAnswerCodeView" class ="ml-auto mr-3" color="primary"></mat-slide-toggle>
     </div>
     <div class="response-template">
-<!--      <mat-form-field class="question-list-item w-100" appearance="outline" color=basic-->
-<!--        *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">-->
-<!--        <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"-->
-<!--          [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])"-->
-<!--          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10" required>-->
-<!--            </textarea>-->
-<!--      </mat-form-field>-->
         <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="!showAnswerCodeView" [bot]="bot"></app-answer-template-wrapper>
         <div *ngIf="articleData && showAnswerCodeView">
             <app-code-editor
@@ -139,48 +132,10 @@
                     [doShowUploadDownloadButton]="false"
             ></app-code-editor>
         </div>
-
     </div>
   </div>
 </div>
 
-
-<!--<div class="first-message-main-block"-->
-<!--  *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">-->
-<!--  <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3">-->
-<!--    <div>-->
-<!--      <mat-icon class="icon">info</mat-icon>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--      <div class="questions-heading">Usage</div>-->
-<!--      <div *ngIf="articleData.section_id == 'first_message'">-->
-<!--        Welcome message is the first message which will be shown across all-->
-<!--        platforms as soon as a new conversation with a bot is initiated.-->
-<!--        This message helps user know-->
-<!--        what the bot can and cannot do and acts as a crucial onboarding step.-->
-<!--      </div>-->
-<!--      <div *ngIf="articleData.section_id == 'fallback'">-->
-<!--        This response will be used whenever the bot is unable to identify-->
-<!--        the question which is asked by the user.-->
-<!--        You can configure the response here and the confidence-->
-<!--        below which score this should be triggered can be configured from inference settings.</div>-->
-<!--    </div>-->
-
-<!--  </div>-->
-<!--  <div class="response">-->
-<!--    <div class="response-heading">Response</div>-->
-<!--    <div class="response-items px-2">-->
-<!--      <mat-form-field class="question-list-item w-100" appearance="outline" color=basic-->
-<!--        *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">-->
-<!--        <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"-->
-<!--          [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])"-->
-<!--          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">-->
-<!--            </textarea>-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--</div>-->
 <ng-template #categoriesTemplate>
   <div class="primary-modal" style="min-width: 24vw;">
     <div class="modal-header">

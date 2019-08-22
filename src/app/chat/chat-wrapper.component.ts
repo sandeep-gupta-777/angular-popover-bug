@@ -186,7 +186,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
     });
 
     this.startANewChat$Sub = EventService.startANewChat$.subscribe((val) => {
-    debugger;
+
       this.startNewChat(val);
     });
 

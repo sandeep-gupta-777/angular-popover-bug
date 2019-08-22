@@ -113,7 +113,7 @@ export class CurationIssuesComponent implements OnInit {
 
 
   curationIssueIconClicked(roomId) {
-    // debugger;
+    //
     let isEncrypted: boolean;
 
     // No need of calling decrypt as curation window will not show any issue if encrypted
