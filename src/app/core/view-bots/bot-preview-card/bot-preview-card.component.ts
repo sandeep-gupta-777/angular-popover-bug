@@ -220,7 +220,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
   copySharablePreviewLinkHandler() {
     const url = `${location.host}${ConstantsService.fullscreenchatpath_anon}/?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`;
-    debugger;
+
     this.utilityService.copyToClipboard(encodeURI(url));
   }
 }

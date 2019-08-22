@@ -57,18 +57,18 @@ export class HttpIdleInterceptor implements HttpInterceptor {
       .pipe(tap((response) => {
 
         if (response instanceof HttpResponse || response instanceof HttpErrorResponse) {
-        debugger;
+
           this.increaseAutoLogoutTime();
           if (response instanceof HttpResponse) {
             this.checkForLogoutAction(response.body);
           } else {
-          debugger;
+
             /*todo: something should be here*/
             // this.checkForLogoutAction(response.);
           }
         }
       }, (err: HttpErrorResponse) => {
-        debugger;
+
         if (err && err.error) {
           this.checkForLogoutAction(err.error);
         }

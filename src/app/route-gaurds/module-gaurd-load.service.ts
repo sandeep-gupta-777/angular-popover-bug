@@ -19,7 +19,7 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
   }
 
   canActivate() {
-    debugger;
+
 
     if (AuthGaurdService.doesAuthTokenExists()) {
       return true;

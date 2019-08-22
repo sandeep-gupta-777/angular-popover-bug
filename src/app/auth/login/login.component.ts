@@ -252,7 +252,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             } else {
               this.enterpriseList = this.userData.enterprises;
               this.panelActive = ELoginPanels.enterprise_list_display;
-              // console.log(this.enterpriseList);
+              ServerService.setCookie('auth-token', this.userData.auth_token);
+              ServerService.setCookie('user-access-token', this.userData.user_access_token);
               return of();
             }
           }
