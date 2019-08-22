@@ -3,8 +3,8 @@
 <form #carausalForm="ngForm" class="row mx-0 px-1 w-100 bg-white template-output-scroll-container">
   <div class="d-flex w-100">
     <div class="d-flex align-items-center">
-      <span class="fa fa-picture-o mr-1" style="font-size: 15px; color: #9b9b9b"></span>
-      <span>Image Carousel</span>
+      <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;">view_carousel</mat-icon>
+      <span>Carousel</span>
       <span *ngIf="outputItem?.generic_template[0]?.elements?.length > 0">({{controlsClickedCount+1}} of {{outputItem?.generic_template[0]?.elements?.length}})</span>
     </div>
   </div>

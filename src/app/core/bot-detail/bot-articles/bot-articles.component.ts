@@ -221,12 +221,16 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const create = !articleData.section_id;
-
+    const isNull = articleData.questions.find(ques =>{
+      return ques.trim() == null;
+    });
+    if(isNull){
+      this.utilityService.showErrorToaster('Some question field is empth')
+    }
     const body = {
       'questions': articleData.questions,
       'answers': articleData.answers,
       'category_id': articleData.category_id
-
     };
     let url;
 
