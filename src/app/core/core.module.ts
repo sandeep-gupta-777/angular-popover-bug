@@ -32,7 +32,7 @@ import {EnterpriseUsersComponent} from './enterpriseprofile/enterprise-users/ent
 import {EnterpriseRolesComponent} from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
 import {RolesComponent} from './enterpriseprofile/roles/roles.component';
 import {RoleaccordionComponent} from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
-import {ScrollDispatchModule, ScrollingModule} from '@angular/cdk/scrolling';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ServerService} from '../server.service';
 import {NgxsModule} from '@ngxs/store';
 import {ReducerListService} from '../reducer-list.service';
@@ -49,13 +49,14 @@ import {LoginPageGaurdService} from '../route-gaurds/login-page.gaurd.service';
 import {ModuleGaurdLoadService} from '../route-gaurds/module-gaurd-load.service';
 import {environment} from '../../environments/environment';
 import {HttpMockRequestInterceptor} from '../interceptor.mock';
-import {HttpRequestInterceptor} from '../interceptor';
 import {MatSidenavModule} from '@angular/material';
 import {DevHttpInterceptorService} from '../dev/dev-http-interceptor.service';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ScriptsLoadResolver} from '../script-load.resolver';
 import {BotAccessTokenResolver} from '../bot-access-token.resolver';
 import {BotResolver} from '../bot.resolver';
+import {GentemplateSidebarComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
+import {HttpIdleInterceptor} from '../http-idle.interceptor';
 
 
 const routes: Route[] = [
@@ -143,7 +144,7 @@ const routes: Route[] = [
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
-    EnterpriseRolesComponent,
+    EnterpriseRolesComponent
   ],
   entryComponents: [
     ModalConfirmComponent,
@@ -169,8 +170,6 @@ const routes: Route[] = [
       VersionStateReducer,
     ])
   ],
-  exports: [
-  ],
   providers: [
     EventService,
     ConstantsService,
@@ -188,12 +187,12 @@ const routes: Route[] = [
     FormsService,
     ScriptsLoadResolver,
     BotAccessTokenResolver,
-    BotResolver
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
-    //   multi: true
-    // },
+    BotResolver,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpIdleInterceptor,
+      multi: true
+    },
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: DevHttpInterceptorService,

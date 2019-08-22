@@ -55,53 +55,24 @@ const routes: Route[] = [
     NotFoundComponent,
     NotAuthorisedComponent,
     FilterArrayPipe,
-
-    // BackendDevComponent,
-
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'serverApp'}),
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: true}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([]),
-    // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
     NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}), // Comment this before pushing to git
-    // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
-
-
-    // ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
-
-    // ServiceWorkerModule.register('/static/combined-worker.js', {enabled: environment.production}),
-
-    // MatSnackBarModule,
-    //   FormsModule,
-    //   ReactiveFormsModule,
-    //   HttpClientModule,
-
-    /**/
-    // ReactiveFormsModule,
-    // FormsModule
-
-    // AngularFireDatabaseModule,
-    // AngularFireAuthModule,
-    // AngularFireMessagingModule,
-    // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     LoginPageGaurdService,
     ModuleGaurdLoadService,
     MessagingService,
     ScriptsLoadResolver
-    //   {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
-    //   multi: true
-    // }
   ],
   bootstrap: [AppComponent]
 })

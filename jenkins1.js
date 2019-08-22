@@ -11,14 +11,16 @@ inquirer
       type: 'list',
       message: 'What env/branch you want to deploy?',
       name: 'branch',
-      choices: [ "develop", "staging"]
+      choices: ["develop", "staging", "staging-v2"]
     }
   ])
   .then(answers => {
     let branch, env;
-    if(answers.branch === 'staging'){
+    if (answers.branch === 'staging') {
       branch = env = 'staging';
-    }else if(answers.branch === 'develop'){
+    } else if (answers.branch === 'staging-v2') {
+      branch = env = 'v2';
+    } else if (answers.branch === 'develop') {
       branch = 'develop';
       env = 'dev';
     }
@@ -30,7 +32,7 @@ inquirer
 function buildInit(environment, branch) {
 
   function waitOnQueue(id) {
-    jenkins.queue.item(id, function(err, item) {
+    jenkins.queue.item(id, function (err, item) {
       if (err) throw err;
       // console.log('queue', item);
       // console.log("Please wait. Jenkins is busy");
@@ -42,14 +44,14 @@ function buildInit(environment, branch) {
         spinner.stop(true);
         console.log('\nbuild has been cancelled');
       } else {
-        setTimeout(function() {
+        setTimeout(function () {
           waitOnQueue(id);
         }, 3000);
       }
     });
   }
 
-  jenkins.job.build({ name: 'IMIbot Frontend', parameters: { environment, 	branch } }, function(err, id) {
+  jenkins.job.build({name: 'IMIbot Frontend', parameters: {environment, branch}}, function (err, id) {
     if (err) throw err;
     waitOnQueue(id);
   });
@@ -57,15 +59,15 @@ function buildInit(environment, branch) {
   function printLogStream(id) {
     const log = jenkins.build.logStream('IMIbot Frontend', id);
 
-    log.on('data', function(text) {
+    log.on('data', function (text) {
       process.stdout.write(text);
     });
 
-    log.on('error', function(err) {
+    log.on('error', function (err) {
       console.log('error', err);
     });
 
-    log.on('end', function() {
+    log.on('end', function () {
       console.log('INFO::', `Finished, please check: http://10.0.10.57/job/IMIbot%20Frontend/${id}/`);
     });
   }

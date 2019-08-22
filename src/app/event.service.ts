@@ -2,23 +2,30 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
 import {IApi} from './dev/interfaces';
-import { ICorpus } from './core/interfaces/faqbots';
+import {ICorpus} from './core/interfaces/faqbots';
 
 @Injectable()
 export class EventService {
 
   constructor() {
   }
+
   public static codeValidationErrorOnUpdate$ = new EventEmitter();
 
   static logout$ = new EventEmitter();
 
-  static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
+  static progressBar$ = new EventEmitter<{ loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
   static botUpdatedInServer$ = new EventEmitter<IBot>();
   static kbRefresh$ = new EventEmitter<IBot>();
-  static startANewChat$ = new EventEmitter<{bot: IBot, consumerDetails: any}>();
+  static startANewChat$ = new EventEmitter<{ bot: IBot, consumerDetails: any }>();
+
+  static startANewChat(data: { bot: IBot, consumerDetails: any }) {
+  debugger;
+    EventService.startANewChat$.emit(data);
+  }
+
   static reportFormIsValid = new EventEmitter<Boolean>();
   static faqHeaderSearchBarReloadData = new EventEmitter<ICorpus>();
   static selectedApiChanged$ = new EventEmitter<IApi>();
@@ -26,14 +33,14 @@ export class EventService {
 
   static updateBotinit$ = new EventEmitter();
   static createConceptFullScreen$ = new EventEmitter();
-  static botDataDirty$ = new EventEmitter<{[index: string]: boolean}>();
+  static botDataDirty$ = new EventEmitter<{ [index: string]: boolean }>();
 
   private removeCodeMirrorHistory$ = new EventEmitter();
 
 
-
   rerenderHandsonTable$ = new EventEmitter();
   reloadSessionTable$ = new EventEmitter();
+
   static unsubscribeInComponent(component) {
     for (const key of Object.keys(component)) {
       try {

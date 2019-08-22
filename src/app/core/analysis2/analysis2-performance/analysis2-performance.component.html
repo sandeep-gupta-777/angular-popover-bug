@@ -6,10 +6,9 @@
       (click)="tabClicked('totalSessions')" [ngClass]="{'tab-active':activeTab==='totalSessions'}"><strong>Sessions wise</strong></a>
   </li>
 
-  <li class="nav-item" *ngIf="false">
+  <li class="nav-item">
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'topgenerationtemplates'}"
-      (click)="tabClicked('topgenerationtemplates')" [ngClass]="{'tab-active':activeTab==='topgenerationtemplates'}"><strong>Template
-        key</strong></a>
+      (click)="tabClicked('topgenerationtemplates')" [ngClass]="{'tab-active':activeTab==='topgenerationtemplates'}"><strong>Messages out</strong></a>
   </li>
 
   <li class="nav-item" *ngIf="false">
