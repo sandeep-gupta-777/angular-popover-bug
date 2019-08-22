@@ -63,10 +63,17 @@ export class SessionMessageComponent implements OnInit {
         this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
         this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
         this.bot_message_id = sessionMessage.id;
-        this.isFirstMessage = sessionMessage.message_store && sessionMessage.message_store.top_match_section && sessionMessage.message_store.top_match_section.section_id === 'first_message';
+        this.isFirstMessage = this.getSectionId(sessionMessage) === 'first_message';
       }
     });
     // this.sessionMessageData.user_type;
+  }
+
+  getSectionId(sessionMessage) {
+    return sessionMessage &&
+      sessionMessage.message_store &&
+      sessionMessage.message_store.top_match_section &&
+      sessionMessage.message_store.top_match_section.section_id;
   }
 
   addMessageToCuration(event) {
