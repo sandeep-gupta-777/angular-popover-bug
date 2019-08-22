@@ -98,6 +98,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         this.userValue = userValue = value;
         ServerService.setCookie('auth-token', value.auth_token);
         ServerService.setCookie('user-access-token', value.user_access_token);
+        console.log('AUTH_TOKEN', ServerService.AUTH_TOKEN);
+        console.log('USER_ACCESS_TOKEN', ServerService.USER_ACCESS_TOKEN);
+        console.log('document.cookie', document.cookie);
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {
@@ -153,14 +156,16 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // }
 
         return of(this.router.navigate(['/']));
+      }),
+      catchError((e, x) => {
+        LoggingService.error(e);
+        this.loginFailedHandler();
+        return x;
       })
     )
       .subscribe(() => {
-      }, (e) => {
-        LoggingService.error(e);
-        return this.loginFailedHandler();
       });
-    //
+  //
   }
 
   sendEmailForReset() {
@@ -250,8 +255,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             } else {
               this.enterpriseList = this.userData.enterprises;
               this.panelActive = ELoginPanels.enterprise_list_display;
-              ServerService.setCookie('auth-token', this.userData.auth_token);
-              ServerService.setCookie('user-access-token', this.userData.user_access_token);
+              // console.log(this.enterpriseList);
               return of();
             }
           }
@@ -263,7 +267,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         return of();
       }), catchError((e) => {
         this.loginFailedHandler();
-        return of([]);
+        return of(1);
       }))
       .subscribe();
 
@@ -320,7 +324,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.disabeLoginButton = false;
     this.errorMessage = '';
     this.infoMessage = '';
-    this.serverService.logout();
   }
 
   loginWithCustomEmail(email) {
