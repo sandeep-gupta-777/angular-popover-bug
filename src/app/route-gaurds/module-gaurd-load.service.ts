@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {CanActivate, CanActivateChild, CanLoad, Router} from '@angular/router';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {ENgxsStogareKey} from '../typings/enum';
+import {defineBase} from '@angular/core/src/render3';
 
 @Injectable()
 export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, CanLoad {
@@ -18,6 +19,7 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
   }
 
   canActivate() {
+    debugger;
 
     if (AuthGaurdService.doesAuthTokenExists()) {
       return true;
