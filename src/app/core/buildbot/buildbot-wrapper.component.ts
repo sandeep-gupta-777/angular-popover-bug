@@ -14,7 +14,8 @@ import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.ser
 import {CODE_BASED_DEFAULT_ICON, PIPELINE_DEFAULT_ICON} from '../../asset.service';
 
 import {MatDialog} from '@angular/material';
-import { SideBarService } from 'src/app/side-bar.service';
+import {SideBarService} from 'src/app/side-bar.service';
+
 @Component({
   selector: 'app-buildbot-wrapper',
   templateUrl: './buildbot-wrapper.component.html',
@@ -75,6 +76,7 @@ export class BuildbotWrapperComponent implements OnInit {
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
   faqbotBuildForm: FormGroup;
+
   ngOnInit() {
     this.bot_type = (this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type) as EBotType;
     if (this.bot_type === EBotType.faqbot) {
@@ -122,11 +124,19 @@ export class BuildbotWrapperComponent implements OnInit {
           new ResetBuildBotToDefault()
         ]).subscribe(() => {
 
-          if (createdBot.bot_type === EBotType.faqbot) {
-            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build: 'articles', openPreview: true}});
-          } else {
-            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
-          }
+          this.serverService.getNSetBotList(false, true)
+            .subscribe(() => {
+              if (createdBot.bot_type === EBotType.faqbot) {
+                this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {
+                  queryParams: {
+                    build: 'articles',
+                    openPreview: true
+                  }
+                });
+              } else {
+                this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
+              }
+            });
 
         });
         this.utilityService.showSuccessToaster('Bot Created');
@@ -190,17 +200,19 @@ export class BuildbotWrapperComponent implements OnInit {
 
   goBack() {
     // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
-    if (this.loading) { return; }
+    if (this.loading) {
+      return;
+    }
     console.log(SideBarService.buildbotWrapperComponent);
 
     console.log(SideBarService.buildbotData_init);
     if (SideBarService.isBuildBotDirty()) {
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
-      .then((data) => {
-        if (data) {
-          this.router.navigate(['/']);
-        }
-      });
+        .then((data) => {
+          if (data) {
+            this.router.navigate(['/']);
+          }
+        });
 
     } else {
       this.router.navigate(['/']);
@@ -209,10 +221,10 @@ export class BuildbotWrapperComponent implements OnInit {
 
   putBuildBotFinalData() {
     return {
-      basicInfoForm : this.basicInfoForm.value,
-      dataManagementForm : this.dataManagementForm.value,
-      securityForm : this.securityForm.value,
-      faqbotBuildForm : this.faqbotBuildForm.value
+      basicInfoForm: this.basicInfoForm.value,
+      dataManagementForm: this.dataManagementForm.value,
+      securityForm: this.securityForm.value,
+      faqbotBuildForm: this.faqbotBuildForm.value
     };
   }
 

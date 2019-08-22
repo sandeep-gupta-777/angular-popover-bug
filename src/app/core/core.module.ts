@@ -72,7 +72,6 @@ const routes: Route[] = [
       },
       {
         path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: [],
-        resolve: {bot: BotResolver},
       },
       {
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: []
