@@ -394,7 +394,7 @@ export class ServerService {
       console.log('Blocked attempted logout when already on login page.')
       return;
     }
-
+    //
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     ServerService.resetCookie();
     sessionStorage.clear();
