@@ -1,7 +1,7 @@
 <div (clickOutside)="input_foused = false">
     <div class="faq-search">
       <span class="fa fa-search icon-color input-icon" [ngClass]="{'input-foused':input_foused}"></span>
-      <input placeholder="Search for questions or variants"(focus)="input_foused = true"  [(ngModel)]="searchAricleString" data-cy="article-search">
+      <input placeholder="Search for questions"(focus)="input_foused = true"  [(ngModel)]="searchAricleString" data-cy="article-search">
     </div>
     <div class = "searchBox"
       *ngIf="input_foused && corpus && corpus.sections && (corpus.sections | searchArticleByQuestion : searchAricleString) &&(corpus.sections | searchArticleByQuestion : searchAricleString).length > 0">

@@ -129,7 +129,7 @@
 <!--          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10" required>-->
 <!--            </textarea>-->
 <!--      </mat-form-field>-->
-        <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="!showAnswerCodeView"></app-answer-template-wrapper>
+        <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="!showAnswerCodeView" [bot]="bot"></app-answer-template-wrapper>
         <div *ngIf="articleData && showAnswerCodeView">
             <app-code-editor
                     style="height: 55vh"

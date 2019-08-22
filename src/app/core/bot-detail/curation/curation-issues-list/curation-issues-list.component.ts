@@ -126,9 +126,9 @@ export class CurationIssuesListComponent implements OnInit {
     this.ignoreCurationIssueById.emit(this.IssuesSelectedSet);
   }
 
-  clickedOnArticle(section_id) {
-    if (section_id) {
-      this.selectedArticleToAddCuration = section_id;
+  clickedOnArticle(val) {
+    if (val && val.section_id) {
+      this.selectedArticleToAddCuration = val.section_id;
     }
   }
 

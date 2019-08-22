@@ -4,6 +4,8 @@
     <app-code-quick-reply
       *ngIf="openDropdown"
       [quick_reply]="quick_reply"
+      [bot]="bot"
+      [inArticleResponse]="inArticleResponse"
       (hideQuickReplyDropdown$)="openDropdown = false"
       (deleteQuickReply$)="deleteQuickReply$.emit()"
       style="position: absolute; top:100%; left: 0;"
