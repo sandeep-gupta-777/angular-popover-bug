@@ -106,9 +106,10 @@
     </button>
   </form>
     <div class="questions-heading">Questions</div>
+    <div *ngIf="articleData.questions.length === 0" class = "no-question">No question added yet, atleast one is required to save the article</div>
     <mat-form-field class="question-list-item"
       *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
-      <textarea #questionTextArea matInput required name=a{{index}} type="text"
+      <textarea  matInput required name=a{{index}} type="text"
         [(ngModel)]="articleData.questions[index]"
         [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])" #autosize="cdkTextareaAutosize"
         cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">

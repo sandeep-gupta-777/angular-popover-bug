@@ -34,8 +34,6 @@ function buildInit(environment, branch) {
   function waitOnQueue(id) {
     jenkins.queue.item(id, function (err, item) {
       if (err) throw err;
-      // console.log('queue', item);
-      // console.log("Please wait. Jenkins is busy");
       if (item.executable) {
         spinner.stop(true);
         console.log('end', `Started deployment at: http://10.0.10.57/job/IMIbot%20Frontend/${item.executable.number}/`);

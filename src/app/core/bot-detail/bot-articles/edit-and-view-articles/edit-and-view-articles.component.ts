@@ -38,7 +38,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
-  @ViewChildren('questionTextArea') questionTextArea: QueryList<ElementRef>;
   store: any;
 
   constructor(
@@ -107,12 +106,6 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   addNewQuestion(text) {
     this.articleData.questions.push(text);
-    setTimeout(() => {
-      const textareaArr = this.questionTextArea.toArray();
-      const lastChild = textareaArr[textareaArr.length - 1];
-      lastChild.nativeElement.focus();
-      DomService.scrollToTop(this.questionListContainer.nativeElement);
-    });
   }
 
   goBackToArticle() {

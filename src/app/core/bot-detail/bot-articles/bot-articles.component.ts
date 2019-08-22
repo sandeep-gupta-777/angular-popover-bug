@@ -141,7 +141,6 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   makeFilterList(form: FormGroup) {
 
-    // this.currentPageOfArtcle = 1;
     this.currentPageOfArtcle = new Number(0);
     this.articleFilterForm = form;
     this.filter_categorie_id_list = [];
@@ -194,7 +193,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     const article = {
       'answers': [{'text': ['']}],
       'category_id': 'unassigned',
-      'questions': ['']
+      'questions': []
     };
     this.router.navigate(['.'], {
       queryParams: {isArticle: true},
