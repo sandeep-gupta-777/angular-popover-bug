@@ -19,18 +19,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    if ('serviceWorker' in navigator) {
-      // navigator.serviceWorker.register('assets/js/firebase-messaging-sw.js')
-      //   .then((registration) => {
-      //     console.log('Registration successful, scope is:', registration.scope);
-      //     const userId = 'user001asdasdasd';
-      //     this.messagingService.requestPermission(userId);
-      //     this.messagingService.receiveMessage();
-      //     this.message = this.messagingService.currentMessage;
-      //   }).catch(function (err) {
-      //   console.log('Service worker registration failed, error:', err);
-      // });
-    }
     console.info('App bootstrap success!');
   }
 

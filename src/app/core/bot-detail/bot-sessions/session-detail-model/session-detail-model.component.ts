@@ -83,8 +83,11 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   channelNameToImg(channel: string) {
-    const iconObj = this.constantsService.getIntegrationIconForChannelName(channel);
-    return iconObj && iconObj.icon;
+    if(channel){
+      const iconObj = this.constantsService.getIntegrationIconForChannelName(channel);
+      return iconObj && iconObj.icon;
+    }
+
   }
 
   updateModal(id) {

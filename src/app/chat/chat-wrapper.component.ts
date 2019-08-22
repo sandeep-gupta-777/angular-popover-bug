@@ -1,6 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {
   EBotMessageMediaType,
   EChatFrame,
@@ -42,7 +42,7 @@ export interface IBotPreviewFirstMessage {
     {
       'text': 'Test consent message'
     }
-    ];
+  ];
   'room': IRoomData;
 
   'transaction_id': '1cba048e58684206b8c3912b7f7e1887';
@@ -65,7 +65,7 @@ export interface IChatFeedback {
   templateUrl: './chat-wrapper.component.html',
   styleUrls: ['./chat-wrapper.component.scss']
 })
-export class ChatWrapperComponent implements OnInit {
+export class ChatWrapperComponent implements OnInit, OnDestroy {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
   anon_chat_path = ConstantsService.fullscreenchatpath_anon;
@@ -76,6 +76,7 @@ export class ChatWrapperComponent implements OnInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('scrollMe') myScrollContainer: ElementRef;
+  startANewChat$Sub: Subscription;
   frameEnabled: EChatFrame = EChatFrame.WELCOME_BOX;
   myEChatFrame = EChatFrame; // This is required to use enums in template, we can't use enums direactly in templates
   windowOpen = false;
@@ -184,7 +185,8 @@ export class ChatWrapperComponent implements OnInit {
       }
     });
 
-    EventService.startANewChat$.subscribe((val) => {
+    this.startANewChat$Sub = EventService.startANewChat$.subscribe((val) => {
+    debugger;
       this.startNewChat(val);
     });
 
@@ -492,6 +494,14 @@ export class ChatWrapperComponent implements OnInit {
           })
         ]);
       });
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.startANewChat$Sub.unsubscribe();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 

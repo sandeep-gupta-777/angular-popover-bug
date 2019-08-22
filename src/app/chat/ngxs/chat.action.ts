@@ -29,6 +29,7 @@ export class AddNewRoom {
   static readonly type = '[chat-widdow] update AddNewRoom';
 
   constructor(public payload: IRoomData) {
+
   }
 }
 

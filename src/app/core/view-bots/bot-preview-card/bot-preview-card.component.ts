@@ -105,7 +105,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
     ]);
 
     /*TODO: integrate this with store*/
-    EventService.startANewChat$.emit({
+    EventService.startANewChat({
       bot: this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
     });
 

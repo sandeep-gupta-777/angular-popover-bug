@@ -362,8 +362,9 @@ export class ChatService {
       new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
 
+
     /*TODO: integrate this with store*/
-    EventService.startANewChat$.emit({
+    EventService.startANewChat({
       bot: bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
     });
   }
