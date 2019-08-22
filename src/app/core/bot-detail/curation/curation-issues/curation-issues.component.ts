@@ -156,7 +156,7 @@ export class CurationIssuesComponent implements OnInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token': this.bot.bot_access_token}
+      headerData: {'bot-access-token':  ServerService.getBotTokenById(this.bot.id),}
     });
   }
 
@@ -179,7 +179,7 @@ export class CurationIssuesComponent implements OnInit {
 
   decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token':  ServerService.getBotTokenById(this.bot.id)
     };
     const body = {
       room_id: sessionTobeDecryptedId,

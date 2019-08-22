@@ -454,7 +454,7 @@ export class CurationComponent implements OnInit {
         let botImage: IBot;
         botImage = {...this.curationSettingsForm.value};
         botImage.id = this.bot.id;
-        botImage.bot_access_token = this.bot.bot_access_token;
+        botImage.bot_access_token =  ServerService.getBotTokenById(this.bot.id);
         this.updateSettingsLoading = ELoadingStatus.loading;
         this.serverService.updateBot(botImage).subscribe(() => {
           this.updateSettingsLoading = ELoadingStatus.success;

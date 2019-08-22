@@ -10,7 +10,6 @@ import {BuildCodeBasedBotComponent} from './buildbot/build-code-based-bot/build-
 import {BuildPipelineBasedBotComponent} from './buildbot/build-pipeline-based-bot/build-pipeline-based-bot.component';
 import {NgModule} from '@angular/core';
 import {RouterFragmentActiveDirective} from '../router-fragment-active.directive';
-import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
 import {FooterComponent} from '../footer/footer.component';
@@ -131,7 +130,6 @@ const routes: Route[] = [
     ReportsComponent,
     CoreWrapperComponent,
     // SignupComponent,
-    PipelineTestComponent,
     RolesComponent,
     RoleaccordionComponent,
     HeaderComponent,
