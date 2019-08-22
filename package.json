@@ -21,7 +21,7 @@
     "build-old": "ng build --prod && ",
     "hmr": "ng serve --port 4201 --configuration hmr -o",
     "develop": "ng build --configuration develop --base-href /static/",
-    "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
+    "staging": "ng build --configuration staging --base-href /static/",
     "staging-github": "npm run xgit && ng build --configuration staging --base-href /imibot-fe/",
     "v1": "sudo npm run xgit && ng build --configuration staging --base-href /v1/",
     "v2": "sudo npm run xgit && ng build --configuration staging --base-href /v2/",
