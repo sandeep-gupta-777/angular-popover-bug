@@ -130,9 +130,10 @@ export class ConsumersComponent implements OnInit {
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
         decryptKey = '';
+        //
         const url_temp = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
-          .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
+          .makeGetReq<IConsumerItem>({url: url_temp, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
           .subscribe((value: { objects: IConsumerItem[] }) => {
             this.consumersDecrypted = value.objects[0];
             const index = this.consumerItems.findIndex((value_temp) => value_temp.id === this.consumerItemToBeDecrypted.id);

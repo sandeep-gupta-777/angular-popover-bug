@@ -82,6 +82,7 @@
     "load-js": "^3.0.3",
     "ng-click-outside": "^4.0.0",
     "ng-lazyload-image": "^5.1.2",
+    "ngx-loadify": "0.0.12",
     "papaparse": "^5.0.0",
     "rxjs": "^6.3.3",
     "saturn-datepicker": "^7.0.2",
