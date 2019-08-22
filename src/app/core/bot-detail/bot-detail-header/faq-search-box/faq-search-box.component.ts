@@ -39,8 +39,9 @@ export class FaqSearchBoxComponent implements OnInit {
 
     this.input_foused = false;
     if (this.inCuration) {
-      this.clickedOnArticle.emit(body.section_id);
+
       this.searchAricleString = body.question.replace('<strong>', '').replace('</strong>', '');
+      this.clickedOnArticle.emit({section_id : body.section_id , searchedAricleString : this.searchAricleString});
     }
     if (!this.inCuration) {
       this.router.navigate(['.'], {

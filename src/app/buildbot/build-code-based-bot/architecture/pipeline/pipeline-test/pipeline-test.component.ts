@@ -29,13 +29,22 @@ export class PipelineTestComponent implements OnInit {
   }
 
   test() {
+    console.log( ServerService.getBotTokenById(this.bot.id));
       this.serverService.makePostReq({
         url: this.constantsService.pipelineTestUrl(),
-        headerData: {'bot-access-token': this.bot.bot_access_token},
+        headerData: {
+          'bot-access-token': ServerService.getBotTokenById(this.bot.id),
+          'auth-token': null,
+          'user-access-token': null,
+          'content-type': 'application/json'
+        },
         body: this.testForm.value
       }).subscribe((value) => {
         this.testResponse = value;
-        debugger;
-      });
+      },
+        (err) => {
+          this.testResponse = '';
+        }
+      );
   }
 }

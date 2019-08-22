@@ -134,4 +134,29 @@
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);
 }
 
+::ng-deep {
+  .articleSearchInArticle {
+    .faq-search {
+      input {
+        border: solid 1px #e0e0e0 !important;
+        width: 180px !important;
+        color: #474747 !important;
+        padding-left: 34px !important;
+        background-color: transparent !important;
+        margin-right: 0px !important;
+      }
+      .input-icon{
+        color: #4a4a4a !important;
+      }
+      i {
+        color: #858585 !important;
+      }
+    }
 
+    .searchBox {
+      width: 180px !important;
+      background-color: #f7f7f7 !important;
+      text-align: left !important;
+    }
+  }
+}

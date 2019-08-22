@@ -22,7 +22,6 @@ export class EventService {
   static startANewChat$ = new EventEmitter<{ bot: IBot, consumerDetails: any }>();
 
   static startANewChat(data: { bot: IBot, consumerDetails: any }) {
-  debugger;
     EventService.startANewChat$.emit(data);
   }
 

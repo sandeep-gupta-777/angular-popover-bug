@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {IBot} from '../../../../interfaces/IBot';
 
 @Component({
   selector: 'app-answer-template-wrapper',
@@ -10,6 +11,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   constructor() { }
   channelList = [ { "name": "all", "displayName": "All" }, { "name": "facebook", "displayName": "facebook" }, { "name": "skype", "displayName": "skype" } ];
   @Input() answerObject;
+  @Input() bot: IBot;
   ngOnInit() {
     if( !this.answerObject[0].include ){
       this.answerObject[0].include = ['web'];
