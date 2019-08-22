@@ -113,7 +113,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'modal-xlg'
     });
-    const data = await closeDialogPromise$;
+    await closeDialogPromise$;
   }
 
 
@@ -142,14 +142,14 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?) {
     let isEncrypted: boolean;
-    // 
+    //
     /*
           * TODO: there is a data_encrypted key it the row itself. Can we use it?
         * Why do we need to go fetch first message to see if its decrypted or not?
         * */
 
     if (eventData.data.data_encrypted) {
-      
+
       this.openSessionRowDecryptModal(eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
@@ -158,7 +158,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
           this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
           // this.selectedRow_Session = value.objects.find(session => session.roomId === eventData.data.roomId);
           // (<any>this.selectedRow_Session).highlight = true;
-          
+
           if (this.indexOfCurrentRowSelected !== undefined) {
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
           }

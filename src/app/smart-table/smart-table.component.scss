@@ -27,6 +27,7 @@ table {
     padding-right: 10px;
 
     min-width: 60px;
+
     &:first-of-type {
       padding-left: 0 !important;
     }
@@ -92,11 +93,6 @@ table {
     background: transparent !important;
   }
 
-  //.mat-form-field-flex{
-  //  margin-top: 10px;
-}
-
-:host /deep/ {
   tr.mat-header-row {
     height: 40px;
 
@@ -189,13 +185,16 @@ table {
         display: none;
       }
     }
-    .input-material{
+
+    .input-material {
       border-color: transparent !important;
     }
-    .fa-search{
+
+    .fa-search {
       color: transparent !important;
     }
-    .mat-datepicker-toggle{
+
+    .mat-datepicker-toggle {
       visibility: hidden !important;
     }
   }
@@ -223,18 +222,22 @@ table {
     border-right: none;
     border-bottom: 1px solid #e0e0e0;
     background-color: transparent !important;
-    &:focus{
+
+    &:focus {
       //color: $color-primary;
       border-bottom: 1px solid $color-primary !important;
+
       &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         @include typography(13px, $line-height-md, $font-weight-normal, $color-primary);
       }
     }
+
     &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
       opacity: 1; /* Firefox */
       @include typography(13px, $line-height-md, $font-weight-normal, $color-secondary);
       padding: 0;
     }
+
     margin-bottom: 10px;
   }
 }

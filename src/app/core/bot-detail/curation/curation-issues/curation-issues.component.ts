@@ -174,7 +174,7 @@ export class CurationIssuesComponent implements OnInit {
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'modal-xlg'
     });
-    let data = await closeDialogPromise$;
+    await closeDialogPromise$;
   }
 
   decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {

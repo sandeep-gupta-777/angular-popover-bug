@@ -53,9 +53,6 @@
 
 .primary-modal {
   @include classic-modal(#00abd3);
-}
-
-.primary-modal {
   .modal-body {
     .fa {
       font-size: 48px;
