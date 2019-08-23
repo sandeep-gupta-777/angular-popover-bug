@@ -38,6 +38,8 @@
       <app-faq-search-box class = "articleSearchInArticle" [bot]="bot" [inCuration]="true" *ngIf = "inArticleResponse && bot"
                           (click) = "$event.stopPropagation()"
                           (clickedOnArticle)="enterArticleSearch($event)"> </app-faq-search-box>
+      <label *ngIf = "inArticleResponse && bot" class="required mt-1">Linked to article</label>
+      <div class="mb-1"*ngIf = "inArticleResponse && bot && quick_reply && quick_reply.payload">{{quick_reply.payload}}</div>
       <input type="text" ngModel name="payload" [hidden]="inArticleResponse"
              class="form-control">
     </div>

@@ -124,7 +124,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   notInOverview = false;
   ngOnInit() {
     this.route.events.subscribe((event) => {
-      if (event && event.url){
+      if (event && event['url']){
         this.notInOverview = !(event['url'].includes('/core/analytics2/overview') );
       }
     });
