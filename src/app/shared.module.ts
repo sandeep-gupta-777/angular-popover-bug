@@ -31,7 +31,7 @@ import {ClickOutsideModule} from 'ng-click-outside';
 import {HighlightDirective} from './readonly-selected-permission.directive';
 import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/bot-config-input.component';
 import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';
-import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
+// import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
@@ -103,7 +103,7 @@ import {PlayMediaComponent} from './chat/play-media/play-media.component';
     BotConfigInputComponent,
     ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
-    AvatorFormComponent,
+    // AvatorFormComponent,
     BotConfigComponent,
 
     BotArchitetureComponent,
@@ -189,7 +189,7 @@ import {PlayMediaComponent} from './chat/play-media/play-media.component';
     PipelineFilterPipe,
     ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
-    AvatorFormComponent,
+    // AvatorFormComponent,
     BotConfigComponent,
 
     BotArchitetureComponent,

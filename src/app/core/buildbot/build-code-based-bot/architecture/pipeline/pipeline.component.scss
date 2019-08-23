@@ -58,9 +58,6 @@
   }
 }
 
-.primary-modal {
-  @include classic-modal(#00abd3);
-}
 
 #search-aim {
   //width: 260px;
@@ -226,6 +223,7 @@ label {
 
 
 .primary-modal {
+  @include classic-modal(#00abd3);
   .modal-body {
     text-align: start;
   }

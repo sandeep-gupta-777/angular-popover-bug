@@ -10,12 +10,6 @@ table {
   background-color: transparent !important;
 
 
-  ::ng-deep {
-    .mat-form-field-infix {
-      border-top: 0;
-    }
-  }
-
   td {
     font-size: 13px;
     vertical-align: middle !important;
@@ -32,9 +26,11 @@ table {
       padding-left: 0 !important;
     }
 
+
     ::ng-deep {
       .mat-form-field-infix {
         display: block;
+        border-top: 0;
         position: static !important;
       }
     }
@@ -83,7 +79,7 @@ table {
 }
 
 //material table ends
-:host /deep/ {
+::ng-deep {
   .mat-form-field-infix {
     //border: none;
     //padding: 0;

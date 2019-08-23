@@ -90,7 +90,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
         if (roleInfo.session_expiry_time === -1) {
           autoLogoutInterval = Infinity;
         } else {
-          autoLogoutInterval = (roleInfo && roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
+          autoLogoutInterval = (roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
         }
       }
     }
