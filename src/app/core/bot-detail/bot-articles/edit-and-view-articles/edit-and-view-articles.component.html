@@ -14,7 +14,6 @@
     </div>
 
     <div *appMyIf="myEAllActions['Update Corpus']">
-      {{(JSON.stringify(articleData) === JSON.stringify(_article)) }}
       <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
         mat-button *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; "
