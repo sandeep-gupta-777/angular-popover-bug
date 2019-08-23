@@ -92,7 +92,7 @@
     </div>
 
   </div>
-  <div #questionListContainer class="questions-list px-2" style="overflow-y: auto; height: 100%" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+  <div #questionListContainer class="questions-list px-2" style="overflow-y: auto;height: 67vh;" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
 <form #questionForm = "ngForm" class = "addQuestionPanel px-4 py-2" >
     <mat-form-field>
       <textarea matInput  type="text" placeholder="Add new question" ngModel name = "questionText"
@@ -120,7 +120,7 @@
   </div>
   <div class="response">
     <div class="response-heading">Response
-        <mat-slide-toggle [(ngModel)]="showAnswerCodeView" class ="ml-auto mr-3" color="primary"></mat-slide-toggle>
+<!--      slide button toggle showAnswerCodeView -->
     </div>
     <div class="response-template">
         <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="!showAnswerCodeView" [bot]="bot"></app-answer-template-wrapper>
