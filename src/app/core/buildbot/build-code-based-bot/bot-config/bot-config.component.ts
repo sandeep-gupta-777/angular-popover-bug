@@ -197,10 +197,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
     } else if (index === 2) {
       this.utilityService.showErrorToaster('Security form is not valid');
       return;
-    } else if (index === 4) {
-      this.utilityService.showErrorToaster('Integration form is not valid');
-      return;
-    } else if (index === 3 && this.bot.bot_type === EBotType.chatbot) {
+    } else if (index === 4 || index === 3 && this.bot.bot_type === EBotType.chatbot) {
       this.utilityService.showErrorToaster('Integration form is not valid');
       return;
     } else if (index === 3 && this.bot.bot_type === EBotType.faqbot) {

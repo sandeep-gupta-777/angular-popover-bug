@@ -263,9 +263,6 @@
     .bot-template-heading {
       flex-direction: column;
       height: auto;
-    }
-
-    .bot-template-heading {
       background-color: #f7f7f7;
     }
   }
@@ -341,9 +338,6 @@
 
 .primary-modal {
   @include classic-modal(#00abd3);
-}
-
-.primary-modal {
   .modal-body {
     .fa {
       font-size: 48px;
@@ -516,7 +510,7 @@ app-code-editor {
   outline: none;
 }
 
-:host /deep/ {
+::ng-deep {
   .mat-slide-toggle-label {
     margin-bottom: 0;
   }

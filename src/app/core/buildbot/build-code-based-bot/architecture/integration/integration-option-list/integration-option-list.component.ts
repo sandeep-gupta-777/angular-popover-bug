@@ -43,7 +43,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Output() datachanged$ = new EventEmitter();
   @Output() form$ = new EventEmitter();
-  @Output() formDirty$ = new EventEmitter<Boolean>();
+  @Output() formDirty$ = new EventEmitter<boolean>();
   @Select() app$: Observable<IAppState>;
   myObject = Object;
   routeParent;

@@ -25,7 +25,7 @@ export class EventService {
     EventService.startANewChat$.emit(data);
   }
 
-  static reportFormIsValid = new EventEmitter<Boolean>();
+  static reportFormIsValid = new EventEmitter<boolean>();
   static faqHeaderSearchBarReloadData = new EventEmitter<ICorpus>();
   static selectedApiChanged$ = new EventEmitter<IApi>();
   static knowledgeBaseData$ = new EventEmitter();

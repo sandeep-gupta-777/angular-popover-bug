@@ -204,14 +204,8 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   async saveSelectedVersion() {
     this.syncBotViews(this.showGenTempEditor);
-    const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    };
-
-    const id = this.selectedVersion_st.id;
-
-
-    // this.syncBotViews(false);
+    ServerService.getBotTokenById(this.bot.id);
+// this.syncBotViews(false);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
@@ -253,11 +247,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     // forkedVersionInfo.forked_from = this.forked_version_number;
     forkedVersionInfo.forked_from = value.version_id;
     forkedVersionInfo.bot_id = this.bot.id;
-
-    const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    };
-
+    ServerService.getBotTokenById(this.bot.id);
     setTimeout(() => {
       this.store.dispatch([new CreateForkedVersion$({bot: this.bot, version: forkedVersionInfo})]);
     }, 1000);
@@ -369,13 +359,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     if (this.permanentlyShowUIViewFormBackend) {
       this.syncBotViews(!this.showGenTempEditor);
     }
-    const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    };
-
-    const id = this.selectedVersion_st.id;
-
-
+    ServerService.getBotTokenById(this.bot.id);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {

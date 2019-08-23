@@ -47,9 +47,6 @@ a {
 
 .primary-modal {
   @include classic-modal(#00abd3);
-}
-
-.primary-modal {
   .modal-header {
     border: none;
   }

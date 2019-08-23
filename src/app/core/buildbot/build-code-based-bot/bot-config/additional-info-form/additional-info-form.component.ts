@@ -30,7 +30,7 @@ export class AdditionalInfoFormComponent implements OnInit {
   }
 
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
-  @Output() formDirty$ = new EventEmitter<Boolean>();
+  @Output() formDirty$ = new EventEmitter<boolean>();
 
   formData: any;
 

@@ -129,7 +129,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
 
     // this.pipeLine = [...this._bot.pipelines] || [];
-    const url = this.constantsService.getAllPipelineModuleUrl();
+    this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
 
       // this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);

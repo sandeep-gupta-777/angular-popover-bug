@@ -66,7 +66,8 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
 
   }
-  refreshTest(){
+
+  refreshTest() {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -85,10 +86,9 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
 
           if (value.objects[0].status === 'RUNNING') {
             this.cancelTestFlag = true;
-          }else{
+          } else {
             this.cancelTestFlag = false;
           }
-          const testCaseData = value.objects[0].data;
           const testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
             return testcase.bot_id === this.bot.id;
           });
@@ -103,6 +103,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         this.initDone$.emit(this);
       });
   }
+
   afterTabledataChange(data) {
 
     if (data) {

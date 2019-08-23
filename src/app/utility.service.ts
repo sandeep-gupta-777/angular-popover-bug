@@ -230,7 +230,7 @@ export class UtilityService {
         /*getRawValue vs value
         * Value doesnt return disabled formcontrols
         * */
-        ...((form as any).getRawValue ? (form as any).getRawValue() : form.value)
+        ...((form as FormGroup).getRawValue ? (form as FormGroup).getRawValue() : form.value)
       };
     }, {});
   }
@@ -314,8 +314,6 @@ export class UtilityService {
     // Change email addresses to mailto:: links.
     // replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
     // replacedText = replacedText.replace(replacePattern3, `<a href="mailto:$1" class="${className}>$1</a>`);
-
-    console.log(replacedText);
     return replacedText;
 
   }
@@ -619,12 +617,12 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = yyyy + delimiter + mm + delimiter + dd);
+    return (yyyy + delimiter + mm + delimiter + dd);
 
   }
 
   convertDateObjectStringToMMDDYY(dateStr: Date, delimiter = '/') {
-    let today: any = new Date(dateStr);
+    const today: any = new Date(dateStr);
 
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; // January is 0!

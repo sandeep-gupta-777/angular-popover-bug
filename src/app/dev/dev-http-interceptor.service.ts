@@ -39,7 +39,7 @@ export class DevHttpInterceptorService implements HttpInterceptor {
           api: {
             id: random,
             response: typeof evt.body !== 'object' ? JSON.parse(evt.body) : evt.body,
-            response_headers: this.getHeadersObj(<any>evt.headers),
+            response_headers: this.getHeadersObj(evt.headers),
             response_code: evt.status
           }
         }));
