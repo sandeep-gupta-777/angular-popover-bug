@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {IUser} from '../interfaces/user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResetAppState} from '../../ngxs/app.action';
@@ -23,6 +23,7 @@ import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
 import {environment} from '../../../environments/environment';
 import {EventService} from '../../event.service';
 import {Session} from 'inspector';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -38,6 +39,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;
   @Select() app$Subscription: Subscription;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   logoSrc = 'https://image.ibb.co/hjJ0xA/icon-2x.png';
   myEBotType = EBotType;
   myEAllActions = EAllActions;
@@ -90,68 +92,59 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
         // console.log(this.enterpriseList);
       });
 
-    /*this.app$Subscription = */
-    this.app$.subscribe((app) => {
-
-        /*every time this callback runs remove all previous setTimeOuts*/
-        const autoLogOutTime = app.autoLogoutTime;
-        if (autoLogOutTime && autoLogOutTime !== Infinity) {
-
-          /*If autoLogOutTime hasn't changed, return
-          * else clear previous timeouts, and create a new one
-          * */
-          if (this.autoLogOutTime === autoLogOutTime) {
+    this.app$
+      .pipe(takeUntil(this.destroy))
+      .subscribe((app) => {
+          if (!this.userData) {/*hack...this subscription is being called even when this component is destroyed, after logout*/
             return;
           }
-          this.autoLogOutTime = autoLogOutTime;
-          if (this.logoutSetTimeoutRef) {
-            clearTimeout(this.logoutSetTimeoutRef);
-          }
+          /*every time this callback runs remove all previous setTimeOuts*/
+          const autoLogOutTime = app.autoLogoutTime;
+          if (autoLogOutTime && autoLogOutTime !== Infinity) {
 
-
-          /*creating a new Timeout*/
-          this.logoutSetTimeoutRef = setTimeout(() => {
-
-            // alert('You session has expired. Logging out');
+            /*If autoLogOutTime hasn't changed, return
+            * else clear previous timeouts, and create a new one
+            * */
+            if (this.autoLogOutTime === autoLogOutTime) {
+              return;
+            }
+            this.autoLogOutTime = autoLogOutTime;
             if (this.logoutSetTimeoutRef) {
               clearTimeout(this.logoutSetTimeoutRef);
             }
-            try {
-              // TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
-            } catch (e) {
-              LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
-            }
 
-            LoggingService.log('============================autologout============================');
-            this.serverService.logout();
-            // document.location.reload(); /*To destroy all timeouts just in case*/
-          }, (autoLogOutTime - Date.now()));
 
-          // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
+            /*creating a new Timeout*/
+            this.logoutSetTimeoutRef = setTimeout(() => {
+
+              // alert('You session has expired. Logging out');
+              if (this.logoutSetTimeoutRef) {
+                clearTimeout(this.logoutSetTimeoutRef);
+              }
+              try {
+                // TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
+              } catch (e) {
+                LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
+              }
+
+              LoggingService.log('============================autologout============================');
+              this.serverService.logout();
+              // document.location.reload(); /*To destroy all timeouts just in case*/
+            }, (autoLogOutTime - Date.now()));
+
+            // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
+          }
         }
-      }
-    );
-    // this.url = this.constantsService.getLogoutUrl();
-    // this.serverService.makeGetReq({ url: this.url })
-    //   .subscribe((v) => {
-    //     this.utilityService.showSuccessToaster('Logged Out');
-    //   });
-
+      );
 
     this.loggeduser$
+      .pipe(takeUntil(this.destroy))
       .subscribe((value: IAuthState) => {
         if (value && value.user != null) {
           this.userData = value.user;
           this.logoSrc = this.userData.enterprise.logo || this.logoSrc;
         }
       });
-    // this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-    //   this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
-    // });
-    // this.activatedRoute.queryParams.subscribe((queryParams)=>{
-    //   ;
-    //   this.isFullScreen = queryParams['isArchitectureFullScreen']==='true'
-    // })
   }
 
   logout() {
@@ -236,7 +229,8 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
 
   ngOnDestroy(): void {
     try {
-      this.logout$Sub.unsubscribe();
+      this.destroy.next(true);
+      this.destroy.unsubscribe();
     } catch (e) {
       console.log(e);
     }

@@ -29,12 +29,14 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  debugger;
     return this.loggeduser$.pipe(map((value: IAuthState) => {
       return this.doAllowAccess(value, route);
     }));
   }
 
   doAllowAccess(value: IAuthState, route: ActivatedRouteSnapshot) {
+  debugger;
     if (value && value.is_loggedIn != null) {
 
       const routeName = route.data['routeName'];
@@ -50,6 +52,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   }
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    debugger;
     return this.loggeduser$.pipe(map((value: IAuthState) => {
       return this.doAllowAccess(value, route);
     }));

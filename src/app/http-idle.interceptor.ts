@@ -25,7 +25,7 @@ import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
 import {IAppState} from './ngxs/app.state';
 import {IRoleInfo} from '../interfaces/role-info';
-import {tap} from 'rxjs/operators';
+import {take, tap} from 'rxjs/operators';
 import {EventService} from './event.service';
 
 @Injectable()
@@ -34,16 +34,19 @@ export class HttpIdleInterceptor implements HttpInterceptor {
   @Select() app$: Observable<IAppState>;
   roleInfo: IRoleInfo;
   roleName;
+  is_logged_in = false;
 
   constructor(private store: Store) {
     /*todo: duplicated from server service*/
     this.loggeduser$.subscribe((value) => {
       if (!value || !value.user) {
+        this.is_logged_in = false;
         return;
       }
+      this.is_logged_in = true;
       this.roleName = value.user.role.name;
-      this.app$.subscribe((appState) => {
-        if (!this.roleInfo && appState && appState.roleInfoArr) {
+      this.app$.pipe(take(1)).subscribe((appState) => {
+        if (appState && appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role_temp) => {
             return role_temp.name === value.user.role.name;
           });
@@ -55,10 +58,13 @@ export class HttpIdleInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
       .pipe(tap((response) => {
-
         if (response instanceof HttpResponse || response instanceof HttpErrorResponse) {
+          /*
+          * If the user is not logged in, make auto logout time = infinite
+          * */
+          const stopScheduler = !this.is_logged_in || response.url.includes('logout');
+          this.increaseAutoLogoutTime(this.roleInfo, stopScheduler);
 
-          this.increaseAutoLogoutTime();
           if (response instanceof HttpResponse) {
             this.checkForLogoutAction(response.body);
           } else {
@@ -75,23 +81,25 @@ export class HttpIdleInterceptor implements HttpInterceptor {
       }));
   }
 
-  increaseAutoLogoutTime() {
+  increaseAutoLogoutTime(roleInfo, stopScheduler) {
     let autoLogoutInterval = Infinity;
-    if (this.roleInfo) {
-
-      if (this.roleInfo.session_expiry_time === -1) {
-        autoLogoutInterval = Infinity;
-      } else {
-        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
+    console.log(roleInfo);
+    if (!stopScheduler) {
+      if (roleInfo) {
+        if (roleInfo.session_expiry_time === -1) {
+          autoLogoutInterval = Infinity;
+        } else {
+          autoLogoutInterval = (roleInfo && roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
+        }
       }
     }
-    if (!this.roleInfo) {
+    if (!roleInfo) {
       // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
     }
     this.store.dispatch([
       new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
     ]);
-    console.log('increaseAutoLogoutTime', autoLogoutInterval, this.roleInfo.session_expiry_time);
+    console.log('increaseAutoLogoutTime is:', autoLogoutInterval, '. Actual session_expiry_time:', this.roleInfo.session_expiry_time * 1000);
   }
 
   checkForLogoutAction(obj: { action: string }) {

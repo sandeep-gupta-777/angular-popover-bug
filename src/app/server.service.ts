@@ -395,7 +395,7 @@ export class ServerService {
     * But sometimes, logout$ event is being called when used is already logged out
     * */
     if (location.pathname.includes('/auth/login"')) {
-      console.log('Blocked attempted logout when already on login page.')
+      console.log('Blocked attempted logout when already on login page.');
       return;
     }
     //
@@ -403,6 +403,7 @@ export class ServerService {
     ServerService.resetCookie();
     sessionStorage.clear();
     const url = this.constantsService.getLogoutUrl();
+    let isNavigationSuccess = false;
     this.store.dispatch([
       new ResetBotListAction(),
       new ResetLoggedInStatus(),
@@ -416,6 +417,10 @@ export class ServerService {
         .subscribe(() => {
           if (!environment.mock && shouldCallLogoutApi) {
             this.router.navigate(['auth', 'login'])
+              .then((isNavigationSuccess_temp) => {
+                isNavigationSuccess = isNavigationSuccess_temp;
+                console.log('Checking if retry needed::', isNavigationSuccess);
+              })
               .then(() => {
                 this.store.dispatch([
                     new ResetAuthToDefaultState()/*can't reset auth state to default as its being used on this page*/
@@ -425,6 +430,11 @@ export class ServerService {
             this.makeGetReq({url})
               .subscribe((v) => {
                 this.myToasterService.showSuccessToaster('Logged Out');
+                if (!isNavigationSuccess) {
+                  /*reload if not successful*/
+                  localStorage.clear();
+                  location.reload();//
+                }
               }, () => {
                 // this.router.navigate(['auth', 'login']);
               });
