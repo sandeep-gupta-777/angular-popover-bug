@@ -1413,7 +1413,7 @@ export class UtilityService {
   }
 
   sanitizeCSVData(data: string[][]) {
-  debugger;
+
     let str: string;
     const charsToBeRemoved = ['+', '-', '@', '='];
     // if (typeof data === 'object') {
