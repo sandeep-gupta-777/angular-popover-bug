@@ -16,6 +16,7 @@ header{
     flex-direction: column;
     .category-name{
         color : $color-primary;
+        width: fit-content;
     }
 }
 

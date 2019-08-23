@@ -53,12 +53,12 @@
 
 <div class="category-edit px-2 pb-2">
   <div class="category-lable px-2 ">Category</div>
-  <div *ngIf="!isThisPermissionGiven(myEAllActions['Section Category Change'])" >
+  <span *ngIf="!isThisPermissionGiven(myEAllActions['Section Category Change'])" >
     <div class="px-2">
       {{articleData.category_id | categoryIdToName : category_mapping}}
     </div>
-  </div>
-  <div *appMyIf="myEAllActions['Section Category Change']">
+  </span>
+  <span *appMyIf="myEAllActions['Section Category Change']">
     <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
       *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
       <mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
@@ -68,7 +68,7 @@
       *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
       {{articleData.category_id | categoryIdToName : category_mapping}}
     </div>
-  </div>
+  </span>
 </div>
 
 <div class="main-block" >
