@@ -58,7 +58,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
       .pipe(tap((response) => {
-        debugger;
+
         if (response instanceof HttpResponse || response instanceof HttpErrorResponse) {
           /*
           * If the user is not logged in, make auto logout time = infinite
@@ -111,7 +111,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
     if (action === 'logout') {
       /* temporary*/
       localStorage.clear();
-      debugger;
+
       EventService.logout$.emit(false);
       // location.reload();
       return;

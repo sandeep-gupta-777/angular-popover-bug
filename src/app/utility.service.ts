@@ -603,7 +603,7 @@ export class UtilityService {
   }
 
   convertDateObjectStringToYYYYMMDD(dateStr: any = '', delimiter = '/') {
-    let today: any = dateStr ? new Date(dateStr) : new Date();
+    const today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; // January is 0!
@@ -1412,38 +1412,52 @@ export class UtilityService {
     downloadCsv(data, columns, filename);
   }
 
-  sanitizeCSVData(data) {
+  sanitizeCSVData(data: string[][]) {
+  debugger;
     let str: string;
+    const charsToBeRemoved = ['+', '-', '@', '='];
+    // if (typeof data === 'object') {
+    //   try {
+    //     str = JSON.stringify(data);
+    //   } catch (e) {
+    //     this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
+    //     return data;
+    //   }
+    // }
+    // if (typeof data === 'string') {
+    //   str = data;
+    // }
 
-    const removeChar = ['+', '-', '@', '='];
-    if (typeof data === 'object') {
-      try {
-        str = JSON.stringify(data);
-      } catch (e) {
-        this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
-        return data;
-      }
-    }
-    if (typeof data === 'string') {
-      str = data;
-    }
+    // const removedChar: string[] = charsToBeRemoved.filter(char => str.includes(char));
 
-    const removedChar: string[] = removeChar.filter(char => str.includes(char));
+    // if (removedChar.length > 0) {
+    //   this.showErrorToaster(`removed ${removedChar.length} characters from CSV: ${removedChar.join(', ')}`);
+    //   removedChar.forEach(char => str = str.replace(char, ''));
+    // }
+    return data.map((row: string[]) => {
+      return row.map((cell: string) => {
+        if (cell && cell.trim() && charsToBeRemoved.find(char => cell[0] === char)) {
+          // const replacement = `'\\' + ${cell[0]}`;
+          const replacement = ` `;
+          return this.replaceAt(cell, replacement, 0);
+        }
+        return cell;
+      });
+    });
 
-    if (removedChar.length > 0) {
-      this.showErrorToaster(`removed ${removedChar.length} characters from CSV: ${removedChar.join(', ')}`);
-      removedChar.forEach(char => str = str.replace(char, ''));
-    }
+    // if (typeof data === 'object') {
+    //   try {
+    //     return JSON.parse(str);
+    //   } catch (e) {
+    //     this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
+    //     return data;
+    //   }
+    // }
+    // return data;
+  }
 
-    if (typeof data === 'object') {
-      try {
-        return JSON.parse(str);
-      } catch (e) {
-        this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
-        return data;
-      }
-    }
-    return str;
+  replaceAt(str: string, replacement: string, index: number) {
+    return str.substr(0, index) + replacement + str.substr(index + replacement.length);
   }
 
   areAllAvatorValesDefined(headerObj: object) {
