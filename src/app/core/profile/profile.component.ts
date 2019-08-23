@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {IUser} from '../interfaces/user';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
@@ -10,13 +10,14 @@ import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {EAllActions} from '../../typings/enum';
+import {LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent extends ModalImplementer implements OnInit {
+export class ProfileComponent extends ModalImplementer implements OnInit, OnDestroy {
 
   myEAllActions = EAllActions;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -124,6 +125,14 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
       this.passwordErrorStr = '';
 
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.dialogRefWrapper.ref.close();
+    } catch (e) {
+      LoggingService.error(e);
+    }
   }
 
 }

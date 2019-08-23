@@ -446,7 +446,6 @@ export class ServerService {
                     new ResetAuthToDefaultState()/*can't reset auth state to default as its being used on this page*/
                   ]
                 );
-
               });
           }
         });

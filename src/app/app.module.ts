@@ -87,10 +87,10 @@ const routes: Route[] = [
     // ReactiveFormsModule,
     // FormsModule
 
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    AngularFireMessagingModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    // AngularFireDatabaseModule,
+    // AngularFireAuthModule,
+    // AngularFireMessagingModule,
+    // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     LoginPageGaurdService,

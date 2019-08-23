@@ -59,6 +59,7 @@ export class EnterpriseOverviewSmartTable extends AbstractSmartTable {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
+            skipXssValidation: true,
             value: `<div class="d-flex cursor-pointer">
                         <mat-icon class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</mat-icon>
                         <span>${consumerTableDataItem[key]}</span>

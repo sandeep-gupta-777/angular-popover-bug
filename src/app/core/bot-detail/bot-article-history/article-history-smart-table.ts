@@ -50,6 +50,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
+                        skipXssValidation: true,
                         value: `<div class="dropdown table-dropdown">
 
   <span class="fa fa-angle-down arrow-circle"></span>
