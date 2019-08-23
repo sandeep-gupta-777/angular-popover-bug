@@ -121,8 +121,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
   formData;
   bot_id;
-
+  notInOverview = false;
   ngOnInit() {
+    this.route.events.subscribe((event) => {
+      if (event && event.url){
+        this.notInOverview = !(event['url'].includes('/core/analytics2/overview') );
+      }
+    });
 
     /*
     * form contains the header data, Whenever form changes,

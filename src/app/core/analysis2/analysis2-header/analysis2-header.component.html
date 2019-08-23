@@ -15,7 +15,7 @@
 
   </div>
 
-  <div class="form-group m-0 mr-4 ">
+  <div class="form-group m-0 mr-4 " [hidden]="!notInOverview">
     <mat-form-field>
       <mat-select placeholder="Channel" ngModel name="platform" [value]="channelList[0]">
         <mat-option *ngFor="let channel of channelList" [value]="channel.name">
@@ -25,7 +25,7 @@
     </mat-form-field>
   </div>
 
-  <div class="m-0 mr-4">
+  <div class="m-0 mr-4" [hidden]="!notInOverview">
     <mat-form-field>
       <input matInput
              required
@@ -40,7 +40,7 @@
       <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
     </mat-form-field>
   </div>
-  <div class="form-group m-0 mr-4">
+  <div class="form-group m-0 mr-4" [hidden]="!notInOverview">
     <mat-form-field>
       <mat-select [ngModel]="granularity" placeholder="Granularity" required name="granularity"
                   [value]="granularityList[0]">
