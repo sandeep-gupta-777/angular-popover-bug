@@ -4,6 +4,7 @@ const Spinner = require('cli-spinner').Spinner;
 const spinner = new Spinner('processing.. %s');
 spinner.setSpinnerTitle("Jenkins is busy. Pls wait");
 spinner.setSpinnerString('|/-\\');
+let build_number;
 
 inquirer
   .prompt([
@@ -38,6 +39,7 @@ function buildInit(environment, branch) {
       if (item.executable) {
         spinner.stop(true);
         console.log('end', `Started deployment at: http://10.0.10.57/job/IMIbot%20Frontend/${item.executable.number}/`);
+        build_number = item.executable.number;
         printLogStream(item.executable.number);
       } else if (item.cancelled) {
         spinner.stop(true);
@@ -71,3 +73,16 @@ function buildInit(environment, branch) {
     });
   }
 }
+
+process.on('SIGINT', function () {
+  jenkins.build.stop('IMIbot Frontend', build_number, function (err) {
+    if(err){
+      console.log('Could not stop it', err);
+      process.exit();
+    }else {
+      console.log('\n Successfully stopped!');
+      process.exit();
+    }
+  });
+
+});
