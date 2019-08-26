@@ -32,7 +32,11 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   @Input() readOnly = false;
   options: any = {maxLines: 20, printMargin: false};
   onChanges: Function;
-
+  @Input() set showNumbering(value ){
+    if(this.editor){
+      this.editor.setOption('lineNumbers', value);
+    }
+  }
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -76,7 +80,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
     const editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
-      lineNumbers: true,
+      lineNumbers: this.showNumbering,
       lineWrapping: true,
       mode: 'python',
       theme: 'cobalt',

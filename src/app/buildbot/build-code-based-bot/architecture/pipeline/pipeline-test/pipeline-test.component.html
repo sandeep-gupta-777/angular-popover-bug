@@ -42,12 +42,14 @@
   <div class = "response-body">
     <div class = heading>Response</div>
     <div class = "code">
+      {{testResponse | json}}
       <app-code-editor
               class="code-editor"
               [text]="{text: testResponse|json}"
               [readOnly]="true"
+              [showNumbering]="!!testResponse"
               [doShowValidationsIcon]="false"
-              [doShowUploadDownloadButton]="true"
+              [doShowUploadDownloadButton]="false"
       ></app-code-editor>
       <div class = "splash-screen" *ngIf="!testResponse">
         <img src="assets/img/rocket.svg" alt="rocket">
