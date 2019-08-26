@@ -221,11 +221,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const create = !articleData.section_id;
-    const isNull = articleData.questions.find(ques =>{
+    const isNull = articleData.questions.find(ques => {
       return ques.trim() == null;
     });
-    if(isNull){
-      this.utilityService.showErrorToaster('Some question field is empth')
+    if (isNull) {
+      this.utilityService.showErrorToaster('Some question field is empth');
     }
     const body = {
       'questions': articleData.questions,
@@ -651,8 +651,16 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     return;
   }
 
+  addWebAsChannelToSectionsBeforeUplodingIf(obj) {
+    return obj.map((section) => {
+      section.answers[0]['include'] = ['web'];
+      return section;
+    });
+  }
+
   uploadDocumentToDB(obj) {
     // this.serverService.makePostReq;
+    obj = this.addWebAsChannelToSectionsBeforeUplodingIf(obj);
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };

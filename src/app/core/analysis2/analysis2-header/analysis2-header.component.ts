@@ -77,7 +77,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     }
     this._allbotList = _allbotList;
 
-    this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
+    this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type !== EBotType.intelligent);
     if (this.f && _allbotList && _allbotList.length > 0) {
       this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
     }
@@ -121,8 +121,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
   formData;
   bot_id;
-
+  notInOverview = false;
   ngOnInit() {
+    this.route.events.subscribe((event) => {
+      if (event && event['url']){
+        this.notInOverview = !(event['url'].includes('/core/analytics2/overview') );
+      }
+    });
 
     /*
     * form contains the header data, Whenever form changes,
