@@ -25,17 +25,25 @@
        [ngClass]="{'tab-active':activeTab==='totalMessages'}">
        <strong>Messages</strong></a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
-       [queryParams]="{vol:'totalTimeOfRooms'}"
-       (click)="tabClicked('totalTimeOfRooms')"
-       [ngClass]="{'tab-active':activeTab==='totalTimeOfRooms'}"><strong>Session time</strong></a>
-  </li>
+<!--  <li class="nav-item">-->
+<!--    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"-->
+<!--       [queryParams]="{vol:'totalTimeOfRooms'}"-->
+<!--       (click)="tabClicked('totalTimeOfRooms')"-->
+<!--       [ngClass]="{'tab-active':activeTab==='totalTimeOfRooms'}"><strong>Session time</strong></a>-->
+<!--  </li>-->
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['.']"
+         queryParamsHandling="merge"
+         replaceUrl="true"
+         [queryParams]="{vol:'usagetracking'}"
+         (click)="tabClicked('usagetracking')"
+         [ngClass]="{'tab-active':activeTab==='usagetracking'}"><strong>Usage</strong></a>
+    </li>
 </ul>
 <!--Tabbing ends-->
 
 
-<app-chart *ngIf="activeTab==='totalSessions'" 
+<app-chart *ngIf="activeTab==='totalSessions'"
           [chartValue]="chartValue"
           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
           </app-chart>
@@ -45,7 +53,7 @@
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 
-<app-chart *ngIf="activeTab==='totalTimeOfRooms'" 
+<app-chart *ngIf="activeTab==='totalTimeOfRooms'"
            [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>
@@ -53,3 +61,8 @@
            [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
           </app-chart>
+
+<app-chart *ngIf="activeTab==='usagetracking'"
+           [chartValue]="chartValue"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>

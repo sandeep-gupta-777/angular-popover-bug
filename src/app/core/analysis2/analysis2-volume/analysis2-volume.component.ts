@@ -50,6 +50,11 @@ export class Analysis2VolumeComponent implements OnInit {
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalSessions}
       }));
     }
+    if (this.activeTab === 'usagetracking') {
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData: {type: EAnalysis2TypesEnum.usagetracking}
+      }));
+    }
   }
 
   ngOnInit() {
