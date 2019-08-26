@@ -12,6 +12,7 @@ import {Analysis2OverviewComponent} from './analysis2-overview/analysis2-overvie
 import {Analysis2EngagementComponent} from './analysis2-engagement/analysis2-engagement.component';
 import {Analysis2HeaderComponent} from './analysis2-header/analysis2-header.component';
 import {Analysis2UsageComponent} from './analysis2-usage/analysis2-usage.component';
+import { OrderByBotNamePipePipe } from './analysis2-header/order-by-bot-name-pipe.pipe';
 
 const routes: Route[] = [
   {
@@ -34,7 +35,8 @@ const routes: Route[] = [
     Analysis2VolumeComponent,
     Analysis2PerformanceComponent,
     Analysis2EngagementComponent,
-    Analysis2UsageComponent
+    Analysis2UsageComponent,
+    OrderByBotNamePipePipe
   ],
   imports: [
     CommonModule,
