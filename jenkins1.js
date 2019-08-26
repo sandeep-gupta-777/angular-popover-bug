@@ -5,7 +5,7 @@ const spinner = new Spinner('processing.. %s');
 spinner.setSpinnerTitle("Jenkins is busy. Pls wait");
 spinner.setSpinnerString('|/-\\');
 let build_number;
-
+let scope_name = 'IMIbot Frontend';
 inquirer
   .prompt([
     {
@@ -52,13 +52,13 @@ function buildInit(environment, branch) {
     });
   }
 
-  jenkins.job.build({name: 'IMIbot Frontend', parameters: {environment, branch}}, function (err, id) {
+  jenkins.job.build({name: scope_name, parameters: {environment, branch}}, function (err, id) {
     if (err) throw err;
     waitOnQueue(id);
   });
 
   function printLogStream(id) {
-    const log = jenkins.build.logStream('IMIbot Frontend', id);
+    const log = jenkins.build.logStream(scope_name, id);
 
     log.on('data', function (text) {
       process.stdout.write(text);
@@ -75,7 +75,7 @@ function buildInit(environment, branch) {
 }
 
 process.on('SIGINT', function () {
-  jenkins.build.stop('IMIbot Frontend', build_number, function (err) {
+  jenkins.build.stop(scope_name, build_number, function (err) {
     if(err){
       console.log('Could not stop it', err);
       process.exit();
