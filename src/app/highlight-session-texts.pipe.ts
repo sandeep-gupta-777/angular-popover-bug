@@ -14,13 +14,14 @@ export class HighlightSessionTexts implements PipeTransform {
 
   transform(txnSessionMessagesItems: ITxnSessionMessagesItem[], messageSearchKeyword: string): ITxnSessionMessagesItem[] {
     if (!Array.isArray(txnSessionMessagesItems) || txnSessionMessagesItems.length < 1 || !messageSearchKeyword) { return txnSessionMessagesItems; }
-
     messageSearchKeyword = messageSearchKeyword.trim();
 
     txnSessionMessagesItems = this.utilityService.createDeepClone(txnSessionMessagesItems); // JSON.parse(JSON.stringify(arr));
 
     const modifiedarr = txnSessionMessagesItems.map((txnSessionMessagesItem: ITxnSessionMessagesItem) => {
+
       txnSessionMessagesItem.convoList = txnSessionMessagesItem.convoList.map((sessionMessageItem: ISessionMessageItem) => {
+
         return this.highlightMatchedTextInSessionMessageItem(sessionMessageItem, messageSearchKeyword);
       });
       this.highlightMatchedTransactionId(txnSessionMessagesItem, messageSearchKeyword);

@@ -42,7 +42,6 @@
         </div>
         <div class="row flex-row-reverse mr-32" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
-
           <div class="col-10 p-0 pb-1 d-flex flex-column justify-content-end" *ngIf="message.text">
             <div class="message p-2"
                  [ngClass]="{rtl: sessionMessage.message_store.response_language === 'ar'}"

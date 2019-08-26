@@ -21,6 +21,19 @@ export class SessionMessageComponent implements OnInit {
 
   @Input() set txnConversationItems(txnConversationItemsValue: ITxnSessionMessagesItem) {
     this._txnConversationItems = txnConversationItemsValue;
+    this.sessionMessageItems = this._txnConversationItems.convoList;
+    this.sessionMessageItems.forEach(sessionMessage => {
+      if (sessionMessage.user_type === 'human') {
+        this.hasError = this.hasError || sessionMessage.error;
+        this.bot_message_id = sessionMessage.id;
+      }
+      if (sessionMessage.user_type === 'bot') {
+        this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
+        this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
+        this.bot_message_id = sessionMessage.id;
+        this.isFirstMessage = this.getSectionId(sessionMessage) === 'first_message';
+      }
+    });
   }
 
   @Input() bot: IBot;
@@ -51,21 +64,21 @@ export class SessionMessageComponent implements OnInit {
 
     this.sessionMessageItems = this._txnConversationItems.convoList;
     LoggingService.log(this.sessionMessageItems);
-
+    //
     this.txnId = this._txnConversationItems.transaction_id;
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
-    this.sessionMessageItems.forEach(sessionMessage => {
-      if (sessionMessage.user_type === 'human') {
-        this.hasError = this.hasError || sessionMessage.error;
-        this.bot_message_id = sessionMessage.id;
-      }
-      if (sessionMessage.user_type === 'bot') {
-        this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
-        this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
-        this.bot_message_id = sessionMessage.id;
-        this.isFirstMessage = this.getSectionId(sessionMessage) === 'first_message';
-      }
-    });
+    // this.sessionMessageItems.forEach(sessionMessage => {
+    //   if (sessionMessage.user_type === 'human') {
+    //     this.hasError = this.hasError || sessionMessage.error;
+    //     this.bot_message_id = sessionMessage.id;
+    //   }
+    //   if (sessionMessage.user_type === 'bot') {
+    //     this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
+    //     this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
+    //     this.bot_message_id = sessionMessage.id;
+    //     this.isFirstMessage = this.getSectionId(sessionMessage) === 'first_message';
+    //   }
+    // });
     // this.sessionMessageData.user_type;
   }
 

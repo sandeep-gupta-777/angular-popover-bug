@@ -512,7 +512,7 @@ export class UtilityService {
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number, response_language?): IMessageData[] {
-    debugger;
+
     return generatedMessage.map((message: IGeneratedMessageItem, index) => {
       const isLast = index === generatedMessage.length - 1;
       let messageData: IMessageData = {
@@ -1592,7 +1592,7 @@ export class UtilityService {
   }
 
   serializeServerValueToChatRoomMessages(value: IBotPreviewFirstMessage) {
-    debugger;
+
     const roomMessages: IMessageData[]
      = this.serializeGeneratedMessagesToPreviewMessages(value.generated_msg, 0);
     //   = value.generated_msg.map((item: { text: string }) => {

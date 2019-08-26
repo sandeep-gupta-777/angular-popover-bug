@@ -119,7 +119,7 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
     }));
     this.data$ = this.analysisstate2$.pipe(map((analysisState) => {
       if (analysisState.overviewInfo){
-        debugger;
+
         if (analysisState.overviewInfo.totalMessages['bot'] === 0 && analysisState.overviewInfo.totalMessages['human'] === 0){
           this.chartValue2.series[0].data[0][1] = 1;
           this.chartValue2.series[0].data[1][1] = 1;
