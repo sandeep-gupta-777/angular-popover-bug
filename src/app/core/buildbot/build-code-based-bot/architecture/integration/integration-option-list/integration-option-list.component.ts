@@ -24,7 +24,7 @@ import {debounceTime} from 'rxjs/operators';
   }
 })
 export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
-
+  //
   test: boolean;
   isActive: boolean;
   enable = false;
