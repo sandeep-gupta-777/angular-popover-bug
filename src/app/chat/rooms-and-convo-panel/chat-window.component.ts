@@ -13,6 +13,7 @@ import {IBot} from '../../core/interfaces/IBot';
 export class ChatWindowComponent implements OnInit {
   messageByHuman: string;
   @Input() bot: IBot;
+  @Input() isFullScreenPreview: boolean;
   @Input() isAnonView: boolean;
   @Output() chatMessageFeedback$ = new EventEmitter();
   botIsThinkingMessageDataArray: IMessageData[] = [{

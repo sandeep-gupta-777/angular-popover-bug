@@ -512,6 +512,7 @@ export class UtilityService {
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number, response_language?): IMessageData[] {
+    debugger;
     return generatedMessage.map((message: IGeneratedMessageItem, index) => {
       const isLast = index === generatedMessage.length - 1;
       let messageData: IMessageData = {
@@ -1437,7 +1438,6 @@ export class UtilityService {
     return data.map((row: string[]) => {
       let y = row.map((cell: string) => {
         if (cell && cell.trim() && charsToBeRemoved.find(char => cell[0] === char)) {
-        debugger;
           const replacement = `\\${cell[0]}`;
           // const replacement = ` `;
           // let x =  this.replaceAt(cell, replacement, 1);
@@ -1592,15 +1592,18 @@ export class UtilityService {
   }
 
   serializeServerValueToChatRoomMessages(value: IBotPreviewFirstMessage) {
-    const roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
-      return {
-        text: item.text,
-        sourceType: 'bot',
-        messageMediatype: EBotMessageMediaType.text,
-        time: Date.now(), // this.getCurrentTimeInHHMM()/*todo: change it to real time*/
-        bot_message_id: null,
-      };
-    });
+    debugger;
+    const roomMessages: IMessageData[]
+     = this.serializeGeneratedMessagesToPreviewMessages(value.generated_msg, 0);
+    //   = value.generated_msg.map((item: { text: string }) => {
+    //   return {
+    //     text: item.text,
+    //     sourceType: 'bot',
+    //     messageMediatype: EBotMessageMediaType.text,
+    //     time: Date.now(), // this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+    //     bot_message_id: null,
+    //   };
+    // });
     return roomMessages;
   }
 

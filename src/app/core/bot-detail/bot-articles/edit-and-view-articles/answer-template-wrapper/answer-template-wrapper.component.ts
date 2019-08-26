@@ -62,7 +62,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       'include': ['web'],
       'generic_template': [{
         'elements': [{
-          'image_url': 'https:// s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
+          'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
           'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
           'title': 'Contract Renewal'
         }]

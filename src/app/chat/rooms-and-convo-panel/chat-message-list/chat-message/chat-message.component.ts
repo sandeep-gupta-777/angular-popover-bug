@@ -16,7 +16,7 @@ export class ChatMessageComponent implements OnInit {
 
   myEChatFeedback = EChatFeedback;
   myEBotMessageMediaType = EBotMessageMediaType;
-  isFullScreenPreview = false;
+  @Input() isFullScreenPreview = false;
   _allow_feedback = false;
   @Input() isLastMessage: boolean;
   @Input() bot;
@@ -38,7 +38,7 @@ export class ChatMessageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isFullScreenPreview = location.pathname === '/preview'; // this.activatedRoute.snapshot.data['isFullScreenPreview'];
+    // this.isFullScreenPreview = location.pathname === '/preview'; // this.activatedRoute.snapshot.data['isFullScreenPreview'];
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;

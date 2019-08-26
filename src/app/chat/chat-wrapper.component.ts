@@ -35,14 +35,7 @@ import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
 
 export interface IBotPreviewFirstMessage {
-  'generated_msg': [
-    {
-      'text': 'lkjlksdmfasd'
-    },
-    {
-      'text': 'Test consent message'
-    }
-  ];
+  'generated_msg': any[];
   'room': IRoomData;
 
   'transaction_id': '1cba048e58684206b8c3912b7f7e1887';

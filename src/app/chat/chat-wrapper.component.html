@@ -67,6 +67,7 @@
       ></app-chat-list>
       <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                        [allow_feedback]="currentBot.allow_feedback"
+                       [isFullScreenPreview]="isFullScreenPreview"
                        [selectedAvatar]="selectedAvatar"
                        [room]="currentRoom"
                        [bot]="currentBot"
@@ -199,6 +200,7 @@
                      [allow_feedback]="currentBot.allow_feedback"
                      [isAnonView]="!is_dev_view"
                      [selectedAvatar]="selectedAvatar"
+                     [isFullScreenPreview]="true"
                      [room]="currentRoom"
                      [bot]="currentBot"
                      [showBotIsThinking]="showBotIsThinking"
