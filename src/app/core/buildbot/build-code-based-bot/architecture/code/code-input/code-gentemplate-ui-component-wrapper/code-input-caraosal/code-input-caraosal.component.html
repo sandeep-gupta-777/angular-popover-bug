@@ -101,7 +101,7 @@
                                             (clickedOnArticle)="btnConfigForm.form.patchValue({payload:$event.searchedAricleString})"> </app-faq-search-box>
                       <div *ngIf = "inArticleResponse && bot" class="required mt-1" style="font-size: 11px;text-align: left;color: #858585;">Linked to article</div>
                       <div class="mb-1"
-                           *ngIf = "inArticleResponse && bot && outputItem && outputItem.generic_template[0]" style="text-align: left;">
+                           *ngIf = "inArticleResponse && bot && outputItem &&  outputItem?.generic_template[0]?.elements[buttonIndex]?.button[buttonIndex]?.payload" style="text-align: left;">
                         {{ outputItem.generic_template[0].elements[buttonIndex].button[buttonIndex].payload}}
                       </div>
                       <mat-form-field  [hidden]="inArticleResponse">
