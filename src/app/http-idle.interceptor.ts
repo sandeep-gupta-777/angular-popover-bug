@@ -111,7 +111,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
     if (action === 'logout') {
       /* temporary*/
       localStorage.clear();
-
+      alert('Autologout because backend sent action === logout');
       EventService.logout$.emit(false);
       // location.reload();
       return;

@@ -127,6 +127,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
                 LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
               }
 
+              alert('Auto logout because timer is finished');
               LoggingService.log('============================autologout============================');
               this.serverService.logout();
               // document.location.reload(); /*To destroy all timeouts just in case*/
