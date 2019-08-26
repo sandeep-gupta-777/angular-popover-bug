@@ -3,6 +3,7 @@
     *ngFor="let messageData of _messageDataArray; let isLast = last"
     [allow_feedback]="_allow_feedback"
     data-cy="chat-message"
+    [isFullScreenPreview]="isFullScreenPreview"
     [isLastMessage]="isLast"
     (chatMessageFeedback$)="feedback(messageData, $event)"
     (sendMessageToBotServer$)="sendMessageByHuman($event)"
@@ -17,6 +18,7 @@
   <div [hidden]="!showBotIsThinking" class="mt-auto">
     <app-chat-message
             [bot]="room.bot"
+            [isFullScreenPreview]="isFullScreenPreview"
       (sendMessageToBotServer$)="sendMessageByHuman($event)"
       class="mx-2"
       *ngFor="let messageData of botIsThinkingMessageDataArray"

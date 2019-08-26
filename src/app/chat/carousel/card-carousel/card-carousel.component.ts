@@ -51,8 +51,6 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    //  this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
     this.carasolItemShownInOneScreen = this.isFullScreenPreview ? 4 : 2;
     this.totalItemsInCarasol = this._messageData.media.length;
   }

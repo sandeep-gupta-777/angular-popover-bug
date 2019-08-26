@@ -144,7 +144,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       this.addCodeUnit();
     }
   }
-  
+
   addCodeUnit() {
     const codeUnit = {
       'include': this.createIncludesArray(),
@@ -179,7 +179,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       'include': this.createIncludesArray(),
       'generic_template': [{
         'elements': [{
-          'image_url': 'https:// s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
+          'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
           'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
           'title': 'Contract Renewal'
         }]

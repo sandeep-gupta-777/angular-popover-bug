@@ -1,7 +1,7 @@
 <div
   class="row mx-0 d-flex justify-content-start flex-shrink-0 flex-grow-0 flex-wrap"
   [ngClass]="{'w-75':isFullScreenPreview, 'flex-row-reverse':isParentSessionsModal}">
-  <div class="col-10 bg-message-bot p-2" [ngClass]="{'text-right':isParentSessionsModal}">
+  <div style="max-width: 80%;" class="bg-message-bot pt-2 pb-2 px-3" [ngClass]="{'text-right':isParentSessionsModal}">
     <p class="mb-1" style="flex-basis: 100%;"
        [innerHTML]="messageData.text||messageData.quick_reply.text"
        *ngIf="messageData.text!==myEBotMessageMediaType.quickReply">

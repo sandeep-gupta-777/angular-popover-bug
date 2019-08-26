@@ -7,7 +7,11 @@ import {UtilityService} from './utility.service';
 export class LinkifyPipe implements PipeTransform {
 
   transform(value: any, className?: any): any {
-    value = UtilityService.linkify(value, className);
+    try {
+      value = UtilityService.linkify(value, className);
+    }catch (e) {
+
+    }
 
     return value;
   }
