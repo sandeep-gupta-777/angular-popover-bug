@@ -119,21 +119,11 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
     }));
     this.data$ = this.analysisstate2$.pipe(map((analysisState) => {
       if (analysisState.overviewInfo){
-
-        if (analysisState.overviewInfo.totalMessages['bot'] === 0 && analysisState.overviewInfo.totalMessages['human'] === 0){
-          this.chartValue2.series[0].data[0][1] = 1;
-          this.chartValue2.series[0].data[1][1] = 1;
-        } else{
+    
           this.chartValue2.series[0].data[0][1] = analysisState.overviewInfo.totalMessages['bot'];
           this.chartValue2.series[0].data[1][1] = analysisState.overviewInfo.totalMessages['human'];
-        }
-        if(analysisState.overviewInfo.totalSessions['bot handled'] === 0 && analysisState.overviewInfo.totalSessions['agent handled'] === 0){
-          this.chartValue.series[0].data[0][1] = 1;
-          this.chartValue.series[0].data[1][1] = 1;
-        } else{
           this.chartValue.series[0].data[0][1] = analysisState.overviewInfo.totalSessions['bot handled'];
           this.chartValue.series[0].data[1][1] = analysisState.overviewInfo.totalSessions['agent handled'];
-        }
       }
       return analysisState.overviewInfo;
     }));
