@@ -1435,14 +1435,17 @@ export class UtilityService {
     //   removedChar.forEach(char => str = str.replace(char, ''));
     // }
     return data.map((row: string[]) => {
-      return row.map((cell: string) => {
+      let y = row.map((cell: string) => {
         if (cell && cell.trim() && charsToBeRemoved.find(char => cell[0] === char)) {
-          // const replacement = `'\\' + ${cell[0]}`;
-          const replacement = ` `;
-          return this.replaceAt(cell, replacement, 0);
+        debugger;
+          const replacement = `\\${cell[0]}`;
+          // const replacement = ` `;
+          // let x =  this.replaceAt(cell, replacement, 1);
+          return replacement + cell.substr(1, (cell.length - 1));
         }
         return cell;
       });
+      return y;
     });
 
     // if (typeof data === 'object') {
