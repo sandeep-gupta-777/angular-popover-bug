@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
+import {CodeInputService} from '../../../../buildbot/build-code-based-bot/architecture/code/code-input/code-input.service';
 
 @Component({
   selector: 'app-answer-template-wrapper',
@@ -8,27 +9,33 @@ import {IBot} from '../../../../interfaces/IBot';
 })
 export class AnswerTemplateWrapperComponent implements OnInit {
 
-  constructor() { }
-  channelList = [ { "name": "all", "displayName": "All" }, { "name": "facebook", "displayName": "facebook" }, { "name": "skype", "displayName": "skype" } ];
+  constructor() {
+  }
+
+  channelList: { name: string, displayName: string }[] = [];
   @Input() answerObject;
   @Input() bot: IBot;
+
   ngOnInit() {
-    if( !this.answerObject[0].include ){
+    this.channelList = CodeInputService.createChannelList(this.bot);
+    if (!this.answerObject[0].include) {
       this.answerObject[0].include = ['web'];
     }
   }
-  genTemplateTypeClicked(tab:string){
 
-      if (tab === 'text') {
-        this.addTextUnit();
-      } else if (tab === 'carousel') {
-        this.addImageCaraosalUnit();
-      } else if (tab === 'quick_reply') {
-        this.addQuickReplyUnit();
-      } else if (tab === 'code_input') {
-        this.addCodeUnit();
-      }
+  genTemplateTypeClicked(tab: string) {
+
+    if (tab === 'text') {
+      this.addTextUnit();
+    } else if (tab === 'carousel') {
+      this.addImageCaraosalUnit();
+    } else if (tab === 'quick_reply') {
+      this.addQuickReplyUnit();
+    } else if (tab === 'code_input') {
+      this.addCodeUnit();
+    }
   }
+
   addCodeUnit() {
     const codeUnit = {
       'include': ['web'],
@@ -73,6 +80,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
     this.answerObject.push(textUnit);
     setTimeout(() => this.scrollToBottom());
   }
+
   deleteGentemplate(e) {
     this.answerObject.splice(e, 1);
   }
@@ -92,6 +100,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
     this.answerObject[e] = this.answerObject[e + 1];
     this.answerObject[e + 1] = temp;
   }
+
   scrollToBottom(): void {
     try {
       /*TODO: use ViewChildren instead of class name.

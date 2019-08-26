@@ -17,14 +17,14 @@ export class Analysis2WrapperComponent implements OnInit {
 
   /*TODO: rename it to allBotList OR store all bots into store*/
   @Select() botlist$: Observable<ViewBotStateModel>;
-  allCodeBasedBotList$: Observable<IBot[]>;
+  allNotPipelineBasedBotList$: Observable<IBot[]>;
   constructor() { }
 
   ngOnInit() {
-    this.allCodeBasedBotList$ = this.botlist$
+    this.allNotPipelineBasedBotList$ = this.botlist$
       .pipe(
         take(1),
-        map((value) => value.allBotList.filter(bot => bot.bot_type === EBotType.chatbot)));
+        map((value) => value.allBotList.filter(bot => bot.bot_type !== EBotType.intelligent)));
   }
 
 }

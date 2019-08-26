@@ -23,7 +23,7 @@
       <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="filter-black" class="mat-list-item-sidebar" >
         <div class="sidebar-nav-list-item">
           <img class="" src="assets/img/analytics/like-3.svg" alt="">
-          <span style="color: #00ABD3">Behavior</span>
+          <span style="color: #00ABD3">Behaviour</span>
         </div>
       </a>
       <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="filter-black" class="mat-list-item-sidebar" *ngIf="false">
@@ -35,12 +35,12 @@
     </div>
   </div>
 
-  <div class="grid-analysis2" *ngIf="(allCodeBasedBotList$|async) && (allCodeBasedBotList$|async).length>0; else splashscreen">
+  <div class="grid-analysis2" *ngIf="(allNotPipelineBasedBotList$|async) && (allNotPipelineBasedBotList$|async).length>0; else splashscreen">
     <div class = "overview-heading">
       <div class = "heading">Overview</div>
       <div class = "heading-discription">See how the bot is performing overall and take a decision to where to dig deep into</div>
     </div>
-    <app-analysis2-header [allbotList]="(allCodeBasedBotList$|async)" class="header"></app-analysis2-header>
+    <app-analysis2-header [allbotList]="(allNotPipelineBasedBotList$|async)" class="header"></app-analysis2-header>
     <div class="body">
       <div class="d-flex row-body">
         <div class="flex-grow-1">

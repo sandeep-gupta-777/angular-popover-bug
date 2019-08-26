@@ -16,6 +16,7 @@ header{
     flex-direction: column;
     .category-name{
         color : $color-primary;
+        width: fit-content;
     }
 }
 
@@ -92,7 +93,7 @@ header{
             padding-bottom: .25rem;
         }
         .response-template{
-            height:55vh;
+            height: 63vh;
         }
 
         //.response-items{
@@ -177,6 +178,8 @@ header{
     flex-direction: column;
     width: 95%;
     background-color: #ffffff;
+    margin-top: 24px;
+    margin-bottom: 20px;
     textarea{
         background-color: transparent;
 

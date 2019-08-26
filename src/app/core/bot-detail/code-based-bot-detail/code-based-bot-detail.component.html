@@ -147,7 +147,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="sideBarTab1 === 'articles' && myEBotType.faqbot === bot.bot_type">
-                        <app-bot-articles style="display: block; height: 100%" [bot]="bot"></app-bot-articles>
+                        <app-bot-articles style="flex:1" [bot]="bot"></app-bot-articles>
                     </ng-container>
 
                     <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
