@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class = "chart">
-        <app-chart  [chartValue]="chartValue" [shoudResize] = true [exportEnable] = false>
+        <app-chart  *ngIf="data.totalSessions['total']" [chartValue]="chartValue" [shoudResize] = true [exportEnable] = false>
         </app-chart>
       </div>
     </div>
@@ -60,7 +60,8 @@
         </div>
       </div>
       <div class = "chart">
-        <app-chart  [chartValue]="chartValue2" [shoudResize] = true [exportEnable] = false>
+        <app-chart  *ngIf="data.totalMessages['agent'] + data.totalMessages['bot'] + data.totalMessages['human']"
+          [chartValue]="chartValue2" [shoudResize] = true [exportEnable] = false>
         </app-chart>
       </div>
     </div>

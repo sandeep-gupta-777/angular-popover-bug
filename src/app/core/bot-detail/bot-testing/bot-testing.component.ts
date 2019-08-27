@@ -34,7 +34,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   testCaseId: number;
   isData = false;
   tableChanged = false;
-  cancelTestFlag: boolean;
+  cancelTestFlag = false;
   myESplashScreens = ESplashScreens;
   showSplashScreen = false;
   showLoader = false;

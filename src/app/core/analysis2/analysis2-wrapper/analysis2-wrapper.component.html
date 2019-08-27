@@ -36,9 +36,32 @@
   </div>
 
   <div class="grid-analysis2" *ngIf="(allNotPipelineBasedBotList$|async) && (allNotPipelineBasedBotList$|async).length>0; else splashscreen">
-    <div class = "overview-heading">
-      <div class = "heading">Overview</div>
-      <div class = "heading-discription">See how the bot is performing overall and take a decision to where to dig deep into</div>
+    <div>
+      <div [routerLink]="['/core','analytics2','overview']" routerLinkActive="show-hidden-heading" class="hide-heading" (click)="$event.stopPropagation()">
+        <div class = "overview-heading">
+          <div class = "heading">Overview</div>
+          <div class = "heading-discription">See how the bot is performing overall and take a decision to where to dig deep into</div>
+        </div>
+      </div>
+      <div [routerLink]="['/core','analytics2','volume']" routerLinkActive="show-hidden-heading" class="hide-heading" (click)="$event.stopPropagation()">
+        <div class = "overview-heading">
+          <div class = "heading">Activity</div>
+          <div class = "heading-discription">Measure the bot’s performance by the consumers, their sessions and messages</div>
+        </div>
+      </div>
+      <div [routerLink]="['/core','analytics2','engagement']" routerLinkActive="show-hidden-heading" class="hide-heading" (click)="$event.stopPropagation()">
+        <div class = "overview-heading">
+          <div class = "heading">Retention</div>
+          <div class = "heading-discription">Measure the effectiveness of the bot on a user or a session level</div>
+        </div>
+      </div>
+      <div [routerLink]="['/core','analytics2','performance']" routerLinkActive="show-hidden-heading" class="hide-heading" (click)="$event.stopPropagation()" >
+        <div class = "overview-heading">
+          <div class = "heading">Behavior</div>
+          <div class = "heading-discription">Dissect which information by the bot is queried the most</div>
+        </div>
+      </div>
+
     </div>
     <app-analysis2-header [allbotList]="(allNotPipelineBasedBotList$|async)" class="header"></app-analysis2-header>
     <div class="body">
