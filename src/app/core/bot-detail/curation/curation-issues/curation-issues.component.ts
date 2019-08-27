@@ -128,7 +128,6 @@ export class CurationIssuesComponent implements OnInit {
       };
       this.serverService.makeGetReq({url, headerData: headers})
         .subscribe((val:{objects: ISessionItem[]}) => {
-          debugger;
           this.selectedRow_Session = val.objects[0];
         });
       // this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
