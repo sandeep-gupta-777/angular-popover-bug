@@ -62,7 +62,6 @@
                *ngFor="let txnConversationItems of sessionMessageDataCopy|serializeSessionMessage|highlightSessionTexts:messageSearchKeyword; let i=index; trackBy:trackByIndex"
             [ngClass]="{'border-selected-txn':txnConversationItems.transaction_id === transactionIdSelectedInModel,
 'border-unselected-txn':txnConversationItems.transaction_id !== transactionIdSelectedInModel}">
-
             <app-session-message [txnConversationItems]="txnConversationItems"
             [bot]="bot"
             (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>

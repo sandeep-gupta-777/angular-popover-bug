@@ -17,6 +17,7 @@ import {LoggingService} from '../../../../logging.service';
 })
 export class SessionDetailModelComponent implements OnInit {
   scrollDown = true;
+
   @Input() set session(_session) {
 
     this._session = _session;
@@ -27,6 +28,7 @@ export class SessionDetailModelComponent implements OnInit {
       );
     }
   }
+
   searchCache = {};
   _session: ISessionItem;
   searchEnterPressedCount = 0;
@@ -83,9 +85,12 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   channelNameToImg(channel: string) {
-    if(channel){
+
+    if (channel) {
       const iconObj = this.constantsService.getIntegrationIconForChannelName(channel);
       return iconObj && iconObj.icon;
+    } else {
+      return '';/*returning empty string other called for undefined image will go to backend*/
     }
 
   }

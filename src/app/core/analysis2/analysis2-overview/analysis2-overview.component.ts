@@ -18,7 +18,7 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './analysis2-overview.component.html',
   styleUrls: ['./analysis2-overview.component.scss']
 })
-export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
+export class Analysis2OverviewComponent implements OnInit {
 
   @Select() analysisstate2$: Observable<IAnalysis2State>;
   data: Partial<IOverviewInfo>;
@@ -118,7 +118,7 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
       analysisHeaderData: {type: EAnalysis2TypesEnum.overviewinfo}
     }));
     this.data$ = this.analysisstate2$.pipe(map((analysisState) => {
-      if (analysisState.overviewInfo){
+      if (analysisState.overviewInfo) {
           this.chartValue2.series[0].data[0][1] = analysisState.overviewInfo.totalMessages['bot'];
           this.chartValue2.series[0].data[1][1] = analysisState.overviewInfo.totalMessages['human'];
           this.chartValue.series[0].data[0][1] = analysisState.overviewInfo.totalSessions['bot handled'];
@@ -127,46 +127,4 @@ export class Analysis2OverviewComponent implements OnInit, AfterViewInit {
       return analysisState.overviewInfo;
     }));
   }
-
-  ngAfterViewInit(): void {
-    // Highcharts.chart('totalSessionPieChart', {
-    //   chart: {
-    //     type: 'pie',
-    //   },
-    //   title: {
-    //     text: undefined
-    //   },
-    //   plotOptions: {
-    //     pie: {
-    //       innerSize: '60%',
-    //       colors: ['#4A80CD', '#E89654'],
-    //       dataLabels: {
-    //         enabled: false,
-    //       },
-    //       borderWidth: 0,
-    //       borderColor: null,
-    //       states: {
-    //         hover: {
-    //           halo: {
-    //             size: 0,
-    //           },
-    //         },
-    //       },
-    //     }
-    //   },
-    //   series: [{
-    //     name: 'Conversations',
-    //     data: [
-    //       ['Bot handled', 8],
-    //       ['Handed over', 2],
-    //     ]
-    //   }],
-    //   credits: {
-    //     enabled: false
-    //   },
-    //   exporting: { enabled: false }
-    //
-    // });
-  }
-
 }
