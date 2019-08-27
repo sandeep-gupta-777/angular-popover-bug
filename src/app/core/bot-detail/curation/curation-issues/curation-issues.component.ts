@@ -119,10 +119,19 @@ export class CurationIssuesComponent implements OnInit {
     // No need of calling decrypt as curation window will not show any issue if encrypted
 
     if (roomId.data_encrypted) {
-
       this.openSessionRowDecryptModal(roomId);
     } else {
       this.selectedRow_Session = <any>{id: roomId};
+      const url = this.constantsService.getRoomWithFilters({id: roomId});
+      const headers: IHeaderData = {
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      };
+      this.serverService.makeGetReq({url, headerData: headers})
+        .subscribe((val:{objects: ISessionItem[]}) => {
+          debugger;
+          this.selectedRow_Session = val.objects[0];
+        });
+      // this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
       this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
     }
 
@@ -156,7 +165,7 @@ export class CurationIssuesComponent implements OnInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token':  ServerService.getBotTokenById(this.bot.id),}
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id),}
     });
   }
 
@@ -179,7 +188,7 @@ export class CurationIssuesComponent implements OnInit {
 
   decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {
     const headerData: IHeaderData = {
-      'bot-access-token':  ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const body = {
       room_id: sessionTobeDecryptedId,
@@ -199,7 +208,7 @@ export class CurationIssuesComponent implements OnInit {
           const del = this.sessions.findIndex(
             session => session.id === sessionTobeDecryptedId
           );
-          this.sessions[del] = { ...newSession };
+          this.sessions[del] = {...newSession};
           this.sessions = [...this.sessions];
           // this._tableData = this.transformSessionDataForMaterialTable(this.sessions);
           this.sessionsSmartTableDataModal.refreshData(this.sessions);
