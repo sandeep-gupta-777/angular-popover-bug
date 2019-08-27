@@ -39,6 +39,12 @@
   .body{
     grid-area: b;
   }
+  .hide-heading{
+    display: none;
+  }
+  .show-hidden-heading{
+    display: block;
+  }
 }
 
 
