@@ -1,5 +1,5 @@
 .heading-title{
- 
+
     font-size: 16px;
     font-weight: bold;
     font-style: normal;
@@ -9,7 +9,7 @@
     color: #4a4a4a;
     padding-bottom: 8px;
 
-    
+
 }
 ::ng-deep{
     .onHoverChangeColor{
@@ -23,7 +23,7 @@
             color :#4a4a4a;
           }
           display: flex;
-          
+
     }
     .table-dropdown .location{
         right: 0% !important;
@@ -49,7 +49,7 @@
                 // display: flex;
 
                 word-wrap:break-word !important;
-             
+
                 // word-wrap:break-word;
                 // table-layout: fixed;
             }
@@ -67,16 +67,16 @@
         table [name=icon-color] {
             color: #d8d8d8;
             }
-        
-    
-        
+
+
+
         .color-green{
             color: #34bc6e;
         }
         .icon-postion{
             font-size: 10px;
             position: absolute;
-            
+
             left: -13px;
             top: 6px;
         }
@@ -90,4 +90,8 @@
         }
 
     }
+}
+
+.material-icons{
+  line-height: 0;
 }
