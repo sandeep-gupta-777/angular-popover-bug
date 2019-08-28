@@ -92,51 +92,51 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
         // console.log(this.enterpriseList);
       });
 
-    this.app$
-      .pipe(takeUntil(this.destroy))
-      .subscribe((app) => {
-          if (!this.userData) {/*hack...this subscription is being called even when this component is destroyed, after logout*/
-            return;
-          }
-          /*every time this callback runs remove all previous setTimeOuts*/
-          const autoLogOutTime = app.autoLogoutTime;
-          if (autoLogOutTime && autoLogOutTime !== Infinity) {
-
-            /*If autoLogOutTime hasn't changed, return
-            * else clear previous timeouts, and create a new one
-            * */
-            if (this.autoLogOutTime === autoLogOutTime) {
-              return;
-            }
-            this.autoLogOutTime = autoLogOutTime;
-            if (this.logoutSetTimeoutRef) {
-              clearTimeout(this.logoutSetTimeoutRef);
-            }
-
-
-            /*creating a new Timeout*/
-            this.logoutSetTimeoutRef = setTimeout(() => {
-
-              // alert('You session has expired. Logging out');
-              if (this.logoutSetTimeoutRef) {
-                clearTimeout(this.logoutSetTimeoutRef);
-              }
-              try {
-                // TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
-              } catch (e) {
-                LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
-              }
-
-              alert('Auto logout because timer is finished');
-              LoggingService.log('============================autologout============================');
-              this.serverService.logout();
-              // document.location.reload(); /*To destroy all timeouts just in case*/
-            }, (autoLogOutTime - Date.now()));
-
-            // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
-          }
-        }
-      );
+    // this.app$
+    //   .pipe(takeUntil(this.destroy))
+    //   .subscribe((app) => {
+    //       if (!this.userData) {/*hack...this subscription is being called even when this component is destroyed, after logout*/
+    //         return;
+    //       }
+    //       /*every time this callback runs remove all previous setTimeOuts*/
+    //       const autoLogOutTime = app.autoLogoutTime;
+    //       if (autoLogOutTime && autoLogOutTime !== Infinity) {
+    //
+    //         /*If autoLogOutTime hasn't changed, return
+    //         * else clear previous timeouts, and create a new one
+    //         * */
+    //         if (this.autoLogOutTime === autoLogOutTime) {
+    //           return;
+    //         }
+    //         this.autoLogOutTime = autoLogOutTime;
+    //         if (this.logoutSetTimeoutRef) {
+    //           clearTimeout(this.logoutSetTimeoutRef);
+    //         }
+    //
+    //
+    //         /*creating a new Timeout*/
+    //         this.logoutSetTimeoutRef = setTimeout(() => {
+    //
+    //           // alert('You session has expired. Logging out');
+    //           if (this.logoutSetTimeoutRef) {
+    //             clearTimeout(this.logoutSetTimeoutRef);
+    //           }
+    //           try {
+    //             // TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
+    //           } catch (e) {
+    //             LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
+    //           }
+    //
+    //           // alert('Auto logout because timer is finished');
+    //           LoggingService.log('============================autologout============================');
+    //           this.serverService.logout();
+    //           // document.location.reload(); /*To destroy all timeouts just in case*/
+    //         }, (autoLogOutTime - Date.now()));
+    //
+    //         // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
+    //       }
+    //     }
+    //   );
 
     this.loggeduser$
       .pipe(takeUntil(this.destroy))

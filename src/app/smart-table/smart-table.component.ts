@@ -158,9 +158,11 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   replaceDisplayKeyByOriginalKey(searchFormData) {
     const obj = {};
-    searchFormData.forEach(function (element) {
-      obj[element] = element;
-    });
+    if (searchFormData) {
+      searchFormData.forEach(function (element) {
+        obj[element] = element;
+      });
+    }
     return obj;
   }
 

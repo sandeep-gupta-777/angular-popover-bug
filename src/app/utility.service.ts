@@ -1436,14 +1436,13 @@ export class UtilityService {
     //   removedChar.forEach(char => str = str.replace(char, ''));
     // }
     return data.map((row: string[]) => {
-      let y = row.map((cell: string) => {
-        if (cell && cell.trim() && charsToBeRemoved.find(char => cell[0] === char)) {
-          const replacement = `\\${cell[0]}`;
-          // const replacement = ` `;
-          // let x =  this.replaceAt(cell, replacement, 1);
-          return replacement + cell.substr(1, (cell.length - 1));
+      const y = row.map((cell: string) => {
+        const trimmedCellData = cell && cell.trim && cell.trim(); // if cell data is string
+        if (trimmedCellData && charsToBeRemoved.find(char => cell[0] === char)) {
+          const replacement = `\\${trimmedCellData[0]}`;
+          return replacement + trimmedCellData.substr(1, (trimmedCellData.length - 1));
         }
-        return cell;
+        return trimmedCellData;
       });
       return y;
     });
@@ -1594,7 +1593,7 @@ export class UtilityService {
   serializeServerValueToChatRoomMessages(value: IBotPreviewFirstMessage) {
 
     const roomMessages: IMessageData[]
-     = this.serializeGeneratedMessagesToPreviewMessages(value.generated_msg, 0);
+      = this.serializeGeneratedMessagesToPreviewMessages(value.generated_msg, 0);
     //   = value.generated_msg.map((item: { text: string }) => {
     //   return {
     //     text: item.text,
