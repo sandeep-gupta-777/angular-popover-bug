@@ -1,13 +1,22 @@
 @import '~src/sass/main';
 
+.back-icon {
+  position: absolute;
+  left: -15px;
+  font-size: 19px;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+}
 
-.create-concept-row{
+.create-concept-row {
   //select, input{
   //  height: 26px;
   //}
   .concept {
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
     width: 160px;
+
     &::-webkit-input-placeholder {
       text-transform: uppercase;
       color: #AAA;
@@ -26,13 +35,13 @@
   //  text-align: center;
   //}
 
-  span, label{
+  label {
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  [type="file"]{
+  [type="file"] {
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
   }
 
@@ -42,7 +51,7 @@
   //  padding-left: 8px;
   //}
 
-  label{
+  label {
     display: flex;
     align-items: center;
   }
@@ -56,21 +65,22 @@
 }
 
 
-.label-selected{
-  background-color: #e0e0e0;//$color-primary;
+.label-selected {
+  background-color: #e0e0e0; //$color-primary;
   //color: white !important;
 }
-.label-unselected{
+
+.label-unselected {
   border: $border-normal;
   //color: white;
 }
 
-.danger-modal{
+.danger-modal {
   @include classic-modal(#b14250);
 }
 
-:host /deep/{
-  .mat-slide-toggle-label{
+:host /deep/ {
+  .mat-slide-toggle-label {
     margin-bottom: 0;
   }
 }

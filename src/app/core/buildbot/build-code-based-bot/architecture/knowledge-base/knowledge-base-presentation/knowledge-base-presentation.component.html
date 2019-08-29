@@ -2,8 +2,7 @@
 
   <header>
     <div style="position: relative;padding-bottom: 16px">
-      <span class="fa fa-angle-left cursor-pointer" title="Go back"
-         style="position: absolute; left: -15px;  font-size: 19px;" (click)="goBack()"></span>
+      <span class="fa fa-angle-left back-icon" title="Go back" (click)="goBack()"></span>
       <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">{{ner_id ? "Edit" : "Create" }} Concept</h6>
       <p style="color: #696969; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase
         exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions;
@@ -92,7 +91,7 @@
         </div>
 
       </div>
-      
+
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto" style="display:flex;" >
 
         <button mat-flat-button
@@ -101,7 +100,7 @@
                 (click)="goBackWithoutModal()">
           <mat-icon>cancel</mat-icon>
           Cancel
-        </button> 
+        </button>
 
        <button mat-flat-button
                 color="primary"
@@ -113,7 +112,7 @@
         >
           <mat-icon>{{ner_id?'update':'add'}}</mat-icon>
           {{ner_id ? "Update" : "Create" }}
-        </button> 
+        </button>
 
 
 
@@ -141,7 +140,7 @@
           <mat-icon>update</mat-icon>
           {{ner_id ? "Update" : "Create" }}
         </button>
-      </div> 
+      </div>
 
       <ng-container
         *appMyIf="myEAllActions['Delete Enterprise Knowledge base']">
