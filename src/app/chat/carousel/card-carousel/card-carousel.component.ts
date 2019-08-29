@@ -55,9 +55,9 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
     this.totalItemsInCarasol = this._messageData.media.length;
   }
 
-  sendMessageToBotServer(mediaItem: { title: string, type: string, url: string, buttons: { payload: string, title: string, type: string }[] }) {
+  sendMessageToBotServer(payload) {
     try {
-      this.sendMessageToBotServer$.emit(mediaItem.buttons[0].payload || 'NO_PAYLOAD');
+      this.sendMessageToBotServer$.emit(payload);
     } catch (e) {
       this.sendMessageToBotServer$.emit('NO_PAYLOAD');
       LoggingService.error(e);
