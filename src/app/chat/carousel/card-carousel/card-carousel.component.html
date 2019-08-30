@@ -14,8 +14,15 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item p-2 limit-three-lines cursor-pointer" [innerHTML]='mediaItem.title|| "No_Title"'>
               </li>
-              <li (click)="sendMessageToBotServer(mediaItem)"
-                  [innerHTML]='mediaItem.buttons && mediaItem.buttons[0].title || "No_Title"'
+<!--              <li (click)="sendMessageToBotServer(mediaItem)"-->
+<!--                  [innerHTML]='mediaItem.buttons && mediaItem.buttons[0].title || "No_Title"'-->
+<!--                  class="list-group-item p-2 cursor-pointer">-->
+<!--              </li>-->
+
+              <li
+                *ngFor="let button of mediaItem.buttons"
+                (click)="sendMessageToBotServer(button.payload)"
+                  [innerHTML]='mediaItem.buttons && button.title || "No_Title"'
                   class="list-group-item p-2 cursor-pointer">
               </li>
             </ul>

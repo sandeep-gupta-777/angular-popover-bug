@@ -83,7 +83,7 @@
                 <div style="position: relative" class="text-center w-100 py-1"
                      (click)="changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex)">
                   <span>{{button.title}}</span>
-                  <ul *ngIf="buttonIndex === Number(activeDropdownButtonIndex.value)"
+                  <ul *ngIf="controlsClickedCount===carouselIndex && buttonIndex === Number(activeDropdownButtonIndex.value)"
                       style="position: absolute; top: 0; list-style-type: none;z-index:100000;"
                       class="p-2 bg-white dialog-container"
                       id="button-configure-dropdown" role="menu">
