@@ -56,7 +56,16 @@
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
           </app-chart>
 
-<app-chart *ngIf="activeTab==='usagetracking'"
+<app-imi-loader *ngIf="activeTab==='usagetracking'  && !chartValue"></app-imi-loader>
+<app-chart *ngIf="activeTab==='usagetracking'  && chartValue && chartValue['series'].length > 0"
            [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
+<div *ngIf="activeTab ==='usagetracking' && chartValue && !chartValue['series'].length > 0" class = "splash-for-usage">
+  <div class = "bubble">
+    <div class="img-wrapper">
+      <img src="assets/img/analytics/noDataInAnalytics.svg" class="img-logo">
+    </div>
+    <div>No data available</div>
+  </div>
+</div>

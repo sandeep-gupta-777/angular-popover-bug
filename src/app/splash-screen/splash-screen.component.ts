@@ -5,6 +5,7 @@ export enum ESplashScreens {
   imageForCodeBots= 'imageForCodeBots.svg',
   knowledge_base= 'knowledge_base.svg',
   pipeline_bots_empty= 'pipeline_bots_empty.svg',
+  QandA_bots_empty= 'QandA_bots_empty.svg',
   sessions= 'sessions.svg',
   testing= 'testing.svg',
   rolesCreate = 'rolesCreate.svg',
