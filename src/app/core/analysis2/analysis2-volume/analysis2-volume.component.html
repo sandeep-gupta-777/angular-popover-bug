@@ -61,7 +61,7 @@
            [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
-<div *ngIf="activeTab ==='usagetracking' && chartValue && !chartValue['series'].length > 0" class = "splash-for-usage">
+<div *ngIf="activeTab ==='usagetracking' && chartValue && !(chartValue['series'].length > 0)" class = "splash-for-usage">
   <div class = "bubble">
     <div class="img-wrapper">
       <img src="assets/img/analytics/noDataInAnalytics.svg" class="img-logo">
