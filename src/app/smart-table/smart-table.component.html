@@ -129,7 +129,7 @@
   <!--material table ends-->
 
   <mat-paginator *ngIf="_totalRecords && _totalRecords >10" [length]="_totalRecords"
-                 [pageSize]="10"
+                 [pageSize]="recordsPerPage || 10"
                  [pageSizeOptions]="[10]"
                  [showFirstLastButtons]="true"
                  [pageIndex]="currentPage-1"
