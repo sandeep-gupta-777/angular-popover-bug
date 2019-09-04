@@ -34,3 +34,8 @@
   align-items: center;
   justify-content: center;
 }
+
+
+.list-group-item:hover{
+  z-index: 100000;
+}
