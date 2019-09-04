@@ -6,14 +6,14 @@
     [lazyLoad]="integrationsMasterListItem?.icon"
     [ngStyle]="{'zIndex':i}"
     (click)="test(integrationsMasterListItem.key)"
-    [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
+    [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.unique_name"
     class="logo-image click-save-wrapper" alt="">
   <span style="margin-right: 15px"></span>
   <img
     [defaultImage]="integrationsMasterListItem?.icon"
     *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async)); let i = index"
     [lazyLoad]="integrationsMasterListItem?.icon"
-    [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
+    [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.unique_name"
     (click)="test(integrationsMasterListItem.key)"
     class="logo-image no-channel-integrations" alt="">
 

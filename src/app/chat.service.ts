@@ -94,7 +94,7 @@ export class ChatService {
         tap((response: ISendApiResponsePayload) => {
           let response_language;
           /*recieved chat reply from bot*/
-          if (response.messageStore.response_language) {
+          if (response.messageStore && response.messageStore.response_language) {
             response_language = response.messageStore.response_language;
           }
           const generatedMessages = response.generated_msg;
