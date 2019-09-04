@@ -13,7 +13,7 @@
     <div class="d-flex align-items-center justify-content-end">
       <div *appMyIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
         <!--TODO: removing *ngIf condition for now. Reason changes arent detected when cell data is deleted using del key-->
-        <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData">Update Test</button>
+        <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && !cancelTestFlag">Update Test</button>
       </div>
       <div *appMyIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
         <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData">Create Test

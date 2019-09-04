@@ -139,13 +139,13 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.init(this._chartValue);
     this.didAfterViewInitRun = true;
     if (this.shoudResize) {
-      this.breakpointObserver.observe('(max-width: 1300px)').subscribe((val) => {
+      this.breakpointObserver.observe('(max-width: 1440px)').subscribe((val) => {
         try {
           if (this.chartObj) {
             if (val.matches) {
-              this.chartObj.setSize(150, 150, false);
+              this.chartObj.setSize(180, 180, false);
             } else {
-              this.chartObj.setSize(250, 250, false);
+              this.chartObj.setSize(240, 240, false);
             }
           }
         } catch (e) {

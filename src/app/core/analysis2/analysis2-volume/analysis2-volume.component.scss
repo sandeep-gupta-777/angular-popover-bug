@@ -1,0 +1,31 @@
+.splash-for-usage{
+  height: 400px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .bubble{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .img-wrapper{
+      width:160px;
+      height:160px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #e8f7f9;
+      .img-logo{
+
+      }
+
+    }
+    .text{
+      font-size: 16px;
+      color: #474747;
+    }
+  }
+
+}

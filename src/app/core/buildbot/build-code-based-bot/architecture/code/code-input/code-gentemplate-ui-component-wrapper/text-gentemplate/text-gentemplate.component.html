@@ -9,6 +9,7 @@
       <span *ngIf="i!==0" class="fa fa-trash ml-auto" (click)="deleteVariant(i)"></span>
     </div>
     <textarea
+      data-cy='gentemp-input'
       #textarea
       [(ngModel)]="_variants[i]"
       class="classic-textarea"

@@ -34,6 +34,7 @@
     </div>
     <div *appMyIf="myEAllActions['delete Corpus']">
       <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
+              data-cy="article-delete-button"
         *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
         <mat-icon>delete</mat-icon>
@@ -95,7 +96,7 @@
   <div #questionListContainer class="questions-list px-2" style="height: 67vh;" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
 <form #questionForm = "ngForm" class = "addQuestionPanel px-4 py-2" >
     <mat-form-field>
-      <textarea matInput  type="text" placeholder="Add new question" ngModel name = "questionText"
+      <textarea matInput  type="text" placeholder="Add new question" ngModel name = "questionText" data-cy="add-question-ti-tentemplate"
                 cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
               </textarea>
     </mat-form-field>
@@ -171,7 +172,8 @@
 
           <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
-            <input matInput placeholder="Name" name="newCategoryName" ngModel
+            <input matInput placeholder="Name" name="newCategoryName" ngModel data-cy='add-new-category'
+              [disabled]='!(form.value.inputType == "new")' maxlength=40>
               [disabled]='!(form.value.inputType == "new")' maxlength=40>
           </mat-form-field>
         </mat-radio-group>
@@ -228,7 +230,7 @@
 
                     <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
                     <mat-form-field style="width: 55%; padding-left: 26px;">
-                        <input matInput placeholder="Name" name="newCategoryName" ngModel
+                        <input matInput placeholder="Name" name="newCategoryName" ngModel data-cy='add-new-category'
                                [disabled]='!(form.value.inputType == "new")' maxlength=40>
                     </mat-form-field>
                 </mat-radio-group>
