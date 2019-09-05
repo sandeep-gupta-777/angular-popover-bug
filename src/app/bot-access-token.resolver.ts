@@ -17,7 +17,6 @@ export class BotAccessTokenResolver implements Resolve<Observable<any>> {
     if (!ServerService.idTokenMap) {
       return this.serverService.getNSetBotList(false, true)
         .pipe(catchError(() => {
-          debugger;
           return of(false);
         }));
     }

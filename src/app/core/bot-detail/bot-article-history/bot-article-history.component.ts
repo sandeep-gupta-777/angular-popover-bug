@@ -199,7 +199,6 @@ export class BotArticleHistoryComponent implements OnInit {
   }
 
   downloadCorpus(corpus_id: number) {
-    debugger;
     const toDownlodeSection = this.corpusList.find((corpus) => {
       return corpus.id === corpus_id;
     }).sections;
