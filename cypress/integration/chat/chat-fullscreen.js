@@ -6,9 +6,8 @@ describe('Chat window', function () {
 		cy.route('POST','api/v1/webhook/web/*').as('send');
 
 		cy.login_UI();
-		cy.wait(10000);
-		cy.contains("e2e_chat_preview (pls dont use)").trigger('mouseover').click();
-		cy.wait(5000);
+		cy.contains("e2e_chat_preview").click();
+    cy.url({timeout:60000}).should('include', '/botdetail');
 
 		cy.contains("Preview").click();
 		cy.wait(5000);

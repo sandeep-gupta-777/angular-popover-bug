@@ -14,7 +14,7 @@ describe('header nav links', function () {
     });
     it('checks if Analytics link takes to core/analytics2/volume link page', function () {
         cy.get('[data-cy=dashboard_analytics]').click();
-        cy.url().should('include', '/core/analytics2/volume');
+        cy.url().should('include', '/core/analytics2/overview');
     });
     it('checks if report link takes to core/reports link page', function () {
         cy.get('[data-cy=dashboard_reports]').click();

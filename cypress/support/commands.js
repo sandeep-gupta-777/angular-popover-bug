@@ -52,8 +52,8 @@ Cypress.Commands.add("login_UI", (email, password) => {
     cy.get('[data-cy=login-submit]').click();
 
     // cy.wait(['@login']);
-    cy.wait(60000);
-    cy.url({timeout:40000}).should('include', '/core/viewbots');
+    // cy.wait(60000);
+    cy.url({timeout:60000}).should('include', '/core/viewbots');
 });
 
 Cypress.Commands.add("login_stub", (email, password) => {

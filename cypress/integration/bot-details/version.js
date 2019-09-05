@@ -6,11 +6,14 @@ describe('Bot code version', function () {
 		cy.route('https://staging.imibot.ai/api/v1/botversioning/*').as('botversioning');
 
 		cy.login_UI();
-		cy.wait(40000);
+    cy.location('pathname', {timeout: 60000})
+      .should('include', '/core');
+    cy.contains("Smart bots").click();
 		cy.contains("e2e (pls dont use)").click();
-		cy.wait(40000);
+    cy.location('pathname', {timeout: 60000})
+      .should('include', '/botdetail');
 		cy.get('[data-cy=sidebar-logic]').click();
-		cy.wait(40000);
+		cy.wait(10000);
 		// cy.wait(['@botversioning'], {timeout: 10000});
 	});
 
@@ -26,7 +29,7 @@ describe('Bot code version', function () {
 		});
 		cy.get('.CodeMirror textarea')
 			.type("x = this is test", { force: true });
-		cy.wait(60000);
+		// cy.wait(60000);
 		cy.get('[data-cy=version-save]').click();
 		// cy.wait(['@version_validate'], {timeout:10000});
 		// cy.wait(['@botversioning-save'], {timeout:10000});

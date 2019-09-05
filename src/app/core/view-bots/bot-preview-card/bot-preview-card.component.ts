@@ -36,6 +36,7 @@ import {EAllActions, ERoleName} from '../../../typings/enum';
 })
 export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
   defaultImage = 'assets/img/no image.svg';
+  EBotType = EBotType;
   @Input() bot: IBot;
   ServerService = ServerService;
   showLoader = false;
@@ -68,8 +69,9 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
   ngOnInit() {
-    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
+    this.loggeduser$.subscribe((loggeduserState) => {
+      debugger;
+      this.enterprise_unique_name = loggeduserState && loggeduserState.user.enterprise.enterprise_unique_name;
     });
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {

@@ -63,7 +63,7 @@ const routes: Route[] = [
 
     path: '',
     component: CoreWrapperComponent,
-    canActivate: [],
+    canActivate: [ModuleGaurdLoadService], /*this is required even if we have canLoad on this module, because canLoad runs only once*/
     canActivateChild: [AccessGaurdService],
     resolve: {message: ScriptsLoadResolver, token: BotAccessTokenResolver},
     children: [

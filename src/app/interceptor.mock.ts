@@ -47,7 +47,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getBotListUrl(),
         json: bots,
         method: 'GET',
-        mock: false
+        mock: true
       }, {
         url: this.constantsService.getLoginUrl(),
         json: login,
@@ -118,7 +118,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getAllVersionsByBotId(),
         json: versions,
         method: 'GET',
-        mock: false
+        mock: true
       }, {
         url: this.constantsService.geReportTypesUrl(),
         json: reportTypes,

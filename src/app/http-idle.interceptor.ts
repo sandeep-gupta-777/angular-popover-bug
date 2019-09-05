@@ -64,7 +64,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
           * If the user is not logged in, make auto logout time = infinite
           * */
           const stopScheduler = !this.is_logged_in || response.url.includes('logout');
-          this.increaseAutoLogoutTime(this.roleInfo, stopScheduler);
+          // this.increaseAutoLogoutTime(this.roleInfo, stopScheduler);
 
           if (response instanceof HttpResponse) {
             this.checkForLogoutAction(response.body);
@@ -100,7 +100,6 @@ export class HttpIdleInterceptor implements HttpInterceptor {
     this.store.dispatch([
       new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
     ]);
-    console.log('increaseAutoLogoutTime is:', autoLogoutInterval, '. Actual session_expiry_time:', this.roleInfo.session_expiry_time * 1000);
   }
 
   checkForLogoutAction(obj: { action: string }) {
