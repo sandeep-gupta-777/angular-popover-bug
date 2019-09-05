@@ -1,7 +1,7 @@
 <header>
   <div class="d-flex flex-row heading align-items-center pb-3">
     <div class="heading-title">
-      <span class="fa fa-angle-left cursor-pointer p-1" (click)="showOpenCloseWithoutSavingModal()"></span>
+      <span class="fa fa-angle-left cursor-pointer p-1" (click)="showOpenCloseWithoutSavingModal()" data-cy = "goBackFromArticle"></span>
       {{!articleData.section_id ?  'Create a new article' :
         (
           articleData.section_id == "first_message" ? "Welcome message" :
@@ -124,13 +124,13 @@
   </div>
   <div class="response">
     <div class="response-heading">Response
-      <mat-form-field class="ml-auto">
+      <mat-form-field class="ml-auto" data-cy ="response_type_drop">
         <mat-label>Response type</mat-label>
         <mat-select [(ngModel)]="articleData.response_type">
-          <mat-option [value]="'dynamic'">
+          <mat-option [value]="'dynamic'" data-cy ="response_type_drop_Dynamic">
             Dynamic
           </mat-option>
-          <mat-option [value]="'rich'">
+          <mat-option [value]="'rich'" data-cy ="response_type_drop_Rich">
             Rich
           </mat-option>
         </mat-select>
@@ -140,6 +140,7 @@
         <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="(articleData.response_type === 'rich')" [bot]="bot"></app-answer-template-wrapper>
         <div *ngIf="articleData && (articleData.response_type === 'dynamic')">
             <app-code-editor
+                    data-cy = "context-logic-input"
                     style="height: 55vh"
                     [formControlName]="'logic'"
                     [doShowValidationsIcon]="false"
