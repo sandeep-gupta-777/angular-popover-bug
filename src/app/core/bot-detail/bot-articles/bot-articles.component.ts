@@ -509,7 +509,6 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   exportCorpus(data) {
     let maxNoOfQuestions = 0;
     const {Parser} = require('json2csv');
-    debugger;
     data = data
       .map(corpusSection => {
         if (maxNoOfQuestions < corpusSection.questions.length && corpusSection.category_id !== 'default_articles') {

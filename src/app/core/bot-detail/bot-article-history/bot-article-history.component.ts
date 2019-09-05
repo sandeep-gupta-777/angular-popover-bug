@@ -199,6 +199,7 @@ export class BotArticleHistoryComponent implements OnInit {
   }
 
   downloadCorpus(corpus_id: number) {
+    debugger;
     const toDownlodeSection = this.corpusList.find((corpus) => {
       return corpus.id === corpus_id;
     }).sections;
@@ -211,12 +212,12 @@ export class BotArticleHistoryComponent implements OnInit {
       return {
         'Category': this.categoryIdToNamePipe.transform(element.category_id, toDownlodeCategoryMapping),
         'First questions': element.questions[0].replace(',', ' '),
-        'Answer': element.answers[0].text[0].replace(',', ' '),
+        'Answer': element.answers[0].text ? element.answers[0].text[0].replace(',', ' ') : '',
         'Variants': element.questions.toString(),
       };
     });
     // console.log(csvFormat);
-    this.utilityService.downloadArrayAsCSV(csvFormat, {}, `Corpus_id_${corpus_id}.csv`);
+    this.utilityService.downloadArrayAsCSV(csvFormat, {}, `Corpus_id_${corpus_id}.csv`,false);
 
   }
 
