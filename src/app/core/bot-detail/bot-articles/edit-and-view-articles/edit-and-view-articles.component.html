@@ -124,20 +124,29 @@
   </div>
   <div class="response">
     <div class="response-heading">Response
-<!--      slide button toggle showAnswerCodeView -->
+      <mat-form-field class="ml-auto">
+        <mat-label>Response type</mat-label>
+        <mat-select [(ngModel)]="articleData.response_type">
+          <mat-option [value]="'dynamic'">
+            Dynamic
+          </mat-option>
+          <mat-option [value]="'rich'">
+            Rich
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="response-template">
-        <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="!showAnswerCodeView" [bot]="bot"></app-answer-template-wrapper>
-        <div *ngIf="articleData && showAnswerCodeView">
+    <form [formGroup]="logicCodeForm" class="response-template">
+        <app-answer-template-wrapper [answerObject]="articleData.answers" *ngIf="(articleData.response_type === 'rich')" [bot]="bot"></app-answer-template-wrapper>
+        <div *ngIf="articleData && (articleData.response_type === 'dynamic')">
             <app-code-editor
                     style="height: 55vh"
-                    [text]="{text: articleData.answers|json}"
-                    [readOnly]="true"
+                    [formControlName]="'logic'"
                     [doShowValidationsIcon]="false"
                     [doShowUploadDownloadButton]="false"
             ></app-code-editor>
         </div>
-    </div>
+    </form>
   </div>
 </div>
 
