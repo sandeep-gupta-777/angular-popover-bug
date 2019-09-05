@@ -169,7 +169,7 @@ export class ViewCustomnerComponent implements OnInit {
   deleteNer(ner_id: number) {
     this.serverService.deleteNer(ner_id)
       .subscribe(() => {
-        debugger;
+
         this.utilityService.showSuccessToaster('Deleted customner');
         this.router.navigate([`/core/customner`]);
         const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id === Number(ner_id));

@@ -1,0 +1,76 @@
+{
+  "bot_card": {
+    "admin": [
+      {
+        "data_cy": "bot-card-preview-link",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-bot-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-enterprise-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-delete-bot",
+        "should_exist": true
+      }
+    ],
+    "developer": [
+      {
+        "data_cy": "bot-card-preview-link",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-bot-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-enterprise-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-delete-bot",
+        "should_exist": true
+      }
+    ],
+    "analyst": [
+      {
+        "data_cy": "bot-card-preview-link",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-bot-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-enterprise-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-delete-bot",
+        "should_exist": false
+      }
+    ],
+    "tester": [
+      {
+        "data_cy": "bot-card-preview-link",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-bot-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-enterprise-token",
+        "should_exist": true
+      },
+      {
+        "data_cy": "bot-card-preview-delete-bot",
+        "should_exist": false
+      }
+    ]
+  }
+}

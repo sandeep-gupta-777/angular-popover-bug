@@ -32,7 +32,7 @@ describe('Chat window', function () {
 		/*check for header items*/
 		cy.get("[data-cy=chat-logo-enterprise]").should('exist');
 		cy.get("[data-cy=chat-logo-bot]").should('exist');
-		cy.get("[data-cy=chat-room-uid]").should('exist');
+		// cy.get("[data-cy=chat-room-uid]").should('exist');
 		// cy.get("[data-cy=chat-room-lasttemplaykey]").should('exist');
 		cy.get('[data-cy=custom-room-form-trigger]').should('exist');
 	});
@@ -46,7 +46,6 @@ describe('Chat window', function () {
 		cy.route('POST','/api/v1/webhook/web/*').as('send1');
 
 		cy.get('[data-cy=custom-room-form-trigger]').click();
-		cy.get('[data-cy=edit-consumer-uid]').type(Date.now());
 		cy.get('[data-cy=edit-consumer-submit]').click();
 		// cy.wait(['@send1'], {timeout:10000});
 	});

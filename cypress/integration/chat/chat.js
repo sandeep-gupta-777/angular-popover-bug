@@ -39,17 +39,16 @@ describe('Chat window', function () {
 	// 	cy.wait(['@send'], {timeout:10000});
 	// });
 	//
-	// it('checks if user can create a new custom room', function () {
-	// 	cy.server();
-	// 	cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send');
-	// 	// cy.wait(['@send'], {timeout:10000});//doesnt work
-	//
-	// 	cy.get('[data-cy=chat-back]').click();
-	// 	cy.get('[data-cy=custom-room-form-trigger]').click();
-	// 	cy.get('[data-cy=edit-consumer-uid]').type(Date.now());
-	// 	cy.get('[data-cy=edit-consumer-submit]').click();
-	// 	cy.wait(['@send'], {timeout:10000});
-	// });
+	it('checks if user can create a new custom room', function () {
+		cy.server();
+		cy.route('POST',/.*webhook.*/g).as('send');
+		// cy.wait(['@send'], {timeout:10000});//doesnt work
+
+		cy.get('[data-cy=chat-back]').click();
+		cy.get('[data-cy=custom-room-form-trigger]').click();
+		cy.get('[data-cy=edit-consumer-submit]').click();
+		cy.wait(['@send'], {timeout:10000});
+	});
 
 	it('checks if user can minimize and maximize chat preview', function () {
 		cy.server();

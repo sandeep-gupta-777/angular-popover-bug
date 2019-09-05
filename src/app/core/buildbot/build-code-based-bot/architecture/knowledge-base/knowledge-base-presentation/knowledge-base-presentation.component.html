@@ -2,7 +2,7 @@
 
   <header>
     <div style="position: relative;padding-bottom: 16px">
-      <span class="fa fa-angle-left back-icon" title="Go back" (click)="goBack()"></span>
+      <span data-cy="back" class="fa fa-angle-left back-icon" title="Go back" (click)="goBack()"></span>
       <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">{{ner_id ? "Edit" : "Create" }} Concept</h6>
       <p style="color: #696969; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase
         exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions;
@@ -16,6 +16,7 @@
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput
                [disabled]="disableAll"
+               data-cy="concept-name-input"
                placeholder="Concept name" required [(ngModel)]="key" name="key">
       </mat-form-field>
       <div class="d-flex flex-column mx-2">
@@ -97,6 +98,7 @@
         <button mat-flat-button
                 class="mat-theme-button"
                 style="border: 1px solid rgba(0, 0, 0, 0.12);border-radius: 2px; margin-right: 10px;margin-left: 10px;padding-left:5px; padding-right:10px;"
+                data-cy="concept-cancel"
                 (click)="goBackWithoutModal()">
           <mat-icon>cancel</mat-icon>
           Cancel
@@ -105,6 +107,7 @@
        <button mat-flat-button
                 color="primary"
                 class="mat-theme-button"
+                data-cy="concept-create"
                 style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px;padding-left:5px; padding-right:10px;"
                 [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
                 (click)="updateOrSaveConcept()"
@@ -123,6 +126,7 @@
       <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']" style="display:flex;">
        <button mat-flat-button
                 class="mat-theme-button"
+                data-cy="concept-cancel"
                 style="border: 1px solid rgba(0, 0, 0, 0.12);border-radius: 2px; margin-right: 10px; margin-left: 10px; padding-left:5px; padding-right:10px; "
                 (click)="goBackWithoutModal()">
           <mat-icon>cancel</mat-icon>
@@ -132,6 +136,7 @@
       <button mat-flat-button
                 color="primary"
                 class="mat-theme-button"
+                data-cy="concept-create"
                 style="margin-right: 10px;
                 padding-left:5px; padding-right:10px;"
                 [disabled]="!form.valid"
@@ -148,6 +153,7 @@
           <button mat-button
                   class="mat-theme-button"
                   style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px; padding-left:5px; padding-right:5px;"
+                  data-cy="concept-delete"
                   [disabled]="!form.valid"
                   (click)="openDeleteModal(deleteTemplate)">
             <mat-icon>delete</mat-icon>
@@ -159,6 +165,7 @@
         <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
           <button mat-button
                   class="mat-theme-button"
+                  data-cy="concept-delete"
                   style="min-width: 16px!important; padding: 0"
                   [disabled]="!form.valid"
                   (click)="openDeleteModal(deleteTemplate)">
