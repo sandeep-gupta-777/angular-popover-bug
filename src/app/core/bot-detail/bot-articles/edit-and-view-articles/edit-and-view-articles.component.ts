@@ -26,7 +26,8 @@ import {PermissionService} from 'src/app/permission.service';
 import {MatDialog} from '@angular/material';
 import {UtilityService} from 'src/app/utility.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {debounceTime} from 'rxjs/operators';
 
 // [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
 
@@ -38,6 +39,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
+
   store: any;
 
   constructor(
@@ -48,12 +50,17 @@ export class EditAndViewArticlesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private matDialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
   }
 
+  logicCodeForm: FormGroup;
   @Input() bot: IBot;
   _article: IArticleItem;
   @Input() set article(value: IArticleItem) {
+    this.logicCodeForm = this.formBuilder.group({
+      logic: [value.logic || '', Validators.required],
+    });
     this.articleData = this.utilityService.createDeepClone(value);
     this._article = value;
   }
@@ -69,7 +76,6 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   userRole;
-  showAnswerCodeView = false;
   myEAllActions = EAllActions;
   myERoleName = ERoleName;
   article_id: number;
@@ -78,6 +84,11 @@ export class EditAndViewArticlesComponent implements OnInit {
   dialogRefWrapper = {ref: null};
 
   ngOnInit() {
+    this.logicCodeForm.get('logic').valueChanges
+      .pipe(debounceTime(100))
+      .subscribe((val) => {
+        this.articleData.logic = val;
+      });
     this.loggeduser$
       .subscribe((value: IAuthState) => {
         if (value && value.user !== null) {
@@ -116,6 +127,8 @@ export class EditAndViewArticlesComponent implements OnInit {
     if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
     } else {
+    debugger;
+      this.articleData.logic = this.logicCodeForm.value.logic || '';
       this.updateArticle.emit(this.articleData);
     }
   }

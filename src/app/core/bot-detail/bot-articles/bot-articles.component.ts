@@ -193,7 +193,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     const article = {
       'answers': [{'text': ['']}],
       'category_id': 'unassigned',
-      'questions': []
+      'questions': [],
+      'response_type': 'rich'
     };
     this.router.navigate(['.'], {
       queryParams: {isArticle: true},
@@ -230,8 +231,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     const body = {
       'questions': articleData.questions,
       'answers': articleData.answers,
-      'category_id': articleData.category_id
+      'category_id': articleData.category_id,
+      'response_type': articleData.response_type,
     };
+    if(articleData.response_type === 'dynamic'){
+      body['logic'] = articleData.logic;
+    }
     let url;
 
     if (!create) {
@@ -516,7 +521,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (corpusSection.category_id !== 'default_articles') {
           return {
-            Answer: corpusSection.answers[0].text[0],
+            Answer:  corpusSection.answers[0].text ? corpusSection.answers[0].text[0] : '',
             Category: this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone),
             ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
           };

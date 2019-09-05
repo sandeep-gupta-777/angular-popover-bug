@@ -7,6 +7,8 @@ export interface IArticleItem {
     'questions'?: any[];
     'section_id'?: string;
     'updated_at'?: number;
+    'response_type'?: string;
+    'logic'?: string;
 }
 export interface ICategoryMappingItem {
     'category_id'?: string;
