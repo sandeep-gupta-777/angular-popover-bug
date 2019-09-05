@@ -407,7 +407,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   changeActiveButtonIndex(activeDropdownButtonIndex, buttonIndex) {
-
     setTimeout(() => {
       activeDropdownButtonIndex.value = buttonIndex;
     });

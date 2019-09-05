@@ -521,7 +521,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (corpusSection.category_id !== 'default_articles') {
           return {
-            Answer: corpusSection.answers[0].text[0],
+            Answer:  corpusSection.answers[0].text ? corpusSection.answers[0].text[0] : '',
             Category: this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone),
             ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
           };
