@@ -17,8 +17,6 @@ function checkIfElementExists_Suite(login, postLogin, title, element_data_cy_obj
             postLogin();
         });
 
-
-        console.log("==>", element_data_cy_obj);
         element_data_cy_obj.forEach((obj)=>{
                 checkIfElementExists(obj.data_cy, obj.should_exist);
         })

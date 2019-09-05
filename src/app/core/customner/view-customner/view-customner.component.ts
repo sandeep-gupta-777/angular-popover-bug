@@ -13,7 +13,7 @@ import {UtilityService} from '../../../utility.service';
 import {KnowledgeBaseComponent} from '../../buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {EventService} from '../../../event.service';
-import { SideBarService } from 'src/app/side-bar.service';
+import {SideBarService} from 'src/app/side-bar.service';
 
 @Component({
   selector: 'app-view-customner',
@@ -29,37 +29,39 @@ export class ViewCustomnerComponent implements OnInit {
   recordsPerPage = 15;
   settings = {
     columns: {
-    key: {
-      title: 'Concept Key'
+      key: {
+        title: 'Concept Key'
+      },
+      ner_type: {
+        title: 'Type'
+      },
+      // conflict_policy: {
+      //   title: 'Override Policy'
+      // },
     },
-    ner_type: {
-      title: 'Type'
+    pager: {
+      display: false
     },
-    // conflict_policy: {
-    //   title: 'Override Policy'
-    // },
-  },
-  pager: {
-    display: false
-  },
-  actions: {
-    add: false,
-    edit: false,
-    delete: false
-  },
-  rowClassFunction: (row) => {
-    if (row.data.highlight) {
-      return 'hightlight-created-row';
-      //   return 'score negative'; // Color from row with negative in score
-      // } else if (row.data.type === '(+)') {
-      //   return 'score positive';
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    rowClassFunction: (row) => {
+      if (row.data.highlight) {
+        return 'hightlight-created-row';
+        //   return 'score negative'; // Color from row with negative in score
+        // } else if (row.data.type === '(+)') {
+        //   return 'score positive';
+      }
+      return '';
     }
-    return '';
-  }};
+  };
   totalRecords = 10;
   currentPageNumber = 1;
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
   showLoader;
+
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -98,6 +100,7 @@ export class ViewCustomnerComponent implements OnInit {
 
   fetchNers(limit: number = 10, offset: number = 0) {
     const getEnterpriseNerUrl = this.constantsService.getEnterpriseNer(limit, (offset * this.recordsPerPage));
+    this.showLoader = true;
     this.serverService.makeGetReq<{ meta: { total_count: number }, objects: ICustomNerItem[] }>({url: getEnterpriseNerUrl})
       .subscribe((value) => {
         this.totalRecords = value.meta.total_count;
@@ -111,11 +114,15 @@ export class ViewCustomnerComponent implements OnInit {
 
         /*For selected ner*/
         const selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-        if (!selectedNerId) { return; }
+        if (!selectedNerId) {
+          return;
+        }
         const getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
         const doesSelectedNerExistsIn_custumNerDataForSmartTable =
           this.custumNerDataForSmartTable.find(item => item.id === Number(selectedNerId));
-        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) { return; }
+        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) {
+          return;
+        }
         this.serverService.makeGetReq({url: getNerByIdUrl})
           .subscribe((values: { objects: ICustomNerItem[] }) => {
             if (values.objects.length > 0) {
@@ -165,10 +172,14 @@ export class ViewCustomnerComponent implements OnInit {
 
         this.utilityService.showSuccessToaster('Deleted customner');
         this.router.navigate([`/core/customner`]);
-        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id === ner_id);
-        if (indexToBeDeleted !== -1) { this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1); }
+        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id === Number(ner_id));
+        if (indexToBeDeleted !== -1) {
+          this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1);
+        }
         this.knowledgeBaseComponent.showNerSmartTable();
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
+        this.showHeader = true;
+        this.pageChanged$(this.currentPageNumber);
 
       });
   }

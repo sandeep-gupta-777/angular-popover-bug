@@ -43,6 +43,7 @@ export class ViewBotStateReducer {
 
   @Action(SetAllBotListAction)
   setAllBotListAction({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetAllBotListAction) {
+
     const state = getState();
     const newBotList = payload.botList;
     const oldBotList = state.allBotList;

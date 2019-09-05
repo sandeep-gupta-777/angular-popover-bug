@@ -193,8 +193,9 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
             new SetUser({user: value, is_loggedIn: true}),
             new SetAllBotListAction({botList: []})
           ]).subscribe((user) => {
+            ServerService.setCookie('auth-token', value.auth_token);
+            ServerService.setCookie('user-access-token', value.user_access_token);
             // this.router.navigate(['/core/analytics2/volume']);
-
             this.router.navigate(['/'])
               .then(() => {
                 location.reload();

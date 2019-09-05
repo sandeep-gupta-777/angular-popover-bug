@@ -1,0 +1,182 @@
+{
+  "sidebar_nav_links_smart_bots": {
+    "admin": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": true
+      }
+    ],
+    "developer": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": true
+      }
+    ],
+    "analyst": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": false
+      }
+    ],
+    "tester": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": true
+      }
+    ]
+  },
+  "sidebar_nav_links_pipeline_bots": {
+    "admin": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": true
+      }
+    ],
+    "developer": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": true
+      }
+    ],
+    "analyst": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": false
+      }
+    ],
+    "tester": [
+      {
+        "data_cy": "sidebar-setting",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-NLP",
+        "should_exist": true
+      },
+      {
+        "data_cy": "sidebar-logic",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-chat",
+        "should_exist": false
+      },
+      {
+        "data_cy": "sidebar-test",
+        "should_exist": true
+      }
+    ]
+  }
+}

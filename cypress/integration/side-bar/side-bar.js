@@ -7,9 +7,9 @@ describe('faq-test', function () {
     });
 
     it('checks if dirty data modal is comming or not', function () {
-        cy.contains('Search Based').click()
+        cy.contains('Q&A bots').click();
         cy.get('.grid-bot-preview-name').first().click();
-        cy.wait(60000);
+      cy.url({timeout:60000}).should('include', '/botdetail/faqbot');
 
         cy.url().should('include', '/botdetail/faqbot/')
 

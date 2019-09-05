@@ -52,23 +52,24 @@ Cypress.Commands.add("login_UI", (email, password) => {
     cy.get('[data-cy=login-submit]').click();
 
     // cy.wait(['@login']);
-    cy.wait(60000);
-    cy.url({timeout:40000}).should('include', '/core/viewbots');
+    // cy.wait(60000);
+    cy.url({timeout:60000}).should('include', '/core');
+    cy.contains('Dashboard').click();
 });
 
 Cypress.Commands.add("login_stub", (email, password) => {
     cy.visit('http://localhost:4200/auth/login');
 
     cy.server();
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/actions/?limit=100', 'fixture:actions').as('actions');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/bot/?limit=1000', 'fixture:bot').as('bot');
-    cy.route('POST', 'https://dev.imibot.ai/api/v1/user/enterprise_login/', 'fixture:enterprise_login').as('enterprise_login');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/integrations/', 'fixture:integrations').as('integrations');
-    cy.route('POST', 'https://dev.imibot.ai/api/v1/user/login/', 'fixture:login').as('login');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/enterprise/*', 'fixture:enterprise').as('enterprise');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/user/enterprises/', 'fixture:enterprises').as('enterprises');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/moduledetails/?limit=1000', 'fixture:pipeline-module.json').as('json');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/role/', 'fixture:role').as('role');
+    cy.route('GET', '/.*api/v1/actions/?limit=10.*/g', 'fixture:actions').as('actions');
+    cy.route('GET', '/.*api/v1/bot/?limit=100.*/g', 'fixture:bot').as('bot');
+    cy.route('POST', '/.*api/v1/user/enterprise_login.*/g', 'fixture:enterprise_login').as('enterprise_login');
+    cy.route('GET', '/.*api/v1/integrations.*/g', 'fixture:integrations').as('integrations');
+    cy.route('POST', '/.*api/v1/user/login.*/g', 'fixture:login').as('login');
+    cy.route('GET', '/.*api/v1/enterprise/.*/g', 'fixture:enterprise').as('enterprise');
+    cy.route('GET', '/.*api/v1/user/enterprises.*/g', 'fixture:enterprises').as('enterprises');
+    cy.route('GET', '/.*api/v1/moduledetails/?limit=100.*/g', 'fixture:pipeline-module.json').as('json');
+    cy.route('GET', '/.*api/v1/role.*/g', 'fixture:role').as('role');
 
     cy.login_UI();
 });
