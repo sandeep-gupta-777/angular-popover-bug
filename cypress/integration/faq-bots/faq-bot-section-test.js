@@ -7,13 +7,14 @@ describe('faq-artical-tab', function () {
     });
 
     it('checks if sessions and consumers are present or not',function(){
-        cy.contains('Search Based').click()
+        cy.contains('Smart bots').click()
+        cy.contains('Q&A bots').click()
         cy.url().should('include', 'viewbots?type=faqbot')
-        cy.get('.grid-bot-preview-name').first().click();
+        cy.contains("e2eFaq (pls dont use)").click();
         cy.wait(30000);
         cy.url().should('include', '/botdetail/faqbot/')
 
-        cy.contains('Chat').click()
+        cy.contains('Sessions').click()
         cy.url().should('include','build=chat')
         cy.contains('Conversations')
         cy.get('.mat-tab-label-container')

@@ -18,7 +18,9 @@
         mat-button *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; "
         (click)="updateAndTrainModal(unsignedCategoriesTemplate)"
-        [disabled]="JSON.stringify(articleData) === JSON.stringify(_article) || (articleData.answers.length === 0) || (articleData.questions.length === 0) ">
+        [disabled]="JSON.stringify(articleData) === JSON.stringify(_article) ||
+        (articleData.questions.length === 0) ||
+        (articleData.response_type === 'dynamic' ? (articleData.logic.length === 0) : (articleData.answers.length === 0) )">
         <mat-icon>autorenew</mat-icon>
         Save and train
       </button>
@@ -26,7 +28,8 @@
     <div *appMyIf="myEAllActions['Update Corpus']">
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
         (click)="updateArticleClickedModal(unsignedCategoriesTemplate)"
-        [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)  || (articleData.answers.length === 0) || (articleData.questions.length === 0) "
+        [disabled]="JSON.stringify(articleData) === JSON.stringify(_article) || (articleData.questions.length === 0) ||
+        (articleData.response_type === 'dynamic' ? (articleData.logic.length === 0) : (articleData.answers.length === 0) )"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
         <mat-icon>save</mat-icon>
         Save
