@@ -7,16 +7,17 @@ describe('faq-search', function () {
     });
 
     it('checks if faq search is working or not',function(){
-        cy.contains('Search Based').click();
+        cy.contains('Smart bots').click();
+        cy.contains('Q&A bots').click();
         cy.url().should('include', 'viewbots?type=faqbot');
         cy.wait(3000);
-        cy.get('.grid-bot-preview-name').first().click()
+        cy.contains("e2eFaq (pls dont use)").click();
         cy.wait(3000);
         cy.url().should('include', '/botdetail/faqbot/')
 
         cy.get('[data-cy=article-search]')
              .type('what');
-            
+
         cy.get('[data-cy=article-search-results]').first().click()
         cy.url().should('include', 'build=articles')
 
@@ -27,7 +28,7 @@ describe('faq-search', function () {
             .contains('Questions')
         cy.get('.response-heading')
             .contains('Response')
-           
+
         // cy.contains('Article').click()
         // cy.wait(30000);
         // cy.url().should('include','build=articles')

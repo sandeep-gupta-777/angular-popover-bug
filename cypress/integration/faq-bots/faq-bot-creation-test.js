@@ -5,10 +5,11 @@ describe('faq-artical-tab', function () {
     beforeEach(() => {
         cy.login_UI();
     });
-    
+
     it('checks if artical is present or not',function(){
+        cy.wait(30000);
         cy.contains('+ New Bot').click();
-        cy.contains('Search based bot').click();
+        cy.contains('Build a new search based bot for deployment').click();
         cy.get('[data-cy=bot_name_faq_creation]')
         .type('shoaibtestbot'+Date.now());
         cy.contains('Done').click();
@@ -19,7 +20,6 @@ describe('faq-artical-tab', function () {
         cy.contains('Delete bot').click();
         cy.wait(15000);
         cy.url().should('include', 'viewbots');
-        cy.contains('Code Based')
     })
 
 })

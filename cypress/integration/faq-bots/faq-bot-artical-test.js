@@ -11,7 +11,7 @@ describe('faq-artical-tab', function () {
     cy.contains('Q&A bots').click();
     cy.url().should('include', 'viewbots?type=faqbot');
     cy.wait(3000);
-    cy.get('.grid-bot-preview-name').first().click()
+    cy.contains("e2eFaq (pls dont use)").click();
     cy.wait(3000);
     cy.url().should('include', '/botdetail/faqbot/')
 
@@ -36,9 +36,6 @@ describe('faq-artical-tab', function () {
     cy.get('[data-cy=add-question-ti-tentemplate]').type(randQuestion);
     cy.contains('Add question').click();
 
-    // cy.get('[data-cy=gentemp-sidebar-text]').click();
-    // cy.get('[data-cy=gentemp-sidebar-carousel]').click();
-    // cy.get('[data-cy=gentemp-sidebar-quick-reply]').click();
     cy.get('[data-cy=response_type_drop]').click();
     cy.get('[data-cy=response_type_drop_Rich]').click();
 
@@ -50,10 +47,12 @@ describe('faq-artical-tab', function () {
     cy.wait(1000);
 
     cy.get('[data-cy=add-new-category]').type('categoryForTest'+Date.now());
-    cy.contains('Change and save').click();
-    cy.wait(3000);
-    cy.get('.article-item').first().click()
 
+    cy.contains('Change and save').click();
+    cy.wait(10000);
+    cy.get('.article-item').first().click();
+    cy.get('[data-cy=goBackFromArticle]').click();
+    cy.get('.article-item').first().click();
     cy.contains('Preview').click();
 
     cy.get('[data-cy=chat-input]').type(randQuestion);
@@ -64,7 +63,6 @@ describe('faq-artical-tab', function () {
 
     cy.get('[data-cy=article-delete-button]').click();
     cy.get('[data-cy=modal-confirm-submit]').click();
-
 
   })
 

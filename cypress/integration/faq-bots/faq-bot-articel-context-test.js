@@ -11,7 +11,7 @@ describe('faq-artical-tab', function () {
     cy.contains('Q&A bots').click();
     cy.url().should('include', 'viewbots?type=faqbot');
     cy.wait(3000);
-    cy.get('.grid-bot-preview-name').first().click()
+    cy.contains("e2eFaq (pls dont use)").click();
     cy.wait(3000);
     cy.url().should('include', '/botdetail/faqbot/')
 

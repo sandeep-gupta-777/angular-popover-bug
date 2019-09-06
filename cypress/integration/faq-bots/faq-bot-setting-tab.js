@@ -15,11 +15,12 @@ describe('faq-test', function () {
     // })
 
     it('checks if faq bot has all settings tabs or not', function () {
-        cy.contains('Search Based').click()
-        cy.url().should('include', 'viewbots?type=faqbot')
-        cy.get('.grid-bot-preview-name').first().click()
+        cy.contains('Smart bots').click();
+        cy.contains('Q&A bots').click();
+        cy.url().should('include', 'viewbots?type=faqbot');
+        cy.contains("e2eFaq (pls dont use)").click();
         cy.wait(30000);
-        cy.url().should('include', '/botdetail/faqbot/')
+        cy.url().should('include', '/botdetail/faqbot/');
 
 
         cy.get('.mat-tab-label-container')
