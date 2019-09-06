@@ -10,7 +10,6 @@
     "lint:fix": "ng lint botPlateformFE --fix",
     "mergesd": "git checkout develop && git merge staging",
     "mergeds": "git checkout staging && git merge develop",
-    "e2e": "ng e2e",
     "fe_build": "cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && ng build --prod",
     "git": "git add . && git commit",
     "postgit": "git push",
@@ -36,11 +35,15 @@
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production",
     "ng-test": "ng serve --live-reload false",
-    "cypress": "cypress open",
+    "cypress": "npm run e2e",
     "cypress:headless": "cypress run",
     "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js",
     "fcm1": "concat src/firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js",
-    "sonar": "sonar-scanner -Dsonar.projectKey=3c5017265d344cf7b8bf84c02bb983ed62944209 -Dsonar.sources=."
+    "sonar": "sonar-scanner -Dsonar.projectKey=3c5017265d344cf7b8bf84c02bb983ed62944209 -Dsonar.sources=.",
+    "e2e-develop": "cypress open --env backend_root=https://dev.imibot.ai/static",
+    "e2e-dev": "npm run e2e-develop",
+    "e2e-staging": "cypress open --env backend_root=https://staging.imibot.ai/static",
+    "e2e": "cypress open --env backend_root=http://localhost:4200"
   },
   "private": true,
   "dependencies": {

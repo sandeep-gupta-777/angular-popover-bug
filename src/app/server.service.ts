@@ -415,6 +415,9 @@ export class ServerService {
     ]).subscribe(() => {
       this.store.dispatch([new ResetChatState()])
         .subscribe(() => {
+          if (location.pathname.includes('enterpriseprofile')) {
+            location.reload();
+          }
           if (!environment.mock && shouldCallLogoutApi) {
             this.router.navigate(['auth', 'login'])
               .then((isNavigationSuccess_temp) => {

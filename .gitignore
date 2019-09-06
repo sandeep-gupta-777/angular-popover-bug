@@ -49,3 +49,5 @@ testem.log
 Thumbs.db
 
 ng-bubble-local.json
+
+/cypress/videos

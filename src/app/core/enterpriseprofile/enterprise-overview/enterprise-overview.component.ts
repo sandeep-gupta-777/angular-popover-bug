@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ConstantsService} from 'src/app/constants.service';
 import {UtilityService} from 'src/app/utility.service';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
@@ -13,10 +13,10 @@ import {
 } from '../ngxs/enterpriseprofile.action';
 import {SetUser} from 'src/app/auth/ngxs/auth.action';
 import {IHeaderData} from 'src/interfaces/header-data';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {IUser} from '../../interfaces/user';
 import {IEnterpriseUser} from '../../interfaces/enterprise-users';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EnterpriseOverviewSmartTable} from './enterprise-overview-smart-table';
 import {ESortDir} from '../../../smart-table/smart-table.component';
@@ -26,9 +26,10 @@ import {ESortDir} from '../../../smart-table/smart-table.component';
   templateUrl: './enterprise-overview.component.html',
   styleUrls: ['./enterprise-overview.component.scss']
 })
-export class EnterpriseOverviewComponent implements OnInit {
+export class EnterpriseOverviewComponent implements OnInit, OnDestroy {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('descriptionForm') descriptionForm: NgForm;
@@ -133,7 +134,9 @@ export class EnterpriseOverviewComponent implements OnInit {
       log_retention_period: [''],
     });
 
-    this.loggeduser$.subscribe(({user}) => {
+    this.loggeduser$
+      .pipe(takeUntil(this.destroy))
+      .subscribe(({user}) => {
       if (!user) {
         return;
       }
@@ -282,4 +285,12 @@ export class EnterpriseOverviewComponent implements OnInit {
     this.utilityService.copyToClipboard(dataValue);
   }
 
+  ngOnDestroy(): void {
+    try {
+      this.destroy.next(true);
+      this.destroy.unsubscribe();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

@@ -51,6 +51,7 @@ export class EnterpriseprofileComponent implements OnInit {
   }
 
   roleListChangedFunction() {
+    debugger;
     const getRoleUrl = this.constantsService.getRoleUrl();
     this.serverService.makeGetReq<IRoleResult>({url: getRoleUrl})
       .subscribe((roles: IRoleResult) => {
