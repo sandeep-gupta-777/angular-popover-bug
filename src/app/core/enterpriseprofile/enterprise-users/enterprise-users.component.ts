@@ -7,21 +7,22 @@ import {ConstantsService} from 'src/app/constants.service';
 import {UtilityService} from 'src/app/utility.service';
 import {MatDialog} from '@angular/material';
 import {ServerService} from 'src/app/server.service';
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 import {IUser} from '../../interfaces/user';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {IBot, IBotResult} from '../../interfaces/IBot';
 import {SetAllBotListAction} from '../../view-bots/ngxs/view-bot.action';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EnterpriseUserSmartTable} from './enterprise-user-smart-table';
+import {take, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-enterprise-users',
   templateUrl: './enterprise-users.component.html',
   styleUrls: ['./enterprise-users.component.scss']
 })
-export class EnterpriseUsersComponent implements OnInit {
+export class EnterpriseUsersComponent implements OnInit, OnDestroy {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
@@ -47,7 +48,7 @@ export class EnterpriseUsersComponent implements OnInit {
   selectedUserModify: any;
   searchBots = '';
   searchBotsInModify = '';
-
+  private destroy: Subject<boolean> = new Subject<boolean>();
   enterpriseUserModal: EnterpriseUserSmartTable;
 
   constructor(
@@ -268,48 +269,54 @@ export class EnterpriseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loggeduser$.subscribe(({user}) => {
-      if (!user) {
-        return;
-      }
-      this.userid = user.id;
-      this.role = user.role.name;
-      this.enterpriseId = user.enterprise_id; // enterprise_id
-      this.enterpriseUserModal = new EnterpriseUserSmartTable([], this.getTableDataMetaDict(), {
-        'roleMap': this.roleMap,
-        enterpriseId: this.enterpriseId
-      });
-      const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
-      this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
-        .subscribe((value: IEnterpriseProfileInfo) => {
-          this.store.dispatch([
-            new SetEnterpriseInfoAction({enterpriseInfo: value})
-          ]).subscribe((enterprise) => {
-            this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
-          });
-          //  this.basicInfoForm.patchValue(<any>value);
+    this.loggeduser$
+      .pipe(takeUntil(this.destroy))
+      .subscribe(({user}) => {
+        if (!user) {
+          return;
+        }
+        /*massive hack*/
+        this.destroy.next(true);
+        this.userid = user.id;
+        this.role = user.role.name;
+        this.enterpriseId = user.enterprise_id; // enterprise_id
+        this.enterpriseUserModal = new EnterpriseUserSmartTable([], this.getTableDataMetaDict(), {
+          'roleMap': this.roleMap,
+          enterpriseId: this.enterpriseId
         });
-      if (this.role === 'Admin') {
-        const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
-        this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
-          .subscribe((value) => {
+        const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
+        this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
+          .subscribe((value: IEnterpriseProfileInfo) => {
             this.store.dispatch([
-              new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
+              new SetEnterpriseInfoAction({enterpriseInfo: value})
             ]).subscribe((enterprise) => {
               this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
             });
-            this.enterpriseUserModal.refreshData(value.objects);
+            //  this.basicInfoForm.patchValue(<any>value);
           });
-      }
-    });
+        if (this.role === 'Admin') {
+          const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
+          this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
+            .subscribe((value) => {
+              this.store.dispatch([
+                new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
+              ]).subscribe((enterprise) => {
+                this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
+              });
+              this.enterpriseUserModal.refreshData(value.objects);
+            });
+        }
+      });
 
 
-    this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
-      if (!this.roleMap) {
+    let hack_role_count = 0;
+    this.loggeduserenterpriseinfo$.pipe(takeUntil(this.destroy)).subscribe((enterprise) => {
+      if (!this.roleMap && hack_role_count === 0) {
         const headerData_temp: IHeaderData = {'content-type': 'application/json'};
         const RoleMapUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<any>({url: RoleMapUrl, headerData: headerData_temp})
           .subscribe((value) => {
+            ++hack_role_count;/*todo: implement better solution*/
             this.roleMap = value.objects;
             this.enterpriseUserModal.updateDependency({'roleMap': this.roleMap});
             if (enterprise.enterpriseusers) {
@@ -344,5 +351,15 @@ export class EnterpriseUsersComponent implements OnInit {
 
   log(z) {
     console.log(z);
+  }
+
+
+  ngOnDestroy(): void {
+    try {
+      this.destroy.next(true);
+      this.destroy.unsubscribe();
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

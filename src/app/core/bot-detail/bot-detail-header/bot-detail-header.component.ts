@@ -17,6 +17,7 @@ import {EventService} from '../../../event.service';
 import {SideBarService} from 'src/app/side-bar.service';
 import {EAllActions, ESideBarTab} from '../../../typings/enum';
 import {ChatService} from 'src/app/chat.service';
+import {IUser} from '../../interfaces/user';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -25,6 +26,7 @@ import {ChatService} from 'src/app/chat.service';
 })
 export class BotDetailHeaderComponent extends ModalImplementer implements OnInit {
 
+  @Select() loggeduser$: Observable<{ user: IUser }>;
   @Input() bot: IBot;
   myEBotType = EBotType;
   myObject = Object;
@@ -51,8 +53,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
 
   ngOnInit() {
-    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
+    this.loggeduser$.subscribe((loggeduserState) => {
+      this.enterprise_unique_name = loggeduserState && loggeduserState.user && loggeduserState.user.enterprise && loggeduserState.user.enterprise.enterprise_unique_name;
     });
 
     EventService.updateBotinit$.subscribe(() => {

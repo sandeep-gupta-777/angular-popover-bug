@@ -70,8 +70,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
   ngOnInit() {
     this.loggeduser$.subscribe((loggeduserState) => {
-
-      this.enterprise_unique_name = loggeduserState && loggeduserState.user.enterprise.enterprise_unique_name;
+      this.enterprise_unique_name = loggeduserState && loggeduserState.user && loggeduserState.user.enterprise && loggeduserState.user.enterprise.enterprise_unique_name;
     });
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
