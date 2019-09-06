@@ -11,7 +11,7 @@ describe('faq-artical-tab', function () {
     cy.contains('Q&A bots').click();
     cy.url().should('include', 'viewbots?type=faqbot');
     cy.wait(3000);
-    cy.contains("e2eFaq (pls dont use)").click();
+    cy.contains("e2eFaq (pls dont use)").click({force: true});
     cy.wait(3000);
     cy.url().should('include', '/botdetail/faqbot/')
 
@@ -41,7 +41,7 @@ describe('faq-artical-tab', function () {
     // cy.get('[data-cy=gentemp-sidebar-quick-reply]').click();
     cy.get('[data-cy=response_type_drop]').click();
     cy.get('[data-cy=response_type_drop_Dynamic]').click();
-
+    cy.wait(1000);
     cy.get('.CodeMirror textarea')
       .type('output={\'generated_msg\': [{\'text\':[\'testAnswer@BigPrimeModBigPrime\']}]}', { force: true ,parseSpecialCharSequences: false});
     // cy.get('[data-cy=context-logic-input]').type('output={\'generated_msg\': [{\'text\':[\'testAnswer@BigPrimeModBigPrime\']}]}');
@@ -49,7 +49,7 @@ describe('faq-artical-tab', function () {
     cy.contains('Save and train').click();
 
     cy.contains('Add to new category').click();
-    cy.wait(1000);
+    cy.wait(4000);
 
     cy.get('[data-cy=add-new-category]').type('categoryForTest'+Date.now());
     cy.contains('Change and save').click();
