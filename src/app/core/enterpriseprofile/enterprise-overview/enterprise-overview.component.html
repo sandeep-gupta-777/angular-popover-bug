@@ -14,7 +14,10 @@
     <section class="row basic-row bottom-border-line">
         <div class="col-1 logo-wrapper-col ">
             <div class="logo-wrapper">
-                <img [src]="logoUrl.value" alt="logo">
+<!--                <img [src]="logoUrl.value ||" alt="logo">-->
+              <img alt="channel name"
+                   [defaultImage]="'assets/img/no image.svg'"
+                   [lazyLoad]="logoUrl.value" alt="enterprise logo">
             </div>
         </div>
         <div class="col-11">

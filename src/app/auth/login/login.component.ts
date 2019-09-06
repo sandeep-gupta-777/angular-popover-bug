@@ -243,6 +243,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
+          ServerService.setCookie('auth-token', user.auth_token);
+          ServerService.setCookie('user-access-token', user.user_access_token);
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
             if (this.userData.enterprises.length <= 1) {
               const enterpriseDate = {
@@ -324,6 +326,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.disabeLoginButton = false;
     this.errorMessage = '';
     this.infoMessage = '';
+    debugger;
+    this.serverService.logout(true);
   }
 
   loginWithCustomEmail(email) {

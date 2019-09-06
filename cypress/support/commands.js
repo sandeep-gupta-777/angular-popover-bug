@@ -40,7 +40,7 @@ Cypress.Commands.add("login_UI", (email, password) => {
     cy.route('GET', '*/api/v1/moduledetails/?limit=1000').as('json');
     cy.route('GET', '*/api/v1/role/').as('role');
 
-    const BASE_URL = Cypress.config('backend_root');
+    const BASE_URL = Cypress.env('backend_root');
 
     cy.visit(`${BASE_URL}/auth/login`);
     cy.get('[data-cy=login-email]')

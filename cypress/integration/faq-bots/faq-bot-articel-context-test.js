@@ -40,9 +40,11 @@ describe('faq-artical-tab', function () {
     // cy.get('[data-cy=gentemp-sidebar-carousel]').click();
     // cy.get('[data-cy=gentemp-sidebar-quick-reply]').click();
     cy.get('[data-cy=response_type_drop]').click();
-    cy.get('[data-cy=response_type_drop_Rich]').click();
+    cy.get('[data-cy=response_type_drop_Dynamic]').click();
 
-    cy.get('[data-cy=gentemp-input]').type('testAnswer@BigPrimeModBigPrime');
+    cy.get('.CodeMirror textarea')
+      .type('output={\'generated_msg\': [{\'text\':[\'testAnswer@BigPrimeModBigPrime\']}]}', { force: true ,parseSpecialCharSequences: false});
+    // cy.get('[data-cy=context-logic-input]').type('output={\'generated_msg\': [{\'text\':[\'testAnswer@BigPrimeModBigPrime\']}]}');
 
     cy.contains('Save and train').click();
 
@@ -51,9 +53,10 @@ describe('faq-artical-tab', function () {
 
     cy.get('[data-cy=add-new-category]').type('categoryForTest'+Date.now());
     cy.contains('Change and save').click();
-    cy.wait(3000);
-    cy.get('.article-item').first().click()
-
+    cy.wait(10000);
+    cy.get('.article-item').first().click();
+    cy.get('[data-cy=goBackFromArticle]').click();
+    cy.get('.article-item').first().click();
     cy.contains('Preview').click();
 
     cy.get('[data-cy=chat-input]').type(randQuestion);
