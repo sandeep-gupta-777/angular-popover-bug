@@ -384,7 +384,7 @@ export class ServerService {
     // }
   }
 
-  logout(shouldCallLogoutApi = true) {
+  logout(shouldCallLogoutApi = true, forceLogout = false) {
 
     // if (!this.userData) {/*TODO: ring fancing: BAD*/
     //   return;
@@ -394,7 +394,7 @@ export class ServerService {
     * we dont want to logout when we are already on login page.
     * But sometimes, logout$ event is being called when used is already logged out
     * */
-    if (location.pathname.includes('/auth/login')) {
+    if (location.pathname.includes('/auth/login') && forceLogout === false) {
       console.log('Blocked attempted logout when already on login page.');
       return;
     }
