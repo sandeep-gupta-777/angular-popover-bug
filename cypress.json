@@ -4,5 +4,6 @@
     "mochaFile": "results/cypress-report.xml",
     "toConsole": true
   },
-  "pageLoadTimeout": 120000
+  "pageLoadTimeout": 120000,
+  "numTestsKeptInMemory": 1000
 }
