@@ -18,7 +18,7 @@ describe('faq-test', function () {
         cy.contains('Smart bots').click();
         cy.contains('Q&A bots').click();
         cy.url().should('include', 'viewbots?type=faqbot');
-        cy.contains("e2eFaq (pls dont use)").click();
+      cy.contains("e2eFaq (pls dont use)").click({force: true});
         cy.wait(30000);
         cy.url().should('include', '/botdetail/faqbot/');
 

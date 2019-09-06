@@ -13,8 +13,7 @@ describe('faq-artical-tab', function () {
         cy.get('[data-cy=bot_name_faq_creation]')
         .type('shoaibtestbot'+Date.now());
         cy.contains('Done').click();
-        cy.wait(30000);
-        cy.url().should('include', 'build=articles');
+      cy.url({timeout:300000}).should('include', '/botdetail/faqbot');
         cy.get('[data-cy=3-bot-button-on-top]').click();
         cy.contains('Delete').click();
         cy.contains('Delete bot').click();
