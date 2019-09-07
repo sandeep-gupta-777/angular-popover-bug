@@ -18,7 +18,7 @@ bot_types.forEach((bot_type) => {
       } else if (module === 'sidebar_nav_links_pipeline_bots') {
         cy.contains('Pipeline bots').click();
       }
-      cy.get('.grid-bot-preview-name').first().click();
+      cy.get('[data-cy=bot-card]').first().click();
       cy.wait(10000);
     };
     const title = `RBT::${module}:: ${cred.role.toUpperCase()}`;

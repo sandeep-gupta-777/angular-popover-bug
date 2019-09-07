@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 describe('header nav links', function () {
-    beforeEach(() => {
+    before(() => {
         cy.login_UI();
     });
     it('checks if dashboard link takes to /core/viewbots link page', function () {
@@ -39,7 +39,7 @@ describe('header dropdown', function () {
         cy.url().should('include', '/core/enterpriseprofile');
     });
 
-    it('checks if Knowledge link takes to core/auth/login link page', function () {
+    it('checks if clicking sign out to core/auth/login link page', function () {
         cy.get('[data-cy=header-sign-out]').click();
         cy.url().should('include', 'auth/login');
     });

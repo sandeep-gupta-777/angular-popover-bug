@@ -13,7 +13,7 @@ describe('faq-history', function () {
         cy.url().should('include', 'viewbots?type=faqbot');
         cy.wait(3000);
       cy.contains("e2eFaq (pls dont use)").click({force: true});
-        // cy.get('.grid-bot-preview-name').first().click()
+        // cy.get('[data-cy=bot-card]').first().click()
         cy.wait(3000);
         cy.url().should('include', '/botdetail/faqbot/')
 

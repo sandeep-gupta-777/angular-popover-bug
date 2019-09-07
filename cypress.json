@@ -5,5 +5,6 @@
     "toConsole": true
   },
   "pageLoadTimeout": 120000,
-  "numTestsKeptInMemory": 1000
+  "numTestsKeptInMemory": 1000,
+  "projectId": "4z5j71"
 }

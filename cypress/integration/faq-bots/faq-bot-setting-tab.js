@@ -9,7 +9,7 @@ describe('faq-test', function () {
     // it('checks if first bot opens or not',function(){
     //     cy.contains('Search Based').click()
     //     cy.url().should('include','viewbots?type=faqbot')
-    //     cy.get('.grid-bot-preview-name').first().click()
+    //     cy.get('[data-cy=bot-card]').first().click()
     //     cy.url().should('include','/botdetail/faqbot/')
 
     // })

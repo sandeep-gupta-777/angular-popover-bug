@@ -10,7 +10,7 @@
 //     console.log(element_data_cy_obj);
 //     const login = () => cy.login_UI(cred.email, cred.password);
 //     const postLogin = () => {
-//         cy.get('.grid-bot-preview-name').first().click();
+//         cy.get('[data-cy=bot-card]').first().click();
 //         cy.wait(10000);
 //     };
 //     const title = `role based testing:: ${module}:: ${cred.role.toUpperCase()}`;

@@ -33,7 +33,7 @@
       },
       {
         "data_cy": "dashboard_reports",
-        "should_exist": true
+        "should_exist": false
       }
     ],
     "analyst": [
