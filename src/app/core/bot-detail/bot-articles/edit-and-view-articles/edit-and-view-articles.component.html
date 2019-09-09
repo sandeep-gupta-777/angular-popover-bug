@@ -76,7 +76,7 @@
 </div>
 
 <div class="main-block" >
-  <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+  <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')">
     <div>
       <mat-icon class="icon">info</mat-icon>
     </div>
@@ -93,10 +93,18 @@
         the question which is asked by the user.
         You can configure the response here and the confidence
         below which score this should be triggered can be configured from inference settings.</div>
+      <div *ngIf="articleData.section_id == 'partial_match'">
+        When the bot recognises multiple articles with a very small difference in scores(as set in bot configuration),
+        the partial match message is shown to the consumer so that they can select which article they were referring to.
+        This message consists of text informing the consumer what happened and the close articles are shown as quick
+        replies which they can click on. The text part of the message can be configured below.
+        <br>
+        A representative preview with sample articles is also shown just for ease of understanding,
+        in which the text configured below can be seen in action.
+      </div>
     </div>
-
   </div>
-  <div #questionListContainer class="questions-list px-2" style="height: 67vh;" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+  <div #questionListContainer class="questions-list px-2" style="height: 67vh;" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')">
 <form #questionForm = "ngForm" class = "addQuestionPanel px-4 py-2" >
     <mat-form-field>
       <textarea matInput  type="text" placeholder="Add new question" ngModel name = "questionText" data-cy="add-question-ti-tentemplate"
