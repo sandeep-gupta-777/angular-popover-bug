@@ -66,9 +66,11 @@ export class CurationComponent implements OnInit {
   curationIssuesFilterForm: FormGroup;
   curationResolvedFilterForm: FormGroup;
 
+  isBotAdvancedDataProtective = false;
   ngOnInit() {
 
     this.reloading = true;
+    this.isBotAdvancedDataProtective = this.bot.advanced_data_protection
     this.curation_filter_form = this.formBuilder.group({
       room_id: [''],
       rule_triggered: [''],
@@ -531,5 +533,9 @@ export class CurationComponent implements OnInit {
           this.corpusState = j + val.state.substr(1).toLowerCase();
         })
       );
+  }
+
+  requestEncription(resone: string){
+
   }
 }
