@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'hasChannel'
@@ -6,9 +6,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HasChannelPipe implements PipeTransform {
 
   transform(channels: string[], channelToCheck: string): any {
-    if (!channelToCheck || channelToCheck === 'all' || !channels) { return true; }
+    if (!channelToCheck || channelToCheck === 'all' || !channels) {
+      return true;
+    }
     const x = channels.find((channel) => channel === channelToCheck);
     return x;
   }
 
 }
+
+/*deploy*/
