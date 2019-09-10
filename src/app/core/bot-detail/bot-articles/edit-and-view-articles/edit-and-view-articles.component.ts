@@ -62,27 +62,27 @@ export class EditAndViewArticlesComponent implements OnInit {
       logic: [value.logic || '', Validators.required],
     });
     this.articleData = this.utilityService.createDeepClone(value);
-    this.articleData = {
-      "answers": [
-        {
-          "include": [
-            "web"
-          ],
-          "text": [
-            "Congratulations on creating a new bot, go ahead and type “What can you do” to see how bot works.Oh, this is the welcome message which can be configured in the ‘Welcome message’ article"
-          ]
-        }
-      ],
-      "category_id": "default_articles",
-      "created_at": 1568103827043,
-      "logic": "output={'df':{'greeting':'hi'},\n       'responseflag': True,\n       'generated_msg': [{'text':[variables.get('dataStore',{}).get('city', 'response from logic') if variables.get('dataStore') else 'no dataStore']}]}\n",
-      "questions": [
-        "Welcome Message"
-      ],
-      "response_type": "rich",
-      "section_id": "partial_match",
-      "updated_at": 1568103827043
-    }
+    // this.articleData = {
+    //   "answers": [
+    //     {
+    //       "include": [
+    //         "web"
+    //       ],
+    //       "text": [
+    //         "Congratulations on creating a new bot, go ahead and type “What can you do” to see how bot works.Oh, this is the welcome message which can be configured in the ‘Welcome message’ article"
+    //       ]
+    //     }
+    //   ],
+    //   "category_id": "default_articles",
+    //   "created_at": 1568103827043,
+    //   "logic": "output={'df':{'greeting':'hi'},\n       'responseflag': True,\n       'generated_msg': [{'text':[variables.get('dataStore',{}).get('city', 'response from logic') if variables.get('dataStore') else 'no dataStore']}]}\n",
+    //   "questions": [
+    //     "Welcome Message"
+    //   ],
+    //   "response_type": "rich",
+    //   "section_id": "partial_match",
+    //   "updated_at": 1568103827043
+    // }
     this._article = value;
   }
 
