@@ -8,7 +8,7 @@
             articleData.section_id == "first_message" ? "Welcome message" :
                 articleData.section_id == "fallback" ? "Fallback message" :
                     articleData.section_id == "partial_match" ? "Partial match message" :
-                    articleData.questions[0].substr(0, 80) + (articleData.questions[0].length > 80 ? " . . ." : "")
+                        articleData.questions[0].substr(0, 80) + (articleData.questions[0].length > 80 ? " . . ." : "")
         )
       }}
     </div>
@@ -66,21 +66,20 @@
   </span>
   <span *appMyIf="myEAllActions['Section Category Change']">
     <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
-         *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
+         *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles' || articleData.section_id == 'partial_match' )">
       <mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
       {{articleData.category_id | categoryIdToName : category_mapping}}
     </div>
     <div class="px-2"
-         *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
+         *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles' || articleData.section_id == 'partial_match' )">
       {{articleData.category_id | categoryIdToName : category_mapping}}
     </div>
   </span>
 </div>
 
 <div class="main-block">
-  <div>
-    <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3"
-         *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')">
+  <div *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')">
+    <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3">
       <div>
         <mat-icon class="icon">info</mat-icon>
       </div>
