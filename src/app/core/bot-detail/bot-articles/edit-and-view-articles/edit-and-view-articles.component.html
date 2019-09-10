@@ -188,7 +188,10 @@
   <div class="response" *ngIf="articleData.section_id == 'partial_match'">
     <div class="response-heading">Response
     </div>
-    <app-partial-match-response [textContent]="articleData.answers[0].text[0]" style=" height: 63vh;"></app-partial-match-response>
+    <div style="height: 63vh;">
+      <app-partial-match-response [textContent]="articleData.answers[0].text[0]"></app-partial-match-response>
+    </div>
+
   </div>
 </div>
 
