@@ -35,12 +35,11 @@
               [headingText]="'All data is encrypted'"
               [descriptionText]="'Provide a decryption key to see unresolved and resolved issues'"
             >
-              <form class = "d-flex" #dataEncryptionForm="ngForm">
-                <input type="text" style="width:90%">
-                <div style="width:10%;background-color: #00abd3"
-                     name = "text"
-                     class="d-flex justify-content-center align-items-center"
-                     (click)="requestEncription(dataEncryptionForm.value.text)"
+              <form class = "d-flex encrypt-form" #dataEncryptionForm="ngForm" (ngSubmit)="requestEncription(dataEncryptionForm.value.qtext)">
+                <input type="text" name="qtext" ngModel autocomplete="off">
+                <button type="submit"
+                        class="btn-theme btn-theme-primary "
+                        (click)="requestEncription(dataEncryptionForm.value.qtext)"
                 >
                   <mat-icon
                     style="font-size: 15px;
@@ -49,7 +48,7 @@
                   color: #ffffff;
                   justify-content: center;"
                   >lock_open</mat-icon>
-                </div>
+                </button>
               </form>
             </app-splash-screen>
           </div>
@@ -109,12 +108,11 @@
               [headingText]="'All data is encrypted'"
               [descriptionText]="'Provide a decryption key to see unresolved and resolved issues'"
             >
-              <form class = "d-flex" #dataEncryptionForm="ngForm">
-                <input type="text" style="width:90%">
-                <div style="width:10%;background-color: #00abd3"
-                     name = "text"
-                     class="d-flex justify-content-center align-items-center"
-                     (click)="requestEncription(dataEncryptionForm.value.text)"
+              <form class = "d-flex encrypt-form" #dataEncryptionForm="ngForm" (ngSubmit)="requestEncription(dataEncryptionForm.value.qtext)">
+                <input type="text" name="qtext" ngModel autocomplete="off">
+                <button type="submit"
+                     class="btn-theme btn-theme-primary "
+                     (click)="requestEncription(dataEncryptionForm.value.qtext)"
                 >
                   <mat-icon
                   style="font-size: 15px;
@@ -123,7 +121,7 @@
                   color: #ffffff;
                   justify-content: center;"
                   >lock_open</mat-icon>
-                </div>
+                </button>
               </form>
             </app-splash-screen>
           </div>

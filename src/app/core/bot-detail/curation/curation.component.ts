@@ -16,6 +16,8 @@ import {UtilityService} from '../../../utility.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ELoadingStatus} from '../../../button-wrapper/button-wrapper.component';
+import {ISessionItem} from '../../../../interfaces/sessions';
+import {fakeAsync} from '@angular/core/testing';
 
 @Component({
   selector: 'app-curation',
@@ -67,10 +69,10 @@ export class CurationComponent implements OnInit {
   curationResolvedFilterForm: FormGroup;
 
   isBotAdvancedDataProtective = false;
+
   ngOnInit() {
 
     this.reloading = true;
-    this.isBotAdvancedDataProtective = this.bot.advanced_data_protection
     this.curation_filter_form = this.formBuilder.group({
       room_id: [''],
       rule_triggered: [''],
@@ -228,22 +230,28 @@ export class CurationComponent implements OnInit {
       }
     ).pipe(
       map((value: ICurationResult) => {
-        if (this.curationIssuesList) {
-          if (innit) {
-            this.curationIssuesList = [...value.objects];
-          } else {
-            this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
-          }
-
+        if (value.meta && value.meta.data_encrypted) {
+          this.isBotAdvancedDataProtective = true;
+          this.reloading = false;
+          this.curationIssuesListisReloading = false;
         } else {
-          this.curationIssuesList = [...value.objects];
-        }
-        this.reloading = false;
-        this.curationIssuesListisReloading = false;
-        this.totalLengthCurationIssue = value.meta.total_count;
-        this.isMoreCurationIssuesListPresent = !!value.meta.next;
-        this.curationIssuesListLength = this.curationIssuesListLength + value.objects.length;
+          this.isBotAdvancedDataProtective = false;
+          if (this.curationIssuesList) {
+            if (innit) {
+              this.curationIssuesList = [...value.objects];
+            } else {
+              this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
+            }
 
+          } else {
+            this.curationIssuesList = [...value.objects];
+          }
+          this.reloading = false;
+          this.curationIssuesListisReloading = false;
+          this.totalLengthCurationIssue = value.meta.total_count;
+          this.isMoreCurationIssuesListPresent = !!value.meta.next;
+          this.curationIssuesListLength = this.curationIssuesListLength + value.objects.length;
+        }
       })
     );
   }
@@ -267,20 +275,26 @@ export class CurationComponent implements OnInit {
         headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
       }).pipe(
       map((value: ICurationResult) => {
-        if (this.curationResolvedAndIgnoredList) {
-          if (innit) {
-            this.curationResolvedAndIgnoredList = [...value.objects];
-          } else {
-            this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
-          }
-
+        if (value.meta && value.meta.data_encrypted) {
+          this.isBotAdvancedDataProtective = true;
+          this.curationResolvedAndIgnoredListisReloading = false;
         } else {
-          this.curationResolvedAndIgnoredList = [...value.objects];
+          this.isBotAdvancedDataProtective = false;
+          if (this.curationResolvedAndIgnoredList) {
+            if (innit) {
+              this.curationResolvedAndIgnoredList = [...value.objects];
+            } else {
+              this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
+            }
+
+          } else {
+            this.curationResolvedAndIgnoredList = [...value.objects];
+          }
+          this.curationResolvedAndIgnoredListisReloading = false;
+          this.totalLengthCurationResolvedAndIgnored = value.meta.total_count;
+          this.isMoreCurationResolvedAndIgnoredListPresent = !!value.meta.next;
+          this.curationResolvedAndIgnoredListLength = this.curationResolvedAndIgnoredListLength + value.objects.length;
         }
-        this.curationResolvedAndIgnoredListisReloading = false;
-        this.totalLengthCurationResolvedAndIgnored = value.meta.total_count;
-        this.isMoreCurationResolvedAndIgnoredListPresent = !!value.meta.next;
-        this.curationResolvedAndIgnoredListLength = this.curationResolvedAndIgnoredListLength + value.objects.length;
       })
     );
   }
@@ -420,24 +434,22 @@ export class CurationComponent implements OnInit {
     });
   }
 
-  filterArticleWithTriggeredRule(triggeredRule){
+  filterArticleWithTriggeredRule(triggeredRule) {
     this.curationIssuesFilterForm.reset();
 
     let value = {
-      "triggered_rules" : triggeredRule,
-    }
-    this.curationIssuesFilterForm.patchValue(value,{onlySelf: true, emitEvent: false})
+      'triggered_rules': triggeredRule,
+    };
+    this.curationIssuesFilterForm.patchValue(value, {onlySelf: true, emitEvent: false});
     this.activeTab = 1;
     this.submitedForm({
-      'unsolved' : true,
-      'value' : {...this.curationIssuesFilterForm.value,...value}
-    })
+      'unsolved': true,
+      'value': {...this.curationIssuesFilterForm.value, ...value}
+    });
   }
 
 
-
-
-  atlestOneCurationSettingsNeeded(curationSettingsForm){
+  atlestOneCurationSettingsNeeded(curationSettingsForm) {
 
     let ans = false;
     const arr = Object.keys(curationSettingsForm.get('curation_settings').value);
@@ -456,7 +468,7 @@ export class CurationComponent implements OnInit {
         let botImage: IBot;
         botImage = {...this.curationSettingsForm.value};
         botImage.id = this.bot.id;
-        botImage.bot_access_token =  ServerService.getBotTokenById(this.bot.id);
+        botImage.bot_access_token = ServerService.getBotTokenById(this.bot.id);
         this.updateSettingsLoading = ELoadingStatus.loading;
         this.serverService.updateBot(botImage).subscribe(() => {
           this.updateSettingsLoading = ELoadingStatus.success;
@@ -535,7 +547,26 @@ export class CurationComponent implements OnInit {
       );
   }
 
-  requestEncription(resone: string){
+  requestEncription(resone: string) {
+
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    const body = {
+      decrypt_audit_type: 'bot',
+      message: resone
+    };
+    const url = this.constantsService.getDecryptUrl();
+    this.serverService.makePostReq({headerData, body, url}).subscribe((val) => {
+      debugger;
+      this.load10MoreCurationIssues(false);
+      this.load10MoreCurationResolvedAndIgnored(false);
+      this.setLiveBotUpdatedAt();
+      this.getResolvedAggregationData();
+      this.getIssuesAggregationData();
+
+      this.isBotAdvancedDataProtective = true;
+    });
 
   }
 }

@@ -29,6 +29,22 @@
   position: fixed;
   transform: translate(-50%, -50%);
 }
+.encrypt-form{
+  input{
+    width:90%;
+    margin-top: 5px;
+  }
+  button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:10%;
+    background-color: #00abd3;
+    margin-top: 5px;
+    border-radius: 0px;
+    height: 25px !important;
+  }
+}
   ::ng-deep{
     .mat-tab-header{
         margin-top: 0px;
