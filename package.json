@@ -44,8 +44,8 @@
     "e2e-dev": "npm run e2e-develop",
     "e2e-staging": "cypress open --env backend_root=https://staging.imibot.ai/static",
     "e2e": "cypress open --env backend_root=http://localhost:4200",
-    "e2e:headless:dev": "cypress run --env backend_root=https://dev.imibot.ai/static --record --key 91f1910d-863e-40b6-b072-875193a67492",
-    "e2e:headless:staging": "cypress run --env backend_root=https://staging.imibot.ai/static --record --key 91f1910d-863e-40b6-b072-875193a67492"
+    "e2e:headless:dev": "cypress run --env backend_root=https://dev.imibot.ai/static",
+    "e2e:headless:staging": "cypress run --env backend_root=https://staging.imibot.ai/static"
   },
   "private": true,
   "dependencies": {

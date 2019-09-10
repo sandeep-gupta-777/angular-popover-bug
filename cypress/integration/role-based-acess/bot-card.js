@@ -10,7 +10,7 @@ login.forEach((cred) => {
   const login = () => cy.login_UI(cred.email, cred.password);
   const postLogin = () => {
     // cy.get('[data-cy=bot-card]').first().get('[data-cy=bot-card-menu]').first().click();
-    cy.get('[data-cy=bot-card]').first().get('[data-cy=bot-card-menu]').first().click();
+    cy.get('[data-cy=bot-card]').first().get('[data-cy=bot-card-menu]').first().click({force: true});
 
   };
   const title = `role based testing:: ${module}:: ${cred.role.toUpperCase()}`;
