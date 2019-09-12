@@ -18,6 +18,9 @@
     padding-bottom: 70px;
     display: flex;
     flex-direction: column;
+    .info-section-wrapper{
+      max-width: 470px;
+    }
 
     .imi-logo {
       height: 56px;
@@ -37,10 +40,12 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      margin-top: 48px;
 
       .intro-item {
+        //margin-top: 24px;
         &:first-child {
-          margin-top: auto;
+          //margin-top: auto;
         }
 
         .item-img-container {
