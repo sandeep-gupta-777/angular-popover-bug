@@ -17,6 +17,14 @@
                     placeholder="Bot Unique Name"
                     required>
                       </mat-form-field>
+        <mat-form-field class="w-50">
+          <mat-label>Language</mat-label>
+          <mat-select formControlName="language">
+            <mat-option *ngFor="let lang of bot_languages" [value]="'en'">
+              {{lang.display_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </fieldset>
 
       <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class = "pb-4">

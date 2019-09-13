@@ -1,4 +1,3 @@
-
 import {debounceTime} from 'rxjs/operators';
 import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
@@ -7,7 +6,7 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
 import {EBotType, UtilityService} from '../../../../../utility.service';
-import {ConstantsService, } from '../../../../../constants.service';
+import {ConstantsService,} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {PermissionService} from '../../../../../permission.service';
 import {EAllActions} from '../../../../../typings/enum';
@@ -21,6 +20,7 @@ import {EAllActions} from '../../../../../typings/enum';
 export class BasicInfoFormComponent implements OnInit {
   _bot: Partial<IBot> = {};
   bot_type;
+  bot_languages = ConstantsService.bot_languages;
   formData: Partial<IBot>;
   @Input() botId: number;
   @Input() formGroup: FormGroup;
@@ -32,10 +32,11 @@ export class BasicInfoFormComponent implements OnInit {
     {name: 'imageHttpsError', description: 'Only Https urls allowed'}];
 
   constructor(
-              public constantsService: ConstantsService,
-              public permissionService: PermissionService,
-              public activatedRoute: ActivatedRoute,
-  ) {}
+    public constantsService: ConstantsService,
+    public permissionService: PermissionService,
+    public activatedRoute: ActivatedRoute,
+  ) {
+  }
 
   ngOnInit() {
     /*TODO: data for bot details and queryParamMap is for build bot*/

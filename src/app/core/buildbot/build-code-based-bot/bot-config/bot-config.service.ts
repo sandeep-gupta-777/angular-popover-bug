@@ -88,6 +88,7 @@ export class BotConfigService {
       description: [bot.description],
       logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       first_message: [bot.first_message],
+      language: [bot.language],
       error_message: [bot.error_message]
     }, { validator: this.utilityService.isManagerValidator });
 

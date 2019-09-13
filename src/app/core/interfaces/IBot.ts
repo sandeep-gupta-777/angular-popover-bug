@@ -1,12 +1,13 @@
-import { IMeta } from './meta';
-import { IAvatar } from '../../../interfaces/bot-creation';
-import { IPipelineItem } from '../../../interfaces/ai-module';
-import { IIntegrationOption } from '../../../interfaces/integration-option';
-import { ICorpus } from './faqbots';
-import { EBotType } from '../../utility.service';
+import {IMeta} from './meta';
+import {IAvatar} from '../../../interfaces/bot-creation';
+import {IPipelineItem} from '../../../interfaces/ai-module';
+import {IIntegrationOption} from '../../../interfaces/integration-option';
+import {ICorpus} from './faqbots';
+import {EBotType} from '../../utility.service';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
+  language?: string,
   active_version?: {
     bot_id: number,
     comment: string,

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { IBot } from 'src/app/core/interfaces/IBot';
-import { EBotType } from 'src/app/utility.service';
+import {Component, OnInit, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {IBot} from 'src/app/core/interfaces/IBot';
+import {EBotType} from 'src/app/utility.service';
 import {EAllActions} from '../../../../../typings/enum';
+import {ConstantsService} from '../../../../../constants.service';
 
 @Component({
   selector: 'app-faq-bot-basic-info-form',
@@ -11,8 +12,11 @@ import {EAllActions} from '../../../../../typings/enum';
 })
 export class FaqBotBasicInfoFormComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
+
   _bot: Partial<IBot> = {};
+  bot_languages = ConstantsService.bot_languages;
   bot_type;
   formData: Partial<IBot>;
   @Input() botId: number;
@@ -20,6 +24,7 @@ export class FaqBotBasicInfoFormComponent implements OnInit {
   myEBotType = EBotType;
   @Input() formGroup: FormGroup;
   isDisabled: boolean;
+
   ngOnInit() {
     if (!this.botId) {/*only for new bots*/
       this.formGroup.get('name').valueChanges.subscribe((value) => {

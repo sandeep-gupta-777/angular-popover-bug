@@ -1,61 +1,66 @@
 @import "./../../../../../../sass/main";
 
-.bot-creation-form-grid{
+.bot-creation-form-grid {
   display: grid;
   padding-left: 15px;
   grid-template-columns: 1fr 1fr;
-  .logo-input{
-    grid-row: 1/4;
+
+  .logo-input {
+    grid-row: 1/3;
     grid-column: 2;
     display: flex;
     align-items: start;
-    .logo-input-wrapper{
+
+    .logo-input-wrapper {
       width: 100%;
       display: flex;
       align-items: center;
     }
   }
-  .column-2{
+
+  .column-2 {
     grid-column: 1/3;
   }
 
-  .mat-form-field{
+  .mat-form-field {
     width: 80% !important;
   }
 
-  &>*{
+  & > * {
     //width: 80% !important;
   }
-  .spacer{
+
+  .spacer {
     grid-column: 1/3;
     padding-top: 45px;
   }
+
   @media screen and (max-width: 780px) {
     justify-content: center;
-    grid-template-columns:1fr;
-    .spacer{
+    grid-template-columns: 1fr;
+    .spacer {
       display: none;
     }
-    .logo-input{
+    .logo-input {
       grid-row: 2/3;
       grid-column: 1;
       display: flex;
       margin-bottom: 10px;
     }
-    &>*{
+    & > * {
       width: 90% !important;
     }
   }
 
 }
 
-.full-width{
+.full-width {
   grid-column: 1/3;
 }
 
 
-::ng-deep{
-  .mat-tab-body-wrapper{
+::ng-deep {
+  .mat-tab-body-wrapper {
     flex-grow: 1;
   }
 }
@@ -85,16 +90,18 @@ ui-switch {
   align-content: start;
 }
 
-.switch-wrapper{
+.switch-wrapper {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  label{
+
+  label {
     color: #9e9e9e;
     font-size: 11px;
     margin-bottom: 2px;
   }
-  app-info-icon{
+
+  app-info-icon {
     margin-left: 8px;
   }
 }
@@ -105,12 +112,11 @@ ui-switch {
 //}
 
 
-
-:host /deep/ mat-form-field, .form-control{
+:host /deep/ mat-form-field, .form-control {
   //height: 55px;/*Dont change this: this is done to keep height of all 4 components same, when tab is switched*/
   ::-webkit-scrollbar {
-    width: 0px;  /* remove scrollbar space */
-    background: transparent;  /* optional: just make scrollbar invisible */
+    width: 0px; /* remove scrollbar space */
+    background: transparent; /* optional: just make scrollbar invisible */
   }
 }
 
@@ -122,24 +128,23 @@ ui-switch {
   }
 }
 
-app-bot-config-input{
+app-bot-config-input {
   margin-bottom: 8px !important;
   display: block;
 }
 
-.subheading{
+.subheading {
   margin-bottom: 10px;
 }
 
 
-
-
 //=============
-.small-dia-radio{
+.small-dia-radio {
   .mat-radio-button ~ .mat-radio-button {
     margin-left: 16px;
   }
-  ::ng-deep{
+
+  ::ng-deep {
     @include radio-dia(14px);
   }
 }

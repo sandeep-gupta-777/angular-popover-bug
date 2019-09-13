@@ -16,6 +16,11 @@ export const ERouteNames = EAllActions;
 @Injectable()
 export class ConstantsService {
 
+  static bot_languages = [
+    {display_name : 'English', language_code : 'en'},
+    {display_name : 'Arabic', language_code : 'ar'},
+    {display_name : 'French', language_code : 'fr'},
+  ];
   static fullscreenchatpath_dev = (environment.production ? '/static' : '') + '/preview-dev';
   static fullscreenchatpath_anon = (environment.production ? '/static' : '') + '/preview';
   static state: any;
