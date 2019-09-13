@@ -81,7 +81,7 @@ export class BotConfigService {
   }
 
   getBasicInfoForm(bot: IBot) {
-
+    debugger;
     this.basicInfoForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],

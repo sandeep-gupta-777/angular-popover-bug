@@ -56,7 +56,7 @@
   <mat-form-field>
     <mat-label>Language</mat-label>
     <mat-select formControlName="language">
-      <mat-option *ngFor="let lang of bot_languages" [value]="'en'">
+      <mat-option *ngFor="let lang of bot_languages" [value]="lang.language_code">
         {{lang.display_name}}
       </mat-option>
     </mat-select>
