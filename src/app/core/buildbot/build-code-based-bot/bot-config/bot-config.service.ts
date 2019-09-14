@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { EBotType, UtilityService } from '../../../../utility.service';
-import { PermissionService } from '../../../../permission.service';
-import { ActivatedRoute } from '@angular/router';
-import { IBot } from '../../../interfaces/IBot';
-import { Observable } from 'rxjs';
-import { IAppState } from '../../../../ngxs/app.state';
-import { IIntegrationMasterListItem } from '../../../../../interfaces/integration-option';
+import {Injectable} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Select, Store} from '@ngxs/store';
+import {EBotType, UtilityService} from '../../../../utility.service';
+import {PermissionService} from '../../../../permission.service';
+import {ActivatedRoute} from '@angular/router';
+import {IBot} from '../../../interfaces/IBot';
+import {Observable} from 'rxjs';
+import {IAppState} from '../../../../ngxs/app.state';
+import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-option';
 
 @Injectable()
 export class BotConfigService {
@@ -44,8 +44,9 @@ export class BotConfigService {
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
+      language: [bot.language || 'en'],
       logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
-    }, { validator: this.utilityService.isManagerValidator });
+    }, {validator: this.utilityService.isManagerValidator});
     return this.faqbotBuildForm;
   }
 
@@ -61,7 +62,7 @@ export class BotConfigService {
       n_results: null
     };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
-      bot_metadata: this.formBuilder.group({ ...metaDataInnit, ...bot.bot_metadata}),
+      bot_metadata: this.formBuilder.group({...metaDataInnit, ...bot.bot_metadata}),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           'enabled': [consecutive_count && consecutive_count.enabled],
@@ -81,16 +82,16 @@ export class BotConfigService {
   }
 
   getBasicInfoForm(bot: IBot) {
-    debugger;
+  debugger;
     this.basicInfoForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       description: [bot.description],
       logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       first_message: [bot.first_message],
-      language: [bot.language],
+      language: [bot.language || 'en'],
       error_message: [bot.error_message]
-    }, { validator: this.utilityService.isManagerValidator });
+    }, {validator: this.utilityService.isManagerValidator});
 
 
     return this.basicInfoForm;
@@ -114,9 +115,9 @@ export class BotConfigService {
 
       child_bots: [bot.child_bots],
       bot_disabled_settings: this.formBuilder.group({
-        'bot_disabled':   bot_disabled_settings && bot_disabled_settings.bot_disabled || false,
-        'disabled_message':   bot_disabled_settings && bot_disabled_settings.disabled_message || 'Hey, this bot has been disabled',
-        'agent_handover':   bot_disabled_settings && bot_disabled_settings.agent_handover || false
+        'bot_disabled': bot_disabled_settings && bot_disabled_settings.bot_disabled || false,
+        'disabled_message': bot_disabled_settings && bot_disabled_settings.disabled_message || 'Hey, this bot has been disabled',
+        'agent_handover': bot_disabled_settings && bot_disabled_settings.agent_handover || false
       })
     }, {
       validator: function checkPasswords(group: FormGroup) { // here we have the 'passwords' group
@@ -125,7 +126,7 @@ export class BotConfigService {
         const child_bots_count = Array.isArray(child_bot_control_val) && child_bot_control_val.length;
 
         if (is_manager && (!child_bots_count || child_bots_count === 0)) {
-          return { 'Child bots required': true };
+          return {'Child bots required': true};
         }
 
         return null;
