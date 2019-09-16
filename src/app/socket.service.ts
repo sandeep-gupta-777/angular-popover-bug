@@ -11,8 +11,8 @@ export class SocketService {
 
   private socket;
   initAllEvents(){
-    this.socket.on('chat', (data) => {
-      console.log("event chat");
+    this.socket.on('train', (data) => {
+      console.log("socket event train :-)");
       SocketService.train$.emit(data);
     });
   }
