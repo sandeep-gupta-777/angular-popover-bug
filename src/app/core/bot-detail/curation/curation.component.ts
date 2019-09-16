@@ -558,7 +558,6 @@ export class CurationComponent implements OnInit {
     };
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url}).subscribe((val) => {
-      debugger;
       this.load10MoreCurationIssues(false);
       this.load10MoreCurationResolvedAndIgnored(false);
       this.setLiveBotUpdatedAt();

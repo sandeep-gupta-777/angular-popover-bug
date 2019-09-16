@@ -148,7 +148,6 @@ export class EditAndViewArticlesComponent implements OnInit {
     if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
     } else {
-    debugger;
       this.articleData.logic = this.logicCodeForm.value.logic || '';
       this.updateArticle.emit(this.articleData);
     }

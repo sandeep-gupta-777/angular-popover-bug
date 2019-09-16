@@ -24,7 +24,6 @@ export class ArticalHeaderComponent implements OnInit {
   destroy = new EventEmitter();
   ngOnInit() {
     SocketService.train$.pipe(takeUntil(this.destroy)).subscribe((payload:any)=>{
-      debugger;
       if(payload && this.bot.id === payload.bot_id){
         this.corpus.state = payload.status;
       }

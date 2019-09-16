@@ -762,7 +762,6 @@ export class ConstantsService {
   }
 
   getEnterpriseUrl(enterpriseId: number) {
-    debugger;
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; // https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`; // + enterpriseId+'/'; // https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
@@ -798,7 +797,6 @@ export class ConstantsService {
   }
 
   getRoleUrl() {
-    debugger;
     return this.BACKEND_URL + 'api/v1/role/';
   }
 
