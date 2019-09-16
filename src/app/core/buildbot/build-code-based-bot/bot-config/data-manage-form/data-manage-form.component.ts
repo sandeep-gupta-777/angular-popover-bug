@@ -50,7 +50,7 @@ export class DataManageFormComponent implements OnInit {
           return botlist && !!botlist.allBotList;
         }),
         map((botlist) => {
-          return botlist.allBotList.filter((bot) => bot.bot_type === EBotType.chatbot);
+          return botlist.allBotList.filter((bot) => bot.bot_type != EBotType.intelligent);
         }))
       .subscribe((codebasedBotList) => {
         this.codebasedBotList = codebasedBotList;

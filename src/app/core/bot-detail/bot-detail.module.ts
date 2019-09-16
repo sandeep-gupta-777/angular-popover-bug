@@ -103,6 +103,7 @@ const routes: Route[] = [
           {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
           {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
           {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
+          {path: `${EBotType.router}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.router}},
           {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
         ]
   }

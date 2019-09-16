@@ -79,6 +79,7 @@ export class BuildbotWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.bot_type = (this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type) as EBotType;
+    this.bot.bot_type = this.bot_type;
     if (this.bot_type === EBotType.faqbot) {
       this.description = this.descriptions[3];
     }
@@ -110,7 +111,9 @@ export class BuildbotWrapperComponent implements OnInit {
   createBot() {
 
     this.loading = true;
-    const combinedForm = this.bot_type === EBotType.chatbot ? [this.basicInfoForm, this.dataManagementForm, this.securityForm] : this.bot_type === EBotType.faqbot ? [this.faqbotBuildForm] : [this.basicInfoForm];
+    const combinedForm = this.bot_type === EBotType.chatbot ? [this.basicInfoForm, this.dataManagementForm, this.securityForm] :
+      this.bot_type === EBotType.router ? [this.basicInfoForm, this.dataManagementForm, this.securityForm] :
+      this.bot_type === EBotType.faqbot ? [this.faqbotBuildForm] : [this.basicInfoForm];
     const bot = UtilityService.getCombinedBotData(combinedForm);
     const url = this.constantsService.getCreateNewBot();
     bot.bot_type = this.bot_type;
