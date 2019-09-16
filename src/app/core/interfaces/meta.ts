@@ -1,9 +1,10 @@
 export interface IMeta {
-  'limit': number;
-  'next': null;
-  'offset': number;
-  'previous': null;
-  'total_count': number;
+  'limit'?: number;
+  'next'?: null;
+  'offset'?: number;
+  'previous'?: null;
+  'total_count'?: number;
+  'data_encrypted'?: boolean;
 }
 
 export interface ILinkPreview {

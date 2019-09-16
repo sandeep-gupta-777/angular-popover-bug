@@ -151,16 +151,8 @@
                     </ng-container>
 
                     <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
-                        <ng-container *ngIf="!bot.advanced_data_protection">
+                        <ng-container>
                             <app-curation style="display: block; height: 100%" [bot]="bot"></app-curation>
-                        </ng-container>
-                        <ng-container *ngIf="bot.advanced_data_protection">
-                            <app-splash-screen
-                                    [imageHRef]="'padlock.svg'"
-                                    class="absolute-center"
-                                    [headingText]="'All data is encrypted'"
-                                    [descriptionText]="'Disable Advanced data protection in this bot to see how curation works'"
-                            ></app-splash-screen>
                         </ng-container>
                     </ng-container>
 
