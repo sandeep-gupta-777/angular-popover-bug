@@ -2,6 +2,7 @@
   flex-direction: column;
   background-color: #ffffff;
   padding: 16px;
+  padding-bottom: 0 !important;
   overflow-y: auto;
   .first-message{
     margin-top: auto;
@@ -28,14 +29,12 @@
     flex-direction: column;
     border-radius: 3px;
     background-color: #eaeaea;
-    word-break: break-all;
     .second-button{
       border-radius: 2px;
       background-color: #eaeaea;
       border: solid 1px #bfbdbd;
       padding: 5px;
       margin-top: 6px;
-      cursor:pointer;
     }
   }
   .time{
