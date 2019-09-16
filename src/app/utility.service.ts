@@ -19,7 +19,8 @@ const uuidv1 = require('uuid/v4');
 export enum EBotType {
   chatbot = 'chatbot',
   intelligent = 'intelligent',
-  faqbot = 'faqbot'
+  faqbot = 'faqbot',
+  router = 'router'
 }
 
 export enum EFormValidationErrors {

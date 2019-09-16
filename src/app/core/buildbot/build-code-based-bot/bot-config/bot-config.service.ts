@@ -105,6 +105,7 @@ export class BotConfigService {
       // advanced_data_protection: [bot.advanced_data_protection],
       // allow_anonymization: [bot.allow_anonymization],
       // blanket_consent: [bot.blanket_consent],
+      child_bots_rout_to: [bot.child_bots],
       room_persistence_time: [bot.room_persistence_time || 240, Validators.required],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
@@ -127,7 +128,9 @@ export class BotConfigService {
         if (is_manager && (!child_bots_count || child_bots_count === 0)) {
           return {'Child bots required': true};
         }
-
+        if ( (!is_manager) && (!child_bots_count || child_bots_count === 0)) {
+          return {'Child bots required': true};
+        }
         return null;
       }
     });

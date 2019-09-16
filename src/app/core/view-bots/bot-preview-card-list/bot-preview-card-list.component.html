@@ -4,8 +4,14 @@
   </ng-container>
 
   <app-splash-screen *ngIf="botList.length===0"
-                     [imageHRef]="botType===myEBotType.chatbot? myESplashScreens.imageForCodeBots:botType===myEBotType.intelligent?myESplashScreens.pipeline_bots_empty:myESplashScreens.QandA_bots_empty"
-                     [headingText]="'There are no '+ (botType===myEBotType.chatbot? 'smart ': botType===myEBotType.faqbot? 'Q&A ':'pipeline ') +' bots in your account'"
+                     [imageHRef]="botType===myEBotType.chatbot?myESplashScreens.imageForCodeBots:
+                     botType===myEBotType.intelligent?myESplashScreens.pipeline_bots_empty:
+                     botType===myEBotType.faqbot?myESplashScreens.QandA_bots_empty:myESplashScreens.QandA_bots_empty"
+                     [headingText]="'There are no '+
+                       (botType===myEBotType.chatbot? 'smart ':
+                       botType===myEBotType.faqbot? 'Q&A ':
+                       botType===myEBotType.intelligent? 'pipeline ':'router')
+                       +' bots in your account'"
                      [descriptionText]="isCreateBotAccessDenied?
                      'Please contact your enterprise administrator to add bots to your account':''"
                      class="d-flex justify-content-center align-items-center"
