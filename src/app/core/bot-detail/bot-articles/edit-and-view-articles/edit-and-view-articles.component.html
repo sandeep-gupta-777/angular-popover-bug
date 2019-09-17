@@ -110,9 +110,8 @@
         </div>
       </div>
     </div>
-    <mat-form-field class = "w-100 mx-2 my-2">
+    <mat-form-field class = "w-100 mx-2 my-2" *ngIf="articleData.section_id == 'partial_match'">
     <textarea
-      *ngIf="articleData.section_id == 'partial_match'"
       maxlength="150"
       placeholder="Partial match message text"
       matInput required type="text"
