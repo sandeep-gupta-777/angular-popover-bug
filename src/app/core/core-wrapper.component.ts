@@ -56,7 +56,6 @@ export class CoreWrapperComponent implements OnInit {
     this.initializeSocketNow();
 
     SocketService.train$.subscribe((payload)=>{
-      debugger;
       let trainedInBot: IBot =  this.botList.find(bot => {return payload.bot_id === bot.id });
       if(trainedInBot){
         this.utilityService.showSuccessToaster(`${trainedInBot.name} bot successfully trained`);

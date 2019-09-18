@@ -12,7 +12,6 @@ export class SocketService {
   private socket;
   initAllEvents(){
     this.socket.on('train', (data) => {
-      debugger;
       console.log("socket event train :-)");
       SocketService.train$.emit(data);
     });
