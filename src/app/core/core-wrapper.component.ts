@@ -10,6 +10,7 @@ import {IAuthState} from "../auth/ngxs/auth.state";
 import {switchMap, take, takeUntil} from "rxjs/operators";
 import {ViewBotStateModel} from "./view-bots/ngxs/view-bot.state";
 import {UtilityService} from "../utility.service";
+import {IBot} from "./interfaces/IBot";
 
 @Component({
   selector: 'app-core-wrapper',
@@ -26,6 +27,7 @@ export class CoreWrapperComponent implements OnInit {
   currentIntervalRef;
   @Select() loggeduser$ :Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
+  botList: IBot[];
   constructor(
     private router: Router,
     private serverService: ServerService,
@@ -48,16 +50,16 @@ export class CoreWrapperComponent implements OnInit {
 
       }
     });
+    this.botlist$.subscribe(val=>{
+      this.botList = val.allBotList;
+    })
     this.initializeSocketNow();
-    let moakPayload;
-    SocketService.train$.pipe(
-      switchMap((payload:any)=>{
-        moakPayload = payload
-        return this.botlist$;
-      })
-    ).subscribe((value)=>{
-      if(value.allBotList.find(bot => {return moakPayload.bot_id === bot.id }) ){
-        this.utilityService.showSuccessToaster(moakPayload.message);
+
+    SocketService.train$.subscribe((payload)=>{
+      debugger;
+      let trainedInBot: IBot =  this.botList.find(bot => {return payload.bot_id === bot.id });
+      if(trainedInBot){
+        this.utilityService.showSuccessToaster(`${trainedInBot.name} bot successfully trained`);
       }
     })
 

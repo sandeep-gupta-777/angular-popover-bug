@@ -112,7 +112,7 @@
     </div>
     <mat-form-field class = "w-100 mx-2 my-2" *ngIf="articleData.section_id == 'partial_match'">
     <textarea
-      maxlength="150"
+      maxlength="250"
       placeholder="Partial match message text"
       matInput required type="text"
       [(ngModel)]="articleData.answers[0].text[0]"
@@ -156,9 +156,9 @@
     </div>
 
   </div>
-  <div class="response" *ngIf="articleData.section_id != 'partial_match'">
+  <div class="response" *ngIf="(articleData.section_id != 'partial_match')">
     <div class="response-heading">Response
-      <mat-form-field class="ml-auto" data-cy="response_type_drop">
+      <mat-form-field class="ml-auto" data-cy="response_type_drop" *ngIf = "articleData.section_id != 'first_message'">
         <mat-label>Response type</mat-label>
         <mat-select [(ngModel)]="articleData.response_type">
           <mat-option [value]="'dynamic'" data-cy="response_type_drop_Dynamic">
@@ -187,7 +187,7 @@
   <div class="response" *ngIf="articleData.section_id == 'partial_match'">
     <div class="response-heading">Representative preview
     </div>
-    <div style="height: 63vh;">
+    <div >
       <app-partial-match-response [textContent]="articleData.answers[0].text[0]"></app-partial-match-response>
     </div>
 
