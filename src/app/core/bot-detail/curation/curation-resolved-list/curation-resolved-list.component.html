@@ -11,11 +11,15 @@
   [bot]="bot"
   *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem"
                      [isResolved]=true></app-curation-issues>
-<div class="load-more" *ngIf="isMorePresent" (click)="load10More()">
-    <div *ngIf="!reloadingMore" class="d-flex align-items-center">
-        Load more issues&nbsp;&nbsp;<span class="fa fa-angle-down"></span>
+<ng-container *ngIf="isMorePresent">
+  <div class="load-more"
+       *loadify="{partialPath:'api/v1/faqbotcuration/', method: 'get'}; let statusChanged$=statusChanged$"
+       (click)="load10More()">
+    <div *ngIf="!(statusChanged$|async).loading" class="d-flex align-items-center">
+      Load more issues&nbsp;&nbsp;<span class="fa fa-angle-down"></span>
     </div>
-    <div *ngIf="reloadingMore" class="d-flex align-items-center">
-        <span class="fa fa-spinner fa-spin"></span>
+    <div *ngIf="(statusChanged$|async).loading" class="d-flex align-items-center">
+      <span class="fa fa-spinner fa-spin"></span>
     </div>
-</div>
+  </div>
+</ng-container>
