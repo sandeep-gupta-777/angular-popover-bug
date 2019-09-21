@@ -1,7 +1,7 @@
 const loadJS = require('load-js');
 
 export class LoadJsService {
-
+  //
   static main = [
     {
       async: true,
