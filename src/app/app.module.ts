@@ -70,7 +70,7 @@ const routes: Route[] = [
       errorClass: 'error',
       successClass: 'success',
       makeDisabledDuringLoading: true,
-      successClassDuration: 0,
+      successClassDuration: 2000,
       errorClassDuration: 2000,
     }),
 

@@ -73,15 +73,14 @@
 
 
       <button
-        *loadify="{partialPath:'api/v1/bot/', successClassDuration: 1000, method: 'post'}; let statusChanged$=statusChanged$"
+        *loadify="{partialPath:'api/v1/bot/', successClassDuration: 10000, method: 'post'}; let statusChanged$=statusChanged$"
         class="next-button" mat-raised-button [disabled]="stageValidObj[activeTab] === false || loading"
         color="primary"
         (click)="nextStep(activeTab+1)" type="button">
         {{activeTab < myObject.keys(stageValidObj).length - 1 ? 'Continue' : 'Done'}}
-        <i>{{(statusChanged$|async).loadify_status}}</i>
         <ng-container [ngSwitch]="(statusChanged$|async).loadify_status">
           <mat-icon *ngSwitchCase="'initial'">arrow_right</mat-icon>
-          <mat-icon *ngSwitchCase="'success'">done</mat-icon>
+          <mat-icon style="height: 18px; font-size: 18px" *ngSwitchCase="'success'">done</mat-icon>
           <mat-icon *ngSwitchCase="'error'">error</mat-icon>
           <mat-spinner *ngSwitchCase="'loading'"  style="margin-left: 5px" [diameter]="15"></mat-spinner>
         </ng-container>

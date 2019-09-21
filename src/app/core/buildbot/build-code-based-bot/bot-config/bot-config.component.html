@@ -1,13 +1,15 @@
 <div class="card bot-creation-form" style="border-radius: 0">
-    <app-button-wrapper
-      class="card--update"
-      *appMyIf="[myEAllActions['Update Bots']]"
-      [isMatFlatButton]="false"
-      [status]="updateBotLoading"
-      [text]="'Update Bot'"
-      [icon]="'refresh'"
-      (btnClick)="updateBotHandler()">
-    </app-button-wrapper>
+  <ng-container *appMyIf="[myEAllActions['Update Bots']]">
+      <app-button-wrapper
+        *loadify="{partialPath:'api/v1/bot/', successClassDuration: 2000, method: ['put']}; let statusChanged$=statusChanged$"
+        class="card--update"
+        [isMatFlatButton]="false"
+        [status]="(statusChanged$|async).loadify_status"
+        [text]="'Update Bot'"
+        [icon]="'refresh'"
+        (btnClick)="updateBotHandler()">
+      </app-button-wrapper>
+  </ng-container>
     <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event" animationDuration="0ms">
         <mat-tab>
             <ng-template mat-tab-label>
