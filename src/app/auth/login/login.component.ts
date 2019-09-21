@@ -342,7 +342,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   ngAfterViewInit(): void {
-    LoadJsService.load();
+    // LoadJsService.load();
   }
 
 
