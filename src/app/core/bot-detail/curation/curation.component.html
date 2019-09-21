@@ -1,4 +1,4 @@
-<ng-container *ngIf="!bot.advanced_data_protection">
+<ng-container>
     <app-button-wrapper
             *ngIf="activeTab == 3"
             class="card--update"
@@ -24,11 +24,35 @@
                     [issuesAggrigationData]="issuesAggrigationData"
                     (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
                     (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
-                    
+
             ></app-curation-overview>
         </mat-tab>
         <mat-tab label="Issues">
-            <section class="curation-issues-wrapper-section" *ngIf="curationIssuesList">
+          <div *ngIf="isBotAdvancedDataProtective">
+            <app-splash-screen
+              [imageHRef]="'padlock.svg'"
+              class="absolute-center"
+              [headingText]="'All data is encrypted'"
+              [descriptionText]="'Provide a decryption key to see unresolved and resolved issues'"
+            >
+              <form class = "d-flex encrypt-form" #dataEncryptionForm="ngForm" (ngSubmit)="requestEncription(dataEncryptionForm.value.qtext)">
+                <input type="text" name="qtext" ngModel autocomplete="off">
+                <button type="submit"
+                        class="btn-theme btn-theme-primary "
+                        (click)="requestEncription(dataEncryptionForm.value.qtext)"
+                >
+                  <mat-icon
+                    style="font-size: 15px;
+                  display: flex;
+                  align-items: center;
+                  color: #ffffff;
+                  justify-content: center;"
+                  >lock_open</mat-icon>
+                </button>
+              </form>
+            </app-splash-screen>
+          </div>
+            <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationIssuesList">
                 <app-curation-filter (formSubmitted)="submitedForm($event)"
                                      [form]="curationIssuesFilterForm"
                                      [hidden]="!curationIssuesList"
@@ -77,9 +101,34 @@
             </section>
         </mat-tab>
         <mat-tab label="Resolved">
+          <div *ngIf="isBotAdvancedDataProtective">
+            <app-splash-screen
+              [imageHRef]="'padlock.svg'"
+              class="absolute-center"
+              [headingText]="'All data is encrypted'"
+              [descriptionText]="'Provide a decryption key to see unresolved and resolved issues'"
+            >
+              <form class = "d-flex encrypt-form" #dataEncryptionForm="ngForm" (ngSubmit)="requestEncription(dataEncryptionForm.value.qtext)">
+                <input type="text" name="qtext" ngModel autocomplete="off">
+                <button type="submit"
+                     class="btn-theme btn-theme-primary "
+                     (click)="requestEncription(dataEncryptionForm.value.qtext)"
+                >
+                  <mat-icon
+                  style="font-size: 15px;
+                  display: flex;
+                  align-items: center;
+                  color: #ffffff;
+                  justify-content: center;"
+                  >lock_open</mat-icon>
+                </button>
+              </form>
+            </app-splash-screen>
+          </div>
+
             <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData"
-                                               *ngIf="aggregationResolvedData"></app-curation-resolved-aggrigation>
-            <section class="curation-issues-wrapper-section" *ngIf="curationResolvedAndIgnoredList">
+                                               *ngIf="!isBotAdvancedDataProtective && aggregationResolvedData"></app-curation-resolved-aggrigation>
+            <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationResolvedAndIgnoredList">
                 <app-curation-filter [form]="curationResolvedFilterForm" (formSubmitted)="submitedForm($event)"
                                      [hidden]="!curationResolvedAndIgnoredList"
                                      [unsolved]="false" style="z-index: 100;"></app-curation-filter>

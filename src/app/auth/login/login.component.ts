@@ -326,7 +326,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.disabeLoginButton = false;
     this.errorMessage = '';
     this.infoMessage = '';
-    debugger;
     this.serverService.logout(true, true);
   }
 
