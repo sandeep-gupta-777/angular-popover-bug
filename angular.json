@@ -169,7 +169,7 @@
             "hmr": {
               "hmr": true,
               "browserTarget": "botPlateformFE:build:hmr"
-            }
+            },
           }
         },
         "extract-i18n": {
