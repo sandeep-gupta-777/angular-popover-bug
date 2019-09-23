@@ -6,7 +6,7 @@
                 <div>{{bot_type === myEBotType.chatbot ? 'Code based' : bot_type === myEBotType.faqbot ? 'Search based' : 'Pipeline based'}}</div>
             </header>
 
-            <ng-container *ngIf="bot_type === myEBotType.chatbot">
+            <ng-container *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">
                 <div class="banner__flow">
                     <div class="circle"
                          [ngStyle]="{'background-color': activeTab===0?'#00abd3':(activeTab>0?'#34bc6e':'#527a9e')}">

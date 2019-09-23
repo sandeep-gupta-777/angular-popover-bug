@@ -90,7 +90,7 @@
 
                 <ng-container *appMyIf="myEAllActions['Get Bot Testcases']">
                     <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)"
-                       *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot">
+                       *ngIf="bot.bot_type === myEBotType.chatbot">
                         <!--TODO: remove faq bot condition-->
                         <div class="sidebar-nav-list-item"
                              data-cy="sidebar-test"
