@@ -6,7 +6,7 @@
   <app-splash-screen *ngIf="botList.length===0"
                      [imageHRef]="botType===myEBotType.chatbot?myESplashScreens.imageForCodeBots:
                      botType===myEBotType.intelligent?myESplashScreens.pipeline_bots_empty:
-                     botType===myEBotType.faqbot?myESplashScreens.QandA_bots_empty:myESplashScreens.QandA_bots_empty"
+                     botType===myEBotType.faqbot?myESplashScreens.QandA_bots_empty:myESplashScreens.router_bot_empty"
                      [headingText]="'There are no '+
                        (botType===myEBotType.chatbot? 'smart ':
                        botType===myEBotType.faqbot? 'Q&A ':
