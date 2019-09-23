@@ -548,24 +548,28 @@ export class CurationComponent implements OnInit {
   }
 
   requestEncription(resone: string) {
+    if(!(resone.trim())){
+      this.utilityService.showErrorToaster('Invalid decryption key');
+    }else{
+      const headerData: IHeaderData = {
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      };
+      const body = {
+        decrypt_audit_type: 'bot',
+        message: resone.trim()
+      };
+      const url = this.constantsService.getDecryptUrl();
+      this.serverService.makePostReq({headerData, body, url}).subscribe((val) => {
+        this.load10MoreCurationIssues(false);
+        this.load10MoreCurationResolvedAndIgnored(false);
+        this.setLiveBotUpdatedAt();
+        this.getResolvedAggregationData();
+        this.getIssuesAggregationData();
 
-    const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    };
-    const body = {
-      decrypt_audit_type: 'bot',
-      message: resone
-    };
-    const url = this.constantsService.getDecryptUrl();
-    this.serverService.makePostReq({headerData, body, url}).subscribe((val) => {
-      this.load10MoreCurationIssues(false);
-      this.load10MoreCurationResolvedAndIgnored(false);
-      this.setLiveBotUpdatedAt();
-      this.getResolvedAggregationData();
-      this.getIssuesAggregationData();
+        this.isBotAdvancedDataProtective = true;
+      });
 
-      this.isBotAdvancedDataProtective = true;
-    });
+    }
 
   }
 }

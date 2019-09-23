@@ -40,7 +40,7 @@
     <div *appMyIf="myEAllActions['delete Corpus']">
       <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
               data-cy="article-delete-button"
-              *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+              *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')"
               style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
         <mat-icon>delete</mat-icon>
         Delete
@@ -110,9 +110,9 @@
         </div>
       </div>
     </div>
-    <mat-form-field class = "w-100 mx-2 my-2">
+    <mat-form-field class = "w-100 mx-2 my-2" *ngIf="articleData.section_id == 'partial_match'">
     <textarea
-      *ngIf="articleData.section_id == 'partial_match'"
+      maxlength="250"
       placeholder="Partial match message text"
       matInput required type="text"
       [(ngModel)]="articleData.answers[0].text[0]"
@@ -156,9 +156,9 @@
     </div>
 
   </div>
-  <div class="response" *ngIf="articleData.section_id != 'partial_match'">
+  <div class="response" *ngIf="(articleData.section_id != 'partial_match')">
     <div class="response-heading">Response
-      <mat-form-field class="ml-auto" data-cy="response_type_drop">
+      <mat-form-field class="ml-auto" data-cy="response_type_drop" *ngIf = "articleData.section_id != 'first_message'">
         <mat-label>Response type</mat-label>
         <mat-select [(ngModel)]="articleData.response_type">
           <mat-option [value]="'dynamic'" data-cy="response_type_drop_Dynamic">
@@ -187,7 +187,7 @@
   <div class="response" *ngIf="articleData.section_id == 'partial_match'">
     <div class="response-heading">Representative preview
     </div>
-    <div style="height: 63vh;">
+    <div >
       <app-partial-match-response [textContent]="articleData.answers[0].text[0]"></app-partial-match-response>
     </div>
 

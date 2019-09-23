@@ -53,7 +53,7 @@
     <mat-error>Required</mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field *ngIf="myEBotType.intelligent !== bot_type">
     <mat-label>Language</mat-label>
     <mat-select formControlName="language">
       <mat-option *ngFor="let lang of bot_languages" [value]="lang.language_code">
