@@ -1,30 +1,34 @@
 import {EventEmitter, Injectable} from '@angular/core';
+
 declare const io: any;
+
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
   static train$ = new EventEmitter();
-  constructor(
-  ) { }
+
+  constructor() {
+  }
 
   private socket;
-  initAllEvents(){
+
+  initAllEvents() {
     this.socket.on('train', (data) => {
-      console.log("socket event train :-)");
+      console.log('socket event train :-)');
       SocketService.train$.emit(data);
     });
   }
-  initializeSocketConnection(socketData){
+
+  initializeSocketConnection(socketData) {
     let url = 'https://imi-bot-middleware.herokuapp.com';
     this.socket = io(url, {query: `data=${JSON.stringify(socketData)}`});
-    this.socket.on('connect', ()=>{
+    this.socket.on('connect', () => {
       console.log('Client has connected to the server!');
       this.initAllEvents();
     });
   }
-
 
 
 }

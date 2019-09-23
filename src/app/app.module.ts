@@ -22,6 +22,7 @@ import {AngularFireMessagingModule} from '@angular/fire/messaging';
 import {AngularFireModule} from '@angular/fire';
 import {MessagingService} from '../messaging.service';
 import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
+import {HttpTrackerLibModule} from 'ngx-loadify';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = 'http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg';
@@ -64,13 +65,23 @@ const routes: Route[] = [
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: true}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    HttpTrackerLibModule.forRoot({
+      loaderClass: 'loading',
+      errorClass: 'error',
+      successClass: 'success',
+      makeDisabledDuringLoading: true,
+      successClassDuration: 2000,
+      errorClassDuration: 2000,
+    }),
+
+    // RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([]),
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
-    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}), // Comment this before pushing to git
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 

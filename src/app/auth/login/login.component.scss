@@ -18,7 +18,8 @@
     padding-bottom: 70px;
     display: flex;
     flex-direction: column;
-    .info-section-wrapper{
+
+    .info-section-wrapper {
       max-width: 470px;
     }
 
@@ -179,9 +180,6 @@ button {
         font-size: 13px;
       }
 
-      .user-info {
-        height: 20px;
-      }
     }
   }
 
@@ -340,4 +338,8 @@ button {
 
 button[disabled] {
   color: white !important;
+}
+
+.user-info {
+  height: 20px;
 }
