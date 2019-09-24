@@ -219,20 +219,6 @@
                                     [bot]="bot"></app-code-input>
                         </div>
                     </ng-container>
-                  <ng-container *ngIf="sideBarTab1 === 'logic' && bot.bot_type === myEBotType.router && logicTabClicked">
-                    <div style="height: 100%">
-                      <header>
-                        <div style="padding-bottom: 8px"><strong
-                          style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
-                          Logic </strong>
-                        </div>
-                        <div style="color: #696969;font-size: 11px">
-                          Configure the routing rules based on which the bot will behave. Rules will be executed by the order they are arranged
-                        </div>
-                      </header>
-                      <app-router-bot-rules [bot]="bot" ></app-router-bot-rules>
-                    </div>
-                  </ng-container>
                     <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type != myEBotType.intelligent">
                         <header>
                             <strong style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Conversations</strong>
