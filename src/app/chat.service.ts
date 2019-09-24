@@ -45,8 +45,7 @@ export class ChatService {
     private store: Store,
     private serverService: ServerService,
     private utilityService: UtilityService,
-    private constantsService: ConstantsService) {
-  }
+    private constantsService: ConstantsService) {}
 
   messaging;
   currentPreviewBot: IBot;
@@ -92,27 +91,8 @@ export class ChatService {
     return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true})
       .pipe(
         tap((response: ISendApiResponsePayload) => {
-          let response_language;
-          /*recieved chat reply from bot*/
-          if (response.messageStore && response.messageStore.response_language) {
-            response_language = response.messageStore.response_language;
-          }
-          const generatedMessages = response.generated_msg;
-          const bot_message_id = response.bot_message_id;
-          const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id, response_language);
-
-          this.store.dispatch([
-            new AddMessagesToRoomByRoomId({
-              id: response.room.id,
-              consumer_id: response.room.consumer_id,
-              messageList: serializedMessages,
-            }),
-            new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
-          ]);
-          this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({
-            lastTemplateKey: response.templateKey,
-            room_id: response.room.id
-          }));
+          debugger;
+          this.botReplyHandler(response);
         }),
         catchError((e: any) => {
           return this.store.dispatch([
@@ -120,6 +100,31 @@ export class ChatService {
           ]);
         })
       );
+  }
+
+  botReplyHandler(response: ISendApiResponsePayload) {
+    debugger;
+    let response_language;
+    /*recieved chat reply from bot*/
+    if (response.messageStore && response.messageStore.response_language) {
+      response_language = response.messageStore.response_language;
+    }
+    const generatedMessages = response.generated_msg;
+    const bot_message_id = response.bot_message_id;
+    const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id, response_language);
+
+    this.store.dispatch([
+      new AddMessagesToRoomByRoomId({
+        id: response.room.id,
+        consumer_id: response.room.consumer_id,
+        messageList: serializedMessages,
+      }),
+      new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
+    ]);
+    this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({
+      lastTemplateKey: response.templateKey,
+      room_id: response.room.id
+    }));
   }
 
   navigate(frameEnabled: EChatFrame) {

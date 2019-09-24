@@ -33,6 +33,8 @@ import {IEnterpriseProfileInfo} from '../../interfaces/enterprise-profile';
 import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
+import {SocketService} from '../socket.service';
+import {take} from 'rxjs/operators';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': any[];
@@ -102,7 +104,8 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private activatedRoute: ActivatedRoute,
               private utilityService: UtilityService,
-              private route: Router
+              private route: Router,
+              private socketService: SocketService
   ) {
   }
 
@@ -112,7 +115,26 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
+  initializeSocketNow() {
+    let data;
+    this.loggeduser$.pipe(take(1)).subscribe((value) => {
+      data = {
+        'connectionConfig': {
+          'namespace': 'BOT',
+          'enterprise_id': value.user.enterprise_id,
+        },
+        'imi_bot_middleware_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVGhpcyBpcyBJTUkgQk9UIG1pZGRsZXdhcmUiLCJpYXQiOjE1Njc4ODc5MTAsImV4cCI6NDE1OTg4NzkxMH0.dYbMaf8HYMD5K532p7DpHN0cmru-JKMjst-WS9zi7u8'
+      };
+      this.socketService.initializeSocketConnection(data);
+    });
+  }
+
   ngOnInit() {
+    this.initializeSocketNow(); /*todo: code repeat*/
+    SocketService.preview$.subscribe((data) => {
+      this.chatService.botReplyHandler(data);
+    });
+
     EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
       if (this.currentBot) {
         if (bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback) {

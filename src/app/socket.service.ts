@@ -7,7 +7,9 @@ declare const io: any;
 })
 export class SocketService {
 
+  static isInitDone = false;
   static train$ = new EventEmitter();
+  static preview$ = new EventEmitter();
 
   constructor() {
   }
@@ -19,15 +21,23 @@ export class SocketService {
       console.log('socket event train :-)');
       SocketService.train$.emit(data);
     });
+
+    this.socket.on('preview', (data) => {
+      console.log('preview event train :-)');
+      SocketService.preview$.emit(data);
+    });
   }
 
   initializeSocketConnection(socketData) {
-    let url = 'https://imi-bot-middleware.herokuapp.com';
-    this.socket = io(url, {query: `data=${JSON.stringify(socketData)}`});
-    this.socket.on('connect', () => {
-      console.log('Client has connected to the server!');
-      this.initAllEvents();
-    });
+    if (!SocketService.isInitDone) {
+      const url = 'https://imi-bot-middleware.herokuapp.com';
+      this.socket = io(url, {query: `data=${JSON.stringify(socketData)}`});
+      this.socket.on('connect', () => {
+        console.log('Client has connected to the server!');
+        this.initAllEvents();
+      });
+      SocketService.isInitDone = true;
+    }
   }
 
 

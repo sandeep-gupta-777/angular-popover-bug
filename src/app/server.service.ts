@@ -576,7 +576,6 @@ export class ServerService {
     const url = this.constantsService.getBotLanguage();
     return this.makeGetReq<{ meta: any, objects: IBotLanguage[] }>({url})
       .pipe(switchMap((value) => {
-        debugger;
         if (value) {
           return this.store.dispatch([
             new SetBotLanguages({
