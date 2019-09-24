@@ -60,6 +60,7 @@ export class CoreWrapperComponent implements OnInit {
       if(trainedInBot){
         this.utilityService.showSuccessToaster(`${trainedInBot.name} bot successfully trained`);
       }
+
     })
 
   }

@@ -141,7 +141,7 @@ const routes: Route[] = [
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
-    EnterpriseRolesComponent
+    EnterpriseRolesComponent,
   ],
   entryComponents: [
     ModalConfirmComponent,
@@ -165,6 +165,8 @@ const routes: Route[] = [
       ...ReducerListService.list,
       VersionStateReducer,
     ])
+  ],
+  exports: [
   ],
   providers: [
     EventService,

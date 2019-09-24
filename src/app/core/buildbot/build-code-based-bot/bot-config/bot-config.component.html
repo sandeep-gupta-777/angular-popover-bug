@@ -4,7 +4,7 @@
         *loadify="{partialPath:'api/v1/bot/', successClassDuration: 2000, method: ['put']}; let statusChanged$=statusChanged$"
         class="card--update"
         [isMatFlatButton]="false"
-        [status]="(statusChanged$|async).loadify_status"
+        [status]="(statusChanged$|async)?.loadify_status"
         [text]="'Update Bot'"
         [icon]="'refresh'"
         (btnClick)="updateBotHandler()">

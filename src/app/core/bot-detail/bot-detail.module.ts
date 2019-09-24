@@ -94,6 +94,7 @@ import { AnswerTemplateWrapperComponent } from './bot-articles/edit-and-view-art
 import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
 import { GentemplateSidebarComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 import { PartialMatchResponseComponent } from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
+import {RouterBotRulesComponent} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component";
 
 
 const routes: Route[] = [
@@ -103,6 +104,7 @@ const routes: Route[] = [
           {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
           {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
           {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
+          {path: `${EBotType.router}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.router}},
           {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
         ]
   }
@@ -152,7 +154,7 @@ const routes: Route[] = [
     LogosByIntegrationNamePipe,
     CodeGentemplateComponent,
     TextGentemplateComponent,
-
+    RouterBotRulesComponent,
     DraggableDirective,
     DropTargetDirective,
     KnowledgeBaseWrapperComponent,
