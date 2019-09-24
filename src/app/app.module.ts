@@ -4,7 +4,7 @@ import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {ModuleGaurdLoadService} from './route-gaurds/module-gaurd-load.service';
@@ -61,9 +61,9 @@ const routes: Route[] = [
 
   ],
   imports: [
-    BrowserModule,//.withServerTransition({appId: 'serverApp'}),
+    BrowserModule,
     // NoopAnimationsModule,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
     HttpTrackerLibModule.forRoot({
       loaderClass: 'loading',

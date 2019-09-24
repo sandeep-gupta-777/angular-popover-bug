@@ -112,6 +112,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             // this.serverService.getNSetMasterPermissionsList(),
             this.serverService.getNSetIntegrationList(),
             this.serverService.getNSetPipelineModuleV2(),
+            this.serverService.getNSetBotLanguages(),
             this.serverService.getNSetRoleInfo()
           ]
         );

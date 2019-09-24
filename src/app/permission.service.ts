@@ -9,6 +9,7 @@ import {IAuthState} from './auth/ngxs/auth.state';
 import {ELogType, LoggingService} from './logging.service';
 import {EAllActions, ERoleName, EAPINames} from './typings/enum';
 import {environment} from '../environments/environment';
+import {ConstantsService} from './constants.service';
 
 @Injectable()
 export class PermissionService {
@@ -120,6 +121,7 @@ export class PermissionService {
     '/static/deploy.json',
     '/deploy.json',
     '/api/v1/logout/',
+    '/api/v1/languages/',
     ''
   ];
 
@@ -137,6 +139,11 @@ export class PermissionService {
       if (!appState) {
         return;
       }
+
+      if (appState.botLanguages) {
+        ConstantsService.bot_languages = appState.botLanguages;
+      }
+
       try {
         const masterActionList = appState.masterProfilePermissions;
         if (!this.loggedUser || !masterActionList) {
