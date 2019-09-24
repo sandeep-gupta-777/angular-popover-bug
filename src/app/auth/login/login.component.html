@@ -1,13 +1,13 @@
 <div class="login-section" style="background: white">
   <div
-    style="background-image: url('assets/img/triangle-copy.svg'); position:fixed; left: 0;z-index: -1; bottom: 0; width: 25vw; height: 25vw"></div>
+    style="background-image: url('assets/img/login/TriangleL.png'); position: fixed; left: 0;z-index: -1; bottom: 0; width: 25vw; background-position: left; height: 75vh; background-repeat: no-repeat;  background-size: auto 100%;"></div>
   <div class="info-section" style="position: relative">
     <div
-      style="background-image: url('assets/img/triangle-copy-2.svg'); position:absolute; right: 0;z-index: -1; top: 0; width: 25vw; height: 25vw"></div>
+      style="background-image: url('assets/img/login/TriangleR.png'); position:absolute; right: 0;z-index: -1; top: 0; width: 25vw; height: 25vw; background-position: top right; background-repeat: no-repeat"></div>
     <div class="info-section-wrapper">
       <header>
         <div class="imi-logo">
-          <img src="assets/img/IMI_logo.png" alt="">
+          <img src="assets/img/login/imibotlogo.svg" alt="">
         </div>
         <h1 class="hero-heading">
           Automate your business conversations contextually, harnessing the power of nlp
@@ -30,9 +30,9 @@
             <img src="assets/img/integrate.svg" alt="">
           </div>
           <div class="text">
-            <div class="title">Orchestrate</div>
+            <div class="title">Integrate</div>
             <div class="description">
-              Route the flow based on user’s need by orchestrating multiple bots using a single bot
+              Deploy your bot across social, voice and live channels with one-click
             </div>
           </div>
         </div>
@@ -41,9 +41,9 @@
             <img src="assets/img/facilitate.svg" alt="">
           </div>
           <div class="text">
-            <div class="title">Orchestrate</div>
+            <div class="title">Facilitate</div>
             <div class="description">
-              Route the flow based on user’s need by orchestrating multiple bots using a single bot
+              Based on where the user is within a flow, trigger actions to execute or handover to agents seamlessly
             </div>
           </div>
         </div>
@@ -159,7 +159,8 @@
       </div>
     </section>
 
-    <section *ngIf="panelActive==='email-reset-link-notify'" class="right" style="margin-right: auto; margin-left: auto">
+    <section *ngIf="panelActive==='email-reset-link-notify'" class="right"
+             style="margin-right: auto; margin-left: auto">
       <div class="forgot-password-container d-flex flex-column align-items-center">
         <div class="checkmark border-circle">
           <span class="fa fa-check"></span>
