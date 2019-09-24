@@ -127,6 +127,7 @@ export interface IBot {
     preview_corpus?: any;
     threshold_diff_score?: number;
     threshold_min_score?: number;
+    logic?:any;
   };
 
   agent_handover_setting?: {
