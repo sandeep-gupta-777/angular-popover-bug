@@ -91,7 +91,7 @@ export class ChatService {
     return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true})
       .pipe(
         tap((response: ISendApiResponsePayload) => {
-          debugger;
+          ;
           this.botReplyHandler(response);
         }),
         catchError((e: any) => {
@@ -103,7 +103,7 @@ export class ChatService {
   }
 
   botReplyHandler(response: ISendApiResponsePayload) {
-    debugger;
+    ;
     let response_language;
     /*recieved chat reply from bot*/
     if (response.messageStore && response.messageStore.response_language) {
