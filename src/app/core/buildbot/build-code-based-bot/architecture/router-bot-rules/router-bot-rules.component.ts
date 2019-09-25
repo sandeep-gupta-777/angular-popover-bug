@@ -44,6 +44,6 @@ export class RouterBotRulesComponent implements OnInit {
       left_operand: [],
       right_operand: [],
     });
-  }
+  }chartValue2
 
 }
