@@ -138,6 +138,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // document.cookie = `auth-token=${this.userData.auth_token};`;
         // document.cookie = `user-access-token=${this.userData.user_access_token}`;
         // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
+        this.userValue = {
+          ...this.userValue,
+          socket_key: Date.now().toString()
+        };
         return this.store.dispatch([
           new SetUser({user: this.userValue, is_loggedIn: true}),
         ]);

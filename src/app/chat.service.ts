@@ -45,7 +45,8 @@ export class ChatService {
     private store: Store,
     private serverService: ServerService,
     private utilityService: UtilityService,
-    private constantsService: ConstantsService) {}
+    private constantsService: ConstantsService) {
+  }
 
   messaging;
   currentPreviewBot: IBot;

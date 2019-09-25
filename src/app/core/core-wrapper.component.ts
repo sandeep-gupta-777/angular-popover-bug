@@ -69,17 +69,7 @@ export class CoreWrapperComponent implements OnInit {
   }
 
   initializeSocketNow() {
-    let data;
-    this.loggeduser$.pipe(take(1)).subscribe((value) => {
-      data = {
-        'connectionConfig': {
-          'namespace': 'BOT',
-          'enterprise_id': value.user.enterprise_id,
-        },
-        'imi_bot_middleware_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVGhpcyBpcyBJTUkgQk9UIG1pZGRsZXdhcmUiLCJpYXQiOjE1Njc4ODc5MTAsImV4cCI6NDE1OTg4NzkxMH0.dYbMaf8HYMD5K532p7DpHN0cmru-JKMjst-WS9zi7u8'
-      };
-      this.socketService.initializeSocketConnection(data);
-    });
+    this.socketService.initializeSocketNow();
   }
 
   initializeProgressBarSubscription() {

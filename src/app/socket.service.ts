@@ -1,4 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
+import {take} from 'rxjs/operators';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {IAuthState} from './auth/ngxs/auth.state';
 
 declare const io: any;
 
@@ -6,7 +10,7 @@ declare const io: any;
   providedIn: 'root'
 })
 export class SocketService {
-
+  @Select() loggeduser$: Observable<IAuthState>;
   static isInitDone = false;
   static train$ = new EventEmitter();
   static preview$ = new EventEmitter();
@@ -38,6 +42,21 @@ export class SocketService {
       });
       SocketService.isInitDone = true;
     }
+  }
+
+  initializeSocketNow() {
+    let data;
+    this.loggeduser$.pipe(take(1)).subscribe((value) => {
+      data = {
+        'connectionConfig': {
+          'namespace': 'BOT',
+          'enterprise_id': value.user.enterprise_id,
+          socket_key: value.user.socket_key
+        },
+        'imi_bot_middleware_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVGhpcyBpcyBJTUkgQk9UIG1pZGRsZXdhcmUiLCJpYXQiOjE1Njc4ODc5MTAsImV4cCI6NDE1OTg4NzkxMH0.dYbMaf8HYMD5K532p7DpHN0cmru-JKMjst-WS9zi7u8'
+      };
+      this.initializeSocketConnection(data);
+    });
   }
 
 

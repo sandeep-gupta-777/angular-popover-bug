@@ -77,6 +77,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   windowOpen = false;
   messageData: IMessageData[] = null;
   selectedAvatar: any;
+  socket_key = Date.now().toString();
   loggeduser: IAuthState;
   currentRoom: IRoomData;
   current_uid: string;
@@ -116,17 +117,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   }
 
   initializeSocketNow() {
-    let data;
-    this.loggeduser$.pipe(take(1)).subscribe((value) => {
-      data = {
-        'connectionConfig': {
-          'namespace': 'BOT',
-          'enterprise_id': value.user.enterprise_id,
-        },
-        'imi_bot_middleware_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVGhpcyBpcyBJTUkgQk9UIG1pZGRsZXdhcmUiLCJpYXQiOjE1Njc4ODc5MTAsImV4cCI6NDE1OTg4NzkxMH0.dYbMaf8HYMD5K532p7DpHN0cmru-JKMjst-WS9zi7u8'
-      };
-      this.socketService.initializeSocketConnection(data);
-    });
+    this.socketService.initializeSocketNow();
   }
 
   ngOnInit() {
@@ -157,6 +148,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
         }
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
+        this.socket_key = loggeduser.user.socket_key;
       } catch (e) {
         this.user_first_name = 'Anonymous User';
         LoggingService.error(e);
@@ -415,7 +407,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },
-          messageData.room.consumerDetails,
+          {...messageData.room.consumerDetails, socket_key: this.socket_key},
           messageByHuman,
           EChatFrame.CHAT_BOX,
           this.is_dev_view)

@@ -1,5 +1,6 @@
 export interface IUser {
   resource_uri: string;
+  socket_key?: string;
   id: number;
   last_login: string;
   is_superuser: boolean;
