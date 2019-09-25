@@ -42,6 +42,9 @@
   .history-table {
 
     ::ng-deep {
+      .material-icons {
+        line-height: 1 !important;
+      }
       .search-theme-input-with-search {
         width: 100%;
       }
@@ -98,10 +101,3 @@
 }
 
 
-::ng-deep {
-  .history-table {
-    .material-icons {
-      line-height: 1 !important;
-    }
-  }
-}
