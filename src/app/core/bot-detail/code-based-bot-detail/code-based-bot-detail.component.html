@@ -21,7 +21,7 @@
                 </a>
                 <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                     <a mat-list-item class="mat-list-item-sidebar"
-                       (click)="sideBarTabChanged(myESideBarTab.input)" *ngIf="bot.bot_type != myEBotType.faqbot">
+                       (click)="sideBarTabChanged(myESideBarTab.input)">
                         <div class="sidebar-nav-list-item"
                              data-cy="sidebar-NLP"
                              [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
