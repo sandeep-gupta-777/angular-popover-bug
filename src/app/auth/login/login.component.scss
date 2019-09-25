@@ -76,6 +76,10 @@
   }
 
   .login-form-section {
+    section{
+      margin-bottom: 10% !important;
+      width: 70%;
+    }
     padding-left: 48px;
     padding-right: 48px;
     width: 43%;
@@ -84,21 +88,14 @@
     align-items: center;
     color: white;
 
-    .login-form {
-      //width: 370px;
-      //section {
-      //  max-width: 350px;
-      //  width: 50%;
-      //}
+    .imi-logo {
+      display: none;
     }
 
-    //.login-form-section{
     section {
-      max-width: 350px;
+      //max-width: 350px;
       //width: 50%;
     }
-
-    //}
 
     ::ng-deep {
       .enterprise-flex {
@@ -115,7 +112,7 @@
 
         .enterprise-grid-item {
           &:hover {
-            color: black;
+            //color: black;
           }
         }
       }
@@ -126,7 +123,7 @@
     }
 
     .text {
-      margin-bottom: 80px;
+      margin-bottom: 40px;
     }
 
     .title {
@@ -178,9 +175,10 @@ button {
     flex-wrap: wrap;
 
     .login-box {
-      margin-right: auto;
-      margin-left: 3rem;
-      width: 50%;
+      //width: 60%;
+      //margin-right: auto;
+      //margin-left: 3rem;
+      //width: 50%;
 
       .form-theme-error, .form-theme-info {
         font-size: 13px;
@@ -219,7 +217,7 @@ button {
       display: flex;
       align-items: start;
       justify-content: center;
-
+      //margin-bottom: 10% !important;
       .login-box {
         margin-right: auto;
         margin-left: auto;
@@ -335,6 +333,7 @@ button {
 .title {
   font-size: 16px;
   font-weight: 600;
+  margin-bottom: 16px;
 }
 
 button[disabled] {
@@ -343,4 +342,23 @@ button[disabled] {
 
 .user-info {
   height: 20px;
+}
+
+
+@media screen and (max-width: 890px) {
+  .info-section {
+    display: none !important;
+  }
+  .login-form-section {
+    width: 100% !important;
+    justify-content: center;
+
+    .imi-logo {
+      display: block !important;
+      position: fixed;
+      right: 5%;
+      top: 5%;
+    }
+  }
+
 }
