@@ -76,7 +76,7 @@
           <div class="col-12 string d-flex">
             <header class="title">Forgot password?</header>
           </div>
-          <div class="col-12 mb-3 text-theme-normal" style="color: #9e9e9e; line-height: 14px">
+          <div class="col-12 mb-3 text-theme-normal" style="color: white; line-height: 14px">
             Enter your email address below and we’ll send you a
             link to create a new password.
           </div>
@@ -114,7 +114,7 @@
 
         <div class="login-form-box">
           <header class="title">{{panelActive === myELoginPanels.reset ? 'Reset' : 'Set'}} password</header>
-          <div class="col-12 mb-3 text-theme-normal" style="color: #9e9e9e; line-height: 14px">
+          <div class="col-12 mb-3 text-theme-normal" style="color: white; line-height: 14px">
             Please provide your email to send the password reset link to
           </div>
           <div class="col-12 d-flex justify-content-center align-items-center">
@@ -145,36 +145,23 @@
     </section>
 
     <section *ngIf="panelActive==='email-reset-link-notify'" class="right" style="width: 100%">
-      <div class="forgot-password-container">
-        <div style="display: flex; ">
-          <div class="title">Email Sent</div>
-          <div class="checkmark border-circle" style="flex-shrink: 0">
-            <span class="fa fa-check"></span>
-          </div>
-        </div>
-        <div>
-          An email has been sent to your email address, consisiting of the next steps kindly use the link to reset
-          password
-        </div>
-        <button class="btn-theme btn-theme-primary my-3" (click)="panelActive='login'">
-          Back to Sign in
-        </button>
-      </div>
+      <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Email sent', description:'Your password has been updated successfully, kindly login again to start using your account'}"></ng-container>
     </section>
 
     <section *ngIf="panelActive==='password-reset-notify'" class="right">
-      <div class="forgot-password-container d-flex flex-column align-items-center">
-        <div class="checkmark border-circle">
-          <span class="fa fa-check"></span>
-        </div>
-        <div class="hero-text">Password Updated Successfully</div>
-        <div class="text-center mb-2" style="width: 70%">
-          Your password has been saved. Please use your new password to sign in
-        </div>
-        <div class="text-center cursor-pointer color-primary" style="margin-top: 20px" (click)="backToLogin()">Back to
-          Sign in
-        </div>
-      </div>
+      <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Password Updated', description:'Your password has been updated successfully, kindly login again to start using your account'}"></ng-container>
+<!--      <div class="forgot-password-container d-flex flex-column align-items-center">-->
+<!--        <div class="checkmark border-circle">-->
+<!--          <span class="fa fa-check"></span>-->
+<!--        </div>-->
+<!--        <div class="title">Password Updated Successfully</div>-->
+<!--        <div>-->
+<!--          Your password has been updated successfully, kindly login again to start using your account-->
+<!--        </div>-->
+<!--        <div class="text-center cursor-pointer color-primary" style="margin-top: 20px" (click)="backToLogin()">Back to-->
+<!--          Sign in-->
+<!--        </div>-->
+<!--      </div>-->
     </section>
 
     <section *ngIf="panelActive==='enterprise-list-display'" style="width: 100%" class="enterprise-flex mx-4 right">
@@ -196,3 +183,21 @@
     </section>
   </div>
 </div>
+
+
+<ng-template #passwordChangeSuccess let-title="title" let-description="description" >
+  <div class="forgot-password-container">
+    <div style="display: flex; ">
+      <div class="title">{{title}}</div>
+      <div class="checkmark border-circle" style="flex-shrink: 0">
+        <span class="fa fa-check"></span>
+      </div>
+    </div>
+    <div>
+      {{description}}
+    </div>
+    <button class="btn-theme btn-theme-primary my-3" (click)="panelActive='login'">
+      Back to Sign in
+    </button>
+  </div>
+</ng-template>
