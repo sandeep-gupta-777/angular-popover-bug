@@ -172,6 +172,13 @@ export interface IBot {
   };
 }
 
+export interface IBotLanguage {
+  'display_name': string;
+  'id'?: string;
+  'language_code': string;
+  'metadata'?: object;
+}
+
 export interface IBotResult {
   'meta': IMeta;
   'objects': IBot[];

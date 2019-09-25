@@ -36,6 +36,7 @@ export interface IConsumerDetails {
   facebook_id?: string;
   uid?: string;
   id?: any;
+  socket_key?: string;
 }
 
 @State<IChatSessionState>({

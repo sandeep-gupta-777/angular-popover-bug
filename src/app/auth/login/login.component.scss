@@ -13,14 +13,18 @@
 
   .info-section {
     width: 57%;
-    padding-top: 70px;
-    padding-left: 70px;
+    padding-top: 6%;
+    padding-left: 6%;
     padding-bottom: 70px;
     display: flex;
     flex-direction: column;
 
     .info-section-wrapper {
       max-width: 470px;
+      height: 70vh;
+      //background: rebeccapurple;
+      display: flex;
+      flex-direction: column;
     }
 
     .imi-logo {
@@ -35,15 +39,20 @@
       font-size: 24px;
       margin-top: 24px;
       font-weight: 300;
+      color: #343434;
     }
 
     .info-section-body {
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin-top: 48px;
-
+      margin-top: 36px;
+      max-height: 350px;
+      //background: gray;
+      //height: 100%;
       .intro-item {
+        margin-top: auto;
+        margin-bottom: auto;
         //margin-top: 24px;
         &:first-child {
           //margin-top: auto;
@@ -56,7 +65,7 @@
         display: flex;
         height: 63px;
         margin-left: 20px;
-        margin-bottom: 25px;
+        //margin-bottom: 25px;
 
         .text {
           padding-left: 20px;
@@ -126,9 +135,6 @@
     }
   }
 }
-
-
-/**/
 
 .imi-fixed-logo {
   @extend %fixed-top-left;
@@ -330,11 +336,6 @@ button {
   font-size: 16px;
   font-weight: 600;
 }
-
-.description {
-
-}
-
 
 button[disabled] {
   color: white !important;

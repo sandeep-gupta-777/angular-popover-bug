@@ -1,7 +1,7 @@
 import {Action, State, StateContext, Store} from '@ngxs/store';
 import {
   ResetAppState,
-  ResetStoreToDefault, SetAutoLogoutTime, SetBackendURlRoot, SetEnterpriseNerData,
+  ResetStoreToDefault, SetAutoLogoutTime, SetBackendURlRoot, SetBotLanguages, SetEnterpriseNerData,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions, SetPipelineItemsV2, SetPipelineModuleMasterData,
@@ -16,6 +16,7 @@ import {IPipelineItem} from '../../interfaces/ai-module';
 import {LoggingService} from '../logging.service';
 import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IRoleInfo} from '../../interfaces/role-info';
+import {IBotLanguage} from '../core/interfaces/IBot';
 
 
 export interface IAppState {
@@ -34,8 +35,9 @@ export interface IAppState {
   autoLogoutTime: number;
   pipelineModulesV2List: IPipelineItemV2[];
   roleInfoArr: IRoleInfo[];
+  botLanguages: IBotLanguage[];
 }
-//
+
 const appDefaultState: IAppState = {
   lastUpdated: 0,
   progressbar: {
@@ -51,7 +53,8 @@ const appDefaultState: IAppState = {
   masterPipelineItems: null,
   autoLogoutTime: Date.now() + 3600 * 1000,
   pipelineModulesV2List: [],
-  roleInfoArr: null
+  roleInfoArr: null,
+  botLanguages: []
 };
 
 @State<IAppState>({
@@ -68,12 +71,6 @@ export class AppStateReducer {
     LoggingService.log('resetting state', getState());
   }
 
-  // @Action(ResetStoreToDefault)
-  // resetStoreToDefault({patchState, setState, getState, dispatch}: StateContext<any>) {
-  //   this.store.reset(appDefaultState);
-  //   LoggingService.log('resetting state', getState());
-  // }
-
   @Action(SetProgressValue)
   SetProgressValue({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetProgressValue) {
     // this.store.reset(appDefaultState);
@@ -89,6 +86,11 @@ export class AppStateReducer {
   @Action(SetPipelineItemsV2)
   setPipelineItemsV2({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetPipelineItemsV2) {
     patchState({pipelineModulesV2List: payload.payload.data});
+  }
+
+  @Action(SetBotLanguages)
+  setBotLanguages({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetBotLanguages) {
+    patchState({botLanguages: payload.payload.botLanguages});
   }
 
   @Action(SetMasterProfilePermissions)
@@ -131,6 +133,7 @@ export class AppStateReducer {
     const backendUrlRoot = state.backendUrlRoot;
     patchState({...appDefaultState, backendUrlRoot});
   }
+
   @Action(SetRoleInfo)
   setRoleInfo({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetRoleInfo) {
     patchState({roleInfoArr: payload.payload.roleInfoArr});

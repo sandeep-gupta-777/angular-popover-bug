@@ -26,7 +26,6 @@ import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {MyToasterService} from '../../my-toaster.service';
 import {LoggingService} from '../../logging.service';
 import {LoadJsService} from '../../core/load-js.service';
-import {MessagingService} from '../../../messaging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -113,6 +112,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             // this.serverService.getNSetMasterPermissionsList(),
             this.serverService.getNSetIntegrationList(),
             this.serverService.getNSetPipelineModuleV2(),
+            this.serverService.getNSetBotLanguages(),
             this.serverService.getNSetRoleInfo()
           ]
         );
@@ -138,6 +138,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // document.cookie = `auth-token=${this.userData.auth_token};`;
         // document.cookie = `user-access-token=${this.userData.user_access_token}`;
         // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
+        this.userValue = {
+          ...this.userValue,
+          socket_key: Date.now().toString()
+        };
         return this.store.dispatch([
           new SetUser({user: this.userValue, is_loggedIn: true}),
         ]);
@@ -233,7 +237,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     }
     body = {
       ...body,
-      fcm_token: MessagingService.fcm_token
     };
     this.disabeLoginButton = true;
     const headerData: IHeaderData = {
@@ -294,7 +297,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         'user_id': this.userData.id,
         'enterprise_id': Enterprise.enterpriseId,
         'role_id': Enterprise.roleId,
-        fcm_token: MessagingService.fcm_token
       };
       const headerData = {
         'auth-token': this.userData.auth_token

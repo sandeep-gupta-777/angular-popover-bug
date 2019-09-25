@@ -13,11 +13,11 @@ import {
   SetAllBotListAction,
   UpdateBotInfoByIdInBotInBotList
 } from './core/view-bots/ngxs/view-bot.action';
-import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
+import {IBot, IBotLanguage, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
   ResetAppState,
-  SetAutoLogoutTime,
+  SetAutoLogoutTime, SetBotLanguages,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
   SetPipelineItemsV2,
@@ -563,6 +563,23 @@ export class ServerService {
           return this.store.dispatch([
             new SetPipelineItemsV2({
               data: value.objects
+            })
+          ]);
+        } else {
+          return of(1);
+        }
+      }));
+  }
+
+  getNSetBotLanguages() {
+
+    const url = this.constantsService.getBotLanguage();
+    return this.makeGetReq<{ meta: any, objects: IBotLanguage[] }>({url})
+      .pipe(switchMap((value) => {
+        if (value) {
+          return this.store.dispatch([
+            new SetBotLanguages({
+              botLanguages: value.objects
             })
           ]);
         } else {

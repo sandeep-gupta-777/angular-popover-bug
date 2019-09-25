@@ -33,6 +33,8 @@ import {IEnterpriseProfileInfo} from '../../interfaces/enterprise-profile';
 import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
+import {SocketService} from '../socket.service';
+import {take} from 'rxjs/operators';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': any[];
@@ -75,6 +77,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   windowOpen = false;
   messageData: IMessageData[] = null;
   selectedAvatar: any;
+  socket_key = Date.now().toString();
   loggeduser: IAuthState;
   currentRoom: IRoomData;
   current_uid: string;
@@ -102,7 +105,8 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private activatedRoute: ActivatedRoute,
               private utilityService: UtilityService,
-              private route: Router
+              private route: Router,
+              private socketService: SocketService
   ) {
   }
 
@@ -112,7 +116,16 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
+  initializeSocketNow() {
+    this.socketService.initializeSocketNow();
+  }
+
   ngOnInit() {
+    this.initializeSocketNow(); /*todo: code repeat*/
+    SocketService.preview$.subscribe((data) => {
+      this.chatService.botReplyHandler(data);
+    });
+
     EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
       if (this.currentBot) {
         if (bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback) {
@@ -135,6 +148,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
         }
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
+        this.socket_key = loggeduser.user.socket_key;
       } catch (e) {
         this.user_first_name = 'Anonymous User';
         LoggingService.error(e);
@@ -393,7 +407,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },
-          messageData.room.consumerDetails,
+          {...messageData.room.consumerDetails, socket_key: this.socket_key},
           messageByHuman,
           EChatFrame.CHAT_BOX,
           this.is_dev_view)

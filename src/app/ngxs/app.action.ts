@@ -5,6 +5,7 @@ import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
 import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IRoleInfo} from '../../interfaces/role-info';
+import {IBotLanguage} from '../core/interfaces/IBot';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';
@@ -53,6 +54,14 @@ export class SetPipelineItemsV2 {
 
   constructor(public payload: {
     data: IPipelineItemV2[]
+  }) {}
+}
+
+export class SetBotLanguages {
+  static readonly type = '[app] set SetBotLanguages';
+
+  constructor(public payload: {
+    botLanguages: IBotLanguage[]
   }) {}
 }
 

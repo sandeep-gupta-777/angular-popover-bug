@@ -3,7 +3,7 @@ import {IAppState} from './ngxs/app.state';
 import {IUser} from './core/interfaces/user';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {IBot} from './core/interfaces/IBot';
+import {IBot, IBotLanguage} from './core/interfaces/IBot';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {ITableColumn} from '../interfaces/sessions';
 import {environment} from '../environments/environment';
@@ -16,10 +16,9 @@ export const ERouteNames = EAllActions;
 @Injectable()
 export class ConstantsService {
 
-  static bot_languages = [
-    {display_name : 'English', language_code : 'en'},
-    {display_name : 'Arabic', language_code : 'ar'},
-    {display_name : 'French', language_code : 'fr'},
+  static bot_languages: IBotLanguage[] = [
+    {display_name: 'English', language_code: 'en'},
+    {display_name: 'Arabic', language_code: 'ar'},
   ];
   static fullscreenchatpath_dev = (environment.production ? '/static' : '') + '/preview-dev';
   static fullscreenchatpath_anon = (environment.production ? '/static' : '') + '/preview';
@@ -714,6 +713,10 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/moduledetails/?limit=1000';
   }
 
+  getBotLanguage() {
+    return this.BACKEND_URL + 'api/v1/languages/?limit=1000';
+  }
+
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }
@@ -992,9 +995,10 @@ export class ConstantsService {
     return urlObj.href;
   }
 
-  pipelineTestUrl(){
+  pipelineTestUrl() {
     return this.BACKEND_URL + `api/v1/webhook/intelligent/`;
   }
+
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
