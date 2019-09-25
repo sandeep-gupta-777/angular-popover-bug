@@ -45,8 +45,15 @@ export class RouterBotRulesComponent implements OnInit {
       type: 'str',
       operator: "equal",
       left_operand: 'asd',
-      right_operand: ['', [Validators.required]],
+      right_operand: ['sdasd', [Validators.required]],
     });
+  }
+
+  convertFormValueTologicJson(){
+    let ruleobj = this.rulesForm.value;
+    ruleobj = ruleobj.rules.map((rule)=>{return {condition:{and: rule['and'].map((or)=>{return or }) },
+      action:rule['output']}})
+    console.log(ruleobj)
   }
 
 }
