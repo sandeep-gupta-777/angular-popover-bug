@@ -53,6 +53,23 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
+  infoPageData = [
+    {
+      img: 'assets/img/orchestrate.svg',
+      title: 'Orchestrate',
+      description: 'Route the flow based on user’s need by orchestrating multiple bots using a single bot'
+    },
+    {
+      img: 'assets/img/integrate.svg',
+      title: 'Integrate',
+      description: 'Deploy your bot across social, voice and live channels with one-click'
+    },
+    {
+      img: 'assets/img/facilitate.svg',
+      title: 'Facilitate',
+      description: 'Based on where the user is within a flow, trigger actions to execute or handover to agents seamlessly'
+    },
+  ];
 
   constructor(
     private serverService: ServerService,
@@ -169,7 +186,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     )
       .subscribe(() => {
       });
-  //
+    //
   }
 
   sendEmailForReset() {
@@ -246,8 +263,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
-          ServerService.setCookie('auth-token', user.auth_token);
-          ServerService.setCookie('user-access-token', user.user_access_token);
+            ServerService.setCookie('auth-token', user.auth_token);
+            ServerService.setCookie('user-access-token', user.user_access_token);
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
             if (this.userData.enterprises.length <= 1) {
               const enterpriseDate = {

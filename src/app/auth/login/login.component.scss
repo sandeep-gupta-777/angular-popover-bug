@@ -51,6 +51,7 @@
       //background: gray;
       //height: 100%;
       .intro-item {
+
         margin-top: auto;
         margin-bottom: auto;
         //margin-top: 24px;
@@ -60,6 +61,8 @@
 
         .item-img-container {
           width: 70px;
+          flex-grow: 0;
+          flex-shrink: 0;
         }
 
         display: flex;

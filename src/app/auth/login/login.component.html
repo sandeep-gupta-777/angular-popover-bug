@@ -14,37 +14,13 @@
         </h1>
       </header>
       <div class="info-section-body">
-        <div class="intro-item">
+        <div class="intro-item" *ngFor="let item of infoPageData">
           <div class="item-img-container">
-            <img src="assets/img/orchestrate.svg" alt="">
+            <img src="{{item.img}}" alt="">
           </div>
           <div class="text">
-            <div class="title">Orchestrate</div>
-            <div class="description">
-              Route the flow based on user’s need by orchestrating multiple bots using a single bot
-            </div>
-          </div>
-        </div>
-        <div class="intro-item">
-          <div class="item-img-container">
-            <img src="assets/img/integrate.svg" alt="">
-          </div>
-          <div class="text">
-            <div class="title">Integrate</div>
-            <div class="description">
-              Deploy your bot across social, voice and live channels with one-click
-            </div>
-          </div>
-        </div>
-        <div class="intro-item">
-          <div class="item-img-container">
-            <img src="assets/img/facilitate.svg" alt="">
-          </div>
-          <div class="text">
-            <div class="title">Facilitate</div>
-            <div class="description">
-              Based on where the user is within a flow, trigger actions to execute or handover to agents seamlessly
-            </div>
+            <div class="title" style="margin-bottom: 0">{{item.title}}</div>
+            <div class="description">{{item.description}}</div>
           </div>
         </div>
       </div>
