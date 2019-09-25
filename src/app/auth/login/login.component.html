@@ -51,7 +51,7 @@
     </div>
   </div>
   <div class="login-form-section">
-    <section *ngIf="panelActive==='login'"  class="login-form right">
+    <section *ngIf="panelActive==='login'" class="login-form right">
       <div class="imi-logo">
         <img src="assets/img/login/imibotlogo.svg" alt="">
       </div>
@@ -71,7 +71,8 @@
                    required
                    placeholder="Enter Password">
             <div class="d-flex justify-content-between align-items-center">
-              <a class="cursor-pointer" style="color: #4cd2f1" (click)="panelActive='reset-via-email'">Forgot password?</a>
+              <a class="cursor-pointer" style="color: #4cd2f1" (click)="panelActive='reset-via-email'">Forgot
+                password?</a>
             </div>
 
             <button mat-flat-button type="submit" class="btn-theme mt-3 mb-2"
@@ -126,14 +127,14 @@
 
       <div class="login-box ">
 
-<!--        <div [hidden]="panelActive!==myELoginPanels.set"-->
-<!--             style="display: flex;justify-content: center; align-items: center">-->
+        <!--        <div [hidden]="panelActive!==myELoginPanels.set"-->
+        <!--             style="display: flex;justify-content: center; align-items: center">-->
 
-<!--          <img src="assets/img/baseline-how_to_reg-24px.svg"-->
-<!--               style="width: 24px; height: 24px; margin: 0 15px; "-->
-<!--               alt="password verify">-->
-<!--          <div style="color: #474747">Please set your password to verify your account.</div>-->
-<!--        </div>-->
+        <!--          <img src="assets/img/baseline-how_to_reg-24px.svg"-->
+        <!--               style="width: 24px; height: 24px; margin: 0 15px; "-->
+        <!--               alt="password verify">-->
+        <!--          <div style="color: #474747">Please set your password to verify your account.</div>-->
+        <!--        </div>-->
 
         <div class="login-form-box">
           <header class="title">{{panelActive === myELoginPanels.reset ? 'Reset' : 'Set'}} password</header>
@@ -167,18 +168,21 @@
       </div>
     </section>
 
-    <section *ngIf="panelActive==='email-reset-link-notify'" class="right"
-             style="margin-right: auto; margin-left: auto">
-      <div class="forgot-password-container d-flex flex-column align-items-center">
-        <div class="checkmark border-circle">
-          <span class="fa fa-check"></span>
+    <section *ngIf="panelActive==='email-reset-link-notify'" class="right" style="width: 100%">
+      <div class="forgot-password-container">
+        <div style="display: flex; ">
+          <div class="title">Email Sent</div>
+          <div class="checkmark border-circle" style="flex-shrink: 0">
+            <span class="fa fa-check"></span>
+          </div>
         </div>
-        <div class="hero-text">Password Reset Email Sent</div>
-        <div class="text-center mb-2" style="margin: 12px; line-height: 14px">
-          An email has been sent to your email address, <strong>{{resetPasswordForm.value.email}}</strong> . Follow
-          directions to reset your password.
+        <div>
+          An email has been sent to your email address, consisiting of the next steps kindly use the link to reset
+          password
         </div>
-        <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">Back to Sign in</div>
+        <button class="btn-theme btn-theme-primary my-3" (click)="panelActive='login'">
+          Back to Sign in
+        </button>
       </div>
     </section>
 

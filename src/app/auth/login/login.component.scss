@@ -138,7 +138,7 @@
 }
 
 *:not(.fa) {
-  font-family: Helvetica, serif;
+  font-family: IBM Plex Sans, serif;
 }
 
 button {
@@ -257,18 +257,19 @@ button {
   }
 
   .checkmark {
-    width: 48px;
-    height: 48px;
+    width: 20px;
+    height: 20px;
     display: flex;
     border-radius: 50%;
     align-items: center;
     justify-content: center;
     border: 1px solid #c9e16a;
-    margin-bottom: 27px;
+    //margin-bottom: 27px;
+    margin-left: 8px;
 
     .fa {
       color: #9dc406;
-      font-size: 20px;
+      font-size: 14px;
     }
   }
 
