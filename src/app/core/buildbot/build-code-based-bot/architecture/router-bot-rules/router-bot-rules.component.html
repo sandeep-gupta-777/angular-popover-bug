@@ -4,3 +4,93 @@
                       [status]="uploadingData" [text]="'Update rules'" [icon]="'refresh'">
   </app-button-wrapper>
 </div>
+{{rulesForm.value | json}}
+<form [formGroup]="rulesForm">
+  <div formArrayName="rules" >
+    <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" class = " m-2">
+    <div [formGroupName]="ruleIndex">
+      <div formArrayName="and">
+        <div  *ngFor="let andRule of singleRule.get('and').controls; let andRulesIndex = index;" class = "bg-grey m-2">
+        <div [formGroupName]="andRulesIndex">
+          <div formArrayName="or" >
+            <div *ngFor="let orRule of andRule.get('or').controls; let orRulesIndex = index;" class = "m-2">
+            <div [formGroupName]="orRulesIndex">
+              <mat-form-field >
+                <input matInput  formControlName="left_operand">
+              </mat-form-field>
+              <mat-form-field class="">
+                <mat-select formControlName="operator" >
+                  <mat-option value = 'equal'>
+                  equal
+                </mat-option>
+                  <mat-option value = 'greater'>
+                    greater
+                  </mat-option>
+                  <mat-option value = 'less'>
+                    less
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-select formControlName="type" >
+                  <mat-option value = 'str'>
+                    string
+                  </mat-option>
+                  <mat-option value = 'int'>
+                    int
+                  </mat-option>
+                  <mat-option value = 'variable'>
+                    variable
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field >
+                <input matInput  formControlName="right_operand">
+              </mat-form-field>
+            </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div formGroupName="output">
+        <mat-form-field >
+          <mat-select formControlName="outputType" >
+            <mat-option value = 'equal'>
+              send to Bot
+            </mat-option>
+            <mat-option value = 'greater'>
+              greater
+            </mat-option>
+            <mat-option value = 'less'>
+              less
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field >
+          <mat-select formControlName="outputto" >
+            <mat-option value = 'equal'>
+              botlist1
+            </mat-option>
+            <mat-option value = 'greater'>
+              botlist2
+            </mat-option>
+            <mat-option value = 'less'>
+              botlist3
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field >
+          <input matInput  formControlName="">
+        </mat-form-field>
+        <mat-form-field >
+          <input matInput  formControlName="">
+        </mat-form-field>
+      </div>
+    </div>
+    </div>
+  </div>
+</form>

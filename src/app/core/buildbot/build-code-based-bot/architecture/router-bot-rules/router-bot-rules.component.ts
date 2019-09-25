@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from "../../../../interfaces/IBot";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {EAllActions} from "../../../../../typings/enum";
 import {ELoadingStatus} from "../../../../../button-wrapper/button-wrapper.component";
 
@@ -27,22 +27,25 @@ export class RouterBotRulesComponent implements OnInit {
   getAndRules(): FormGroup {
     const andRules = this.formBuilder.group({
       and: this.formBuilder.array([this.getOrRulesFG(), this.getOrRulesFG()]),
-      output: []
+      output: this.formBuilder.group({
+        outputType: ["equal", [Validators.required]],
+        outputto: ["equal", [Validators.required]]
+      })
     });
     return andRules;
   }
   getOrRulesFG(): FormGroup {
     const orRule = this.formBuilder.group({
-      or: this.formBuilder.array([this.getOrRule(), this.getOrRule(), ])
+      or: this.formBuilder.array([this.getOrRule(), this.getOrRule()])
     });
     return orRule;
   }
   getOrRule() {
     return this.formBuilder.group({
-      type: [],
-      operator: [],
-      left_operand: [],
-      right_operand: [],
+      type: 'str',
+      operator: "equal",
+      left_operand: 'asd',
+      right_operand: ['', [Validators.required]],
     });
   }
 
