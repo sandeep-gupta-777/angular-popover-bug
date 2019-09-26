@@ -44,17 +44,7 @@
               "node_modules/codemirror/addon/dialog/dialog.css"
             ],
             "scripts": [
-
-
-
-
-
-
-
-
-
-
-                          ]
+            ]
           },
           "configurations": {
             "develop": {
@@ -169,7 +159,7 @@
             "hmr": {
               "hmr": true,
               "browserTarget": "botPlateformFE:build:hmr"
-            },
+            }
           }
         },
         "extract-i18n": {

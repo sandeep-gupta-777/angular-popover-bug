@@ -407,7 +407,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },
-          {...messageData.room.consumerDetails, socket_key: this.socket_key},
+          {...messageData.room.consumerDetails, extra_params: {socket_key: this.socket_key}},
           messageByHuman,
           EChatFrame.CHAT_BOX,
           this.is_dev_view)

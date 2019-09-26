@@ -353,9 +353,16 @@ button[disabled] {
   .info-section {
     display: none !important;
   }
+
   .login-form-section {
     width: 100% !important;
     justify-content: center;
+
+    section{
+      margin-bottom: 10% !important;
+      width: 100%!important;
+      max-width: 450px;
+    }
 
     .imi-logo {
       display: block !important;

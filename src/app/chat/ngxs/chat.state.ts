@@ -36,7 +36,9 @@ export interface IConsumerDetails {
   facebook_id?: string;
   uid?: string;
   id?: any;
-  socket_key?: string;
+  extra_params?: {
+    socket_key?: string
+  };
 }
 
 @State<IChatSessionState>({
@@ -52,7 +54,6 @@ export class ChatSessionStateReducer {
               private myToasterService: MyToasterService) {
 
 
-
   }
 
   @Action(ToggleChatWindow)
@@ -60,10 +61,11 @@ export class ChatSessionStateReducer {
     const state: IChatSessionState = getState();
     setState({...state, opened: payload.open});
   }
+
   @Action(ChangeBotIsThinkingDisplayByRoomId)
   showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
     const state: IChatSessionState = getState();
-    const room  = state.rooms.find((room_temp) => room_temp.id === payload.roomId);
+    const room = state.rooms.find((room_temp) => room_temp.id === payload.roomId);
     room.showBotIsThinking = payload.shouldShowBotIsThinking;
     setState({...state});
   }
@@ -113,11 +115,11 @@ export class ChatSessionStateReducer {
     const isOpened = state.opened;
     const currentBot = getState().currentBotDetails;
     if (payload.bot.id !== (currentBot && currentBot.id)) {
-     dispatch([
-       new ResetChatState()
-     ]).subscribe(() => {
-       patchState({currentBotDetails: payload.bot, opened: isOpened}); // restoring bot opened state
-     });
+      dispatch([
+        new ResetChatState()
+      ]).subscribe(() => {
+        patchState({currentBotDetails: payload.bot, opened: isOpened}); // restoring bot opened state
+      });
     } else {
       patchState({currentBotDetails: payload.bot});
     }
@@ -129,7 +131,9 @@ export class ChatSessionStateReducer {
     const state = getState();
     let rooms = state.rooms;
     const room = payload;
-    if (!state.rooms) { state.rooms = rooms = []; }
+    if (!state.rooms) {
+      state.rooms = rooms = [];
+    }
     /*first check if room roomId already */
     let doesRoomAlreadyExist_index;
     doesRoomAlreadyExist_index = rooms.findIndex(room_temp => room_temp.id === payload.id);
@@ -230,8 +234,6 @@ export class ChatSessionStateReducer {
     // }));
     // setState({...state});
   }
-
-
 
 
 }
