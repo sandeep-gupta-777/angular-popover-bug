@@ -249,7 +249,9 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
 
   copySharablePreviewLinkHandler() {
-    const url = `${location.host}${ConstantsService.fullscreenchatpath_anon}/?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`;
-    this.utilityService.copyToClipboard(encodeURI(url));
+    this.utilityService.copySharablePreviewLink(this.bot.bot_unique_name, this.enterprise_unique_name);
+    // const root = `${location.host}${ConstantsService.fullscreenchatpath_anon}`;
+    // const path = `/?bot_unique_name=${encodeURIComponent(this.bot.bot_unique_name)}&enterprise_unique_name=${encodeURIComponent(this.enterprise_unique_name)}`;
+    // this.utilityService.copyToClipboard(root + path);
   }
 }

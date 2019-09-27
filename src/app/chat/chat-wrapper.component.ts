@@ -285,6 +285,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
 
+    startNewChatData.consumerDetails.extra_params = {socket_key: this.socket_key};
     this.showOverlay_edit_fullscreen = false;
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot; // todo: is it really required?
 
@@ -414,7 +415,10 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
           .subscribe(() => {
 
             if (messageData.updateConsumerInfo) {
-              this.store.dispatch(new UpdateConsumerByRoomId({consumerDetails: room.consumerDetails, room_id: room.id}));
+              this.store.dispatch(new UpdateConsumerByRoomId({
+                consumerDetails: room.consumerDetails,
+                room_id: room.id
+              }));
               this.utilityService.showSuccessToaster('Consumer details updated');
             } else {
               this.showBotIsThinking = false;

@@ -13,6 +13,7 @@ import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 import {LoggingService} from './logging.service';
 import {ServerService} from './server.service';
+import {ConstantsService} from './constants.service';
 
 const uuidv1 = require('uuid/v4');
 
@@ -644,6 +645,11 @@ export class UtilityService {
 
   convertMsToSec(ms: number) {
     // return ms/?
+  }
+
+  copySharablePreviewLink(bot_unique_name, enterprise_unique_name) {
+    const url = `${location.host}${ConstantsService.fullscreenchatpath_anon}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
+    this.copyToClipboard(encodeURI(url));
   }
 
   copyToClipboard(text) {
