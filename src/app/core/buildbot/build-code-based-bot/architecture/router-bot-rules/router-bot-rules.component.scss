@@ -68,3 +68,16 @@
     flex-direction: column;
   }
 }
+.elseRuleBlock{
+  display: flex;
+  border: solid 1px #eaeaea;
+  background-color: #ffffff;
+  flex-direction: column;
+  .elseRule{
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+  }
+
+}

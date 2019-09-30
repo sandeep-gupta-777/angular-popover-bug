@@ -45,47 +45,126 @@ export class RouterBotRulesComponent implements OnInit {
     'greater',
     'less',
   ]
-
+data = {
+  "bot_id": 1389,
+  "rules": [
+    {
+      "condition": {
+        "and": [
+          {
+            "or": [
+              {
+                "===": [
+                  {
+                    "var": "asd"
+                  },
+                  "sdasd"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "action": {
+        "type": "bot",
+        "destination_bot_id": 1389,
+        "reply_message": "Please wait while i redirect you to luke skywalker"
+      }
+    }
+  ],
+  "else_action": {
+    "type": "bot",
+    "destination_bot_id": 1389,
+    "reply_message": "Please wait while i redirect you to luke skywalker"
+  }
+}
   ngOnInit(): void {
-    this.rulesForm = this.formBuilder.group({
-      rules: this.formBuilder.array([this.getAndRules()])
-    });
+    debugger;
+    this.creatRulesForm(this.data);
     this.botlist$.subscribe(val=>{
       this.botList = val.allBotList;
     })
     console.log(this.rulesForm.value);
   }
+  creatRulesForm(formData){
+    let getAndRulesArray = []
+    for (let ruleData of formData.rules){
+      getAndRulesArray.push(this.getAndRules(ruleData));
+    }
+    debugger;
+    this.rulesForm = this.formBuilder.group({
+      rules: this.formBuilder.array(getAndRulesArray),
+      else_action: this.formBuilder.group(formData.else_action)
+    });
 
-  getAndRules(): FormGroup {
+  }
+  getAndRules(ruleData): FormGroup {
+    let getOrRulesFGArray = []
+    for (let andRuleData of ruleData.condition['and']){
+      getOrRulesFGArray.push(this.getOrRulesFG(andRuleData));
+    }
+  debugger;
     const andRules = this.formBuilder.group({
-      and: this.formBuilder.array([this.getOrRulesFG()]),
-      output: this.formBuilder.group({
-        type: "bot",
-        destination_bot_id: this.bot.id,
-        reply_message: "Please wait while i redirect you to luke skywalker",
-      })
+      and: this.formBuilder.array(getOrRulesFGArray),
+      output: this.formBuilder.group(ruleData.action)
     });
     return andRules;
   }
 
-  getOrRulesFG(): FormGroup {
+  getOrRulesFG(andRuleData): FormGroup {
+    let getOrRuleArray = []
+    for (let orRuleData of andRuleData.or){
+      getOrRuleArray.push(this.getOrRule(orRuleData));
+    }
+  debugger;
     const orRule = this.formBuilder.group({
-      or: this.formBuilder.array([this.getOrRule()])
+      or: this.formBuilder.array(getOrRuleArray)
     });
     return orRule;
   }
 
-  getOrRule() {
+  getOrRule(orRuleData) {
+  debugger;
+  // {
+  //   "===": [
+  //     {
+  //       "var": "asd"
+  //     },
+  //     "sdasd"
+  //   ]
+  // }
+    let givenOperation = Object.keys(orRuleData)[0];
+    let OperationType;
+    if (givenOperation === "===") {
+      OperationType ="equal"
+    } else if (givenOperation ===  "!==") {
+      OperationType ="not_equal"
+    } else if (givenOperation ===  "in") {
+      OperationType ="in"
+    } else if (givenOperation ===  "!==") {
+      OperationType ="not_equal"
+    } else if (givenOperation ===  "==") {
+      OperationType ="exist"
+    } else if (givenOperation ===  ">") {
+      OperationType ="greater"
+    } else if (givenOperation ===  "<") {
+      OperationType ="less"
+    }
+
+
     return this.formBuilder.group({
       type: 'string',
-      operator: "equal",
-      left_operand: 'asd',
-      right_operand: ['sdasd', [Validators.required]],
+      operator: OperationType,
+      left_operand: orRuleData[givenOperation][0].var,
+      right_operand: [orRuleData[givenOperation][1], [Validators.required]],
     });
   }
+  addOrRule(){
 
+  }
   convertFormValueTologicJson() {
     let ruleobj = this.rulesForm.value;
+    let elseObj = this.rulesForm.value.else_action;
   debugger;
     try {
       ruleobj = ruleobj.rules.map((rule) => {
@@ -134,11 +213,28 @@ export class RouterBotRulesComponent implements OnInit {
           action: rule['output']
         }
       })
-      console.log(ruleobj);
-      return ruleobj;
+      // bot_id: 1389
+      // else_action: {type: "message", destination_bot_id: null, reply_message: "this was else"}
+      // rules: ruleobj
+      console.log({bot_id:this.bot.id,rules:ruleobj,else_action:elseObj});
+      return {bot_id:this.bot.id,rules:ruleobj,else_action:elseObj};
     } catch (e) {
       this.utilityService.showErrorToaster("right hand operator is not of mentioned type");
     }
   }
-
+  deleteRule(rulesForm,ruleIndex,singleRule,andRulesIndex,andRule,orRulesIndex){
+    if(andRule.get('or').length === 1 && singleRule.get('and').length === 1 && rulesForm.get('rules').length === 1){
+      this.utilityService.showErrorToaster("Atlest one rule is necessary")
+      console.log("cant delete");
+    }
+    else{
+      andRule.get('or').removeAt(orRulesIndex);
+      if(andRule.get('or').length === 0){
+        singleRule.get('and').removeAt(andRulesIndex);
+        if(singleRule.get('and').length === 0){
+          rulesForm.get('rules').removeAt(ruleIndex);
+        }
+      }
+    }
+    }
 }

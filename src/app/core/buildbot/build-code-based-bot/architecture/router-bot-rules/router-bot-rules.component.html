@@ -5,9 +5,10 @@
                       [status]="uploadingData" [text]="'Update rules'" [icon]="'refresh'">
   </app-button-wrapper>
 </div>
+{{rulesForm.value | json}}
 <form [formGroup]="rulesForm">
   <div formArrayName="rules" class = "allRules">
-    <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" class="mx-2">
+    <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" >
       <div [formGroupName]="ruleIndex" class="singleRule mb-4">
 
         <div class="andRuleArray" formArrayName="and">
@@ -43,7 +44,7 @@
                     <mat-form-field class="mx-1" style="height: 41px;flex:1;">
                       <input matInput formControlName="right_operand" placeholder="Right variable">
                     </mat-form-field>
-                    <mat-icon (click) = "andRule.get('or').removeAt(orRulesIndex);">remove_circle_outline</mat-icon>
+                    <mat-icon (click) = " deleteRule(rulesForm,ruleIndex,singleRule,andRulesIndex,andRule,orRulesIndex)">remove_circle_outline</mat-icon>
                   </div>
                 </div>
                 <div class = "addCondition px-2 ml-1 py-1"
@@ -85,7 +86,41 @@
         </div>
       </div>
     </div>
-    <div class="addCondition mx-2" style="font-size: 13px;font-weight: bold;"
-         (click)="rulesForm.get('rules').push(getAndRules())">+ Add rule</div>
+    <div>
+      <div class="addCondition mb-3" style="font-size: 13px;font-weight: bold;"
+           (click)="rulesForm.get('rules').push(getAndRules())">+ Add rule</div>
+    </div>
+    </div>
+
+  <div class="elseRuleBlock py-2 px-3 " formGroupName="else_action">
+    <div class = "minniHeading py-2">ELSE</div>
+    <div class="elseRule">
+      <mat-form-field style="max-width: 275px;" class="mr-2">
+        <mat-label>Action type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value='bot'>
+            Route to child bot
+          </mat-option>
+          <mat-option value='message'>
+            Reply with message
+          </mat-option>
+          <mat-option value='handover'>
+            Handover to agent
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="rulesForm.get('else_action').get('type').value === 'bot'" style="width: 100%">
+        <mat-label>Destination Bot</mat-label>
+        <mat-select formControlName="destination_bot_id">
+          <mat-option [value]="oneBot.id" *ngFor="let oneBot of botList">
+            {{oneBot.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style="width: 100%"
+        *ngIf="rulesForm.get('else_action').get('type').value === 'message' || rulesForm.get('else_action').get('type').value === 'handover'">
+        <input matInput formControlName="reply_message" placeholder="Reply message">
+      </mat-form-field>
+    </div>
   </div>
 </form>
