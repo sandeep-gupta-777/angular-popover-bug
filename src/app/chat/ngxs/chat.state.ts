@@ -174,6 +174,7 @@ export class ChatSessionStateReducer {
       /*room is not found, this means session is expired. So search by consumer roomId*/
       const consumer_id = payload.consumer_id;
       room = (rooms && (rooms.find((room_temp) => room_temp.consumer_id === consumer_id)));
+      /*in case of socket: ignore if room id and consumer ids arent same*/
       if (room) {
         this.myToasterService.showSuccessToaster('Previous session expired. New session created');
         room.id = payload.id;
