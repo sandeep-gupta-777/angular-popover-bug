@@ -32,6 +32,10 @@ export class SocketService {
     });
   }
 
+  destroySocket(){
+    this.socket.destroy();
+  }
+
   initializeSocketConnection(socketData) {
     if (!SocketService.isInitDone) {
       const url = 'https://imi-bot-middleware.herokuapp.com';

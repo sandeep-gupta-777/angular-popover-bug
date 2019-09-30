@@ -71,6 +71,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('scrollMe') myScrollContainer: ElementRef;
+  preview$Sub: Subscription;
   startANewChat$Sub: Subscription;
   frameEnabled: EChatFrame = EChatFrame.WELCOME_BOX;
   myEChatFrame = EChatFrame; // This is required to use enums in template, we can't use enums direactly in templates
@@ -122,7 +123,8 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeSocketNow(); /*todo: code repeat*/
-    SocketService.preview$.subscribe((data) => {
+    this.preview$Sub = SocketService.preview$.subscribe((data) => {
+      console.log("SocketService.preview$.subscribe");
       this.chatService.botReplyHandler(data);
     });
 
@@ -509,7 +511,9 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     try {
+      debugger;
       this.startANewChat$Sub.unsubscribe();
+      this.preview$Sub.unsubscribe();
     } catch (e) {
       console.log(e);
     }
