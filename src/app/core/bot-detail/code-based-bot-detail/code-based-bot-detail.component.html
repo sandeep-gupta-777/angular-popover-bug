@@ -54,7 +54,7 @@
                 </ng-container>
                 <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
                     <a mat-list-item class="mat-list-item-sidebar"
-                       *ngIf="bot.bot_type === myEBotType.chatbot "
+                       *ngIf="bot.bot_type === myEBotType.chatbot  || bot.bot_type === myEBotType.router"
                        (click)="sideBarTabChanged(myESideBarTab.logic)">
                         <div class="sidebar-nav-list-item"
                              data-cy="sidebar-logic"
