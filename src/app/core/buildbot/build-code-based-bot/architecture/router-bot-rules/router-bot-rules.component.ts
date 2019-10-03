@@ -66,37 +66,7 @@ export class RouterBotRulesComponent implements OnInit {
     "reply_message": "Please wait while i redirect you to luke skywalker"
   }
 
-data = {
-  "bot_id": 1389,
-  "rules": [
-    {
-      "condition": {
-        "and": [
-          {
-            "or": [
-              {"==": [
-                  {
-                    "var": "detected_language"
-                  },
-                  "en"
-                ]}
-            ]
-          }
-        ]
-      },
-      "action": {
-        "type": "bot",
-        "destination_bot_id": 1389,
-        "reply_message": "Please wait while i redirect you to luke skywalker"
-      }
-    }
-  ],
-  "else_action": {
-    "type": "bot",
-    "destination_bot_id": 1389,
-    "reply_message": "Please wait while i redirect you to luke skywalker"
-  }
-}
+
   ngOnInit(): void {
 
     if(this.bot.bot_metadata.router_logic_id){
