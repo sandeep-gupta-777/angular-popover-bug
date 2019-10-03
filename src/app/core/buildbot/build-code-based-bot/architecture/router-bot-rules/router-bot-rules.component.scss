@@ -1,0 +1,83 @@
+@import '~src/sass/main';
+.minniHeading{
+  font-size: 11px;
+  font-weight: bold;
+  color: #474747;
+}
+.addCondition{
+  font-size: 11px;
+  cursor: pointer;
+  color: $color-primary;
+  display: inline-block;
+}
+.overflow-hidden{
+  overflow: hidden;
+}
+.allRules{
+  color: #474747;
+  display: flex;
+  flex-direction: column;
+  .singleRule{
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    border: solid 1px #eaeaea;
+    background-color: #ffffff;
+    .andRuleArray{
+      border-right: solid 1px #eaeaea;
+      .singleAndRule{
+        background-color: #f8f8f8;
+        padding:10px;
+        .orRuleArray{
+          .singleOrRule{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            ::ng-deep{
+              .mat-form-field-infix{
+                width: initial;
+              }
+            }
+            .wight_background{
+              background-color: #ffffff;
+              border-radius: 2px;
+              width: 100px;
+              padding: 5px;
+            }
+            mat-icon{
+              font-size: 16px;
+              opacity: 0.71;
+              cursor: pointer;
+              width: auto;
+              height: auto;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+        }
+      }
+      .addAndCondition{
+        cursor: pointer;
+        color: $primary;
+        font-size: 11px;
+      }
+    }
+  }
+  .rulesOutput{
+    display: flex;
+    flex-direction: column;
+  }
+}
+.elseRuleBlock{
+  display: flex;
+  border: solid 1px #eaeaea;
+  background-color: #ffffff;
+  flex-direction: column;
+  .elseRule{
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+  }
+
+}

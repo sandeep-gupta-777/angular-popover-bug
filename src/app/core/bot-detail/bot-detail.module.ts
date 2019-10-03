@@ -95,6 +95,7 @@ import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/archite
 import { GentemplateSidebarComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 import { PartialMatchResponseComponent } from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
 import {RouterBotRulesComponent} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component";
+import {FilterTypeArrayPipe} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/filter-type-array.pipe";
 
 
 const routes: Route[] = [
@@ -155,6 +156,7 @@ const routes: Route[] = [
     CodeGentemplateComponent,
     TextGentemplateComponent,
     RouterBotRulesComponent,
+    FilterTypeArrayPipe,
     DraggableDirective,
     DropTargetDirective,
     KnowledgeBaseWrapperComponent,

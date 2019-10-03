@@ -511,7 +511,6 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     try {
-      debugger;
       this.startANewChat$Sub.unsubscribe();
       this.preview$Sub.unsubscribe();
     } catch (e) {
