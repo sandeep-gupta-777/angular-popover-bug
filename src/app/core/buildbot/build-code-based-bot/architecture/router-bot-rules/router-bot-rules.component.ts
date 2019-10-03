@@ -172,17 +172,14 @@ export class RouterBotRulesComponent implements OnInit {
       right_operand: [orRuleData[givenOperation][1], [Validators.required]],
     },{validators:this.validationOfTypeOfRightOperator});
     x.get('operator').valueChanges.subscribe( val => {
-      debugger;
       let newTypeArrayinSubscription = this.filterTypeArrayPipe.transform(this.typeArray,val);
       if(!newTypeArrayinSubscription.find((f) => { return f == x.get('type').value})){
-        debugger;
         x.get('type').setValue(newTypeArrayinSubscription[0]);
       }
     })
     return x;
   }
   validationOfTypeOfRightOperator(group: FormGroup){
-    debugger;
     let rightStr =  group.get('right_operand').value;
     if(group.get('type').value === 'string'){
       return null;
