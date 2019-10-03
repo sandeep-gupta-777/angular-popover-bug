@@ -7,6 +7,10 @@ import {UtilityService} from "../../../../../utility.service";
 import {Observable, throwError} from "rxjs";
 import {Select} from "@ngxs/store";
 import {ViewBotStateModel} from "../../../../view-bots/ngxs/view-bot.state";
+import {RouterService} from "../../../../../router.service";
+import {ServerService} from "../../../../../server.service";
+import {ConstantsService} from "../../../../../constants.service";
+import {IHeaderData} from "../../../../../../interfaces/header-data";
 
 @Component({
   selector: 'app-router-bot-rules',
@@ -18,6 +22,8 @@ export class RouterBotRulesComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private utilityService: UtilityService,
+    private serverService: ServerService,
+    private constantsService: ConstantsService
   ) {
   }
 
@@ -26,6 +32,7 @@ export class RouterBotRulesComponent implements OnInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   myEAllActions: EAllActions;
   rulesForm: FormGroup;
+  reloading = false;
   uploadingData = ELoadingStatus.default;
   typeArray = [
     'string',
@@ -40,11 +47,25 @@ export class RouterBotRulesComponent implements OnInit {
     'equal',
     'not_equal',
     'in',
-    'not_equal',
     'exist',
+    'not_exist',
     'greater',
     'less',
   ]
+  mockConditionData = {"==": [
+      {
+        "var": "detected_language"
+      },
+      "en"
+    ]}
+  mockOrRuleData = {'or':[this.mockConditionData]}
+  mockAddRuleCondition =  {"and": [this.mockOrRuleData]}
+  mockRulesAction = {
+    "type": "bot",
+    "destination_bot_id": 1389,
+    "reply_message": "Please wait while i redirect you to luke skywalker"
+  }
+
 data = {
   "bot_id": 1389,
   "rules": [
@@ -53,14 +74,12 @@ data = {
         "and": [
           {
             "or": [
-              {
-                "===": [
+              {"==": [
                   {
-                    "var": "asd"
+                    "var": "detected_language"
                   },
-                  "sdasd"
-                ]
-              }
+                  "en"
+                ]}
             ]
           }
         ]
@@ -79,19 +98,32 @@ data = {
   }
 }
   ngOnInit(): void {
-    debugger;
-    this.creatRulesForm(this.data);
+
+    if(this.bot.bot_metadata.router_logic_id){
+      this.reloading = true;
+      const getRouterBotRuleByRuleIDUrl = this.constantsService.getRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
+      this.serverService.makeGetReq({url: getRouterBotRuleByRuleIDUrl})
+        .subscribe((value: any) => {
+          this.reloading = false;
+          this.creatRulesForm(value);
+        },()=>{
+          this.reloading = false;
+        });
+    }else{
+      this.utilityService.showErrorToaster("Not found router bot logic id")
+    }
+
+    // this.creatRulesForm(this.data);
     this.botlist$.subscribe(val=>{
       this.botList = val.allBotList;
     })
-    console.log(this.rulesForm.value);
+    // console.log(this.rulesForm.value);
   }
   creatRulesForm(formData){
     let getAndRulesArray = []
     for (let ruleData of formData.rules){
       getAndRulesArray.push(this.getAndRules(ruleData));
     }
-    debugger;
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group(formData.else_action)
@@ -103,10 +135,13 @@ data = {
     for (let andRuleData of ruleData.condition['and']){
       getOrRulesFGArray.push(this.getOrRulesFG(andRuleData));
     }
-  debugger;
     const andRules = this.formBuilder.group({
       and: this.formBuilder.array(getOrRulesFGArray),
-      output: this.formBuilder.group(ruleData.action)
+      output: this.formBuilder.group({
+        "type": [ruleData.action.type, [Validators.required]],
+        "destination_bot_id": [ruleData.action.destination_bot_id, [Validators.required]],
+        "reply_message": [ruleData.action.reply_message,[Validators.required]]
+      })
     });
     return andRules;
   }
@@ -116,7 +151,6 @@ data = {
     for (let orRuleData of andRuleData.or){
       getOrRuleArray.push(this.getOrRule(orRuleData));
     }
-  debugger;
     const orRule = this.formBuilder.group({
       or: this.formBuilder.array(getOrRuleArray)
     });
@@ -124,15 +158,6 @@ data = {
   }
 
   getOrRule(orRuleData) {
-  debugger;
-  // {
-  //   "===": [
-  //     {
-  //       "var": "asd"
-  //     },
-  //     "sdasd"
-  //   ]
-  // }
     let givenOperation = Object.keys(orRuleData)[0];
     let OperationType;
     if (givenOperation === "===") {
@@ -150,22 +175,45 @@ data = {
     } else if (givenOperation ===  "<") {
       OperationType ="less"
     }
-
-
+    let rightOperentType = 'string' ;
+    let rightOperant = orRuleData[givenOperation][1];
+    if( rightOperant === 'true' || rightOperant === 'false' || rightOperant === false || rightOperant === true ){
+      rightOperentType = 'boolean';
+    }else{
+      try {
+        let rValue = JSON.parse(rightOperant);
+        if(Array.isArray(rValue)){
+          rightOperentType = 'array';
+        }else{
+          rightOperentType = 'float'
+        }
+      }catch (e) {
+        rightOperentType = 'string';
+      }
+    }
     return this.formBuilder.group({
-      type: 'string',
-      operator: OperationType,
-      left_operand: orRuleData[givenOperation][0].var,
+      type: [rightOperentType, [Validators.required]],
+      operator: [OperationType , [Validators.required]],
+      left_operand: [orRuleData[givenOperation][0].var,[Validators.required]],
       right_operand: [orRuleData[givenOperation][1], [Validators.required]],
     });
   }
-  addOrRule(){
-
+  addOrCondition(andRule){
+    andRule.get('or').push(this.getOrRule(this.mockConditionData));
+  }
+  addAndCondition(singleRule){
+    singleRule.get('and').push(this.getOrRulesFG(this.mockOrRuleData));
+  }
+  addRule(rulesForm){
+    let data = {
+      "condition": this.mockAddRuleCondition,
+      "action": this.mockRulesAction
+    }
+    rulesForm.get('rules').push(this.getAndRules(data))
   }
   convertFormValueTologicJson() {
     let ruleobj = this.rulesForm.value;
     let elseObj = this.rulesForm.value.else_action;
-  debugger;
     try {
       ruleobj = ruleobj.rules.map((rule) => {
         return {
@@ -213,9 +261,6 @@ data = {
           action: rule['output']
         }
       })
-      // bot_id: 1389
-      // else_action: {type: "message", destination_bot_id: null, reply_message: "this was else"}
-      // rules: ruleobj
       console.log({bot_id:this.bot.id,rules:ruleobj,else_action:elseObj});
       return {bot_id:this.bot.id,rules:ruleobj,else_action:elseObj};
     } catch (e) {
@@ -237,4 +282,24 @@ data = {
       }
     }
     }
+
+  updateRouterBotLogic(){
+    if(this.bot.bot_metadata.router_logic_id){
+      const getRouterBotRuleByRuleIDUrl = this.constantsService.getRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
+      const headerData: IHeaderData = {
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      };
+      const body = this.convertFormValueTologicJson();
+      this.serverService.makePutReq({url: getRouterBotRuleByRuleIDUrl, body, headerData})
+        .subscribe((value: any) => {
+          this.utilityService.showSuccessToaster("Bot rule updated");
+          this.uploadingData = ELoadingStatus.success;
+        },()=>{
+          this.uploadingData = ELoadingStatus.error;
+        });
+    }else{
+      this.utilityService.showErrorToaster("Not found router bot logic id")
+    }
+  }
+
 }

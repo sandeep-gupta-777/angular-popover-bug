@@ -1149,6 +1149,10 @@ export class ConstantsService {
   addMessageToCurationFromSession() {
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
   }
+  //routerbot
+  getRouterBotRuleByRuleIDUrl(id){
+    return this.BACKEND_URL + `api/v1/router_logic/${id}/`
+  }
 
   updateBotSerializer(bot: IBot) {
     const clone = {...bot};

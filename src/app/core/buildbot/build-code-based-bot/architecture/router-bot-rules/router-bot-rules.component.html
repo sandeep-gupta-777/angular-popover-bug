@@ -1,12 +1,12 @@
-<div class="d-flex flex-row p-3 align-items-center">
+<div class="d-flex flex-row py-3 align-items-center">
   <div>Rules</div>
-  <app-button-wrapper [disabled]="!rulesForm.valid" class="card--update ml-auto" [isMatFlatButton]="true"
-                      (click)="convertFormValueTologicJson()"
+  <app-button-wrapper [disabled]="!rulesForm?.valid" class="card--update ml-auto" [isMatFlatButton]="true"
+                      (click)="updateRouterBotLogic()"
                       [status]="uploadingData" [text]="'Update rules'" [icon]="'refresh'">
   </app-button-wrapper>
 </div>
-{{rulesForm.value | json}}
-<form [formGroup]="rulesForm">
+<app-imi-loader *ngIf="reloading"></app-imi-loader>
+<form *ngIf="rulesForm && !reloading" [formGroup]="rulesForm" >
   <div formArrayName="rules" class = "allRules">
     <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" >
       <div [formGroupName]="ruleIndex" class="singleRule mb-4">
@@ -36,7 +36,7 @@
                     <mat-form-field class="ml-3 mr-1" style="height: 36px;width:100px;">
                       <mat-label>Data type</mat-label>
                       <mat-select formControlName="type">
-                        <mat-option *ngFor = "let typename of typeArray"  [value]="typename">
+                        <mat-option *ngFor = "let typename of typeArray | filterTypeArray : orRule.get('operator').value "  [value]="typename">
                           {{typename}}
                         </mat-option>
                       </mat-select>
@@ -48,12 +48,12 @@
                   </div>
                 </div>
                 <div class = "addCondition px-2 ml-1 py-1"
-                     (click)="andRule.get('or').push(getOrRule());">+OR Condition</div>
+                     (click)="addOrCondition(andRule)">+OR Condition</div>
               </div>
             </div>
           </div>
           <div class = "addCondition py-2 px-3"
-               (click)="singleRule.get('and').push(getOrRulesFG());">+AND Condition</div>
+               (click)="addAndCondition(singleRule)">+AND Condition</div>
         </div>
         <div class="rulesOutput py-2 px-3" formGroupName="output">
           <div class = "minniHeading mb-2">THEN</div>
@@ -88,7 +88,7 @@
     </div>
     <div>
       <div class="addCondition mb-3" style="font-size: 13px;font-weight: bold;"
-           (click)="rulesForm.get('rules').push(getAndRules())">+ Add rule</div>
+           (click)="addRule(rulesForm)">+ Add rule</div>
     </div>
     </div>
 
