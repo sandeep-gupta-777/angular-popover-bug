@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from "../../../../interfaces/IBot";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {EAllActions} from "../../../../../typings/enum";
 import {ELoadingStatus} from "../../../../../button-wrapper/button-wrapper.component";
 import {UtilityService} from "../../../../../utility.service";
@@ -11,11 +11,13 @@ import {RouterService} from "../../../../../router.service";
 import {ServerService} from "../../../../../server.service";
 import {ConstantsService} from "../../../../../constants.service";
 import {IHeaderData} from "../../../../../../interfaces/header-data";
+import {FilterTypeArrayPipe} from "./filter-type-array.pipe";
 
 @Component({
   selector: 'app-router-bot-rules',
   templateUrl: './router-bot-rules.component.html',
-  styleUrls: ['./router-bot-rules.component.scss']
+  styleUrls: ['./router-bot-rules.component.scss'],
+  providers: [FilterTypeArrayPipe]
 })
 export class RouterBotRulesComponent implements OnInit {
 
@@ -23,7 +25,8 @@ export class RouterBotRulesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private utilityService: UtilityService,
     private serverService: ServerService,
-    private constantsService: ConstantsService
+    private constantsService: ConstantsService,
+    private filterTypeArrayPipe: FilterTypeArrayPipe
   ) {
   }
 
@@ -68,7 +71,6 @@ export class RouterBotRulesComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     if(this.bot.bot_metadata.router_logic_id){
       this.reloading = true;
       const getRouterBotRuleByRuleIDUrl = this.constantsService.getRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
@@ -82,12 +84,9 @@ export class RouterBotRulesComponent implements OnInit {
     }else{
       this.utilityService.showErrorToaster("Not found router bot logic id")
     }
-
-    // this.creatRulesForm(this.data);
     this.botlist$.subscribe(val=>{
       this.botList = val.allBotList;
     })
-    // console.log(this.rulesForm.value);
   }
   creatRulesForm(formData){
     let getAndRulesArray = []
@@ -96,9 +95,12 @@ export class RouterBotRulesComponent implements OnInit {
     }
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
-      else_action: this.formBuilder.group(formData.else_action)
+      else_action: this.formBuilder.group({
+        "type": [formData.else_action.type,[Validators.required]],
+        "destination_bot_id": [formData.else_action.destination_bot_id,[Validators.required]],
+        "reply_message": [formData.else_action.reply_message,[Validators.required]]
+      })
     });
-
   }
   getAndRules(ruleData): FormGroup {
     let getOrRulesFGArray = []
@@ -115,7 +117,6 @@ export class RouterBotRulesComponent implements OnInit {
     });
     return andRules;
   }
-
   getOrRulesFG(andRuleData): FormGroup {
     let getOrRuleArray = []
     for (let orRuleData of andRuleData.or){
@@ -126,7 +127,6 @@ export class RouterBotRulesComponent implements OnInit {
     });
     return orRule;
   }
-
   getOrRule(orRuleData) {
     let givenOperation = Object.keys(orRuleData)[0];
     let OperationType;
@@ -161,12 +161,49 @@ export class RouterBotRulesComponent implements OnInit {
         rightOperentType = 'string';
       }
     }
-    return this.formBuilder.group({
+    let newTypeArray = this.filterTypeArrayPipe.transform(this.typeArray,OperationType);
+    if(!newTypeArray.find((f) => { return f == rightOperentType})){
+      rightOperentType = newTypeArray[0];
+    }
+    let x =  this.formBuilder.group({
       type: [rightOperentType, [Validators.required]],
       operator: [OperationType , [Validators.required]],
       left_operand: [orRuleData[givenOperation][0].var,[Validators.required]],
       right_operand: [orRuleData[givenOperation][1], [Validators.required]],
-    });
+    },{validators:this.validationOfTypeOfRightOperator});
+    x.get('operator').valueChanges.subscribe( val => {
+      debugger;
+      let newTypeArrayinSubscription = this.filterTypeArrayPipe.transform(this.typeArray,val);
+      if(!newTypeArrayinSubscription.find((f) => { return f == x.get('type').value})){
+        debugger;
+        x.get('type').setValue(newTypeArrayinSubscription[0]);
+      }
+    })
+    return x;
+  }
+  validationOfTypeOfRightOperator(group: FormGroup){
+    debugger;
+    let rightStr =  group.get('right_operand').value;
+    if(group.get('type').value === 'string'){
+      return null;
+    }else if(group.get('type').value === 'variable'){
+      return /^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(rightStr) ? null : {rightTypeError : "this is not a variable name"};
+    }else if(group.get('type').value === 'integer'){
+      return  /^[-+]?\d+$/.test(rightStr) ? null : {rightTypeError : "this is not a integer"};
+    }else if(group.get('type').value === 'boolean'){
+      return (rightStr === 'true' || rightStr === 'false' || rightStr === false || rightStr === true) ? null : {rightTypeError : "this is not a boolean"} ;
+    }else if(group.get('type').value === 'float'){
+      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not a integer"};
+    }else if(group.get('type').value === 'array'){
+      try {
+        let rValue = JSON.parse(rightStr);
+        return  Array.isArray(rValue) ? null : {rightTypeError : "this is not a array"};
+      }catch (e) {
+        return {rightTypeError : "this is not a array"}
+      }
+    }else if(group.get('type').value === 'dictionary'){
+      return null;
+    }
   }
   addOrCondition(andRule){
     andRule.get('or').push(this.getOrRule(this.mockConditionData));
@@ -252,7 +289,6 @@ export class RouterBotRulesComponent implements OnInit {
       }
     }
     }
-
   updateRouterBotLogic(){
     if(this.bot.bot_metadata.router_logic_id){
       const getRouterBotRuleByRuleIDUrl = this.constantsService.getRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);

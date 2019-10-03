@@ -27,6 +27,7 @@ export class FilterTypeArrayPipe implements PipeTransform {
     //   'exist',
     //   'greater',
     //   'less',
+
     if(operation === 'equal' || operation === 'not_equal'){
         return ['string', 'variable', 'integer', 'boolean', 'float', 'array']
     }else if(operation === 'in'){

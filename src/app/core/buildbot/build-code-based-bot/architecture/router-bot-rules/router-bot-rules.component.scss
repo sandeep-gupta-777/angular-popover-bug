@@ -81,3 +81,9 @@
   }
 
 }
+.input-error{
+  position: absolute;
+  bottom: -15px;
+  font-size: 11px;
+  color: $color-danger;
+}

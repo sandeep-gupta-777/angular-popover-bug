@@ -20,11 +20,11 @@
                 <div *ngFor="let orRule of andRule.get('or').controls; let orRulesIndex = index;" class="mx-2 overflow-hidden">
                   <div class = "minniHeading py-2 ml-1" *ngIf="orRulesIndex > 0">OR</div>
                   <div [formGroupName]="orRulesIndex" class="singleOrRule">
-                    <mat-form-field style="height: 41px;flex:1;" class="ml-1 mr-3">
+                    <mat-form-field style="height: 60px;flex:1;" class="ml-1 mr-3">
                       <input matInput formControlName="left_operand" placeholder="Left variable">
                     </mat-form-field>
                     <div class="wight_background ml-1 mx-3">
-                      <mat-form-field class="w-100" style="height: 36px;">
+                      <mat-form-field class="w-100" style="height: 55px;">
                         <mat-label>Operator</mat-label>
                         <mat-select formControlName="operator">
                           <mat-option *ngFor="let operatorName of operatorNamesArray" [value]="operatorName">
@@ -33,7 +33,7 @@
                         </mat-select>
                       </mat-form-field>
                     </div>
-                    <mat-form-field class="ml-3 mr-1" style="height: 36px;width:100px;">
+                    <mat-form-field class="ml-3 mr-1" style="height: 55px;width:100px;">
                       <mat-label>Data type</mat-label>
                       <mat-select formControlName="type">
                         <mat-option *ngFor = "let typename of typeArray | filterTypeArray : orRule.get('operator').value "  [value]="typename">
@@ -41,13 +41,17 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="mx-1" style="height: 41px;flex:1;">
+                    <mat-form-field class="mx-1" style="height: 60px;flex:1;">
                       <input matInput formControlName="right_operand" placeholder="Right variable">
+                      <div class="input-error" *ngIf="orRule.errors?.rightTypeError">
+                        {{orRule.errors?.rightTypeError}}
+                      </div>
+<!--                      {{orRule.errors | json}}-->
                     </mat-form-field>
                     <mat-icon (click) = " deleteRule(rulesForm,ruleIndex,singleRule,andRulesIndex,andRule,orRulesIndex)">remove_circle_outline</mat-icon>
                   </div>
                 </div>
-                <div class = "addCondition px-2 ml-1 py-1"
+                <div class = "addCondition pb-2 ml-1 py-1"
                      (click)="addOrCondition(andRule)">+OR Condition</div>
               </div>
             </div>
