@@ -65,7 +65,7 @@ export class RouterBotRulesComponent implements OnInit {
   mockAddRuleCondition =  {"and": [this.mockOrRuleData]}
   mockRulesAction = {
     "type": "bot",
-    "destination_bot_id": 1389,
+    "destination_bot_id": 1234,
     "reply_message": "Please wait while i redirect you to luke skywalker"
   }
 
@@ -96,9 +96,9 @@ export class RouterBotRulesComponent implements OnInit {
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group({
-        "type": [formData.else_action.type,[Validators.required]],
-        "destination_bot_id": [formData.else_action.destination_bot_id,[Validators.required]],
-        "reply_message": [formData.else_action.reply_message,[Validators.required]]
+        "type": [formData.else_action.type || "bot", [Validators.required]],
+        "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.id, [Validators.required]],
+        "reply_message": [formData.else_action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
       })
     });
   }
@@ -110,9 +110,9 @@ export class RouterBotRulesComponent implements OnInit {
     const andRules = this.formBuilder.group({
       and: this.formBuilder.array(getOrRulesFGArray),
       output: this.formBuilder.group({
-        "type": [ruleData.action.type, [Validators.required]],
-        "destination_bot_id": [ruleData.action.destination_bot_id, [Validators.required]],
-        "reply_message": [ruleData.action.reply_message,[Validators.required]]
+        "type": [ruleData.action.type || "bot", [Validators.required]],
+        "destination_bot_id": [ruleData.action.destination_bot_id || this.bot.id, [Validators.required]],
+        "reply_message": [ruleData.action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
       })
     });
     return andRules;

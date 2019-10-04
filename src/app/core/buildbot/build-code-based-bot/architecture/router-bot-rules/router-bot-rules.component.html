@@ -1,7 +1,7 @@
 <div class="d-flex flex-row py-3 align-items-center">
   <div>Rules</div>
   <app-button-wrapper [disabled]="!rulesForm?.valid" class="card--update ml-auto" [isMatFlatButton]="true"
-                      (click)="updateRouterBotLogic()"
+                      (btnClick)="updateRouterBotLogic()"
                       [status]="uploadingData" [text]="'Update rules'" [icon]="'refresh'">
   </app-button-wrapper>
 </div>
