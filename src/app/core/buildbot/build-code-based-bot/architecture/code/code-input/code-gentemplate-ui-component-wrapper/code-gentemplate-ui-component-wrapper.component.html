@@ -24,6 +24,7 @@
     <app-text-gentemplate
       *ngIf="outputItem.text"
       class="flex-grow-1"
+      [bot]="bot"
       [outputItem]="outputItem"
       [variants]="outputItem.text"></app-text-gentemplate>
     <app-code-gentemplate *ngIf="outputItem.code  && ((outputItem|dataType)!=='string')"

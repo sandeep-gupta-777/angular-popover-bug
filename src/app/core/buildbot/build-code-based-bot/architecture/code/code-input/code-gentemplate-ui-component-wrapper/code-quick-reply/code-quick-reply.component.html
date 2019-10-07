@@ -3,7 +3,7 @@
       class="p-3 bg-white shadow-theme"
       style="width: 200px"
       (submit)="saveQuickReplyForm(quickReplyForm)">
-  <input type="text" [ngModel]="content_type" name="content_type" hidden>
+  <input [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" [ngModel]="content_type" name="content_type" hidden>
   <!--first tabbing row starts-->
   <ul class="nav nav-tabs theme-tabbing mb-1 bg-white">
     <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.text)"
@@ -17,12 +17,12 @@
 
   <div>
     <label class="required">Reply Label</label>
-    <input type="text" ngModel name="title"
+    <input [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" ngModel name="title"
            class="form-control">
   </div>
   <!--text specific details start-->
   <div [hidden]="content_type!==myEQuickReplyTypes.text">
-    <input type="text" [ngModel]="textType" name="textType" hidden>
+    <input [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" [ngModel]="textType" name="textType" hidden>
     <ul class="nav nav-tabs border-0 theme-tabbing my-1 bg-white">
       <li class="nav-item" (click)="subTabChanged(myEQuickReplySubTabsType.payload)"
           [ngClass]="{'tab-active':textType===myEQuickReplySubTabsType.payload}">
@@ -40,7 +40,7 @@
                           (clickedOnArticle)="enterArticleSearch($event)"> </app-faq-search-box>
       <label *ngIf = "inArticleResponse && bot" class="required mt-1">Linked to article</label>
       <div class="mb-1"*ngIf = "inArticleResponse && bot && quick_reply && quick_reply.payload">{{quick_reply.payload}}</div>
-      <input type="text" ngModel name="payload" [hidden]="inArticleResponse"
+      <input [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" ngModel name="payload" [hidden]="inArticleResponse"
              class="form-control">
     </div>
   </div>

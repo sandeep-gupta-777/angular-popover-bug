@@ -20,7 +20,7 @@
         </div>
         <div class="col-10 p-0">
           <div class =" flex-row d-inline-flex align-items-center bg-message-human-wrapper">
-              <div class="message p-2 bg-message-human">
+              <div class="message p-2 bg-message-human" [ngClass]="{rtl: sessionMessage.message_store.response_language === 'ar'}" >
                   <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
                 </div>
                 <div class ="ml-3 onParentHover" style="color: #bebebe">
