@@ -31,7 +31,7 @@ export class RouterBotRulesComponent implements OnInit {
   }
 
   @Input() bot: IBot;
-  botList: IBot[];
+  botListofChild: IBot[];
   @Select() botlist$: Observable<ViewBotStateModel>;
   myEAllActions: EAllActions;
   rulesForm: FormGroup;
@@ -85,7 +85,13 @@ export class RouterBotRulesComponent implements OnInit {
       this.utilityService.showErrorToaster("Not found router bot logic id")
     }
     this.botlist$.subscribe(val=>{
-      this.botList = val.allBotList;
+      this.botListofChild = val.allBotList;
+      this.botListofChild = this.botListofChild.filter(val => {
+        return this.bot.child_bots.find(x=>{
+          return x == val.id;
+        })
+      });
+      this.botListofChild.sort(function(a, b){return b.name < a.name ? 1:-1})
     })
   }
   creatRulesForm(formData){
@@ -97,7 +103,7 @@ export class RouterBotRulesComponent implements OnInit {
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group({
         "type": [formData.else_action.type || "bot", [Validators.required]],
-        "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.id, [Validators.required]],
+        "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
         "reply_message": [formData.else_action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
       })
     });
@@ -111,7 +117,7 @@ export class RouterBotRulesComponent implements OnInit {
       and: this.formBuilder.array(getOrRulesFGArray),
       output: this.formBuilder.group({
         "type": [ruleData.action.type || "bot", [Validators.required]],
-        "destination_bot_id": [ruleData.action.destination_bot_id || this.bot.id, [Validators.required]],
+        "destination_bot_id": [ruleData.action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
         "reply_message": [ruleData.action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
       })
     });

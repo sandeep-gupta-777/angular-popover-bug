@@ -78,7 +78,7 @@
           <mat-form-field *ngIf="singleRule.get('output').get('type').value === 'bot'" style="max-width: 275px;">
             <mat-label>Destination Bot</mat-label>
             <mat-select formControlName="destination_bot_id">
-              <mat-option [value]="oneBot.id" *ngFor="let oneBot of botList">
+              <mat-option [value]="oneBot.id" *ngFor="let oneBot of botListofChild">
                 {{oneBot.name}}
               </mat-option>
             </mat-select>
@@ -116,7 +116,7 @@
       <mat-form-field *ngIf="rulesForm.get('else_action').get('type').value === 'bot'" style="width: 100%">
         <mat-label>Destination Bot</mat-label>
         <mat-select formControlName="destination_bot_id">
-          <mat-option [value]="oneBot.id" *ngFor="let oneBot of botList">
+          <mat-option [value]="oneBot.id" *ngFor="let oneBot of botListofChild">
             {{oneBot.name}}
           </mat-option>
         </mat-select>
