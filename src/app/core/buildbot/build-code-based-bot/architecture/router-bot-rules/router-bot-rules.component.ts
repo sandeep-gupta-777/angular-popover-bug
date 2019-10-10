@@ -12,6 +12,7 @@ import {ServerService} from "../../../../../server.service";
 import {ConstantsService} from "../../../../../constants.service";
 import {IHeaderData} from "../../../../../../interfaces/header-data";
 import {FilterTypeArrayPipe} from "./filter-type-array.pipe";
+import {validate} from "codelyzer/walkerFactory/walkerFn";
 
 @Component({
   selector: 'app-router-bot-rules',
@@ -71,6 +72,15 @@ export class RouterBotRulesComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.botlist$.subscribe(val=>{
+      this.botListofChild = val.allBotList;
+      this.botListofChild = this.botListofChild.filter(val => {
+        return this.bot.child_bots.find(x=>{
+          return x == val.id;
+        })
+      });
+      this.botListofChild.sort(function(a, b){return b.name < a.name ? 1:-1})
+    })
     if(this.bot.bot_metadata.router_logic_id){
       this.reloading = true;
       const getRouterBotRuleByRuleIDUrl = this.constantsService.getRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
@@ -84,15 +94,6 @@ export class RouterBotRulesComponent implements OnInit {
     }else{
       this.utilityService.showErrorToaster("Not found router bot logic id")
     }
-    this.botlist$.subscribe(val=>{
-      this.botListofChild = val.allBotList;
-      this.botListofChild = this.botListofChild.filter(val => {
-        return this.bot.child_bots.find(x=>{
-          return x == val.id;
-        })
-      });
-      this.botListofChild.sort(function(a, b){return b.name < a.name ? 1:-1})
-    })
   }
   creatRulesForm(formData){
     let getAndRulesArray = []
@@ -105,7 +106,7 @@ export class RouterBotRulesComponent implements OnInit {
         "type": [formData.else_action.type || "bot", [Validators.required]],
         "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
         "reply_message": [formData.else_action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
-      })
+      },{validators:this.validationOfOutputForm.bind(this)})
     });
   }
   getAndRules(ruleData): FormGroup {
@@ -119,7 +120,7 @@ export class RouterBotRulesComponent implements OnInit {
         "type": [ruleData.action.type || "bot", [Validators.required]],
         "destination_bot_id": [ruleData.action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
         "reply_message": [ruleData.action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
-      })
+      },{validators:this.validationOfOutputForm.bind(this)})
     });
     return andRules;
   }
@@ -184,6 +185,15 @@ export class RouterBotRulesComponent implements OnInit {
       }
     })
     return x;
+  }
+  validationOfOutputForm(group: FormGroup){
+    if(group.get('type').value === "bot" && this.botListofChild){
+      if(this.botListofChild.find(bot => {return bot.id === group.get('destination_bot_id').value })){
+        return null;
+      }else{
+        return {botNotPresent : "this bot is not the child bot of this bot"}
+      }
+    }
   }
   validationOfTypeOfRightOperator(group: FormGroup){
     let rightStr =  group.get('right_operand').value;

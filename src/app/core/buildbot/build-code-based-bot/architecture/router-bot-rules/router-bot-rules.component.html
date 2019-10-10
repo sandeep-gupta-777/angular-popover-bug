@@ -82,7 +82,11 @@
                 {{oneBot.name}}
               </mat-option>
             </mat-select>
+            <div class="input-error" *ngIf="singleRule.get('output').errors?.botNotPresent">
+              {{singleRule.get('output').errors?.botNotPresent}}
+            </div>
           </mat-form-field>
+
           <mat-form-field style="max-width: 275px;"
             *ngIf="singleRule.get('output').get('type').value === 'message' || singleRule.get('output').get('type').value === 'handover'">
             <input matInput formControlName="reply_message" placeholder="Reply message">
@@ -120,6 +124,9 @@
             {{oneBot.name}}
           </mat-option>
         </mat-select>
+        <div class="input-error" *ngIf="rulesForm.get('else_action').errors?.botNotPresent">
+          {{rulesForm.get('else_action').errors?.botNotPresent}}
+        </div>
       </mat-form-field>
       <mat-form-field style="width: 100%"
         *ngIf="rulesForm.get('else_action').get('type').value === 'message' || rulesForm.get('else_action').get('type').value === 'handover'">

@@ -31,7 +31,7 @@ export class FilterTypeArrayPipe implements PipeTransform {
     if(operation === 'equal' || operation === 'not_equal'){
         return ['string', 'variable', 'integer', 'boolean', 'float', 'array']
     }else if(operation === 'in'){
-        return ['variable','string']
+        return ['variable','string','array']
     }else if(operation === 'greater' || operation === 'less' ){
         return ['integer','float']
     }else if(operation === 'exist' || operation === 'not_exist'){
