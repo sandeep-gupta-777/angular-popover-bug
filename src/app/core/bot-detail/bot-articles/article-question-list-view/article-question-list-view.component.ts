@@ -14,6 +14,7 @@ export class ArticleQuestionListViewComponent implements OnInit {
   @Output() removeFilterItemByIdEvent = new EventEmitter();
   @Output() articleListItemClicked = new EventEmitter();
   @Input() filter_categorie_id_list: string[];
+  @Input() language:string;
   currentPage = 0;
   @Input() set _currentPage(val) {
 
