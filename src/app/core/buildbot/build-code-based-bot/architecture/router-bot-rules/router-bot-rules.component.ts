@@ -56,7 +56,7 @@ export class RouterBotRulesComponent implements OnInit {
     'greater',
     'less',
   ]
-  mockConditionData = {"==": [
+  mockConditionData = {"===": [
       {
         "var": "detected_language"
       },
