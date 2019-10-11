@@ -123,7 +123,7 @@ export class RouterBotRulesComponent implements OnInit {
       },{validators:this.validationOfOutputForm.bind(this)})
     });
     return andRules;
-  }
+  }Route to
   getOrRulesFG(andRuleData): FormGroup {
     let getOrRuleArray = []
     for (let orRuleData of andRuleData.or){
@@ -202,17 +202,17 @@ export class RouterBotRulesComponent implements OnInit {
     }else if(group.get('type').value === 'variable'){
       return /^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(rightStr) ? null : {rightTypeError : "this is not a variable name"};
     }else if(group.get('type').value === 'integer'){
-      return  /^[-+]?\d+$/.test(rightStr) ? null : {rightTypeError : "this is not a integer"};
+      return  /^[-+]?\d+$/.test(rightStr) ? null : {rightTypeError : "this is not an integer"};
     }else if(group.get('type').value === 'boolean'){
       return (rightStr === 'true' || rightStr === 'false' || rightStr === false || rightStr === true) ? null : {rightTypeError : "this is not a boolean"} ;
     }else if(group.get('type').value === 'float'){
-      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not a integer"};
+      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not an integer"};
     }else if(group.get('type').value === 'array'){
       try {
         let rValue = JSON.parse(rightStr);
-        return  Array.isArray(rValue) ? null : {rightTypeError : "this is not a array"};
+        return  Array.isArray(rValue) ? null : {rightTypeError : "this is not an array"};
       }catch (e) {
-        return {rightTypeError : "this is not a array"}
+        return {rightTypeError : "this is not an array"}
       }
     }else if(group.get('type').value === 'dictionary'){
       return null;
