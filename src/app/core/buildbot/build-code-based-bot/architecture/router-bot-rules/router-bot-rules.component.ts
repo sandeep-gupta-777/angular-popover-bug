@@ -123,7 +123,7 @@ export class RouterBotRulesComponent implements OnInit {
       },{validators:this.validationOfOutputForm.bind(this)})
     });
     return andRules;
-  }Route to
+  }
   getOrRulesFG(andRuleData): FormGroup {
     let getOrRuleArray = []
     for (let orRuleData of andRuleData.or){
