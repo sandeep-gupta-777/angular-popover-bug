@@ -35,6 +35,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/codemirror/",
                 "output": "./assets/codemirror"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/imi-chat-preview/dist",
+                "output": "./assets/imi-chat-preview"
               }
             ],
             "styles": [
@@ -183,7 +188,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json"
+              "src/manifest.json",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/imi-chat-preview/dist",
+                "output": "./assets/imi-chat-preview"
+              }
             ]
           }
         },
