@@ -141,7 +141,7 @@ const routes: Route[] = [
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
-    EnterpriseRolesComponent
+    EnterpriseRolesComponent,
   ],
   entryComponents: [
     ModalConfirmComponent,
@@ -156,7 +156,6 @@ const routes: Route[] = [
     HttpClientModule,
     SharedModule,
     LazyLoadImageModule,
-    ReactiveFormsModule,
     MyMaterialModule,
     // ScrollDispatchModule,
     ScrollingModule,
@@ -167,6 +166,8 @@ const routes: Route[] = [
       VersionStateReducer,
     ])
   ],
+  exports: [
+  ],
   providers: [
     EventService,
     ConstantsService,
@@ -174,7 +175,6 @@ const routes: Route[] = [
     AccessGaurdService,
     StoreVariableService,
     MyToasterService,
-    FormsService,
     PermissionService,
     UtilityService,
     ServerService,

@@ -2,10 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {BreakpointService} from '../core/breakpoint.service';
 
 export enum ELoadingStatus {
-  default,
-  loading,
-  success,
-  error
+  default = 'initial',
+  loading = 'loading',
+  success = 'success',
+  error = 'error',
 }
 
 @Component({
@@ -28,7 +28,7 @@ export class ButtonWrapperComponent implements OnInit {
   borderColor = '#e0e0e0';
   _status: ELoadingStatus = ELoadingStatus.default;
   @Input() set status(val) {
-    if (!val || val === ELoadingStatus.default ) {
+    if (!val || val === ELoadingStatus.default) {
       this._status = ELoadingStatus.default;
       return;
     }
@@ -49,7 +49,9 @@ export class ButtonWrapperComponent implements OnInit {
       }, 3000);
     }
   }
-  constructor(public breakpointService: BreakpointService) { }
+
+  constructor(public breakpointService: BreakpointService) {
+  }
 
   ngOnInit() {
 

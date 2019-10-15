@@ -26,7 +26,6 @@ import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {MyToasterService} from '../../my-toaster.service';
 import {LoggingService} from '../../logging.service';
 import {LoadJsService} from '../../core/load-js.service';
-import {MessagingService} from '../../../messaging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -54,6 +53,23 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
+  infoPageData = [
+    {
+      img: 'assets/img/orchestrate.svg',
+      title: 'Orchestrate',
+      description: 'Route the flow based on user’s need by orchestrating multiple bots using a single bot'
+    },
+    {
+      img: 'assets/img/integrate.svg',
+      title: 'Integrate',
+      description: 'Deploy your bot across social, voice and live channels with one-click'
+    },
+    {
+      img: 'assets/img/facilitate.svg',
+      title: 'Facilitate',
+      description: 'Based on where the user is within a flow, trigger actions to execute or handover to agents seamlessly'
+    },
+  ];
 
   constructor(
     private serverService: ServerService,
@@ -113,6 +129,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             // this.serverService.getNSetMasterPermissionsList(),
             this.serverService.getNSetIntegrationList(),
             this.serverService.getNSetPipelineModuleV2(),
+            this.serverService.getNSetBotLanguages(),
             this.serverService.getNSetRoleInfo()
           ]
         );
@@ -138,6 +155,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         // document.cookie = `auth-token=${this.userData.auth_token};`;
         // document.cookie = `user-access-token=${this.userData.user_access_token}`;
         // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
+        this.userValue = {
+          ...this.userValue,
+          socket_key: Date.now().toString()
+        };
         return this.store.dispatch([
           new SetUser({user: this.userValue, is_loggedIn: true}),
         ]);
@@ -165,7 +186,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     )
       .subscribe(() => {
       });
-  //
+    //
   }
 
   sendEmailForReset() {
@@ -233,7 +254,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     }
     body = {
       ...body,
-      fcm_token: MessagingService.fcm_token
     };
     this.disabeLoginButton = true;
     const headerData: IHeaderData = {
@@ -243,8 +263,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
-          ServerService.setCookie('auth-token', user.auth_token);
-          ServerService.setCookie('user-access-token', user.user_access_token);
+            ServerService.setCookie('auth-token', user.auth_token);
+            ServerService.setCookie('user-access-token', user.user_access_token);
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
             if (this.userData.enterprises.length <= 1) {
               const enterpriseDate = {
@@ -294,7 +314,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         'user_id': this.userData.id,
         'enterprise_id': Enterprise.enterpriseId,
         'role_id': Enterprise.roleId,
-        fcm_token: MessagingService.fcm_token
       };
       const headerData = {
         'auth-token': this.userData.auth_token
@@ -341,7 +360,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   ngAfterViewInit(): void {
-    LoadJsService.load();
+    // LoadJsService.load();
   }
 
 

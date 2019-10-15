@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {MessagingService} from '../messaging.service';
 
 declare var CodeMirror: any;
 

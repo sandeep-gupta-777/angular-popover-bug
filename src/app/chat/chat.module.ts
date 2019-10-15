@@ -34,6 +34,7 @@ import {FilePreviewOverlayService} from '../overlay.service';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {ScriptsLoadResolver} from '../script-load.resolver';
 import { ChatKnowMorePanelComponent } from './chat-know-more-panel/chat-know-more-panel.component';
+import {SocketService} from '../socket.service';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -83,6 +84,7 @@ const routes: Route[] = [
 
   ],
   providers: [
+    SocketService,
     DatePipe,
     StoreVariableService,
     UtilityService,

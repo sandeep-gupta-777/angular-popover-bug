@@ -13,13 +13,18 @@
 
   .info-section {
     width: 57%;
-    padding-top: 70px;
-    padding-left: 70px;
+    padding-top: 6%;
+    padding-left: 6%;
     padding-bottom: 70px;
     display: flex;
     flex-direction: column;
-    .info-section-wrapper{
+
+    .info-section-wrapper {
       max-width: 470px;
+      height: 70vh;
+      //background: rebeccapurple;
+      display: flex;
+      flex-direction: column;
     }
 
     .imi-logo {
@@ -34,15 +39,24 @@
       font-size: 24px;
       margin-top: 24px;
       font-weight: 300;
+      color: #343434;
+      .nlp-bold{
+        font-weight: 600;
+      }
     }
 
     .info-section-body {
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin-top: 48px;
-
+      margin-top: 36px;
+      max-height: 350px;
+      //background: gray;
+      //height: 100%;
       .intro-item {
+
+        margin-top: auto;
+        margin-bottom: auto;
         //margin-top: 24px;
         &:first-child {
           //margin-top: auto;
@@ -50,12 +64,14 @@
 
         .item-img-container {
           width: 70px;
+          flex-grow: 0;
+          flex-shrink: 0;
         }
 
         display: flex;
         height: 63px;
         margin-left: 20px;
-        margin-bottom: 25px;
+        //margin-bottom: 25px;
 
         .text {
           padding-left: 20px;
@@ -66,6 +82,10 @@
   }
 
   .login-form-section {
+    section{
+      margin-bottom: 10% !important;
+      width: 70%;
+    }
     padding-left: 48px;
     padding-right: 48px;
     width: 43%;
@@ -74,21 +94,14 @@
     align-items: center;
     color: white;
 
-    .login-form {
-      //width: 370px;
-      //section {
-      //  max-width: 350px;
-      //  width: 50%;
-      //}
+    .imi-logo {
+      display: none;
     }
 
-    //.login-form-section{
     section {
-      max-width: 350px;
+      //max-width: 350px;
       //width: 50%;
     }
-
-    //}
 
     ::ng-deep {
       .enterprise-flex {
@@ -105,7 +118,7 @@
 
         .enterprise-grid-item {
           &:hover {
-            color: black;
+            //color: black;
           }
         }
       }
@@ -116,7 +129,7 @@
     }
 
     .text {
-      margin-bottom: 80px;
+      margin-bottom: 40px;
     }
 
     .title {
@@ -126,15 +139,12 @@
   }
 }
 
-
-/**/
-
 .imi-fixed-logo {
   @extend %fixed-top-left;
 }
 
 *:not(.fa) {
-  font-family: Helvetica, serif;
+  font-family: IBM Plex Sans, serif;
 }
 
 button {
@@ -171,17 +181,15 @@ button {
     flex-wrap: wrap;
 
     .login-box {
-      margin-right: auto;
-      margin-left: 3rem;
-      width: 50%;
+      //width: 60%;
+      //margin-right: auto;
+      //margin-left: 3rem;
+      //width: 50%;
 
       .form-theme-error, .form-theme-info {
         font-size: 13px;
       }
 
-      .user-info {
-        height: 20px;
-      }
     }
   }
 
@@ -215,7 +223,7 @@ button {
       display: flex;
       align-items: start;
       justify-content: center;
-
+      //margin-bottom: 10% !important;
       .login-box {
         margin-right: auto;
         margin-left: auto;
@@ -255,18 +263,19 @@ button {
   }
 
   .checkmark {
-    width: 48px;
-    height: 48px;
+    width: 20px;
+    height: 20px;
     display: flex;
     border-radius: 50%;
     align-items: center;
     justify-content: center;
     border: 1px solid #c9e16a;
-    margin-bottom: 27px;
+    //margin-bottom: 27px;
+    margin-left: 8px;
 
     .fa {
       color: #9dc406;
-      font-size: 20px;
+      font-size: 14px;
     }
   }
 
@@ -331,13 +340,39 @@ button {
 .title {
   font-size: 16px;
   font-weight: 600;
+  margin-bottom: 16px;
 }
-
-.description {
-
-}
-
 
 button[disabled] {
   color: white !important;
+}
+
+.user-info {
+  height: 20px;
+}
+
+
+@media screen and (max-width: 890px) {
+  .info-section {
+    display: none !important;
+  }
+
+  .login-form-section {
+    width: 100% !important;
+    justify-content: center;
+
+    section{
+      margin-bottom: 10% !important;
+      width: 100%!important;
+      max-width: 450px;
+    }
+
+    .imi-logo {
+      display: block !important;
+      position: fixed;
+      right: 5%;
+      top: 5%;
+    }
+  }
+
 }

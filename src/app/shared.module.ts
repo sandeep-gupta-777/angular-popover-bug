@@ -85,6 +85,8 @@ import {CurationResolvedListComponent} from './core/bot-detail/curation/curation
 import {FilePreviewOverlayService} from './overlay.service';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {PlayMediaComponent} from './chat/play-media/play-media.component';
+import {HttpTrackerLibModule} from 'ngx-loadify';
+// import {HttpTrackerLibModule} from 'ngx-loadify';
 
 @NgModule({
   declarations: [
@@ -164,7 +166,15 @@ import {PlayMediaComponent} from './chat/play-media/play-media.component';
     ClickOutsideModule,
     MatProgressSpinnerModule,
     <any>LazyLoadImageModule, /*todo: getting error lazy loaded module is not angular module*/
-    MatCardModule
+    MatCardModule,
+    HttpTrackerLibModule.forRoot({
+      loaderClass: 'loading',
+      errorClass: 'error',
+      successClass: 'success',
+      makeDisabledDuringLoading: true,
+      successClassDuration: 2000,
+      errorClassDuration: 2000,
+    })
   ],
   exports: [
     PlayMediaComponent,
@@ -235,7 +245,9 @@ import {PlayMediaComponent} from './chat/play-media/play-media.component';
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent,
-    MatCardModule
+    MatCardModule,
+    // HttpTrackerLibModule
+    HttpTrackerLibModule
   ],
   providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
 })

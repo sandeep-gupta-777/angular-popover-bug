@@ -10,7 +10,7 @@
   <div class="modal-body1 pt-0">
       <div class="action d-flex mt-2 cursor-pointer p-2" (click)="dialogRef.close(myEBotType.faqbot)">
           <div class="d-flex" style="padding-right: 20px">
-            <span class="fa fa-book"></span>
+            <img class="" src="assets/img/search-bot-icon.svg" alt="">
           </div>
           <div class="d-flex flex-column align-items-start justify-content-between">
             <div class="new-bot-heading font-weight-bold">Q&A bot</div>
@@ -20,8 +20,7 @@
 
     <div class="action d-flex cursor-pointer p-2" (click)="dialogRef.close(myEBotType.chatbot)">
       <div class="d-flex" style="padding-right: 20px">
-        <span class="fa fa-angle-left pr-1"></span>
-        <span class="fa fa-angle-right"></span>
+        <img class="" src="assets/img/bot-icon (1).svg" alt="">
       </div>
       <div class=" d-flex flex-column align-items-start justify-content-between">
         <div class="new-bot-heading font-weight-bold">Smart bot</div>
@@ -29,9 +28,19 @@
       </div>
     </div>
 
+    <div class="action d-flex cursor-pointer p-2" (click)="dialogRef.close(myEBotType.router)">
+      <div class="d-flex" style="padding-right: 20px">
+        <img class="" src="assets/img/router-bot-icon.svg" alt="">
+      </div>
+      <div class=" d-flex flex-column align-items-start justify-content-between">
+        <div class="new-bot-heading font-weight-bold">Router bot</div>
+        <div class="new-bot-text">Build a bot to orchestrate various bots based on certain rules</div>
+      </div>
+    </div>
+
     <div class="action d-flex mt-2 cursor-pointer p-2" (click)="dialogRef.close(myEBotType.intelligent)">
       <div class="d-flex" style="padding-right: 20px">
-        <span class="fa fa-server"></span>
+        <img class="" src="assets/img/pipeline-bot-icon.svg" alt="">
       </div>
       <div class="d-flex flex-column align-items-start justify-content-between">
         <div class="new-bot-heading font-weight-bold">Pipeline bot</div>
@@ -39,6 +48,6 @@
       </div>
     </div>
 
-    
+
   </div>
 </div>

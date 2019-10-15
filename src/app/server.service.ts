@@ -13,11 +13,11 @@ import {
   SetAllBotListAction,
   UpdateBotInfoByIdInBotInBotList
 } from './core/view-bots/ngxs/view-bot.action';
-import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
+import {IBot, IBotLanguage, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
   ResetAppState,
-  SetAutoLogoutTime,
+  SetAutoLogoutTime, SetBotLanguages,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
   SetPipelineItemsV2,
@@ -46,6 +46,7 @@ import {ResetAuthToDefaultState, ResetLoggedInStatus} from './auth/ngxs/auth.act
 import {ResetEnterpriseUsersAction} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from './core/buildbot/ngxs/buildbot.action';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from './core/analysis2/ngxs/analysis.action';
+import {SocketService} from "./socket.service";
 
 @Injectable()
 export class ServerService {
@@ -119,6 +120,7 @@ export class ServerService {
     private store: Store,
     private router: Router,
     private permissionService: PermissionService,
+    private socketService: SocketService,
     private constantsService: ConstantsService) {
 
 
@@ -401,6 +403,8 @@ export class ServerService {
     //
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     ServerService.resetCookie();
+    SocketService.isInitDone = false;
+    this.socketService.destroySocket();
     sessionStorage.clear();
     const url = this.constantsService.getLogoutUrl();
     let isNavigationSuccess = false;
@@ -563,6 +567,23 @@ export class ServerService {
           return this.store.dispatch([
             new SetPipelineItemsV2({
               data: value.objects
+            })
+          ]);
+        } else {
+          return of(1);
+        }
+      }));
+  }
+
+  getNSetBotLanguages() {
+
+    const url = this.constantsService.getBotLanguage();
+    return this.makeGetReq<{ meta: any, objects: IBotLanguage[] }>({url})
+      .pipe(switchMap((value) => {
+        if (value) {
+          return this.store.dispatch([
+            new SetBotLanguages({
+              botLanguages: value.objects
             })
           ]);
         } else {

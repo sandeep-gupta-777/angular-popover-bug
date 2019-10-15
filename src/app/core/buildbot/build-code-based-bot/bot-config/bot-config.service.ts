@@ -113,6 +113,7 @@ export class BotConfigService {
       is_manager: [bot.is_manager || false],
 
       child_bots: [bot.child_bots],
+      //for router bots
       bot_disabled_settings: this.formBuilder.group({
         'bot_disabled': bot_disabled_settings && bot_disabled_settings.bot_disabled || false,
         'disabled_message': bot_disabled_settings && bot_disabled_settings.disabled_message || 'Hey, this bot has been disabled',
@@ -127,7 +128,9 @@ export class BotConfigService {
         if (is_manager && (!child_bots_count || child_bots_count === 0)) {
           return {'Child bots required': true};
         }
-
+        if (!is_manager && bot.bot_type === EBotType.router && (!child_bots_count || child_bots_count === 0)) {
+          return {'Child bots required': true};
+        }
         return null;
       }
     });

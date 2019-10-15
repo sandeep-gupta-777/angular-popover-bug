@@ -62,7 +62,6 @@ const materialModules = [
   MatButtonToggleModule,
   MatChipsModule,
   MatDatepickerModule,
-  MatDialogModule,
   MatDividerModule,
   MatNativeDateModule,
   MatProgressBarModule,

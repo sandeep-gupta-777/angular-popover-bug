@@ -6,7 +6,7 @@
                 <div>{{bot_type === myEBotType.chatbot ? 'Code based' : bot_type === myEBotType.faqbot ? 'Search based' : 'Pipeline based'}}</div>
             </header>
 
-            <ng-container *ngIf="bot_type === myEBotType.chatbot">
+            <ng-container *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">
                 <div class="banner__flow">
                     <div class="circle"
                          [ngStyle]="{'background-color': activeTab===0?'#00abd3':(activeTab>0?'#34bc6e':'#527a9e')}">
@@ -54,10 +54,10 @@
                     <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm"
                                                  *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
                 </mat-tab>
-                <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot">
+                <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">
                     <app-data-manage-form [formGroup]="dataManagementForm" [isBuildBot]="true"></app-data-manage-form>
                 </mat-tab>
-                <mat-tab label="Tab 3" *ngIf="bot_type === myEBotType.chatbot">
+                <mat-tab label="Tab 3" *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">
                     <app-security [formGroup]="securityForm"></app-security>
                 </mat-tab>
             </mat-tab-group>
