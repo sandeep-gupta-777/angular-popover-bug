@@ -49,12 +49,13 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item limit-three-lines cursor-pointer mt-2">
               <input #mainInput type="text" class="border" autofocus placeholder="title"
+                     [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                      [name]="'title'+ carouselIndex"
                      [(ngModel)]="carousalItem.title"
                      style="width: 100%">
             </li>
             <li class="list-group-item limit-three-lines flex-column align-items-start cursor-pointer">
-              <input appUrlValidator type="text" name="image_url" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
+              <input appUrlValidator type="text" name="image_url" [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
               <div class="d-flex justify-content-between w-100">
                 <em class="faded-text text-danger" *ngIf="!(carousalItem?.image_url|checkImageValidity)">Invalid
                   image</em>
@@ -62,6 +63,7 @@
             </li>
             <li class="list-group-item limit-three-lines cursor-pointer flex-column align-items-start">
               <textarea maxlength="80" style="height: 48px; width: 100%"
+                        [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                         placeholder="Subtitle"
                         [name]="'subtitle'+ carouselIndex"
                         [(ngModel)]="carousalItem.subtitle"></textarea>
@@ -69,6 +71,7 @@
             </li>
             <li class="list-group-item limit-three-lines cursor-pointer">
               <input type="text" name="url" [(ngModel)]="carousalItem.url"
+                     [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                      placeholder="URL" style="width: 100%">
             </li>
           </ul>
@@ -88,28 +91,28 @@
                       class="p-2 bg-white dialog-container"
                       id="button-configure-dropdown" role="menu">
                     <li>
-                      <div class="faded-text text-dark text-bold text-center">Configure button options</div>
+                      <div class="faded-text text-dark text-bold text-center">Configure button optionssss</div>
                     </li>
-                    <li role="menuitem">
-                      <mat-form-field>
+                    <li role="menuitem" [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'">
+                      <mat-form-field >
                         <input matInput type="text" name="title" #titleEl required [ngModel]="button.title" placeholder="Title">
                       </mat-form-field>
                     </li>
-                    <li role="menuitem">
-                      <div style="font-size: 11px;text-align: left;color: #858585;" *ngIf = "inArticleResponse && bot">Payload*</div>
+                    <li role="menuitem" [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'">
+                      <div style="font-size: 11px;text-align: left;color: #858585;" *ngIf = "inArticleResponse && bot"  [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">Payload*</div>
                         <app-faq-search-box class = "articleSearchInArticle" [bot]="bot" [inCuration]="true" *ngIf = "inArticleResponse && bot"
-                                            (clickedOnArticle)="btnConfigForm.form.patchValue({payload:$event.searchedAricleString})"> </app-faq-search-box>
-                      <div *ngIf = "inArticleResponse && bot" class="required mt-1" style="font-size: 11px;text-align: left;color: #858585;">Linked to article</div>
-                      <div class="mb-1" *ngIf = "inArticleResponse && bot && button?.payload" style="text-align: left;">
+                                            (clickedOnArticle)="btnConfigForm.form.patchValue({payload:$event.searchedAricleString})" dir="ltr"> </app-faq-search-box>
+                      <div *ngIf = "inArticleResponse && bot" class="required mt-1" style="font-size: 11px;color: #858585;" [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">Linked to article</div>
+                      <div class="mb-1" *ngIf = "inArticleResponse && bot && button?.payload" style="text-align: left;"  [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">
                         {{ button.payload}}
                       </div>
-                      <mat-form-field  [hidden]="inArticleResponse">
-                        <input matInput type="text" name="payload" [ngModel]="button.payload" placeholder="Payload">
+                      <mat-form-field  [hidden]="inArticleResponse" [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'">
+                        <input matInput type="text" name="payload" [ngModel]="button.payload" placeholder="Payload" >
                       </mat-form-field>
                     </li>
-                    <li role="menuitem">
-                      <mat-form-field>
-                        <input matInput type="text" name="type" [ngModel]="button.type" placeholder="Type">
+                    <li role="menuitem" [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'">
+                      <mat-form-field >
+                        <input matInput type="text" name="type" [ngModel]="button.type" placeholder="Type" >
                       </mat-form-field>
                     </li>
                     <li class="d-flex" style="font-size: 11px">
@@ -130,7 +133,7 @@
               </form>
             </li>
 
-            <li *ngIf="this.outputItem.generic_template[0].elements[carouselIndex].button.length<=2"
+            <li *ngIf="outputItem.generic_template[0].elements[carouselIndex].button.length<=2"
                 class="list-group-item limit-three-lines w-100 px-0 py-1 border cursor-pointer"
                 style="margin-top: 6px;">
               <div class="text-center w-100" (click)="addNewButtonToCarasol(carouselIndex)">+ Add New</div>
