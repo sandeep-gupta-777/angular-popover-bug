@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable, of, Subscription} from 'rxjs';
 import {
@@ -35,7 +35,8 @@ import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
 import {SocketService} from '../socket.service';
 import {take} from 'rxjs/operators';
-
+import {data} from "./mock-data";
+declare const ImiPreview: any;
 export interface IBotPreviewFirstMessage {
   'generated_msg': any[];
   'room': IRoomData;
@@ -60,7 +61,7 @@ export interface IChatFeedback {
   templateUrl: './chat-wrapper.component.html',
   styleUrls: ['./chat-wrapper.component.scss']
 })
-export class ChatWrapperComponent implements OnInit, OnDestroy {
+export class ChatWrapperComponent implements OnInit, AfterViewInit ,OnDestroy {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
   anon_chat_path = ConstantsService.fullscreenchatpath_anon;
@@ -122,6 +123,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.initializeSocketNow(); /*todo: code repeat*/
     this.preview$Sub = SocketService.preview$.subscribe((data) => {
       console.log("SocketService.preview$.subscribe");
@@ -511,12 +513,19 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     try {
-      debugger;
       this.startANewChat$Sub.unsubscribe();
       this.preview$Sub.unsubscribe();
     } catch (e) {
       console.log(e);
     }
+  }
+
+  ngAfterViewInit(): void {
+    debugger;
+
+    setTimeout(()=>{
+
+    }, 2000);
   }
 
 

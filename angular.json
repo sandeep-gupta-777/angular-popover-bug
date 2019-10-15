@@ -35,11 +35,6 @@
                 "glob": "**/*",
                 "input": "./node_modules/codemirror/",
                 "output": "./assets/codemirror"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/imi-chat-preview/dist",
-                "output": "./assets/imi-chat-preview"
               }
             ],
             "styles": [
