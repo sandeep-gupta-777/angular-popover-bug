@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from "../../../../interfaces/IBot";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EAllActions} from "../../../../../typings/enum";
 import {ELoadingStatus} from "../../../../../button-wrapper/button-wrapper.component";
 import {UtilityService} from "../../../../../utility.service";
@@ -56,11 +56,20 @@ export class RouterBotRulesComponent implements OnInit {
     'greater',
     'less',
   ]
+  operatorNameMap = {
+    'equal': 'Equals to',
+    'not_equal': 'Not equals to',
+    'in': 'In',
+    'exist': 'Exists ',
+    'not_exist': 'Does not exist',
+    'greater': 'Greater than',
+    'less': 'Less than'
+  }
   mockConditionData = {"===": [
       {
-        "var": "detected_language"
+        "var": ""
       },
-      "en"
+      ""
     ]}
   mockOrRuleData = {'or':[this.mockConditionData]}
   mockAddRuleCondition =  {"and": [this.mockOrRuleData]}
@@ -100,28 +109,37 @@ export class RouterBotRulesComponent implements OnInit {
     for (let ruleData of formData.rules){
       getAndRulesArray.push(this.getAndRules(ruleData));
     }
+    debugger;
+    const typeFormControl = this.formBuilder.control(formData.else_action.type || "bot",Validators.required)
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group({
-        "type": [formData.else_action.type || "bot", [Validators.required]],
         "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
-        "reply_message": [formData.else_action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
+        "reply_message": [formData.else_action.reply_message || "Please wait while i redirect you to luke skywalker",[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
+    (<FormGroup>this.rulesForm.get('else_action')).addControl('type', typeFormControl);
+    typeFormControl.valueChanges.subscribe((f)=>{
+      this.rulesForm.get('else_action').get('reply_message').updateValueAndValidity({onlySelf:true});
+    })
   }
   getAndRules(ruleData): FormGroup {
     let getOrRulesFGArray = []
     for (let andRuleData of ruleData.condition['and']){
       getOrRulesFGArray.push(this.getOrRulesFG(andRuleData));
     }
+    const typeFormControl = this.formBuilder.control(ruleData.action.type || "bot",Validators.required)
     const andRules = this.formBuilder.group({
       and: this.formBuilder.array(getOrRulesFGArray),
       output: this.formBuilder.group({
-        "type": [ruleData.action.type || "bot", [Validators.required]],
-        "destination_bot_id": [ruleData.action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
-        "reply_message": [ruleData.action.reply_message || "Please wait while i redirect you to luke skywalker",[Validators.required]]
+        "destination_bot_id":[ruleData.action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
+        "reply_message": [ruleData.action.reply_message || "Please wait while i redirect you to luke skywalker",[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
+    (<FormGroup>andRules.get('output')).addControl('type', typeFormControl);
+    typeFormControl.valueChanges.subscribe((f)=>{
+      andRules.get('output').get('reply_message').updateValueAndValidity({onlySelf:true});
+    })
     return andRules;
   }
   getOrRulesFG(andRuleData): FormGroup {
@@ -162,7 +180,13 @@ export class RouterBotRulesComponent implements OnInit {
         if(Array.isArray(rValue)){
           rightOperentType = 'array';
         }else{
-          rightOperentType = 'float'
+          if(/^[-+]?\d+$/.test(rValue)){
+            rightOperentType = 'integer'
+          }
+          else{
+            rightOperentType = 'float'
+          }
+
         }
       }catch (e) {
         rightOperentType = 'string';
@@ -183,16 +207,29 @@ export class RouterBotRulesComponent implements OnInit {
       if(!newTypeArrayinSubscription.find((f) => { return f == x.get('type').value})){
         x.get('type').setValue(newTypeArrayinSubscription[0]);
       }
+      if(val === 'exist' || val === "not_exist"){
+        x.get('right_operand').setValue(true);
+      }
+      if(val === "not_exist"){
+        x.get('right_operand').setValue(false);
+      }
     })
     return x;
   }
   validationOfOutputForm(group: FormGroup){
-    if(group.get('type').value === "bot" && this.botListofChild){
-      if(this.botListofChild.find(bot => {return bot.id === group.get('destination_bot_id').value })){
-        return null;
-      }else{
-        return {botNotPresent : "this bot is not the child bot of this bot"}
+    if(group.get('type')){
+      if(group.get('type').value === "bot" && this.botListofChild){
+        if(this.botListofChild.find(bot => {return bot.id === group.get('destination_bot_id').value })){
+          return null;
+        }else{
+          return {botNotPresent : "Please select a valid child bot"}
+        }
       }
+    }
+  }
+  validationOfOutputFormReplyMessage(typeFormControl, group:FormGroup){
+    if(typeFormControl.value === "message"){
+      return Validators.required(group)
     }
   }
   validationOfTypeOfRightOperator(group: FormGroup){
@@ -206,7 +243,7 @@ export class RouterBotRulesComponent implements OnInit {
     }else if(group.get('type').value === 'boolean'){
       return (rightStr === 'true' || rightStr === 'false' || rightStr === false || rightStr === true) ? null : {rightTypeError : "this is not a boolean"} ;
     }else if(group.get('type').value === 'float'){
-      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not an integer"};
+      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not an float"};
     }else if(group.get('type').value === 'array'){
       try {
         let rValue = JSON.parse(rightStr);

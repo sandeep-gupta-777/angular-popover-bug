@@ -3,7 +3,9 @@
         <div class="banner__content">
             <header class="banner__content--header">
                 <h5>Create Bot</h5>
-                <div>{{bot_type === myEBotType.chatbot ? 'Code based' : bot_type === myEBotType.faqbot ? 'Search based' : 'Pipeline based'}}</div>
+                <div>{{bot_type === myEBotType.chatbot ? 'Code based' :
+                    bot_type === myEBotType.faqbot ? 'Search based' :
+                        bot_type === myEBotType.faqbot ? 'Pipeline based' : 'Router based'}}</div>
             </header>
 
             <ng-container *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">

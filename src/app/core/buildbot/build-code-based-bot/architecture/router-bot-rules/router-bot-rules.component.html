@@ -28,26 +28,31 @@
                         <mat-label>Operator</mat-label>
                         <mat-select formControlName="operator">
                           <mat-option *ngFor="let operatorName of operatorNamesArray" [value]="operatorName">
-                            {{operatorName}}
+                            {{operatorNameMap[operatorName]}}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
                     </div>
-                    <mat-form-field class="ml-3 mr-1" style="height: 55px;width:100px;">
-                      <mat-label>Data type</mat-label>
-                      <mat-select formControlName="type">
-                        <mat-option *ngFor = "let typename of typeArray | filterTypeArray : orRule.get('operator').value "  [value]="typename">
-                          {{typename}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="mx-1" style="height: 60px;flex:1;">
-                      <input matInput formControlName="right_operand" placeholder="Right variable">
-                      <div class="input-error" *ngIf="orRule.errors?.rightTypeError">
-                        {{orRule.errors?.rightTypeError}}
-                      </div>
-<!--                      {{orRule.errors | json}}-->
-                    </mat-form-field>
+                    <div style="height: 55px;width:100px;" class="ml-3 mr-1">
+                      <mat-form-field style="height: 55px;width:100px;" *ngIf="orRule.get('operator').value != 'not_exist' && orRule.get('operator').value != 'exist'">
+                        <mat-label>Data type</mat-label>
+                        <mat-select formControlName="type">
+                          <mat-option *ngFor = "let typename of typeArray | filterTypeArray : orRule.get('operator').value "  [value]="typename">
+                            {{typename}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="mx-1" style="height: 60px;flex:1;">
+                      <mat-form-field class="mx-1" style="height: 60px;flex:1;" *ngIf="orRule.get('operator').value != 'not_exist' && orRule.get('operator').value != 'exist'">
+                        <input matInput formControlName="right_operand" placeholder="Right variable">
+                        <div class="input-error" *ngIf="orRule.errors?.rightTypeError">
+                          {{orRule.errors?.rightTypeError}}
+                        </div>
+                        <!--                      {{orRule.errors | json}}-->
+                      </mat-form-field>
+                    </div>
+
                     <mat-icon (click) = " deleteRule(rulesForm,ruleIndex,singleRule,andRulesIndex,andRule,orRulesIndex)">remove_circle_outline</mat-icon>
                   </div>
                 </div>
