@@ -17,11 +17,32 @@
   color: #474747;
   display: flex;
   flex-direction: column;
+  .moveAndDeletButtons{
+    width: 20px;
+    left: -20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #9b9b9b;
+    font-size: 11px;
+    padding-bottom: 35px;
+    align-items: center;
+    .dirrections{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .fa{
+      cursor: pointer;
+    }
+  }
   .singleRule{
     display: grid;
     grid-template-columns: 1fr 300px;
     border: solid 1px #eaeaea;
     background-color: #ffffff;
+    position: relative;
+    width: 100%;
     .andRuleArray{
       border-right: solid 1px #eaeaea;
       .singleAndRule{
@@ -73,6 +94,7 @@
   border: solid 1px #eaeaea;
   background-color: #ffffff;
   flex-direction: column;
+  margin-left: 20px;
   .elseRule{
     display: flex;
     flex-direction: row;
@@ -86,4 +108,15 @@
   bottom: -15px;
   font-size: 11px;
   color: $color-danger;
+}
+
+.singleRuleOnHover{
+  .show-on-parent-hover{
+    visibility: hidden;
+  }
+  &:hover{
+    .show-on-parent-hover{
+      visibility: visible;
+    }
+  }
 }

@@ -357,4 +357,24 @@ export class RouterBotRulesComponent implements OnInit {
       this.utilityService.showErrorToaster("Not found router bot logic id")
     }
   }
+  deleteRuleBySideBar(e,arr) {
+    arr.splice(e, 1);
+  }
+
+  moveUpRuleBySideBar(e,arr) {
+    const temp = arr[e];
+    arr[e] = arr[e - 1];
+    arr[e - 1] = temp;
+  }
+
+  moveDownRuleBySideBar(e,arr) {
+    if (arr.length === e + 1) {
+      console.log('just dot do that , U know Y');
+      return;
+    }
+    const temp = arr[e];
+    arr[e] = arr[e + 1];
+    arr[e + 1] = temp;
+  }
+
 }

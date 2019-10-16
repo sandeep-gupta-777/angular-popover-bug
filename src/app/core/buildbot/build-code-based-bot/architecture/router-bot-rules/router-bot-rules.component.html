@@ -1,4 +1,4 @@
-<div class="d-flex flex-row py-3 align-items-center">
+<div class="d-flex flex-row py-3 pl-4 align-items-center">
   <div>Rules</div>
   <app-button-wrapper [disabled]="!rulesForm?.valid" class="card--update ml-auto" [isMatFlatButton]="true"
                       (btnClick)="updateRouterBotLogic()"
@@ -8,9 +8,18 @@
 <app-imi-loader *ngIf="reloading"></app-imi-loader>
 <form *ngIf="rulesForm && !reloading" [formGroup]="rulesForm" >
   <div formArrayName="rules" class = "allRules">
-    <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" >
+    <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" class="d-flex flex-direction-row singleRuleOnHover" >
+      <div class="moveAndDeletButtons show-on-parent-hover">
+      <div></div>
+      <div class="dirrections">
+        <span class="fa fa-chevron-up mb-2" [hidden]="ruleIndex == 0" (click) = "moveUpRuleBySideBar(ruleIndex,rulesForm.get('rules').controls)"></span>
+        <span class="fa fa-chevron-down" [hidden]="ruleIndex == rulesForm.get('rules').controls.length-1" (click) = "moveDownRuleBySideBar(ruleIndex,rulesForm.get('rules').controls)"></span>
+      </div>
+      <div>
+        <span class="fa fa-trash" [hidden]="rulesForm.get('rules').controls.length <= 1" (click) = "deleteRuleBySideBar(ruleIndex,rulesForm.get('rules').controls)"></span>
+      </div>
+    </div>
       <div [formGroupName]="ruleIndex" class="singleRule mb-4">
-
         <div class="andRuleArray" formArrayName="and">
           <div class = "minniHeading py-2 px-3">IF</div>
           <div *ngFor="let andRule of singleRule.get('and').controls; let andRulesIndex = index;">
