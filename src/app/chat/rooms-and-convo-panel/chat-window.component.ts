@@ -42,6 +42,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     if (this._messageDataArray) {
       if (value.length < this._messageDataArray.length) {
         this.count = 0;
+        debugger;
         this.imiPreview && this.imiPreview.removeAllChatMessages();
         this.imiPreview.setOptions(this.bot, {});
       }
@@ -51,9 +52,10 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.scrollToBottom(), 0);
     if (this.imiPreview) {
       arrayToBeRenderer.forEach((item) => {
+        debugger;
         this.imiPreview && this.imiPreview.appendMessageInChatBody([{
           ...item
-        }]);
+        }], item);
       });
       this.count = value.length;
     }
@@ -85,19 +87,21 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     if (document.querySelector(className)) {
       const imiPreview = new ImiPreview();
       imiPreview.viewInit(className, false, false);
-      imiPreview.setOptions(this.bot, {});
-      imiPreview.setEventCallback((payload)=>{
+      imiPreview.setOptions(this.bot, {brandColor:'#2b4f70'});
+      imiPreview.setSendHumanMessageCallback((payload)=>{
         this.sendMessageByHuman(payload);
       });
-      // imiPreview.appendMessageInChatBody(data.generated_msg);
-      // imiPreview.setIntroDetails({description: "dummy description", logo: "dummy logo", title: "dummy title"});
-      // imiPreview.appendMessageInChatBody([{
-      //   sourceType: 'human',
-      //   text: "humanMessage",
-      //   time: Date.now()
-      // }]);
+      imiPreview.setSendFeedback((val, feedback) => {
+        debugger;
+        val.bot_message_id = Number(val.bot_message_id);//todo: temp, remove it
+        this.feedback(val, feedback);
+      });
       return imiPreview;
     }
+  }
+
+  getMessageByTxnId(){
+    // this._messageDataArray.
   }
 
   @Output() sendMessageByHuman$ = new EventEmitter();
