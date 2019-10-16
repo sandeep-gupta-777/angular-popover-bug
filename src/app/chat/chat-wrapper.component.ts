@@ -125,7 +125,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
     this.initializeSocketNow(); /*todo: code repeat*/
     this.preview$Sub = SocketService.preview$.subscribe((data) => {
       console.log("SocketService.preview$.subscribe");
-      this.chatService.botReplyHandler(data);
+      this.chatService.botReplyHandler(data, true);
     });
 
     EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
