@@ -12,11 +12,11 @@
       <div class="moveAndDeletButtons show-on-parent-hover">
       <div></div>
       <div class="dirrections">
-        <span class="fa fa-chevron-up mb-2" [hidden]="ruleIndex == 0" (click) = "moveUpRuleBySideBar(ruleIndex,rulesForm.get('rules').controls)"></span>
-        <span class="fa fa-chevron-down" [hidden]="ruleIndex == rulesForm.get('rules').controls.length-1" (click) = "moveDownRuleBySideBar(ruleIndex,rulesForm.get('rules').controls)"></span>
+        <span class="fa fa-chevron-up mb-2" [hidden]="ruleIndex == 0" (click) = "moveUpRuleBySideBar(ruleIndex,rulesForm.get('rules'))"></span>
+        <span class="fa fa-chevron-down" [hidden]="ruleIndex == rulesForm.get('rules').controls.length-1" (click) = "moveDownRuleBySideBar(ruleIndex,rulesForm.get('rules'))"></span>
       </div>
       <div>
-        <span class="fa fa-trash" [hidden]="rulesForm.get('rules').controls.length <= 1" (click) = "deleteRuleBySideBar(ruleIndex,rulesForm.get('rules').controls)"></span>
+        <span class="fa fa-trash" [hidden]="rulesForm.get('rules').controls.length <= 1" (click) = "deleteRuleBySideBar(ruleIndex,rulesForm.get('rules'))"></span>
       </div>
     </div>
       <div [formGroupName]="ruleIndex" class="singleRule mb-4">
