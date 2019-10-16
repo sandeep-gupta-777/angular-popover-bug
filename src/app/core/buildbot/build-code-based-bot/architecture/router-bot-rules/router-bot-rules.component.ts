@@ -114,7 +114,7 @@ export class RouterBotRulesComponent implements OnInit {
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group({
         "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
-        "reply_message": [formData.else_action.reply_message || "Please wait while i redirect you to luke skywalker",[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
+        "reply_message": [formData.else_action.reply_message,[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
     (<FormGroup>this.rulesForm.get('else_action')).addControl('type', typeFormControl);
@@ -132,7 +132,7 @@ export class RouterBotRulesComponent implements OnInit {
       and: this.formBuilder.array(getOrRulesFGArray),
       output: this.formBuilder.group({
         "destination_bot_id":[ruleData.action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
-        "reply_message": [ruleData.action.reply_message || "Please wait while i redirect you to luke skywalker",[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
+        "reply_message": [ruleData.action.reply_message ,[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
     (<FormGroup>andRules.get('output')).addControl('type', typeFormControl);
@@ -160,8 +160,8 @@ export class RouterBotRulesComponent implements OnInit {
       OperationType ="not_equal"
     } else if (givenOperation ===  "in") {
       OperationType ="in"
-    } else if (givenOperation ===  "!==") {
-      OperationType ="not_equal"
+    } else if (givenOperation ===  "!=") {
+      OperationType ="not_exist"
     } else if (givenOperation ===  "==") {
       OperationType ="exist"
     } else if (givenOperation ===  ">") {
@@ -206,7 +206,7 @@ export class RouterBotRulesComponent implements OnInit {
       if(!newTypeArrayinSubscription.find((f) => { return f == x.get('type').value})){
         x.get('type').setValue(newTypeArrayinSubscription[0]);
       }
-      if(val === 'exist' || val === "not_exist"){
+      if(val === 'exist' ){
         x.get('right_operand').setValue(true);
       }
       if(val === "not_exist"){
@@ -242,7 +242,7 @@ export class RouterBotRulesComponent implements OnInit {
     }else if(group.get('type').value === 'boolean'){
       return (rightStr === 'true' || rightStr === 'false' || rightStr === false || rightStr === true) ? null : {rightTypeError : "this is not a boolean"} ;
     }else if(group.get('type').value === 'float'){
-      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not an float"};
+      return /[+-]?([0-9]*[.])?[0-9]+$/.test(rightStr) ?  null : {rightTypeError : "this is not a float"};
     }else if(group.get('type').value === 'array'){
       try {
         let rValue = JSON.parse(rightStr);
@@ -284,8 +284,8 @@ export class RouterBotRulesComponent implements OnInit {
                         thisOperation = "!=="
                       } else if (orRule.operator === "in") {
                         thisOperation = "in"
-                      } else if (orRule.operator === "not_equal") {
-                        thisOperation = "!=="
+                      } else if (orRule.operator === "not_exist") {
+                        thisOperation = "!="
                       } else if (orRule.operator === "exist") {
                         thisOperation = "=="
                       } else if (orRule.operator === "greater") {
@@ -357,13 +357,15 @@ export class RouterBotRulesComponent implements OnInit {
     }
   }
   deleteRuleBySideBar(e,arr) {
-    arr.splice(e, 1);
+    arr.removeAt(e);
   }
 
   moveUpRuleBySideBar(e,arr) {
+    debugger
+    arr = [...arr];
     const temp = arr[e];
-    arr[e] = arr[e - 1];
-    arr[e - 1] = temp;
+    arr[e] = arr[e-1];
+    arr[e-1] = temp;
   }
 
   moveDownRuleBySideBar(e,arr) {

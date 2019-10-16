@@ -61,7 +61,7 @@
 
     <ng-container *appMyIf="[myEAllActions['Analytics']]">
       <button
-        *ngIf="bot.bot_type !== myEBotType.intelligent"
+        *ngIf="bot.bot_type !== myEBotType.intelligent && bot.bot_type !== myEBotType.router"
         (click)="openAnalyticsForBot()"
         class="mat-theme-button mat-theme-button-border"
         mat-button
