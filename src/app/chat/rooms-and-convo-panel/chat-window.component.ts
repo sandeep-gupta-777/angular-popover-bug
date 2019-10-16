@@ -86,6 +86,9 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
       const imiPreview = new ImiPreview();
       imiPreview.viewInit(className, false, false);
       imiPreview.setOptions(this.bot, {});
+      imiPreview.setEventCallback((payload)=>{
+        this.sendMessageByHuman(payload);
+      });
       // imiPreview.appendMessageInChatBody(data.generated_msg);
       // imiPreview.setIntroDetails({description: "dummy description", logo: "dummy logo", title: "dummy title"});
       // imiPreview.appendMessageInChatBody([{
