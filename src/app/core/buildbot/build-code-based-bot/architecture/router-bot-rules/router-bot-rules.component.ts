@@ -361,21 +361,15 @@ export class RouterBotRulesComponent implements OnInit {
   }
 
   moveUpRuleBySideBar(e,arr) {
-    debugger
-    arr = [...arr];
-    const temp = arr[e];
-    arr[e] = arr[e-1];
-    arr[e-1] = temp;
+    const temp = arr.at(e);
+    arr.removeAt(e);
+    arr.insert(e-1, temp);
   }
 
   moveDownRuleBySideBar(e,arr) {
-    if (arr.length === e + 1) {
-      console.log('just dot do that , U know Y');
-      return;
-    }
-    const temp = arr[e];
-    arr[e] = arr[e + 1];
-    arr[e + 1] = temp;
+    const temp = arr.at(e);
+    arr.removeAt(e);
+    arr.insert(e+1, temp);
   }
 
 }
