@@ -109,7 +109,6 @@ export class RouterBotRulesComponent implements OnInit {
     for (let ruleData of formData.rules){
       getAndRulesArray.push(this.getAndRules(ruleData));
     }
-    debugger;
     const typeFormControl = this.formBuilder.control(formData.else_action.type || "bot",Validators.required)
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
