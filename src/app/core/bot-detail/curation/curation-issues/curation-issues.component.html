@@ -40,14 +40,14 @@
 
     <mat-card-content style="margin: 0;border-bottom: 1px solid  #eaeaea;">
       <div class='row'>
-        <div class='column'>
+        <div class='column' [ngClass]="{'rtl pr-4': this.bot.language === 'ar','pl-4' : this.bot.language != 'ar'}">
           <div class='column-1'>
             <p style="font-size: 11px">User said</p>
             <p style="font-size: 13px">“{{curationItemData.user_message}}”</p>
             <!-- curationItemData.resolved_section.first_question -->
           </div>
         </div>
-        <div class='column'>
+        <div class='column border-partiation'  [ngClass]="{'rtl pr-4': this.bot.language === 'ar','pl-4' : this.bot.language != 'ar'}">
           <div class='column-2' *ngIf="curationItemData.section_id != 'partial_match'">
             <p style="font-size: 11px">Bot understood it as</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.first_question}}&#34;></p>

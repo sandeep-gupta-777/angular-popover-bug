@@ -5,6 +5,7 @@
 
   <div class="main-frame">
     <app-article-question-list-view [corpus]="corpus" [filter_categorie_id_list]="filter_categorie_id_list"
+                                    [language]="bot.language"
       (removeFilterItemByIdEvent)="removeFilterItemById($event)"
       (articleListItemClicked)="openArticleEditAndView($event)" [_currentPage]="currentPageOfArtcle||0">
     </app-article-question-list-view>

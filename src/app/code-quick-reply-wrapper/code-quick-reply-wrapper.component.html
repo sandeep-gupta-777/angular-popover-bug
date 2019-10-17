@@ -9,6 +9,7 @@
   <div class="m-1">
     <input style="height: 32px "
            #mainInput
+           [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'"
            placeholder="Description"
            type="text" class="description w-100" [(ngModel)]="outputItem.quick_reply[0].text">
   </div>
