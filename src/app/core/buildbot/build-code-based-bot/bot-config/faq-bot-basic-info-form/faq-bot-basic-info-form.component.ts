@@ -17,7 +17,7 @@ export class FaqBotBasicInfoFormComponent implements OnInit {
 
   _bot: Partial<IBot> = {};
   bot_languages = ConstantsService.bot_languages;
-  bot_type;
+  @Input() bot_type;
   formData: Partial<IBot>;
   @Input() botId: number;
   myEAllActions = EAllActions;

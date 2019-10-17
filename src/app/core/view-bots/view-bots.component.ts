@@ -47,6 +47,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   pipelineBasedBotList: IBot[];
   searchBasedBotList: IBot[];
   routerBasedBotList: IBot[];
+  mlBasedBotList: IBot[];
 
   name = 'sadas';
   animal = 'horse';
@@ -85,6 +86,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
         this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
         this.routerBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.router);
+        this.mlBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
         this.changeDetectorRef.detectChanges();
         // this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
 

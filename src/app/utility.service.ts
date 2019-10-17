@@ -21,7 +21,8 @@ export enum EBotType {
   chatbot = 'chatbot',
   intelligent = 'intelligent',
   faqbot = 'faqbot',
-  router = 'router'
+  router = 'router',
+  mlbot = 'mlbot'
 }
 
 export enum EFormValidationErrors {

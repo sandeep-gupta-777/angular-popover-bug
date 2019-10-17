@@ -49,6 +49,16 @@ export class BotConfigService {
     }, {validator: this.utilityService.isManagerValidator});
     return this.faqbotBuildForm;
   }
+  getMlbotBuildForm(bot: IBot) {
+    this.faqbotBuildForm = this.formBuilder.group({
+      name: [bot.name, Validators.required],
+      bot_unique_name: [bot.bot_unique_name, Validators.required],
+      allow_feedback: [bot.allow_feedback],
+      language: [bot.language || 'en'],
+      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
+    }, {validator: this.utilityService.isManagerValidator});
+    return this.faqbotBuildForm;
+  }
 
   getFaqHandoverANdInterfaceForm(bot: any) {
 

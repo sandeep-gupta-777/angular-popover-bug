@@ -76,14 +76,18 @@ export class BuildbotWrapperComponent implements OnInit {
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
   faqbotBuildForm: FormGroup;
-
+  mlbotBuildForm: FormGroup;
   ngOnInit() {
     this.bot_type = (this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type) as EBotType;
     this.bot.bot_type = this.bot_type;
     if (this.bot_type === EBotType.faqbot) {
       this.description = this.descriptions[3];
     }
+    if (this.bot_type === EBotType.mlbot) {
+      this.description = this.descriptions[3];
+    }
     this.faqbotBuildForm = this.botConfigService.getFaqbotBuildForm(this.bot);
+    this.mlbotBuildForm = this.botConfigService.getMlbotBuildForm(this.bot);
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
@@ -99,12 +103,15 @@ export class BuildbotWrapperComponent implements OnInit {
     this.dataManagementForm.valueChanges.subscribe(() => this.stageValidObj[1] = this.dataManagementForm.valid);
     this.securityForm.valueChanges.subscribe(() => this.stageValidObj[2] = this.securityForm.valid);
     this.faqbotBuildForm.valueChanges.subscribe(() => this.stageValidObj[0] = this.faqbotBuildForm.valid);
-
+    this.mlbotBuildForm.valueChanges.subscribe(() => this.stageValidObj[0] = this.mlbotBuildForm.valid);
     if (this.bot_type === EBotType.intelligent) {
       this.stageValidObj = {0: false};
     }
     if (this.bot_type === EBotType.faqbot) {
       this.stageValidObj = {0: this.faqbotBuildForm.valid};
+    }
+    if (this.bot_type === EBotType.mlbot) {
+      this.stageValidObj = {0: this.mlbotBuildForm.valid};
     }
   }
 
@@ -113,7 +120,8 @@ export class BuildbotWrapperComponent implements OnInit {
     this.loading = true;
     const combinedForm = this.bot_type === EBotType.chatbot ? [this.basicInfoForm, this.dataManagementForm, this.securityForm] :
       this.bot_type === EBotType.router ? [this.basicInfoForm, this.dataManagementForm, this.securityForm] :
-      this.bot_type === EBotType.faqbot ? [this.faqbotBuildForm] : [this.basicInfoForm];
+        this.bot_type === EBotType.faqbot ? [this.faqbotBuildForm] :
+          this.bot_type === EBotType.mlbot ? [this.mlbotBuildForm] : [this.basicInfoForm];
     const bot = UtilityService.getCombinedBotData(combinedForm);
     const url = this.constantsService.getCreateNewBot();
     bot.bot_type = this.bot_type;
@@ -227,7 +235,8 @@ export class BuildbotWrapperComponent implements OnInit {
       basicInfoForm: this.basicInfoForm.value,
       dataManagementForm: this.dataManagementForm.value,
       securityForm: this.securityForm.value,
-      faqbotBuildForm: this.faqbotBuildForm.value
+      faqbotBuildForm: this.faqbotBuildForm.value,
+      mlbotBuildForm: this.mlbotBuildForm.value
     };
   }
 

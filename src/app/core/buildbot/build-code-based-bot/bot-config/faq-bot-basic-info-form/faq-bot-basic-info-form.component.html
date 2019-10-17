@@ -67,7 +67,7 @@
                 </mat-slide-toggle>
             </div>
 
-            <div class="form-control d-flex flex-column">
+            <div class="form-control d-flex flex-column" *ngIf="bot_type === myEBotType.faqbot">
                 <label class="py-1">Allow agent handover <app-info-icon [text] = "'Transfer the message to an agent when bot fails'"></app-info-icon></label>
                 <mat-slide-toggle
                     formControlName="allow_agent_handover"
