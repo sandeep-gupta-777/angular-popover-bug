@@ -29,6 +29,7 @@ export interface IMessageData extends IGeneratedMessageItem {
 
 export interface IRoomData {
   id: number;
+  async?:boolean;
   consumer_id?: number;
   consumerDetails?: IConsumerDetails;
   bot_id?: number;
