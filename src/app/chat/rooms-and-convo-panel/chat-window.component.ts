@@ -141,3 +141,5 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   }
 
 }
+
+
