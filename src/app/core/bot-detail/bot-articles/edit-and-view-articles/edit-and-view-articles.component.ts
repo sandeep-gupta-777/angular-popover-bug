@@ -137,7 +137,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   addNewQuestion(text) {
-    this.articleData.questions.push(text);
+    if(text) this.articleData.questions.push(text);
   }
 
   goBackToArticle() {
