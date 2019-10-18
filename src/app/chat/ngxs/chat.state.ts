@@ -36,6 +36,9 @@ export interface IConsumerDetails {
   facebook_id?: string;
   uid?: string;
   id?: any;
+  extra_params?: {
+    socket_key?: string
+  };
 }
 
 @State<IChatSessionState>({
@@ -51,7 +54,6 @@ export class ChatSessionStateReducer {
               private myToasterService: MyToasterService) {
 
 
-
   }
 
   @Action(ToggleChatWindow)
@@ -59,10 +61,11 @@ export class ChatSessionStateReducer {
     const state: IChatSessionState = getState();
     setState({...state, opened: payload.open});
   }
+
   @Action(ChangeBotIsThinkingDisplayByRoomId)
   showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
     const state: IChatSessionState = getState();
-    const room  = state.rooms.find((room_temp) => room_temp.id === payload.roomId);
+    const room = state.rooms.find((room_temp) => room_temp.id === payload.roomId);
     room.showBotIsThinking = payload.shouldShowBotIsThinking;
     setState({...state});
   }
@@ -112,11 +115,11 @@ export class ChatSessionStateReducer {
     const isOpened = state.opened;
     const currentBot = getState().currentBotDetails;
     if (payload.bot.id !== (currentBot && currentBot.id)) {
-     dispatch([
-       new ResetChatState()
-     ]).subscribe(() => {
-       patchState({currentBotDetails: payload.bot, opened: isOpened}); // restoring bot opened state
-     });
+      dispatch([
+        new ResetChatState()
+      ]).subscribe(() => {
+        patchState({currentBotDetails: payload.bot, opened: isOpened}); // restoring bot opened state
+      });
     } else {
       patchState({currentBotDetails: payload.bot});
     }
@@ -128,7 +131,9 @@ export class ChatSessionStateReducer {
     const state = getState();
     let rooms = state.rooms;
     const room = payload;
-    if (!state.rooms) { state.rooms = rooms = []; }
+    if (!state.rooms) {
+      state.rooms = rooms = [];
+    }
     /*first check if room roomId already */
     let doesRoomAlreadyExist_index;
     doesRoomAlreadyExist_index = rooms.findIndex(room_temp => room_temp.id === payload.id);
@@ -169,6 +174,7 @@ export class ChatSessionStateReducer {
       /*room is not found, this means session is expired. So search by consumer roomId*/
       const consumer_id = payload.consumer_id;
       room = (rooms && (rooms.find((room_temp) => room_temp.consumer_id === consumer_id)));
+      /*in case of socket: ignore if room id and consumer ids arent same*/
       if (room) {
         this.myToasterService.showSuccessToaster('Previous session expired. New session created');
         room.id = payload.id;
@@ -229,8 +235,6 @@ export class ChatSessionStateReducer {
     // }));
     // setState({...state});
   }
-
-
 
 
 }

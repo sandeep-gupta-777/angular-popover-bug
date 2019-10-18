@@ -1,4 +1,29 @@
 <form [formGroup]="formGroup" class="bot-creation-form-grid">
+
+  <div *ngIf="(bot_type === myEBotType.router)">
+    <p class="subheading full-width">Route to</p>
+    <mat-form-field style="width: 100%; margin-bottom: 20px" >
+      <mat-select placeholder="Child Bots"
+                  formControlName="child_bots"
+                  multiple>
+
+
+        <mat-select-trigger *ngIf="formGroup.get('child_bots') && formGroup.get('child_bots').value">
+                        <span *ngFor="let botId of formGroup.get('child_bots').value|slice:0:4; let last = last">
+                            {{(botId|botById|async)?.name || ("Not found (id =)" + botId)}}<span *ngIf="!last">,</span>
+                        </span>
+          <span style="opacity: 0.75;font-size: 0.75em;" *ngIf="formGroup.get('child_bots').value.length> 4 ">
+                            (+ {{formGroup.get('child_bots').value.length - 4 }} more)
+                        </span>
+        </mat-select-trigger>
+        <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
+          <mat-option [value]="bot.id">
+            {{bot.name}}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <ng-container *ngIf="!isBuildBot">
     <p class="subheading full-width">Bot status</p>
 

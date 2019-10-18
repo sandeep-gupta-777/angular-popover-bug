@@ -39,9 +39,6 @@ const routes: Route[] = [
   ],
   imports: [
     CommonModule,
-    MatButtonModule,
-    MatInputModule,
-    MatCheckboxModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
     NgxsModule.forFeature([
@@ -50,15 +47,12 @@ const routes: Route[] = [
     MatSnackBarModule,
     HttpClientModule,
     SharedEnterpriseListModuleModule,
-
-
   ],
 
   providers: [
     PermissionService,
     MyToasterService,
     LoginGaurdService,
-    FormsService,
     ConstantsService,
     ServerService,
     {

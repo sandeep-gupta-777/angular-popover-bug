@@ -44,17 +44,7 @@
               "node_modules/codemirror/addon/dialog/dialog.css"
             ],
             "scripts": [
-
-
-
-
-
-
-
-
-
-
-                          ]
+            ]
           },
           "configurations": {
             "develop": {

@@ -3,14 +3,14 @@ import {Router, RoutesRecognized} from '@angular/router';
 import {ServerService} from '../server.service';
 import {EventService} from '../event.service';
 import {LoadJsService} from './load-js.service';
-import {SocketService} from "../socket.service";
-import {Select} from "@ngxs/store";
-import {Observable} from "rxjs";
-import {IAuthState} from "../auth/ngxs/auth.state";
-import {switchMap, take, takeUntil} from "rxjs/operators";
-import {ViewBotStateModel} from "./view-bots/ngxs/view-bot.state";
-import {UtilityService} from "../utility.service";
-import {IBot} from "./interfaces/IBot";
+import {SocketService} from '../socket.service';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {IAuthState} from '../auth/ngxs/auth.state';
+import {switchMap, take, takeUntil} from 'rxjs/operators';
+import {ViewBotStateModel} from './view-bots/ngxs/view-bot.state';
+import {UtilityService} from '../utility.service';
+import {IBot} from './interfaces/IBot';
 
 @Component({
   selector: 'app-core-wrapper',
@@ -25,9 +25,10 @@ export class CoreWrapperComponent implements OnInit {
   progressVal = 0;
   showProgressbar = false;
   currentIntervalRef;
-  @Select() loggeduser$ :Observable<IAuthState>;
+  @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
   botList: IBot[];
+
   constructor(
     private router: Router,
     private serverService: ServerService,
@@ -50,32 +51,26 @@ export class CoreWrapperComponent implements OnInit {
 
       }
     });
-    this.botlist$.subscribe(val=>{
+    this.botlist$.subscribe(val => {
       this.botList = val.allBotList;
-    })
+    });
     this.initializeSocketNow();
-
-    SocketService.train$.subscribe((payload)=>{
-      let trainedInBot: IBot =  this.botList.find(bot => {return payload.bot_id === bot.id });
-      if(trainedInBot){
+    SocketService.train$.subscribe((payload) => {
+      const trainedInBot: IBot = this.botList.find(bot => {
+        return payload.bot_id === bot.id;
+      });
+      if (trainedInBot) {
         this.utilityService.showSuccessToaster(`${trainedInBot.name} bot successfully trained`);
       }
-    })
+
+    });
 
   }
-  initializeSocketNow(){
-    let data;
-    this.loggeduser$.pipe(take(1)).subscribe((value)=>{
-      data  = {
-        "connectionConfig": {
-          "namespace": "BOT",
-          "enterprise_id": value.user.enterprise_id,
-        },
-        "imi_bot_middleware_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVGhpcyBpcyBJTUkgQk9UIG1pZGRsZXdhcmUiLCJpYXQiOjE1Njc4ODc5MTAsImV4cCI6NDE1OTg4NzkxMH0.dYbMaf8HYMD5K532p7DpHN0cmru-JKMjst-WS9zi7u8"
-      }
-      this.socketService.initializeSocketConnection(data);
-    })
+
+  initializeSocketNow() {
+    this.socketService.initializeSocketNow();
   }
+
   initializeProgressBarSubscription() {
     EventService.progressBar$.subscribe(({loading, value}) => {
 

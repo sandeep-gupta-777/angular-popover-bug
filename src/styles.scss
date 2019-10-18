@@ -15,8 +15,8 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
-  //$font-family:   '"Helvetica", sans-serif',
-  $font-family: '' IBM Plex Sans ', sans-serif',
+  //$font-family:   'IBM Plex Sans, sans-serif',
+    $font-family: '' IBM Plex Sans ', sans-serif',
   $display-4: mat-typography-level(112px, 112px, 300),
   $display-3: mat-typography-level(56px, 56px, 400),
   $display-2: mat-typography-level(45px, 48px, 400),
@@ -435,7 +435,7 @@ h4 {
   line-height: 20px !important;
   font-weight: 700 !important;
   //color: #474747;
-  font-family: "Helvetica", sans-serif;
+  font-family: IBM Plex Sans, sans-serif;
 }
 
 .ng2-smart-actions {
@@ -446,7 +446,7 @@ h4 {
 
 .dropdown-menu {
   font-size: 13px;
-  font-family: "Helvetica", sans-serif;
+  font-family: IBM Plex Sans, sans-serif;
   border-radius: 2px;
 }
 
@@ -577,7 +577,7 @@ h4 {
       //@include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey);
       line-height: $line-height-normal;
       color: $color-text-grey;
-      font-family: "Helvetica", sans-serif;
+      font-family: IBM Plex Sans, sans-serif;
 
       &:hover {
         border: none;

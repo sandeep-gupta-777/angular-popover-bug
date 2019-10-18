@@ -111,7 +111,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.botlistSub = this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];
-      this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot);
+      this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot ||  bot.bot_type === EBotType.faqbot);
 
       setTimeout(() => {
         if (_id && _id !== 'new') {

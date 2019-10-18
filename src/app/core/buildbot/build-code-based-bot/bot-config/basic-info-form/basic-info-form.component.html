@@ -65,7 +65,7 @@
   <div class="spacer"></div>
 
   <ng-container *ngIf="myEBotType.intelligent !== bot_type">
-    <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot === bot_type">
+    <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot === bot_type || myEBotType.router === bot_type">
       <legend style="display: none;">first messgae</legend>
       <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""

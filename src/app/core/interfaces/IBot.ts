@@ -127,6 +127,7 @@ export interface IBot {
     preview_corpus?: any;
     threshold_diff_score?: number;
     threshold_min_score?: number;
+    router_logic_id?: number;
   };
 
   agent_handover_setting?: {
@@ -169,6 +170,13 @@ export interface IBot {
       enabled?: boolean;
     }
   };
+}
+
+export interface IBotLanguage {
+  'display_name': string;
+  'id'?: string;
+  'language_code': string;
+  'metadata'?: object;
 }
 
 export interface IBotResult {

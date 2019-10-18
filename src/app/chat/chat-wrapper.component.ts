@@ -33,6 +33,8 @@ import {IEnterpriseProfileInfo} from '../../interfaces/enterprise-profile';
 import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
+import {SocketService} from '../socket.service';
+import {take} from 'rxjs/operators';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': any[];
@@ -69,12 +71,14 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('scrollMe') myScrollContainer: ElementRef;
+  preview$Sub: Subscription;
   startANewChat$Sub: Subscription;
   frameEnabled: EChatFrame = EChatFrame.WELCOME_BOX;
   myEChatFrame = EChatFrame; // This is required to use enums in template, we can't use enums direactly in templates
   windowOpen = false;
   messageData: IMessageData[] = null;
   selectedAvatar: any;
+  socket_key = Date.now().toString();
   loggeduser: IAuthState;
   currentRoom: IRoomData;
   current_uid: string;
@@ -102,7 +106,8 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private activatedRoute: ActivatedRoute,
               private utilityService: UtilityService,
-              private route: Router
+              private route: Router,
+              private socketService: SocketService
   ) {
   }
 
@@ -112,7 +117,17 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
+  initializeSocketNow() {
+    this.socketService.initializeSocketNow();
+  }
+
   ngOnInit() {
+    this.initializeSocketNow(); /*todo: code repeat*/
+    this.preview$Sub = SocketService.preview$.subscribe((data) => {
+      console.log("SocketService.preview$.subscribe");
+      this.chatService.botReplyHandler(data);
+    });
+
     EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
       if (this.currentBot) {
         if (bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback) {
@@ -135,6 +150,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
         }
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
+        this.socket_key = loggeduser.user.socket_key;
       } catch (e) {
         this.user_first_name = 'Anonymous User';
         LoggingService.error(e);
@@ -271,6 +287,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
 
+    startNewChatData.consumerDetails.extra_params = {socket_key: this.socket_key};
     this.showOverlay_edit_fullscreen = false;
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot; // todo: is it really required?
 
@@ -393,14 +410,17 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },
-          messageData.room.consumerDetails,
+          {...messageData.room.consumerDetails, extra_params: {socket_key: this.socket_key}},
           messageByHuman,
           EChatFrame.CHAT_BOX,
           this.is_dev_view)
           .subscribe(() => {
 
             if (messageData.updateConsumerInfo) {
-              this.store.dispatch(new UpdateConsumerByRoomId({consumerDetails: room.consumerDetails, room_id: room.id}));
+              this.store.dispatch(new UpdateConsumerByRoomId({
+                consumerDetails: room.consumerDetails,
+                room_id: room.id
+              }));
               this.utilityService.showSuccessToaster('Consumer details updated');
             } else {
               this.showBotIsThinking = false;
@@ -492,6 +512,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     try {
       this.startANewChat$Sub.unsubscribe();
+      this.preview$Sub.unsubscribe();
     } catch (e) {
       console.log(e);
     }

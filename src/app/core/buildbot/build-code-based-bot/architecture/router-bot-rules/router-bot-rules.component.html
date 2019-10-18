@@ -1,0 +1,151 @@
+<div class="d-flex flex-row py-3 pl-4 align-items-center">
+  <div>Rules</div>
+  <app-button-wrapper [disabled]="!rulesForm?.valid" class="card--update ml-auto" [isMatFlatButton]="true"
+                      (btnClick)="updateRouterBotLogic()"
+                      [status]="uploadingData" [text]="'Update rules'" [icon]="'refresh'">
+  </app-button-wrapper>
+</div>
+<app-imi-loader *ngIf="reloading"></app-imi-loader>
+<form *ngIf="rulesForm && !reloading" [formGroup]="rulesForm" >
+  <div formArrayName="rules" class = "allRules">
+    <div *ngFor="let singleRule of rulesForm.get('rules').controls; let ruleIndex = index;" class="d-flex flex-direction-row singleRuleOnHover" >
+      <div class="moveAndDeletButtons show-on-parent-hover">
+      <div></div>
+      <div class="dirrections">
+        <span class="fa fa-chevron-up mb-2" [hidden]="ruleIndex == 0" (click) = "moveUpRuleBySideBar(ruleIndex,rulesForm.get('rules'))"></span>
+        <span class="fa fa-chevron-down" [hidden]="ruleIndex == rulesForm.get('rules').controls.length-1" (click) = "moveDownRuleBySideBar(ruleIndex,rulesForm.get('rules'))"></span>
+      </div>
+      <div>
+        <span class="fa fa-trash" [hidden]="rulesForm.get('rules').controls.length <= 1" (click) = "deleteRuleBySideBar(ruleIndex,rulesForm.get('rules'))"></span>
+      </div>
+    </div>
+      <div [formGroupName]="ruleIndex" class="singleRule mb-4">
+        <div class="andRuleArray" formArrayName="and">
+          <div class = "minniHeading py-2 px-3">IF</div>
+          <div *ngFor="let andRule of singleRule.get('and').controls; let andRulesIndex = index;">
+            <div class = "minniHeading py-2 px-3" *ngIf="andRulesIndex > 0">AND</div>
+            <div [formGroupName]="andRulesIndex" class="singleAndRule">
+              <div formArrayName="or" class = "orRuleArray">
+                <div *ngFor="let orRule of andRule.get('or').controls; let orRulesIndex = index;" class="mx-2 overflow-hidden">
+                  <div class = "minniHeading py-2 ml-1" *ngIf="orRulesIndex > 0">OR</div>
+                  <div [formGroupName]="orRulesIndex" class="singleOrRule">
+                    <mat-form-field style="height: 60px;flex:1;" class="ml-1 mr-3">
+                      <input matInput formControlName="left_operand" placeholder="Left variable">
+                    </mat-form-field>
+                    <div class="wight_background ml-1 mx-3">
+                      <mat-form-field class="w-100" style="height: 55px;">
+                        <mat-label>Operator</mat-label>
+                        <mat-select formControlName="operator">
+                          <mat-option *ngFor="let operatorName of operatorNamesArray" [value]="operatorName">
+                            {{operatorNameMap[operatorName]}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div style="height: 55px;width:100px;" class="ml-3 mr-1">
+                      <mat-form-field style="height: 55px;width:100px;" *ngIf="orRule.get('operator').value != 'not_exist' && orRule.get('operator').value != 'exist'">
+                        <mat-label>Data type</mat-label>
+                        <mat-select formControlName="type">
+                          <mat-option *ngFor = "let typename of typeArray | filterTypeArray : orRule.get('operator').value "  [value]="typename">
+                            {{typename}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="mx-1" style="height: 60px;flex:1;">
+                      <mat-form-field class="mx-1" style="height: 60px;flex:1;" *ngIf="orRule.get('operator').value != 'not_exist' && orRule.get('operator').value != 'exist'">
+                        <input matInput formControlName="right_operand" placeholder="Right variable">
+                        <div class="input-error" *ngIf="orRule.errors?.rightTypeError">
+                          {{orRule.errors?.rightTypeError}}
+                        </div>
+                        <!--                      {{orRule.errors | json}}-->
+                      </mat-form-field>
+                    </div>
+
+                    <mat-icon (click) = " deleteRule(rulesForm,ruleIndex,singleRule,andRulesIndex,andRule,orRulesIndex)">remove_circle_outline</mat-icon>
+                  </div>
+                </div>
+                <div class = "addCondition pb-2 ml-1 py-1"
+                     (click)="addOrCondition(andRule)">+OR Condition</div>
+              </div>
+            </div>
+          </div>
+          <div class = "addCondition py-2 px-3"
+               (click)="addAndCondition(singleRule)">+AND Condition</div>
+        </div>
+        <div class="rulesOutput py-2 px-3" formGroupName="output">
+          <div class = "minniHeading mb-2">THEN</div>
+          <mat-form-field style="max-width: 275px;">
+            <mat-label>Action type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value='bot'>
+                Route to child bot
+              </mat-option>
+              <mat-option value='message'>
+                Reply with message
+              </mat-option>
+              <mat-option value='handover'>
+                Handover to agent
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="singleRule.get('output').get('type').value === 'bot'" style="max-width: 275px;">
+            <mat-label>Destination Bot</mat-label>
+            <mat-select formControlName="destination_bot_id">
+              <mat-option [value]="oneBot.id" *ngFor="let oneBot of botListofChild">
+                {{oneBot.name}}
+              </mat-option>
+            </mat-select>
+            <div class="input-error" *ngIf="singleRule.get('output').errors?.botNotPresent">
+              {{singleRule.get('output').errors?.botNotPresent}}
+            </div>
+          </mat-form-field>
+
+          <mat-form-field style="max-width: 275px;"
+            *ngIf="singleRule.get('output').get('type').value === 'message' || singleRule.get('output').get('type').value === 'handover'">
+            <input matInput formControlName="reply_message" placeholder="Reply message">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="addCondition mb-3" style="font-size: 13px;font-weight: bold;"
+           (click)="addRule(rulesForm)">+ Add rule</div>
+    </div>
+    </div>
+
+  <div class="elseRuleBlock py-2 px-3 " formGroupName="else_action">
+    <div class = "minniHeading py-2">ELSE</div>
+    <div class="elseRule">
+      <mat-form-field style="max-width: 275px;" class="mr-2">
+        <mat-label>Action type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value='bot'>
+            Route to child bot
+          </mat-option>
+          <mat-option value='message'>
+            Reply with message
+          </mat-option>
+          <mat-option value='handover'>
+            Handover to agent
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="rulesForm.get('else_action').get('type').value === 'bot'" style="width: 100%">
+        <mat-label>Destination Bot</mat-label>
+        <mat-select formControlName="destination_bot_id">
+          <mat-option [value]="oneBot.id" *ngFor="let oneBot of botListofChild">
+            {{oneBot.name}}
+          </mat-option>
+        </mat-select>
+        <div class="input-error" *ngIf="rulesForm.get('else_action').errors?.botNotPresent">
+          {{rulesForm.get('else_action').errors?.botNotPresent}}
+        </div>
+      </mat-form-field>
+      <mat-form-field style="width: 100%"
+        *ngIf="rulesForm.get('else_action').get('type').value === 'message' || rulesForm.get('else_action').get('type').value === 'handover'">
+        <input matInput formControlName="reply_message" placeholder="Reply message">
+      </mat-form-field>
+    </div>
+  </div>
+</form>

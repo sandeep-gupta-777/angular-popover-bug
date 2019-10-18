@@ -50,10 +50,14 @@ export class DataManageFormComponent implements OnInit {
           return botlist && !!botlist.allBotList;
         }),
         map((botlist) => {
-          return botlist.allBotList.filter((bot) => bot.bot_type === EBotType.chatbot);
+          return botlist.allBotList.filter((bot) => bot.bot_type != EBotType.intelligent && bot.bot_type != EBotType.router);
         }))
       .subscribe((codebasedBotList) => {
-        this.codebasedBotList = codebasedBotList;
+        this.codebasedBotList = codebasedBotList.sort((a,b)=>{
+          if(a.name < b.name) { return -1; }
+          if(a.name > b.name) { return 1; }
+          return 0;
+        });
       });
 
     this.manageBotDisableReadOnlyStatus();

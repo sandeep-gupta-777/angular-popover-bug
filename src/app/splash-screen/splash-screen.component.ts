@@ -11,7 +11,8 @@ export enum ESplashScreens {
   rolesCreate = 'rolesCreate.svg',
   curation_all_resolved = 'curation-all-resolved.svg',
   Lode_More_Issues = 'LodeMoreIssues.svg',
-  search = 'search.svg'
+  search = 'search.svg',
+  router_bot_empty = 'router-bot-empty.svg'
 }
 
 @Component({

@@ -4,7 +4,7 @@ import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {ModuleGaurdLoadService} from './route-gaurds/module-gaurd-load.service';
@@ -16,12 +16,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
 import {ScriptsLoadResolver} from './script-load.resolver';
-import {AngularFireDatabaseModule} from '@angular/fire/database';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {AngularFireMessagingModule} from '@angular/fire/messaging';
-import {AngularFireModule} from '@angular/fire';
-import {MessagingService} from '../messaging.service';
 import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
+import {HttpTrackerLibModule} from 'ngx-loadify';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = 'http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg';
@@ -42,7 +38,12 @@ const routes: Route[] = [
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule', resolve: {message: ScriptsLoadResolver}},
-  {path: 'preview-dev', loadChildren: './chat/chat.module#ChatModule', canLoad: [ModuleGaurdLoadService], resolve: {message: ScriptsLoadResolver}},
+  {
+    path: 'preview-dev',
+    loadChildren: './chat/chat.module#ChatModule',
+    canLoad: [ModuleGaurdLoadService],
+    resolve: {message: ScriptsLoadResolver}
+  },
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
@@ -60,17 +61,26 @@ const routes: Route[] = [
 
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule,
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: true}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    HttpTrackerLibModule.forRoot({
+      loaderClass: 'loading',
+      errorClass: 'error',
+      successClass: 'success',
+      makeDisabledDuringLoading: true,
+      successClassDuration: 2000,
+      errorClassDuration: 2000,
+    }),
+
+    RouterModule.forRoot(routes, {enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([]),
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
-    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}), // Comment this before pushing to git
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 
@@ -95,7 +105,6 @@ const routes: Route[] = [
   providers: [
     LoginPageGaurdService,
     ModuleGaurdLoadService,
-    MessagingService,
     ScriptsLoadResolver
     //   {
     //   provide: HTTP_INTERCEPTORS,

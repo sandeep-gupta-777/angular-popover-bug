@@ -64,46 +64,7 @@ export class Analysis2OverviewComponent implements OnInit {
     exporting: {enabled: false}
 
   };
-  chartValue2 = {
-    chart: {
-      type: 'pie',
-      height: 150,
-      width: 150,
-    },
-    title: {
-      text: undefined
-    },
-    plotOptions: {
-      pie: {
-        innerSize: '60%',
-        colors: ['#4a80cd', '#474c7f'],
-        dataLabels: {
-          enabled: false,
-        },
-        borderWidth: 0,
-        borderColor: null,
-        states: {
-          hover: {
-            halo: {
-              size: 0,
-            },
-          },
-        },
-      }
-    },
-    series: [{
-      name: 'Messages',
-      data: [
-        ['Bot messages', 8],
-        ['Human messages', 2],
-      ]
-    }],
-    credits: {
-      enabled: false
-    },
-    exporting: {enabled: false}
-
-  };
+  chartValue2 = {...this.chartValue , ...{series:[{ name: 'Messages', data: [['Bot messages', 8], ['Human messages', 2],]}]}};
   constructor(
     private store: Store,
     private activatedRoute: ActivatedRoute
