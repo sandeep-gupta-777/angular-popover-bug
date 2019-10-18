@@ -86,6 +86,7 @@
     "imi-chat-preview": "0.0.7",
     "json2csv": "^4.5.2",
     "load-js": "^3.0.3",
+    "ng-bubble": "^0.1.4",
     "ng-click-outside": "^4.0.0",
     "ng-lazyload-image": "^5.1.2",
     "ngx-loadify": "0.0.20",
