@@ -3,7 +3,7 @@
       class="p-3 bg-white shadow-theme"
       style="width: 200px"
       (submit)="saveQuickReplyForm(quickReplyForm)">
-  <input type="text" [ngModel]="content_type" name="content_type" hidden>
+  <input [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" [ngModel]="content_type" name="content_type" hidden>
   <!--first tabbing row starts-->
   <ul class="nav nav-tabs theme-tabbing mb-1 bg-white">
     <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.text)"
@@ -16,13 +16,13 @@
   </ul>
 
   <div>
-    <label class="required">Reply Label</label>
-    <input type="text" ngModel name="title"
+    <label class="required w-100"  [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">Reply Label</label>
+    <input [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" ngModel name="title"
            class="form-control">
   </div>
   <!--text specific details start-->
   <div [hidden]="content_type!==myEQuickReplyTypes.text">
-    <input type="text" [ngModel]="textType" name="textType" hidden>
+    <input [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" [ngModel]="textType" name="textType" hidden>
     <ul class="nav nav-tabs border-0 theme-tabbing my-1 bg-white">
       <li class="nav-item" (click)="subTabChanged(myEQuickReplySubTabsType.payload)"
           [ngClass]="{'tab-active':textType===myEQuickReplySubTabsType.payload}">
@@ -34,13 +34,13 @@
     </ul>
 
     <div [hidden]="textType !== myEQuickReplySubTabsType.payload">
-      <label class="required">Payload Text</label>
+      <label class="required w-100"  [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">Payload Text</label>
       <app-faq-search-box class = "articleSearchInArticle" [bot]="bot" [inCuration]="true" *ngIf = "inArticleResponse && bot"
                           (click) = "$event.stopPropagation()"
                           (clickedOnArticle)="enterArticleSearch($event)"> </app-faq-search-box>
-      <label *ngIf = "inArticleResponse && bot" class="required mt-1">Linked to article</label>
-      <div class="mb-1"*ngIf = "inArticleResponse && bot && quick_reply && quick_reply.payload">{{quick_reply.payload}}</div>
-      <input type="text" ngModel name="payload" [hidden]="inArticleResponse"
+      <label *ngIf = "inArticleResponse && bot" class="required mt-1 w-100"  [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">Linked to article</label>
+      <div class="mb-1"*ngIf = "inArticleResponse && bot && quick_reply && quick_reply.payload"  [ngStyle]="{'text-align':bot.language === 'ar' ? 'right' : 'left'}">{{quick_reply.payload}}</div>
+      <input [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'" type="text" ngModel name="payload" [hidden]="inArticleResponse"
              class="form-control">
     </div>
   </div>

@@ -20,7 +20,7 @@
         </div>
         <div class="col-10 p-0">
           <div class =" flex-row d-inline-flex align-items-center bg-message-human-wrapper">
-              <div class="message p-2 bg-message-human">
+              <div class="message p-2 bg-message-human" [ngClass]="{rtl: this.bot.language === 'ar'}" >
                   <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
                 </div>
                 <div class ="ml-3 onParentHover" style="color: #bebebe">
@@ -44,7 +44,7 @@
           <!--bot text reply starts-->
           <div class="col-10 p-0 pb-1 d-flex flex-column justify-content-end" *ngIf="message.text">
             <div class="message p-2"
-                 [ngClass]="{rtl: sessionMessage.message_store.response_language === 'ar'}"
+                 [ngClass]="{rtl: this.bot.language === 'ar'}"
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#e0e0e0' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
                  >
               <span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>

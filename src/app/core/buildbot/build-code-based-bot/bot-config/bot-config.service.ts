@@ -82,11 +82,18 @@ export class BotConfigService {
   }
 
   getBasicInfoForm(bot: IBot) {
+    let logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
+    if(bot.bot_type === EBotType.intelligent){
+      logo = 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/pipeline-bot-icon.png';
+    }
+    if(bot.bot_type === EBotType.router){
+      logo ='https://cdn.zeplin.io/5c34452abb7a224bba47af50/assets/F4AB8C86-E2CD-4A3A-A4DB-AD109535E302.svg';
+    }
     this.basicInfoForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       description: [bot.description],
-      logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      logo: [bot.logo || logo, [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       first_message: [bot.first_message],
       language: [bot.language || 'en'],
       error_message: [bot.error_message]
