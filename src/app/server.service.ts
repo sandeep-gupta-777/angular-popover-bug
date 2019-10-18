@@ -247,11 +247,13 @@ export class ServerService {
   }
 
   handleErrorFromServer(e) {
-
+    // if (e.error_message) {
+    //   this.showErrorMessageForErrorTrue({error: true, message: e.error_message, action: null});
+    // }
     if (e.error && (e.error.error === true)) {
-      this.showErrorMessageForErrorTrue(e.error);
+     this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: 'Some error occurred', action: null});
+      this.showErrorMessageForErrorTrue({error: true, message: 'Sorry, we are unable to process your request', action: null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
