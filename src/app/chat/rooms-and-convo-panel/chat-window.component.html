@@ -1,4 +1,5 @@
 <div #scrollMe class="d-flex flex-column mb-1 chat-window-section">
+
   <app-chat-message
     *ngFor="let messageData of _messageDataArray; let isLast = last"
     [allow_feedback]="_allow_feedback"

@@ -4,7 +4,7 @@ import {LoggingService} from '../../logging.service';
 import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {IBot} from '../../core/interfaces/IBot';
-import {data} from "../mock-data";
+import {data} from '../mock-data';
 
 declare const ImiPreview: any;
 
@@ -29,6 +29,8 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   _allow_feedback = false;
   @Input() set allow_feedback(val) {
     this._allow_feedback = val;
+    debugger;
+    this.imiPreview && this.imiPreview.setOptions(this.bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
   }
 
   @Input() _messageDataArray: IMessageData[];
@@ -39,12 +41,12 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   count = 0;
 
   @Input() set messageDataArray(value) {
+    debugger;
     if (this._messageDataArray) {
       if (value.length < this._messageDataArray.length) {
         this.count = 0;
         debugger;
         this.imiPreview && this.imiPreview.removeAllChatMessages();
-        this.imiPreview.setOptions(this.bot, {});
       }
     }
     const arrayToBeRenderer = value.slice(this.count, value.length);
@@ -67,6 +69,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     const arrayToBeRenderer = this._messageDataArray.slice(this.count, this._messageDataArray.length);
     try {
       this.imiPreview = this.render();
+      this.imiPreview && this.imiPreview.setOptions(this.bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
       if (this.imiPreview) {
         arrayToBeRenderer.forEach((item) => {
           this.imiPreview && this.imiPreview.appendMessageInChatBody([{
@@ -87,8 +90,8 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     if (document.querySelector(className)) {
       const imiPreview = new ImiPreview();
       imiPreview.viewInit(className, false, false);
-      imiPreview.setOptions(this.bot, {brandColor:'#2b4f70'});
-      imiPreview.setSendHumanMessageCallback((payload)=>{
+      this.imiPreview && this.imiPreview.setOptions(this.bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
+      imiPreview.setSendHumanMessageCallback((payload) => {
         this.sendMessageByHuman(payload);
       });
       imiPreview.setSendFeedback((val, feedback) => {
@@ -100,7 +103,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getMessageByTxnId(){
+  getMessageByTxnId() {
     // this._messageDataArray.
   }
 
