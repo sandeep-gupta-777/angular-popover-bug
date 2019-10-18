@@ -102,21 +102,22 @@ export class ChatService {
       );
   }
 
-  botReplyHandler(response: ISendApiResponsePayload) {
+  botReplyHandler(response: ISendApiResponsePayload, async = false) {
     let response_language;
+    const generatedMessages = response.generated_msg;
+    const bot_message_id = response.bot_message_id;
+    const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id, response_language);
     /*recieved chat reply from bot*/
     if (response.messageStore && response.messageStore.response_language) {
       response_language = response.messageStore.response_language;
     }
-    const generatedMessages = response.generated_msg;
-    const bot_message_id = response.bot_message_id;
-    const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, bot_message_id, response_language);
 
     this.store.dispatch([
       new AddMessagesToRoomByRoomId({
         id: response.room.id,
         consumer_id: response.room.consumer_id,
         messageList: serializedMessages,
+        async
       }),
       new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
     ]);

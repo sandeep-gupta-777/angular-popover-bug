@@ -1,5 +1,5 @@
 <!--chat box started-->
-<div *ngIf="!isFullScreenPreview && currentBot">
+<div *ngIf="!isFullScreenPreview && currentBot" class="imi-preview-container">
   <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
     <div class="chat-grid__header">
               <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
@@ -27,7 +27,7 @@
       <!--consumer dropdown starts-->
       <button mat-icon-button (click)="showOverlay = true"
               [class.active]="showOverlay" class="origin"
-							#overlayOrigin="cdkOverlayOrigin"
+              #overlayOrigin="cdkOverlayOrigin"
               data-cy="custom-room-form-trigger"
               [matTooltip]="frameEnabled === myEChatFrame.CHAT_LIST? 'New custom chat': 'Consumer data'"
               cdkOverlayOrigin>
@@ -96,7 +96,8 @@
 <app-imi-loader *ngIf="isFullScreenPreview && showFullScreenLoader"></app-imi-loader>
 
 <!--===============FULL SCREEN BELOW===================-->
-<div *ngIf="isFullScreenPreview && !showFullScreenLoader" class="grid-chat-preview-full-screen" [ngClass]="{'anon-view': !is_dev_view}">
+<div *ngIf="isFullScreenPreview && !showFullScreenLoader" class="grid-chat-preview-full-screen"
+     [ngClass]="{'anon-view': !is_dev_view}">
   <div class="header1 px-3 d-flex align-items-center">
     <img class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-enterprise"
@@ -113,7 +114,7 @@
             style="margin-left: auto"
             [class.active]="showOverlay"
             class="origin"
-						#overlayOriginFullScreen1="cdkOverlayOrigin"
+            #overlayOriginFullScreen1="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
             [matTooltip]="'New custom chat'"
             cdkOverlayOrigin>
@@ -168,7 +169,7 @@
 
       <button mat-icon-button (click)="showOverlay_edit_fullscreen = true"
               [class.active]="showOverlay" class="origin"
-							#overlayOrigin="cdkOverlayOrigin"
+              #overlayOrigin="cdkOverlayOrigin"
               [matTooltip]="'Consumer data'"
               cdkOverlayOrigin>
         <mat-icon>perm_contact_calendar</mat-icon>
