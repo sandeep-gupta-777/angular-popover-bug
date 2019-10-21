@@ -43,9 +43,8 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   @Input() set messageDataArray(value) {
     debugger;
     if (this._messageDataArray) {
-      if (value.length < this._messageDataArray.length) {
+      if (value[0] !== this._messageDataArray[0]) {
         this.count = 0;
-        debugger;
         this.imiPreview && this.imiPreview.removeAllChatMessages();
       }
     }
@@ -90,6 +89,8 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     if (document.querySelector(className)) {
       const imiPreview = new ImiPreview();
       imiPreview.viewInit(className, false, false);
+      const $chatInput = document.querySelector('.chat-input') as HTMLInputElement;
+      imiPreview.initAdditionalDom({$chatInput});
       this.imiPreview && this.imiPreview.setOptions(this.bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
       imiPreview.setSendHumanMessageCallback((payload) => {
         this.sendMessageByHuman(payload);
