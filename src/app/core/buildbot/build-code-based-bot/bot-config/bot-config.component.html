@@ -43,6 +43,15 @@
                                                  [disableAgentToggleBAD]="disableAgentToggleBAD"
                                                  [bot]="bot"></app-faq-handover-and-interface-form>
         </mat-tab>
+      <mat-tab *ngIf="(bot_type===myEBotType.mlbot)">
+        <ng-template mat-tab-label>
+          <span [ngStyle]="{'color': !mlHandoverANdInterfaceForm.valid && mlHandoverANdInterfaceForm.status !== 'DISABLED'?'red':'#474747'}">Handover and Inference</span>
+          <mat-icon style="color: red;font-size: 100%;" *ngIf="!mlHandoverANdInterfaceForm.valid && mlHandoverANdInterfaceForm.status !== 'DISABLED'" class="example-tab-icon">highlight_off</mat-icon>
+        </ng-template>
+        <app-faq-handover-and-interface-form [formGroup]="mlHandoverANdInterfaceForm"
+                                             [disableAgentToggleBAD]="disableAgentToggleBAD"
+                                             [bot]="bot"></app-faq-handover-and-interface-form>
+      </mat-tab>
 
         <ng-container *appMyIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">

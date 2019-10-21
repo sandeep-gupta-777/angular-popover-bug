@@ -59,7 +59,6 @@ export class BotConfigService {
     }, {validator: this.utilityService.isManagerValidator});
     return this.faqbotBuildForm;
   }
-
   getFaqHandoverANdInterfaceForm(bot: any) {
 
     const agent_handover_setting: any = bot.agent_handover_setting;

@@ -96,6 +96,9 @@ import { GentemplateSidebarComponent } from '../buildbot/build-code-based-bot/ar
 import { PartialMatchResponseComponent } from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
 import {RouterBotRulesComponent} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component";
 import {FilterTypeArrayPipe} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/filter-type-array.pipe";
+import {MLModelComponent} from "./ml-model/ml-model.component";
+import {MlIntentsComponent} from "./ml-model/ml-intents/ml-intents.component";
+import {MlEntitiesComponent} from "./ml-model/ml-entities/ml-entities.component";
 
 
 const routes: Route[] = [
@@ -106,6 +109,7 @@ const routes: Route[] = [
           {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
           {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
           {path: `${EBotType.router}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.router}},
+          {path: `${EBotType.mlbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.mlbot}},
           {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
         ]
   }
@@ -183,6 +187,9 @@ const routes: Route[] = [
     CurationSettingsComponent,
     CurationResolvedAggrigationComponent,
     CurationOverviewComponent,
+    MLModelComponent,
+    MlIntentsComponent,
+    MlEntitiesComponent,
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
     AnswerTemplateWrapperComponent,

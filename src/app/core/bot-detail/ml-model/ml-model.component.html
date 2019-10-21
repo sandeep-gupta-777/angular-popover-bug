@@ -1,0 +1,23 @@
+<header>
+  <div class = "d-flex flex-row heading">
+    <strong class = "heading-title">
+      Machine learning model</strong>
+    <div class="mr-auto">
+    </div>
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
+      <mat-icon class = "mat-icon material-icons" >sync</mat-icon>
+      Train
+    </button>
+  </div>
+  <div style="color: #696969;font-size: 11px">Configure intents and entities over which the bot will work
+  </div>
+</header>
+<mat-tab-group>
+  <mat-tab label="Intents">
+    <app-ml-intents [bot]="bot" [intentData]="intentList"></app-ml-intents>
+  </mat-tab>
+
+  <mat-tab label="Entities" class="no-over-flow h-100" >
+    <app-ml-entities [bot]="bot" [entitiesData]="entitiesList" class="h-100"></app-ml-entities>
+  </mat-tab>
+</mat-tab-group>
