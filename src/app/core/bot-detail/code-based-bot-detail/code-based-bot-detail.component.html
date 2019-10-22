@@ -29,6 +29,17 @@
                             <span style="color: #00ABD3">Train {{dirtySideBarTabs[myESideBarTab.ml_model] ? '*' : ""}}</span>
                         </div>
                     </a></ng-container>
+
+              <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
+                <a mat-list-item class="mat-list-item-sidebar"
+                   (click)="sideBarTabChanged(myESideBarTab.replies)">
+                  <div class="sidebar-nav-list-item"
+                       data-cy="sidebar-NLP"
+                       [ngClass]="{'filter-black':sideBarTab1!=='replies', 'selected-nav':sideBarTab1==='replies'}">
+                    <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+                    <span style="color: #00ABD3">Replies {{dirtySideBarTabs[myESideBarTab.replies] ? '*' : ""}}</span>
+                  </div>
+                </a></ng-container>
                 <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
 
               <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">

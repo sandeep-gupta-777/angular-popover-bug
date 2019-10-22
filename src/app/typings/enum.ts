@@ -110,7 +110,8 @@ export enum ESideBarTab {
   History = 'History',
   faqbot = 'faqbot',
   pipelineTest = 'pipelineTest',
-  ml_model = 'ml_model'
+  ml_model = 'ml_model',
+  replies = 'replies',
 }
 
 export enum ENgxsStogareKey {
