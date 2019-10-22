@@ -1069,6 +1069,9 @@ export class ConstantsService {
   getMLCorpus(){
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
+  getMLEntityTypes(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/types/';
+  }
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);

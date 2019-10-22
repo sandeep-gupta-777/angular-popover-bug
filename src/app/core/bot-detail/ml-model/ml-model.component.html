@@ -16,18 +16,60 @@
   <app-button-wrapper
     class="card--update"
     [isMatFlatButton]="false"
-    [text]="'Update settings'"
-    [icon]="'refresh'"
-    style="position: absolute;right: 3px;top: 15px;">
+    [text]=" '+ Create new ' +  ((selectedTabIndex === 0) ? 'intent' : 'entity' )"
+    style="position: absolute;right: 3px;top: 18px;z-index: 10000;"
+    (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
   </app-button-wrapper>
-  <mat-tab-group >
+  <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event" >
     <mat-tab label="Intents">
       <app-ml-intents [bot]="bot" [intentData]="intentList"></app-ml-intents>
     </mat-tab>
-
     <mat-tab label="Entities" class="no-over-flow h-100" >
       <app-ml-entities [bot]="bot" [entitiesData]="entitiesList" class="h-100"></app-ml-entities>
     </mat-tab>
   </mat-tab-group>
 
 </div>
+
+<ng-template #Primarytemplat>
+  <div class="danger-modal">
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Select which type of entity to create</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="modal-body pt-0">
+      <form class="d-flex flex-column" #modalForm="ngForm">
+        <mat-form-field style="width: 230px">
+          <input matInput placeholder="Entity name" value="">
+        </mat-form-field>
+
+        <mat-form-field style="width: 150px">
+          <mat-label>Entity type</mat-label>
+          <mat-select value="">
+            <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">
+              {{entity_type.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 470px">
+          <input matInput placeholder="Entity name" value="">
+        </mat-form-field>
+
+        <div class = "d-flex ">
+          <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 ml-auto">
+            Link and save
+          </button>
+          <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button ">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</ng-template>
