@@ -12,7 +12,7 @@
       data-cy='gentemp-input'
       #textarea
       [(ngModel)]="_variants[i]"
-      [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'"
+      [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'"
       class="classic-textarea"
       placeholder='Write your text here ...' rows="3">
       </textarea>

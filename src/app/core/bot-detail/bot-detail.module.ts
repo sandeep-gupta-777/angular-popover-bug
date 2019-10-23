@@ -63,51 +63,56 @@ import {PipelineIdToPipelineModulePipe} from '../buildbot/build-code-based-bot/a
 import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 import {SortObjectArrPipe} from '../../sort-object-arr.pipe';
 import {PipeineKeywordToPipelineModuleMatchedPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-keyword-to-pipeline-module-matched.pipe';
-import { BotArticlesComponent } from './bot-articles/bot-articles.component';
-import { CategoryIdToNamePipe } from './bot-articles/category-id-to-name.pipe';
-import { SortArticalsPipe } from './bot-articles/sort-articals.pipe';
-import { FilterArticalsPipe } from './bot-articles/filter-articals.pipe';
-import { ArticleFilterComponent } from './bot-articles/article-filter/article-filter.component';
-import { ArticleQuestionListViewComponent } from './bot-articles/article-question-list-view/article-question-list-view.component';
-import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-header.component';
-import { EditAndViewArticlesComponent } from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
-import { CategorieModalInputComponent } from './bot-articles/categorie-modal-input/categorie-modal-input.component';
+import {BotArticlesComponent} from './bot-articles/bot-articles.component';
+import {CategoryIdToNamePipe} from './bot-articles/category-id-to-name.pipe';
+import {SortArticalsPipe} from './bot-articles/sort-articals.pipe';
+import {FilterArticalsPipe} from './bot-articles/filter-articals.pipe';
+import {ArticleFilterComponent} from './bot-articles/article-filter/article-filter.component';
+import {ArticleQuestionListViewComponent} from './bot-articles/article-question-list-view/article-question-list-view.component';
+import {ArticalHeaderComponent} from './bot-articles/artical-header/artical-header.component';
+import {EditAndViewArticlesComponent} from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
+import {CategorieModalInputComponent} from './bot-articles/categorie-modal-input/categorie-modal-input.component';
 import {ConstantsService} from '../../constants.service';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
 
-import { SearchArticleByQuestionPipe } from './bot-detail-header/search-article-by-question.pipe';
-import { FaqSearchBoxComponent } from './bot-detail-header/faq-search-box/faq-search-box.component';
+import {SearchArticleByQuestionPipe} from './bot-detail-header/search-article-by-question.pipe';
+import {FaqSearchBoxComponent} from './bot-detail-header/faq-search-box/faq-search-box.component';
 import {CurationComponent} from './curation/curation.component';
 import {CurationFilterComponent} from './curation/curation-filter/curation-filter.component';
 import {CurationIssuesComponent} from './curation/curation-issues/curation-issues.component';
 import {CurationIssuesListComponent} from './curation/curation-issues-list/curation-issues-list.component';
 import {CurationResolvedListComponent} from './curation/curation-resolved-list/curation-resolved-list.component';
-import { BotArticleHistoryComponent } from './bot-article-history/bot-article-history.component';
-import { CurationSettingsComponent } from './curation/curation-settings/curation-settings.component';
-import { CurationResolvedAggrigationComponent } from './curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component';
-import { CurationOverviewComponent } from './curation/curation-overview/curation-overview.component';
-import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
-import { RemoveTopAndBottomAndGetAsArrayPipe } from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
-import { AnswerTemplateWrapperComponent } from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
+import {BotArticleHistoryComponent} from './bot-article-history/bot-article-history.component';
+import {CurationSettingsComponent} from './curation/curation-settings/curation-settings.component';
+import {CurationResolvedAggrigationComponent} from './curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component';
+import {CurationOverviewComponent} from './curation/curation-overview/curation-overview.component';
+import {CurationIssuesAggregationBarComponent} from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
+import {RemoveTopAndBottomAndGetAsArrayPipe} from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
+import {AnswerTemplateWrapperComponent} from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
 import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
-import { GentemplateSidebarComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
-import { PartialMatchResponseComponent } from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
-import {RouterBotRulesComponent} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component";
-import {FilterTypeArrayPipe} from "../buildbot/build-code-based-bot/architecture/router-bot-rules/filter-type-array.pipe";
-
+import {GentemplateSidebarComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
+import {PartialMatchResponseComponent} from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
+import {RouterBotRulesComponent} from '../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component';
+import {FilterTypeArrayPipe} from '../buildbot/build-code-based-bot/architecture/router-bot-rules/filter-type-array.pipe';
+import {MlIntentsComponent} from './ml-intents/ml-intents.component';
+import {MlEntitiesComponent} from './ml-entities/ml-entities.component';
+import {MlIntentsDetailComponent} from './ml-intents-detail/ml-intents-detail.component';
+import {MlIntentResponseComponent} from './ml-intent-response/ml-intent-response.component';
+import {MlIntentUtteranceComponent} from './ml-intent-utterance/ml-intent-utterance.component';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, canActivateChild: [], children:
-        [
-          {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
-          {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
-          {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
-          {path: `${EBotType.router}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.router}},
-          {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
-        ]
+      [
+        {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
+        {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
+        {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
+        {path: `${EBotType.router}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.router}},
+        {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
+      ]
   }
 ];
 
@@ -189,6 +194,13 @@ const routes: Route[] = [
     PipelineTestComponent,
     GentemplateSidebarComponent,
     PartialMatchResponseComponent,
+    MlIntentsComponent,
+    MlEntitiesComponent,
+    MlIntentsDetailComponent,
+    MlIntentResponseComponent,
+    MlIntentUtteranceComponent,
+    // PopoverComponent,
+    // InsidePopoverComponent
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
     //
@@ -207,9 +219,12 @@ const routes: Route[] = [
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
+    OverlayModule,
   ],
-  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe]
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe],
+
 })
 export class BotDetailModule {
 
 }
+

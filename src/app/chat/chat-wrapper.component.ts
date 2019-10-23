@@ -521,7 +521,7 @@ export class ChatWrapperComponent implements OnInit, AfterViewInit ,OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    debugger;
+
 
     setTimeout(()=>{
 

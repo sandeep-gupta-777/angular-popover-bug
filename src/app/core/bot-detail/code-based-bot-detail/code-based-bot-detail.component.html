@@ -1,347 +1,378 @@
 <div
-        [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
-        *ngIf="bot">
-    <mat-sidenav-container fullscreen [hasBackdrop]="bps.isMobile" style="z-index: 10000000; ">
-        <mat-sidenav #left class="shadow-theme" [opened]="!bps.isMobile" style="width: 56px">
-            <mat-toolbar
-                    style="margin: 0; padding: 0; display: flex; justify-content: center; height: 56px; background-color: #2b4f70">
-                <a class="sidebar-logo" (click)="logoClickHandler(left)">
-                    <img class="sidebar-logo__image" src="assets/img/connect-copy@2x.png" alt="website logo">
-                </a>
-            </mat-toolbar>
-            <mat-nav-list style="padding: 0" [disableRipple]="true">
-                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.setting)">
-                    <div class="sidebar-nav-list-item"
-                         data-cy="sidebar-setting"
-                         [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
-                    >
-                        <img class="" src="assets/img/sidebar/bot-config.svg" alt="sidebar bot config">
-                        <span style="color: #00ABD3">Settings</span>
-                    </div>
-                </a>
-                <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
-                    <a mat-list-item class="mat-list-item-sidebar"
-                       (click)="sideBarTabChanged(myESideBarTab.input)">
-                        <div class="sidebar-nav-list-item"
-                             data-cy="sidebar-NLP"
-                             [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
-                            <img class="" src="assets/img/sidebar/nlp.svg" alt="">
-                            <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
-                        </div>
-
-                    </a></ng-container>
-                <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
-
-                <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
-                   (click)="sideBarTabChanged('articles')">
-                    <div class="sidebar-nav-list-item"
-                         data-cy="sidebar-articles"
-                         [ngClass]="{'filter-black':sideBarTab1!=='articles', 'selected-nav':sideBarTab1==='articles'}">
-                        <img class="" src="assets/img/sidebar/article.svg" alt="">
-                        <span style="color: #00ABD3">Articles {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
-                    </div>
-                </a>
-                <ng-container *appMyIf="[myEAllActions['Get FAQbot curation issues']]">
-                    <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
-                       (click)="sideBarTabChanged('curation')">
-                        <div class="sidebar-nav-list-item"
-                             [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
-                            <img class="" src="assets/img/sidebar/light-bulb.svg" alt="">
-                            <span style="color: #00ABD3">Curation</span>
-                        </div>
-
-                    </a>
-                </ng-container>
-                <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
-                    <a mat-list-item class="mat-list-item-sidebar"
-                       *ngIf="bot.bot_type === myEBotType.chatbot  || bot.bot_type === myEBotType.router"
-                       (click)="sideBarTabChanged(myESideBarTab.logic)">
-                        <div class="sidebar-nav-list-item"
-                             data-cy="sidebar-logic"
-                             [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
-                             (click)="sideBarTabChanged('logic')">
-                            <img class="" src="assets/img/sidebar/logic-1.svg" alt="">
-                            <span style="color: #00ABD3">Logic</span>
-                        </div>
-                    </a></ng-container>
-                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.chat)"
-                   *ngIf="bot.bot_type != myEBotType.intelligent">
-                    <div class="sidebar-nav-list-item"
-                         data-cy="sidebar-chat"
-                         [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
-                         (click)="sideBarTabChanged('chat')">
-                        <img class="" src="assets/img/sidebar/chats.svg" alt="">
-                        <span style="color: #00ABD3">Sessions</span>
-                    </div>
-                </a>
-
-                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.pipelineTest)"
-                   *ngIf="bot.bot_type === myEBotType.intelligent">
-                    <!--TODO: remove faq bot condition-->
-                    <div class="sidebar-nav-list-item"
-                         data-cy="sidebar-test"
-                         [ngClass]="{'filter-black':sideBarTab1!=='pipelineTest', 'selected-nav':sideBarTab1==='pipelineTest'}"
-                         (click)="sideBarTabChanged('pipelineTest')">
-                        <img class="" src="assets/img/sidebar/test.svg" alt=""
-                             style="padding-right: 3px; padding-left: 3px;">
-                        <span style="color: #00ABD3">Test</span>
-                    </div>
-                </a>
-
-                <ng-container *appMyIf="myEAllActions['Get Bot Testcases']">
-                    <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)"
-                       *ngIf="bot.bot_type === myEBotType.chatbot">
-                        <!--TODO: remove faq bot condition-->
-                        <div class="sidebar-nav-list-item"
-                             data-cy="sidebar-test"
-                             [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
-                             (click)="sideBarTabChanged('test')">
-                            <img class="" src="assets/img/sidebar/test.svg" alt=""
-                                 style="padding-right: 3px; padding-left: 3px;">
-                            <span style="color: #00ABD3">Test</span>
-                        </div>
-                    </a></ng-container>
-
-                <a mat-list-item class="mat-list-item-sidebar"
-                   *ngIf="bot.bot_type === myEBotType.faqbot"
-                   (click)="sideBarTabChanged(myESideBarTab.History)">
-                    <div class="sidebar-nav-list-item"
-                         [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
-                         (click)="sideBarTabChanged('History')">
-                        <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
-                             style="padding-right: 3px; padding-left: 3px;">
-                        <span style="color: #00ABD3">History</span>
-                    </div>
-                </a>
-
-            </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content style="display: flex; flex-direction: column">
-            <mat-toolbar style="height: 56px; flex-shrink:0; background-color: #2b4f70">
-                <button mat-icon-button (click)="left.toggle()">
-                    <mat-icon style="color: white">menu</mat-icon>
-                </button>
-                <div class="header">
-                    <app-bot-detail-header [bot]="bot"
-                                           (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
-                    <!---->
-                </div>
-            </mat-toolbar>
-            <div *ngIf="!showLoader else loader" class="app-container" style="flex-grow: 1;" [ngClass]="{'overflowYAuto':!shouldDisableGlobalScroll()}">
-                <div class="architecture" style="">
-                    <ng-container *ngIf="sideBarTab1 === 'setting'">
-                        <header>
-                            <div style="padding-bottom: 8px"><strong
-                                    style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Bot
-                                configuration</strong></div>
-                            <div style="color: #696969;font-size: 11px">Change the bot settings and add or update
-                                integrations.
-                            </div>
-                        </header>
-                        <div class="architecture py-3 pr-1" *ngIf="sideBarTab1 ==='setting'">
-                            <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal">
-                                <app-bot-config (datachanged$)="pipelineDataChangeHandler($event)"
-                                                (initDone$)="mySideBarService.init($event)"
-                                                [bot]="(bot)"></app-bot-config>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="sideBarTab1 === 'articles' && myEBotType.faqbot === bot.bot_type">
-                        <app-bot-articles style="flex:1" [bot]="bot"></app-bot-articles>
-                    </ng-container>
-
-                    <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
-                        <ng-container>
-                            <app-curation style="display: block; height: 100%" [bot]="bot"></app-curation>
-                        </ng-container>
-                    </ng-container>
-
-
-                    <ng-container *ngIf="sideBarTab1 === 'History' && myEBotType.faqbot === bot.bot_type">
-                        <app-bot-article-history style="display: block; height: 100%"
-                                                 [bot]="bot"></app-bot-article-history>
-                    </ng-container>
-
-                    <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
-                        <ng-container *ngIf="sideBarTab1 === 'input'">
-                            <header *ngIf="!goFullScreen">
-                                <div style="padding-bottom: 8px"><strong
-                                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Input
-                                    recognition</strong></div>
-
-                                <div class="hide-phone" style="color: #696969;font-size: 11px; width: 66%">Configure the
-                                    bot pipeline and
-                                    the knowledge
-                                    base here.
-                                    Pipeline is used as filter for the user message to extract or discard certain
-                                    parameters. In
-                                    knowledge base entities are to be defined which are to be captured from the pipeline
-                                    as
-                                    parameters
-                                    in the message.
-                                </div>
-                            </header>
-                            <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
-                                <mat-tab label="Pipeline" *appMyIf="[myEAllActions['Get Pipeline Module']]">
-                                    <app-pipeline
-                                            (datachanged$)="pipelineDataChangeHandler($event)"
-                                            *ngIf="selectedSideBarTab==='pipeline'"
-                                            (initDone$)="mySideBarService.init($event)"
-                                            [bot]="bot"></app-pipeline>
-                                </mat-tab>
-                                <mat-tab label="Knowledge base" *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
-                                    <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
-                                                                (initDone$)="mySideBarService.init($event)"
-                                                                [bot]="bot"></app-knowledge-base-wrapper>
-                                </mat-tab>
-                            </mat-tab-group>
-                        </ng-container>
-                    </ng-container>
-                    <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
-                        <div style="height: 100%"
-                             *ngIf="logicTabClicked && bot.bot_type === myEBotType.chatbot"
-                             [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
-                            <header>
-                                <div style="padding-bottom: 8px"><strong
-                                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
-                                    Bot Logic </strong>
-                                </div>
-                                <div style="color: #696969;font-size: 11px">
-                                    Configure the logic for the bot here. Use the versioning tab below to create and
-                                    switch between
-                                    versions.
-                                </div>
-                            </header>
-                            <app-code-input
-
-                                    class=" d-flex-column-last-child-flex-grow-1"
-                                    (datachanged$)="pipelineDataChangeHandler($event)"
-                                    [bot]="bot"></app-code-input>
-                        </div>
-                    </ng-container>
-                  <ng-container *ngIf="sideBarTab1 === 'logic' && bot.bot_type === myEBotType.router && logicTabClicked">
-                    <div style="height: 100%">
-                      <header>
-                        <div style="padding-bottom: 8px"><strong
-                          style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
-                          Logic </strong>
-                        </div>
-                        <div style="color: #696969;font-size: 11px">
-                          Configure the routing rules based on which the bot will behave. Rules will be executed by the order they are arranged
-                        </div>
-                      </header>
-                      <app-router-bot-rules [bot]="bot" ></app-router-bot-rules>
-                    </div>
-                  </ng-container>
-                    <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type != myEBotType.intelligent">
-                        <header>
-                            <strong style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Conversations</strong>
-                            <div class="hide-phone" style="color: #696969;font-size: 11px; margin-top: 10px">See all the
-                                conversations happened with the bot
-                                along with data of the users who interacted with
-                                the bot
-                            </div>
-                        </header>
-                        <mat-tab-group style="height: 100%">
-                            <mat-tab label="Sessions"
-                                     *appMyIf="[myEAllActions['Get Sessions']]"
-
-                            >
-                                <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
-                                    <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1"
-                                                      style="position: relative"
-                                                      [id]="bot.id" [bot]="bot"></app-bot-sessions>
-                                </div>
-                            </mat-tab>
-                            <mat-tab label="Consumers"
-                                     *appMyIf="[myEAllActions['Get Consumers']]"
-
-                            >
-                                <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper"
-                                     style="width: 100%; height: 100%">
-                                    <app-consumers style="position: relative"
-                                                   class="child-expand d-flex-column-last-child-flex-grow-1 "
-                                                   [id]="bot.id" [bot]="bot"></app-consumers>
-                                </div>
-                            </mat-tab>
-                        </mat-tab-group>
-
-                    </ng-container>
-                    <ng-container *appMyIf="[myEAllActions['Get Bot Testcases']]">
-                        <ng-container *ngIf="sideBarTab1 === 'test' && bot.bot_type !== myEBotType.intelligent">
-                            <header>
-
-                                <div style="padding-bottom: 8px"><strong
-                                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test</strong>
-                                </div>
-                                <div class="hide-phone" style="color: #696969;font-size: 11px">
-                                    Create and modify testcases for the bot based on the required use cases to test the
-                                    bot
-                                </div>
-                            </header>
-                            <app-bot-testing style="position: relative;"
-                                             (initDone$)="mySideBarService.init($event)"
-                                             class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
-                            </app-bot-testing>
-                        </ng-container>
-                    </ng-container>
-
-                    <ng-container *ngIf="sideBarTab1 === 'pipelineTest' && bot.bot_type === myEBotType.intelligent">
-                        <app-pipeline-test style="position: relative;"
-                                         class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
-                        </app-pipeline-test>
-                    </ng-container>
-
-                </div>
+  [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
+  *ngIf="bot">
+  <mat-sidenav-container fullscreen [hasBackdrop]="bps.isMobile" style="z-index: 10000000; ">
+    <mat-sidenav #left class="shadow-theme" [opened]="!bps.isMobile" style="width: 56px">
+      <mat-toolbar
+        style="margin: 0; padding: 0; display: flex; justify-content: center; height: 56px; background-color: #2b4f70">
+        <a class="sidebar-logo" (click)="logoClickHandler(left)">
+          <img class="sidebar-logo__image" src="assets/img/connect-copy@2x.png" alt="website logo">
+        </a>
+      </mat-toolbar>
+      <mat-nav-list style="padding: 0" [disableRipple]="true">
+        <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.setting)">
+          <div class="sidebar-nav-list-item"
+               data-cy="sidebar-setting"
+               [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
+          >
+            <img class="" src="assets/img/sidebar/bot-config.svg" alt="sidebar bot config">
+            <span style="color: #00ABD3">Settings</span>
+          </div>
+        </a>
+        <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
+          <a mat-list-item class="mat-list-item-sidebar"
+             (click)="sideBarTabChanged(myESideBarTab.input)">
+            <div class="sidebar-nav-list-item"
+                 data-cy="sidebar-NLP"
+                 [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
+              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+              <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
             </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+
+          </a></ng-container>
+        <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
+
+        <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
+           (click)="sideBarTabChanged('articles')">
+          <div class="sidebar-nav-list-item"
+               data-cy="sidebar-articles"
+               [ngClass]="{'filter-black':sideBarTab1!=='articles', 'selected-nav':sideBarTab1==='articles'}">
+            <img class="" src="assets/img/sidebar/article.svg" alt="">
+            <span style="color: #00ABD3">Articles {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
+          </div>
+        </a>
+        <ng-container *appMyIf="[myEAllActions['Get FAQbot curation issues']]">
+          <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
+             (click)="sideBarTabChanged('curation')">
+            <div class="sidebar-nav-list-item"
+                 [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
+              <img class="" src="assets/img/sidebar/light-bulb.svg" alt="">
+              <span style="color: #00ABD3">Curation</span>
+            </div>
+
+          </a>
+        </ng-container>
+        <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
+          <a mat-list-item class="mat-list-item-sidebar"
+             *ngIf="bot.bot_type === myEBotType.chatbot  || bot.bot_type === myEBotType.router"
+             (click)="sideBarTabChanged(myESideBarTab.logic)">
+            <div class="sidebar-nav-list-item"
+                 data-cy="sidebar-logic"
+                 [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
+                 (click)="sideBarTabChanged('logic')">
+              <img class="" src="assets/img/sidebar/logic-1.svg" alt="">
+              <span style="color: #00ABD3">Logic</span>
+            </div>
+          </a></ng-container>
+        <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.chat)"
+           *ngIf="bot.bot_type != myEBotType.intelligent">
+          <div class="sidebar-nav-list-item"
+               data-cy="sidebar-chat"
+               [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
+               (click)="sideBarTabChanged('chat')">
+            <img class="" src="assets/img/sidebar/chats.svg" alt="">
+            <span style="color: #00ABD3">Sessions</span>
+          </div>
+        </a>
+
+        <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.pipelineTest)"
+           *ngIf="bot.bot_type === myEBotType.intelligent">
+          <!--TODO: remove faq bot condition-->
+          <div class="sidebar-nav-list-item"
+               data-cy="sidebar-test"
+               [ngClass]="{'filter-black':sideBarTab1!=='pipelineTest', 'selected-nav':sideBarTab1==='pipelineTest'}"
+               (click)="sideBarTabChanged('pipelineTest')">
+            <img class="" src="assets/img/sidebar/test.svg" alt=""
+                 style="padding-right: 3px; padding-left: 3px;">
+            <span style="color: #00ABD3">Test</span>
+          </div>
+        </a>
+
+        <ng-container *appMyIf="myEAllActions['Get Bot Testcases']">
+          <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)"
+             *ngIf="bot.bot_type === myEBotType.chatbot">
+            <!--TODO: remove faq bot condition-->
+            <div class="sidebar-nav-list-item"
+                 data-cy="sidebar-test"
+                 [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
+                 (click)="sideBarTabChanged('test')">
+              <img class="" src="assets/img/sidebar/test.svg" alt=""
+                   style="padding-right: 3px; padding-left: 3px;">
+              <span style="color: #00ABD3">Test</span>
+            </div>
+          </a></ng-container>
+
+        <a mat-list-item class="mat-list-item-sidebar"
+           *ngIf="bot.bot_type === myEBotType.faqbot"
+           (click)="sideBarTabChanged(myESideBarTab.History)">
+          <div class="sidebar-nav-list-item"
+               [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
+               (click)="sideBarTabChanged('History')">
+            <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
+                 style="padding-right: 3px; padding-left: 3px;">
+            <span style="color: #00ABD3">History</span>
+          </div>
+        </a>
+
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="display: flex; flex-direction: column">
+      <mat-toolbar style="height: 56px; flex-shrink:0; background-color: #2b4f70">
+        <button mat-icon-button (click)="left.toggle()">
+          <mat-icon style="color: white">menu</mat-icon>
+        </button>
+        <div class="header">
+          <app-bot-detail-header [bot]="bot"
+                                 (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
+          <!---->
+        </div>
+      </mat-toolbar>
+      <div *ngIf="!showLoader else loader" class="app-container" style="flex-grow: 1;"
+           [ngClass]="{'overflowYAuto':!shouldDisableGlobalScroll()}">
+        <div class="architecture" style="">
+          <ng-container *ngIf="sideBarTab1 === 'setting'">
+            <header>
+              <div style="padding-bottom: 8px"><strong
+                style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Bot
+                configuration</strong></div>
+              <div style="color: #696969;font-size: 11px">Change the bot settings and add or update
+                integrations.
+              </div>
+            </header>
+            <div class="architecture py-3 pr-1" *ngIf="sideBarTab1 ==='setting'">
+              <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal">
+                <app-bot-config (datachanged$)="pipelineDataChangeHandler($event)"
+                                (initDone$)="mySideBarService.init($event)"
+                                [bot]="(bot)"></app-bot-config>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="sideBarTab1 === 'articles' && myEBotType.faqbot === bot.bot_type">
+            <app-bot-articles style="flex:1" [bot]="bot"></app-bot-articles>
+          </ng-container>
+
+          <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
+            <ng-container>
+              <app-curation style="display: block; height: 100%" [bot]="bot"></app-curation>
+            </ng-container>
+          </ng-container>
+
+
+          <ng-container *ngIf="sideBarTab1 === 'History' && myEBotType.faqbot === bot.bot_type">
+            <app-bot-article-history style="display: block; height: 100%"
+                                     [bot]="bot"></app-bot-article-history>
+          </ng-container>
+
+          <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
+            <ng-container *ngIf="sideBarTab1 === 'input'">
+              <header *ngIf="!goFullScreen">
+                <div style="padding-bottom: 8px"><strong
+                  style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Input
+                  recognition</strong></div>
+
+                <div class="hide-phone" style="color: #696969;font-size: 11px; width: 66%">Configure the
+                  bot pipeline and
+                  the knowledge
+                  base here.
+                  Pipeline is used as filter for the user message to extract or discard certain
+                  parameters. In
+                  knowledge base entities are to be defined which are to be captured from the pipeline
+                  as
+                  parameters
+                  in the message.
+                </div>
+              </header>
+              <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
+                <mat-tab label="Pipeline" *appMyIf="[myEAllActions['Get Pipeline Module']]">
+                  <app-pipeline
+                    (datachanged$)="pipelineDataChangeHandler($event)"
+                    *ngIf="selectedSideBarTab==='pipeline'"
+                    (initDone$)="mySideBarService.init($event)"
+                    [bot]="bot"></app-pipeline>
+                </mat-tab>
+                <mat-tab label="Knowledge base" *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
+                  <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
+                                              (initDone$)="mySideBarService.init($event)"
+                                              [bot]="bot"></app-knowledge-base-wrapper>
+                </mat-tab>
+              </mat-tab-group>
+            </ng-container>
+          </ng-container>
+          <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
+            <div style="height: 100%"
+                 *ngIf="logicTabClicked && bot.bot_type === myEBotType.chatbot"
+                 [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
+              <header>
+                <div style="padding-bottom: 8px"><strong
+                  style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
+                  Bot Logic </strong>
+                </div>
+                <div style="color: #696969;font-size: 11px">
+                  Configure the logic for the bot here. Use the versioning tab below to create and
+                  switch between
+                  versions.
+                </div>
+              </header>
+              <app-code-input
+
+                class=" d-flex-column-last-child-flex-grow-1"
+                (datachanged$)="pipelineDataChangeHandler($event)"
+                [bot]="bot"></app-code-input>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="sideBarTab1 === 'logic' && bot.bot_type === myEBotType.router && logicTabClicked">
+            <div style="height: 100%">
+              <header>
+                <div style="padding-bottom: 8px"><strong
+                  style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
+                  Logic </strong>
+                </div>
+                <div style="color: #696969;font-size: 11px">
+                  Configure the routing rules based on which the bot will behave. Rules will be executed by the order
+                  they are arranged
+                </div>
+              </header>
+              <app-router-bot-rules [bot]="bot"></app-router-bot-rules>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="sideBarTab1 === 'chat1' && bot.bot_type != myEBotType.intelligent">
+            <header>
+              <strong style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Conversations</strong>
+              <div class="hide-phone" style="color: #696969;font-size: 11px; margin-top: 10px">See all the
+                conversations happened with the bot
+                along with data of the users who interacted with
+                the bot
+              </div>
+            </header>
+            <mat-tab-group style="height: 100%">
+              <mat-tab label="Sessions"
+                       *appMyIf="[myEAllActions['Get Sessions']]">
+                <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
+                  <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1"
+                                    style="position: relative"
+                                    [id]="bot.id" [bot]="bot"></app-bot-sessions>
+                </div>
+              </mat-tab>
+              <mat-tab label="Consumers"
+                       *appMyIf="[myEAllActions['Get Consumers']]">
+                <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper"
+                     style="width: 100%; height: 100%">
+                  <app-consumers style="position: relative"
+                                 class="child-expand d-flex-column-last-child-flex-grow-1 "
+                                 [id]="bot.id" [bot]="bot"></app-consumers>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+
+          </ng-container>
+
+<!--          train content starts-->
+          <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type != myEBotType.intelligent">
+            <header>
+              <strong style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Machine learning model</strong>
+              <div class="hide-phone" style="color: #696969;font-size: 11px; margin-top: 10px">
+                Configure intents and entities over which the bot will work
+              </div>
+            </header>
+            <mat-tab-group style="height: 100%">
+              <mat-tab label="Intents"
+                       *appMyIf="[myEAllActions['Get Sessions']]">
+                <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
+<!--                  <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1"-->
+<!--                                    style="position: relative"-->
+<!--                                    [id]="bot.id" [bot]="bot"></app-bot-sessions>-->
+                  <app-ml-intents [bot]="bot"></app-ml-intents>
+                </div>
+              </mat-tab>
+              <mat-tab label="Entities"
+                       *appMyIf="[myEAllActions['Get Consumers']]">
+                <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper"
+                     style="width: 100%; height: 100%">
+<!--                  <app-consumers style="position: relative"-->
+<!--                                 class="child-expand d-flex-column-last-child-flex-grow-1 "-->
+<!--                                 [id]="bot.id" [bot]="bot"></app-consumers>-->
+                  <app-ml-entities></app-ml-entities>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+
+          </ng-container>
+<!--          train content ends-->
+          <ng-container *appMyIf="[myEAllActions['Get Bot Testcases']]">
+            <ng-container *ngIf="sideBarTab1 === 'test' && bot.bot_type !== myEBotType.intelligent">
+              <header>
+
+                <div style="padding-bottom: 8px"><strong
+                  style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test</strong>
+                </div>
+                <div class="hide-phone" style="color: #696969;font-size: 11px">
+                  Create and modify testcases for the bot based on the required use cases to test the
+                  bot
+                </div>
+              </header>
+              <app-bot-testing style="position: relative;"
+                               (initDone$)="mySideBarService.init($event)"
+                               class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
+              </app-bot-testing>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="sideBarTab1 === 'pipelineTest' && bot.bot_type === myEBotType.intelligent">
+            <app-pipeline-test style="position: relative;"
+                               class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
+            </app-pipeline-test>
+          </ng-container>
+
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
 </div>
 
 <ng-template #loader>
-    <app-imi-loader *ngIf="showLoader"></app-imi-loader>
+  <app-imi-loader *ngIf="showLoader"></app-imi-loader>
 </ng-template>
 
 <app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true">
-    <div class="d-flex flex-column justify-content-center align-content-center">
-        <em>No such bot in your account</em>
-        <a routerLink="/">Go to home page</a>
-    </div>
+  <div class="d-flex flex-column justify-content-center align-content-center">
+    <em>No such bot in your account</em>
+    <a routerLink="/">Go to home page</a>
+  </div>
 </app-imi-loader>
 
 
 <ng-template #placeholder>
-    <div class="row row-details">
-        <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-            <span class="fa fa-area-chart p-0"></span>
-            <span class="number">0</span>
-            <span class="description">Total Session</span>
-        </div>
-        <div class="col-2 pb-5 d-flex flex-column align-items-center">
-            <span class="fa fa-users"></span>
-            <span class="number">0</span>
-            <span class="description">Total Users</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-            <span class="fa fa-envelope"></span>
-            <span class="number">0</span>
-            <span class="description">Total Messages</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-            <span class="fa fa-exchange"></span>
-            <span class="number">0</span>
-            <span class="description">Average Message Per Session</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-            <span class="fa fa-clock-o"></span>
-            <span class="number">0</span>
-            <span class="description">Total Time Spent(hh:mm)</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-            <span class="fa fa-hourglass"></span>
-            <span class="number">0</span>
-            <span class="description">Time Spent Per Session (hh:mm)</span>
-        </div>
+  <div class="row row-details">
+    <div class="col-2  d-flex flex-column align-items-center justify-content-start">
+      <span class="fa fa-area-chart p-0"></span>
+      <span class="number">0</span>
+      <span class="description">Total Session</span>
     </div>
+    <div class="col-2 pb-5 d-flex flex-column align-items-center">
+      <span class="fa fa-users"></span>
+      <span class="number">0</span>
+      <span class="description">Total Users</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <span class="fa fa-envelope"></span>
+      <span class="number">0</span>
+      <span class="description">Total Messages</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <span class="fa fa-exchange"></span>
+      <span class="number">0</span>
+      <span class="description">Average Message Per Session</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <span class="fa fa-clock-o"></span>
+      <span class="number">0</span>
+      <span class="description">Total Time Spent(hh:mm)</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <span class="fa fa-hourglass"></span>
+      <span class="number">0</span>
+      <span class="description">Time Spent Per Session (hh:mm)</span>
+    </div>
+  </div>
 </ng-template>

@@ -33,7 +33,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   _allow_feedback = false;
   @Input() set allow_feedback(val) {
     this._allow_feedback = val;
-    debugger;
+
     this.imiPreview && this.imiPreview.setOptions(this._bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
   }
 
@@ -45,7 +45,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   count = 0;
 
   @Input() set messageDataArray(value) {
-    debugger;
+
     if (this._messageDataArray) {
       if (value[0] !== this._messageDataArray[0]) {
         this.count = 0;
@@ -57,7 +57,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.scrollToBottom(), 0);
     if (this.imiPreview) {
       arrayToBeRenderer.forEach((item) => {
-        debugger;
+
         this.imiPreview && this.imiPreview.appendMessageInChatBody([{
           ...item
         }], item);
@@ -100,7 +100,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
         this.sendMessageByHuman(payload);
       });
       imiPreview.setSendFeedback((val, feedback) => {
-        debugger;
+
         val.bot_message_id = Number(val.bot_message_id);//todo: temp, remove it
         this.feedback(val, feedback);
       });
