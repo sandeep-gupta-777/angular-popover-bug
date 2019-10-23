@@ -102,6 +102,7 @@ import {MlIntentsDetailComponent} from './ml-intents-detail/ml-intents-detail.co
 import {MlIntentResponseComponent} from './ml-intent-response/ml-intent-response.component';
 import {MlIntentUtteranceComponent} from './ml-intent-utterance/ml-intent-utterance.component';
 import {OverlayModule} from '@angular/cdk/overlay';
+import { UtteranceAddEntityPipe } from './ml-intents/utterance-add-entity.pipe';
 
 const routes: Route[] = [
   {
@@ -199,6 +200,7 @@ const routes: Route[] = [
     MlIntentsDetailComponent,
     MlIntentResponseComponent,
     MlIntentUtteranceComponent,
+    UtteranceAddEntityPipe,
     // PopoverComponent,
     // InsidePopoverComponent
     /*after lazy loading*/

@@ -5,7 +5,7 @@
 ></app-smart-table>
 
 
-<div id="test11" class="button is-primary" (click)="show(tpl)">test1</div>
+<div id="test11" style="display: inline-block" class="button is-primary" (click)="show(tpl)">test1</div>
 
 <ng-template #tpl let-close="close">
   And here's some amazing content. It's very engaging. Right?
@@ -37,12 +37,11 @@
     </div>
 
     <div style="flex:1;overflow-y: auto">
-      <div class="bg-red">hello</div>
       <div contenteditable="true"
-           (mouseup)="textSelected($event)"
+           (mouseup)="textSelected($event, tpl)"
+           (click)="show2($event.target, tpl)"
            *ngFor="let question of selectedIntent.utterances; let index = index;"
-      >
-        {{selectedIntent.utterances[index].utterance}}
+           innerHTML="{{selectedIntent.utterances[index].utterance| utteranceAddEntity:selectedIntent.utterances[index].entities}}">
       </div>
       <!--      <mat-form-field class="question-list-item"-->
       <!--                      *ngFor="let question of selectedIntent.utterances; let index = index;"-->

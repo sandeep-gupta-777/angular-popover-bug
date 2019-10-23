@@ -44,7 +44,11 @@ export class MlIntentsComponent implements OnInit {
     this.selectedIntent = intentTableRowData.data;
   }
 
-  textSelected(e) {
+  textSelected(e, tpl) {
+    const target = e.target as HTMLElement;
+    if(target.classList.contains('bg-red')){
+      return;
+    }
     var selection;
 
     if (window.getSelection) {
@@ -54,10 +58,15 @@ export class MlIntentsComponent implements OnInit {
     }
 
     // selection.toString() !== '' && alert('"' + selection.toString() + '" was selected at ' + e.pageX + '/' + e.pageY);
-    this.replaceSelectedText(selection);
+    let random = this.replaceSelectedText(selection);
+    const $selection = e.target as HTMLElement;
+    let x = $selection.querySelector(`[data-id="${random}"]`);
+    this.show2(x, tpl);
+
   }
 
   replaceSelectedText(selection) {
+    const random = Date.now();
     var obj = {
       'cmd': 'insertHTML',
       'val': '&lt;h3&gt;Life is great!&lt;/h3&gt;',
@@ -69,32 +78,19 @@ export class MlIntentsComponent implements OnInit {
     if (selection === '') {
       return;
     }
-    document.execCommand(obj.cmd, false, `
-<span class="bg-red bg-red2 bg-red1">
-    ${selection.toString()}
-    <div class="cancel">
-          <form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Favorite food" value="Sushi">
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="Leave a comment"></textarea>
-  </mat-form-field>
-</form>
-    </div>
-
-<span>`);
+    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-id="${random}">${selection.toString()}<span>`);
     console.log('asdasd');
     // alert();
+    return random;
   }
 
-  show(content: TemplateRef<any>, origin) {
+  show(origin, content: TemplateRef<any>) {
+    console.log('opening wrt', origin);
     const ref = this.popper.open<{ skills: number[] }>({
       // content,
       content: 'Hello world2!',
       // content: InsidePopoverComponent,
-      origin: document.querySelector('#test11'),
+      origin,//: document.querySelector('#test11'),
       width: '200px',
       data: {
         skills: [1, 2, 3]
@@ -105,6 +101,13 @@ export class MlIntentsComponent implements OnInit {
       console.log(res);
     });
 
+  }
+
+
+  show2(target, tpl) {
+    if(target.classList.contains('bg-red')){
+      this.show(target, tpl);
+    }
   }
 
 

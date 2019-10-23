@@ -23,7 +23,7 @@ export class Popover {
     const popoverRef = new PopoverRef<T>(overlayRef, content, data);
 
     const injector = this.createInjector(popoverRef, this.injector);
-    // overlayRef.attach(new ComponentPortal(PopoverComponent1, null, injector));
+    overlayRef.attach(new ComponentPortal(PopoverComponent1, null, injector));
 
     return popoverRef;
   }
@@ -58,7 +58,7 @@ export class Popover {
     return [
       {
         originX: 'center',
-        originY: 'top',
+        originY: 'bottom',
         overlayX: 'center',
         overlayY: 'bottom'
       },
