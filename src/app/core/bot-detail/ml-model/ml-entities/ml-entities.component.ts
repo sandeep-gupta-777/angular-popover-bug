@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MlEntitesSmartTable} from "./ml-entites-smart-table";
 import {ConstantsService} from "../../../../constants.service";
 import {ServerService} from "../../../../server.service";
@@ -32,6 +32,7 @@ export class MlEntitiesComponent implements OnInit {
   @Input() bot:IBot;
   _entitiesData:IEntitiesItem[];
   dialogRefWrapper = {ref: null};
+  @Output() editEntity = new EventEmitter()
   @Input() set entitiesData( value : IEntitiesItem[]){
   debugger;
     if(value){
@@ -81,7 +82,7 @@ export class MlEntitiesComponent implements OnInit {
       //  this.openDeletModal(enterpriseDeleteModal);
     }
     if (data.action === 'edit') {
-
+        this.editEntity.emit(data);
     }
   }
 }
