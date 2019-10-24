@@ -1,0 +1,47 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px">
+  <h2 class="heading">
+    Entities to recognise
+  </h2>
+  <!--  <button >-->
+<!--  <button  >-->
+    <a [matMenuTriggerFor]="appMenu" style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">+ Link entity</a>
+<!--  </button>-->
+  <!--    <mat-icon>more_vert</mat-icon>-->
+  <!--  </button>-->
+</div>
+
+<mat-menu #appMenu="matMenu" yPosition="above" [class]="'entity-list'">
+  <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent"
+          (click)="linkEntityHandler(entity)">{{entity.name}}</button>
+</mat-menu>
+
+
+<!--<i>{{selectedIntent|json}}</i>-->
+<!--<i>{{entityList|json}}</i>-->
+
+
+<table style="border: solid 1px #eaeaea;">
+  <tr style="background-color: #eeeeee">
+    <th style="width: 5%"></th>
+    <th style="width: 20%">Entity name</th>
+    <th style="width: 20%">Required</th>
+    <th style="width: 20%">Retried</th>
+    <th style="width: 20%">Template Key</th>
+  </tr>
+  <tbody>
+  <ng-container *ngIf="selectedIntent">
+    <tr *ngFor="let e of selectedIntent.entities">
+      <ng-container *ngIf="(e|getEntityByName:entityList) as entity">
+        <td></td>
+        <td>{{entity.name}}</td>
+        <td>
+          <mat-checkbox [checked]="entity.required"></mat-checkbox>
+        </td>
+        <td>{{entity.counter}}</td>
+        <td>{{entity.template_key}}</td>
+      </ng-container>
+    </tr>
+  </ng-container>
+  </tbody>
+
+</table>

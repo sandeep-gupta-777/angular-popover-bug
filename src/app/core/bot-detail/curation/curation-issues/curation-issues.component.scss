@@ -22,7 +22,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-left: 2em;
 }
 
 .column-1 {
@@ -30,7 +29,6 @@
   padding-top: 1em;
   color: #4a4a4a;
   overflow: auto;
-  border-right: solid 1px #eaeaea;
 }
 
 .column-2 {
@@ -38,9 +36,11 @@
   padding-top: 1em;
   color: #4a4a4a;
   overflow: auto;
-
 }
 
+.border-partiation{
+  border-left: solid 1px #eaeaea;
+}
 
 
 .curation-card-master {
@@ -100,10 +100,10 @@
         align-items: center;
       }
     }
-  
+
   }
   .curation-card-header-wrapper-selected{
-    
+
     border-bottom: 1px solid #eaeaea;
     background-color: #e6f4ff;
   }
@@ -119,7 +119,7 @@
       width: auto;
       height: auto;
     }
-  
+
     .resolved-footer {
       display: flex;
       justify-content: space-between;
@@ -141,7 +141,7 @@
       }
     }
   }
-  
+
 }
 
 ::ng-deep{

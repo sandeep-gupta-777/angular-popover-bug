@@ -54,6 +54,7 @@
           </div>
             <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationIssuesList">
                 <app-curation-filter (formSubmitted)="submitedForm($event)"
+                                     [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                                      [form]="curationIssuesFilterForm"
                                      [hidden]="!curationIssuesList"
                                      [unsolved]="true"
@@ -130,6 +131,7 @@
                                                *ngIf="!isBotAdvancedDataProtective && aggregationResolvedData"></app-curation-resolved-aggrigation>
             <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationResolvedAndIgnoredList">
                 <app-curation-filter [form]="curationResolvedFilterForm" (formSubmitted)="submitedForm($event)"
+                                     [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                                      [hidden]="!curationResolvedAndIgnoredList"
                                      [unsolved]="false" style="z-index: 100;"></app-curation-filter>
                 <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"

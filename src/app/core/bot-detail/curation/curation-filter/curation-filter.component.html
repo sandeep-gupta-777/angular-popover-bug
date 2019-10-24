@@ -41,7 +41,7 @@
         <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="m-0 padding-input count-sub-form sort-decrease-height">
+    <div class="m-0 padding-input count-sub-form sort-decrease-height w-100">
       <mat-form-field class="count-select">
         <mat-label>Articles with issues</mat-label>
         <mat-select class="count-type" formControlName="issue_count_filter" ngModel>
@@ -56,6 +56,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div class="ml-auto"></div>
       <mat-form-field class="count-input-width">
         <input matInput class="input-width" [disabled]="!form?.value?.issue_count_filter" required placeholder="count"
           formControlName="count" type="number" ngModel>
@@ -63,8 +64,9 @@
     </div>
     <div class="w-100 ">
       <div class="d-flex flex-row padding-input pb-3">
-        <button class="btn-theme btn-theme-primary filter-btn mr-auto" type="button" [disabled] = "!form?.valid"
+        <button class="btn-theme btn-theme-primary filter-btn" type="button" [disabled] = "!form?.valid"
           (click)="submitedForm()">Filter</button>
+        <div class="ml-auto"></div>
         <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
       </div>
     </div>

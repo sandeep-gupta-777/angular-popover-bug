@@ -34,7 +34,7 @@ export class MlEntitiesComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   @Output() editEntity = new EventEmitter()
   @Input() set entitiesData( value : IEntitiesItem[]){
-  debugger;
+
     if(value){
       this.currentPage = 1;
       this.totalEntitiesLength = value.length;
@@ -52,7 +52,7 @@ export class MlEntitiesComponent implements OnInit {
     return this.constantsService.SMART_TABLE_ML_ENTITIES_TEMPLATE ;
   }
   goToPage(val) {
-    debugger;
+
     this.currentPage = val.page;
     if(this._entitiesData){
       let sliceData = this._entitiesData.slice((this.currentPage-1)*10 , (this.currentPage)*10);

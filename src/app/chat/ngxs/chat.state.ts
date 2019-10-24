@@ -66,7 +66,9 @@ export class ChatSessionStateReducer {
   showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
     const state: IChatSessionState = getState();
     const room = state.rooms.find((room_temp) => room_temp.id === payload.roomId);
-    room.showBotIsThinking = payload.shouldShowBotIsThinking;
+    if(room){
+      room.showBotIsThinking = payload.shouldShowBotIsThinking;
+    }
     setState({...state});
   }
 
@@ -167,10 +169,15 @@ export class ChatSessionStateReducer {
     const state = getState();
     const rooms = state.rooms;
     const room_id = payload.id;
-
-
     let room: IRoomData = (rooms && (rooms.find((room_temp) => room_temp.id === room_id)));
+
+
+
     if (!room) {
+      if(payload.async){
+        console.log('Async callback. Ignoring room:', payload);
+        return;
+      }
       /*room is not found, this means session is expired. So search by consumer roomId*/
       const consumer_id = payload.consumer_id;
       room = (rooms && (rooms.find((room_temp) => room_temp.consumer_id === consumer_id)));
@@ -206,7 +213,9 @@ export class ChatSessionStateReducer {
     const room_id = payload.room_id;
 
     const room: IRoomData = (rooms && (rooms.find((room_temp) => room_temp.id === room_id)));
-    room.lastTemplateKey = payload.lastTemplateKey;
+    if(room){
+      room.lastTemplateKey = payload.lastTemplateKey;
+    }
     setState({...state});
   }
 

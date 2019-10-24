@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {IBot} from "../../../../../../../interfaces/IBot";
 
 @Component({
   selector: 'app-text-gentemplate',
@@ -12,7 +13,7 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
   variantsIter: string[];
   selected: boolean;
   userErrorMessage = '';
-
+  @Input() bot: IBot;
   @Input() outputItem: IOutputItem;
   @ViewChild('textarea') textarea: ElementRef;
   @Input() set variants(variantsVal: string[]) {

@@ -14,6 +14,7 @@ import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 import {LoggingService} from './logging.service';
 import {ServerService} from './server.service';
 import {ConstantsService} from './constants.service';
+import {environment} from "../environments/environment";
 
 const uuidv1 = require('uuid/v4');
 
@@ -649,7 +650,15 @@ export class UtilityService {
   }
 
   copySharablePreviewLink(bot_unique_name, enterprise_unique_name) {
-    const url = `${location.host}${ConstantsService.fullscreenchatpath_anon}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
+    const host = 'http://imi-preview.netlify.com';
+    let root = ".";
+    if(environment.backend_root === 'https://dev.imibot.ai/'){
+      root = "dev";
+    }
+    if(environment.backend_root === 'https://staging.imibot.ai/'){
+      root = "staging";
+    }
+    const url = `${host}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}&root=${root}`;
     this.copyToClipboard(encodeURI(url));
   }
 

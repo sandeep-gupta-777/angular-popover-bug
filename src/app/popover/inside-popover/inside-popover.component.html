@@ -1,0 +1,36 @@
+<form [formGroup]="form">
+  <div>
+    <label style="font-size: 11px; color: #ababab">Entity type</label>
+  </div>
+  <mat-radio-group formControlName="type" aria-label="Select an option" style="    display: flex;
+    width: 100%;
+    justify-content: space-around;">
+    <mat-radio-button value="systems">Systems</mat-radio-button>
+    <mat-radio-button value="custom">Custom</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field class="mt-2 mb-1">
+    <mat-label>Select Entity</mat-label>
+    <mat-select formControlName="entity_id">
+      <mat-option
+        *ngFor="let e of entityList"
+        [value]="e.entity_id">
+        {{e.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="this.marker">
+    <a
+      (click)="entityMarkerHandler()"
+      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">+ New entity</a>
+  </div>
+
+  <div *ngIf="!this.marker">
+    <a
+      (click)="entityMarkerHandler()"
+      style="text-decoration: none; color: #bf3c3c; font-size: 13px; cursor: pointer">
+      <i style="margin-right: 10px" class="fa fa-times"></i>Remove</a>
+  </div>
+
+</form>
