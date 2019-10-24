@@ -242,6 +242,43 @@ export class ConstantsService {
 
 
   };
+
+  SMART_TABLE_INTENT_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    name: {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'name',
+      search: false,
+      searchValue: true,
+    },
+    Utterances: {
+      originalKey: 'Utterances',
+      value: '',
+      type: 'number',
+      displayValue: 'Utterances',
+      search: false,
+      searchValue: true,
+    },
+    template_key: {
+      originalKey: 'template_key',
+      value: '',
+      type: 'string',
+      displayValue: 'template_key',
+      search: false,
+      searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Updated At',
+      search: false,
+      searchValue: true,
+      dateRange: false
+    }
+  };
+
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
 
     channels: {
@@ -552,7 +589,69 @@ export class ConstantsService {
       searchValue: false,
     },
   };
+  SMART_TABLE_ML_ENTITIES_TEMPLATE: ITableColumn = {
+    'name': {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'Entity name',
 
+    },
+    'system_entity':{
+      originalKey: 'system_entity',
+      value: '',
+      type: 'string',
+      displayValue: 'Entity category',
+    },
+    'type': {
+      originalKey: 'type',
+      value: '',
+      type: 'string',
+      displayValue: 'Entity type',
+
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Last update',
+    },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+    }
+  };
+  SMART_TABLE_ML_INTENTS_TEMPLATE: ITableColumn = {
+    'name': {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'Entity name',
+
+    },
+    'utterances':{
+      originalKey: 'utterances',
+      value: '',
+      type: 'number',
+      displayValue: 'Utterances',
+    },
+    'template_key': {
+      originalKey: 'template_key',
+      value: '',
+      type: 'string',
+      displayValue: 'Template key',
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Last update',
+    }
+  };
 
   SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
     description: {
@@ -841,7 +940,10 @@ export class ConstantsService {
   getLiveCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/?state=live`;
   }
-
+  getAllCorpusForMLBot(limit,offset){
+    //state__in=trained,live&
+    return this.BACKEND_URL + `api/v1/mlcorpus/?limit=${limit}&offset=${offset}&order_by=-updated_at`;
+  }
   getAllCorpusForFAQBot(limit, offset) {
     return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
@@ -998,7 +1100,21 @@ export class ConstantsService {
   pipelineTestUrl() {
     return this.BACKEND_URL + `api/v1/webhook/intelligent/`;
   }
-
+  getEntityList(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/'
+  }
+  getMLCorpus(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/';
+  }
+  getIntents(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/intent/';
+  }
+  getMLEntityTypes(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/types/';
+  }
+  creatMLEntity(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/create/';
+  }
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
@@ -1117,7 +1233,9 @@ export class ConstantsService {
   makeCorpusLiveUrl() {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
-
+  makeMLCorpusLiveUrl(){
+    return this.BACKEND_URL + `api/v1/mlcorpus/makelive/`;
+  }
   curationIssuesListUrl(limit, offset) {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
   }
@@ -1128,6 +1246,17 @@ export class ConstantsService {
 
   curationIssueIgnoreUrl() {
     return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
+  }
+
+  createIntentUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/create/`;
+  }
+  updateIntentUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/update/`;
+  }
+
+  trainMlBotUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
   }
 
   curationIssueLinkToExistingSectionUrl() {
@@ -1153,9 +1282,10 @@ export class ConstantsService {
   addMessageToCurationFromSession() {
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
   }
+
   //routerbot
-  getRouterBotRuleByRuleIDUrl(id){
-    return this.BACKEND_URL + `api/v1/router_logic/${id}/`
+  getRouterBotRuleByRuleIDUrl(id) {
+    return this.BACKEND_URL + `api/v1/router_logic/${id}/`;
   }
 
   updateBotSerializer(bot: IBot) {

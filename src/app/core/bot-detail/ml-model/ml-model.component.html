@@ -1,0 +1,96 @@
+<header *ngIf="view === 'table'">
+  <div class="d-flex flex-row heading">
+    <strong class="heading-title">
+      Machine learning model</strong>
+    <div class="mr-auto">
+    </div>
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
+      <mat-icon class="mat-icon material-icons">sync</mat-icon>
+      Train
+    </button>
+  </div>
+  <div style="color: #696969;font-size: 11px;">Configure intents and entities over which the bot will
+    work
+  </div>
+</header>
+<div style="position: relative" *ngIf="view === 'table'">
+  <app-button-wrapper
+    class="card--update"
+    [isMatFlatButton]="false"
+    [text]=" '+ Create new ' +  ((selectedTabIndex === 0) ? 'intent' : 'entity' )"
+    style="position: absolute;right: 3px;top: 18px;z-index: 10000;"
+    (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
+  </app-button-wrapper>
+  <i>{{view}}</i>
+  <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event">
+    <mat-tab label="Intents">
+      <app-ml-intents [bot]="bot"
+                      (selectedIntentChanged$)="selectedIntent = $event"
+                      [intentData]="intentList"
+                      [entitiesList]="entityList"
+                      [view]="view"
+                      (viewChanged$)="viewChanged($event)"></app-ml-intents>
+
+    </mat-tab>
+    <mat-tab label="Entities" class="no-over-flow h-100">
+      <app-ml-entities [bot]="bot" [entitiesData]="entityList" class="h-100"
+                       (editEntity)="editEntityClicked($event,Primarytemplat)"></app-ml-entities>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<div *ngIf="view === 'detail' && !loading">
+  <app-ml-intents-detail
+    (selectedIntentChanged$)="selectedIntentChanged($event)"
+    (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"
+    (saveAndTrain$)="saveAndTrainHandler($event)"
+    [entityList]="entityList"
+    [selectedIntent]="selectedIntent"
+    [bot]="bot"
+    [view]="'detail'"
+    (viewChanged$)="viewChanged($event)"></app-ml-intents-detail>
+</div>
+<ng-template #Primarytemplat>
+  <div class="danger-modal">
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Select which type of entity to
+        create</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body pt-0">
+      <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;">
+        <mat-form-field style="width: 230px">
+          <input matInput ngModel placeholder="Entity name" formControlName="entity_name" required>
+        </mat-form-field>
+        <div class="d-flex">
+          <mat-form-field style="width: 120px;margin-right: 20px">
+            <mat-label>Entity type</mat-label>
+            <mat-select formControlName="entity_type" ngModel required>
+              <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">
+                {{entity_type.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field style="width: 250px"
+                          [hidden]="!(modalForm.value.entity_type == 'regex' || modalForm.value.entity_type == 'custom')">
+            <input ngModel matInput placeholder="Value" formControlName="entity_value">
+          </mat-form-field>
+        </div>
+        <div class="d-flex ">
+          <button mat-flat-button type="submit" [disabled]="!modalForm.valid"
+                  (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()"
+                  color=primary class="mat-theme-button footer-btn px-2 ml-auto">
+            Link and save
+          </button>
+          <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button "
+                  (click)="dialogRefWrapper.ref.close()">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</ng-template>

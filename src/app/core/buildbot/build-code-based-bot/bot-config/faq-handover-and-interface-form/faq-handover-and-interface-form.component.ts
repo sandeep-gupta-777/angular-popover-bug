@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {UtilityService} from 'src/app/utility.service';
+import {EBotType, UtilityService} from 'src/app/utility.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ServerService} from 'src/app/server.service';
@@ -24,7 +24,6 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
   @Input() disableAgentToggleBAD: boolean;
   agentHandover: boolean;
 
-
   constructor(
     private utilityService: UtilityService,
     public matDialog: MatDialog,
@@ -35,9 +34,13 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.agentHandover = this.bot.allow_agent_handover;
-    this.disableOrEnableAll(this.agentHandover);
+    if(this.bot.bot_type === EBotType.faqbot){
+      this.agentHandover = this.bot.allow_agent_handover;
+      this.disableOrEnableAll(this.agentHandover);
+    }
+    else{
+      this.agentHandover = true;
+    }
   }
 
   async openAgentHandover() {

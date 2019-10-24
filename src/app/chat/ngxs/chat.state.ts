@@ -170,7 +170,7 @@ export class ChatSessionStateReducer {
     const rooms = state.rooms;
     const room_id = payload.id;
     let room: IRoomData = (rooms && (rooms.find((room_temp) => room_temp.id === room_id)));
-    debugger;
+
 
 
     if (!room) {

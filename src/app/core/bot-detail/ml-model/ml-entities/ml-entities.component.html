@@ -1,0 +1,20 @@
+<!--<div>-->
+<!--  <div>description-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <button>-->
+
+<!--    </button>-->
+<!--  </div>-->
+<!--</div>-->
+
+<app-smart-table class="entities-table"
+                 [currentPage]="currentPage"
+                 [totalRecords]="totalEntitiesLength"
+                 [data]="mlEntitesSmartTableObj?.tableData"
+                 (performSearchInDB$)="goToPage($event)"
+                 (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                  >
+</app-smart-table>
+<!--(click)="tableClickHandler($event)"-->
+<!--*ngIf="ArticleHistorySmartTableObj && ArticleHistorySmartTableObj.tableData"-->

@@ -1384,3 +1384,27 @@ mat-dialog-container {
   position: absolute;
   transform: translate(-50%, -50%);
 }
+
+
+
+.bg-red {
+  background: #2b4f70;
+  color: white;
+  position: relative;
+  .cancel {
+    //content: 'x';
+    //display: none;
+    display: inline;
+
+    position: absolute;
+    //top: 0;
+    bottom: 0;
+    transform: translateY(50%);
+  }
+
+  &:hover .cancel {
+    display: inline;
+  }
+
+}
+

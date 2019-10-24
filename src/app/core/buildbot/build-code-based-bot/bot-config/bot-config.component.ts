@@ -44,6 +44,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
   faqHandoverANdInterfaceForm: FormGroup;
+  mlHandoverANdInterfaceForm : FormGroup;
   integrationForm: NgForm;
   myEBotType = EBotType;
   intigrationFormSubcription: Subscription;
@@ -92,6 +93,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
     this.faqHandoverANdInterfaceForm = this.botConfigService.getFaqHandoverANdInterfaceForm(this.bot);
+    this.mlHandoverANdInterfaceForm = this.botConfigService.getFaqHandoverANdInterfaceForm(this.bot);
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');
 
@@ -99,6 +101,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
     this.dataManagementForm.valueChanges.subscribe(() => this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(() => this.emitBotDirtyEvent(true));
     this.faqHandoverANdInterfaceForm.valueChanges.subscribe(() => this.emitBotDirtyEvent(true));
+    this.mlHandoverANdInterfaceForm.valueChanges.subscribe(() => this.emitBotDirtyEvent(true));
 
     this.loggeduser$.subscribe((loggedUserState) => {
       if (loggedUserState && loggedUserState.user && loggedUserState.user.role) {
@@ -108,6 +111,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
           this.dataManagementForm.disable();
           this.securityForm.disable();
           this.faqHandoverANdInterfaceForm.disable();
+          this.mlHandoverANdInterfaceForm.disable();
           this.disableAgentToggleBAD = true;
 
         }
@@ -136,7 +140,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
 
 
   createBotData() {
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm];
+    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm,this.mlHandoverANdInterfaceForm];
     combinedForms = combinedForms.filter(form => form);
     const bot = UtilityService.getCombinedBotData(combinedForms);
     if (this.integrationForm && this.integrationForm.value) {
@@ -179,7 +183,10 @@ export class BotConfigComponent implements OnInit, OnDestroy {
     let combinedForms;
     if (this.bot.bot_type === EBotType.faqbot) {
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm, this.integrationForm];
-    } else {
+    }else if (this.bot.bot_type === EBotType.mlbot) {
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.mlHandoverANdInterfaceForm, this.integrationForm];
+    }
+    else {
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm];
     }
     return combinedForms.filter(form => !!form).findIndex((form) => {

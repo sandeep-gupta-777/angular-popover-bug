@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  <h2 class="heading">
+    Response
+  </h2>
+  <div style="padding: 10px; background-color: white; border: solid 1px #eaeaea; margin-top: 8px">
+    <mat-form-field class="example-full-width">
+      <input type="text" matInput placeholder="Template Key" formControlName="template_key">
+    </mat-form-field>
+    <div style="display: flex; align-items: center">
+      <span style="margin-right: 10px">Reset After the response</span>
+      <div>
+        <mat-slide-toggle formControlName="reset_state"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+
+</form>

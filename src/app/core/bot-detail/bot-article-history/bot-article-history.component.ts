@@ -6,7 +6,7 @@ import {ServerService} from 'src/app/server.service';
 import {IAllCorpusResult, ICorpus} from '../../interfaces/faqbots';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {DatePipe} from '@angular/common';
-import {UtilityService} from 'src/app/utility.service';
+import {EBotType, UtilityService} from 'src/app/utility.service';
 import {map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
@@ -50,6 +50,7 @@ export class BotArticleHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.getAllCorpus$()
       .subscribe();
   }
@@ -59,7 +60,13 @@ export class BotArticleHistoryComponent implements OnInit {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.isReloading = true;
-    const url = this.constantsService.getAllCorpusForFAQBot(this.pageSize, this.pageSize * (this.currentPage - 1));
+    let url;
+    if (this.bot.bot_type === EBotType.faqbot){
+      url = this.constantsService.getAllCorpusForFAQBot(this.pageSize, this.pageSize * (this.currentPage - 1));
+    }
+    if (this.bot.bot_type === EBotType.mlbot){
+      url = this.constantsService.getAllCorpusForMLBot(this.pageSize, this.pageSize * (this.currentPage - 1));
+    }
     return this.serverService.makeGetReq<IAllCorpusResult>({url, headerData})
       .pipe(
         map((Result) => {
@@ -68,7 +75,6 @@ export class BotArticleHistoryComponent implements OnInit {
           this.corpusList = Result.objects;
           this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), {datePipe: this.datePipe});
           this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
-
         })
       );
   }
@@ -125,7 +131,14 @@ export class BotArticleHistoryComponent implements OnInit {
     const body = {
       'corpus_id': corpus_id
     };
-    const url = this.constantsService.makeCorpusLiveUrl();
+    let url;
+    if (this.bot.bot_type === EBotType.faqbot){
+      url = this.constantsService.makeCorpusLiveUrl();
+    }
+    if (this.bot.bot_type === EBotType.mlbot){
+      url = this.constantsService.makeMLCorpusLiveUrl();
+    }
+
     this.serverService.makePostReq<any>({headerData, body, url})
       .subscribe(val => {
         this.utilityService.showSuccessToaster(val.message);
