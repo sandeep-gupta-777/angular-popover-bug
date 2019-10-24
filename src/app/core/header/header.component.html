@@ -53,13 +53,8 @@
           {{userData?.first_name + " " + userData?.last_name}}
         </a>
 
-        <mat-divider *appMyIf="myEAllActions['Get Enterprise']"></mat-divider>
-        <a mat-menu-item class="header-dropdown-item" [routerLink]="['profile']"
-           data-cy="header-profile"
-           routerLinkActive="highlight-nav-item">Profile</a>
-        <a mat-menu-item class="header-dropdown-item cursor-pointer"
-           data-cy="header-sign-out"
-           (click)="logout()">Sign out</a>
+        <mat-divider></mat-divider>
+                   
         <a mat-menu-item class="header-dropdown-item"
            data-cy="header-switch-enterprise"
            (click)=changeEnterprise(changeEnterpriseModal)
@@ -69,6 +64,14 @@
            *appMyIf="myEAllActions['Get Enterprise']"
            [routerLink]="['enterpriseprofile']"
            routerLinkActive="highlight-nav-item">Enterprise Profile</a>
+
+          <mat-divider ></mat-divider> 
+        <a mat-menu-item class="header-dropdown-item" [routerLink]="['profile']"
+           data-cy="header-profile"
+           routerLinkActive="highlight-nav-item">Profile</a>
+        <a mat-menu-item class="header-dropdown-item cursor-pointer"
+           data-cy="header-sign-out"
+           (click)="logout()">Sign out</a>
       </mat-menu>
     </div>
   </div>

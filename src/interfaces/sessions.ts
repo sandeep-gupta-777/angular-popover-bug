@@ -11,6 +11,7 @@ export interface ISessionMessageItem {
   'generated_msg_string': string;
   'id': number;
   'error': boolean;
+  'manager_bot_room_id': number;
   'message': any; // Array<any>| string,
   'message_store': {
     response_language: string,

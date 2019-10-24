@@ -8,17 +8,17 @@
     (click)="test(integrationsMasterListItem.key)"
     [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.unique_name"
     class="logo-image click-save-wrapper" alt="">
-  <span style="margin-right: 15px"></span>
-  <img
+  
+  <img style="height: 24px; width: 24px" *ngIf="'Web Speech'|integrationItemByUname|async as item"
+       [matTooltip]="item?.key" [src]="item?.icon" alt="web speech">
+      <!span style="margin-right: 15px"><!/span>
+  <img style="margin-left:15px;"
     [defaultImage]="integrationsMasterListItem?.icon"
     *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async)); let i = index"
     [lazyLoad]="integrationsMasterListItem?.icon"
     [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.unique_name"
     (click)="test(integrationsMasterListItem.key)"
     class="logo-image no-channel-integrations" alt="">
-
-  <img style="height: 24px; width: 24px" *ngIf="'Web Speech'|integrationItemByUname|async as item"
-       [matTooltip]="item?.key" [src]="item?.icon" alt="web speech">
 </div>
 
 <em style="font-size: 11px" *ngIf="(limit && (enabledIntegrationCount > limit))">{{enabledIntegrationCount}}
