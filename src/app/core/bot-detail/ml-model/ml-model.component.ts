@@ -188,7 +188,7 @@ export class MLModelComponent implements OnInit {
     this.saveOrUpdateIntentHandler(intent).subscribe(() => {
       const url = this.constantsService.trainMlBotUrl();
       const headerData: IHeaderData = {
-        'bot-access-token': ServerService.getBotTokenById(this.bot.id);
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     }
       const body = {'bot_id': this.bot.id};
       this.serverService.makePostReq({url, body, headerData})
