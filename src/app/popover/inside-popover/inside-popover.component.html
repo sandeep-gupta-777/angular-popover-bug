@@ -20,15 +20,15 @@
     </mat-select>
   </mat-form-field>
 
-  <div *ngIf="this.marker">
+  <div *ngIf="!this.marker">
     <a
       (click)="entityMarkerHandler()"
       style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">+ New entity</a>
   </div>
 
-  <div *ngIf="!this.marker">
+  <div *ngIf="this.marker">
     <a
-      (click)="entityMarkerHandler()"
+      (click)="removeMarkerHandler()"
       style="text-decoration: none; color: #bf3c3c; font-size: 13px; cursor: pointer">
       <i style="margin-right: 10px" class="fa fa-times"></i>Remove</a>
   </div>

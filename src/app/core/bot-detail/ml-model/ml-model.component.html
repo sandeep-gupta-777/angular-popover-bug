@@ -43,6 +43,7 @@
   <app-ml-intents-detail
     (selectedIntentChanged$)="selectedIntentChanged($event)"
     (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"
+    (saveAndTrain$)="saveAndTrainHandler($event)"
     [entityList]="entityList"
     [selectedIntent]="selectedIntent"
     [bot]="bot"

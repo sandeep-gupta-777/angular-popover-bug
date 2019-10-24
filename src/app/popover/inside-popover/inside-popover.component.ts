@@ -50,7 +50,12 @@ export class InsidePopoverComponent implements OnInit {
 
   entityMarkerHandler() {
     const {index, ...rest} = this.data;
-    this.close({...(this.marker || {}), ...rest, ...this.form.value});
+    this.close({marker: {...(this.marker || {}), ...rest, ...this.form.value}, action: 'add'});
+  }
+
+  removeMarkerHandler() {
+    const {index, ...rest} = this.data;
+    this.close({marker: {...(this.marker || {}), ...rest, ...this.form.value}, action: 'remove'});
   }
 
 }

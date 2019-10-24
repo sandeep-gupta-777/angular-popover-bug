@@ -1255,6 +1255,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/mlcorpus/intent/update/`;
   }
 
+  trainMlBotUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
+  }
+
   curationIssueLinkToExistingSectionUrl() {
     return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
   }

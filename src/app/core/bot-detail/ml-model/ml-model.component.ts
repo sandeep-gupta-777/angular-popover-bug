@@ -11,6 +11,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {intentMock} from '../ml-intents/intent-mock';
 import {IIntent} from '../../../typings/intents';
 import {ActivatedRoute, Route, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {MyToasterService} from '../../../my-toaster.service';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-ml-model',
@@ -22,6 +25,7 @@ export class MLModelComponent implements OnInit {
   constructor(
     private constantsService: ConstantsService,
     private serverService: ServerService,
+    private myToasterService: MyToasterService,
     private utilityService: UtilityService,
     private matDialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -74,8 +78,15 @@ export class MLModelComponent implements OnInit {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
-
       this.entityList = value.objects;
+      this.entityList = this.entityList.map((entity) => {
+        const color = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
+        debugger;
+        return {
+          ...entity,
+          color
+        };
+      });
     });
   }
 
@@ -173,7 +184,25 @@ export class MLModelComponent implements OnInit {
 
   }
 
+  saveAndTrainHandler(intent: IIntent) {
+    this.saveOrUpdateIntentHandler(intent).subscribe(() => {
+      const url = this.constantsService.trainMlBotUrl();
+      const headerData: IHeaderData = {
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id);
+    }
+      const body = {'bot_id': this.bot.id};
+      this.serverService.makePostReq({url, body, headerData})
+        .subscribe(() => {
+          this.myToasterService.showSuccessToaster('training started');
+        });
+    });
+  }
+
   saveOrUpdateIntent(intent: IIntent) {
+    this.saveOrUpdateIntentHandler(intent).subscribe();
+  }
+
+  saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
 
     intent = {...intent};
     delete intent.created_at;
@@ -190,16 +219,16 @@ export class MLModelComponent implements OnInit {
       url = this.constantsService.createIntentUrl();
     }
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
-    obs.subscribe((newIntent: { new_intent: IIntent }) => {
-
+    return obs.pipe(tap((res: any) => {
+      const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
-          intent_id: newIntent.new_intent.intent_id,
+          intent_id: newIntent.intent_id,
           build: 'ml_model'
         }
       });
-      this.selectedIntent = newIntent.new_intent;
-    });
+      this.selectedIntent = newIntent;
+    }));
   }
 
   viewChanged(view) {
@@ -209,6 +238,9 @@ export class MLModelComponent implements OnInit {
 
       if (view === 'detail') {
         intent_id = this.selectedIntent.intent_id;
+      } else {
+        this.selectedIntent = null;
+        this.getAndSetMlCorpus();
       }
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {

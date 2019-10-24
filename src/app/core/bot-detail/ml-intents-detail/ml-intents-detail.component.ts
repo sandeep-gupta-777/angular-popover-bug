@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {MlIntentsSmartTable} from '../ml-model/ml-intents/ml-intents-smart-table';
 import {IBot} from '../../interfaces/IBot';
 import {IEntitiesItem, IIntentsItem} from '../../interfaces/mlBots';
@@ -11,6 +11,7 @@ import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {InsidePopoverComponent} from '../../../popover/inside-popover/inside-popover.component';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-ml-intents-detail',
@@ -63,12 +64,14 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   @Output() saveOrUpdateIntent$ = new EventEmitter<IIntent>();
+  @Output() saveAndTrain$ = new EventEmitter<IIntent>();
 
   constructor(
     private constantsService: ConstantsService,
     private datePipe: DatePipe,
     private popper: Popover,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
   }
 
@@ -157,10 +160,13 @@ export class MlIntentsDetailComponent implements OnInit {
       }
     });
 
+
     ref.afterClosed$.subscribe((res: any) => {
       debugger;
-      const entityMarker: IEntityMarker = res.data;
+      const entityMarker: IEntityMarker = res.data && res.data.marker;
+      const action: string = res.data && res.data.action;
       if (!entityMarker) {
+        this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
         return;
       }
       const markerIndex = this._selectedIntent.utterances[index].entities.findIndex((entity: any) => {
@@ -168,12 +174,25 @@ export class MlIntentsDetailComponent implements OnInit {
       });
       if (markerIndex !== -1) {
         this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
+        const color = this.getColorByEntity(entityMarker.entity_id);
+        origin.style.backgroundColor = color;
+        if (action === 'remove') {
+          this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
+          this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
+          return;
+        }
       } else {
         this._selectedIntent.utterances[index].entities.push(entityMarker);
+        const color = this.getColorByEntity(entityMarker.entity_id);
+        origin.style.backgroundColor = color;
       }
 
     });
 
+  }
+
+  getColorByEntity(entity_id: string) {
+    return this.entityList.find(e => e.entity_id === entity_id).color;
   }
 
 
@@ -196,13 +215,27 @@ export class MlIntentsDetailComponent implements OnInit {
     });
   }
 
-  saveOrUpdateIntent() {
-
-    this.saveOrUpdateIntent$.emit({
+  saveAndTrain() {
+    this.saveAndTrain$.emit({
       ...this._selectedIntent,
       name: this.form.value.name,
     });
+  }
 
+  saveOrUpdateIntent() {
+    debugger;
+    this.saveOrUpdateIntent$.emit({
+      'entities': [],
+      'utterances': [
+        {
+          'entities': [],
+          'utterance': 'Default utterance. Without it api throws error.'
+        }
+      ],
+      ...this._selectedIntent,
+      name: this.form.value.name,
+      ...this.form.value
+    });
   }
 
   linkEntityHandler(entity: IEntitiesItem) {
