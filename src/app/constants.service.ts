@@ -597,7 +597,7 @@ export class ConstantsService {
       displayValue: 'Entity name',
 
     },
-    'system_entity':{
+    'system_entity': {
       originalKey: 'system_entity',
       value: '',
       type: 'string',
@@ -633,7 +633,7 @@ export class ConstantsService {
       displayValue: 'Entity name',
 
     },
-    'utterances':{
+    'utterances': {
       originalKey: 'utterances',
       value: '',
       type: 'number',
@@ -940,10 +940,12 @@ export class ConstantsService {
   getLiveCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/?state=live`;
   }
-  getAllCorpusForMLBot(limit,offset){
+
+  getAllCorpusForMLBot(limit, offset) {
     //state__in=trained,live&
     return this.BACKEND_URL + `api/v1/mlcorpus/?limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
+
   getAllCorpusForFAQBot(limit, offset) {
     return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
@@ -1100,21 +1102,27 @@ export class ConstantsService {
   pipelineTestUrl() {
     return this.BACKEND_URL + `api/v1/webhook/intelligent/`;
   }
-  getEntityList(){
-    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/'
+
+  getEntityList() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/';
   }
-  getMLCorpus(){
+
+  getMLCorpus() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
-  getIntents(){
+
+  getIntents() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/intent/';
   }
-  getMLEntityTypes(){
+
+  getMLEntityTypes() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/types/';
   }
-  creatMLEntity(){
+
+  creatMLEntity() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/create/';
   }
+
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
@@ -1233,9 +1241,11 @@ export class ConstantsService {
   makeCorpusLiveUrl() {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
-  makeMLCorpusLiveUrl(){
+
+  makeMLCorpusLiveUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/makelive/`;
   }
+
   curationIssuesListUrl(limit, offset) {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
   }
@@ -1251,12 +1261,17 @@ export class ConstantsService {
   createIntentUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/intent/create/`;
   }
+
   updateIntentUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/intent/update/`;
   }
 
   trainMlBotUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
+  }
+
+  entityMarkingUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/entity/markup/`;
   }
 
   curationIssueLinkToExistingSectionUrl() {
