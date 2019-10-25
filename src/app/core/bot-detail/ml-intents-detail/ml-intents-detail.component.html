@@ -45,15 +45,17 @@
         <mat-form-field [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'" floatLabel="never">
       <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"
                 data-cy="add-question-ti-tentemplate"
-                (keydown.enter)="addNewQuestion(questionForm.value.questionText);questionForm.reset()"
+                (keydown.enter)="addNewUtterance(questionForm.value.questionText);questionForm.reset()"
                 cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
               </textarea>
         </mat-form-field>
         <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button
                 [disabled]="!questionForm.value.questionText"
                 style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
-                (click)="addNewQuestion(questionForm.value.questionText);questionForm.reset()">
-          + Add utterance
+                (click)="addNewUtterance(questionForm);">
+          <i class="fa fa-spin fa-spinner" *ngIf="showEntityMarkingLoader"></i>
+          <i *ngIf="!showEntityMarkingLoader">+</i>
+          Add utterance
         </button>
       </form>
       <div *ngIf="!_selectedIntent ||  !(_selectedIntent.utterances) ||_selectedIntent.utterances.length === 0"

@@ -8,10 +8,12 @@ import {ConstantsService} from '../../../constants.service';
 import {DatePipe} from '@angular/common';
 import {Popover} from '../../../popover/popover.service';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {InsidePopoverComponent} from '../../../popover/inside-popover/inside-popover.component';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {UtilityService} from '../../../utility.service';
+import {ServerService} from '../../../server.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
 
 @Component({
   selector: 'app-ml-intents-detail',
@@ -71,6 +73,7 @@ export class MlIntentsDetailComponent implements OnInit {
     private datePipe: DatePipe,
     private popper: Popover,
     private formBuilder: FormBuilder,
+    private serverService: ServerService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
   }
@@ -202,17 +205,48 @@ export class MlIntentsDetailComponent implements OnInit {
     }
   }
 
-  addNewQuestion(question: string) {
+  showEntityMarkingLoader = false;
+
+  addNewUtterance(utteranceForm: NgForm) {
+    const utterance = utteranceForm.value.questionText;
     if (!this._selectedIntent) {
       this._selectedIntent = {};
     }
     if (!Array.isArray(this._selectedIntent.utterances)) {
       this._selectedIntent.utterances = [];
     }
-    this._selectedIntent.utterances.push({
-      utterance: question,
-      entities: []
-    });
+    const url = this.constantsService.entityMarkingUrl();
+    const body = {
+      'utterance': utterance,
+      'entities_priority': this.entityList.map((e) => {
+        const {
+          entity_id,
+          required,
+          template_key,
+          counter,
+        } = e;
+        return {
+          entity_id,
+          required,
+          template_key,
+          counter,
+        };
+      })
+    };
+    const header: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    this.showEntityMarkingLoader = true;
+    this.serverService.makePostReq(({url, body, headerData: header}))
+      .subscribe((res: { entities_found: IEntityMarker[] }) => {
+        this.showEntityMarkingLoader = false;
+        utteranceForm.reset();
+        this._selectedIntent.utterances.unshift({
+          utterance: utterance,
+          entities: res.entities_found
+        });
+      });
+
   }
 
   saveAndTrain() {

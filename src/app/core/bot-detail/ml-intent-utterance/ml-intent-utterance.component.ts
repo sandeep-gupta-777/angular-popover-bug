@@ -24,4 +24,11 @@ export class MlIntentUtteranceComponent implements OnInit {
     this.selectedIntent = {...this.selectedIntent};
   }
 
+  change(e) {
+    if (!e.require) {
+      e.template_key = '';
+      e.counter = '';
+    }
+  }
+
 }
