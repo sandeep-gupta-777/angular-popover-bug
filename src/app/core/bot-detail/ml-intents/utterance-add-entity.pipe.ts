@@ -25,7 +25,8 @@ export class UtteranceAddEntityPipe implements PipeTransform {
   }
 
   getColorByEntity(entityList: IEntitiesItem[], entity_id: string) {
-    return entityList.find(e => e.entity_id === entity_id).color;
+    const x = entityList.find(e => e.entity_id === entity_id);
+    return x && x.color || 'red';
   }
 
 }

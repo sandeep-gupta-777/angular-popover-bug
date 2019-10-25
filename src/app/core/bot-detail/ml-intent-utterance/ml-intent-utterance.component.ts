@@ -27,7 +27,7 @@ export class MlIntentUtteranceComponent implements OnInit {
   change(e) {
     if (!e.require) {
       e.template_key = '';
-      e.counter = '';
+      e.counter = 0;
     }
   }
 
