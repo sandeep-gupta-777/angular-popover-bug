@@ -55,7 +55,6 @@ export class CoreWrapperComponent implements OnInit {
       this.botList = val.allBotList;
     });
     this.initializeSocketNow();
-
     SocketService.train$.subscribe((payload) => {
       const trainedInBot: IBot = this.botList.find(bot => {
         return payload.bot_id === bot.id;

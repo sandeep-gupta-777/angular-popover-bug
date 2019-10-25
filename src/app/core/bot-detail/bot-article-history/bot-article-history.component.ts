@@ -50,7 +50,7 @@ export class BotArticleHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+
     this.getAllCorpus$()
       .subscribe();
   }

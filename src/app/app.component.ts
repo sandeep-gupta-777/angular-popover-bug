@@ -1,5 +1,7 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {Popover} from './popover/popover.service';
+import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
 
 declare var CodeMirror: any;
 
@@ -14,7 +16,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   loading;
   message;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private popper: Popover
+
+              ) {
   }
 
   ngOnInit() {
@@ -33,6 +38,28 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.loading = false;
         }
       });
+  }
+
+
+
+
+  show(content: TemplateRef<any>, origin) {
+    const ref = this.popper.open<{ skills: number[] }>({
+      // content,
+      //  content: 'Hello world!',
+      content: InsidePopoverComponent,
+      origin,
+      width: '200px',
+      height: '200px',
+      data: {
+        skills: [1, 2, 3]
+      }
+    });
+
+    ref.afterClosed$.subscribe(res => {
+      console.log(res);
+    });
+
   }
 
 }

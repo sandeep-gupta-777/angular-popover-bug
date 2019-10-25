@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-    <mat-form-field class = "w-100 mx-2 my-2" *ngIf="articleData.section_id == 'partial_match'">
+    <mat-form-field class = "w-100 mx-2 my-2" *ngIf="articleData.section_id == 'partial_match'" [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
     <textarea
       maxlength="250"
       placeholder="Partial match message text"
@@ -123,8 +123,8 @@
 
   <div #questionListContainer class="questions-list px-2" style="height: 67vh;"
        *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')">
-    <form #questionForm="ngForm" class="addQuestionPanel px-4 py-2" >
-      <mat-form-field>
+    <form #questionForm="ngForm" class="addQuestionPanel px-4 py-2">
+      <mat-form-field [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
       <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"
                 data-cy="add-question-ti-tentemplate"
                 (keydown.enter)="addNewQuestion(questionForm.value.questionText);questionForm.reset()"
@@ -144,7 +144,7 @@
     </div>
     <div style="flex:1;overflow-y: auto">
       <mat-form-field class="question-list-item"
-                      *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
+                      *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;" [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
       <textarea matInput required name=a{{index}} type="text"
                 [(ngModel)]="articleData.questions[index]"
                 [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])"
@@ -225,9 +225,9 @@
           </mat-form-field>
 
           <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
-          <mat-form-field style="width: 55%; padding-left: 26px;">
+          <mat-form-field style="width: 55%; padding-left: 26px;" [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
             <input matInput placeholder="Name" name="newCategoryName" ngModel data-cy='add-new-category'
-                   [disabled]='!(form.value.inputType == "new")' maxlength=40>
+                   [disabled]='!(form.value.inputType == "new")' maxlength=40 >
           </mat-form-field>
         </mat-radio-group>
         <div class="d-flex justify-content-center">
@@ -282,9 +282,9 @@
           </mat-form-field>
 
           <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
-          <mat-form-field style="width: 55%; padding-left: 26px;">
+          <mat-form-field style="width: 55%; padding-left: 26px;"[attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
             <input matInput placeholder="Name" name="newCategoryName" ngModel data-cy='add-new-category'
-                   [disabled]='!(form.value.inputType == "new")' maxlength=40>
+                   [disabled]='!(form.value.inputType == "new")' maxlength=40 >
           </mat-form-field>
         </mat-radio-group>
         <div class="d-flex justify-content-center">

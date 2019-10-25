@@ -1,0 +1,96 @@
+<header class="mb-3">
+  <div class="d-flex flex-row heading">
+    <strong class="heading-title">
+      <i class="fa fa-angle-left" style="width: 8px; cursor: pointer" (click)="viewChanged$.emit('table')"></i>
+      {{_selectedIntent?.name || 'Create intent'}}
+    </strong>
+    <div class="mr-auto"></div>
+    <button
+      (click)="saveAndTrain()"
+      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
+      <mat-icon class="mat-icon material-icons">refresh</mat-icon>
+      Save and Train
+    </button>
+
+    <button
+      (click)="saveOrUpdateIntent()"
+      style="border: 1px solid #e0e0e0 !important;"
+      class="mat-theme-button mat-theme-button-border" mat-button>
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+    <button
+      style="border: 1px solid #e0e0e0 !important;"
+      (click)="viewChanged$.emit('table')"
+      class="mat-theme-button mat-theme-button-border" mat-button>
+      <mat-icon>clear</mat-icon>
+      Cancel
+    </button>
+  </div>
+  <div style="color: #696969;font-size: 11px; margin-right: 10px">
+    Write actual information for each bit the user needs
+  </div>
+</header>
+<form [formGroup]="form">
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Intent name" formControlName="name">
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="view === 'detail'" style="display: flex">
+    <div #questionListContainer class="questions-list px-2" style="width: 50%;">
+      <div class="questions-heading">All utterances</div>
+      <form #questionForm="ngForm" class="addQuestionPanel px-4 pb-2">
+        <mat-form-field [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'" floatLabel="never">
+      <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"
+                data-cy="add-question-ti-tentemplate"
+                (keydown.enter)="addNewQuestion(questionForm.value.questionText);questionForm.reset()"
+                cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
+              </textarea>
+        </mat-form-field>
+        <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button
+                [disabled]="!questionForm.value.questionText"
+                style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+                (click)="addNewQuestion(questionForm.value.questionText);questionForm.reset()">
+          + Add utterance
+        </button>
+      </form>
+      <div *ngIf="!_selectedIntent ||  !(_selectedIntent.utterances) ||_selectedIntent.utterances.length === 0"
+           class="no-question">
+        No utterances added yet, add now to train the intent
+      </div>
+
+      <div style="flex:1;overflow-y: auto" *ngIf="_selectedIntent">
+        <div contenteditable="true"
+             style="
+            margin-bottom: 12px;
+            margin-right: 24px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 4px;"
+             *ngFor="let question of _selectedIntent.utterances; let index = index;"
+             (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
+             (click)="show2($event.target, tpl, index)"
+             [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities: entityList |safeHtml">
+        </div>
+      </div>
+
+    </div>
+
+    <div style="width: 50%">
+      <app-ml-intent-utterance
+        (linkEntity$)="linkEntityHandler($event)"
+        [entityList]="entityList"
+        [selectedIntent]="_selectedIntent"
+        style="display: block; margin-bottom: 28px"></app-ml-intent-utterance>
+      <app-ml-intent-response [form]="form"></app-ml-intent-response>
+    </div>
+  </div>
+</form>
+
+<ng-template #tpl let-close="close">
+  And here's some amazing content. It's very engaging. Right?
+  <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+    <a class="button is-danger is-small" (click)="close({id: 2})">Close</a>
+  </div>
+</ng-template>

@@ -5,7 +5,7 @@
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
   <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
     <div class="message p-2"
-         [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human', rtl: messageData.response_language === 'ar'}"
+         [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human', rtl: this.bot.language === 'ar'}"
          style="display: inline-block; overflow-x: visible; position: relative">
             <span class="message-text" *ngIf="messageData?.sourceType==='human'"
                   [innerHtml]="messageData?.text|linkify:'text-white'"></span>

@@ -242,6 +242,43 @@ export class ConstantsService {
 
 
   };
+
+  SMART_TABLE_INTENT_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    name: {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'name',
+      search: false,
+      searchValue: true,
+    },
+    Utterances: {
+      originalKey: 'Utterances',
+      value: '',
+      type: 'number',
+      displayValue: 'Utterances',
+      search: false,
+      searchValue: true,
+    },
+    template_key: {
+      originalKey: 'template_key',
+      value: '',
+      type: 'string',
+      displayValue: 'template_key',
+      search: false,
+      searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Updated At',
+      search: false,
+      searchValue: true,
+      dateRange: false
+    }
+  };
+
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
 
     channels: {
@@ -1069,6 +1106,9 @@ export class ConstantsService {
   getMLCorpus(){
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
+  getIntents(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/intent/';
+  }
   getMLEntityTypes(){
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/types/';
   }
@@ -1214,6 +1254,17 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
   }
 
+  createIntentUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/create/`;
+  }
+  updateIntentUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/update/`;
+  }
+
+  trainMlBotUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
+  }
+
   curationIssueLinkToExistingSectionUrl() {
     return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
   }
@@ -1237,9 +1288,10 @@ export class ConstantsService {
   addMessageToCurationFromSession() {
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
   }
+
   //routerbot
-  getRouterBotRuleByRuleIDUrl(id){
-    return this.BACKEND_URL + `api/v1/router_logic/${id}/`
+  getRouterBotRuleByRuleIDUrl(id) {
+    return this.BACKEND_URL + `api/v1/router_logic/${id}/`;
   }
 
   updateBotSerializer(bot: IBot) {
