@@ -44,7 +44,6 @@ export class MLModelComponent implements OnInit {
   entity_types: any[];
   modalForm: FormGroup;
   selectedIntent: IIntent = {};
-  EditMode: string = "";
   edittingData: IEntitiesItem;
 
   ngOnInit() {
@@ -194,7 +193,7 @@ export class MLModelComponent implements OnInit {
           })
       });
     } else {
-      this.EditMode = 'entity';
+      this.view = 'entity';
       this.edittingData = data.data;
 
     }

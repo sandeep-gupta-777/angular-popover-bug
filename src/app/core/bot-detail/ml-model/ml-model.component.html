@@ -50,7 +50,7 @@
     (viewChanged$)="viewChanged($event)"></app-ml-intents-detail>
 </div>
 
-<div *ngIf="EditMode === 'entity'">
+<div *ngIf="view === 'entity'">
   <app-ml-edit-entity [edittingData]="edittingData" [entity_types]="entity_types"></app-ml-edit-entity>
 </div>
 

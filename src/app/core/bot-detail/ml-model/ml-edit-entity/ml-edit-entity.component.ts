@@ -70,6 +70,6 @@ export class MlEditEntityComponent implements OnInit {
   }
   addSynonym(str,formArr){
   debugger;
-    formArr.push(str.value);
+    formArr.push(new FormControl(str.value, Validators.required));
   }
 }
