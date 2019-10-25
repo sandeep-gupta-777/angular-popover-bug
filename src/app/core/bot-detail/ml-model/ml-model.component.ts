@@ -14,6 +14,7 @@ import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {MyToasterService} from '../../../my-toaster.service';
 import {tap} from 'rxjs/operators';
+import {subscribeOn} from "rxjs/operators";
 
 @Component({
   selector: 'app-ml-model',
@@ -43,6 +44,8 @@ export class MLModelComponent implements OnInit {
   entity_types: any[];
   modalForm: FormGroup;
   selectedIntent: IIntent = {};
+  EditMode: string = "";
+  edittingData: IEntitiesItem;
 
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
@@ -55,11 +58,11 @@ export class MLModelComponent implements OnInit {
 
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
-      'entity_type': ['', Validators.required],
-      'entity_name': ['', Validators.required],
-      'entity_value': '',
-      'intent_id': ''
-    }, {validator: this.validationOfEntityModal});
+      'entity_type': ["", Validators.required],
+      'entity_name': ["", Validators.required],
+      'entity_value': "",
+      'entity_id': ""
+    }, {validator: this.validationOfEntityModal})
   }
 
   setMLEntityTypes() {
@@ -81,7 +84,7 @@ export class MLModelComponent implements OnInit {
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
         const color = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
-        debugger;
+      debugger;
         return {
           ...entity,
           color
@@ -150,32 +153,75 @@ export class MLModelComponent implements OnInit {
       this.entityList = [val.new_entity, ...this.entityList,];
       this.utilityService.showSuccessToaster('New entity added');
     });
+    if (EntityObj.entity_id) {
+      url = this.constantsService.updateMLEntity();
+      body['entity_id'] = EntityObj.entity_id;
+    } else {
+      url = this.constantsService.creatMLEntity();
+    }
+    this.serverService.makePostReq({headerData, url, body}).subscribe((val: any) => {
+      if (EntityObj.entity_id) {
+        for (var i = 0; i < this.entityList.length; i++) {
+          if (this.entityList[i].entity_id === EntityObj.entity_id) {
+            this.entityList.splice(i, 1);
+            break;
+          }
+        }
+        this.entityList = [val.updated_entity, ...this.entityList];
+        this.utilityService.showSuccessToaster("Entity updated");
+      } else {
+        this.entityList = [val.new_entity, ...this.entityList]
+        this.utilityService.showSuccessToaster("New entity added");
+      }
+
+    })
   }
 
   editEntityClicked(data, template) {
+  debugger;
+    let x = data.data.type == 'custom' ? data.data.data.values[0].value : "";
+    if (!x) {
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+      setTimeout(() => {
+        this.modalForm.patchValue(
+          {
+            'entity_type': data.data.type,
+            'entity_name': data.data.name,
+            'entity_value': data.data.type == 'regex' ?
+              data.data.data.pattern :
+              (data.data.type == 'custom' ? data.data.data.values[0].value : ""),
+            'entity_id': data.data.entity_id
+          })
+      });
+    } else {
+      this.EditMode = 'entity';
+      this.edittingData = data.data;
 
-    let x = data.data.type == 'regex' ?
-      data.data.data.pattern :
-      (data.data.type == 'custom' ? data.data.data.values[0].value : '');
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    setTimeout(() => {
-      this.modalForm.patchValue(
-        {
-          'entity_type': data.data.type,
-          'entity_name': data.data.name,
-          'entity_value': data.data.type == 'regex' ?
-            data.data.data.pattern :
-            (data.data.type == 'custom' ? data.data.data.values[0].value : ''),
-          'intent_id': data.data.intent_id
-        });
-    });
+    }
   }
 
-  validationOfEntityModal(group: FormGroup) {
-    let type = group.get('entity_type').value;
-
-    if (type === 'regex' || type === 'custom') {
-      return group.get('entity_value').value ? null : {error: true};
+  deleteEntityClicked(data) {
+    let url = this.constantsService.deleteMLEntity();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    let body = {'entity_id': data.data.entity_id};
+    this.serverService.makePostReq({headerData, url, body})
+      .subscribe((val) => {
+        for (var i = 0; i < this.entityList.length; i++) {
+          if (this.entityList[i].entity_id === body.entity_id) {
+            this.entityList.splice(i, 1);
+            break;
+          }
+        }
+        this.entityList = [...this.entityList];
+        this.utilityService.showSuccessToaster("Entity deleted");
+      })
+  }
+  validationOfEntityModal(group: FormGroup){
+    let type =  group.get('entity_type').value;
+    if(type === 'regex' || type === 'custom') {
+      return group.get('entity_value').value ? null : {error : true} ;
     }
     return null;
   }

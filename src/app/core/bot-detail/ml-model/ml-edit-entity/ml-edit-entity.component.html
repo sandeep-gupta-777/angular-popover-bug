@@ -1,0 +1,91 @@
+<header>
+  <div class="d-flex flex-row heading align-items-center pb-3">
+    <div class="heading-title">
+      <span class="fa fa-angle-left cursor-pointer p-1"
+            data-cy="goBackFromArticle"></span>
+      ertertert
+    </div>
+    <div class="mr-auto">
+    </div>
+    <div >
+      <button class=" btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
+              mat-button >
+        <mat-icon>autorenew</mat-icon>
+        Save and train
+      </button>
+    </div>
+    <div>
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+    </div>
+    <div >
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button
+              data-cy="article-delete-button"
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </div>
+</header>
+<!--{{_edittingData | json}}-->
+<!--<hr>-->
+
+<form [formGroup]="editEntityForm">
+  {{editEntityForm.value | json}}
+  <div class = "d-flex flex-row">
+    <mat-form-field >
+      <input matInput placeholder="Entity name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field style="width: 120px;margin-right: 20px">
+      <mat-label>Entity type</mat-label>
+      <mat-select formControlName="type" required>
+        <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">
+          {{entity_type.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div  formGroupName="data">
+    <div class = "d-flex flex-column" formArrayName="values">
+      <div *ngFor="let singleEntity of editEntityForm.get('data').get('values').controls; let singleEntityIndex = index;">
+          <div [formGroupName]="singleEntityIndex" class="d-flex flex-row" >
+            <mat-form-field style="width: 230px">
+              <input matInput placeholder="Entity name" formControlName="value" required>
+            </mat-form-field>
+            <mat-form-field class="example-chip-list" style="flex:1">
+              <mat-chip-list #chipList aria-label="Fruit selection">
+                <mat-chip *ngFor="let singleSynonyms of singleEntity.get('synonyms').controls; let singleSynonymsIndex = index;" [selectable]="selectable"
+                          [removable]="removable" (removed)="deleteSynonym(singleSynonymsIndex,singleEntity.get('synonyms'))">
+                  {{singleSynonyms.value}}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="New fruit..."
+                       [matChipInputFor]="chipList"
+                       formArrayName="synonyms"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addSynonym($event,singleEntity.get('synonyms'))"
+                       >
+              </mat-chip-list>
+            </mat-form-field>
+<!--            <div formArrayName="synonyms" class="d-flex flex-row" >-->
+<!--              <div *ngFor="let singleEntity of singleEntity.get('synonyms').controls; let singleSynonymsIndex = index;"-->
+<!--                   class="d-flex flex-column" >-->
+<!--                <mat-form-field >-->
+<!--                  <input matInput placeholder="Entity name" [formControlName]="singleSynonymsIndex">-->
+<!--                </mat-form-field>-->
+<!--                -->
+<!--                -->
+<!--&lt;!&ndash;                <div [formGroupName]="singleSynonymsIndex">&ndash;&gt;-->
+<!--&lt;!&ndash;                  {{singleEntity.value | json}}&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+      </div>
+    </div>
+  </div>
+  </div>
+</form>

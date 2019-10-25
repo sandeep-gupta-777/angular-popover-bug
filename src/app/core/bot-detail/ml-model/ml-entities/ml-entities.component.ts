@@ -32,7 +32,8 @@ export class MlEntitiesComponent implements OnInit {
   @Input() bot:IBot;
   _entitiesData:IEntitiesItem[];
   dialogRefWrapper = {ref: null};
-  @Output() editEntity = new EventEmitter()
+  @Output() editEntity = new EventEmitter();
+  @Output() deleteEntity = new EventEmitter();
   @Input() set entitiesData( value : IEntitiesItem[]){
 
     if(value){
@@ -76,7 +77,7 @@ export class MlEntitiesComponent implements OnInit {
         component: ModalConfirmComponent
       }).then((data_temp) => {
         if (data_temp) {
-
+          this.deleteEntity.emit(data);
         }
       });
       //  this.openDeletModal(enterpriseDeleteModal);

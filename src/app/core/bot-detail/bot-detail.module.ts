@@ -92,6 +92,7 @@ import {CurationIssuesAggregationBarComponent} from './curation/curation-overvie
 import {RemoveTopAndBottomAndGetAsArrayPipe} from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
 import {AnswerTemplateWrapperComponent} from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
 import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
+import {MlEditEntityComponent} from "./ml-model/ml-edit-entity/ml-edit-entity.component";
 import {GentemplateSidebarComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 import {PartialMatchResponseComponent} from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
 import {RouterBotRulesComponent} from '../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component';
@@ -197,6 +198,7 @@ const routes: Route[] = [
     MLModelComponent,
     MlIntentsComponent,
     MlEntitiesComponent,
+    MlEditEntityComponent,
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
     AnswerTemplateWrapperComponent,

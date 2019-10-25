@@ -1114,6 +1114,12 @@ export class ConstantsService {
   }
   creatMLEntity(){
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/create/';
+}
+  deleteMLEntity(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/delete/';
+  }
+  updateMLEntity(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/update/';
   }
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
