@@ -14,6 +14,7 @@ export interface IEntitiesItem {
   "created_at": number,
   "data": { "values": { "synonyms": string[], "value": string }[] },
   "intent_id": string,
+  "entity_id": string,
   "name": string,
   "system_entity": boolean,
   "type": string,

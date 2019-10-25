@@ -8,6 +8,7 @@ import {is} from "tslint-sonarts/lib/utils/nodes";
 import {UtilityService} from "../../../utility.service";
 import {MatDialog} from "@angular/material";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {subscribeOn} from "rxjs/operators";
 
 @Component({
   selector: 'app-ml-model',
@@ -30,6 +31,8 @@ export class MLModelComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   entity_types : any[];
   modalForm : FormGroup;
+  EditMode : string = "";
+  edittingData : IEntitiesItem;
   ngOnInit() {
     this.getAndSetMlCorpus();
     this.creatModalForm();
@@ -40,7 +43,7 @@ export class MLModelComponent implements OnInit {
       'entity_type' : ["",Validators.required],
       'entity_name' : ["",Validators.required],
       'entity_value' : "",
-      'intent_id': ""
+      'entity_id': ""
     },{validator: this.validationOfEntityModal})
   }
   setMLEntityTypes(){
@@ -72,8 +75,10 @@ export class MLModelComponent implements OnInit {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     }
   }
+
   submitEntityForm(EntityObj){
-    let url = this.constantsService.creatMLEntity();
+    let url;
+    debugger;
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
@@ -91,38 +96,77 @@ export class MLModelComponent implements OnInit {
         {"values":[
             {
               "value": EntityObj.entity_value,
-            "synonyms": [EntityObj.entity_value]
+              "synonyms": [EntityObj.entity_value]
             }
-            ]
+          ]
         }
     }
-    debugger;
+    if(EntityObj.entity_id){
+      url = this.constantsService.updateMLEntity();
+      body['entity_id'] = EntityObj.entity_id;
+    }else{
+      url = this.constantsService.creatMLEntity();
+    }
     this.serverService.makePostReq({headerData,url, body}).subscribe((val:any)=>{
-      this.entitiesList = [val.new_entity,...this.entitiesList,]
-      this.utilityService.showSuccessToaster("New entity added");
+      if(EntityObj.entity_id){
+        for( var i = 0; i < this.entitiesList.length; i++){
+          if ( this.entitiesList[i].entity_id === EntityObj.entity_id) {
+            this.entitiesList.splice(i, 1);
+            break;
+          }
+        }
+        this.entitiesList = [val.updated_entity,...this.entitiesList];
+        this.utilityService.showSuccessToaster("Entity updated");
+      }else{
+        this.entitiesList = [val.new_entity,...this.entitiesList]
+        this.utilityService.showSuccessToaster("New entity added");
+      }
+
     })
   }
   editEntityClicked(data,template){
     debugger;
-    let x = data.data.type == 'regex' ?
-      data.data.data.pattern :
-      (data.data.type == 'custom' ? data.data.data.values[0].value : "");
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    setTimeout(()=>{
-      this.modalForm.patchValue(
-        {
-          'entity_type' : data.data.type,
-          'entity_name' : data.data.name,
-          'entity_value' : data.data.type == 'regex' ?
-            data.data.data.pattern :
-            (data.data.type == 'custom' ? data.data.data.values[0].value : "") ,
-          'intent_id': data.data.intent_id
-        })
-    });
+    let x =data.data.type == 'custom' ? data.data.data.values[0].value : "";
+    if(!x){
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+      setTimeout(()=>{
+        this.modalForm.patchValue(
+          {
+            'entity_type' : data.data.type,
+            'entity_name' : data.data.name,
+            'entity_value' : data.data.type == 'regex' ?
+              data.data.data.pattern :
+              (data.data.type == 'custom' ? data.data.data.values[0].value : "") ,
+            'entity_id': data.data.entity_id
+          })
+      });
+    }
+    else{
+      this.EditMode = 'entity';
+      this.edittingData = data.data;
+
+    }
+  }
+  deleteEntityClicked(data){
+    let url = this.constantsService.deleteMLEntity();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    let body = {'entity_id':data.data.entity_id};
+    this.serverService.makePostReq({headerData,url,body})
+    .subscribe((val)=>{
+      for( var i = 0; i < this.entitiesList.length; i++){
+        if ( this.entitiesList[i].entity_id === body.entity_id) {
+          this.entitiesList.splice(i, 1);
+          break;
+        }
+      }
+      this.entitiesList = [...this.entitiesList];
+      this.utilityService.showSuccessToaster("Entity deleted");
+    })
   }
   validationOfEntityModal(group: FormGroup){
     let type =  group.get('entity_type').value;
-    debugger;
     if(type === 'regex' || type === 'custom') {
       return group.get('entity_value').value ? null : {error : true} ;
     }

@@ -99,6 +99,7 @@ import {FilterTypeArrayPipe} from "../buildbot/build-code-based-bot/architecture
 import {MLModelComponent} from "./ml-model/ml-model.component";
 import {MlIntentsComponent} from "./ml-model/ml-intents/ml-intents.component";
 import {MlEntitiesComponent} from "./ml-model/ml-entities/ml-entities.component";
+import {MlEditEntityComponent} from "./ml-model/ml-edit-entity/ml-edit-entity.component";
 
 
 const routes: Route[] = [
@@ -190,6 +191,7 @@ const routes: Route[] = [
     MLModelComponent,
     MlIntentsComponent,
     MlEntitiesComponent,
+    MlEditEntityComponent,
     CurationIssuesAggregationBarComponent,
     RemoveTopAndBottomAndGetAsArrayPipe,
     AnswerTemplateWrapperComponent,

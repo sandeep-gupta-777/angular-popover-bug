@@ -1,0 +1,77 @@
+<header>
+  <div class="d-flex flex-row heading align-items-center pb-3">
+    <div class="heading-title">
+      <span class="fa fa-angle-left cursor-pointer p-1"
+            data-cy="goBackFromArticle"></span>
+      ertertert
+    </div>
+    <div class="mr-auto">
+    </div>
+    <div >
+      <button class=" btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
+              mat-button >
+        <mat-icon>autorenew</mat-icon>
+        Save and train
+      </button>
+    </div>
+    <div>
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+    </div>
+    <div >
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button
+              data-cy="article-delete-button"
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </div>
+</header>
+{{edittingData | json}}
+<hr>
+{{editEntityForm.value | json}}
+<!--<form [formGroup]="editEntityForm">-->
+<!--  <div class = "d-flex flex-row">-->
+<!--    <mat-form-field >-->
+<!--      <input matInput ngModel placeholder="Entity name" formControlName="name">-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field style="width: 120px;margin-right: 20px">-->
+<!--      <mat-label>Entity type</mat-label>-->
+<!--      <mat-select formControlName="type" ngModel required>-->
+<!--        <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">-->
+<!--          {{entity_type.name}}-->
+<!--        </mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
+<!--  <div  formGroupName="data">-->
+<!--    <div class = "d-flex flex-row" formArrayName="values">-->
+<!--      <div *ngFor="let singleEntity of editEntityForm.get('data').get('values').controls; let singleEntityIndex = index;"-->
+<!--           class="d-flex flex-row" >-->
+<!--          <div [formGroupName]="singleEntityIndex">-->
+<!--            <mat-form-field style="width: 230px">-->
+<!--              <input matInput ngModel placeholder="Entity name" formControlName="value" required>-->
+<!--            </mat-form-field>-->
+<!--            <div formArrayName="synonyms">-->
+<!--              <div *ngFor="let singleEntity of singleEntity.get('synonyms').controls; let singleSynonymsIndex = index;"-->
+<!--                   class="d-flex flex-row" >-->
+<!--&lt;!&ndash;                <div [formGroupName]="singleSynonymsIndex">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+
+
+<!--            </div>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--&lt;!&ndash;      <mat-form-field style="width: 250px"&ndash;&gt;-->
+<!--&lt;!&ndash;                      [hidden]="!(modalForm.value.entity_type == 'regex' || modalForm.value.entity_type == 'custom')">&ndash;&gt;-->
+<!--&lt;!&ndash;        <input ngModel matInput placeholder="Value" formControlName="entity_value">&ndash;&gt;-->
+<!--&lt;!&ndash;      </mat-form-field>&ndash;&gt;-->
+<!--</form>-->
