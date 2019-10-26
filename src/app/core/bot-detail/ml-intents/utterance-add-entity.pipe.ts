@@ -1,12 +1,14 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
+import {MlService} from '../ml-model/ml.service';
 
 @Pipe({
   name: 'utteranceAddEntity'
 })
 export class UtteranceAddEntityPipe implements PipeTransform {
 
-  transform(utteranceStr: any, args: any[], entityList: IEntitiesItem[]): any {
+  transform(utteranceStr: any, args: any[]): any {
+    const entityList: IEntitiesItem[] = MlService.entityList;
     let str: string = utteranceStr;
     const random = Date.now();
     args = [...args];

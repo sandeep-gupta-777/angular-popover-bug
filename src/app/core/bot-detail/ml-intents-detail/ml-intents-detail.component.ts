@@ -67,6 +67,7 @@ export class MlIntentsDetailComponent implements OnInit {
 
   @Output() saveOrUpdateIntent$ = new EventEmitter<IIntent>();
   @Output() saveAndTrain$ = new EventEmitter<IIntent>();
+  @Output() showCreateNewIntentModel$ = new EventEmitter();
 
   constructor(
     private constantsService: ConstantsService,
@@ -108,7 +109,7 @@ export class MlIntentsDetailComponent implements OnInit {
   @Output() selectedIntentChanged$ = new EventEmitter();
 
   textSelected(e, tpl, index, utterance: string) {
-    debugger;
+
     const target = e.target as HTMLElement;
     if (target.classList.contains('bg-red') && (window.getSelection().toString() === target.textContent)) {
       return;
@@ -130,7 +131,7 @@ export class MlIntentsDetailComponent implements OnInit {
     const {start, end} = this.getPositionOfStr(utterance, selection.toString());
     const markers = this._selectedIntent.utterances[index].entities.filter((entity) => {
       if ((entity.start <= start && start <= entity.end) || (entity.start <= end && end <= entity.end)) {
-        debugger;
+
         let oldMarker = document.querySelector(`[data-position="entity-${entity.start}-${entity.end}"]`);
         console.log(oldMarker);
         // setTimeout(() => {
@@ -191,20 +192,21 @@ export class MlIntentsDetailComponent implements OnInit {
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
     const end = Number(position.split('-')[2]);
-    const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any }>({
+    const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any, showCreateNewIntentModel$: EventEmitter<any> }>({
       content: InsidePopoverComponent,
       origin,
       width: '200px',
       data: {
         entityList: this.entityList,
         selectedIntent: this._selectedIntent,
-        data: {start, index, end, value}
+        data: {start, index, end, value},
+        showCreateNewIntentModel$: this.showCreateNewIntentModel$
       }
     });
 
 
     ref.afterClosed$.subscribe((res: any) => {
-      debugger;
+
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
       if (!entityMarker) {
@@ -301,7 +303,7 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   saveOrUpdateIntent() {
-    debugger;
+
     this.saveOrUpdateIntent$.emit({
       'entities': [],
       'utterances': [
@@ -340,6 +342,11 @@ export class MlIntentsDetailComponent implements OnInit {
       };
     });
     this._selectedIntent = JSON.parse(JSON.stringify(this._selectedIntent));
+  }
+
+
+  trackByIndex(index){
+    return index;
   }
 
 }

@@ -15,7 +15,7 @@ export class MlEditEntityComponent implements OnInit {
   ) { }
   _edittingData : IEntitiesItem;
   @Input() set edittingData(val){
-    debugger;
+
     val = { "color": "", "created_at": 1571990350740,
       "entity_id": "5", "name": "asdasd", "system_entity": false, "type": "custom", "updated_at": 1571990350740,
       "data": { "values": [
@@ -56,7 +56,7 @@ export class MlEditEntityComponent implements OnInit {
       system_entity: this._edittingData.system_entity,
       type: this._edittingData.type
     });
-    debugger;
+
   }
   getSingleEntityForm(ruleData) {
     return this.formBuilder.group({
@@ -65,11 +65,11 @@ export class MlEditEntityComponent implements OnInit {
     })
   }
   deleteSynonym(index,formArr){
-    debugger;
+
     formArr.removeAt(index);
   }
   addSynonym(str,formArr){
-  debugger;
+
     formArr.push(new FormControl(str.value, Validators.required));
   }
 }
