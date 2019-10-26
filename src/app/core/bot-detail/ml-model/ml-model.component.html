@@ -1,4 +1,4 @@
-<header *ngIf="view === 'table'">
+<header>
   <div class="d-flex flex-row heading">
     <strong class="heading-title">
       Machine learning model</strong>
@@ -21,7 +21,6 @@
     style="position: absolute;right: 3px;top: 18px;z-index: 10000;"
     (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
   </app-button-wrapper>
-  <i>{{view}}</i>
   <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event">
     <mat-tab label="Intents">
       <app-ml-intents [bot]="bot"
@@ -50,6 +49,11 @@
     [view]="'detail'"
     (viewChanged$)="viewChanged($event)"></app-ml-intents-detail>
 </div>
+
+<div *ngIf="view === 'entity'">
+  <app-ml-edit-entity [edittingData]="edittingData" [entity_types]="entity_types"></app-ml-edit-entity>
+</div>
+
 <ng-template #Primarytemplat>
   <div class="danger-modal">
     <div class="modal-header">
@@ -80,13 +84,13 @@
         </div>
         <div class="d-flex ">
           <button mat-flat-button type="submit" [disabled]="!modalForm.valid"
-                  (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()"
+                  (click)="dialogRefWrapper.ref.close()"
                   color=primary class="mat-theme-button footer-btn px-2 ml-auto">
-            Link and save
+            {{modalForm.value.entity_id ? 'Update ':'Create '}} and train
           </button>
-          <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button "
-                  (click)="dialogRefWrapper.ref.close()">
-            Cancel
+          <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button " [disabled]="!modalForm.valid"
+                  (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()">
+            {{modalForm.value.entity_id ? 'Update ':'Create '}}
           </button>
         </div>
       </form>

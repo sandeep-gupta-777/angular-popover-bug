@@ -1121,6 +1121,12 @@ export class ConstantsService {
 
   creatMLEntity() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/create/';
+}
+  deleteMLEntity(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/delete/';
+  }
+  updateMLEntity(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/update/';
   }
 
   getRoomWithFilters(queryParams: object) {
