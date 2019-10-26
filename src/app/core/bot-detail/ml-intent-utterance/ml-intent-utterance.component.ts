@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-ml-intent-utterance',
@@ -12,6 +13,7 @@ export class MlIntentUtteranceComponent implements OnInit {
   @Input() selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
   @Output() linkEntity$ = new EventEmitter();
+  @Output() removeEntity$ = new EventEmitter();
 
   constructor() {
   }
@@ -31,10 +33,20 @@ export class MlIntentUtteranceComponent implements OnInit {
     }
   }
 
-  @Output() removeEntity$ = new EventEmitter();
 
   removeEntityHandler(e: IEntityMarker) {
     this.removeEntity$.emit(e);
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 
 }
