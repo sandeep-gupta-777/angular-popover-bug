@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
-import {IIntent} from '../../../typings/intents';
+import {IEntityMarker, IIntent} from '../../../typings/intents';
 
 @Component({
   selector: 'app-ml-intent-utterance',
@@ -29,6 +29,12 @@ export class MlIntentUtteranceComponent implements OnInit {
       e.template_key = '';
       e.counter = 0;
     }
+  }
+
+  @Output() removeEntity$ = new EventEmitter();
+
+  removeEntityHandler(e: IEntityMarker) {
+    this.removeEntity$.emit(e);
   }
 
 }

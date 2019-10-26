@@ -82,6 +82,7 @@
     <div style="width: 50%">
       <app-ml-intent-utterance
         (linkEntity$)="linkEntityHandler($event)"
+        (removeEntity$)="removeEntityHandler($event)"
         [entityList]="entityList"
         [selectedIntent]="_selectedIntent"
         style="display: block; margin-bottom: 28px"></app-ml-intent-utterance>

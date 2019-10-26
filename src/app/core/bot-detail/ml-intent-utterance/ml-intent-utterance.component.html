@@ -17,8 +17,9 @@
       <th style="width: 5%"></th>
       <th style="width: 25%">Entity name</th>
       <th style="width: 10%">Required</th>
-      <th style="width: 20%">Retried</th>
+      <th style="width: 15%">Retried</th>
       <th style="width: 25%">Template Key</th>
+      <th style="width: 5%"></th>
     </tr>
     <tbody>
     <ng-container *ngIf="selectedIntent">
@@ -46,6 +47,9 @@
             <span *ngIf="e.required !== true">
               {{entity.template_key || 'None'}}
             </span>
+          </td>
+          <td>
+            <i class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e)"></i>
           </td>
         </ng-container>
       </tr>

@@ -229,6 +229,11 @@ export class MlIntentsDetailComponent implements OnInit {
         origin.style.backgroundColor = color;
       }
 
+      if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
+        const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
+        this._selectedIntent.entities.push(markedEntity);
+      }
+
     });
 
   }
@@ -321,6 +326,20 @@ export class MlIntentsDetailComponent implements OnInit {
     } = entity;
     const {name, ...rest} = this.form.value;
     this._selectedIntent.entities.push(<any>{'counter': 3, required: true, entity_id, ...rest});
+  }
+
+  removeEntityHandler(entityToRemove: IEntitiesItem) {
+    this._selectedIntent.entities = this._selectedIntent.entities.filter((entity) => {
+      return entity.entity_id !== entityToRemove.entity_id;
+    });
+
+    this._selectedIntent.utterances = this._selectedIntent.utterances.map((item) => {
+      return {
+        ...item,
+        entities: item.entities.filter(e => e.entity_id !== entityToRemove.entity_id)
+      };
+    });
+    this._selectedIntent = JSON.parse(JSON.stringify(this._selectedIntent));
   }
 
 }
