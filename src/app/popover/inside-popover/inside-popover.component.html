@@ -5,7 +5,7 @@
   <mat-radio-group formControlName="type" aria-label="Select an option" style="    display: flex;
     width: 100%;
     justify-content: space-around;">
-    <mat-radio-button value="systems">Systems</mat-radio-button>
+    <mat-radio-button value="system">System</mat-radio-button>
     <mat-radio-button value="custom">Custom</mat-radio-button>
   </mat-radio-group>
 
@@ -13,7 +13,7 @@
     <mat-label>Select Entity</mat-label>
     <mat-select formControlName="entity_id">
       <mat-option
-        *ngFor="let e of entityList"
+        *ngFor="let e of entityList| filterBy: {type:form.get('type').value}"
         [value]="e.entity_id">
         {{e.name}}
       </mat-option>
