@@ -32,7 +32,7 @@ export class SocketService {
   }
 
   destroySocket(){
-    this.socket.destroy();
+    this.socket && this.socket.destroy();
   }
 
   initializeSocketConnection(socketData) {

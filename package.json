@@ -89,6 +89,7 @@
     "ng-bubble": "^0.1.4",
     "ng-click-outside": "^4.0.0",
     "ng-lazyload-image": "^5.1.2",
+    "ngx-filter-pipe": "^2.1.2",
     "ngx-loadify": "0.0.20",
     "papaparse": "^5.0.0",
     "rxjs": "^6.3.3",
