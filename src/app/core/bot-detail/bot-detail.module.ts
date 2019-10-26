@@ -107,6 +107,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {MlIntentsComponent} from './ml-intents/ml-intents.component';
 import { FilterEntitiesPipe } from './ml-intent-utterance/filter-entities.pipe';
 import { GetEntityByNamePipe } from './ml-intent-utterance/get-entity-by-name.pipe';
+import { MlReplyComponent } from './ml-reply/ml-reply.component';
 
 
 const routes: Route[] = [
@@ -212,6 +213,7 @@ const routes: Route[] = [
     UtteranceAddEntityPipe,
     FilterEntitiesPipe,
     GetEntityByNamePipe,
+    MlReplyComponent,
     // PopoverComponent,
     // InsidePopoverComponent
     /*after lazy loading*/
