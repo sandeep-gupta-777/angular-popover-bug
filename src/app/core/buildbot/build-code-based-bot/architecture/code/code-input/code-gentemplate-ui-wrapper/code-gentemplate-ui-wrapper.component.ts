@@ -218,7 +218,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
       const arr1 = document.getElementsByClassName('gentemplateItem');
       const x = arr1[arr1.length - 1];
-      x.scrollIntoView();
+      // x.scrollIntoView();
 
 
     } catch (err) {
