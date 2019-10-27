@@ -18,7 +18,7 @@
     class="card--update"
     [isMatFlatButton]="false"
     [text]=" '+ Create new ' +  ((selectedTabIndex === 0) ? 'intent' : 'entity' )"
-    style="position: absolute;right: 3px;top: 18px;z-index: 10000;"
+    style="position: absolute;right: 3px;top: 18px;z-index: 10;"
     (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
   </app-button-wrapper>
   <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event">

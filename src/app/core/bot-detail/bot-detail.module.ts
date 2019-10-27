@@ -92,7 +92,7 @@ import {CurationIssuesAggregationBarComponent} from './curation/curation-overvie
 import {RemoveTopAndBottomAndGetAsArrayPipe} from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
 import {AnswerTemplateWrapperComponent} from './bot-articles/edit-and-view-articles/answer-template-wrapper/answer-template-wrapper.component';
 import {PipelineTestComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline-test/pipeline-test.component';
-import {MlEditEntityComponent} from "./ml-model/ml-edit-entity/ml-edit-entity.component";
+import {MlEditEntityComponent} from './ml-model/ml-edit-entity/ml-edit-entity.component';
 import {GentemplateSidebarComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/gentemplate-sidebar/gentemplate-sidebar.component';
 import {PartialMatchResponseComponent} from './bot-articles/edit-and-view-articles/partial-match-response/partial-match-response.component';
 import {RouterBotRulesComponent} from '../buildbot/build-code-based-bot/architecture/router-bot-rules/router-bot-rules.component';
@@ -105,9 +105,9 @@ import {MlIntentUtteranceComponent} from './ml-intent-utterance/ml-intent-uttera
 import {UtteranceAddEntityPipe} from './ml-intents/utterance-add-entity.pipe';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {MlIntentsComponent} from './ml-intents/ml-intents.component';
-import { FilterEntitiesPipe } from './ml-intent-utterance/filter-entities.pipe';
-import { GetEntityByNamePipe } from './ml-intent-utterance/get-entity-by-name.pipe';
-import { MlReplyComponent } from './ml-reply/ml-reply.component';
+import {FilterEntitiesPipe} from './ml-intent-utterance/filter-entities.pipe';
+import {GetEntityByNamePipe} from './ml-intent-utterance/get-entity-by-name.pipe';
+import {MlReplyComponent} from './ml-reply/ml-reply.component';
 import {MlReplyService} from './ml-reply/ml-reply.service';
 import {ServerService} from '../../server.service';
 
