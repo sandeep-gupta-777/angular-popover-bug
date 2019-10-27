@@ -79,7 +79,7 @@
   <div  formGroupName="data">
     <div class="heading">All values</div>
     <div class = "d-flex flex-column" formArrayName="values">
-      <div *ngFor="let singleEntity of editEntityForm.get('data').get('values').controls; let singleEntityIndex = index;">
+      <div *ngFor="let singleEntity of editEntityForm.get('data').get('values')?.controls; let singleEntityIndex = index;">
           <div [formGroupName]="singleEntityIndex" class="d-flex flex-row" >
             <mat-form-field class="mr-4" >
               <input matInput  formControlName="value" required>

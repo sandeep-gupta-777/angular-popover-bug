@@ -43,6 +43,7 @@
   <app-ml-intents-detail
     (selectedIntentChanged$)="selectedIntentChanged($event)"
     (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"
+    (showCreateNewIntentModel$)="addNewIntentOrEntity(1, Primarytemplat)"
     (saveAndTrain$)="saveAndTrainHandler($event)"
     [entityList]="entityList"
     [selectedIntent]="selectedIntent"
@@ -90,7 +91,7 @@
         </div>
         <div class="d-flex ">
           <button mat-flat-button type="submit" [disabled]="!modalForm.valid"
-                  (click)="dialogRefWrapper.ref.close()"
+                  (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()"
                   color=primary class="mat-theme-button footer-btn px-2 ml-auto">
             {{modalForm.value.entity_id ? 'Update ':'Create '}} and train
           </button>

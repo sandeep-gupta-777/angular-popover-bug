@@ -15,16 +15,16 @@ export class MlEditEntityComponent implements OnInit {
   ) { }
   _edittingData : IEntitiesItem;
   @Input() set edittingData(val){
-    debugger;
-    val = { "color": "", "created_at": 1571990350740,
-      "entity_id": "5", "name": "asdasd", "system_entity": false, "type": "custom", "updated_at": 1571990350740,
-      "data": { "values": [
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf1" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf2" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf3" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf4" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf5" }
-          ] }}
+    // debugger;
+    // val = { "color": "", "created_at": 1571990350740,
+    //   "entity_id": "5", "name": "asdasd", "system_entity": false, "type": "custom", "updated_at": 1571990350740,
+    //   "data": { "values": [
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf1" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf2" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf3" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf4" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf5" }
+    //       ] }}
     this._edittingData = val;
     this.makeEditEntityForm();
   } ;
@@ -97,6 +97,7 @@ export class MlEditEntityComponent implements OnInit {
       value : obj.value,
       synonyms : this.NewEntityObjSynonyms
     }
+    //sandeep plz fix this line
     this.editEntityForm.get('data').get('values').push(this.getSingleEntityForm(body));
     this.NewEntityObjSynonyms = [];
     this.NewEntityObjSynonyms = [...this.NewEntityObjSynonyms];

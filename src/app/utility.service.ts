@@ -1522,6 +1522,9 @@ export class UtilityService {
     }
     return false;
   }
+  getRandomColor(){
+    return ('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
+  }
 
 
   findFormControlIndexInFormArrayByValue(formArray: FormArray, value): number {

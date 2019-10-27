@@ -20,15 +20,15 @@
           </div>
         </a>
         <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
-          <a mat-list-item class="mat-list-item-sidebar"
-             (click)="sideBarTabChanged(myESideBarTab.ml_model)">
-            <div class="sidebar-nav-list-item"
-                 data-cy="sidebar-ml_model"
-                 [ngClass]="{'filter-black':sideBarTab1!=='ml_model', 'selected-nav':sideBarTab1==='ml_model'}">
-              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
-              <span style="color: #00ABD3">Train {{dirtySideBarTabs[myESideBarTab.ml_model] ? '*' : ""}}</span>
-            </div>
-          </a></ng-container>
+        <a mat-list-item class="mat-list-item-sidebar"
+           (click)="sideBarTabChanged(myESideBarTab.ml_model)">
+          <div class="sidebar-nav-list-item"
+               data-cy="sidebar-ml_model"
+               [ngClass]="{'filter-black':sideBarTab1!=='ml_model', 'selected-nav':sideBarTab1==='ml_model'}">
+            <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+            <span style="color: #00ABD3">Train {{dirtySideBarTabs[myESideBarTab.ml_model] ? '*' : ""}}</span>
+          </div>
+        </a></ng-container>
 
         <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
           <a mat-list-item class="mat-list-item-sidebar"
@@ -186,6 +186,13 @@
             *ngIf="sideBarTab1 === 'History' && (myEBotType.faqbot === bot.bot_type ||  myEBotType.mlbot === bot.bot_type)">
             <app-bot-article-history style="display: block; height: 100%"
                                      [bot]="bot"></app-bot-article-history>
+          </ng-container>
+
+          <ng-container
+            *ngIf="sideBarTab1 === MyESideBarTab.replies && (myEBotType.mlbot === bot.bot_type)">
+            <ng-container>
+              <app-ml-reply style="display: flex; flex-direction: column; height: 100%" [bot]="bot"></app-ml-reply>
+            </ng-container>
           </ng-container>
 
           <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">

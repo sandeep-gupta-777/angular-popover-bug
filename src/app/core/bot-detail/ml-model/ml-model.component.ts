@@ -14,7 +14,8 @@ import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {MyToasterService} from '../../../my-toaster.service';
 import {map, tap} from 'rxjs/operators';
-import {subscribeOn} from "rxjs/operators";
+import {EventService} from '../../../event.service';
+import {MlService} from './ml.service';
 
 @Component({
   selector: 'app-ml-model',
@@ -82,13 +83,13 @@ export class MLModelComponent implements OnInit {
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
-        const color = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
-      debugger;
+        const color = this.utilityService.getRandomColor();
         return {
           ...entity,
           color
         };
       });
+      MlService.entityList = this.entityList;
     });
   }
 
@@ -113,7 +114,7 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  addNewIntentOrEntity(isIntent, template: TemplateRef<any>) {
+  addNewIntentOrEntity(isIntent: number, template: TemplateRef<any>) {
     if (isIntent === 0) {
       this.viewChanged(this.view = 'detail');
     }
@@ -186,9 +187,8 @@ export class MLModelComponent implements OnInit {
         this.entityList = [val.new_entity, ...this.entityList]
         this.utilityService.showSuccessToaster("New entity added");
       }
-
-    })
-    )
+      })
+      )
   }
 
   editEntityClicked(data, template) {
@@ -229,8 +229,9 @@ export class MLModelComponent implements OnInit {
           }
         }
         this.entityList = [...this.entityList];
-        this.utilityService.showSuccessToaster("Entity deleted");
-      })
+        MlService.entityList = this.entityList;
+        this.utilityService.showSuccessToaster('Entity deleted');
+      });
   }
   validationOfEntityModal(group: FormGroup){
     let type =  group.get('entity_type').value;

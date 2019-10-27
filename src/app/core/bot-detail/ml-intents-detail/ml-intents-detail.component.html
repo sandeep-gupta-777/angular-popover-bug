@@ -31,7 +31,7 @@
     Write actual information for each bit the user needs
   </div>
 </header>
-<form [formGroup]="form">
+<form [formGroup]="form" *ngIf="entityList">
   <div>
     <mat-form-field>
       <input matInput placeholder="Intent name" formControlName="name">
@@ -63,7 +63,7 @@
         No utterances added yet, add now to train the intent
       </div>
 
-      <div style="flex:1;overflow-y: auto" *ngIf="_selectedIntent">
+      <div style="overflow-y: auto;height: 40vh; padding-bottom: 60px" *ngIf="_selectedIntent">
         <div contenteditable="true"
              style="
             margin-bottom: 12px;
@@ -73,7 +73,7 @@
              *ngFor="let question of _selectedIntent.utterances; let index = index;"
              (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
              (click)="show2($event.target, tpl, index)"
-             [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities: entityList |safeHtml">
+             [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
         </div>
       </div>
 
@@ -82,6 +82,7 @@
     <div style="width: 50%">
       <app-ml-intent-utterance
         (linkEntity$)="linkEntityHandler($event)"
+        (removeEntity$)="removeEntityHandler($event)"
         [entityList]="entityList"
         [selectedIntent]="_selectedIntent"
         style="display: block; margin-bottom: 28px"></app-ml-intent-utterance>

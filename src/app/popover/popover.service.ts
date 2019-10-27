@@ -1,7 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
-import { Overlay, ConnectionPositionPair, PositionStrategy, OverlayConfig } from '@angular/cdk/overlay';
-import { PortalInjector, ComponentPortal } from '@angular/cdk/portal';
-import { PopoverRef, PopoverContent } from './popover-ref';
+import {Injectable, Injector} from '@angular/core';
+import {Overlay, ConnectionPositionPair, PositionStrategy, OverlayConfig} from '@angular/cdk/overlay';
+import {PortalInjector, ComponentPortal} from '@angular/cdk/portal';
+import {PopoverRef, PopoverContent} from './popover-ref';
 import {PopoverComponent1} from './popover-component1.component';
 
 export type PopoverParams<T> = {
@@ -16,10 +16,11 @@ export type PopoverParams<T> = {
   providedIn: 'root'
 })
 export class Popover {
-  constructor(private overlay: Overlay, private injector: Injector) { }
+  constructor(private overlay: Overlay, private injector: Injector) {
+  }
 
-  open<T>({ origin, content, data, width, height }: PopoverParams<T>): PopoverRef<T> {
-    const overlayRef = this.overlay.create(this.getOverlayConfig({ origin, width, height }));
+  open<T>({origin, content, data, width, height}: PopoverParams<T>): PopoverRef<T> {
+    const overlayRef = this.overlay.create(this.getOverlayConfig({origin, width, height}));
     const popoverRef = new PopoverRef<T>(overlayRef, content, data);
 
     const injector = this.createInjector(popoverRef, this.injector);

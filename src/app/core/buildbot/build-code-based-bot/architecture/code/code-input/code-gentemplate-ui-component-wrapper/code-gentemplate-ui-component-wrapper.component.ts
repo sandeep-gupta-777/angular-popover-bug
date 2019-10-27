@@ -116,4 +116,9 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     return typeof this.outputItem === 'string';
   }
 
+
+  log(){
+    console.log(this.bot);
+  }
+
 }

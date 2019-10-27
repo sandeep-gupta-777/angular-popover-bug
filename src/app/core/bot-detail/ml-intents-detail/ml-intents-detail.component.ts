@@ -67,6 +67,7 @@ export class MlIntentsDetailComponent implements OnInit {
 
   @Output() saveOrUpdateIntent$ = new EventEmitter<IIntent>();
   @Output() saveAndTrain$ = new EventEmitter<IIntent>();
+  @Output() showCreateNewIntentModel$ = new EventEmitter();
 
   constructor(
     private constantsService: ConstantsService,
@@ -108,8 +109,9 @@ export class MlIntentsDetailComponent implements OnInit {
   @Output() selectedIntentChanged$ = new EventEmitter();
 
   textSelected(e, tpl, index, utterance: string) {
+
     const target = e.target as HTMLElement;
-    if (target.classList.contains('bg-red')) {
+    if (target.classList.contains('bg-red') && (window.getSelection().toString() === target.textContent)) {
       return;
     }
     var selection;
@@ -120,17 +122,55 @@ export class MlIntentsDetailComponent implements OnInit {
       selection = (<any>document).selection.createRange();
     }
 
+    if (!selection.toString()) {
+      return;
+    }
+
     // selection.toString() !== '' && alert('"' + selection.toString() + '" was selected at ' + e.pageX + '/' + e.pageY);
-    const start = utterance.indexOf(selection.toString());
-    const end = start + selection.toString().length;
-    const random = this.replaceSelectedText(selection, start, end);
-    const $selection = e.target as HTMLElement;
-    const x = $selection.querySelector(`[data-id="${random}"]`);
-    this.show2(x, tpl, index);
+    // const start = utterance.indexOf(selection.toString());
+    const {start, end} = this.getPositionOfStr(utterance, selection.toString());
+    const markers = this._selectedIntent.utterances[index].entities.filter((entity) => {
+      if ((entity.start <= start && start <= entity.end) || (entity.start <= end && end <= entity.end)) {
+
+        let oldMarker = document.querySelector(`[data-position="entity-${entity.start}-${entity.end}"]`);
+        console.log(oldMarker);
+        // setTimeout(() => {
+        //   oldMarker.outerHTML = oldMarker.textContent;
+        // });
+        return false;
+      }
+      return true;
+    });
+
+    // this._selectedIntent.utterances[index].entities = markers;
+    // markers.push({
+    //   start,
+    //   end,
+    //   entity_id: '',
+    //   type: ''
+    // });
+    const selectionStr = selection.toString();
+    // this._selectedIntent = JSON.parse(JSON.stringify(this._selectedIntent));
+
+
+    setTimeout(() => {
+      const random = this.replaceSelectedText(selectionStr, start, end);
+      const $selection = e.target as HTMLElement;
+      const x = $selection.querySelector(`[data-id="${random}"]`);
+      this.show2(x, tpl, index);
+    },);
 
   }
 
-  replaceSelectedText(selection, start, end) {
+  getPositionOfStr(str, subStr) {
+    const start = str.indexOf(subStr);
+    const end = start + subStr.length;
+    return {
+      start, end
+    };
+  }
+
+  replaceSelectedText(selectionStr, start, end) {
     const random = Date.now();
     const obj = {
       'cmd': 'insertHTML',
@@ -140,10 +180,10 @@ export class MlIntentsDetailComponent implements OnInit {
     };
 
     // var selection = document.selection.createRange();
-    if (selection === '') {
+    if (selectionStr === '') {
       return;
     }
-    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${selection.toString()}<span>`);
+    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${selectionStr}<span>`);
     return random;
   }
 
@@ -152,20 +192,21 @@ export class MlIntentsDetailComponent implements OnInit {
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
     const end = Number(position.split('-')[2]);
-    const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any }>({
+    const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any, showCreateNewIntentModel$: EventEmitter<any> }>({
       content: InsidePopoverComponent,
       origin,
       width: '200px',
       data: {
         entityList: this.entityList,
         selectedIntent: this._selectedIntent,
-        data: {start, index, end, value}
+        data: {start, index, end, value},
+        showCreateNewIntentModel$: this.showCreateNewIntentModel$
       }
     });
 
 
     ref.afterClosed$.subscribe((res: any) => {
-      debugger;
+
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
       if (!entityMarker) {
@@ -182,12 +223,18 @@ export class MlIntentsDetailComponent implements OnInit {
         if (action === 'remove') {
           this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
           this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
+          debugger;
           return;
         }
       } else {
         this._selectedIntent.utterances[index].entities.push(entityMarker);
         const color = this.getColorByEntity(entityMarker.entity_id);
         origin.style.backgroundColor = color;
+      }
+
+      if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
+        const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
+        this._selectedIntent.entities.push(markedEntity);
       }
 
     });
@@ -257,7 +304,7 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   saveOrUpdateIntent() {
-    debugger;
+
     this.saveOrUpdateIntent$.emit({
       'entities': [],
       'utterances': [
@@ -282,6 +329,25 @@ export class MlIntentsDetailComponent implements OnInit {
     } = entity;
     const {name, ...rest} = this.form.value;
     this._selectedIntent.entities.push(<any>{'counter': 3, required: true, entity_id, ...rest});
+  }
+
+  removeEntityHandler(entityToRemove: IEntitiesItem) {
+    this._selectedIntent.entities = this._selectedIntent.entities.filter((entity) => {
+      return entity.entity_id !== entityToRemove.entity_id;
+    });
+
+    this._selectedIntent.utterances = this._selectedIntent.utterances.map((item) => {
+      return {
+        ...item,
+        entities: item.entities.filter(e => e.entity_id !== entityToRemove.entity_id)
+      };
+    });
+    this._selectedIntent = JSON.parse(JSON.stringify(this._selectedIntent));
+  }
+
+
+  trackByIndex(index){
+    return index;
   }
 
 }
