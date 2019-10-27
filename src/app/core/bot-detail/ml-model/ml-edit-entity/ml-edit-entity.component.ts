@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IEntitiesItem} from "../../../interfaces/mlBots";
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
@@ -30,16 +30,16 @@ export class MlEditEntityComponent implements OnInit {
   } ;
   editEntityForm : FormGroup;
   @Input() entity_types;
+  @Output() saveCustomEntity = new EventEmitter();
+  @Output() saveAndTrainCustomEntity = new EventEmitter();
+  @Output() goBackToTableView = new EventEmitter();
+  @Output() deleteCustomEntity = new EventEmitter();
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
+  NewEntityObjSynonyms : string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits= [
-    {name: 'Lemon'},
-    {name: 'Lime'},
-    {name: 'Apple'},
-  ];
   ngOnInit() {
 
   }
@@ -69,7 +69,52 @@ export class MlEditEntityComponent implements OnInit {
     formArr.removeAt(index);
   }
   addSynonym(str,formArr){
-  debugger;
-    formArr.push(new FormControl(str.value, Validators.required));
+    debugger;
+    if((str.value || '').trim()){
+      formArr.push(new FormControl(str.value, Validators.required));
+      if (str.input) {
+        str.input.value = '';
+      }
+    }
+
+  }
+
+  addNewSynonym(str){
+    if((str.value || '').trim()){
+      this.NewEntityObjSynonyms.push(str.value);
+      if (str.input) {
+        str.input.value = '';
+      }
+      this.NewEntityObjSynonyms = [...this.NewEntityObjSynonyms]
+    }
+  }
+  deleteNewSynonym(index){
+    this.NewEntityObjSynonyms.splice(index, 1);
+    this.NewEntityObjSynonyms= [...this.NewEntityObjSynonyms];
+  }
+  addNewEntity(obj){
+    let body = {
+      value : obj.value,
+      synonyms : this.NewEntityObjSynonyms
+    }
+    this.editEntityForm.get('data').get('values').push(this.getSingleEntityForm(body));
+    this.NewEntityObjSynonyms = [];
+    this.NewEntityObjSynonyms = [...this.NewEntityObjSynonyms];
+  }
+  saveEntity(){
+    this.saveCustomEntity.emit(this.editEntityForm.value);
+  }
+  saveAndTrain(){
+    this.saveAndTrainCustomEntity.emit(this.editEntityForm.value);
+  }
+  deleteEntity(){
+    this.deleteCustomEntity.emit(
+      {
+        data : { 'entity_id' : this.editEntityForm.value.entity_id}
+      }
+    );
+  }
+  goBackToTableViewClicked(){
+    this.goBackToTableView.emit();
   }
 }

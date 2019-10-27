@@ -13,7 +13,7 @@ import {IIntent} from '../../../typings/intents';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {MyToasterService} from '../../../my-toaster.service';
-import {tap} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {subscribeOn} from "rxjs/operators";
 
 @Component({
@@ -124,9 +124,6 @@ export class MLModelComponent implements OnInit {
 
   submitEntityForm(EntityObj) {
     let url = this.constantsService.creatMLEntity();
-    const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    };
     let body = {
       'name': EntityObj.entity_name,
       'type': EntityObj.entity_type,
@@ -147,21 +144,38 @@ export class MLModelComponent implements OnInit {
           ]
         };
     }
-
-    this.serverService.makePostReq({headerData, url, body}).subscribe((val: any) => {
-      this.entityList = [val.new_entity, ...this.entityList,];
-      this.utilityService.showSuccessToaster('New entity added');
-    });
+    // this.serverService.makePostReq({headerData, url, body}).subscribe((val: any) => {
+    //   this.entityList = [val.new_entity, ...this.entityList,];
+    //   this.utilityService.showSuccessToaster('New entity added');
+    // });
     if (EntityObj.entity_id) {
       url = this.constantsService.updateMLEntity();
       body['entity_id'] = EntityObj.entity_id;
     } else {
       url = this.constantsService.creatMLEntity();
     }
-    this.serverService.makePostReq({headerData, url, body}).subscribe((val: any) => {
-      if (EntityObj.entity_id) {
+    this.entityUpdateService(url,body).subscribe();
+  }
+  saveAndTrainCustomEntity(body){
+    let url = this.constantsService.updateMLEntity();
+    this.entityUpdateService(url,body).subscribe(val=>{
+      this.trainMLBots();
+    });
+  }
+  saveCustomEntity(body){
+    let url = this.constantsService.updateMLEntity();
+    this.entityUpdateService(url,body).subscribe();
+  }
+  entityUpdateService(url , body){
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    return this.serverService.makePostReq({headerData, url, body})
+      .pipe(map((val: any) => {
+      this.view = 'table';
+      if (body.entity_id) {
         for (var i = 0; i < this.entityList.length; i++) {
-          if (this.entityList[i].entity_id === EntityObj.entity_id) {
+          if (this.entityList[i].entity_id === body.entity_id) {
             this.entityList.splice(i, 1);
             break;
           }
@@ -174,6 +188,7 @@ export class MLModelComponent implements OnInit {
       }
 
     })
+    )
   }
 
   editEntityClicked(data, template) {
@@ -228,18 +243,20 @@ export class MLModelComponent implements OnInit {
   selectedIntentChanged(intent: IIntent) {
 
   }
-
+trainMLBots(){
+  const url = this.constantsService.trainMlBotUrl();
+  const headerData: IHeaderData = {
+    'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+  }
+  const body = {'bot_id': this.bot.id};
+  this.serverService.makePostReq({url, body, headerData})
+    .subscribe(() => {
+      this.myToasterService.showSuccessToaster('training started');
+    });
+}
   saveAndTrainHandler(intent: IIntent) {
     this.saveOrUpdateIntentHandler(intent).subscribe(() => {
-      const url = this.constantsService.trainMlBotUrl();
-      const headerData: IHeaderData = {
-        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
-    }
-      const body = {'bot_id': this.bot.id};
-      this.serverService.makePostReq({url, body, headerData})
-        .subscribe(() => {
-          this.myToasterService.showSuccessToaster('training started');
-        });
+      this.trainMLBots();
     });
   }
 
