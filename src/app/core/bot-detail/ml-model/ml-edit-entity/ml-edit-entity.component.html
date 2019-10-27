@@ -1,22 +1,22 @@
 <header>
   <div class="d-flex flex-row heading align-items-center pb-3">
     <div class="heading-title">
-      <span class="fa fa-angle-left cursor-pointer p-1"
-            data-cy="goBackFromArticle"></span>
-      ertertert
+      <span class="fa fa-angle-left cursor-pointer p-1 go-back-button"
+            data-cy="goBackFromArticle" (click)="goBackToTableViewClicked()"></span>
+      Edit entity
     </div>
     <div class="mr-auto">
     </div>
     <div >
       <button class=" btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
-              mat-button >
+              mat-button (click)="saveAndTrain()">
         <mat-icon>autorenew</mat-icon>
         Save and train
       </button>
     </div>
     <div>
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
-              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;" (click)="saveEntity()">
         <mat-icon>save</mat-icon>
         Save
       </button>
@@ -24,20 +24,16 @@
     <div >
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
               data-cy="article-delete-button"
-              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="deleteEntity()">
         <mat-icon>delete</mat-icon>
         Delete
       </button>
     </div>
   </div>
 </header>
-<!--{{_edittingData | json}}-->
-<!--<hr>-->
-
 <form [formGroup]="editEntityForm">
-  {{editEntityForm.value | json}}
   <div class = "d-flex flex-row">
-    <mat-form-field >
+    <mat-form-field class = "mr-4">
       <input matInput placeholder="Entity name" formControlName="name">
     </mat-form-field>
     <mat-form-field style="width: 120px;margin-right: 20px">
@@ -49,41 +45,59 @@
       </mat-select>
     </mat-form-field>
   </div>
+
+  <div class="heading">Add new value</div>
+  <ng-form #NewEntityForm = "ngForm" class="d-flex flex-column mb-2">
+    <div class = "d-flex">
+      <mat-form-field class="mr-4" >
+        <input matInput ngModel name = "value" required>
+      </mat-form-field>
+      <mat-form-field class="example-chip-list" style="flex:1">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let singleSynonyms of NewEntityObjSynonyms;let newSingleSynonymsIndex = index;"
+                    [selectable]="selectable" [removable]="removable"
+                    (removed) = "deleteNewSynonym(newSingleSynonymsIndex)">
+            {{singleSynonyms}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="addNewSynonym($event)"
+          >
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <button class="mat-theme-button cursor-pointer mr-2" type = "submit" mat-button
+            [disabled]="!NewEntityForm.valid"
+            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+            (click)="addNewEntity(NewEntityForm.value);NewEntityForm.reset();"
+    >
+      + Add question
+    </button>
+  </ng-form>
   <div  formGroupName="data">
+    <div class="heading">All values</div>
     <div class = "d-flex flex-column" formArrayName="values">
       <div *ngFor="let singleEntity of editEntityForm.get('data').get('values')?.controls; let singleEntityIndex = index;">
           <div [formGroupName]="singleEntityIndex" class="d-flex flex-row" >
-            <mat-form-field style="width: 230px">
-              <input matInput placeholder="Entity name" formControlName="value" required>
+            <mat-form-field class="mr-4" >
+              <input matInput  formControlName="value" required>
             </mat-form-field>
             <mat-form-field class="example-chip-list" style="flex:1">
-              <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip-list #chipList>
                 <mat-chip *ngFor="let singleSynonyms of singleEntity.get('synonyms').controls; let singleSynonymsIndex = index;" [selectable]="selectable"
                           [removable]="removable" (removed)="deleteSynonym(singleSynonymsIndex,singleEntity.get('synonyms'))">
                   {{singleSynonyms.value}}
                   <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                 </mat-chip>
-                <input placeholder="New fruit..."
-                       [matChipInputFor]="chipList"
-                       formArrayName="synonyms"
+                <input [matChipInputFor]="chipList"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addSynonym($event,singleEntity.get('synonyms'))"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addSynonym($event,singleEntity.get('synonyms'))"
                        >
               </mat-chip-list>
             </mat-form-field>
-<!--            <div formArrayName="synonyms" class="d-flex flex-row" >-->
-<!--              <div *ngFor="let singleEntity of singleEntity.get('synonyms').controls; let singleSynonymsIndex = index;"-->
-<!--                   class="d-flex flex-column" >-->
-<!--                <mat-form-field >-->
-<!--                  <input matInput placeholder="Entity name" [formControlName]="singleSynonymsIndex">-->
-<!--                </mat-form-field>-->
-<!--                -->
-<!--                -->
-<!--&lt;!&ndash;                <div [formGroupName]="singleSynonymsIndex">&ndash;&gt;-->
-<!--&lt;!&ndash;                  {{singleEntity.value | json}}&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--            </div>-->
-<!--          </div>-->
       </div>
     </div>
   </div>

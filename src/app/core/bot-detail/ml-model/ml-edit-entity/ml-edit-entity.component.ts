@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IEntitiesItem} from "../../../interfaces/mlBots";
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
@@ -15,31 +15,31 @@ export class MlEditEntityComponent implements OnInit {
   ) { }
   _edittingData : IEntitiesItem;
   @Input() set edittingData(val){
-
-    val = { "color": "", "created_at": 1571990350740,
-      "entity_id": "5", "name": "asdasd", "system_entity": false, "type": "custom", "updated_at": 1571990350740,
-      "data": { "values": [
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf1" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf2" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf3" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf4" },
-          { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf5" }
-          ] }}
+    // debugger;
+    // val = { "color": "", "created_at": 1571990350740,
+    //   "entity_id": "5", "name": "asdasd", "system_entity": false, "type": "custom", "updated_at": 1571990350740,
+    //   "data": { "values": [
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf1" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf2" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf3" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf4" },
+    //       { "synonyms": [ "asdasdf1","asdasdf2","asdasdf3","asdasdf4","asdasdf5","asdasdf6" ], "value": "asdasdf5" }
+    //       ] }}
     this._edittingData = val;
     this.makeEditEntityForm();
   } ;
   editEntityForm : FormGroup;
   @Input() entity_types;
+  @Output() saveCustomEntity = new EventEmitter();
+  @Output() saveAndTrainCustomEntity = new EventEmitter();
+  @Output() goBackToTableView = new EventEmitter();
+  @Output() deleteCustomEntity = new EventEmitter();
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
+  NewEntityObjSynonyms : string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits= [
-    {name: 'Lemon'},
-    {name: 'Lime'},
-    {name: 'Apple'},
-  ];
   ngOnInit() {
 
   }
@@ -56,7 +56,7 @@ export class MlEditEntityComponent implements OnInit {
       system_entity: this._edittingData.system_entity,
       type: this._edittingData.type
     });
-
+    debugger;
   }
   getSingleEntityForm(ruleData) {
     return this.formBuilder.group({
@@ -65,11 +65,57 @@ export class MlEditEntityComponent implements OnInit {
     })
   }
   deleteSynonym(index,formArr){
-
+    debugger;
     formArr.removeAt(index);
   }
   addSynonym(str,formArr){
+    debugger;
+    if((str.value || '').trim()){
+      formArr.push(new FormControl(str.value, Validators.required));
+      if (str.input) {
+        str.input.value = '';
+      }
+    }
 
-    formArr.push(new FormControl(str.value, Validators.required));
+  }
+
+  addNewSynonym(str){
+    if((str.value || '').trim()){
+      this.NewEntityObjSynonyms.push(str.value);
+      if (str.input) {
+        str.input.value = '';
+      }
+      this.NewEntityObjSynonyms = [...this.NewEntityObjSynonyms]
+    }
+  }
+  deleteNewSynonym(index){
+    this.NewEntityObjSynonyms.splice(index, 1);
+    this.NewEntityObjSynonyms= [...this.NewEntityObjSynonyms];
+  }
+  addNewEntity(obj){
+    let body = {
+      value : obj.value,
+      synonyms : this.NewEntityObjSynonyms
+    }
+    //sandeep plz fix this line
+    this.editEntityForm.get('data').get('values').push(this.getSingleEntityForm(body));
+    this.NewEntityObjSynonyms = [];
+    this.NewEntityObjSynonyms = [...this.NewEntityObjSynonyms];
+  }
+  saveEntity(){
+    this.saveCustomEntity.emit(this.editEntityForm.value);
+  }
+  saveAndTrain(){
+    this.saveAndTrainCustomEntity.emit(this.editEntityForm.value);
+  }
+  deleteEntity(){
+    this.deleteCustomEntity.emit(
+      {
+        data : { 'entity_id' : this.editEntityForm.value.entity_id}
+      }
+    );
+  }
+  goBackToTableViewClicked(){
+    this.goBackToTableView.emit();
   }
 }
