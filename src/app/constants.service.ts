@@ -1275,6 +1275,16 @@ export class ConstantsService {
   trainMlBotUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
   }
+  getResponseTemplates() {
+    return this.BACKEND_URL + `api/v1/responsetemplates/default/`;
+  }
+  loadFromLive() {
+    return this.BACKEND_URL + `api/v1/responsetemplates/`;
+  }
+
+  makeResponseLive() {
+    return this.BACKEND_URL + `api/v1/responsetemplates/makelive/`;
+  }
 
   entityMarkingUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/entity/markup/`;

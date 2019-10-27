@@ -4,28 +4,61 @@
       Machine learning model</strong>
     <div class="mr-auto">
     </div>
-    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
-      <mat-icon class="mat-icon material-icons">sync</mat-icon>
-      Train
-    </button>
+    <div style="display: flex">
+      <button (click)="makeLive()" class="btn-theme btn-theme-primary mat-theme-button mr-1">
+        <mat-icon class="mat-icon material-icons">keyboard_arrow_up</mat-icon>
+        Make live
+      </button>
+
+      <app-button-wrapper
+        class="card--update"
+        [icon]="'edit'"
+        [isMatFlatButton]="false"
+        [text]="'Load live version'"
+        (btnClick)="loadFromLive()">
+      </app-button-wrapper>
+    </div>
   </div>
   <div style="color: #696969;font-size: 11px;">Configure intents and entities over which the bot will
     work
   </div>
 </header>
 
-<mat-tab-group>
-  <mat-tab label="Templates">
-    <app-code-gentemplate-ui-wrapper
-      style="flex-grow: 1; min-height: 70vh"
-      class="row mx-0 px-0 child-expand"
-      [bot]="bot"
-      [templateKeyDict]="{}"
-    >
-    </app-code-gentemplate-ui-wrapper>
-  </mat-tab>
-  <mat-tab label="Callback" class="no-over-flow h-100">
-    <i>hello</i>
-  </mat-tab>
-</mat-tab-group>
+<i>{{workFlowObj|json}}</i>
+
+<div style="position: relative">
+  <app-button-wrapper
+    style="position: absolute;
+    right: 0;
+    top: 23px;
+    z-index: 10;"
+    class="card--update"
+    [icon]="'refresh'"
+    [isMatFlatButton]="false"
+    [text]="'Update'"
+    (btnClick)="updateResponse()">
+  </app-button-wrapper>
+
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="Templates">
+      <app-code-gentemplate-ui-wrapper
+        style="flex-grow: 1; min-height: 60vh"
+        class="row mx-0 px-0 child-expand ml-bot-reply"
+        [bot]="bot"
+        [templateKeyDict]="templateKeyDict"
+        [channelList]="[]"
+      >
+      </app-code-gentemplate-ui-wrapper>
+    </mat-tab>
+    <mat-tab label="Callback" class="no-over-flow h-100">
+      <app-code-editor
+        style="height: 500px"
+        class="code-editor"
+        [text]="workFlowObj"
+        [doShowValidationsIcon]="false"
+        [doShowUploadDownloadButton]="false"
+      ></app-code-editor>
+    </mat-tab>
+  </mat-tab-group>
+</div>
 

@@ -1,42 +1,56 @@
 @import "~src/sass/main";
-::ng-deep{
-  app-code-gentemplate-ui-wrapper{
-    .child-expand{
+
+::ng-deep {
+  app-code-gentemplate-ui-wrapper {
+    .child-expand {
       width: 100%;
     }
   }
 }
 
 
-.heading{
+.heading {
   //padding-bottom: 8px;
   align-items: center;
-  .heading-title{
+
+  .heading-title {
     color: #474747;
     font-size: 16px;
     font-weight: bold;
     line-height: 1;
     padding-right: 5px;
   }
+
   .mat-theme-button-border {
     border-radius: 2px !important;
   }
-  button{
+
+  button {
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: 13px;
     padding-left: 12px;
     border-radius: 2px;
-    mat-icon{
+
+    mat-icon {
       font-size: 13px;
     }
   }
 }
-.no-over-flow{
-  ::ng-deep{
+
+.no-over-flow {
+  ::ng-deep {
     .mat-tab-body-wrapper {
       height: 100%; /*TODO: check why its needed....for knowledge base editor*/
+    }
+  }
+}
+
+::ng-deep{
+  .ml-bot-reply {
+    .genTempGridItemGrid {
+      height: 60vh;
     }
   }
 }

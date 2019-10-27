@@ -86,6 +86,7 @@ import {FilePreviewOverlayService} from './overlay.service';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {PlayMediaComponent} from './chat/play-media/play-media.component';
 import {HttpTrackerLibModule} from 'ngx-loadify';
+import {ServerService} from './server.service';
 
 @NgModule({
   declarations: [
@@ -248,7 +249,7 @@ import {HttpTrackerLibModule} from 'ngx-loadify';
     // HttpTrackerLibModule
     HttpTrackerLibModule,
   ],
-  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService],
+  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService, ServerService],
 
 })
 export class SharedModule {

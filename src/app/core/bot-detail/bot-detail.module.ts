@@ -108,6 +108,8 @@ import {MlIntentsComponent} from './ml-intents/ml-intents.component';
 import { FilterEntitiesPipe } from './ml-intent-utterance/filter-entities.pipe';
 import { GetEntityByNamePipe } from './ml-intent-utterance/get-entity-by-name.pipe';
 import { MlReplyComponent } from './ml-reply/ml-reply.component';
+import {MlReplyService} from './ml-reply/ml-reply.service';
+import {ServerService} from '../../server.service';
 
 
 const routes: Route[] = [
@@ -197,6 +199,7 @@ const routes: Route[] = [
     CurationResolvedAggrigationComponent,
     CurationOverviewComponent,
     MLModelComponent,
+    MlReplyComponent,
     MlIntentsComponent,
     MlEntitiesComponent,
     MlEditEntityComponent,
@@ -213,7 +216,6 @@ const routes: Route[] = [
     UtteranceAddEntityPipe,
     FilterEntitiesPipe,
     GetEntityByNamePipe,
-    MlReplyComponent,
     // PopoverComponent,
     // InsidePopoverComponent
     /*after lazy loading*/
@@ -236,7 +238,7 @@ const routes: Route[] = [
     MatListModule,
     OverlayModule,
   ],
-  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe],
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe, ServerService, MlReplyService],
 
 })
 export class BotDetailModule {
