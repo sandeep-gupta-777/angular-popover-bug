@@ -44,7 +44,7 @@ export class MLModelComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   entity_types: any[];
   modalForm: FormGroup;
-  selectedIntent: IIntent = {};
+  selectedIntent: IIntent;
   edittingData: IEntitiesItem;
 
   ngOnInit() {
@@ -300,7 +300,7 @@ trainMLBots(){
       let intent_id = null;
 
       if (view === 'detail') {
-        intent_id = this.selectedIntent.intent_id;
+        intent_id = this.selectedIntent && this.selectedIntent.intent_id;
       } else {
         this.selectedIntent = null;
         this.getAndSetMlCorpus();

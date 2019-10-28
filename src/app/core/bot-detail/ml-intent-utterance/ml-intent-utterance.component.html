@@ -11,7 +11,7 @@
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
 
-<div class="example-list" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent.entities"
+<div class="example-list" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
      (cdkDropListDropped)="drop($event)">
   <table style="border: solid 1px #eaeaea;">
     <tr style="background-color: #eeeeee">
@@ -58,7 +58,7 @@
     </tbody>
 
   </table>
-  <div *ngIf="selectedIntent?.entities?.length===0"
+  <div *ngIf="!selectedIntent || !selectedIntent.entities|| selectedIntent.entities.length===0"
        style="background: white; width: 100%; height: 50px; display: flex; justify-content: center; align-items: center">
     No entities linked yet, link to start using them
   </div>

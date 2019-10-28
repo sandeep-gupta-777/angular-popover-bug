@@ -10,10 +10,10 @@ import {Popover} from '../../../popover/popover.service';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {InsidePopoverComponent} from '../../../popover/inside-popover/inside-popover.component';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {UtilityService} from '../../../utility.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-ml-intents-detail',
@@ -75,12 +75,16 @@ export class MlIntentsDetailComponent implements OnInit {
     private popper: Popover,
     private formBuilder: FormBuilder,
     private serverService: ServerService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
-  ngOnInit() {
 
+  intent_id: string;
+
+  ngOnInit() {
+    this.intent_id = this.activatedRoute.snapshot.queryParams['intent_id'];
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
     this.form = this.formBuilder.group({
@@ -88,7 +92,8 @@ export class MlIntentsDetailComponent implements OnInit {
       template_key: '',
       reset_state: false
     });
-    this.form && this.form.patchValue(this._selectedIntent);
+    this.form && this._selectedIntent && this.form.patchValue(this._selectedIntent);
+
   }
 
   tableDataFactory() {
@@ -122,7 +127,7 @@ export class MlIntentsDetailComponent implements OnInit {
       selection = (<any>document).selection.createRange();
     }
 
-    if (!selection.toString()) {
+    if (!selection.toString() || !selection.toString().trim()) {
       return;
     }
 
@@ -328,6 +333,8 @@ export class MlIntentsDetailComponent implements OnInit {
       template_key
     } = entity;
     const {name, ...rest} = this.form.value;
+    this._selectedIntent = this._selectedIntent || {};
+    this._selectedIntent.entities = this._selectedIntent.entities || [];
     this._selectedIntent.entities.push(<any>{'counter': 3, required: true, entity_id, ...rest});
   }
 
@@ -346,8 +353,12 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
 
-  trackByIndex(index){
+  trackByIndex(index) {
     return index;
+  }
+
+  log(x) {
+    console.log(x);
   }
 
 }

@@ -6,9 +6,11 @@ import {IIntent} from '../../../typings/intents';
   name: 'filterEntities'
 })
 export class FilterEntitiesPipe implements PipeTransform {
-
   transform(entities: IEntitiesItem[], intent?: IIntent): any {
-    const x =  entities.filter((entity) => {
+    if (!intent || !intent.entities) {
+      return entities || [];
+    }
+    const x = entities.filter((entity) => {
       return !intent.entities.find(e => e.entity_id === entity.entity_id);
     });
 
