@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ETemplateResponseType} from '../../../../../../../../typings/gentemplate';
 
 @Component({
   selector: 'app-gentemplate-sidebar',
@@ -6,7 +7,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./gentemplate-sidebar.component.scss']
 })
 export class GentemplateSidebarComponent implements OnInit {
-
+  ETemplateResponseType = ETemplateResponseType;
   constructor() { }
   @Output() genTemplateTypeClicked$ = new EventEmitter();
   ngOnInit() {

@@ -5,6 +5,7 @@ import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-co
 import {MatDialog} from '@angular/material';
 import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {EBotVersionTabs} from '../../../../../../../../interfaces/code-input';
+import {ETemplateResponseType} from '../../../../../../../typings/gentemplate';
 
 export interface ICarousalItem {
   'image_url': string;
@@ -48,6 +49,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   myObject = Object;
 
   @Input() defaultTemplateKeys: string[];
+  @Input() headingAsSelectedTemplateKey: string;
   @Input() hideChannelDropdown = false;
   @Input() activeTab;
   @Input() channelList;
@@ -60,13 +62,13 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   @Input() bot;
   _templateKeyDict;
   @Input() set templateKeyDict(val) {
-    setTimeout(()=>{
+    setTimeout(() => {
       this._templateKeyDict = val;
 
       if (!this.selectedTemplateKeyInLeftSideBar && Object.keys(this._templateKeyDict)) {
         this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
       }
-    },0);
+    }, 0);
   }
 
   channelNameList;
@@ -149,6 +151,14 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       this.addQuickReplyUnit();
     } else if (tab === 'code_input') {
       this.addCodeUnit();
+    } else if (tab === ETemplateResponseType.image) {
+      this.addImageUnit();
+    } else if (tab === ETemplateResponseType.audio) {
+      this.addAudioUnit();
+    } else if (tab === ETemplateResponseType.video) {
+      this.addVideoUnit();
+    } else if (tab === ETemplateResponseType.file) {
+      this.addFileUnit();
     }
   }
 
@@ -205,6 +215,51 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
     setTimeout(() => this.scrollToBottom());
 
+  }
+
+  addVideoUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'media': [{
+        'video_url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+      }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+
+  }
+
+  addAudioUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'media': [{
+        'audio_url': 'https://freesound.org/data/previews/347/347557_2247456-lq.mp3',
+      }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addImageUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'media': [{
+        'image_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
+      }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addFileUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'media': [{
+        'file_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
+      }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
   }
 
   createIncludesArray() {

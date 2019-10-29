@@ -110,6 +110,10 @@ import {GetEntityByNamePipe} from './ml-intent-utterance/get-entity-by-name.pipe
 import {MlReplyComponent} from './ml-reply/ml-reply.component';
 import {MlReplyService} from './ml-reply/ml-reply.service';
 import {ServerService} from '../../server.service';
+import {GentemplateVideoComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-video/gentemplate-video.component';
+import {GentemplateAudioComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-audio/gentemplate-audio.component';
+import {GentemplateImageComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-image/gentemplate-image.component';
+import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-file/gentemplate-file.component';
 
 
 const routes: Route[] = [
@@ -221,6 +225,10 @@ const routes: Route[] = [
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
     //
+    GentemplateVideoComponent,
+    GentemplateAudioComponent,
+    GentemplateImageComponent,
+    GentemplateFileComponent,
   ],
   imports: [
     RichMediaModule,

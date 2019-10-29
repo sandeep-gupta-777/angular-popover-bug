@@ -1,0 +1,9 @@
+<div class="play-media-wrapper">
+  <div class="item">
+    <audio controls>
+      <source [src]="outputItem.media[0].audio_url">
+      Your browser does not support HTML5 audio.
+    </audio>
+  </div>
+  <input class="url-input" placeholder="Media url" type="text" [(ngModel)]="outputItem.media[0].audio_url">
+</div>

@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
-import {IBot} from "../../../../../../../interfaces/IBot";
+import {IBot} from '../../../../../../../interfaces/IBot';
 
 @Component({
   selector: 'app-text-gentemplate',
@@ -16,10 +16,12 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
   @Input() bot: IBot;
   @Input() outputItem: IOutputItem;
   @ViewChild('textarea') textarea: ElementRef;
+
   @Input() set variants(variantsVal: string[]) {
     this._variants = variantsVal;
     this.variantsIter = [...this._variants];
   }
+
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
     /*when parent components empty selectedTemplateKeyOutputIndex array,
      *we should turn this.selected to false
@@ -29,7 +31,8 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor() {}
+  constructor() {
+  }
 
 
   deleteVariant(index) {

@@ -1,11 +1,53 @@
-<div class="bot-template cursor-pointer" (click) = "genTemplateTypeClicked('text')" data-cy="gentemp-sidebar-text">
-  <mat-icon style="font-size: 20px;display: flex;align-items: center;color: #696969;justify-content: center;">short_text</mat-icon>Text
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.text)"
+     data-cy="gentemp-sidebar-text">
+  <mat-icon style="font-size: 20px;display: flex;align-items: center;color: #696969;justify-content: center;">
+    short_text
+  </mat-icon>
+  Text
 </div>
-<div class="bot-template cursor-pointer" (click) = "genTemplateTypeClicked('carousel')" data-cy="gentemp-sidebar-carousel">
-  <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">view_carousel</mat-icon>Carousel
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.carousel)"
+     data-cy="gentemp-sidebar-carousel">
+  <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
+    view_carousel
+  </mat-icon>
+  Carousel
 </div>
 
-<div class="bot-template cursor-pointer" (click) = "genTemplateTypeClicked('quick_reply')" data-cy="gentemp-sidebar-quick-reply">
-  <mat-icon style="font-size: 16px;display: flex;align-items: center;color: #696969;justify-content: center;">ballot</mat-icon>Quick Replies
+<!--new additions-->
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.image)"
+     data-cy="gentemp-sidebar-carousel">
+  <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
+    image
+  </mat-icon>
+  Image
+</div>
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.audio)"
+     data-cy="gentemp-sidebar-carousel">
+  <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
+    audiotrack
+  </mat-icon>
+  Audio
+</div>
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.file)"
+     data-cy="gentemp-sidebar-carousel">
+  <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
+    attach_file
+  </mat-icon>
+  File
+</div>
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.video)"
+     data-cy="gentemp-sidebar-carousel">
+  <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
+    videocam
+  </mat-icon>
+  Video
 </div>
 
+<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.quick_reply)"
+     data-cy="gentemp-sidebar-quick-reply">
+  <mat-icon style="font-size: 16px;display: flex;align-items: center;color: #696969;justify-content: center;">ballot
+  </mat-icon>
+  Quick Replies
+</div>
+
+<!---->

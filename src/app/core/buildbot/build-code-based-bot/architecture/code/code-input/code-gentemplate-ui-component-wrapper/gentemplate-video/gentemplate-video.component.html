@@ -1,0 +1,9 @@
+<div class="play-media-wrapper">
+  <div class="item">
+    <video controls>
+      <source [src]="outputItem.media[0].video_url">
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
+  <input class="url-input" placeholder="Media url" type="text" [(ngModel)]="outputItem.media[0].video_url">
+</div>

@@ -46,10 +46,13 @@
 
   <div class="center-header d-flex justify-content-between align-items-end">
     <div class="response-test px-2">
-      Response Flow {{_templateKeyDict && selectedTemplateKeyInLeftSideBar &&
+      <span class="heading pl-3" *ngIf="headingAsSelectedTemplateKey">{{selectedTemplateKeyInLeftSideBar}}</span>
+      <span *ngIf="!headingAsSelectedTemplateKey">
+        Response Flow {{_templateKeyDict && selectedTemplateKeyInLeftSideBar &&
       _templateKeyDict[selectedTemplateKeyInLeftSideBar] &&
       ((_templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string') ?
-      ('('+_templateKeyDict[selectedTemplateKeyInLeftSideBar].length+')'):""}}
+          ('('+_templateKeyDict[selectedTemplateKeyInLeftSideBar].length+')'):""}}
+      </span>
     </div>
     <div class="form-group m-0 channel-drop d-flex align-items-center" *ngIf="!hideChannelDropdown">
       <form #channelSelectorForm="ngForm" class="position-relative"
