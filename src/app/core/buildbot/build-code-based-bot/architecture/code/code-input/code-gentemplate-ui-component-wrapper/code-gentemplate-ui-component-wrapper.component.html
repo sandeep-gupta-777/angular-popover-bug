@@ -28,25 +28,25 @@
       [outputItem]="outputItem"
       [variants]="outputItem.text"></app-text-gentemplate>
     <app-gentemplate-image
-      *ngIf="outputItem?.media && outputItem.media[0].image_url != null"
+      *ngIf="outputItem?.media && outputItem?.media[0].image_url != null"
       class="flex-grow-1"
       [bot]="bot"
       [outputItem]="outputItem"
     ></app-gentemplate-image>
     <app-gentemplate-audio
-      *ngIf="outputItem?.media && outputItem.media[0].audio_url != null"
+      *ngIf="outputItem?.media && outputItem?.media[0].audio_url != null"
       class="flex-grow-1"
       [bot]="bot"
       [outputItem]="outputItem"
     ></app-gentemplate-audio>
     <app-gentemplate-video
-      *ngIf="outputItem?.media && outputItem.media[0].video_url != null"
+      *ngIf="outputItem?.media && outputItem?.media[0].video_url != null"
       class="flex-grow-1"
       [bot]="bot"
       [outputItem]="outputItem"
     ></app-gentemplate-video>
     <app-gentemplate-file
-      *ngIf="outputItem?.media && outputItem.media[0].file_url != null"
+      *ngIf="outputItem?.media && outputItem?.media[0].file_url != null"
       class="flex-grow-1"
       [bot]="bot"
       [outputItem]="outputItem"
