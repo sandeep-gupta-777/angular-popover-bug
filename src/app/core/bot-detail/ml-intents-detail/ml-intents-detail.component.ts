@@ -228,7 +228,7 @@ export class MlIntentsDetailComponent implements OnInit {
         if (action === 'remove') {
           this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
           this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
-          debugger;
+
           return;
         }
       } else {

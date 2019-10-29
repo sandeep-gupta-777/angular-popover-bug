@@ -23,7 +23,7 @@ export class GentemplateEditKeyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.templateKeyDict = this.data['_templateKeyDict'];
+    this.templateKeyDict = this.data['templateKeyDict'];
     this.old_key = this.data['old_key'];
     this.newTemplateKey = this.old_key;
   }

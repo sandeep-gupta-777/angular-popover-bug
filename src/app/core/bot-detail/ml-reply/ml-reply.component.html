@@ -24,8 +24,6 @@
   </div>
 </header>
 
-<i>{{workFlowObj|json}}</i>
-
 <div style="position: relative">
   <app-button-wrapper
     style="position: absolute;
@@ -46,6 +44,8 @@
         class="row mx-0 px-0 child-expand ml-bot-reply"
         [bot]="bot"
         [templateKeyDict]="templateKeyDict"
+        [hideChannelDropdown]="true"
+        [defaultTemplateKeys]="mlResponse?.default_templates"
         [channelList]="[]"
       >
       </app-code-gentemplate-ui-wrapper>

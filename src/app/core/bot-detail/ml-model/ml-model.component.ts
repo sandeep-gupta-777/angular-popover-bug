@@ -192,7 +192,7 @@ export class MLModelComponent implements OnInit {
   }
 
   editEntityClicked(data, template) {
-  debugger;
+
     let x = data.data.type == 'custom' ? data.data.data.values[0].value : "";
     if (!x) {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);

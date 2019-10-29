@@ -59,11 +59,12 @@ export class MlReplyComponent implements OnInit {
           .forEach((key) => {
             this.templateKeyDict[key] = value.templates[key].response;
           });
+        this.templateKeyDict = {...this.templateKeyDict};
       });
   }
 
   loadFromLive() {
-    debugger;
+
     this.mlReplyService.loadFromLive(this.bot)
       .subscribe((value: IMLResponse) => {
         this.mlResponse = UtilityService.cloneObj(value);
@@ -77,6 +78,7 @@ export class MlReplyComponent implements OnInit {
       .forEach((key) => {
         this.templateKeyDict[key] = value.templates[key].response;
       });
+    this.templateKeyDict = {...this.templateKeyDict};
   }
 
 

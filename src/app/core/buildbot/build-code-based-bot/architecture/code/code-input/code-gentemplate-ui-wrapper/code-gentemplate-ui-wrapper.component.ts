@@ -31,7 +31,7 @@ export interface IOutputItem {
     'text': string,
     'quick_replies': [
       IQuickReplyItem
-      ]
+    ]
   }];
 
 }
@@ -46,6 +46,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
   myEBotVersionTabs = EBotVersionTabs;
   myObject = Object;
+
+  @Input() defaultTemplateKeys: string[];
+  @Input() hideChannelDropdown = false;
   @Input() activeTab;
   @Input() channelList;
   newTemplateKey: string;
@@ -57,12 +60,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   @Input() bot;
   _templateKeyDict;
   @Input() set templateKeyDict(val) {
-    this._templateKeyDict = val;
+    setTimeout(()=>{
+      this._templateKeyDict = val;
 
-    if (Object.keys(this._templateKeyDict)) {
-      this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
-    }
+      if (!this.selectedTemplateKeyInLeftSideBar && Object.keys(this._templateKeyDict)) {
+        this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
+      }
+    },0);
   }
+
   channelNameList;
   //  @Input() selectedTemplateKeyOutputIndex;
   selectedTemplateKeyOutputIndex = [];
@@ -133,13 +139,14 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       //  this.deleteTemplateKey(tempKey);
     }
   }
+
   genTemplateTypeClicked(tab: string) {
     if (tab === 'text') {
       this.addTextUnit();
     } else if (tab === 'carousel') {
-      this.addImageCaraosalUnit()
+      this.addImageCaraosalUnit();
     } else if (tab === 'quick_reply') {
-      this.addQuickReplyUnit()
+      this.addQuickReplyUnit();
     } else if (tab === 'code_input') {
       this.addCodeUnit();
     }
@@ -378,35 +385,36 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
   async openNewIntentModal() {
     const dialogRefWrapper = this.modalRefWrapper;
-      //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-      this.utilityService.openDialog({
-        dialogRefWrapper: dialogRefWrapper,
-        classStr: 'primary-modal-header-border',
-        data: {
-          actionButtonText: `Create`,
-          message: null,
-          title: `Create new template key`,
-          isActionButtonDanger: false,
-          inputDescription: 'Template key name'
-        },
-        dialog: this.matDialog,
-        component: ModalConfirmComponent
-      }).then((data) => {
-        if (data) {
-          this.newTemplateKey = data;
-          this.createNewTemplatekey();
-        }
-      });
+    //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.utilityService.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'primary-modal-header-border',
+      data: {
+        actionButtonText: `Create`,
+        message: null,
+        title: `Create new template key`,
+        isActionButtonDanger: false,
+        inputDescription: 'Template key name'
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
+        this.newTemplateKey = data;
+        this.createNewTemplatekey();
+      }
+    });
 
-      //  this.utilityService.openDialog({
-      //    component: template,
-      //    dialog: this.matDialog,
-      //    classStr: 'primary-modal-header-border',
-      //    dialogRefWrapper: this.dialogRefWrapper
-      //  });
+    //  this.utilityService.openDialog({
+    //    component: template,
+    //    dialog: this.matDialog,
+    //    classStr: 'primary-modal-header-border',
+    //    dialogRefWrapper: this.dialogRefWrapper
+    //  });
   }
 
   async openEditTemplateKeyModal(tempKey) {
+
     const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: GentemplateEditKeyComponent,
