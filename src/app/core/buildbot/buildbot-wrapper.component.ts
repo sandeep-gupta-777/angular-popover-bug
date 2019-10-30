@@ -135,6 +135,7 @@ export class BuildbotWrapperComponent implements OnInit {
           new ResetBuildBotToDefault()
         ]).subscribe(() => {
 
+          debugger;
           this.serverService.getNSetBotList(false, true)
             .subscribe(() => {
               if (createdBot.bot_type === EBotType.faqbot) {

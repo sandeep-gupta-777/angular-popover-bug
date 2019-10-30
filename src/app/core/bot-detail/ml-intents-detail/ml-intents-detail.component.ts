@@ -8,7 +8,7 @@ import {ConstantsService} from '../../../constants.service';
 import {DatePipe} from '@angular/common';
 import {Popover} from '../../../popover/popover.service';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
-import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {InsidePopoverComponent} from '../../../popover/inside-popover/inside-popover.component';
 import {UtilityService} from '../../../utility.service';
 import {ServerService} from '../../../server.service';
@@ -88,8 +88,8 @@ export class MlIntentsDetailComponent implements OnInit {
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
     this.form = this.formBuilder.group({
-      name: '',
-      template_key: '',
+      name: ['', Validators.required],
+      template_key: ['', Validators.required],
       reset_state: false
     });
     this.form && this._selectedIntent && this.form.patchValue(this._selectedIntent);
@@ -297,6 +297,12 @@ export class MlIntentsDetailComponent implements OnInit {
           utterance: utterance,
           entities: res.entities_found
         });
+        const newEntities = this.entityList.filter(e => res.entities_found.find(found => found.entity_id === e.entity_id));
+        newEntities.forEach((e) => {
+          if (!this._selectedIntent.entities.find(se => se.entity_id === e.entity_id)) {
+            this._selectedIntent.entities.push(e);
+          }
+        });
       });
 
   }
@@ -325,7 +331,6 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   linkEntityHandler(entity: IEntitiesItem) {
-
     const {
       counter,
       entity_id,
@@ -359,6 +364,10 @@ export class MlIntentsDetailComponent implements OnInit {
 
   log(x) {
     console.log(x);
+  }
+
+  removeUtterance(index: number) {
+    this._selectedIntent.utterances.splice(index, 1);
   }
 
 }

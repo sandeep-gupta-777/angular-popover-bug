@@ -1111,8 +1111,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
 
-  getIntents() {
-    return this.BACKEND_URL + 'api/v1/mlcorpus/intent/';
+  getIntents(limit = 10, offset = 0) {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/?limit=${limit}&offset=${offset}`;
   }
 
   getMLEntityTypes() {
@@ -1121,11 +1121,13 @@ export class ConstantsService {
 
   creatMLEntity() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/create/';
-}
-  deleteMLEntity(){
+  }
+
+  deleteMLEntity() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/delete/';
   }
-  updateMLEntity(){
+
+  updateMLEntity() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/update/';
   }
 
@@ -1275,9 +1277,11 @@ export class ConstantsService {
   trainMlBotUrl() {
     return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
   }
+
   getResponseTemplates() {
     return this.BACKEND_URL + `api/v1/responsetemplates/default/`;
   }
+
   loadFromLive() {
     return this.BACKEND_URL + `api/v1/responsetemplates/`;
   }

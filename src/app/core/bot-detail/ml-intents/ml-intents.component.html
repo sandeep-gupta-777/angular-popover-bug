@@ -1,10 +1,3 @@
-<!--<app-smart-table-->
-<!--  *ngIf="view === 'table'"-->
-<!--  [data]="sessionsSmartTableDataModal.tableData"-->
-<!--  (rowClicked$)="intentClickedHandler($event)"-->
-<!--&gt;</app-smart-table>-->
-
-<!--<div id="test11" style="display: inline-block" class="button is-primary" (click)="show(tpl)">test11111</div>-->
 <app-smart-table class="intents-table"
                  *ngIf="view === 'table'"
                  [currentPage]="currentPage"
@@ -15,42 +8,3 @@
 </app-smart-table>
 
 
-<!--<ng-template #tpl let-close="close">-->
-<!--  And here's some amazing content. It's very engaging. Right?-->
-<!--  <div style="display: flex; justify-content: flex-end; margin-top: 10px;">-->
-<!--    <a class="button is-danger is-small" (click)="close({id: 2})">Close</a>-->
-<!--  </div>-->
-<!--</ng-template>-->
-
-<!--<div *ngIf="view === 'detail'" style="display: flex">-->
-<!--  <div #questionListContainer class="questions-list px-2" style="width: 50%;">-->
-<!--    <form #questionForm="ngForm" class="addQuestionPanel px-4 py-2">-->
-<!--      <mat-form-field [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'">-->
-<!--      <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"-->
-<!--                data-cy="add-question-ti-tentemplate"-->
-<!--                cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">-->
-<!--              </textarea>-->
-<!--      </mat-form-field>-->
-<!--      <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button-->
-<!--              [disabled]="!questionForm.value.questionText"-->
-<!--              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"-->
-<!--              (click)="addNewQuestion(questionForm.value.questionText);questionForm.reset()">-->
-<!--        + Add utterance-->
-<!--      </button>-->
-<!--    </form>-->
-<!--    <div class="questions-heading">Questions</div>-->
-<!--    <div *ngIf="selectedIntent.utterances.length === 0" class="no-question">-->
-<!--      No utterances added yet, add now to train the intent-->
-<!--    </div>-->
-
-<!--&lt;!&ndash;    <div style="flex:1;overflow-y: auto">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div contenteditable="true"&ndash;&gt;-->
-<!--&lt;!&ndash;           *ngFor="let question of selectedIntent.utterances; let index = index;"&ndash;&gt;-->
-<!--&lt;!&ndash;           innerHTML="{{selectedIntent.utterances[index].utterance| utteranceAddEntity:selectedIntent.utterances[index].entities}}"&ndash;&gt;-->
-<!--&lt;!&ndash;           (click)="show2($event.target, tpl)"&ndash;&gt;-->
-<!--&lt;!&ndash;           (mouseup)="textSelected($event, tpl, selectedIntent.utterances[index].utterance)">&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--  </div>-->
-<!--</div>-->

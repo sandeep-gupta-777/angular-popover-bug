@@ -6,7 +6,9 @@
     </strong>
     <div class="mr-auto"></div>
     <button
+      *ngIf="(_selectedIntent && _selectedIntent.intent_id)"
       (click)="saveAndTrain()"
+      [disabled]="!form.valid"
       class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
       <mat-icon class="mat-icon material-icons">refresh</mat-icon>
       Save and Train
@@ -15,9 +17,12 @@
     <button
       (click)="saveOrUpdateIntent()"
       style="border: 1px solid #e0e0e0 !important;"
-      class="mat-theme-button mat-theme-button-border" mat-button>
+      class="mat-theme-button mat-theme-button-border"
+      mat-button
+      [disabled]="!form.valid"
+    >
       <mat-icon>save</mat-icon>
-      Save
+      {{(_selectedIntent && _selectedIntent.intent_id) ? 'Save' : 'Create'}}
     </button>
     <button
       style="border: 1px solid #e0e0e0 !important;"
@@ -43,18 +48,16 @@
       <div class="questions-heading">All utterances</div>
       <form #questionForm="ngForm" class="addQuestionPanel px-4 pb-2">
         <mat-form-field [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'" floatLabel="never">
-      <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"
-                data-cy="add-question-ti-tentemplate"
-                (keydown.enter)="addNewUtterance(questionForm.value.questionText);questionForm.reset()"
-                cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
-              </textarea>
+          <input matInput type="text" placeholder="Add new question" ngModel name="questionText"
+                 data-cy="add-question-ti-tentemplate"
+                 (keydown.enter)="addNewUtterance(questionForm.value.questionText);"/>
         </mat-form-field>
         <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button
                 [disabled]="!questionForm.value.questionText"
                 style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
                 (click)="addNewUtterance(questionForm);">
           <i class="fa fa-spin fa-spinner" *ngIf="showEntityMarkingLoader"></i>
-          <i *ngIf="!showEntityMarkingLoader">+</i>
+          <span class="fa fa-plus" style="font-size: 11px; margin-right: 5px" *ngIf="!showEntityMarkingLoader"></span>
           Add utterance
         </button>
       </form>
@@ -63,17 +66,19 @@
         No utterances added yet, add now to train the intent
       </div>
 
-      <div style="overflow-y: auto;height: 40vh; padding-bottom: 60px" *ngIf="_selectedIntent">
-        <div contenteditable="true"
-             style="
-            margin-bottom: 12px;
-            margin-right: 24px;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 4px;"
-             *ngFor="let question of _selectedIntent.utterances; let index = index;"
-             (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
-             (click)="show2($event.target, tpl, index)"
-             [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
+      <div class="utter-wrapper" style="overflow-y: auto;height: 40vh; padding-bottom: 60px" *ngIf="_selectedIntent">
+        <div
+          style="position: relative"
+          *ngFor="let question of _selectedIntent.utterances; let index = index;">
+          <div class="utter" contenteditable="true"
+               (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
+               (click)="show2($event.target, tpl, index)"
+               [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
+            <!--          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">-->
+            <!--            <mat-icon>close</mat-icon>-->
+            <!--          </button>-->
+          </div>
+          <i class="fa fa-trash" (click)="removeUtterance(index)"></i>
         </div>
       </div>
 
