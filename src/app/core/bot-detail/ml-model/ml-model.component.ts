@@ -177,7 +177,7 @@ export class MLModelComponent implements OnInit {
     };
     return this.serverService.makePostReq({headerData, url, body})
       .pipe(map((val: any) => {
-          this.view = 'table';
+          // this.view = 'table';
           if (body.entity_id) {
             for (var i = 0; i < this.entityList.length; i++) {
               if (this.entityList[i].entity_id === body.entity_id) {
@@ -191,6 +191,7 @@ export class MLModelComponent implements OnInit {
             this.entityList = [val.new_entity, ...this.entityList];
             this.utilityService.showSuccessToaster('New entity added');
           }
+          EventService.entityListUpdated$.emit(this.entityList);
         })
       );
   }

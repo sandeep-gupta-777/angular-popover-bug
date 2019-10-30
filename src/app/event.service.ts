@@ -3,6 +3,7 @@ import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
 import {IApi} from './dev/interfaces';
 import {ICorpus} from './core/interfaces/faqbots';
+import {IEntitiesItem} from './core/interfaces/mlBots';
 
 @Injectable()
 export class EventService {
@@ -20,7 +21,7 @@ export class EventService {
   static botUpdatedInServer$ = new EventEmitter<IBot>();
   static kbRefresh$ = new EventEmitter<IBot>();
   static startANewChat$ = new EventEmitter<{ bot: IBot, consumerDetails: any }>();
-  static entityListUpdated$ = new EventEmitter();
+  static entityListUpdated$ = new EventEmitter<IEntitiesItem[]>();
 
   static startANewChat(data: { bot: IBot, consumerDetails: any }) {
     EventService.startANewChat$.emit(data);

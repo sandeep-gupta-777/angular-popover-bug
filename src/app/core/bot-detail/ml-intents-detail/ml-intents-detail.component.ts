@@ -239,7 +239,7 @@ export class MlIntentsDetailComponent implements OnInit {
 
       if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
         const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
-        this._selectedIntent.entities.push(markedEntity);
+        this._selectedIntent.entities.unshift(markedEntity);
       }
 
     });
@@ -300,7 +300,7 @@ export class MlIntentsDetailComponent implements OnInit {
         const newEntities = this.entityList.filter(e => res.entities_found.find(found => found.entity_id === e.entity_id));
         newEntities.forEach((e) => {
           if (!this._selectedIntent.entities.find(se => se.entity_id === e.entity_id)) {
-            this._selectedIntent.entities.push(e);
+            this._selectedIntent.entities.unshift(e);
           }
         });
       });
@@ -340,7 +340,7 @@ export class MlIntentsDetailComponent implements OnInit {
     const {name, ...rest} = this.form.value;
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
-    this._selectedIntent.entities.push(<any>{'counter': 3, required: true, entity_id, ...rest});
+    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id, ...rest});
   }
 
   removeEntityHandler(entityToRemove: IEntitiesItem) {

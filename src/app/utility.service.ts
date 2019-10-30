@@ -533,13 +533,13 @@ export class UtilityService {
         messageData = {
           ...messageData,
           messageMediatype: message.media[0] && message.media[0].type,
-          text: EBotMessageMediaType.image, // this is for preview of last message in chat room list,
+          // text: EBotMessageMediaType.image, // this is for preview of last message in chat room list,
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
         messageData = {
           ...messageData,
           messageMediatype: EBotMessageMediaType.quickReply, //
-          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, // this is for preview of last message in chat room list
+          // text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, // this is for preview of last message in chat room list
         };
       } else {
         /*if message type = text*/
