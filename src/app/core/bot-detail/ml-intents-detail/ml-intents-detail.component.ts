@@ -26,6 +26,7 @@ export class MlIntentsDetailComponent implements OnInit {
   pageSize = 10;
   isReloading = false;
   form: FormGroup;
+  isEntityValid = true;
   totalIntentsLength = 10;
   mlIntentsSmartTableObj: MlIntentsSmartTable;
   @Input() bot: IBot;
@@ -66,6 +67,7 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   @Output() saveOrUpdateIntent$ = new EventEmitter<IIntent>();
+  @Output() deleteIntent$ = new EventEmitter<IIntent>();
   @Output() saveAndTrain$ = new EventEmitter<IIntent>();
   @Output() showCreateNewIntentModel$ = new EventEmitter();
 
@@ -329,6 +331,7 @@ export class MlIntentsDetailComponent implements OnInit {
       ...this.form.value
     });
   }
+
 
   linkEntityHandler(entity: IEntitiesItem) {
     const {

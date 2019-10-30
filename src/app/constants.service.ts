@@ -1115,6 +1115,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/mlcorpus/intent/?limit=${limit}&offset=${offset}`;
   }
 
+  deleteIntents(id: number) {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/delete/`;
+  }
+
   getMLEntityTypes() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/entity/types/';
   }

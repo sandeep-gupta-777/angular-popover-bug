@@ -18,7 +18,7 @@ export class MlReplyComponent implements OnInit {
   templateKeyDict = {};
   @Input() bot: IBot;
   showLoading = true;
-  workFlowObj = {text: 'mlResponse?.workflow?.logic'};
+  workFlowObj = {text: ''};
 
   constructor(
     private mlReplyService: MlReplyService,

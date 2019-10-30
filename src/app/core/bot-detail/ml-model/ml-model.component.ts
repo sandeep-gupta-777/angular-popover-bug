@@ -80,13 +80,14 @@ export class MLModelComponent implements OnInit {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
+    // let colorList = JSON.parse(JSON.s);
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
         return {
           ...entity,
-          color
+          color: entity.color || color
         };
       });
       MlService.entityList = this.entityList;
@@ -325,5 +326,22 @@ export class MLModelComponent implements OnInit {
         },
       });
     });
+  }
+
+  deleteIntent(intent: IIntent) {
+    const url = this.constantsService.deleteIntents(intent.intent_id);
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+
+    // this.loading = true;
+    const body = {
+      'intent_id': intent.intent_id
+    };
+    this.serverService.makePostReq({url, headerData, body})
+      .subscribe(() => {
+        // this.loading = false;
+        this.viewChanged('table');
+      });
   }
 }

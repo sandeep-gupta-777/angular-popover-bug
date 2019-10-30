@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angul
 import {PopoverRef} from '../popover-ref';
 import {IEntitiesItem} from '../../core/interfaces/mlBots';
 import {IIntent} from '../../typings/intents';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EventService} from '../../event.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class InsidePopoverComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       type: 'custom',
-      entity_id: '',
+      entity_id: ['', Validators.required],
     });
 
     const marker = this.selectedIntent.utterances[this.data.index].entities.find((entity: any) => {

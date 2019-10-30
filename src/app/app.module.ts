@@ -22,7 +22,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {Popover} from './popover/popover.service';
 import {PopoverComponent1} from './popover/popover-component1.component';
 import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
-import {MatRadioModule, MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatRadioModule, MatSelectModule} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FilterPipeModule} from 'ngx-filter-pipe';
 
@@ -72,6 +72,7 @@ const routes: Route[] = [
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
+    MatButtonModule,
     HttpTrackerLibModule.forRoot({
       loaderClass: 'loading',
       errorClass: 'error',

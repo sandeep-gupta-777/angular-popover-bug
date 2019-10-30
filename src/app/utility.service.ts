@@ -1526,6 +1526,17 @@ export class UtilityService {
     return ('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
   }
 
+  colorList() {
+    return [
+      'red',
+      'blue',
+      'green',
+      'yellow',
+      'black',
+      'orange',
+    ];
+  }
+
 
   findFormControlIndexInFormArrayByValue(formArray: FormArray, value): number {
     let i = 0;

@@ -44,6 +44,7 @@
   <app-ml-intents-detail
     (selectedIntentChanged$)="selectedIntentChanged($event)"
     (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"
+    (deleteIntent$)="deleteIntent($event)"
     (showCreateNewIntentModel$)="addNewIntentOrEntity(1, Primarytemplat)"
     (saveAndTrain$)="saveAndTrainHandler($event)"
     [entityList]="entityList"

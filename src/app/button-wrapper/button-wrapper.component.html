@@ -10,15 +10,17 @@
 
 <ng-template #matFlatButton>
   <button class="mat-theme-button"
+          style="padding: 0 10px 0 8px !important;"
           (click)="btnClick.emit($event)"
           mat-flat-button [color]="color||'primary'"
           [disabled]="_status === myELoadingState.loading||disabled">
     <ng-container [ngTemplateOutlet]="buttonBody"></ng-container>
   </button>
 </ng-template>
-
+<!---->
 <ng-template #matButton>
   <button class="mat-theme-button"
+          style="padding: 0 10px 0 8px !important;"
           [ngStyle]="{'border':_status===myELoadingState.default?'1px solid #e0e0e0':'1px solid transparent'}"
           [color]="color"
           (click)="btnClick.emit($event)"
