@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {CodeInputService} from '../../../../buildbot/build-code-based-bot/architecture/code/code-input/code-input.service';
+import {ETemplateResponseType} from "../../../../../typings/gentemplate";
 
 @Component({
   selector: 'app-answer-template-wrapper',
@@ -33,6 +34,14 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       this.addQuickReplyUnit();
     } else if (tab === 'code_input') {
       this.addCodeUnit();
+    }else if (tab === ETemplateResponseType.image) {
+      this.addImageUnit();
+    } else if (tab === ETemplateResponseType.audio) {
+      this.addAudioUnit();
+    } else if (tab === ETemplateResponseType.video) {
+      this.addVideoUnit();
+    } else if (tab === ETemplateResponseType.file) {
+      this.addFileUnit();
     }
   }
 
@@ -78,6 +87,51 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       'text': ['']
     };
     this.answerObject.push(textUnit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addImageUnit() {
+    const unit = {
+      'include': ['web'],
+      'media': [{
+        'image_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
+      }]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addFileUnit() {
+    const unit = {
+      'include': ['web'],
+      'media': [{
+        'file_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
+      }]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addVideoUnit() {
+    const unit = {
+      'include': ['web'],
+      'media': [{
+        'video_url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+      }]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+
+  }
+
+  addAudioUnit() {
+    const unit = {
+      'include': ['web'],
+      'media': [{
+        'audio_url': 'https://freesound.org/data/previews/347/347557_2247456-lq.mp3',
+      }]
+    };
+    this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
   }
 
