@@ -595,34 +595,32 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Entity name',
-
-    },
-    'system_entity': {
-      originalKey: 'system_entity',
-      value: '',
-      type: 'string',
-      displayValue: 'Entity category',
+      search: true,
     },
     'type': {
       originalKey: 'type',
       value: '',
       type: 'string',
       displayValue: 'Entity type',
-
+      search: true,
     },
     updated_at: {
       originalKey: 'updated_at',
       value: '',
-      type: 'string',
+      type: 'time',
+      dateRange: true,
       displayValue: 'Last update',
+      search: true,
     },
     'actions': {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',
+      search: false,
+      searchValue: true,
     }
   };
   SMART_TABLE_ML_INTENTS_TEMPLATE: ITableColumn = {

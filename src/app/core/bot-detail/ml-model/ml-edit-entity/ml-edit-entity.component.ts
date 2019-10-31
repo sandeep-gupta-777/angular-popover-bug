@@ -2,6 +2,9 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@an
 import {IEntitiesItem} from '../../../interfaces/mlBots';
 import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ModalConfirmComponent} from "../../../../modal-confirm/modal-confirm.component";
+import {UtilityService} from "../../../../utility.service";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-ml-edit-entity',
@@ -11,7 +14,9 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 export class MlEditEntityComponent implements OnInit {
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private utilityService : UtilityService,
+    private matDialog : MatDialog,
   ) {
   }
 
@@ -43,6 +48,7 @@ export class MlEditEntityComponent implements OnInit {
   addOnBlur = true;
   NewEntityObjSynonyms: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  dialogRefWrapper = {ref:null};
 
   ngOnInit() {
 
@@ -72,8 +78,11 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   deleteSynonym(index, formArr) {
-
     formArr.removeAt(index);
+  }
+  removeSynonymsById(index, formArr){
+    formArr.get('data').get('values').removeAt(index);
+    debugger;
   }
 
   addSynonym(str, formArr) {
@@ -122,11 +131,27 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   deleteEntity() {
-    this.deleteCustomEntity.emit(
-      {
-        data: {'entity_id': this.editEntityForm.value.entity_id}
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Remove',
+        message: `All the instances with in every utterance for this intent in which the entity is used will be removed. Do you wish to remove?`,
+        title: 'Remove entity?',
+        isActionButtonDanger: true
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data_temp) => {
+      if (data_temp) {
+        this.deleteCustomEntity.emit(
+          {
+            data: {'entity_id': this.editEntityForm.value.entity_id}
+          }
+        );
       }
-    );
+    });
+
   }
 
   goBackToTableViewClicked() {

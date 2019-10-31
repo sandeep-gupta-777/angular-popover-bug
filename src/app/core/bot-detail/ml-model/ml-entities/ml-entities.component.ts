@@ -60,6 +60,11 @@ export class MlEntitiesComponent implements OnInit {
       this.mlEntitesSmartTableObj.initializeTableData(sliceData);
     }
   }
+  clickedOnTableRow(data){
+    if (data.data.type && data.data.type == "custom") {
+      this.editEntity.emit(data);
+    }
+  }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
     debugger
     if (data.action === 'delete') {
@@ -83,6 +88,7 @@ export class MlEntitiesComponent implements OnInit {
       //  this.openDeletModal(enterpriseDeleteModal);
     }
     if (data.action === 'edit') {
+      debugger;
         this.editEntity.emit(data);
     }
   }

@@ -42,13 +42,6 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
             value: `<strong>${corpusTableDataItem[key]}</strong>`,
             searchValue: corpusTableDataItem[key]
           };
-        } else if (key === 'system_entity') {
-          obj[tableDataMetaDict[key].displayValue] = {
-            ...tableDataMetaDict[key],
-            originalKey: key,
-            value: `${corpusTableDataItem[key] ? 'System':'Custom'}`,
-            searchValue: `${corpusTableDataItem[key] ? 'System':'Custom'}`
-          };
         } else if (key === 'type') {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
@@ -71,7 +64,17 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
             ...tableDataMetaDict[key],
             originalKey: key,
             skipXssValidation: true,
-            value: [{show: true, name: 'edit', class: 'fa fa-wrench color-primary mr-1'},{show: true, name: 'delete', class: 'fa fa-trash color-danger ml-3'}],
+            value: [{
+              show: true,
+              name: 'edit',
+              iconName: 'build',
+              class: 'build'
+            },{
+              show: true,
+              name: 'delete',
+              iconName: 'delete',
+              class: 'delete'
+            }],
             searchValue: corpusTableDataItem[key]
           };
         }
