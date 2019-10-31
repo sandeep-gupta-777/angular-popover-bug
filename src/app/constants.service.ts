@@ -1111,8 +1111,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
 
-  getIntents(limit = 10, offset = 0) {
-    return this.BACKEND_URL + `api/v1/mlcorpus/intent/?limit=${limit}&offset=${offset}`;
+  getIntents() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/`;
   }
 
   deleteIntents(id: number) {

@@ -31,7 +31,6 @@ export class MlIntentsComponent implements OnInit {
   }
 
 
-
   @Input() set intentData(value: IIntentsItem[]) {
     if (value) {
       this.currentPage = 1;
@@ -48,14 +47,13 @@ export class MlIntentsComponent implements OnInit {
   }
 
   goToPage(val) {
-    debugger;
+
     this.currentPage = val.page;
     if (this._intentData) {
       const sliceData = this._intentData.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
       this.mlIntentsSmartTableObj = new MlIntentsSmartTable(sliceData, this.getTableDataMetaDict(), {datePipe: this.datePipe});
       this.mlIntentsSmartTableObj.initializeTableData(sliceData);
     }
-    this.goToPage$.emit(val.page);
   }
 
   sessionsSmartTableDataModal: MlIntentsSmartTableModal;
@@ -98,7 +96,6 @@ export class MlIntentsComponent implements OnInit {
   }
 
   @Output() viewChanged$ = new EventEmitter();
-  @Output() goToPage$ = new EventEmitter();
   @Output() selectedIntentChanged$ = new EventEmitter();
 //adas
   // textSelected(e, tpl, utterance: string) {

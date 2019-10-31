@@ -44,7 +44,10 @@ export class MLModelComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   entity_types: any[];
   modalForm: FormGroup;
-  selectedIntent: IIntent;
+  selectedIntent: IIntent = {
+    entities: [],
+    utterances:[]
+  };;
   edittingData: IEntitiesItem;
 
   ngOnInit() {
@@ -99,7 +102,7 @@ export class MLModelComponent implements OnInit {
   getAndSetMlCorpus(page = 1) {
     // let url = this.constantsService.getMLCorpus();
     const offset = (page - 1) * 10;
-    const url = this.constantsService.getIntents(10, offset);
+    const url = this.constantsService.getIntents();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
@@ -275,7 +278,8 @@ export class MLModelComponent implements OnInit {
   }
 
   saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
-
+    debugger;
+    console.log('sadasda');
     intent = {...intent};
     delete intent.created_at;
     delete intent.updated_at;
@@ -292,6 +296,7 @@ export class MLModelComponent implements OnInit {
     }
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
     return obs.pipe(tap((res: any) => {
+      this.utilityService.showSuccessToaster(`Intent ${(!intent.intent_id) ? 'created' : 'updated'} successfully`);
       const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
@@ -304,7 +309,6 @@ export class MLModelComponent implements OnInit {
   }
 
   loadIntent(page) {
-    debugger;
     this.getAndSetMlCorpus(page);
   }
 

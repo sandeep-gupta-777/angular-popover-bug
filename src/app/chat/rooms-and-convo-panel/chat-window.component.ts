@@ -96,7 +96,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
       const $chatInput = document.querySelector('.chat-input') as HTMLInputElement;
       imiPreview.initAdditionalDom({$chatInput});
       this.imiPreview && this.imiPreview.setOptions(this._bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
-      debugger;
+
       imiPreview.setSendHumanMessageCallback((payload) => {
         this.sendMessageByHuman(payload);
       });

@@ -23,7 +23,7 @@ export interface IEntitiesItem {
   'system_entity': boolean;
   'type': string;
   'updated_at': number;
-  counter: string,
+  counter: number,
   entity_id: string,
 }
 

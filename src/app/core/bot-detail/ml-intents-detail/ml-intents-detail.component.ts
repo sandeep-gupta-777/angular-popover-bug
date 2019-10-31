@@ -263,12 +263,6 @@ export class MlIntentsDetailComponent implements OnInit {
 
   addNewUtterance(utteranceForm: NgForm) {
     const utterance = utteranceForm.value.questionText;
-    if (!this._selectedIntent) {
-      this._selectedIntent = {};
-    }
-    if (!Array.isArray(this._selectedIntent.utterances)) {
-      this._selectedIntent.utterances = [];
-    }
     const url = this.constantsService.entityMarkingUrl();
     const body = {
       'utterance': utterance,
@@ -302,7 +296,22 @@ export class MlIntentsDetailComponent implements OnInit {
         const newEntities = this.entityList.filter(e => res.entities_found.find(found => found.entity_id === e.entity_id));
         newEntities.forEach((e) => {
           if (!this._selectedIntent.entities.find(se => se.entity_id === e.entity_id)) {
-            this._selectedIntent.entities.unshift(e);
+            debugger;
+            let {
+              entity_id,
+              template_key,
+              required,
+              counter
+            } = e;
+            required = required || false;
+            template_key = template_key || '';
+            counter = counter || 0;
+            this._selectedIntent.entities.unshift(<any>{
+              entity_id,
+              template_key,
+              required,
+              counter
+            });
           }
         });
       });
@@ -340,10 +349,10 @@ export class MlIntentsDetailComponent implements OnInit {
       required,
       template_key
     } = entity;
-    const {name, ...rest} = this.form.value;
+    // const {name, ...rest} = this.form.value;
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
-    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id, ...rest});
+    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id});
   }
 
   removeEntityHandler(entityToRemove: IEntitiesItem) {
