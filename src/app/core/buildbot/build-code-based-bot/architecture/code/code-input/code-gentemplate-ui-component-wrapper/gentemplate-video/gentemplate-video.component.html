@@ -1,9 +1,41 @@
-<div class="play-media-wrapper">
-  <div class="item">
-    <video controls>
-      <source [src]="outputItem?.media[0].video_url">
-      Your browser does not support HTML5 video.
-    </video>
+<form [formGroup]="form" class="play-media-wrapper" style="padding: 6px">
+  <div style="width: 100%;
+    display: flex;
+
+    align-items: center;">
+
+    <mat-icon style="color: #696969; padding-right: 30px; flex-shrink: 0">{{header[type].icon}}</mat-icon>
+    <span style="color: #696969; font-weight: bold">{{header[type].text}}</span>
   </div>
-  <input class="url-input" placeholder="Media url" type="text" [(ngModel)]="outputItem?.media[0].video_url">
-</div>
+  <div style="padding: 10px; width: 100%;">
+    <div class="item" style=" display: flex; justify-content: center; align-items: center; width: 100%">
+      <ng-container *ngIf="(outputItem|mediaDetecion)">
+        <video controls *ngIf="type === EBotMessageMediaType.video">
+          <source [src]="outputItem?.media[0].video_url">
+          Your browser does not support HTML5 video.
+        </video>
+
+        <audio controls *ngIf="type === EBotMessageMediaType.audio">
+          <source [src]="outputItem?.media[0].audio_url">
+          Your browser does not support HTML5 audio.
+        </audio>
+
+        <div style="height: 200px;width: 100%; display: flex; justify-content: center"
+             *ngIf="type === EBotMessageMediaType.image">
+          <img style="height: 100%"
+               [src]="outputItem?.media[0].image_url" alt="">
+        </div>
+      </ng-container>
+
+      <app-code-editor formControlName="code" style="height: 30vh" *ngIf="type === EBotMessageMediaType.code"></app-code-editor>
+
+    </div>
+    <mat-form-field class="example-full-width" style="width: 100%; margin-bottom: -30px;"
+                    *ngIf="(outputItem|mediaDetecion)">
+      <input matInput
+             placeholder="Media url" type="text" formControlName="url"
+      >
+      <!--      <i *ngIf="outputItem?.media[0][type+'_url']">helo</i>-->
+    </mat-form-field>
+  </div>
+</form>

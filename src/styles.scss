@@ -1420,3 +1420,30 @@ mat-dialog-container {
   z-index: 1000;
 }
 
+//
+.article-state {
+  border: none;
+  border-radius: 12px;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  height: 24px !important;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: white;
+  background-color: $color-primary;
+}
+
+//.article-state1{
+//  border: none ;
+//  border-radius: 12px ;
+//  padding-left: 15px !important;
+//  padding-right: 15px !important;
+//  height: 24px !important ;
+//  display: flex ;
+//  align-items: center ;
+//  font-size: 11px ;
+//  color: white ;
+//  background-color: $color-primary ;
+//}
+//

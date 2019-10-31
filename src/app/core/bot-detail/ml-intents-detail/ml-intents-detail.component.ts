@@ -296,7 +296,7 @@ export class MlIntentsDetailComponent implements OnInit {
         const newEntities = this.entityList.filter(e => res.entities_found.find(found => found.entity_id === e.entity_id));
         newEntities.forEach((e) => {
           if (!this._selectedIntent.entities.find(se => se.entity_id === e.entity_id)) {
-            debugger;
+
             let {
               entity_id,
               template_key,

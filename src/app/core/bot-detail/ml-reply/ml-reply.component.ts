@@ -42,7 +42,7 @@ export class MlReplyComponent implements OnInit {
   makeLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
-        alert('done');
+        this.utilityService.showSuccessToaster('Bot successfully made live');
       });
   }
 
@@ -90,5 +90,8 @@ export class MlReplyComponent implements OnInit {
     }
   }
 
+  log(x){
+
+  }
 
 }

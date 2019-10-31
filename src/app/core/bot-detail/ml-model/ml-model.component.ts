@@ -278,7 +278,7 @@ export class MLModelComponent implements OnInit {
   }
 
   saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
-    debugger;
+
     console.log('sadasda');
     intent = {...intent};
     delete intent.created_at;

@@ -18,7 +18,7 @@
   <app-button-wrapper
     class="card--update"
     [isMatFlatButton]="false"
-    [text]=" '+ Create new ' +  ((selectedTabIndex === 0) ? 'intent' : 'entity' )"
+    [text]=" '+ Create ' +  ((selectedTabIndex === 0) ? 'intent' : 'entity' )"
     style="position: absolute;right: 3px;top: 18px;z-index: 10;"
     (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
   </app-button-wrapper>

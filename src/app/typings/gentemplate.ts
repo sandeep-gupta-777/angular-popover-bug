@@ -4,6 +4,7 @@ export enum ETemplateResponseType {
   image = 'image',
   audio = 'audio',
   file = 'attach_file',
-  video = 'videocam',
+  video = 'video',
+  code = 'code',
   quick_reply = 'quick_reply'
 }

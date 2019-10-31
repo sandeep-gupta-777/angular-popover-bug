@@ -630,7 +630,8 @@ export class ConstantsService {
       originalKey: 'name',
       value: '',
       type: 'string',
-      displayValue: 'Entity name',
+      displayValue: 'Intent name',
+      search: true
 
     },
     'utterances': {
@@ -638,18 +639,22 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Utterances',
+      search: true
     },
     'template_key': {
       originalKey: 'template_key',
       value: '',
       type: 'string',
       displayValue: 'Template key',
+      search: true
     },
     updated_at: {
       originalKey: 'updated_at',
       value: '',
-      type: 'string',
+      type: 'time',
+      dateRange: true,
       displayValue: 'Last update',
+      search: true
     }
   };
 

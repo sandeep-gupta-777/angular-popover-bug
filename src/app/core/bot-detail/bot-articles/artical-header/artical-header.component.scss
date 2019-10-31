@@ -11,7 +11,7 @@
     }
     .mat-theme-button-border {
         border-radius: 2px !important;
-      }      
+      }
     button{
         display: flex;
         flex-direction: row;
@@ -21,18 +21,6 @@
         border-radius: 2px;
         mat-icon{
             font-size: 13px;
-        } 
+        }
     }
-}
-.article-state{
-    border: none;
-    border-radius: 12px;
-    padding-left: 15px;
-    padding-right: 15px;
-    height: 24px !important;
-    display: flex;
-    align-items: center;
-    font-size: 11px;
-    color: white;
-    background-color: $color-primary;
 }
