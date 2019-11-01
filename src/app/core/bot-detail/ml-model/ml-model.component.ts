@@ -3,7 +3,7 @@ import {IBot} from '../../interfaces/IBot';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
-import {IEntitiesItem, IIntentsItem, IMLCorpusResult} from '../../interfaces/mlBots';
+import {IEntitiesItem, IIntentsItem, IMLCorpus, IMLCorpusResult} from '../../interfaces/mlBots';
 import {is} from 'tslint-sonarts/lib/utils/nodes';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
@@ -40,6 +40,7 @@ export class MLModelComponent implements OnInit {
   view = 'table';
   intentList: IIntent[];
   entityList: IEntitiesItem[];
+  corpusObj: IMLCorpus;
   selectedTabIndex: number = 0;
   dialogRefWrapper = {ref: null};
   entity_types: any[];
@@ -52,6 +53,7 @@ export class MLModelComponent implements OnInit {
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
     this.getAndSetMlCorpus();
+    this.getAndSetMlIntent();
     this.creatModalForm();
     this.setMLEntityTypes();
     this.setMLEntityList();
@@ -82,14 +84,16 @@ export class MLModelComponent implements OnInit {
       this.entity_types = value.entity_types;
     });
   }
-
+  loading = false;
   setMLEntityList() {
     const url = this.constantsService.getEntityList();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     // let colorList = JSON.parse(JSON.s);
+    this.loading = true;
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
+      this.loading = false;
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
@@ -102,10 +106,9 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  loading = false;
 
-  getAndSetMlCorpus(page = 1) {
-    // let url = this.constantsService.getMLCorpus();
+
+  getAndSetMlIntent(page = 1) {
     const offset = (page - 1) * 10;
     const url = this.constantsService.getIntents();
     const headerData: IHeaderData = {
@@ -123,7 +126,15 @@ export class MLModelComponent implements OnInit {
       }
     });
   }
-
+  getAndSetMlCorpus(){
+    let url = this.constantsService.getMLDefaultCorpus();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    this.serverService.makeGetReq({url, headerData}).subscribe((val : IMLCorpus) => {
+      this.corpusObj = val;
+    });
+  }
   addNewIntentOrEntity(isIntent: number, template: TemplateRef<any>) {
     if (isIntent === 0) {
       this.viewChanged(this.view = 'detail');
@@ -314,7 +325,7 @@ export class MLModelComponent implements OnInit {
   }
 
   loadIntent(page) {
-    this.getAndSetMlCorpus(page);
+    this.getAndSetMlIntent(page);
   }
 
   viewChanged(view) {
@@ -326,7 +337,7 @@ export class MLModelComponent implements OnInit {
         intent_id = this.selectedIntent && this.selectedIntent.intent_id;
       } else {
         this.selectedIntent = this.selectedIntentInit();
-        this.getAndSetMlCorpus();
+        this.getAndSetMlIntent();
       }
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
