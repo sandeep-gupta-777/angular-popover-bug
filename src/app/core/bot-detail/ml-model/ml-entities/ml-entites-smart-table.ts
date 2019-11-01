@@ -57,7 +57,7 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
             ...tableDataMetaDict[key],
             originalKey: key,
             value: this.dependency.datePipe.transform(date, 'd MMM') + '\' ' + this.dependency.datePipe.transform(date, 'yy') + ', ' + this.dependency.datePipe.transform(date, 'shortTime'),
-            searchValue: this.dependency.datePipe.transform(date, 'date') + corpusTableDataItem['updated_by']
+            searchValue: corpusTableDataItem[key]
           };
         } else if (key === 'actions') {
           obj[tableDataMetaDict[key].displayValue] = {
