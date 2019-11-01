@@ -36,11 +36,11 @@ export class ModalConfirmComponent {
   // }
 
   attemptToClose() {
-    if ((this.formGroup && !this.formGroup.valid) || (this.data.inputDescription && this.inputData.trim().length === 0)) {
+    const data: any = this.data;
+    if ((this.formGroup && !this.formGroup.valid) || (data.inputDescription && this.inputData.trim().length === 0)) {
       return;
     }
 
-    this.closeDialog((this.formGroup && this.formGroup.value.inputData.trim()) || (this.data.inputDescription && this.inputData.trim()) || true);
-
+    this.closeDialog((this.formGroup && this.formGroup.value.inputData.trim()) || (data.inputDescription && this.inputData.trim()) || true);
   }
 }
