@@ -4,7 +4,7 @@
       Machine learning model</strong>
     <div class="mr-auto">
     </div>
-    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" (click)="trainMLBots()">
       <mat-icon class="mat-icon material-icons">sync</mat-icon>
       Train
     </button>
@@ -12,8 +12,9 @@
   <div style="color: #696969;font-size: 11px;">Configure intents and entities over which the bot will
     work
   </div>
-</header >
-<div style="position: relative" *ngIf="view === 'table'">
+</header>
+<div style="position: relative; min-height: 70vh;" *ngIf="view === 'table'">
+  <app-imi-loader *ngIf="loading" class="loader-center"></app-imi-loader>
   <app-button-wrapper
     class="card--update"
     [isMatFlatButton]="false"
@@ -22,16 +23,16 @@
     (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
   </app-button-wrapper>
   <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event">
-    <mat-tab label="Intents">
+    <mat-tab label="Intents" style="min-height: 50vh">
       <app-ml-intents [bot]="bot"
                       (selectedIntentChanged$)="selectedIntent = $event"
                       [intentData]="intentList"
                       [entitiesList]="entityList"
                       [view]="view"
+                      (goToPage$)="loadIntent($event)"
                       (viewChanged$)="viewChanged($event)"></app-ml-intents>
-
     </mat-tab>
-    <mat-tab label="Entities" class="no-over-flow h-100">
+    <mat-tab label="Entities" class="no-over-flow h-100" style="min-height: 50vh">
       <app-ml-entities [bot]="bot" [entitiesData]="entityList" class="h-100"
                        (deleteEntity)="deleteEntityClicked($event)"
                        (editEntity)="editEntityClicked($event,Primarytemplat)"></app-ml-entities>
@@ -43,6 +44,7 @@
   <app-ml-intents-detail
     (selectedIntentChanged$)="selectedIntentChanged($event)"
     (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"
+    (deleteIntent$)="deleteIntent($event)"
     (showCreateNewIntentModel$)="addNewIntentOrEntity(1, Primarytemplat)"
     (saveAndTrain$)="saveAndTrainHandler($event)"
     [entityList]="entityList"
@@ -54,10 +56,10 @@
 
 <div *ngIf="view === 'entity'" style="flex:1">
   <app-ml-edit-entity [edittingData]="edittingData" [entity_types]="entity_types"
-                      (saveCustomEntity) = "saveCustomEntity($event)"
-                      (saveAndTrainCustomEntity)= "saveAndTrainCustomEntity($event)"
+                      (saveCustomEntity)="saveCustomEntity($event)"
+                      (saveAndTrainCustomEntity)="saveAndTrainCustomEntity($event)"
                       (deleteCustomEntity)="deleteEntityClicked($event)"
-                      (goBackToTableView) = "view = 'table'"
+                      (goBackToTableView)="view = 'table'"
   ></app-ml-edit-entity>
 </div>
 
@@ -96,7 +98,8 @@
                   color=primary class="mat-theme-button footer-btn px-2 ml-auto">
             Save and train
           </button>
-          <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button " [disabled]="!modalForm.valid"
+          <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button "
+                  [disabled]="!modalForm.valid"
                   (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()">
             Save
           </button>

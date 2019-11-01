@@ -16,7 +16,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
   //$font-family:   'IBM Plex Sans, sans-serif',
-    $font-family: '' IBM Plex Sans ', sans-serif',
+  $font-family: '' IBM Plex Sans ', sans-serif',
   $display-4: mat-typography-level(112px, 112px, 300),
   $display-3: mat-typography-level(56px, 56px, 400),
   $display-2: mat-typography-level(45px, 48px, 400),
@@ -1386,11 +1386,11 @@ mat-dialog-container {
 }
 
 
-
 .bg-red {
   background: #2b4f70;
   color: white;
   position: relative;
+
   .cancel {
     //content: 'x';
     //display: none;
@@ -1406,5 +1406,17 @@ mat-dialog-container {
     display: inline;
   }
 
+}
+
+.loader-center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 

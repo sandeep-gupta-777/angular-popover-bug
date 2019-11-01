@@ -18,7 +18,7 @@ export class MlReplyComponent implements OnInit {
   templateKeyDict = {};
   @Input() bot: IBot;
   showLoading = true;
-  workFlowObj = {text: 'mlResponse?.workflow?.logic'};
+  workFlowObj = {text: ''};
 
   constructor(
     private mlReplyService: MlReplyService,
@@ -29,8 +29,10 @@ export class MlReplyComponent implements OnInit {
   mlResponse: IMLResponse;
 
   ngOnInit() {
+    this.showLoading = true;
     this.mlReplyService.getResponseTemplates(this.bot)
       .subscribe((value: IMLResponse) => {
+        this.showLoading = false;
         this.mlResponse = UtilityService.cloneObj(value);
         this.initTemplateDict(UtilityService.cloneObj(this.mlResponse));
       });

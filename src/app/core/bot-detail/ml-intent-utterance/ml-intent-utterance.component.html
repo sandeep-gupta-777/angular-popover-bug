@@ -11,55 +11,79 @@
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
 
-<div class="example-list" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
-     (cdkDropListDropped)="drop($event)">
-  <table style="border: solid 1px #eaeaea;">
-    <tr style="background-color: #eeeeee">
-      <th style="width: 5%"></th>
-      <th style="width: 25%">Entity name</th>
-      <th style="width: 10%">Required</th>
-      <th style="width: 15%">Retried</th>
-      <th style="width: 25%">Template Key</th>
-      <th style="width: 5%"></th>
-    </tr>
-    <tbody>
-    <ng-container *ngIf="selectedIntent">
-      <tr class="example-box" *ngFor="let e of selectedIntent.entities" style="min-height: 140px" cdkDrag>
-        <ng-container *ngIf="(e|getEntityByName:entityList) as entity">
-          <td [ngStyle]="{borderColor: entity.color}"></td>
-          <td>{{entity.name}}</td>
-          <td>
-            <mat-checkbox [checked]="entity.required" [(ngModel)]="e.required" (change)="change(e)"></mat-checkbox>
-          </td>
-          <td>
-            <mat-form-field *ngIf="e.required === true"
-                            floatLabel="never"
-                            style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
-              <input matInput value="1" type="number" [(ngModel)]="e.counter">
-            </mat-form-field>
-            <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
-          </td>
-          <td>
-            <mat-form-field *ngIf="e.required === true"
-                            floatLabel="never"
-                            style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
-              <input matInput placeholder="Template key" value="Hello" [(ngModel)]="e.template_key">
-            </mat-form-field>
-            <span *ngIf="e.required !== true">
+<form #entityForm="ngForm" class="list-wrapper">
+<!--  <button (click)="log(entityForm)">log</button>-->
+  <div class="example-list" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
+       (cdkDropListDropped)="drop($event)">
+    <table style="border: solid 1px #eaeaea;">
+      <tr style="height: 32px">
+        <th style="width: 5%"></th>
+        <th style="width: 25%">Entity name</th>
+        <th style="width: 10%">Required</th>
+        <th style="width: 15%">Retries</th>
+        <th style="width: 25%">Template Key</th>
+        <th style="width: 5%"></th>
+      </tr>
+      <tr style="background-color: #eeeeee; border: solid 1px #eaeaea;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    right: 0;
+    left: 0;">
+        <th style="width: 5%">
+        </th>
+        <th style="width: 25%">Entity name</th>
+        <th style="width: 10%">Required</th>
+        <th style="width: 15%">Retries</th>
+        <th style="width: 25%">Template Key</th>
+        <th style="width: 5%"></th>
+      </tr>
+      <tbody >
+      <ng-container *ngIf="selectedIntent">
+        <tr class="example-box" *ngFor="let e of selectedIntent.entities; let index = index"
+            ngModelGroup="{{index}}"
+            style="min-height: 140px" cdkDrag>
+          <ng-container *ngIf="(e|getEntityByName:entityList) as entity">
+            <td [ngStyle]="{borderColor: entity.color}" style="position: relative">
+                <div class="center-absolute flex-theme-center">
+                  <mat-icon>drag_handle</mat-icon>
+                </div>
+            </td>
+            <td>{{entity.name}}</td>
+            <td>
+              <mat-checkbox color="primary" [checked]="entity.required" name="required" [(ngModel)]="e.required" (change)="change(e)"></mat-checkbox>
+            </td>
+            <td>
+
+              <mat-form-field *ngIf="e.required === true"
+                              floatLabel="never"
+                              style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
+                <input matInput value="1" type="number" required [(ngModel)]="e.counter" name="retries">
+              </mat-form-field>
+              <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
+            </td>
+            <td>
+              <mat-form-field *ngIf="e.required === true"
+                              floatLabel="never"
+                              style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
+                <input matInput placeholder="Template key" value="Hello" name="template_key" required [(ngModel)]="e.template_key">
+              </mat-form-field>
+              <span *ngIf="e.required !== true">
               {{entity.template_key || 'None'}}
             </span>
-          </td>
-          <td>
-            <i class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e)"></i>
-          </td>
-        </ng-container>
-      </tr>
-    </ng-container>
-    </tbody>
+            </td>
+            <td>
+              <i class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e)"></i>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-container>
+      </tbody>
 
-  </table>
-  <div *ngIf="!selectedIntent || !selectedIntent.entities|| selectedIntent.entities.length===0"
-       style="background: white; width: 100%; height: 50px; display: flex; justify-content: center; align-items: center">
-    No entities linked yet, link to start using them
+    </table>
+    <div *ngIf="!selectedIntent || !selectedIntent.entities|| selectedIntent.entities.length===0"
+         style="background: white; width: 100%; height: 50px; display: flex; justify-content: center; align-items: center">
+      No entities linked yet, link to start using them
+    </div>
   </div>
-</div>
+</form>

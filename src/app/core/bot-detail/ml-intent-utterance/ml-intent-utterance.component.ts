@@ -1,24 +1,33 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-ml-intent-utterance',
   templateUrl: './ml-intent-utterance.component.html',
   styleUrls: ['./ml-intent-utterance.component.scss']
 })
-export class MlIntentUtteranceComponent implements OnInit {
+export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
 
   @Input() selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
   @Output() linkEntity$ = new EventEmitter();
   @Output() removeEntity$ = new EventEmitter();
+  @Output() formValidity$ = new EventEmitter();
+  @ViewChild('entityForm') f: NgForm;
 
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    this.f.valueChanges.subscribe(() => {
+      this.formValidity$.emit(this.f.valid);
+    });
   }
 
   linkEntityHandler(entity) {
@@ -28,8 +37,8 @@ export class MlIntentUtteranceComponent implements OnInit {
 
   change(e) {
     if (!e.require) {
-      e.template_key = '';
-      e.counter = 0;
+      // e.template_key = '';
+      // e.counter = 0;
     }
   }
 
@@ -47,6 +56,11 @@ export class MlIntentUtteranceComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+  }
+
+  log(entityList) {
+    debugger;
+    console.log(entityList);
   }
 
 }

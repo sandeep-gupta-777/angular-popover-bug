@@ -58,11 +58,11 @@ export class MLModelComponent implements OnInit {
 
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
-      'entity_type': ["", Validators.required],
-      'entity_name': ["", Validators.required],
-      'entity_value': "",
-      'entity_id': ""
-    }, {validator: this.validationOfEntityModal})
+      'entity_type': ['', Validators.required],
+      'entity_name': ['', Validators.required],
+      'entity_value': '',
+      'entity_id': ''
+    }, {validator: this.validationOfEntityModal});
   }
 
   setMLEntityTypes() {
@@ -80,13 +80,14 @@ export class MLModelComponent implements OnInit {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
+    // let colorList = JSON.parse(JSON.s);
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
         return {
           ...entity,
-          color
+          color: entity.color || color
         };
       });
       MlService.entityList = this.entityList;
@@ -95,9 +96,10 @@ export class MLModelComponent implements OnInit {
 
   loading = false;
 
-  getAndSetMlCorpus() {
+  getAndSetMlCorpus(page = 1) {
     // let url = this.constantsService.getMLCorpus();
-    const url = this.constantsService.getIntents();
+    const offset = (page - 1) * 10;
+    const url = this.constantsService.getIntents(10, offset);
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
@@ -155,45 +157,49 @@ export class MLModelComponent implements OnInit {
     } else {
       url = this.constantsService.creatMLEntity();
     }
-    this.entityUpdateService(url,body).subscribe();
+    this.entityUpdateService(url, body).subscribe();
   }
-  saveAndTrainCustomEntity(body){
+
+  saveAndTrainCustomEntity(body) {
     let url = this.constantsService.updateMLEntity();
-    this.entityUpdateService(url,body).subscribe(val=>{
+    this.entityUpdateService(url, body).subscribe(val => {
       this.trainMLBots();
     });
   }
-  saveCustomEntity(body){
+
+  saveCustomEntity(body) {
     let url = this.constantsService.updateMLEntity();
-    this.entityUpdateService(url,body).subscribe();
+    this.entityUpdateService(url, body).subscribe();
   }
-  entityUpdateService(url , body){
+
+  entityUpdateService(url, body) {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     return this.serverService.makePostReq({headerData, url, body})
       .pipe(map((val: any) => {
-      this.view = 'table';
-      if (body.entity_id) {
-        for (var i = 0; i < this.entityList.length; i++) {
-          if (this.entityList[i].entity_id === body.entity_id) {
-            this.entityList.splice(i, 1);
-            break;
+          // this.view = 'table';
+          if (body.entity_id) {
+            for (var i = 0; i < this.entityList.length; i++) {
+              if (this.entityList[i].entity_id === body.entity_id) {
+                this.entityList.splice(i, 1);
+                break;
+              }
+            }
+            this.entityList = [val.updated_entity, ...this.entityList];
+            this.utilityService.showSuccessToaster('Entity updated');
+          } else {
+            this.entityList = [val.new_entity, ...this.entityList];
+            this.utilityService.showSuccessToaster('New entity added');
           }
-        }
-        this.entityList = [val.updated_entity, ...this.entityList];
-        this.utilityService.showSuccessToaster("Entity updated");
-      } else {
-        this.entityList = [val.new_entity, ...this.entityList]
-        this.utilityService.showSuccessToaster("New entity added");
-      }
-      })
-      )
+          EventService.entityListUpdated$.emit(this.entityList);
+        })
+      );
   }
 
   editEntityClicked(data, template) {
 
-    let x = data.data.type == 'custom' ? data.data.data.values[0].value : "";
+    let x = data.data.type == 'custom' ? data.data.data.values[0].value : '';
     if (!x) {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
       setTimeout(() => {
@@ -203,9 +209,9 @@ export class MLModelComponent implements OnInit {
             'entity_name': data.data.name,
             'entity_value': data.data.type == 'regex' ?
               data.data.data.pattern :
-              (data.data.type == 'custom' ? data.data.data.values[0].value : ""),
+              (data.data.type == 'custom' ? data.data.data.values[0].value : ''),
             'entity_id': data.data.entity_id
-          })
+          });
       });
     } else {
       this.view = 'entity';
@@ -233,10 +239,11 @@ export class MLModelComponent implements OnInit {
         this.utilityService.showSuccessToaster('Entity deleted');
       });
   }
-  validationOfEntityModal(group: FormGroup){
-    let type =  group.get('entity_type').value;
-    if(type === 'regex' || type === 'custom') {
-      return group.get('entity_value').value ? null : {error : true} ;
+
+  validationOfEntityModal(group: FormGroup) {
+    let type = group.get('entity_type').value;
+    if (type === 'regex' || type === 'custom') {
+      return group.get('entity_value').value ? null : {error: true};
     }
     return null;
   }
@@ -244,17 +251,19 @@ export class MLModelComponent implements OnInit {
   selectedIntentChanged(intent: IIntent) {
 
   }
-trainMLBots(){
-  const url = this.constantsService.trainMlBotUrl();
-  const headerData: IHeaderData = {
-    'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+
+  trainMLBots() {
+    const url = this.constantsService.trainMlBotUrl();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    const body = {'bot_id': this.bot.id};
+    this.serverService.makePostReq({url, body, headerData})
+      .subscribe(() => {
+        this.myToasterService.showSuccessToaster('training started');
+      });
   }
-  const body = {'bot_id': this.bot.id};
-  this.serverService.makePostReq({url, body, headerData})
-    .subscribe(() => {
-      this.myToasterService.showSuccessToaster('training started');
-    });
-}
+
   saveAndTrainHandler(intent: IIntent) {
     this.saveOrUpdateIntentHandler(intent).subscribe(() => {
       this.trainMLBots();
@@ -294,6 +303,11 @@ trainMLBots(){
     }));
   }
 
+  loadIntent(page) {
+    debugger;
+    this.getAndSetMlCorpus(page);
+  }
+
   viewChanged(view) {
     setTimeout(() => {
       this.view = view;
@@ -312,5 +326,22 @@ trainMLBots(){
         },
       });
     });
+  }
+
+  deleteIntent(intent: IIntent) {
+    const url = this.constantsService.deleteIntents(intent.intent_id);
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+
+    // this.loading = true;
+    const body = {
+      'intent_id': intent.intent_id
+    };
+    this.serverService.makePostReq({url, headerData, body})
+      .subscribe(() => {
+        // this.loading = false;
+        this.viewChanged('table');
+      });
   }
 }

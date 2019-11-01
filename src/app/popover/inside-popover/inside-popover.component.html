@@ -2,18 +2,18 @@
   <div>
     <label style="font-size: 11px; color: #ababab">Entity type</label>
   </div>
-  <mat-radio-group formControlName="type" aria-label="Select an option" style="    display: flex;
-    width: 100%;
-    justify-content: space-around;">
-    <mat-radio-button value="system">System</mat-radio-button>
-    <mat-radio-button value="custom">Custom</mat-radio-button>
-  </mat-radio-group>
+<!--  <mat-radio-group formControlName="type" aria-label="Select an option" style="    display: flex;-->
+<!--    width: 100%;-->
+<!--    justify-content: space-around;">-->
+<!--    <mat-radio-button value="system">System</mat-radio-button>-->
+<!--    <mat-radio-button value="custom">Custom</mat-radio-button>-->
+<!--  </mat-radio-group>-->
 
   <mat-form-field class="mt-2 mb-1">
     <mat-label>Select Entity</mat-label>
-    <mat-select formControlName="entity_id">
+    <mat-select formControlName="entity_id" style="margin-bottom: -6px !important;">
       <mat-option
-        *ngFor="let e of entityList| filterBy: {type:form.get('type').value}"
+        *ngFor="let e of entityList"
         [value]="e.entity_id">
         {{e.name}}
       </mat-option>
@@ -21,12 +21,13 @@
   </mat-form-field>
 
   <div style="display: flex; justify-content: space-between;">
-    <a
+    <button
+      [disabled]="!form.valid"
       (click)="entityMarkerHandler()"
-      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">
+      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer; background: transparent; border: none">
       <!--      <i style="margin-right: 5px" class="fa fa-plus"></i>-->
       + Save
-    </a>
+    </button>
     <a
       *ngIf="this.marker"
       (click)="removeMarkerHandler()"
