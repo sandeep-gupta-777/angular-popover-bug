@@ -294,7 +294,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addFileUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'image': [{'url': 'myfile.jpeg'}]
+      'file': [{'url': 'myfile.jpeg'}]
     };
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
     setTimeout(() => this.scrollToBottom());

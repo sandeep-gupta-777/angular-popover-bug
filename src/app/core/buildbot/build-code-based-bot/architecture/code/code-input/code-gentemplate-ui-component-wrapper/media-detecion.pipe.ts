@@ -8,6 +8,7 @@ export class MediaDetecionPipe implements PipeTransform {
 
   transform(outputItem: any, args?: any): any {
 
+    debugger;
     if (outputItem && (outputItem.audio || outputItem.image || outputItem.video || outputItem.file)) {
       if (outputItem.audio) {
         return EBotMessageMediaType.audio;

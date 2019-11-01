@@ -53,12 +53,15 @@ export class GentemplateVideoComponent implements OnInit {
     }
 
     debugger;
-    url = (this.outputItem.image || this.outputItem.audio || this.outputItem.video || this.outputItem.file)[0].url;
+    try {
+      url = (this.outputItem.image || this.outputItem.audio || this.outputItem.video || this.outputItem.file)[0].url;
+    } catch (e) {
+      console.log(e);
+    }
     // if (this.outputItem.media && this.outputItem.media[0]) {
     //   url = this.outputItem.media[0][this.type + '_url'];
     // }
-    debugger
-    this.form = this.formBuilder.group({
+    this  .form = this.formBuilder.group({
       code: [codeStr],
       url: [url]
     });
