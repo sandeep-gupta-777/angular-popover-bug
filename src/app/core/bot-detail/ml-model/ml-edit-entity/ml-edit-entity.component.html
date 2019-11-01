@@ -1,5 +1,5 @@
 <header>
-  <div class="d-flex flex-row heading align-items-center pb-3">
+  <div class="d-flex flex-row heading align-items-center">
     <div class="heading-title">
       <span class="fa fa-angle-left cursor-pointer p-1 go-back-button"
             data-cy="goBackFromArticle" (click)="goBackToTableViewClicked()"></span>
@@ -9,6 +9,7 @@
     </div>
     <div >
       <button class=" btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
+              style="color: #FFFFFF"
               mat-button (click)="saveAndTrain()">
         <mat-icon>autorenew</mat-icon>
         Save and train
@@ -30,23 +31,26 @@
       </button>
     </div>
   </div>
+  <div style="color: #696969;font-size: 11px;" class = "mb-3">Edit existing custom entity which can be a list
+    or a regular expression (regex), for a list type add synonyms for each value if necessary
+  </div>
 </header>
 <form [formGroup]="editEntityForm">
   <div class = "d-flex flex-row">
     <mat-form-field class = "mr-4">
       <input matInput placeholder="Entity name" formControlName="name">
     </mat-form-field>
-    <mat-form-field style="width: 120px;margin-right: 20px">
-      <mat-label>Entity type</mat-label>
-      <mat-select formControlName="type" required>
-        <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">
-          {{entity_type.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+<!--    <mat-form-field style="width: 120px;margin-right: 20px">-->
+<!--      <mat-label>Entity type</mat-label>-->
+<!--      <mat-select formControlName="type" required>-->
+<!--        <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">-->
+<!--          {{entity_type.name}}-->
+<!--        </mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
   </div>
 
-  <div class="heading">Add new value</div>
+  <div class="heading p-0 pt-2">Add new value</div>
   <ng-form #NewEntityForm = "ngForm" class="d-flex flex-column mb-2">
     <div class = "d-flex">
       <mat-form-field class="mr-4" >
@@ -73,14 +77,14 @@
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
             (click)="addNewEntity(NewEntityForm.value);NewEntityForm.reset();"
     >
-      + Add question
+      + Add value
     </button>
   </ng-form>
   <div  formGroupName="data">
-    <div class="heading">All values</div>
+    <div class="heading mt-4">All values</div>
     <div class = "d-flex flex-column" formArrayName="values">
       <div *ngFor="let singleEntity of editEntityForm.get('data').get('values')?.controls; let singleEntityIndex = index;">
-          <div [formGroupName]="singleEntityIndex" class="d-flex flex-row" >
+          <div [formGroupName]="singleEntityIndex" class="d-flex flex-row single-entity" >
             <mat-form-field class="mr-4" >
               <input matInput  formControlName="value" required>
             </mat-form-field>
@@ -96,6 +100,10 @@
                        [matChipInputAddOnBlur]="addOnBlur"
                        (matChipInputTokenEnd)="addSynonym($event,singleEntity.get('synonyms'))"
                        >
+                <mat-icon matSuffix class="onParentHover cursor-pointer"
+                          style="font-size: 16px;color: #9e9e9e;"
+                          (click)="removeSynonymsById(singleEntityIndex,editEntityForm)">close
+                </mat-icon>
               </mat-chip-list>
             </mat-form-field>
       </div>

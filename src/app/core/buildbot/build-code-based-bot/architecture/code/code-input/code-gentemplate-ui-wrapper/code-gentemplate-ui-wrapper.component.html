@@ -214,9 +214,9 @@
               (submit)="selectedListCopy(modelGenTempNameForm)">
           <label class="container-chekbox text-dark"
                  *ngFor="let templateKey of myObject.keys(_templateKeyDict)|filterTemplateLeyList:copyModalTemplateSearchKeyword">
-            {{templateKey}}
             <input type="checkbox" ngModel name="{{templateKey}}">
-            <span class="checkmark"></span>
+            <span class="checkmark mr-1"></span>
+            {{templateKey}}
           </label>
         </form>
         <div class="d-flex w-100">

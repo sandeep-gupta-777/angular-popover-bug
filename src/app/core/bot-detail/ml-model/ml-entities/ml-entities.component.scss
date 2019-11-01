@@ -2,7 +2,7 @@
 @import "~src/sass/main.scss";
 .entities-table {
   ::ng-deep {
-  table {
+    table {
       th, td {
         padding-top: 8px;
         padding-bottom: 8px;
@@ -20,5 +20,19 @@
       width: 100% !important;
 
     }
+    table {
+        mat-icon {
+          line-height: 2 !important;
+          font-size: 150% !important;
+        }
+        [name="build"] {
+          color: #d8d8d8;
+        }
+        [name="delete"] {
+          color: #bf3c3c;
+        }
+      }
+
+
   }
 }

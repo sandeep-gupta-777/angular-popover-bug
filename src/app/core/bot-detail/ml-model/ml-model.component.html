@@ -55,7 +55,7 @@
     (viewChanged$)="viewChanged($event)"></app-ml-intents-detail>
 </div>
 
-<div *ngIf="view === 'entity'">
+<div *ngIf="view === 'entity'" style="flex:1">
   <app-ml-edit-entity [edittingData]="edittingData" [entity_types]="entity_types"
                       (saveCustomEntity)="saveCustomEntity($event)"
                       (saveAndTrainCustomEntity)="saveAndTrainCustomEntity($event)"
@@ -65,13 +65,14 @@
 </div>
 
 <ng-template #Primarytemplat>
-  <div class="danger-modal">
+  <div class="danger-modal" >
     <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Select which type of entity to
-        create</h4>
+      <h4 class="modal-title mb-1" style="display: flex;justify-content: start;color: #474747;">Create new entity</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
+    </div>
+    <div style="color: #696969;font-size: 11px;" class = "mb-3">Select which type of entity to create
     </div>
     <div class="modal-body pt-0">
       <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;">
@@ -93,15 +94,15 @@
           </mat-form-field>
         </div>
         <div class="d-flex ">
-          <button mat-flat-button type="submit" [disabled]="!modalForm.valid"
+          <button mat-flat-button type="submit" [disabled]="!modalForm.valid || !modalForm.dirty"
                   (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()"
                   color=primary class="mat-theme-button footer-btn px-2 ml-auto">
-            {{modalForm.value.entity_id ? 'Update ' : 'Create '}} and train
+            Save and train
           </button>
           <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button "
                   [disabled]="!modalForm.valid"
                   (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()">
-            {{modalForm.value.entity_id ? 'Update ' : 'Create '}}
+            Save
           </button>
         </div>
       </form>
