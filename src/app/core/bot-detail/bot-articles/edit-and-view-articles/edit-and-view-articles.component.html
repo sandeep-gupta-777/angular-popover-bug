@@ -127,7 +127,7 @@
       <mat-form-field [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
       <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"
                 data-cy="add-question-ti-tentemplate"
-                (keydown.enter)="addNewQuestion(questionForm.value.questionText);questionForm.reset()"
+                (keydown.enter)="$event.preventDefault();addNewQuestion(questionForm.value.questionText);questionForm.reset();"
                 cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
               </textarea>
       </mat-form-field>

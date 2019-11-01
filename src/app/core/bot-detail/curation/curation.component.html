@@ -74,6 +74,7 @@
         !curationIssuesListisReloading &&
         objToSrt(IssuesFilterQueryParams) != '&order_by=-updated_at' &&
         curationIssuesList &&
+        !isMoreCurationIssuesListPresent &&
         curationIssuesList.length == 0">
                     <app-splash-screen [imageHRef]="myESplashScreens.search"
                                        class="d-flex justify-content-center align-items-center" [descriptionText]=""

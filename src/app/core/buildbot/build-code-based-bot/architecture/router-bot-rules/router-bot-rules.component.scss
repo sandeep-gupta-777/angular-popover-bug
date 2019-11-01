@@ -53,6 +53,14 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            .show-on-parent-hover{
+              visibility: hidden;
+            }
+            &:hover{
+              .show-on-parent-hover{
+                visibility: visible;
+              }
+            }
             ::ng-deep{
               .mat-form-field-infix{
                 width: initial;
