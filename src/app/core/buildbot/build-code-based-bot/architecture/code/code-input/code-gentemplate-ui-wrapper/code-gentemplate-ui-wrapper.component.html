@@ -1,4 +1,3 @@
-
 <div class="genTempGrid child-expand">
   <!--left sidebar starts-->
   <div class="genTempGridItem left-sidebar intent-header ml-1 position-relative">
@@ -32,10 +31,10 @@
   <ng-template #templateList let-title="title" let-isIntersection="isIntersection" let-allowEdit="allowEdit" >
     <div class="d-flex align-items-center show-on-hover"
          *ngFor="let tempKey of myObject.keys(_templateKeyDict||{})|filterTemplateLeyList:templateKeySearchKeyword: defaultTemplateKeys: isIntersection">
-      <div class="pl-2 p-1 mr-1 flex-grow-1 tab-theme limit-oneline"
+      <div class="pl-2 p-1 mr-1 flex-grow-1 tab-theme limit-oneline cursor-pointer"
            style="border-radius: 2px"
            [ngClass]="{'text-theme-primary':selectedTemplateKeyInLeftSideBar === tempKey}"
-           (click)="selectedTemplateKeyInLeftSideBar = tempKey;selectedTemplateKeyOutputIndex = [];">{{tempKey}}
+           (click)="updateSelectedTemplateKey(tempKey);selectedTemplateKeyOutputIndex = [];">{{tempKey}}
       </div>
       <ng-container *ngIf="allowEdit">
         <span class="fa fa-edit mr-1 cursor-pointer hide-it" style="color: #9e9e9e"
@@ -56,9 +55,9 @@
           ('('+_templateKeyDict[selectedTemplateKeyInLeftSideBar].length+')'):""}}
       </span>
     </div>
-    <div *ngIf="showModeSelect" class="form-group m-0 channel-drop d-flex align-items-center">
+    <div *ngIf="showModeSelect &&  selectedTemplateKeyInLeftSideBar !== 'first_message'" class="form-group m-0 channel-drop d-flex align-items-center">
       <mat-form-field style="margin-bottom: 0px" floatLabel="never">
-        <mat-select required name="name" [(ngModel)]="mode" placeholder="Select Mode" (ngModelChange)="modeChanged$.emit(mode)">
+        <mat-select required name="name" [(ngModel)]="mode" placeholder="Select Mode" (ngModelChange)="modeChangeHandler(mode)">
           <mat-option [value]="'rich'">Rich</mat-option>
           <mat-option [value]="'dynamic'">Dynamic</mat-option>
         </mat-select>
@@ -83,10 +82,14 @@
   </div>
 
   <div></div>
-  <app-code-editor *ngIf="mode === 'dynamic'" style="height: 100%"></app-code-editor>
-  <ng-container *ngIf="!mode || mode === 'rich'">
-    <div #genTempGridItemGrid class="genTempGridItemGrid " style="position: relative;">
+  <ng-template #codeFormEditor>
+    <form [formGroup]="dynamicLogicForm" *ngIf="mode === 'dynamic'">
+      <app-code-editor formControlName="code" style="height: 100%"></app-code-editor>
+    </form>
+  </ng-template>
 
+  <ng-container *ngIf="!mode || mode === 'rich'; else codeFormEditor">
+    <div #genTempGridItemGrid class="genTempGridItemGrid " style="position: relative;">
       <div *ngIf="!(_templateKeyDict && myObject.keys(_templateKeyDict) && myObject.keys(_templateKeyDict).length>0)"
            class="d-flex align-items-center justify-content-center mx-5 px-5"
            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">

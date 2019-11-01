@@ -30,29 +30,29 @@ import {EventService} from './event.service';
 
 @Injectable()
 export class HttpIdleInterceptor implements HttpInterceptor {
-  @Select() loggeduser$: Observable<{ user: IUser }>;
-  @Select() app$: Observable<IAppState>;
-  roleInfo: IRoleInfo;
+  // @Select() loggeduser$: Observable<{ user: IUser }>;
+  // @Select() app$: Observable<IAppState>;
+  // roleInfo: IRoleInfo;
   roleName;
   is_logged_in = false;
 
-  constructor(private store: Store) {
+  constructor() {
     /*todo: duplicated from server service*/
-    this.loggeduser$.subscribe((value) => {
-      if (!value || !value.user) {
-        this.is_logged_in = false;
-        return;
-      }
-      this.is_logged_in = true;
-      this.roleName = value.user.role.name;
-      this.app$.pipe(take(1)).subscribe((appState) => {
-        if (appState && appState.roleInfoArr) {
-          this.roleInfo = appState.roleInfoArr.find((role_temp) => {
-            return role_temp.name === value.user.role.name;
-          });
-        }
-      });
-    });
+    // this.loggeduser$.subscribe((value) => {
+    //   if (!value || !value.user) {
+    //     this.is_logged_in = false;
+    //     return;
+    //   }
+    //   this.is_logged_in = true;
+    //   this.roleName = value.user.role.name;
+    //   this.app$.pipe(take(1)).subscribe((appState) => {
+    //     if (appState && appState.roleInfoArr) {
+    //       this.roleInfo = appState.roleInfoArr.find((role_temp) => {
+    //         return role_temp.name === value.user.role.name;
+    //       });
+    //     }
+    //   });
+    // });
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -63,7 +63,7 @@ export class HttpIdleInterceptor implements HttpInterceptor {
           /*
           * If the user is not logged in, make auto logout time = infinite
           * */
-          const stopScheduler = !this.is_logged_in || response.url.includes('logout');
+          // const stopScheduler = !this.is_logged_in || response.url.includes('logout');
           // this.increaseAutoLogoutTime(this.roleInfo, stopScheduler);
 
           if (response instanceof HttpResponse) {
@@ -82,25 +82,25 @@ export class HttpIdleInterceptor implements HttpInterceptor {
       }));
   }
 
-  increaseAutoLogoutTime(roleInfo, stopScheduler) {
-    let autoLogoutInterval = Infinity;
-    console.log(roleInfo);
-    if (!stopScheduler) {
-      if (roleInfo) {
-        if (roleInfo.session_expiry_time === -1) {
-          autoLogoutInterval = Infinity;
-        } else {
-          autoLogoutInterval = (roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
-        }
-      }
-    }
-    if (!roleInfo) {
-      // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
-    }
-    this.store.dispatch([
-      new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
-    ]);
-  }
+  // increaseAutoLogoutTime(roleInfo, stopScheduler) {
+  //   let autoLogoutInterval = Infinity;
+  //   console.log(roleInfo);
+  //   if (!stopScheduler) {
+  //     if (roleInfo) {
+  //       if (roleInfo.session_expiry_time === -1) {
+  //         autoLogoutInterval = Infinity;
+  //       } else {
+  //         autoLogoutInterval = (roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
+  //       }
+  //     }
+  //   }
+  //   if (!roleInfo) {
+  //     // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
+  //   }
+  //   // this.store.dispatch([
+  //   //   new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
+  //   // ]);
+  // }
 
   checkForLogoutAction(obj: { action: string }) {
     if (!obj) {

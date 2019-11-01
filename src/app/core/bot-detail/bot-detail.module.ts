@@ -2,7 +2,7 @@ import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
 import {PipelineBasedBotDetailComponent} from './pipeline-based-bot-detail/pipeline-based-bot-detail.component';
@@ -115,6 +115,7 @@ import {GentemplateAudioComponent} from '../buildbot/build-code-based-bot/archit
 import {GentemplateImageComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-image/gentemplate-image.component';
 import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-file/gentemplate-file.component';
 import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
+import {HttpIdleInterceptor} from '../../http-idle.interceptor';
 
 
 const routes: Route[] = [
@@ -248,7 +249,13 @@ const routes: Route[] = [
     MatListModule,
     OverlayModule,
   ],
-  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe, ServerService, MlReplyService],
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe, MlReplyService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpIdleInterceptor,
+      multi: true
+    }
+  ],
 
 })
 export class BotDetailModule {
