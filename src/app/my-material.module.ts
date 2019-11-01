@@ -41,7 +41,7 @@ import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 import {ModalWrapperComponent} from './modal-wrapper/modal-wrapper.component';
 import {CommonModule} from '@angular/common';
 import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 import {A11yModule} from '@angular/cdk/a11y';
 import {LayoutModule} from '@angular/cdk/layout';
@@ -96,7 +96,7 @@ const materialDeclarations = [
 
 @NgModule({
   declarations: materialDeclarations,
-  imports: [...materialModules],
+  imports: [...materialModules, FormsModule, ReactiveFormsModule],
   exports: [...materialModules, ...materialDeclarations],
 })
 export class MyMaterialModule { }

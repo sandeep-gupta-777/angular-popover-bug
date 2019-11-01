@@ -46,7 +46,6 @@ export class MLModelComponent implements OnInit {
   modalForm: FormGroup;
   selectedIntent: IIntent = this.selectedIntentInit();
   edittingData;
-:
   IEntitiesItem;
 
   ngOnInit() {

@@ -79,6 +79,7 @@
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index;">
           <div class="utter" contenteditable="true"
+               (blur)="test($event, index)"
                (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
                (click)="show2($event.target, tpl, index)"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">

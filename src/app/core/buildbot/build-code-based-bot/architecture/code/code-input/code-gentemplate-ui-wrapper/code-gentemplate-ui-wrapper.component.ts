@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormControl, NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
@@ -93,6 +93,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
   constructor(
     private utilityService: UtilityService,
+    private formBuilder: FormBuilder,
     private matDialog: MatDialog,
   ) {
   }
@@ -456,22 +457,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   //  }
 
   async openNewIntentModal() {
-    const dialogRefWrapper = this.modalRefWrapper;
-    //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-    this.utilityService.openDialog({
-      dialogRefWrapper: dialogRefWrapper,
-      classStr: 'primary-modal-header-border',
-      data: {
-        actionButtonText: `Create`,
-        message: null,
-        title: `Create new template key`,
-        isActionButtonDanger: false,
-        inputDescription: 'Template key name'
-      },
-      dialog: this.matDialog,
-      component: ModalConfirmComponent
-    }).then((data) => {
+    this.showCreateOrEditTemplateKeyModel('Create template key').then((data) => {
       if (data) {
+        debugger;
         this.newTemplateKey = data;
         this.createNewTemplatekey();
         this.utilityService.showSuccessToaster('Template key created');
@@ -486,22 +474,56 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     //  });
   }
 
-  async openEditTemplateKeyModal(tempKey) {
-
-    const data = await this.utilityService.openDialog({
-      dialog: this.matDialog,
-      component: GentemplateEditKeyComponent,
+  showCreateOrEditTemplateKeyModel(title: string, value = '') {
+    const dialogRefWrapper = this.modalRefWrapper;
+    //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    const formGroup = this.formBuilder.group({
+      inputData: [value, (formControl: FormControl) => {
+        if (!formControl.value || !formControl.value.trim()) {
+          return {
+            error: 'Template key required'
+          };
+        }
+        if (Object.keys(this._templateKeyDict).find((key) => key === formControl.value)) {
+          return {
+            error: 'Template key already exists'
+          };
+        }
+      }]
+    });
+    return this.utilityService.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'primary-modal-header-border',
       data: {
-        old_key: tempKey,
+        actionButtonText: `Create`,
+        message: null,
+        formGroup,
+        title,
+        isActionButtonDanger: false,
         templateKeyDict: this._templateKeyDict
       },
-      dialogRefWrapper: this.modalRefWrapper,
-      classStr: 'primary-modal-header-border'
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
     });
+  }
 
-    if (data) {
-      this.editTemplateKey({old_key: tempKey, new_key: data});
-    }
+  async openEditTemplateKeyModal(tempKey) {
+
+    // const data = await this.utilityService.openDialog({
+    //   dialog: this.matDialog,
+    //   component: GentemplateEditKeyComponent,
+    //   data: {
+    //     old_key: tempKey,
+    //     templateKeyDict: this._templateKeyDict
+    //   },
+    //   dialogRefWrapper: this.modalRefWrapper,
+    //   classStr: 'primary-modal-header-border'
+    // });
+
+    this.showCreateOrEditTemplateKeyModel('Edit template key', tempKey)
+      .then((data) => {
+        this.editTemplateKey({old_key: tempKey, new_key: data});
+      });
   }
 
   //  openNewIntentModal(template) {

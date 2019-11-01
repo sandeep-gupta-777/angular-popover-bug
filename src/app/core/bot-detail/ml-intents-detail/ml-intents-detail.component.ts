@@ -382,4 +382,9 @@ export class MlIntentsDetailComponent implements OnInit {
     this._selectedIntent.utterances.splice(index, 1);
   }
 
+  test(k, index) {
+    debugger;
+    this._selectedIntent.utterances[index].utterance = k.target.textContent;
+  }
+
 }
