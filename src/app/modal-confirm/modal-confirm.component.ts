@@ -22,7 +22,7 @@ export class ModalConfirmComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.dataCopy = this.data;
     this.formGroup = (<any>this.data).formGroup;
-    debugger;
+
   }
 
 

@@ -88,7 +88,7 @@ export class MlEntitiesComponent implements OnInit {
       //  this.openDeletModal(enterpriseDeleteModal);
     }
     if (data.action === 'edit') {
-      debugger;
+
         this.editEntity.emit(data);
     }
   }

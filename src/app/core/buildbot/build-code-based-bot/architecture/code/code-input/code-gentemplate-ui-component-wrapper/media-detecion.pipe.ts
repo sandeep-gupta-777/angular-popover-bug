@@ -7,21 +7,22 @@ import {EBotMessageMediaType} from '../../../../../../../../interfaces/chat-sess
 export class MediaDetecionPipe implements PipeTransform {
 
   transform(outputItem: any, args?: any): any {
-    if(!outputItem || !outputItem.media || !outputItem.media[0]){
-      return null;
+
+    if (outputItem && (outputItem.audio || outputItem.image || outputItem.video || outputItem.file)) {
+      if (outputItem.audio) {
+        return EBotMessageMediaType.audio;
+      }
+      if (outputItem.image) {
+        return EBotMessageMediaType.image;
+      }
+      if (outputItem.video) {
+        return EBotMessageMediaType.video;
+      }
+      if (outputItem.file) {
+        return EBotMessageMediaType.file;
+      }
     }
-    if (outputItem.media[0].video_url != null) {
-      return EBotMessageMediaType.video;
-    }
-    if (outputItem.media[0].audio_url != null) {
-      return EBotMessageMediaType.audio;
-    }
-    if (outputItem.media[0].image_url != null) {
-      return EBotMessageMediaType.image;
-    }
-    if (outputItem.media[0].file_url != null) {
-      return EBotMessageMediaType.file;
-    }
+
   }
 
 }

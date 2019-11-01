@@ -8,12 +8,16 @@ import {ETemplateResponseType} from '../../../../../../../../typings/gentemplate
 })
 export class GentemplateSidebarComponent implements OnInit {
   ETemplateResponseType = ETemplateResponseType;
-  constructor() { }
+
+  constructor() {
+  }
+
   @Output() genTemplateTypeClicked$ = new EventEmitter();
+
   ngOnInit() {
   }
-  genTemplateTypeClicked(tab){
 
+  genTemplateTypeClicked(tab) {
     this.genTemplateTypeClicked$.emit(tab);
   }
 }

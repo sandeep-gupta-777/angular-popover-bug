@@ -61,6 +61,7 @@
         [headingAsSelectedTemplateKey]="true"
         [hideChannelDropdown]="true"
         [showModeSelect]="true"
+        [response]="mlResponse"
         (modeChanged$)="log($event)"
         [defaultTemplateKeys]="mlResponse?.default_templates"
         [channelList]="[]"

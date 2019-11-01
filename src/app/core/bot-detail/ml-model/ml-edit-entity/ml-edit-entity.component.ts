@@ -82,7 +82,7 @@ export class MlEditEntityComponent implements OnInit {
   }
   removeSynonymsById(index, formArr){
     formArr.get('data').get('values').removeAt(index);
-    debugger;
+
   }
 
   addSynonym(str, formArr) {

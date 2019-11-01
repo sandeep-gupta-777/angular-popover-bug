@@ -11,19 +11,19 @@
     <div class="item" style=" display: flex; justify-content: center; align-items: center; width: 100%">
       <ng-container *ngIf="(outputItem|mediaDetecion)">
         <video controls *ngIf="type === EBotMessageMediaType.video">
-          <source [src]="outputItem?.media[0].video_url">
+          <source [src]="outputItem?.video?.url">
           Your browser does not support HTML5 video.
         </video>
 
         <audio controls *ngIf="type === EBotMessageMediaType.audio">
-          <source [src]="outputItem?.media[0].audio_url">
+          <source [src]="outputItem?.audio?.url">
           Your browser does not support HTML5 audio.
         </audio>
 
         <div style="height: 200px;width: 100%; display: flex; justify-content: center"
              *ngIf="type === EBotMessageMediaType.image">
           <img style="height: 100%"
-               [src]="outputItem?.media[0].image_url" alt="">
+               [src]="outputItem?.image?.url" alt="">
         </div>
       </ng-container>
 
