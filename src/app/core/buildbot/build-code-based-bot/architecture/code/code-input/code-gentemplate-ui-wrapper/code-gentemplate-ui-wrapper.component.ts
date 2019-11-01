@@ -24,6 +24,7 @@ export interface IQuickReplyItem {
 }
 
 export interface IOutputItem {
+  type: string;
   text?: string[];
   code?: string;
   include?: string[];
@@ -81,9 +82,12 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   //  @Output() moveDownGentempate = new EventEmitter;
   //  @Output() selectGentempate = new EventEmitter;
   @Output() openNewIntentModal$ = new EventEmitter;
+  @Output() modeChanged$ = new EventEmitter;
   @Output() openEditTemplateKeyModal$ = new EventEmitter();
   @Output() openDeleteTemplateKeyModal$ = new EventEmitter();
   @Output() convertUiDictToGenTemplateCode$ = new EventEmitter();
+  mode: string = 'rich';
+  @Input() showModeSelect = false;
   templateKeySearchKeyword: string;
   templateKeyDictClone;
 
@@ -144,6 +148,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   genTemplateTypeClicked(tab: string) {
+
     if (tab === 'text') {
       this.addTextUnit();
     } else if (tab === 'carousel') {
@@ -160,6 +165,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       this.addVideoUnit();
     } else if (tab === ETemplateResponseType.file) {
       this.addFileUnit();
+    } else if (tab === ETemplateResponseType.code) {
+      this.addCodeSnippetUnit();
     }
   }
 
@@ -258,6 +265,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       'media': [{
         'file_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
       }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addCodeSnippetUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'type': 'code',
     };
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
     setTimeout(() => this.scrollToBottom());
@@ -458,6 +474,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       if (data) {
         this.newTemplateKey = data;
         this.createNewTemplatekey();
+        this.utilityService.showSuccessToaster('Template key created');
       }
     });
 
@@ -500,7 +517,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       return;
     }
     delete this._templateKeyDict[tempKey];
-    this.utilityService.showSuccessToaster('Template key deleted!');
+    this.utilityService.showSuccessToaster('Template key removed');
     this.modalRefWrapper.ref.close();
   }
 
@@ -510,7 +527,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   ngAfterViewInit() {
-    this.channelSelectorForm.form.valueChanges.subscribe((value) => {
+    this.channelSelectorForm && this.channelSelectorForm.form.valueChanges.subscribe((value) => {
       this.selectedChannelOfGenTemplate = value;
     });
   }

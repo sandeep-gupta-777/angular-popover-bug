@@ -114,6 +114,7 @@ import {GentemplateVideoComponent} from '../buildbot/build-code-based-bot/archit
 import {GentemplateAudioComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-audio/gentemplate-audio.component';
 import {GentemplateImageComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-image/gentemplate-image.component';
 import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-file/gentemplate-file.component';
+import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
 
 
 const routes: Route[] = [
@@ -229,6 +230,7 @@ const routes: Route[] = [
     GentemplateAudioComponent,
     GentemplateImageComponent,
     GentemplateFileComponent,
+    MediaDetecionPipe
   ],
   imports: [
     RichMediaModule,

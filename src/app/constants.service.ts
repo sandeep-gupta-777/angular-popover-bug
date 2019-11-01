@@ -628,7 +628,8 @@ export class ConstantsService {
       originalKey: 'name',
       value: '',
       type: 'string',
-      displayValue: 'Entity name',
+      displayValue: 'Intent name',
+      search: true
 
     },
     'utterances': {
@@ -636,18 +637,22 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Utterances',
+      search: true
     },
     'template_key': {
       originalKey: 'template_key',
       value: '',
       type: 'string',
       displayValue: 'Template key',
+      search: true
     },
     updated_at: {
       originalKey: 'updated_at',
       value: '',
-      type: 'string',
+      type: 'time',
+      dateRange: true,
       displayValue: 'Last update',
+      search: true
     }
   };
 
@@ -1109,8 +1114,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
 
-  getIntents(limit = 10, offset = 0) {
-    return this.BACKEND_URL + `api/v1/mlcorpus/intent/?limit=${limit}&offset=${offset}`;
+  getIntents() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/`;
   }
 
   deleteIntents(id: number) {

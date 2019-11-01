@@ -6,7 +6,6 @@
     </strong>
     <div class="mr-auto"></div>
     <button
-      *ngIf="(_selectedIntent && _selectedIntent.intent_id)"
       (click)="saveAndTrain()"
       [disabled]="!form.valid || !isEntityValid"
       class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
@@ -22,7 +21,7 @@
       [disabled]="!form.valid || !isEntityValid"
     >
       <mat-icon>save</mat-icon>
-      {{(_selectedIntent && _selectedIntent.intent_id) ? 'Save' : 'Create'}}
+      Save
     </button>
     <button
       *ngIf="!_selectedIntent || !_selectedIntent.intent_id"
@@ -33,6 +32,7 @@
       Cancel
     </button>
     <button
+      *ngIf="_selectedIntent && _selectedIntent.intent_id"
       style="border: 1px solid #e0e0e0 !important;"
       (click)="deleteIntent$.emit(_selectedIntent)"
       class="mat-theme-button mat-theme-button-border" mat-button>
@@ -56,9 +56,9 @@
       <div class="questions-heading">All utterances</div>
       <form #questionForm="ngForm" class="addQuestionPanel px-4 pb-2">
         <mat-form-field [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'" floatLabel="never">
-          <input matInput type="text" placeholder="Add new question" ngModel name="questionText"
+          <input matInput type="text" placeholder="Add utterance" ngModel name="questionText"
                  data-cy="add-question-ti-tentemplate"
-                 (keydown.enter)="addNewUtterance(questionForm.value.questionText);"/>
+                 />
         </mat-form-field>
         <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button
                 [disabled]="!questionForm.value.questionText"

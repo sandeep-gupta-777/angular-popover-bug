@@ -408,5 +408,8 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }
   }
 
+  log(x) {
+    alert(x);
+  }
 
 }

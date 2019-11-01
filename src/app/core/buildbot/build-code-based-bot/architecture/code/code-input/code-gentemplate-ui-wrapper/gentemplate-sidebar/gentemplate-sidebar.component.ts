@@ -13,6 +13,7 @@ export class GentemplateSidebarComponent implements OnInit {
   ngOnInit() {
   }
   genTemplateTypeClicked(tab){
+
     this.genTemplateTypeClicked$.emit(tab);
   }
 }

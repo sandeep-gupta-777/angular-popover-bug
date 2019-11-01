@@ -44,8 +44,10 @@ export class MLModelComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   entity_types: any[];
   modalForm: FormGroup;
-  selectedIntent: IIntent;
-  edittingData: IEntitiesItem;
+  selectedIntent: IIntent = this.selectedIntentInit();
+  edittingData;
+:
+  IEntitiesItem;
 
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
@@ -53,7 +55,13 @@ export class MLModelComponent implements OnInit {
     this.creatModalForm();
     this.setMLEntityTypes();
     this.setMLEntityList();
+  }
 
+  selectedIntentInit() {
+    return {
+      entities: [],
+      utterances: []
+    };
   }
 
   creatModalForm() {
@@ -99,7 +107,7 @@ export class MLModelComponent implements OnInit {
   getAndSetMlCorpus(page = 1) {
     // let url = this.constantsService.getMLCorpus();
     const offset = (page - 1) * 10;
-    const url = this.constantsService.getIntents(10, offset);
+    const url = this.constantsService.getIntents();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
@@ -276,6 +284,7 @@ export class MLModelComponent implements OnInit {
 
   saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
 
+    console.log('sadasda');
     intent = {...intent};
     delete intent.created_at;
     delete intent.updated_at;
@@ -292,6 +301,7 @@ export class MLModelComponent implements OnInit {
     }
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
     return obs.pipe(tap((res: any) => {
+      this.utilityService.showSuccessToaster(`Intent ${(!intent.intent_id) ? 'created' : 'updated'} successfully`);
       const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
@@ -304,7 +314,6 @@ export class MLModelComponent implements OnInit {
   }
 
   loadIntent(page) {
-    debugger;
     this.getAndSetMlCorpus(page);
   }
 
@@ -316,7 +325,7 @@ export class MLModelComponent implements OnInit {
       if (view === 'detail') {
         intent_id = this.selectedIntent && this.selectedIntent.intent_id;
       } else {
-        this.selectedIntent = null;
+        this.selectedIntent = this.selectedIntentInit();
         this.getAndSetMlCorpus();
       }
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {

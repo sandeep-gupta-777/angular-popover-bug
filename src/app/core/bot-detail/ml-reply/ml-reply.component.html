@@ -3,13 +3,23 @@
     <strong class="heading-title">
       Replies
     </strong>
+    <div class="article-state " *ngIf="mlResponse && mlResponse.state as state"
+         [ngStyle]="{'background-color':  mlResponse.state === 'saved' ? '#fdc31c':
+          state === 'training' ? '#f48a42' :
+          state === 'trained' ? '#00abd3' :
+          state === 'live' ? '#34bc6e' : '#00abd3', 'color': state === 'saved' ? '#474747' : '#ffffff' }">
+      {{ state === 'saved' ? 'Saved' :
+        state === 'training' ? 'Training' :
+            state === 'trained' ? 'Trained' :
+                state === 'live' ? 'Live' : 'Trained' }}
+    </div>
     <div class="mr-auto">
     </div>
     <div style="display: flex">
       <button (click)="makeLive()"
               style="padding: 0 10px 0 8px !important;"
               class="btn-theme btn-theme-primary mat-theme-button mr-1">
-        <mat-icon class="mat-icon material-icons">keyboard_arrow_up</mat-icon>
+        <mat-icon class="mat-icon material-icons">arrow_upward</mat-icon>
         Make live
       </button>
 
@@ -17,7 +27,7 @@
         class="card--update"
         [icon]="'edit'"
         [isMatFlatButton]="false"
-        [text]="'Load live version'"
+        [text]="'Discard draft'"
         (btnClick)="loadFromLive()">
       </app-button-wrapper>
     </div>
@@ -50,12 +60,14 @@
         [templateKeyDict]="templateKeyDict"
         [headingAsSelectedTemplateKey]="true"
         [hideChannelDropdown]="true"
+        [showModeSelect]="true"
+        (modeChanged$)="log($event)"
         [defaultTemplateKeys]="mlResponse?.default_templates"
         [channelList]="[]"
       >
       </app-code-gentemplate-ui-wrapper>
     </mat-tab>
-    <mat-tab label="Callback" class="no-over-flow h-100">
+    <mat-tab label="Workflows" class="no-over-flow h-100">
       <app-code-editor
         style="height: 500px"
         class="code-editor"

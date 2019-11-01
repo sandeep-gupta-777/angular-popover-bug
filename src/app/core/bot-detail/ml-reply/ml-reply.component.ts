@@ -42,13 +42,14 @@ export class MlReplyComponent implements OnInit {
   makeLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
-        alert('done');
+        this.utilityService.showSuccessToaster('Bot successfully made live');
       });
   }
 
 
   updateResponse() {
-    Object.keys(this.mlResponse.templates).forEach((templateKey) => {
+    debugger;
+    Object.keys(this.templateKeyDict).forEach((templateKey) => {
       this.mlResponse.templates[templateKey] = {
         ...this.mlResponse.templates[templateKey],
         response: this.templateKeyDict[templateKey]
@@ -90,5 +91,8 @@ export class MlReplyComponent implements OnInit {
     }
   }
 
+  log(x){
+
+  }
 
 }
