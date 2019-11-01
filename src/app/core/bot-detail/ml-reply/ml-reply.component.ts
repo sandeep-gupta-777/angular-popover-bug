@@ -48,7 +48,8 @@ export class MlReplyComponent implements OnInit {
 
 
   updateResponse() {
-    Object.keys(this.mlResponse.templates).forEach((templateKey) => {
+    debugger;
+    Object.keys(this.templateKeyDict).forEach((templateKey) => {
       this.mlResponse.templates[templateKey] = {
         ...this.mlResponse.templates[templateKey],
         response: this.templateKeyDict[templateKey]

@@ -44,11 +44,10 @@ export class MLModelComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   entity_types: any[];
   modalForm: FormGroup;
-  selectedIntent: IIntent = {
-    entities: [],
-    utterances:[]
-  };;
-  edittingData: IEntitiesItem;
+  selectedIntent: IIntent = this.selectedIntentInit();
+  edittingData;
+:
+  IEntitiesItem;
 
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
@@ -56,7 +55,13 @@ export class MLModelComponent implements OnInit {
     this.creatModalForm();
     this.setMLEntityTypes();
     this.setMLEntityList();
+  }
 
+  selectedIntentInit() {
+    return {
+      entities: [],
+      utterances: []
+    };
   }
 
   creatModalForm() {
@@ -320,7 +325,7 @@ export class MLModelComponent implements OnInit {
       if (view === 'detail') {
         intent_id = this.selectedIntent && this.selectedIntent.intent_id;
       } else {
-        this.selectedIntent = null;
+        this.selectedIntent = this.selectedIntentInit();
         this.getAndSetMlCorpus();
       }
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
