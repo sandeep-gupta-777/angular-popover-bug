@@ -10,6 +10,7 @@
   <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent"
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
+<!--<i>{{selectedIntent.entities|json}}</i>-->
 
 <form #entityForm="ngForm" class="list-wrapper">
 <!--  <button (click)="log(entityForm)">log</button>-->

@@ -14,9 +14,11 @@
       <input *ngIf="_templateKeyDict && myObject.keys(_templateKeyDict) && myObject.keys(_templateKeyDict).length>0;"
              type="text" placeholder="Search Templatekey" [(ngModel)]="templateKeySearchKeyword">
       <div class="heading pl-2" *ngIf="defaultTemplateKeys">Default templates</div>
-      <ng-container [ngTemplateOutlet]="templateList" [ngTemplateOutletContext]="{isIntersection: true, allowEdit: false}"></ng-container>
+      <ng-container [ngTemplateOutlet]="templateList"
+                    [ngTemplateOutletContext]="{isIntersection: true, allowEdit: false}"></ng-container>
       <div class="heading pl-2" *ngIf="defaultTemplateKeys">Custom templates</div>
-      <ng-container *ngIf="defaultTemplateKeys" [ngTemplateOutlet]="templateList" [ngTemplateOutletContext]="{isIntersection: false, allowEdit: true}"></ng-container>
+      <ng-container *ngIf="defaultTemplateKeys" [ngTemplateOutlet]="templateList"
+                    [ngTemplateOutletContext]="{isIntersection: false, allowEdit: true}"></ng-container>
     </div>
 
     <div *ngIf="!(_templateKeyDict && myObject.keys(_templateKeyDict) && myObject.keys(_templateKeyDict).length>0)"
@@ -28,19 +30,19 @@
   </div>
   <!--left sidebar ends-->
 
-  <ng-template #templateList let-title="title" let-isIntersection="isIntersection" let-allowEdit="allowEdit" >
+  <ng-template #templateList let-title="title" let-isIntersection="isIntersection" let-allowEdit="allowEdit">
     <div class="d-flex align-items-center show-on-hover"
-         *ngFor="let tempKey of myObject.keys(_templateKeyDict||{})|filterTemplateLeyList:templateKeySearchKeyword: defaultTemplateKeys: isIntersection">
+         *ngFor="let tempKey of (_templateKeyDict||{})| keyvalue|filterTemplateLeyList:templateKeySearchKeyword: defaultTemplateKeys: isIntersection">
       <div class="pl-2 p-1 mr-1 flex-grow-1 tab-theme limit-oneline cursor-pointer"
            style="border-radius: 2px"
-           [ngClass]="{'text-theme-primary':selectedTemplateKeyInLeftSideBar === tempKey}"
-           (click)="updateSelectedTemplateKey(tempKey);selectedTemplateKeyOutputIndex = [];">{{tempKey}}
+           [ngClass]="{'text-theme-primary':selectedTemplateKeyInLeftSideBar === tempKey.key}"
+           (click)="updateSelectedTemplateKey(tempKey.key);selectedTemplateKeyOutputIndex = [];">{{tempKey.key}}
       </div>
       <ng-container *ngIf="allowEdit">
         <span class="fa fa-edit mr-1 cursor-pointer hide-it" style="color: #9e9e9e"
-              (click)="openEditTemplateKeyModal(tempKey);"></span>
+              (click)="openEditTemplateKeyModal(tempKey.key);"></span>
         <span class="fa fa-trash mx-2 cursor-pointer hide-it" style="color: #9e9e9e"
-              (click)="openDeleteTemplateKeyModal(tempKey)"></span>
+              (click)="openDeleteTemplateKeyModal(tempKey.key)"></span>
       </ng-container>
     </div>
   </ng-template>
@@ -51,13 +53,15 @@
       <span *ngIf="!headingAsSelectedTemplateKey">
         Response Flow {{_templateKeyDict && selectedTemplateKeyInLeftSideBar &&
       _templateKeyDict[selectedTemplateKeyInLeftSideBar] &&
-      ((_templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string') ?
-          ('('+_templateKeyDict[selectedTemplateKeyInLeftSideBar].length+')'):""}}
+      ((_templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType) !== 'string') ?
+          ('(' + _templateKeyDict[selectedTemplateKeyInLeftSideBar].length + ')') : ""}}
       </span>
     </div>
-    <div *ngIf="showModeSelect &&  selectedTemplateKeyInLeftSideBar !== 'first_message'" class="form-group m-0 channel-drop d-flex align-items-center">
+    <div *ngIf="showModeSelect &&  selectedTemplateKeyInLeftSideBar !== 'first_message'"
+         class="form-group m-0 channel-drop d-flex align-items-center">
       <mat-form-field style="margin-bottom: 0px" floatLabel="never">
-        <mat-select required name="name" [(ngModel)]="mode" placeholder="Select Mode" (ngModelChange)="modeChangeHandler(mode)">
+        <mat-select required name="name" [(ngModel)]="mode" placeholder="Select Mode"
+                    (ngModelChange)="modeChangeHandler(mode)">
           <mat-option [value]="'rich'">Rich</mat-option>
           <mat-option [value]="'dynamic'">Dynamic</mat-option>
         </mat-select>
@@ -68,7 +72,7 @@
             [hidden]="!channelList || channelList.length<1">
 
         <mat-form-field style="margin-bottom: -1.2em" floatLabel="never">
-          <mat-select required name="name" ngModel placeholder="Select Channel" >
+          <mat-select required name="name" ngModel placeholder="Select Channel">
             <mat-option *ngFor="let channel of channelList" [value]="channel.name">
               {{channel.displayName}}
             </mat-option>
@@ -76,7 +80,7 @@
         </mat-form-field>
       </form>
 
-        <em class="text-danger" *ngIf="!channelList || channelList.length<1" style="font-size: 11px">No Channels</em>
+      <em class="text-danger" *ngIf="!channelList || channelList.length<1" style="font-size: 11px">No Channels</em>
 
     </div>
   </div>
@@ -197,7 +201,7 @@
       <br>
     </div>
     <div class="d-flex w-100 col-12" style="align-items: center;padding-left: 27px;">
-      <div>{{(modelGenTempNameForm.value|numberOfTrueKeys)||"No"}} response selected</div>
+      <div>{{(modelGenTempNameForm.value|numberOfTrueKeys) || "No"}} response selected</div>
       <div class="cursor-pointer color-primary ml-3" (click)="modelGenTempNameForm.reset()">
         Clear
       </div>
@@ -223,7 +227,9 @@
           </label>
         </form>
         <div class="d-flex w-100">
-          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="modalRefWrapper.ref.close()">Cancel</button>
+          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="modalRefWrapper.ref.close()">
+            Cancel
+          </button>
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                   [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
                   form="modelGenTempNameForm">Copy now
@@ -245,7 +251,8 @@
       <form #templateKeyEditForm="ngForm" class="d-flex align-items-center flex-wrap mt-2">
 
         <input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">
-        <input ngModel required name="new_key" class="w-100" required type="text" [ngModel]="templateKeyToBeDeleted.value"
+        <input ngModel required name="new_key" class="w-100" required type="text"
+               [ngModel]="templateKeyToBeDeleted.value"
                (keyup.enter)="editTemplateKey(templateKeyEditForm)">
         <div class="error-wrapper">
           <span *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</span>

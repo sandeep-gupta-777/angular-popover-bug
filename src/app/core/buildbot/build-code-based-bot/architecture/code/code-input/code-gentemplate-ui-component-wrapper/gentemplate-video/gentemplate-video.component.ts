@@ -52,7 +52,7 @@ export class GentemplateVideoComponent implements OnInit {
       console.log(e);
     }
 
-    debugger;
+
     try {
       url = (this.outputItem.image || this.outputItem.audio || this.outputItem.video || this.outputItem.file)[0].url;
     } catch (e) {

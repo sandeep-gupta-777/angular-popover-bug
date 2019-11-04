@@ -350,9 +350,13 @@ export class MlIntentsDetailComponent implements OnInit {
       template_key
     } = entity;
     // const {name, ...rest} = this.form.value;
+    debugger;
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
     this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id});
+    this._selectedIntent.entities  = UtilityService.cloneObj(this._selectedIntent.entities);
+    this._selectedIntent = {...this._selectedIntent};
+    this.changeDetectorRef.detectChanges();
   }
 
   removeEntityHandler(entityToRemove: IEntitiesItem) {

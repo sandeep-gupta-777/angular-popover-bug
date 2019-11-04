@@ -119,7 +119,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   ngOnInit() {
     let logicText = '';
     if (this.selectedTemplateKeyInLeftSideBar) {
-      logicText = this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;
+      logicText = this._response.templates[this.selectedTemplateKeyInLeftSideBar] && this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
@@ -519,7 +519,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     const formGroup = this.formBuilder.group({
       inputData: [value, (formControl: FormControl) => {
-        if (!formControl.value || !formControl.value.trim()) {
+        if (!formControl.value || !formControl.value.trim || !formControl.value.trim()) {
           return {
             error: 'Template key required'
           };

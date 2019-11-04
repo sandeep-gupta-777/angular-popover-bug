@@ -10,6 +10,7 @@ import {DatePipe} from '@angular/common';
 import {MlIntentsSmartTable} from '../ml-model/ml-intents/ml-intents-smart-table';
 import {IEntitiesItem, IIntentsItem} from '../../interfaces/mlBots';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ESortDir} from '../../../smart-table/smart-table.component';
 
 @Component({
   selector: 'app-ml-intents',
@@ -17,7 +18,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./ml-intents.component.scss']
 })
 export class MlIntentsComponent implements OnInit {
-
+  ESortDir = ESortDir;
   currentPage = 1;
   pageSize = 10;
   isReloading = false;
@@ -36,7 +37,7 @@ export class MlIntentsComponent implements OnInit {
       this.currentPage = 1;
       this.totalIntentsLength = value.length;
       this._intentData = value;
-      const sliceData = this._intentData.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
+      const sliceData = this._intentData;//.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
       this.mlIntentsSmartTableObj = new MlIntentsSmartTable(sliceData, this.getTableDataMetaDict(), {datePipe: this.datePipe});
       this.mlIntentsSmartTableObj.initializeTableData(sliceData);
     }

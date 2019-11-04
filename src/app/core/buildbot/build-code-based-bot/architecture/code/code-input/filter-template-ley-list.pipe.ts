@@ -5,14 +5,14 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class FilterTemplateLeyListPipe implements PipeTransform {
 
-  transform(templateKeys: string[], templateKeySearchKeyword: string, defaultTemplateKeys: string[], isIntersection: boolean): any {
+  transform(templateKeys: { key: string, value: any }[], templateKeySearchKeyword: string, defaultTemplateKeys: string[], isIntersection: boolean): any {
     let filteredBySearchKeyword = templateKeys;
     if (templateKeySearchKeyword) {
-      filteredBySearchKeyword = templateKeys.filter((key) => key.includes(templateKeySearchKeyword));
+      filteredBySearchKeyword = templateKeys.filter((item) => item.key.includes(templateKeySearchKeyword));
     }
 
     if (defaultTemplateKeys) {
-      filteredBySearchKeyword = filteredBySearchKeyword.filter(key => !isIntersection === !defaultTemplateKeys.find(defaultKey => defaultKey === key));
+      filteredBySearchKeyword = filteredBySearchKeyword.filter(key => !isIntersection === !defaultTemplateKeys.find(defaultKey => defaultKey === key.key));
     }
     return filteredBySearchKeyword;
   }

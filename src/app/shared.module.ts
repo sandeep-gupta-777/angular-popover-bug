@@ -87,6 +87,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {PlayMediaComponent} from './chat/play-media/play-media.component';
 import {HttpTrackerLibModule} from 'ngx-loadify';
 import {ServerService} from './server.service';
+import {FilterPipeModule} from 'ngx-filter-pipe';
 
 @NgModule({
   declarations: [
@@ -152,10 +153,12 @@ import {ServerService} from './server.service';
     FaqBotBasicInfoFormComponent,
     PlayMediaComponent,
 
+
     // todo: put it inside view bot details moduel
 
   ],
   imports: [
+    FilterPipeModule,
     SharedEnterpriseListModuleModule,
     MyMaterialModule,
     FormsModule,
@@ -248,6 +251,8 @@ import {ServerService} from './server.service';
     MatCardModule,
     // HttpTrackerLibModule
     HttpTrackerLibModule,
+    FilterPipeModule,
+
   ],
   providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService, ServerService],
 

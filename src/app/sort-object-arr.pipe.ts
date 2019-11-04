@@ -7,6 +7,10 @@ import {SortService} from './sort.service';
 export class SortObjectArrPipe implements PipeTransform {
 
   transform(objs: object[], key: string): any {
+
+    if (!objs) {
+      return [];
+    }
     return objs.sort(SortService.sortObj(key));
   }
 
