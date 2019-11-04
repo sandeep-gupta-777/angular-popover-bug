@@ -1,9 +1,9 @@
-import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, TemplateRef} from '@angular/core';
 import {IBot} from '../../interfaces/IBot';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
-import {IEntitiesItem, IIntentsItem, IMLCorpusResult} from '../../interfaces/mlBots';
+import {IEntitiesItem, IIntentsItem, IMLCorpus, IMLCorpusResult} from '../../interfaces/mlBots';
 import {is} from 'tslint-sonarts/lib/utils/nodes';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
@@ -13,9 +13,10 @@ import {IIntent} from '../../../typings/intents';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {MyToasterService} from '../../../my-toaster.service';
-import {map, tap} from 'rxjs/operators';
+import {map, takeUntil, tap} from 'rxjs/operators';
 import {EventService} from '../../../event.service';
 import {MlService} from './ml.service';
+import {SocketService} from "../../../socket.service";
 
 @Component({
   selector: 'app-ml-model',
@@ -40,22 +41,32 @@ export class MLModelComponent implements OnInit {
   view = 'table';
   intentList: IIntent[];
   entityList: IEntitiesItem[];
+  corpusMiniObj;
   selectedTabIndex: number = 0;
   dialogRefWrapper = {ref: null};
   entity_types: any[];
   modalForm: FormGroup;
   selectedIntent: IIntent = this.selectedIntentInit();
   edittingData;
+  destroy = new EventEmitter();
   IEntitiesItem;
 
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
-    this.getAndSetMlCorpus();
+    this.getAndSetMlCorpusMiniData();
+    this.getAndSetMlIntent();
     this.creatModalForm();
     this.setMLEntityTypes();
     this.setMLEntityList();
+    this.subscribeToGetTrainedDataFormSocket();
   }
-
+  subscribeToGetTrainedDataFormSocket(){
+    SocketService.train$.pipe(takeUntil(this.destroy)).subscribe((payload:any)=>{
+      if(payload && this.bot.id === payload.bot_id){
+        this.corpusMiniObj.state = payload.status;
+      }
+    })
+  }
   selectedIntentInit() {
     return {
       entities: [],
@@ -81,14 +92,16 @@ export class MLModelComponent implements OnInit {
       this.entity_types = value.entity_types;
     });
   }
-
+  loading = false;
   setMLEntityList() {
     const url = this.constantsService.getEntityList();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     // let colorList = JSON.parse(JSON.s);
+    this.loading = true;
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
+      this.loading = false;
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
@@ -101,10 +114,9 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  loading = false;
 
-  getAndSetMlCorpus(page = 1) {
-    // let url = this.constantsService.getMLCorpus();
+
+  getAndSetMlIntent(page = 1) {
     const offset = (page - 1) * 10;
     const url = this.constantsService.getIntents();
     const headerData: IHeaderData = {
@@ -112,6 +124,7 @@ export class MLModelComponent implements OnInit {
     };
     this.loading = true;
     this.serverService.makeGetReq({url, headerData}).subscribe((val: any) => {
+      this.getAndSetMlCorpusMiniData();
       this.intentList = val.objects;
       // this.entityList = val.objects[0].entities;
       this.loading = false;
@@ -122,7 +135,17 @@ export class MLModelComponent implements OnInit {
       }
     });
   }
-
+  getAndSetMlCorpusMiniData(){
+    let url = this.constantsService.getMLDefaultCorpusMiniData();
+    debugger;
+    // let url = this.constantsService.getMLDefaultCorpus();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    this.serverService.makeGetReq({url, headerData}).subscribe((val ) => {
+      this.corpusMiniObj = val;
+    });
+  }
   addNewIntentOrEntity(isIntent: number, template: TemplateRef<any>) {
     if (isIntent === 0) {
       this.viewChanged(this.view = 'detail');
@@ -170,13 +193,16 @@ export class MLModelComponent implements OnInit {
   saveAndTrainCustomEntity(body) {
     let url = this.constantsService.updateMLEntity();
     this.entityUpdateService(url, body).subscribe(val => {
+      this.view = 'table';
       this.trainMLBots();
     });
   }
 
   saveCustomEntity(body) {
     let url = this.constantsService.updateMLEntity();
-    this.entityUpdateService(url, body).subscribe();
+    this.entityUpdateService(url, body).subscribe((val)=>{
+      this.view = 'table';
+    });
   }
 
   entityUpdateService(url, body) {
@@ -186,6 +212,7 @@ export class MLModelComponent implements OnInit {
     return this.serverService.makePostReq({headerData, url, body})
       .pipe(map((val: any) => {
           // this.view = 'table';
+          this.getAndSetMlCorpusMiniData()
           if (body.entity_id) {
             for (var i = 0; i < this.entityList.length; i++) {
               if (this.entityList[i].entity_id === body.entity_id) {
@@ -243,6 +270,7 @@ export class MLModelComponent implements OnInit {
         }
         this.entityList = [...this.entityList];
         MlService.entityList = this.entityList;
+        this.getAndSetMlCorpusMiniData()
         this.utilityService.showSuccessToaster('Entity deleted');
       });
   }
@@ -268,6 +296,7 @@ export class MLModelComponent implements OnInit {
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
         this.myToasterService.showSuccessToaster('training started');
+        this.getAndSetMlCorpusMiniData()
       });
   }
 
@@ -300,6 +329,7 @@ export class MLModelComponent implements OnInit {
     }
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
     return obs.pipe(tap((res: any) => {
+      this.getAndSetMlCorpusMiniData();
       this.utilityService.showSuccessToaster(`Intent ${(!intent.intent_id) ? 'created' : 'updated'} successfully`);
       const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
@@ -313,7 +343,7 @@ export class MLModelComponent implements OnInit {
   }
 
   loadIntent(page) {
-    this.getAndSetMlCorpus(page);
+    this.getAndSetMlIntent(page);
   }
 
   viewChanged(view) {
@@ -325,7 +355,7 @@ export class MLModelComponent implements OnInit {
         intent_id = this.selectedIntent && this.selectedIntent.intent_id;
       } else {
         this.selectedIntent = this.selectedIntentInit();
-        this.getAndSetMlCorpus();
+        this.getAndSetMlIntent();
       }
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
@@ -349,7 +379,16 @@ export class MLModelComponent implements OnInit {
     this.serverService.makePostReq({url, headerData, body})
       .subscribe(() => {
         // this.loading = false;
+        this.getAndSetMlCorpusMiniData();
         this.viewChanged('table');
       });
+  }
+  ngOnDestroy(): void {
+    try {
+      this.destroy.next(true);
+      this.destroy.unsubscribe();
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

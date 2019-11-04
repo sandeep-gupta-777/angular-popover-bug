@@ -1114,6 +1114,12 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/mlcorpus/';
   }
 
+  getMLDefaultCorpus() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/getdefault/';
+  }
+  getMLDefaultCorpusMiniData(){
+    return this.BACKEND_URL + 'api/v1/mlcorpus/getdefault/?display=true';
+  }
   getIntents() {
     return this.BACKEND_URL + `api/v1/mlcorpus/intent/`;
   }

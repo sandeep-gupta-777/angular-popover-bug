@@ -3,6 +3,16 @@
   <div class="d-flex flex-row heading">
     <strong class="heading-title">
       Machine learning model</strong>
+    <div class="model-state " *ngIf="corpusMiniObj.state"
+         [ngStyle]="{'background-color':  corpusMiniObj.state === 'saved' ? '#fdc31c':
+          corpusMiniObj.state === 'training' ? '#f48a42' :
+          corpusMiniObj.state === 'trained' ? '#00abd3' :
+          corpusMiniObj.state === 'live' ? '#34bc6e' : '#00abd3', 'color': corpusMiniObj.state === 'saved' ? '#474747' : '#ffffff' }">
+      {{ corpusMiniObj.state === 'saved' ? 'Saved' :
+        corpusMiniObj.state === 'training' ? 'Training' :
+            corpusMiniObj.state === 'trained' ? 'Trained' :
+                corpusMiniObj.state === 'live' ? 'Live' : 'Trained' }}
+    </div>
     <div class="mr-auto">
     </div>
     <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" (click)="trainMLBots()">
