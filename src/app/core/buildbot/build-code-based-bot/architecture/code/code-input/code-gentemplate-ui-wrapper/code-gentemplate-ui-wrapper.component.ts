@@ -28,6 +28,7 @@ export interface IOutputItem {
   type: string;
   text?: string[];
   code?: string;
+  function_code?: string;
   include?: string[];
   audio: { url: '' };
   video: { url: '' };
@@ -303,7 +304,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addCodeSnippetUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'type': 'code',
+      'function_code': ''
     };
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
     setTimeout(() => this.scrollToBottom());

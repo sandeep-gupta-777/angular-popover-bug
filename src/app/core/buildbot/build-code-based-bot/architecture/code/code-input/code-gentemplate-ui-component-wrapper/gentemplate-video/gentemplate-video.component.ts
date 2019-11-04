@@ -73,7 +73,6 @@ export class GentemplateVideoComponent implements OnInit {
         try {
           const obj = JSON.parse(formData.code);
           Object.assign(this.outputItem, obj);
-          this.outputItem.type = 'code';
         } catch (e) {
           console.log(e);
         }

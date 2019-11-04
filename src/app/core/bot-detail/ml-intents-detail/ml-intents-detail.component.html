@@ -87,7 +87,7 @@
             <!--            <mat-icon>close</mat-icon>-->
             <!--          </button>-->
           </div>
-          <i class="fa fa-trash" (click)="removeUtterance(index)"></i>
+          <i class="fa fa-trash" *ngIf="_selectedIntent.utterances.length !== 1" (click)="removeUtterance(index)"></i>
         </div>
       </div>
 

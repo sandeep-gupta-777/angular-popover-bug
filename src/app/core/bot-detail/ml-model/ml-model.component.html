@@ -33,7 +33,7 @@
     style="position: absolute;right: 3px;top: 18px;z-index: 10;"
     (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
   </app-button-wrapper>
-  <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event">
+  <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event" [selectedIndex]="selectedTabIndex">
     <mat-tab label="Intents" style="min-height: 50vh">
       <app-ml-intents [bot]="bot"
                       (selectedIntentChanged$)="selectedIntent = $event"
@@ -70,19 +70,19 @@
                       (saveCustomEntity)="saveCustomEntity($event)"
                       (saveAndTrainCustomEntity)="saveAndTrainCustomEntity($event)"
                       (deleteCustomEntity)="deleteEntityClicked($event)"
-                      (goBackToTableView)="view = 'table'"
+                      (goBackToTableView)="view = 'table'; selectedTabIndex = 1"
   ></app-ml-edit-entity>
 </div>
 
 <ng-template #Primarytemplat>
-  <div class="danger-modal" >
+  <div class="danger-modal">
     <div class="modal-header">
       <h4 class="modal-title mb-1" style="display: flex;justify-content: start;color: #474747;">Create new entity</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div style="color: #696969;font-size: 11px;" class = "mb-3">Select which type of entity to create
+    <div style="color: #696969;font-size: 11px;" class="mb-3">Select which type of entity to create
     </div>
     <div class="modal-body pt-0">
       <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;">

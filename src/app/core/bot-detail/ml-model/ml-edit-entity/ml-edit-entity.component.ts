@@ -155,6 +155,6 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   goBackToTableViewClicked() {
-    this.goBackToTableView.emit();
+    this.goBackToTableView.emit(1);
   }
 }

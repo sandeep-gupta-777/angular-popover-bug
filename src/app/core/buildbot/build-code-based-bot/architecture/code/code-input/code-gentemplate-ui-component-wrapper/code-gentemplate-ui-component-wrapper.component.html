@@ -47,7 +47,7 @@
       [outputItem]="outputItem"
     ></app-gentemplate-video>
     <app-gentemplate-video
-      *ngIf="outputItem?.type=== 'code'"
+      *ngIf="outputItem?.function_code!== null ||outputItem?.function_code!== undefined"
       [type]="'code'"
       class="flex-grow-1"
       [bot]="bot"
