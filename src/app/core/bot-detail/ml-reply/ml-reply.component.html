@@ -4,11 +4,11 @@
       Replies
     </strong>
     <div class="article-state " *ngIf="mlResponse && mlResponse.state as state"
-         [ngStyle]="{'background-color':  mlResponse.state === 'saved' ? '#fdc31c':
+         [ngStyle]="{'background-color':  (mlResponse.state === 'saved' || mlResponse.state ===  'cloned') ? '#fdc31c':
           state === 'training' ? '#f48a42' :
           state === 'trained' ? '#00abd3' :
-          state === 'live' ? '#34bc6e' : '#00abd3', 'color': state === 'saved' ? '#474747' : '#ffffff' }">
-      {{ state === 'saved' ? 'Saved' :
+          state === 'live' ? '#34bc6e' : '#00abd3', 'color': (state === 'saved' || mlResponse.state ===  'cloned') ? '#474747' : '#ffffff' }">
+      {{ (state === 'saved' || mlResponse.state ===  'cloned')? 'Saved' :
         state === 'training' ? 'Training' :
             state === 'trained' ? 'Trained' :
                 state === 'live' ? 'Live' : 'Trained' }}
