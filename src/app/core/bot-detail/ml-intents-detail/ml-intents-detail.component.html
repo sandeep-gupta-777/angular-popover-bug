@@ -75,6 +75,7 @@
       </div>
 
       <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent">
+        <i>{{_selectedIntent.utterances[0].entities|json}}</i>
         <div
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index;">
