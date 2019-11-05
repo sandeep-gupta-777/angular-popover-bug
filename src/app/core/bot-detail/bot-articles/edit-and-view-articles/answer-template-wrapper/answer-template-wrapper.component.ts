@@ -42,6 +42,8 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       this.addVideoUnit();
     } else if (tab === ETemplateResponseType.file) {
       this.addFileUnit();
+    } else if(tab === ETemplateResponseType.code){
+      this.addCodeSnippetUnit();
     }
   }
 
@@ -93,9 +95,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addImageUnit() {
     const unit = {
       'include': ['web'],
-      'media': [{
-        'image_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
-      }]
+      'image': [{'url': 'myimage.jpeg'}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
@@ -104,32 +104,32 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addFileUnit() {
     const unit = {
       'include': ['web'],
-      'media': [{
-        'file_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
-      }]
+      'file': [{'url': 'myfile.jpeg'}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
   }
-
-  addVideoUnit() {
+  addCodeSnippetUnit() {
     const unit = {
-      'include': ['web'],
-      'media': [{
-        'video_url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
-      }]
+      'include':  ['web'],
+      'type': 'code',
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
-
+  }
+  addVideoUnit() {
+    const unit = {
+      'include': ['web'],
+      'video': [{'url': 'myvideo.mp4'}]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
   }
 
   addAudioUnit() {
     const unit = {
       'include': ['web'],
-      'media': [{
-        'audio_url': 'https://freesound.org/data/previews/347/347557_2247456-lq.mp3',
-      }]
+      'audio': [{'url': 'myaudio.mp3'}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());

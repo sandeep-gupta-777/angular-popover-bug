@@ -17,6 +17,7 @@ import {map, takeUntil, tap} from 'rxjs/operators';
 import {EventService} from '../../../event.service';
 import {MlService} from './ml.service';
 import {SocketService} from "../../../socket.service";
+import {ModalConfirmComponent} from "../../../modal-confirm/modal-confirm.component";
 
 @Component({
   selector: 'app-ml-model',
@@ -194,7 +195,7 @@ export class MLModelComponent implements OnInit {
     let url = this.constantsService.updateMLEntity();
     this.entityUpdateService(url, body).subscribe(val => {
       this.view = 'table';
-      this.trainMLBots();
+      this.trainMLBots(`Updated ml Entity of modal id ${this.corpusMiniObj.id}`);
     });
   }
 
@@ -286,23 +287,66 @@ export class MLModelComponent implements OnInit {
   selectedIntentChanged(intent: IIntent) {
 
   }
-
-  trainMLBots() {
+  trainMLBotsModal(){
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: `Continue`,
+        message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
+        title: `Train knowledge base`,
+        isActionButtonDanger: false,
+        inputDescription: 'Comment'
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
+        this.trainMLBots(data);
+      }
+    });
+  }
+  trainMLBots(str){
+    debugger;
     const url = this.constantsService.trainMlBotUrl();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
-    const body = {'bot_id': this.bot.id};
+    const body = {
+      'bot_id': this.bot.id,
+      'description': str
+    };
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
         this.myToasterService.showSuccessToaster('training started');
         this.getAndSetMlCorpusMiniData()
       });
   }
+  makeLiveMLBots(){
+
+    const url = this.constantsService.makeMLCorpusLiveUrl();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    const body = {'corpus_id': this.corpusMiniObj.id};
+    this.serverService.makePostReq({url, body, headerData})
+      .subscribe(() => {
+        this.myToasterService.showSuccessToaster('Bot made live');
+        this.getAndSetMlCorpusMiniData();
+      });
+  }
+  trainOrMakeLiveMLBotsClicked() {
+    if (this.corpusMiniObj.state === 'saved') {
+      this.trainMLBotsModal();
+    }
+    if (this.corpusMiniObj.state === 'trained') {
+      this.makeLiveMLBots();
+    }
+  }
 
   saveAndTrainHandler(intent: IIntent) {
     this.saveOrUpdateIntentHandler(intent).subscribe(() => {
-      this.trainMLBots();
+      this.trainMLBots(`Updated ml Intent of modal id ${this.corpusMiniObj.id}`);
     });
   }
 

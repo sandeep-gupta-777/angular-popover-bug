@@ -946,7 +946,7 @@ export class ConstantsService {
 
   getAllCorpusForMLBot(limit, offset) {
     //state__in=trained,live&
-    return this.BACKEND_URL + `api/v1/mlcorpus/?limit=${limit}&offset=${offset}&order_by=-updated_at`;
+    return this.BACKEND_URL + `api/v1/mlcorpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
 
   getAllCorpusForFAQBot(limit, offset) {
