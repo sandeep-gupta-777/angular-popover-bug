@@ -307,7 +307,7 @@ export class MLModelComponent implements OnInit {
     });
   }
   trainMLBots(str){
-    debugger;
+
     const url = this.constantsService.trainMlBotUrl();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)

@@ -235,7 +235,15 @@ export class MlIntentsDetailComponent implements OnInit {
     if (selectionStr === '') {
       return;
     }
-    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${selectionStr}<span>`);
+
+    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">xxx<span>`);
+    debugger;
+    const x = document.querySelector(`[data-id="${random}"]`);
+    const parent = x.parentElement;
+    start = parent.textContent.split('xxx')[0].length;
+    end = start + selectionStr.length;
+    x.setAttribute('data-position', `entity-${start}-${end}`);
+    x.textContent = selectionStr;
     return random;
   }
 
@@ -270,6 +278,7 @@ export class MlIntentsDetailComponent implements OnInit {
       if (markerIndex !== -1) {
         this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
         const color = this.getColorByEntity(entityMarker.entity_id);
+
         origin.style.backgroundColor = color;
         if (action === 'remove') {
           this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
@@ -280,7 +289,7 @@ export class MlIntentsDetailComponent implements OnInit {
         this._selectedIntent.utterances[index].entities.push(entityMarker);
         const color = this.getColorByEntity(entityMarker.entity_id);
         origin.style.backgroundColor = color;
-        debugger;
+
         this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
           return !positionsToBeRemoved.find((position) => {
             return (marker.start == position.start && marker.end == position.end);
@@ -289,8 +298,14 @@ export class MlIntentsDetailComponent implements OnInit {
       }
 
       if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
+
         const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
-        this._selectedIntent.entities.unshift(markedEntity);
+        const {entity_id, type, name} = markedEntity;
+        this._selectedIntent.entities.unshift(<any>{
+          counter: 3,
+          required: false,
+          template_key: '', entity_id, type, name
+        });
       }
 
     });
@@ -440,10 +455,10 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   preventTypingInMarkers(event) {
-    debugger;
+
     // if (event.target.classList.contains('bg-red')) {
-      event.stopPropagation();
-      event.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
     // }
   }
 
