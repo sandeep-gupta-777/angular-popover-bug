@@ -30,6 +30,10 @@ export class MlReplyComponent implements OnInit {
 
   ngOnInit() {
     this.showLoading = true;
+    this.getResponseTemplates();
+  }
+
+  getResponseTemplates(){
     this.mlReplyService.getResponseTemplates(this.bot)
       .subscribe((value: IMLResponse) => {
         this.showLoading = false;
@@ -43,6 +47,7 @@ export class MlReplyComponent implements OnInit {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
         this.utilityService.showSuccessToaster('Bot successfully made live');
+        this.getResponseTemplates();
       });
   }
 
@@ -60,6 +65,8 @@ export class MlReplyComponent implements OnInit {
     this.mlResponse.workflow.logic = this.workFlowObj.text;
     this.mlReplyService.updateResponseTemplates(this.bot, this.mlResponse, this.mlResponse.id)
       .subscribe((value: IMLResponse) => {
+        debugger;
+        this.getResponseTemplates();
         Object.keys(value.templates)
           .forEach((key) => {
             this.templateKeyDict[key] = value.templates[key].response;

@@ -52,7 +52,7 @@ export class GentemplateVideoComponent implements OnInit {
       console.log(e);
     }
 
-    debugger;
+
     try {
       url = (this.outputItem.image || this.outputItem.audio || this.outputItem.video || this.outputItem.file)[0].url;
     } catch (e) {
@@ -67,13 +67,13 @@ export class GentemplateVideoComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe((formData) => {
+      debugger;
       if (this.type !== 'code') {
-        this.outputItem.media[0][this.type + '_url'] = formData.url;
+        this.outputItem[this.type][0]['url'] = formData.url;
       } else {
         try {
           const obj = JSON.parse(formData.code);
           Object.assign(this.outputItem, obj);
-          this.outputItem.type = 'code';
         } catch (e) {
           console.log(e);
         }

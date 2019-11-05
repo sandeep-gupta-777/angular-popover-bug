@@ -28,6 +28,7 @@ export interface IOutputItem {
   type: string;
   text?: string[];
   code?: string;
+  function_code?: string;
   include?: string[];
   audio: { url: '' };
   video: { url: '' };
@@ -119,7 +120,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   ngOnInit() {
     let logicText = '';
     if (this.selectedTemplateKeyInLeftSideBar) {
-      logicText = this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;
+      logicText = this._response.templates[this.selectedTemplateKeyInLeftSideBar] && this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
@@ -303,7 +304,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addCodeSnippetUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'type': 'code',
+      'function_code': ''
     };
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
     setTimeout(() => this.scrollToBottom());
@@ -497,7 +498,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   //  }
 
   async openNewIntentModal() {
-    this.showCreateOrEditTemplateKeyModel('Create template key').then((data) => {
+    this.showCreateOrEditTemplateKeyModel('Create template key', null , true).then((data) => {
       if (data) {
 
         this.newTemplateKey = data;
@@ -514,12 +515,12 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     //  });
   }
 
-  showCreateOrEditTemplateKeyModel(title: string, value = '') {
+  showCreateOrEditTemplateKeyModel(title: string, value = '', isNew = false) {
     const dialogRefWrapper = this.modalRefWrapper;
     //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     const formGroup = this.formBuilder.group({
       inputData: [value, (formControl: FormControl) => {
-        if (!formControl.value || !formControl.value.trim()) {
+        if (!formControl.value || !formControl.value.trim || !formControl.value.trim()) {
           return {
             error: 'Template key required'
           };
@@ -535,7 +536,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       dialogRefWrapper: dialogRefWrapper,
       classStr: 'primary-modal-header-border',
       data: {
-        actionButtonText: `Create`,
+        actionButtonText: `${isNew ? 'Create' : 'Edit'}`,
         message: null,
         formGroup,
         title,
@@ -580,7 +581,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     }
     delete this._templateKeyDict[tempKey];
     this.updateSelectedTemplateKey(Object.keys(this._templateKeyDict)[0]);
-    this.utilityService.showSuccessToaster('Template key removed');
     this.modalRefWrapper.ref.close();
   }
 

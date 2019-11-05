@@ -1,9 +1,8 @@
+<!--<i>{{form.get('url')}}</i>-->
 <form [formGroup]="form" class="play-media-wrapper" style="padding: 6px">
   <div style="width: 100%;
     display: flex;
-
     align-items: center;">
-
     <mat-icon style="color: #696969; padding-right: 30px; flex-shrink: 0">{{header[type].icon}}</mat-icon>
     <span style="color: #696969; font-weight: bold">{{header[type].text}}</span>
   </div>
@@ -11,19 +10,19 @@
     <div class="item" style=" display: flex; justify-content: center; align-items: center; width: 100%">
       <ng-container *ngIf="(outputItem|mediaDetecion)">
         <video controls *ngIf="type === EBotMessageMediaType.video">
-          <source [src]="outputItem?.video?.url">
+          <source [src]="form.get('url').value">
           Your browser does not support HTML5 video.
         </video>
 
         <audio controls *ngIf="type === EBotMessageMediaType.audio">
-          <source [src]="outputItem?.audio?.url">
+          <source [src]="form.get('url').value">
           Your browser does not support HTML5 audio.
         </audio>
 
         <div style="height: 200px;width: 100%; display: flex; justify-content: center"
              *ngIf="type === EBotMessageMediaType.image">
           <img style="height: 100%"
-               [src]="outputItem?.image?.url" alt="">
+               [src]="form.get('url').value" alt="">
         </div>
       </ng-container>
 

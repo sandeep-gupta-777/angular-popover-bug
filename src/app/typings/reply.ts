@@ -30,7 +30,7 @@ export interface IMLResponse {
   'id': number;
   'metadata': {};
   'resource_uri': '/api/v1/responsetemplates/6/';
-  'state': 'saved';
+  'state': string;
   'templates': IMlTemplate;
   'updated_at': 1571573175000.0;
   'updated_by': 'Manjula Choudhary';

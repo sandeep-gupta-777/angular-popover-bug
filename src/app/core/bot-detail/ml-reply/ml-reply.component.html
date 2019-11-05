@@ -4,18 +4,18 @@
       Replies
     </strong>
     <div class="article-state " *ngIf="mlResponse && mlResponse.state as state"
-         [ngStyle]="{'background-color':  mlResponse.state === 'saved' ? '#fdc31c':
+         [ngStyle]="{'background-color':  (mlResponse.state === 'saved' || mlResponse.state ===  'cloned') ? '#fdc31c':
           state === 'training' ? '#f48a42' :
           state === 'trained' ? '#00abd3' :
-          state === 'live' ? '#34bc6e' : '#00abd3', 'color': state === 'saved' ? '#474747' : '#ffffff' }">
-      {{ state === 'saved' ? 'Saved' :
+          state === 'live' ? '#34bc6e' : '#00abd3', 'color': (state === 'saved' || mlResponse.state ===  'cloned') ? '#474747' : '#ffffff' }">
+      {{ (state === 'saved' || mlResponse.state ===  'cloned')? 'Saved' :
         state === 'training' ? 'Training' :
             state === 'trained' ? 'Trained' :
                 state === 'live' ? 'Live' : 'Trained' }}
     </div>
     <div class="mr-auto">
     </div>
-    <div style="display: flex">
+    <div style="display: flex" *ngIf="mlResponse.state !== 'live'">
       <button (click)="makeLive()"
               style="padding: 0 10px 0 8px !important;"
               class="btn-theme btn-theme-primary mat-theme-button mr-1">

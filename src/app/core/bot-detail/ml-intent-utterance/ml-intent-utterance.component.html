@@ -10,10 +10,11 @@
   <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent"
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
+<!--<i>{{selectedIntent.entities|json}}</i>-->
 
 <form #entityForm="ngForm" class="list-wrapper">
 <!--  <button (click)="log(entityForm)">log</button>-->
-  <div class="example-list" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
+  <div class="example-list" [ngClass]="{'overflow-hidden': selectedIntent?.entities?.length < 4}" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
        (cdkDropListDropped)="drop($event)">
     <table style="border: solid 1px #eaeaea;">
       <tr style="height: 32px">

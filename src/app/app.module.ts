@@ -82,7 +82,6 @@ const routes: Route[] = [
       errorClassDuration: 2000,
     }),
     OverlayModule,
-    FilterPipeModule,
 
     RouterModule.forRoot(routes, {enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,

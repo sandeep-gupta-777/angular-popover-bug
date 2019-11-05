@@ -4,6 +4,8 @@
                  [totalRecords]="totalIntentsLength"
                  (rowClicked$)="intentClickedHandler($event)"
                  [data]="mlIntentsSmartTableObj?.tableData"
+                 [sortedCol]="'Last update'"
+                 [sortDir]="ESortDir.DES"
                  (performSearchInDB$)="goToPage($event)">
 </app-smart-table>
 
