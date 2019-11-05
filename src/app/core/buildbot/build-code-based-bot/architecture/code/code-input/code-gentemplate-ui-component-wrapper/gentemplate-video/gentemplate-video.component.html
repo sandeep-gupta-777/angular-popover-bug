@@ -1,3 +1,4 @@
+<!--<i>{{form.get('url')}}</i>-->
 <form [formGroup]="form" class="play-media-wrapper" style="padding: 6px">
   <div style="width: 100%;
     display: flex;
@@ -21,7 +22,7 @@
         <div style="height: 200px;width: 100%; display: flex; justify-content: center"
              *ngIf="type === EBotMessageMediaType.image">
           <img style="height: 100%"
-               [src]="outputItem?.image?.url" alt="">
+               [src]="form.get('url').value" alt="">
         </div>
       </ng-container>
 

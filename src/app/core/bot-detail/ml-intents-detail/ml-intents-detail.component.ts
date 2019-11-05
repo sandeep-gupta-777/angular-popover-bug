@@ -387,7 +387,6 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   test(k, index) {
-
     this._selectedIntent.utterances[index].utterance = k.target.textContent;
   }
 

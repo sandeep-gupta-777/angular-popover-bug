@@ -67,8 +67,9 @@ export class GentemplateVideoComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe((formData) => {
+      debugger;
       if (this.type !== 'code') {
-        this.outputItem.media[0][this.type + '_url'] = formData.url;
+        this.outputItem[this.type][0]['url'] = formData.url;
       } else {
         try {
           const obj = JSON.parse(formData.code);
