@@ -65,7 +65,7 @@ export class MlReplyComponent implements OnInit {
     this.mlResponse.workflow.logic = this.workFlowObj.text;
     this.mlReplyService.updateResponseTemplates(this.bot, this.mlResponse, this.mlResponse.id)
       .subscribe((value: IMLResponse) => {
-        debugger;
+
         this.getResponseTemplates();
         Object.keys(value.templates)
           .forEach((key) => {

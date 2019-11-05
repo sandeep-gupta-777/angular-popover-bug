@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, TemplateRef} from '@angular/core';
 import {MlIntentsSmartTable} from '../ml-model/ml-intents/ml-intents-smart-table';
 import {IBot} from '../../interfaces/IBot';
 import {IEntitiesItem, IIntentsItem} from '../../interfaces/mlBots';
@@ -78,7 +78,8 @@ export class MlIntentsDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serverService: ServerService,
     private changeDetectorRef: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _ngZone: NgZone
   ) {
   }
 
@@ -115,12 +116,50 @@ export class MlIntentsDetailComponent implements OnInit {
   @Output() viewChanged$ = new EventEmitter();
   @Output() selectedIntentChanged$ = new EventEmitter();
 
+  getPositionMarker($marker: HTMLElement) {
+    if (!$marker) {
+      return null;
+    }
+    const position = $marker.getAttribute('data-position');
+    if (!position) {
+      return null;
+    }
+    return {
+      start: position.split('-')[1],
+      end: position.split('-')[2],
+    };
+  }
+
+  removeCrossover(target: HTMLElement) {
+    const entities = [];
+    const contentContainer = target.parentElement;
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      const startContainer = selection.getRangeAt(0).startContainer.parentNode as HTMLElement;
+      const endContainer = selection.getRangeAt(0).endContainer.parentNode as HTMLElement;
+
+      if (startContainer != contentContainer) {
+        // startContainer.classList.remove('bg-red');
+        const positions = this.getPositionMarker(startContainer);
+        positions && entities.push(positions);
+      }
+      if (endContainer != contentContainer) {
+        // endContainer.classList.remove('bg-red');
+        const positions = this.getPositionMarker(endContainer);
+        positions && entities.push(positions);
+      }
+    }
+    return entities;
+  }
+
   textSelected(e, tpl, index, utterance: string) {
 
     const target = e.target as HTMLElement;
     if (target.classList.contains('bg-red') && (window.getSelection().toString() === target.textContent)) {
       return;
     }
+
+    const positionsToBeRemoved: any[] = this.removeCrossover(target);
     var selection;
 
     if (window.getSelection) {
@@ -136,6 +175,7 @@ export class MlIntentsDetailComponent implements OnInit {
     // selection.toString() !== '' && alert('"' + selection.toString() + '" was selected at ' + e.pageX + '/' + e.pageY);
     // const start = utterance.indexOf(selection.toString());
     const {start, end} = this.getPositionOfStr(utterance, selection.toString());
+
     const markers = this._selectedIntent.utterances[index].entities.filter((entity) => {
       if ((entity.start <= start && start <= entity.end) || (entity.start <= end && end <= entity.end)) {
 
@@ -162,9 +202,14 @@ export class MlIntentsDetailComponent implements OnInit {
 
     setTimeout(() => {
       const random = this.replaceSelectedText(selectionStr, start, end);
+      // this._ngZone.runOutsideAngular(() => {
+      //   this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+      //     return !positionsToBeRemoved.find(pos => pos.start == marker.start);
+      //   });
+      // });
       const $selection = e.target as HTMLElement;
       const x = $selection.querySelector(`[data-id="${random}"]`);
-      this.show2(x, tpl, index);
+      this.show2(x, tpl, index, positionsToBeRemoved);
     },);
 
   }
@@ -194,7 +239,7 @@ export class MlIntentsDetailComponent implements OnInit {
     return random;
   }
 
-  show(origin: HTMLElement, content: TemplateRef<any>, index) {
+  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved) {
     const position = origin.getAttribute('data-position');
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
@@ -213,7 +258,6 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     ref.afterClosed$.subscribe((res: any) => {
-
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
       if (!entityMarker) {
@@ -230,13 +274,18 @@ export class MlIntentsDetailComponent implements OnInit {
         if (action === 'remove') {
           this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
           this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
-
           return;
         }
       } else {
         this._selectedIntent.utterances[index].entities.push(entityMarker);
         const color = this.getColorByEntity(entityMarker.entity_id);
         origin.style.backgroundColor = color;
+        debugger;
+        this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+          return !positionsToBeRemoved.find((position) => {
+            return (marker.start == position.start && marker.end == position.end);
+          });
+        });
       }
 
       if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
@@ -253,9 +302,9 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
 
-  show2(target, tpl, index) {
+  show2(target, tpl, index, positionsToBeRemoved) {
     if (target.classList.contains('bg-red')) {
-      this.show(target, tpl, index);
+      this.show(target, tpl, index, positionsToBeRemoved);
     }
   }
 
@@ -350,11 +399,11 @@ export class MlIntentsDetailComponent implements OnInit {
       template_key
     } = entity;
     // const {name, ...rest} = this.form.value;
-    debugger;
+
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
     this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id});
-    this._selectedIntent.entities  = UtilityService.cloneObj(this._selectedIntent.entities);
+    this._selectedIntent.entities = UtilityService.cloneObj(this._selectedIntent.entities);
     this._selectedIntent = {...this._selectedIntent};
     this.changeDetectorRef.detectChanges();
   }
@@ -388,6 +437,14 @@ export class MlIntentsDetailComponent implements OnInit {
 
   test(k, index) {
     this._selectedIntent.utterances[index].utterance = k.target.textContent;
+  }
+
+  preventTypingInMarkers(event) {
+    debugger;
+    // if (event.target.classList.contains('bg-red')) {
+      event.stopPropagation();
+      event.preventDefault();
+    // }
   }
 
 }
