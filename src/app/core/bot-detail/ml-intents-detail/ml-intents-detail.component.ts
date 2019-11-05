@@ -201,14 +201,14 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     setTimeout(() => {
-      const random = this.replaceSelectedText(selectionStr, start, end);
+      const random = this.replaceSelectedText(selectionStr);
       // this._ngZone.runOutsideAngular(() => {
       //   this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
       //     return !positionsToBeRemoved.find(pos => pos.start == marker.start);
       //   });
       // });
       const $selection = e.target as HTMLElement;
-      const x = $selection.querySelector(`[data-id="${random}"]`);
+      const x = document.querySelector(`[data-id="${random}"]`);
       this.show2(x, tpl, index, positionsToBeRemoved);
     },);
 
@@ -222,7 +222,8 @@ export class MlIntentsDetailComponent implements OnInit {
     };
   }
 
-  replaceSelectedText(selectionStr, start, end) {
+  replaceSelectedText(selectionStr) {
+    let start = 0, end = 0;
     const random = Date.now();
     const obj = {
       'cmd': 'insertHTML',
@@ -235,12 +236,15 @@ export class MlIntentsDetailComponent implements OnInit {
     if (selectionStr === '') {
       return;
     }
-
-    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">xxx<span>`);
+    const tempMarkingWord = 'xxxxxxxxxxxxx1123';
+    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span>`);
     debugger;
     const x = document.querySelector(`[data-id="${random}"]`);
-    const parent = x.parentElement;
-    start = parent.textContent.split('xxx')[0].length;
+    let parent = x.parentElement;
+    while (parent !== null && !parent.classList.contains('utter')) {
+      parent = parent.parentElement;
+    }
+    start = parent.textContent.split(tempMarkingWord)[0].length;
     end = start + selectionStr.length;
     x.setAttribute('data-position', `entity-${start}-${end}`);
     x.textContent = selectionStr;
@@ -286,10 +290,19 @@ export class MlIntentsDetailComponent implements OnInit {
           return;
         }
       } else {
+        this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+          debugger;
+          // if ((marker.start <= start && start <= marker.end) || (marker.start <= end && end <= marker.end)) {
+          //   return false;
+          // }
+          if ((start <= marker.start && marker.end <= end) || (marker.start <= start && end <= marker.end)) {
+            return false;
+          }
+          return true;
+        });
         this._selectedIntent.utterances[index].entities.push(entityMarker);
         const color = this.getColorByEntity(entityMarker.entity_id);
         origin.style.backgroundColor = color;
-
         this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
           return !positionsToBeRemoved.find((position) => {
             return (marker.start == position.start && marker.end == position.end);
