@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, TemplateRef} from '@angular/core';
 import {MlIntentsSmartTable} from '../ml-model/ml-intents/ml-intents-smart-table';
 import {IBot} from '../../interfaces/IBot';
 import {IEntitiesItem, IIntentsItem} from '../../interfaces/mlBots';
@@ -78,7 +78,8 @@ export class MlIntentsDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serverService: ServerService,
     private changeDetectorRef: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _ngZone: NgZone
   ) {
   }
 
@@ -115,12 +116,50 @@ export class MlIntentsDetailComponent implements OnInit {
   @Output() viewChanged$ = new EventEmitter();
   @Output() selectedIntentChanged$ = new EventEmitter();
 
+  getPositionMarker($marker: HTMLElement) {
+    if (!$marker) {
+      return null;
+    }
+    const position = $marker.getAttribute('data-position');
+    if (!position) {
+      return null;
+    }
+    return {
+      start: position.split('-')[1],
+      end: position.split('-')[2],
+    };
+  }
+
+  removeCrossover(target: HTMLElement) {
+    const entities = [];
+    const contentContainer = target.parentElement;
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      const startContainer = selection.getRangeAt(0).startContainer.parentNode as HTMLElement;
+      const endContainer = selection.getRangeAt(0).endContainer.parentNode as HTMLElement;
+
+      if (startContainer != contentContainer) {
+        // startContainer.classList.remove('bg-red');
+        const positions = this.getPositionMarker(startContainer);
+        positions && entities.push(positions);
+      }
+      if (endContainer != contentContainer) {
+        // endContainer.classList.remove('bg-red');
+        const positions = this.getPositionMarker(endContainer);
+        positions && entities.push(positions);
+      }
+    }
+    return entities;
+  }
+
   textSelected(e, tpl, index, utterance: string) {
 
     const target = e.target as HTMLElement;
     if (target.classList.contains('bg-red') && (window.getSelection().toString() === target.textContent)) {
       return;
     }
+
+    const positionsToBeRemoved: any[] = this.removeCrossover(target);
     var selection;
 
     if (window.getSelection) {
@@ -136,6 +175,7 @@ export class MlIntentsDetailComponent implements OnInit {
     // selection.toString() !== '' && alert('"' + selection.toString() + '" was selected at ' + e.pageX + '/' + e.pageY);
     // const start = utterance.indexOf(selection.toString());
     const {start, end} = this.getPositionOfStr(utterance, selection.toString());
+
     const markers = this._selectedIntent.utterances[index].entities.filter((entity) => {
       if ((entity.start <= start && start <= entity.end) || (entity.start <= end && end <= entity.end)) {
 
@@ -161,10 +201,15 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     setTimeout(() => {
-      const random = this.replaceSelectedText(selectionStr, start, end);
+      const random = this.replaceSelectedText(selectionStr);
+      // this._ngZone.runOutsideAngular(() => {
+      //   this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+      //     return !positionsToBeRemoved.find(pos => pos.start == marker.start);
+      //   });
+      // });
       const $selection = e.target as HTMLElement;
-      const x = $selection.querySelector(`[data-id="${random}"]`);
-      this.show2(x, tpl, index);
+      const x = document.querySelector(`[data-id="${random}"]`);
+      this.show2(x, tpl, index, positionsToBeRemoved);
     },);
 
   }
@@ -177,7 +222,8 @@ export class MlIntentsDetailComponent implements OnInit {
     };
   }
 
-  replaceSelectedText(selectionStr, start, end) {
+  replaceSelectedText(selectionStr) {
+    let start = 0, end = 0;
     const random = Date.now();
     const obj = {
       'cmd': 'insertHTML',
@@ -190,11 +236,22 @@ export class MlIntentsDetailComponent implements OnInit {
     if (selectionStr === '') {
       return;
     }
-    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${selectionStr}<span>`);
+    const tempMarkingWord = 'xxxxxxxxxxxxx1123';
+    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span>`);
+
+    const x = document.querySelector(`[data-id="${random}"]`);
+    let parent = x.parentElement;
+    while (parent !== null && !parent.classList.contains('utter')) {
+      parent = parent.parentElement;
+    }
+    start = parent.textContent.split(tempMarkingWord)[0].length;
+    end = start + selectionStr.length;
+    x.setAttribute('data-position', `entity-${start}-${end}`);
+    x.textContent = selectionStr;
     return random;
   }
 
-  show(origin: HTMLElement, content: TemplateRef<any>, index) {
+  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved) {
     const position = origin.getAttribute('data-position');
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
@@ -213,7 +270,6 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     ref.afterClosed$.subscribe((res: any) => {
-
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
       if (!entityMarker) {
@@ -226,22 +282,42 @@ export class MlIntentsDetailComponent implements OnInit {
       if (markerIndex !== -1) {
         this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
         const color = this.getColorByEntity(entityMarker.entity_id);
+
         origin.style.backgroundColor = color;
         if (action === 'remove') {
           this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
           this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
-
           return;
         }
       } else {
+        this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+          // if ((marker.start <= start && start <= marker.end) || (marker.start <= end && end <= marker.end)) {
+          //   return false;
+          // }
+          if ((start <= marker.start && marker.end <= end) || (marker.start <= start && end <= marker.end)) {
+            return false;
+          }
+          return true;
+        });
         this._selectedIntent.utterances[index].entities.push(entityMarker);
         const color = this.getColorByEntity(entityMarker.entity_id);
         origin.style.backgroundColor = color;
+        this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+          return !positionsToBeRemoved.find((position) => {
+            return (marker.start == position.start && marker.end == position.end);
+          });
+        });
       }
 
       if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
+
         const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
-        this._selectedIntent.entities.unshift(markedEntity);
+        const {entity_id} = markedEntity;
+        this._selectedIntent.entities.unshift(<any>{
+          counter: 3,
+          required: false,
+          template_key: 'fallback', entity_id
+        });
       }
 
     });
@@ -253,9 +329,9 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
 
-  show2(target, tpl, index) {
+  show2(target, tpl, index, positionsToBeRemoved) {
     if (target.classList.contains('bg-red')) {
-      this.show(target, tpl, index);
+      this.show(target, tpl, index, positionsToBeRemoved);
     }
   }
 
@@ -264,9 +340,10 @@ export class MlIntentsDetailComponent implements OnInit {
   addNewUtterance(utteranceForm: NgForm) {
     const utterance = utteranceForm.value.questionText;
     const url = this.constantsService.entityMarkingUrl();
+    debugger;
     const body = {
       'utterance': utterance,
-      'entities_priority': this.entityList.map((e) => {
+      'entities_priority': this._selectedIntent.entities.map((e) => {
         const {
           entity_id,
           required,
@@ -276,8 +353,8 @@ export class MlIntentsDetailComponent implements OnInit {
         return {
           entity_id,
           required,
-          template_key,
-          counter,
+          template_key: template_key || 'fallback',
+          counter: counter || 3,
         };
       })
     };
@@ -305,12 +382,11 @@ export class MlIntentsDetailComponent implements OnInit {
             } = e;
             required = required || false;
             template_key = template_key || '';
-            counter = counter || 0;
             this._selectedIntent.entities.unshift(<any>{
               entity_id,
-              template_key,
               required,
-              counter
+              template_key: template_key || 'fallback',
+              counter: counter || 3,
             });
           }
         });
@@ -350,11 +426,11 @@ export class MlIntentsDetailComponent implements OnInit {
       template_key
     } = entity;
     // const {name, ...rest} = this.form.value;
-    debugger;
+
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
-    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id});
-    this._selectedIntent.entities  = UtilityService.cloneObj(this._selectedIntent.entities);
+    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: false, entity_id, template_key: 'fallback'});
+    this._selectedIntent.entities = UtilityService.cloneObj(this._selectedIntent.entities);
     this._selectedIntent = {...this._selectedIntent};
     this.changeDetectorRef.detectChanges();
   }
@@ -388,6 +464,14 @@ export class MlIntentsDetailComponent implements OnInit {
 
   test(k, index) {
     this._selectedIntent.utterances[index].utterance = k.target.textContent;
+  }
+
+  preventTypingInMarkers(event) {
+
+    // if (event.target.classList.contains('bg-red')) {
+    // event.stopPropagation();
+    // event.preventDefault();
+    // }
   }
 
 }

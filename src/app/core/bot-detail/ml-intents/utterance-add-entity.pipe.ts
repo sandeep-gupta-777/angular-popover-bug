@@ -17,7 +17,7 @@ export class UtteranceAddEntityPipe implements PipeTransform {
     });
     console.dir(x);
     x.forEach((value, index, array) => {
-      debugger;
+
       const first = str.substr(0, (value.start));
       const second = `<span class="bg-red" style="background-color: ${this.getColorByEntity(entityList, value.entity_id)}" data-position="entity-${value.start}-${value.end}" data-id="${random}">${str.substr(value.start, (value.end - value.start))}</span>`;
       const last = str.substr(value.end, 1000000);

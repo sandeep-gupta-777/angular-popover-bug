@@ -42,6 +42,7 @@ export class InsidePopoverComponent implements OnInit {
       entity_id: ['', Validators.required],
     });
 
+
     const marker = this.selectedIntent.utterances[this.data.index].entities.find((entity: any) => {
       return entity.start === Number(this.data.start);
     });

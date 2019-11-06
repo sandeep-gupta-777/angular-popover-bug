@@ -138,7 +138,7 @@ export class MLModelComponent implements OnInit {
   }
   getAndSetMlCorpusMiniData(){
     let url = this.constantsService.getMLDefaultCorpusMiniData();
-    debugger;
+
     // let url = this.constantsService.getMLDefaultCorpus();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
@@ -307,7 +307,7 @@ export class MLModelComponent implements OnInit {
     });
   }
   trainMLBots(str){
-    debugger;
+
     const url = this.constantsService.trainMlBotUrl();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
