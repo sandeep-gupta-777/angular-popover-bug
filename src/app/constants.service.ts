@@ -939,6 +939,9 @@ export class ConstantsService {
   putCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
+  putMlCorpus() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/`;
+  }
 
   getLiveCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/?state=live`;

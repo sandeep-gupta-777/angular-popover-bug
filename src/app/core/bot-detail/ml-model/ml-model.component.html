@@ -18,7 +18,7 @@
     <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border"
             [hidden]=" corpusMiniObj.state != 'saved' && corpusMiniObj.state != 'trained'"
             (click) = "trainOrMakeLiveMLBotsClicked()"
-            *ngIf = "corpusMiniObj.state"
+            *ngIf="corpusMiniObj &&  corpusMiniObj.state"
     >
       <mat-icon class = "mat-icon material-icons" *ngIf="corpusMiniObj.state === 'saved'">sync</mat-icon>
       <mat-icon class = "mat-icon material-icons" *ngIf="corpusMiniObj.state === 'trained'">arrow_upward</mat-icon>

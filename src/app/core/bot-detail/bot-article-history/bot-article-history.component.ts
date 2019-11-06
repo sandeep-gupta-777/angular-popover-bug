@@ -89,7 +89,7 @@ export class BotArticleHistoryComponent implements OnInit {
     if (!index || !action || !corpus_id) {
       return;
     }
-
+    debugger;
     // alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
     if (action === 'makelive') {
 
@@ -165,22 +165,39 @@ export class BotArticleHistoryComponent implements OnInit {
 
       if (data) {
         //
-
+      debugger;
         const headerData: IHeaderData = {
           'bot-access-token': ServerService.getBotTokenById(this.bot.id)
         };
         const body = {
           'parent_corpus': corpus_id
         };
-        const url = this.constantsService.putCorpus();
+        let url;
+        if (this.bot.bot_type === EBotType.faqbot){
+          url = this.constantsService.putCorpus();
+        }
+        if (this.bot.bot_type === EBotType.mlbot){
+          url = this.constantsService.putMlCorpus();
+        }
         this.serverService.makePostReq({url, body, headerData})
           .subscribe((val) => {
-            this.utilityService.showSuccessToaster('Knowledge base can be edited now');
-            this.router.navigate(['.'], {
-              queryParams: {build: 'articles', isArticle: null, section_id: null},
-              relativeTo: this.activatedRoute,
-              queryParamsHandling: 'merge'
-            });
+            if (this.bot.bot_type === EBotType.faqbot){
+              this.utilityService.showSuccessToaster('Knowledge base can be edited now');
+              this.router.navigate(['.'], {
+                queryParams: {build: 'articles', isArticle: null, section_id: null},
+                relativeTo: this.activatedRoute,
+                queryParamsHandling: 'merge'
+              });
+            }
+            if (this.bot.bot_type === EBotType.mlbot){
+              this.utilityService.showSuccessToaster('Machine learning model can be edited now');
+              this.router.navigate(['.'], {
+                queryParams: {build: 'ml_model'},
+                relativeTo: this.activatedRoute,
+                queryParamsHandling: 'merge'
+              });
+            }
+
           });
       }
     });
