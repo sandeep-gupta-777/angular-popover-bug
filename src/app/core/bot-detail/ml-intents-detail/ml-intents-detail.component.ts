@@ -131,6 +131,7 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   removeCrossover(target: HTMLElement) {
+    debugger;
     const entities = [];
     const contentContainer = target.parentElement;
     const selection = window.getSelection();
@@ -159,7 +160,6 @@ export class MlIntentsDetailComponent implements OnInit {
       return;
     }
 
-    const positionsToBeRemoved: any[] = this.removeCrossover(target);
     var selection;
 
     if (window.getSelection) {
@@ -172,45 +172,30 @@ export class MlIntentsDetailComponent implements OnInit {
       return;
     }
 
-    // selection.toString() !== '' && alert('"' + selection.toString() + '" was selected at ' + e.pageX + '/' + e.pageY);
-    // const start = utterance.indexOf(selection.toString());
-    const {start, end} = this.getPositionOfStr(utterance, selection.toString());
-
-    const markers = this._selectedIntent.utterances[index].entities.filter((entity) => {
-      if ((entity.start <= start && start <= entity.end) || (entity.start <= end && end <= entity.end)) {
-
-        let oldMarker = document.querySelector(`[data-position="entity-${entity.start}-${entity.end}"]`);
-        console.log(oldMarker);
-        // setTimeout(() => {
-        //   oldMarker.outerHTML = oldMarker.textContent;
-        // });
-        return false;
-      }
-      return true;
-    });
-
-    // this._selectedIntent.utterances[index].entities = markers;
-    // markers.push({
-    //   start,
-    //   end,
-    //   entity_id: '',
-    //   type: ''
-    // });
     const selectionStr = selection.toString();
-    // this._selectedIntent = JSON.parse(JSON.stringify(this._selectedIntent));
-
-
     setTimeout(() => {
-      const random = this.replaceSelectedText(selectionStr);
-      // this._ngZone.runOutsideAngular(() => {
-      //   this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
-      //     return !positionsToBeRemoved.find(pos => pos.start == marker.start);
-      //   });
-      // });
-      const $selection = e.target as HTMLElement;
-      const x = document.querySelector(`[data-id="${random}"]`);
-      this.show2(x, tpl, index, positionsToBeRemoved);
-    },);
+      const positionsToBeRemoved: any[] = this.removeCrossover(target);
+      this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
+        return !positionsToBeRemoved.find((position) => {
+          return (marker.start == position.start && marker.end == position.end);
+        });
+      });
+      positionsToBeRemoved.forEach((value) => {
+        const x = document.getElementsByClassName('utter')[index].querySelector(`[data-position="entity-${value.start}-${value.end}"]`);
+        debugger;
+        x.classList.remove('bg-red');
+      });
+
+      this._selectedIntent.utterances[index].utterance = document.getElementsByClassName('utter')[index].textContent;
+      this.correctMarkerPosition();
+      const {start, end} = this.replaceSelectedText(selectionStr, utterance.endsWith(selectionStr));
+      this._selectedIntent.utterances[index].entities.push({start, end, entity_id: '-1', type: 'custom'});
+      this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
+      setTimeout(() => {
+        const x = document.getElementsByClassName('utter')[index].querySelector(`[data-position="entity-${start}-${end}"]`);
+        this.show2(x, tpl, index, positionsToBeRemoved);
+      });
+    }, 0);
 
   }
 
@@ -222,22 +207,15 @@ export class MlIntentsDetailComponent implements OnInit {
     };
   }
 
-  replaceSelectedText(selectionStr) {
+  replaceSelectedText(selectionStr, isEnd) {
     let start = 0, end = 0;
     const random = Date.now();
-    const obj = {
-      'cmd': 'insertHTML',
-      'val': '&lt;h3&gt;Life is great!&lt;/h3&gt;',
-      'icon': 'code',
-      'desc': 'Inserts an HTML string at the insertion point (deletes selection). Requires a valid HTML string to be passed in as a value argument. (Not supported by Internet Explorer.)'
-    };
-
-    // var selection = document.selection.createRange();
     if (selectionStr === '') {
       return;
     }
     const tempMarkingWord = 'xxxxxxxxxxxxx1123';
-    document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span>`);
+    document.execCommand('insertHTML', false,
+      `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span>${isEnd ? ' ' : ''}`);
 
     const x = document.querySelector(`[data-id="${random}"]`);
     let parent = x.parentElement;
@@ -248,14 +226,21 @@ export class MlIntentsDetailComponent implements OnInit {
     end = start + selectionStr.length;
     x.setAttribute('data-position', `entity-${start}-${end}`);
     x.textContent = selectionStr;
-    return random;
+    x.classList.remove('bg-red');
+    // x.parentElement.removeChild(x);
+    return {
+      start, end
+    };
   }
 
-  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved) {
+  markerInputEditable = true;
+
+  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = []) {
     const position = origin.getAttribute('data-position');
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
     const end = Number(position.split('-')[2]);
+    this.markerInputEditable = false;
     const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any, showCreateNewIntentModel$: EventEmitter<any> }>({
       content: InsidePopoverComponent,
       origin,
@@ -270,13 +255,20 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     ref.afterClosed$.subscribe((res: any) => {
+      const markerIndexToBeRemoved = this._selectedIntent.utterances[index].entities.findIndex((entity: IEntityMarker) => {
+        return entity.entity_id === '-1';
+      });
+      if (markerIndexToBeRemoved !== -1) {
+        this._selectedIntent.utterances[index].entities.splice(markerIndexToBeRemoved, 1);
+      }
+      this.markerInputEditable = true;
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
       if (!entityMarker) {
         this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
         return;
       }
-      const markerIndex = this._selectedIntent.utterances[index].entities.findIndex((entity: any) => {
+      const markerIndex = this._selectedIntent.utterances[index].entities.findIndex((entity: IEntityMarker) => {
         return entity.start === Number(start);
       });
       if (markerIndex !== -1) {
@@ -290,6 +282,10 @@ export class MlIntentsDetailComponent implements OnInit {
           return;
         }
       } else {
+
+        this.correctMarkerPosition();
+        console.dir(this._selectedIntent.utterances[index].entities);
+        this._selectedIntent.utterances[index].utterance = document.getElementsByClassName('utter')[index].textContent;
         this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
           // if ((marker.start <= start && start <= marker.end) || (marker.start <= end && end <= marker.end)) {
           //   return false;
@@ -340,7 +336,7 @@ export class MlIntentsDetailComponent implements OnInit {
   addNewUtterance(utteranceForm: NgForm) {
     const utterance = utteranceForm.value.questionText;
     const url = this.constantsService.entityMarkingUrl();
-    debugger;
+
     const body = {
       'utterance': utterance,
       'entities_priority': this._selectedIntent.entities.map((e) => {
@@ -395,6 +391,7 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   saveAndTrain() {
+    this.correctMarkerPosition();
     this.saveAndTrain$.emit({
       ...this._selectedIntent,
       name: this.form.value.name,
@@ -402,7 +399,7 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
   saveOrUpdateIntent() {
-
+    this.correctMarkerPosition();
     this.saveOrUpdateIntent$.emit({
       'entities': [],
       'utterances': [
@@ -472,6 +469,69 @@ export class MlIntentsDetailComponent implements OnInit {
     // event.stopPropagation();
     // event.preventDefault();
     // }
+  }
+
+  getPositionByMarkerNode(marker: HTMLElement) {
+    let parent = marker.parentElement;
+    const markerTempText = 'xxxxxxxxxxxxxx';
+    const markerOriginalText = marker.textContent;
+    while (parent !== null && !parent.classList.contains('utter')) {
+      parent = parent.parentElement;
+    }
+    marker.textContent = markerTempText;
+    const start = parent.textContent.split(markerTempText)[0].length;
+    const end = start + markerOriginalText.length;
+    marker.textContent = markerOriginalText;
+    return {
+      start,
+      end,
+      value: markerOriginalText
+    };
+  }
+
+  correctMarkerPosition() {
+
+    let x: any = document.querySelectorAll('[contenteditable=true]');
+    x = Array.from(x);
+    x.forEach((utterWrapper, index) => {
+
+      let markers: any = utterWrapper.querySelectorAll('.bg-red');
+      markers = Array.from(markers);
+      this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.sort((a, b) => {
+        return -1 * (-a.start + b.start);
+      });
+
+      markers.forEach(($marker: HTMLElement, markerCount) => {
+
+        const position = $marker.getAttribute('data-position');
+        const pre_start = Number(position.split('-')[1]);
+        const pre_end = Number(position.split('-')[2]);
+        const {start, end, value} = this.getPositionByMarkerNode($marker);
+        this._selectedIntent.utterances.forEach((value, index, array) => {
+          value.utterance = document.getElementsByClassName('utter')[index].textContent;
+        });
+        console.log(start, end);
+
+        this._selectedIntent.utterances[index].entities[markerCount] = {
+          ...this._selectedIntent.utterances[index].entities[markerCount],
+          start: start,
+          end,
+          value
+        };
+        // this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.map((marker) => {
+        //   if (marker.start == pre_start || marker.start == pre_end) {
+        //     return {
+        //       ...marker,
+        //       start,
+        //       end,
+        //       value
+        //     };
+        //   }
+        //   return marker;
+        // });
+        $marker.setAttribute('data-position', `entity-${start}-${end}`);
+      });
+    });
   }
 
 }

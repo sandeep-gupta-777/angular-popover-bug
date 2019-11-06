@@ -5,6 +5,7 @@ export interface IEntityMarker {
   end: number;
   type: string;
   entity_id: string;
+  value?: string;
 }
 
 export interface IUtterance {
