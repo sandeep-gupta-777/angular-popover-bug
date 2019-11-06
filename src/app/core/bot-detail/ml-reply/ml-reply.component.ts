@@ -72,6 +72,7 @@ export class MlReplyComponent implements OnInit {
             this.templateKeyDict[key] = value.templates[key].response;
           });
         this.templateKeyDict = {...this.templateKeyDict};
+        this.utilityService.showSuccessToaster('Response Updated Successfully');
       });
   }
 

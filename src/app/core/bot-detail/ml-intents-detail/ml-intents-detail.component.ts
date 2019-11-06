@@ -238,7 +238,7 @@ export class MlIntentsDetailComponent implements OnInit {
     }
     const tempMarkingWord = 'xxxxxxxxxxxxx1123';
     document.execCommand(obj.cmd, false, `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span>`);
-    debugger;
+
     const x = document.querySelector(`[data-id="${random}"]`);
     let parent = x.parentElement;
     while (parent !== null && !parent.classList.contains('utter')) {
@@ -291,7 +291,6 @@ export class MlIntentsDetailComponent implements OnInit {
         }
       } else {
         this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
-          debugger;
           // if ((marker.start <= start && start <= marker.end) || (marker.start <= end && end <= marker.end)) {
           //   return false;
           // }
@@ -313,11 +312,11 @@ export class MlIntentsDetailComponent implements OnInit {
       if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
 
         const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
-        const {entity_id, type, name} = markedEntity;
+        const {entity_id} = markedEntity;
         this._selectedIntent.entities.unshift(<any>{
           counter: 3,
           required: false,
-          template_key: '', entity_id, type, name
+          template_key: 'fallback', entity_id
         });
       }
 
@@ -341,9 +340,10 @@ export class MlIntentsDetailComponent implements OnInit {
   addNewUtterance(utteranceForm: NgForm) {
     const utterance = utteranceForm.value.questionText;
     const url = this.constantsService.entityMarkingUrl();
+    debugger;
     const body = {
       'utterance': utterance,
-      'entities_priority': this.entityList.map((e) => {
+      'entities_priority': this._selectedIntent.entities.map((e) => {
         const {
           entity_id,
           required,
@@ -353,8 +353,8 @@ export class MlIntentsDetailComponent implements OnInit {
         return {
           entity_id,
           required,
-          template_key,
-          counter,
+          template_key: template_key || 'fallback',
+          counter: counter || 3,
         };
       })
     };
@@ -382,12 +382,11 @@ export class MlIntentsDetailComponent implements OnInit {
             } = e;
             required = required || false;
             template_key = template_key || '';
-            counter = counter || 0;
             this._selectedIntent.entities.unshift(<any>{
               entity_id,
-              template_key,
               required,
-              counter
+              template_key: template_key || 'fallback',
+              counter: counter || 3,
             });
           }
         });
@@ -430,7 +429,7 @@ export class MlIntentsDetailComponent implements OnInit {
 
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
-    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: true, entity_id});
+    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: false, entity_id, template_key: 'fallback'});
     this._selectedIntent.entities = UtilityService.cloneObj(this._selectedIntent.entities);
     this._selectedIntent = {...this._selectedIntent};
     this.changeDetectorRef.detectChanges();
@@ -470,8 +469,8 @@ export class MlIntentsDetailComponent implements OnInit {
   preventTypingInMarkers(event) {
 
     // if (event.target.classList.contains('bg-red')) {
-    event.stopPropagation();
-    event.preventDefault();
+    // event.stopPropagation();
+    // event.preventDefault();
     // }
   }
 

@@ -2,15 +2,14 @@
   <h2 class="heading">
     Entities to recognise
   </h2>
-  <a *ngIf="(entityList|filterEntities: selectedIntent).length > 0" [matMenuTriggerFor]="appMenu"
+  <a *ngIf="(entityList|filterEntities: selectedIntent?.entities).length > 0" [matMenuTriggerFor]="appMenu"
      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">+ Link entity</a>
 </div>
-
+<!--<i>{{selectedIntent?.entities|json}}</i>-->
 <mat-menu #appMenu="matMenu" yPosition="above" [class]="'entity-list'">
-  <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent"
+  <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent?.entities;"
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
-<!--<i>{{selectedIntent.entities|json}}</i>-->
 
 <form #entityForm="ngForm" class="list-wrapper">
 <!--  <button (click)="log(entityForm)">log</button>-->
@@ -41,7 +40,7 @@
       </tr>
       <tbody >
       <ng-container *ngIf="selectedIntent">
-        <tr class="example-box" *ngFor="let e of selectedIntent.entities; let index = index"
+        <tr class="example-box" *ngFor="let e of selectedIntent.entities; let index = index; trackBy: trackBy"
             ngModelGroup="{{index}}"
             style="min-height: 140px" cdkDrag>
           <ng-container *ngIf="(e|getEntityByName:entityList) as entity">
@@ -56,18 +55,20 @@
             </td>
             <td>
 
-              <mat-form-field *ngIf="e.required === true"
+              <mat-form-field [hidden]="e.required !== true"
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
-                <input matInput value="1" type="number" required [(ngModel)]="e.counter" name="retries">
+                <input matInput value="1" type="number" min="0" oninput="validity.valid||(value='');"
+                       [required]="e.required"
+                       [(ngModel)]="e.counter" name="retries">
               </mat-form-field>
               <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
             </td>
             <td>
-              <mat-form-field *ngIf="e.required === true"
+              <mat-form-field [hidden]="e.required !== true"
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
-                <input matInput placeholder="Template key" value="Hello" name="template_key" required [(ngModel)]="e.template_key">
+                <input matInput placeholder="Template key" value="" name="template_key" [required]="e.required" [(ngModel)]="e.template_key">
               </mat-form-field>
               <span *ngIf="e.required !== true">
               {{entity.template_key || 'None'}}

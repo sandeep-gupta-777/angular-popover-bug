@@ -26,6 +26,7 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.f.valueChanges.subscribe(() => {
+
       this.formValidity$.emit(this.f.valid);
     });
   }
@@ -61,6 +62,11 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   log(entityList) {
 
     console.log(entityList);
+  }
+
+  trackBy(index) {
+    debugger;
+    return index + (this.selectedIntent && this.selectedIntent.entities && this.selectedIntent.entities.length);
   }
 
 }

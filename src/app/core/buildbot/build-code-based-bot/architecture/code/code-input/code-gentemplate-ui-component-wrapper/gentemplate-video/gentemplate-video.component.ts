@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {IBot} from '../../../../../../../interfaces/IBot';
 import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 import {EBotMessageMediaType} from '../../../../../../../../../interfaces/chat-session-state';
@@ -13,6 +13,7 @@ export class GentemplateVideoComponent implements OnInit {
   @Input() bot: IBot;
   @Input() outputItem: IOutputItem;
   @Input() type: EBotMessageMediaType;
+  @ViewChild('media') media: ElementRef<any>;
   EBotMessageMediaType = EBotMessageMediaType;
   header = {
     video: {
@@ -61,15 +62,19 @@ export class GentemplateVideoComponent implements OnInit {
     // if (this.outputItem.media && this.outputItem.media[0]) {
     //   url = this.outputItem.media[0][this.type + '_url'];
     // }
-    this  .form = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       code: [codeStr],
       url: [url]
     });
 
     this.form.valueChanges.subscribe((formData) => {
-
+      debugger;
       if (this.type !== 'code') {
         this.outputItem[this.type][0]['url'] = formData.url;
+        /*audio video need load after url is updated*/
+        const audioVideo = this.media.nativeElement;
+        audioVideo.load(); //call this to just preload the audio without playing
+        audioVideo.play(); //call this to play the song right away
       } else {
         try {
           const obj = JSON.parse(formData.code);
