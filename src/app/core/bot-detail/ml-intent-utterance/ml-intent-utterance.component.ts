@@ -65,7 +65,6 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   }
 
   trackBy(index) {
-    debugger;
     return index + (this.selectedIntent && this.selectedIntent.entities && this.selectedIntent.entities.length);
   }
 

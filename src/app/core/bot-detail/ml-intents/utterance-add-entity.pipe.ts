@@ -8,6 +8,7 @@ import {MlService} from '../ml-model/ml.service';
 export class UtteranceAddEntityPipe implements PipeTransform {
 
   transform(utteranceStr: any, args: any[]): any {
+
     const entityList: IEntitiesItem[] = MlService.entityList;
     let str: string = utteranceStr;
     const random = Date.now();
@@ -17,9 +18,10 @@ export class UtteranceAddEntityPipe implements PipeTransform {
     });
     console.dir(x);
     x.forEach((value, index, array) => {
-
+      const isEnd = str.endsWith(value.value);
+      // const isStart = str.startsWith(value.value);
       const first = str.substr(0, (value.start));
-      const second = `<span class="bg-red" style="background-color: ${this.getColorByEntity(entityList, value.entity_id)}" data-position="entity-${value.start}-${value.end}" data-id="${random}">${str.substr(value.start, (value.end - value.start))}</span>`;
+      const second = `<span class="bg-red" style="background-color: ${this.getColorByEntity(entityList, value.entity_id)}" data-position="entity-${value.start}-${value.end}" data-id="${random}">${str.substr(value.start, (value.end - value.start))}</span>${isEnd ? '&nbsp' : ''}`;
       const last = str.substr(value.end, 1000000);
       str = first + second + last;
     });
