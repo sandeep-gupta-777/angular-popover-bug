@@ -152,6 +152,7 @@ export class MLModelComponent implements OnInit {
       this.viewChanged(this.view = 'detail');
     }
     if (isIntent === 1) {
+      this.modalForm.reset();
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     }
   }
@@ -196,7 +197,11 @@ export class MLModelComponent implements OnInit {
     this.entityUpdateService(url, body).subscribe(val => {
       this.view = 'table';
       this.trainMLBots(`Updated ml Entity of modal id ${this.corpusMiniObj.id}`);
-    });
+    },
+      error => {
+        this.view = 'table';
+        this.trainMLBots(`Updated ml Entity of modal id ${this.corpusMiniObj.id}`);
+      });
   }
 
   saveCustomEntity(body) {
@@ -271,8 +276,9 @@ export class MLModelComponent implements OnInit {
         }
         this.entityList = [...this.entityList];
         MlService.entityList = this.entityList;
-        this.getAndSetMlCorpusMiniData()
+        this.getAndSetMlCorpusMiniData();
         this.utilityService.showSuccessToaster('Entity deleted');
+        this.view = 'table';
       });
   }
 
@@ -286,6 +292,12 @@ export class MLModelComponent implements OnInit {
 
   selectedIntentChanged(intent: IIntent) {
 
+  }
+  toDisplayValue(value: string) {
+    const pieces = value.split('_');
+    const j = pieces[0].charAt(0).toUpperCase();
+    pieces[0] = j + pieces[0].substr(1).toLowerCase();
+    return pieces.join(' ');
   }
   trainMLBotsModal(){
     this.utilityService.openDialog({
