@@ -37,7 +37,7 @@
   </div>
 
 
-  <div *ngIf="!this.marker">
+  <div *ngIf="this.isNew">
     <hr style="margin: 10px 0">
     <a
       style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer" (click)="showCreateNewIntentModel$.emit()">+ New entity</a>

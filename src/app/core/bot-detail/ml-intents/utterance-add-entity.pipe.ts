@@ -16,16 +16,15 @@ export class UtteranceAddEntityPipe implements PipeTransform {
     let x = args.sort((a, b) => {
       return -a.start + b.start;
     });
-    console.dir(x);
     x.forEach((value, index, array) => {
-      const isEnd = str.endsWith(value.value);
+      const isEnd = str.length === value.end;
       // const isStart = str.startsWith(value.value);
       const first = str.substr(0, (value.start));
+      debugger;
       const second = `<span class="bg-red" style="background-color: ${this.getColorByEntity(entityList, value.entity_id)}" data-position="entity-${value.start}-${value.end}" data-id="${random}">${str.substr(value.start, (value.end - value.start))}</span>${isEnd ? '&nbsp' : ''}`;
       const last = str.substr(value.end, 1000000);
       str = first + second + last;
     });
-    console.log(str);
     return str;
   }
 

@@ -14,11 +14,12 @@ export class InsidePopoverComponent implements OnInit {
   selectedIntent: IIntent;
   data = {
     entity_type: '',
-    entity_id: '',
+    entity_id: '-1',
     index: -1,
     start: -1,
   };
   form: FormGroup;
+  isNew = false;
   showCreateNewIntentModel$: EventEmitter<any>;
   @Output() entityMarker$ = new EventEmitter();
 
@@ -27,6 +28,7 @@ export class InsidePopoverComponent implements OnInit {
     this.selectedIntent = this.popoverRef.data.selectedIntent;
     this.showCreateNewIntentModel$ = this.popoverRef.data.showCreateNewIntentModel$;
     this.data = this.popoverRef.data.data || this.data;
+    this.isNew = this.popoverRef.data.isNew;
   }
 
   marker;

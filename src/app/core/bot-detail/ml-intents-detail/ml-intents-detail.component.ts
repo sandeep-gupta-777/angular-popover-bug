@@ -132,8 +132,12 @@ export class MlIntentsDetailComponent implements OnInit {
 
   removeCrossover(target: HTMLElement) {
     debugger;
-    const entities = [];
-    const contentContainer = target.parentElement;
+    let entities = [];
+    let contentContainer;
+    while (!target.classList.contains('utter')) {
+      target = target.parentElement;
+    }
+    contentContainer = target;
     const selection = window.getSelection();
     if (selection.rangeCount > 0) {
       const startContainer = selection.getRangeAt(0).startContainer.parentNode as HTMLElement;
@@ -149,6 +153,15 @@ export class MlIntentsDetailComponent implements OnInit {
         const positions = this.getPositionMarker(endContainer);
         positions && entities.push(positions);
       }
+
+      if (selection.toString().length === contentContainer.textContent.length) {
+        entities = [];
+        Array.from(contentContainer.getElementsByClassName('bg-red')).forEach(($marker: HTMLElement) => {
+          const positions = this.getPositionMarker($marker);
+          positions && entities.push(positions);
+        });
+      }
+      console.log(1);
     }
     return entities;
   }
@@ -193,7 +206,7 @@ export class MlIntentsDetailComponent implements OnInit {
       this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
       setTimeout(() => {
         const x = document.getElementsByClassName('utter')[index].querySelector(`[data-position="entity-${start}-${end}"]`);
-        this.show2(x, tpl, index, positionsToBeRemoved);
+        this.show2(x, tpl, index, positionsToBeRemoved, true);
       });
     }, 0);
 
@@ -215,7 +228,7 @@ export class MlIntentsDetailComponent implements OnInit {
     }
     const tempMarkingWord = 'xxxxxxxxxxxxx1123';
     document.execCommand('insertHTML', false,
-      `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span>${isEnd ? ' ' : ''}`);
+      `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${tempMarkingWord}<span> <span></span>`);
 
     const x = document.querySelector(`[data-id="${random}"]`);
     let parent = x.parentElement;
@@ -235,7 +248,7 @@ export class MlIntentsDetailComponent implements OnInit {
 
   markerInputEditable = true;
 
-  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = []) {
+  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = [], isNew) {
     const position = origin.getAttribute('data-position');
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
@@ -245,10 +258,11 @@ export class MlIntentsDetailComponent implements OnInit {
       content: InsidePopoverComponent,
       origin,
       width: '200px',
-      data: {
+      data: <any>{
         entityList: this.entityList,
         selectedIntent: this._selectedIntent,
         data: {start, index, end, value},
+        isNew,
         showCreateNewIntentModel$: this.showCreateNewIntentModel$
       }
     });
@@ -325,9 +339,9 @@ export class MlIntentsDetailComponent implements OnInit {
   }
 
 
-  show2(target, tpl, index, positionsToBeRemoved) {
+  show2(target, tpl, index, positionsToBeRemoved, isNew) {
     if (target.classList.contains('bg-red')) {
-      this.show(target, tpl, index, positionsToBeRemoved);
+      this.show(target, tpl, index, positionsToBeRemoved, isNew);
     }
   }
 
