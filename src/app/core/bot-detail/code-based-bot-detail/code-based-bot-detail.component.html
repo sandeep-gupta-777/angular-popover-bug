@@ -2,7 +2,7 @@
   [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
   *ngIf="bot">
   <mat-sidenav-container fullscreen [hasBackdrop]="bps.isMobile" style="z-index: 10000000; ">
-    <mat-sidenav #left class="shadow-theme" [opened]="!bps.isMobile" style="width: 56px">
+    <mat-sidenav #left class="shadow-theme" [opened]="!bps.isMobile" style="width: 64px">
       <mat-toolbar
         style="margin: 0; padding: 0; display: flex; justify-content: center; height: 56px; background-color: #2b4f70">
         <a class="sidebar-logo" (click)="logoClickHandler(left)">
@@ -26,7 +26,7 @@
                  data-cy="sidebar-ml_model"
                  [ngClass]="{'filter-black':sideBarTab1!=='ml_model', 'selected-nav':sideBarTab1==='ml_model'}">
               <img class="" src="assets/img/sidebar/ML_Model_icon.svg" alt="">
-              <span style="color: #00ABD3">Train {{dirtySideBarTabs[myESideBarTab.ml_model] ? '*' : ""}}</span>
+              <span style="color: #00ABD3">Model {{dirtySideBarTabs[myESideBarTab.ml_model] ? '*' : ""}}</span>
             </div>
           </a></ng-container>
 
@@ -37,7 +37,7 @@
                  data-cy="sidebar-NLP"
                  [ngClass]="{'filter-black':sideBarTab1!=='replies', 'selected-nav':sideBarTab1==='replies'}">
               <img class="" src="assets/img/sidebar/ML_Replies_icon.svg" alt="">
-              <span style="color: #00ABD3">Replies {{dirtySideBarTabs[myESideBarTab.replies] ? '*' : ""}}</span>
+              <span style="color: #00ABD3">Responses {{dirtySideBarTabs[myESideBarTab.replies] ? '*' : ""}}</span>
             </div>
           </a></ng-container>
         <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
