@@ -19,6 +19,16 @@
             <span style="color: #00ABD3">Settings</span>
           </div>
         </a>
+        <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
+          <a mat-list-item class="mat-list-item-sidebar"
+             (click)="sideBarTabChanged(myESideBarTab.input)">
+            <div class="sidebar-nav-list-item"
+                 data-cy="sidebar-NLP"
+                 [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
+              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+              <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
+            </div>
+          </a></ng-container>
         <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
           <a mat-list-item class="mat-list-item-sidebar"
              (click)="sideBarTabChanged(myESideBarTab.ml_model)">
@@ -42,16 +52,7 @@
           </a></ng-container>
         <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
 
-        <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
-          <a mat-list-item class="mat-list-item-sidebar"
-             (click)="sideBarTabChanged(myESideBarTab.input)">
-            <div class="sidebar-nav-list-item"
-                 data-cy="sidebar-NLP"
-                 [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
-              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
-              <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
-            </div>
-          </a></ng-container>
+
 
         <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
            (click)="sideBarTabChanged('articles')">

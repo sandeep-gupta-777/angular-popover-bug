@@ -20,7 +20,13 @@ import {EAllActions} from '../../typings/enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewBotsComponent extends ModalImplementer implements OnInit, AfterViewInit, OnDestroy {
-
+  botLabelMap = {
+    [EBotType.mlbot]: 'Task',
+    [EBotType.chatbot]: 'Smart',
+    [EBotType.faqbot]: 'Q&A',
+    [EBotType.intelligent]: 'Pipeline',
+    [EBotType.router]: 'Router',
+  };
   myEBotType = EBotType;
   botList$: Observable<IBot[]>;
   activeTab: string;
@@ -52,24 +58,24 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   name = 'sadas';
   animal = 'horse';
 
-  openDialog(): void {
+  openDialog(activeTab): void {
+    this.router.navigate([`/core/buildbot`], {queryParams: {bot_type: activeTab}});
     // this.utilityService.openDialog({
     //   matDialog: this.matDialog,
     //   component: CreateBotDialogComponent,
     //   data: null,
     //   classStr: 'primary-modal-header-border'
     // })
-    this.openPrimaryModal(CreateBotDialogComponent)
-      .then((botType) => {
-        if (!botType) {
-          return;
-        }
-        this.router.navigate([`/core/buildbot`], {queryParams: {bot_type: botType}});
-      });
+    // this.openPrimaryModal(CreateBotDialogComponent)
+    //   .then((botType) => {
+    //     if (!botType) {
+    //       return;
+    //     }
+    //     this.router.navigate([`/core/buildbot`], {queryParams: {bot_type: botType}});
+    //   });
   }
 
   ngOnInit() {
-
 
     this.activeTab = RouteHelperService.getQueryParams(this.activatedRoute, 'type') || EBotType.faqbot;
     window.scrollTo(0, 0);

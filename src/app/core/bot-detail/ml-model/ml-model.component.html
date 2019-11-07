@@ -92,7 +92,8 @@
 <ng-template #Primarytemplat>
   <div class="danger-modal">
     <div class="modal-header">
-      <h4 class="modal-title mb-1" style="display: flex;justify-content: start;color: #474747;">Create new entity</h4>
+      <h4 class="modal-title mb-1" style="display: flex;justify-content: start;color: #474747;">
+        {{modalForm?.value.entity_id?'Edit':'Create'}} entity</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>

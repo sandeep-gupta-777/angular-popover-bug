@@ -1,29 +1,29 @@
-
 <div class="view-bots-container">
   <div class="new-bot-cta">
 
     <app-button-wrapper
       *appMyIf="myEAllActions['Create Bots']"
-      [text]="'+ New Bot'"
-      (btnClick)="openDialog()"></app-button-wrapper>
+      [text]="'+ New ' + botLabelMap[activeTab] +  ' Bot'"
+      (btnClick)="openDialog(activeTab)"></app-button-wrapper>
   </div>
+
   <mat-tab-group animationDuration="0ms"
-    [selectedIndex]="activeTab===myEBotType.faqbot?0:
+                 [selectedIndex]="activeTab===myEBotType.faqbot?0:
     (activeTab===myEBotType.mlbot?1:
     (activeTab===myEBotType.chatbot?2:
     (activeTab===myEBotType.router)?3:4))"
-    (selectedTabChange)="tabClicked(
+                 (selectedTabChange)="tabClicked(
     $event.index == 0?myEBotType.faqbot:
     ($event.index == 1? myEBotType.mlbot :
     ($event.index == 2? myEBotType.chatbot :
     ($event.index == 3 ? myEBotType.router : myEBotType.intelligent))))">
     <mat-tab label="Q&A bots">
-        <div class="pl-4 mt-2">
-          <app-bot-preview-card-list
-            [botType]="activeTab"
-            [botList]="searchBasedBotList"></app-bot-preview-card-list>
-        </div>
-      </mat-tab>
+      <div class="pl-4 mt-2">
+        <app-bot-preview-card-list
+          [botType]="activeTab"
+          [botList]="searchBasedBotList"></app-bot-preview-card-list>
+      </div>
+    </mat-tab>
     <mat-tab label="Task bots">
       <div class="pl-4 mt-2">
         <app-bot-preview-card-list
@@ -55,8 +55,6 @@
   </mat-tab-group>
 
 </div>
-
-
 
 
 <ng-template #Primarytemplate>
