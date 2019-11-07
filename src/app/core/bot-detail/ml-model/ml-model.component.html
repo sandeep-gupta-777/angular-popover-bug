@@ -54,10 +54,15 @@
                       (viewChanged$)="viewChanged($event)"></app-ml-intents>
     </mat-tab>
     <mat-tab label="Entities" class="no-over-flow h-100" style="min-height: 50vh">
-      <app-ml-entities [bot]="bot" [entitiesData]="entityList" class="h-100"
-                       (deleteEntity)="deleteEntityClicked($event)"
-                       (editEntity)="editEntityClicked($event,Primarytemplat)"></app-ml-entities>
-    </mat-tab>
+      <div *ngIf="entityList && entityList.length > 0">
+        <app-ml-entities [bot]="bot" [entitiesData]="entityList" class="h-100"
+                         (deleteEntity)="deleteEntityClicked($event)"
+                         (editEntity)="editEntityClicked($event,Primarytemplat)"></app-ml-entities>
+      </div>
+      <div *ngIf="!entityList || (entityList &&  entityList.length <= 0)" class="d-flex justify-content-center">
+        No entities available, create new to use them within intents
+      </div>
+      </mat-tab>
   </mat-tab-group>
 </div>
 

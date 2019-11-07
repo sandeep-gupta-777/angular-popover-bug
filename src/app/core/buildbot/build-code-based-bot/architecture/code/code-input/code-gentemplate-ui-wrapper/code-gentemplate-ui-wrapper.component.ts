@@ -163,7 +163,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   async selectedListCopyModel(IntentSelectionModal) {
     //  this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
 
-
+    this.copyModalTemplateSearchKeyword = "";
     const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: IntentSelectionModal,

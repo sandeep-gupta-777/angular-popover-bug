@@ -145,7 +145,15 @@ export class BuildbotWrapperComponent implements OnInit {
                     openPreview: true
                   }
                 });
-              } else {
+              }else if(createdBot.bot_type === EBotType.mlbot) {
+                this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {
+                  queryParams: {
+                    build: 'ml_model',
+                    openPreview: true
+                  }
+                });
+              }
+              else {
                 this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
               }
             });

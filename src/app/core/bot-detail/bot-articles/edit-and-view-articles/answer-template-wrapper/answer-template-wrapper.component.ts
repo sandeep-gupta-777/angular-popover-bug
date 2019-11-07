@@ -112,7 +112,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addCodeSnippetUnit() {
     const unit = {
       'include':  ['web'],
-      'type': 'code',
+      'function_code': 'code',
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());

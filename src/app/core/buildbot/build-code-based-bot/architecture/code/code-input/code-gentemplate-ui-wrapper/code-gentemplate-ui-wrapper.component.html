@@ -220,10 +220,10 @@
         <form class="modelGridGenTempNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm"
               (submit)="selectedListCopy(modelGenTempNameForm)">
           <label class="container-chekbox text-dark"
-                 *ngFor="let templateKey of myObject.keys(_templateKeyDict)|filterTemplateLeyList:copyModalTemplateSearchKeyword">
-            <input type="checkbox" ngModel name="{{templateKey}}">
+                 *ngFor="let templateKey of (_templateKeyDict||{})| keyvalue|filterTemplateLeyList:copyModalTemplateSearchKeyword">
+            <input type="checkbox" ngModel name="{{templateKey.key}}">
             <span class="checkmark mr-1"></span>
-            {{templateKey}}
+            {{templateKey.key}}
           </label>
         </form>
         <div class="d-flex w-100">
