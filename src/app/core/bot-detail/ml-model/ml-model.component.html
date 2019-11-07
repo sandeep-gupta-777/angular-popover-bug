@@ -102,14 +102,14 @@
     <div class="modal-body pt-0">
       <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;">
         <mat-form-field style="width: 230px">
-          <input matInput ngModel placeholder="Entity name" formControlName="entity_name" required>
+          <input matInput ngModel placeholder="Entity name" formControlName="entity_name" required maxlength="200">
         </mat-form-field>
         <div class="d-flex">
           <mat-form-field style="width: 120px;margin-right: 20px">
             <mat-label>Entity type</mat-label>
             <mat-select formControlName="entity_type" ngModel required>
               <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">
-                {{entity_type.name}}
+                {{toDisplayValue(entity_type.name)}}
               </mat-option>
             </mat-select>
           </mat-form-field>
