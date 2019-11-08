@@ -87,6 +87,7 @@ export class MlIntentsDetailComponent implements OnInit {
     private popper: Popover,
     private formBuilder: FormBuilder,
     private serverService: ServerService,
+    private utilityService: UtilityService,
     private changeDetectorRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
     private _ngZone: NgZone
@@ -137,9 +138,9 @@ export class MlIntentsDetailComponent implements OnInit {
     return {
       start: position.split('-')[1],
       end: position.split('-')[2],
-      id: $marker.getAttribute('data-id');
-  }
-    ;
+      id: $marker.getAttribute('data-id')
+    }
+
   }
 
   removeCrossover(target: HTMLElement) {
@@ -180,8 +181,19 @@ export class MlIntentsDetailComponent implements OnInit {
 
   selectedIntentBackup;
 
+  copySelectedText = ((strToCopy, e) => {
+    if (e.which === 67 && e.ctrlKey) {
+      this.utilityService.copyToClipboard(window.getSelection().toString() || strToCopy);
+    }
+  });
+
+  copySelectedTextCaller;
+
   textSelected(e, tpl, index, utterance: string) {
-    if(!this.selectedIntentBackup){
+    const strToCopy = window.getSelection().toString();
+    this.copySelectedTextCaller = this.copySelectedText.bind(this, strToCopy);
+    document.addEventListener('keydown', this.copySelectedTextCaller);
+    if (!this.selectedIntentBackup) {
       this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
     }
     const target = e.target as HTMLElement;
@@ -302,7 +314,7 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     ref.afterClosed$.subscribe((res: any) => {
-      debugger;
+      document.removeEventListener('keydown', this.copySelectedTextCaller);
       const markerIndexToBeRemoved = this._selectedIntent.utterances[index].entities.findIndex((entity: IEntityMarker) => {
         return entity.entity_id === '-1';
       });
@@ -573,7 +585,6 @@ export class MlIntentsDetailComponent implements OnInit {
         // intent.utterances.forEach((value, index, array) => {
         //   value.utterance = document.getElementsByClassName('utter')[index].textContent;
         // });
-        console.log(start, end);
 
         intent.utterances[index].entities[markerCount] = {
           ...intent.utterances[index].entities[markerCount],
