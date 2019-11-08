@@ -1448,3 +1448,28 @@ mat-dialog-container {
 //  background-color: $color-primary ;
 //}
 //
+
+
+.fade-in-custom {
+  animation: fade-in 500ms;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.blinking{
+  animation:blinkingText 1.5s infinite;
+}
+@keyframes blinkingText{
+  0%{		color: #000;	}
+  49%{	color: transparent;	}
+  50%{	color: transparent;	}
+  99%{	color:transparent;	}
+  100%{	color: #000;	}
+}

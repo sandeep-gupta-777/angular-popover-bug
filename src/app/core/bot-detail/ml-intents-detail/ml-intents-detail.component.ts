@@ -98,24 +98,39 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   intent_id: string;
 
   ngOnDestroy(): void {
+
     document.removeEventListener('mouseup', this.y);
+    document.removeEventListener('keydown', this.y);
+    document.removeEventListener('mouseup', this.y);
+    document.removeEventListener('mouseup', this.copySelectedTextCaller);
+    document.removeEventListener('keydown', this.copySelectedTextCaller);
   }
 
   y;
 
   ngOnInit() {
     this.y = ($event) => {
-      $event.stopPropagation();
-      debugger;
-      let target = window.getSelection().getRangeAt(0).endContainer.parentNode as HTMLElement;
-      while (target !== null && !target.classList.contains('utter')) {
-        target = target.parentElement;
+      try {
+        $event.stopPropagation();
+        let target = window.getSelection().getRangeAt(0).endContainer.parentNode as HTMLElement;
+        while (target !== null && !target.classList.contains('utter')) {
+          target = target.parentElement;
+        }
+        if (!target.classList.contains('utter')) {
+          return;
+        }
+        const event = {target};
+        const index = Array.from(document.getElementsByClassName('utter')).findIndex(item => item === event.target);
+        this.textSelected(event, this.tpl, index, this._selectedIntent.utterances[0].utterance);
+      } catch (e) {
+        document.removeEventListener('mouseup', this.copySelectedTextCaller);
+        document.removeEventListener('keydown', this.copySelectedTextCaller);
       }
-      const event = {target};
-      const index = Array.from(document.getElementsByClassName('utter')).findIndex(item => item === event.target);
-      this.textSelected(event, this.tpl, index, this._selectedIntent.utterances[0].utterance);
     };
+    console.clear();
+    console.log(this.y);
     document.addEventListener('mouseup', this.y);
+    // document.removeEventListener('mouseup', this.y);
     this.intent_id = this.activatedRoute.snapshot.queryParams['intent_id'];
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
@@ -199,12 +214,16 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
   selectedIntentBackup;
 
-  copySelectedText = ((strToCopy, e) => {
+  copySelectedText = ((e) => {
     if (e.which === 67 && e.ctrlKey) {
-      this.utilityService.copyToClipboard(window.getSelection().toString() || strToCopy);
+      const str = window.getSelection().toString() || this.strToCopy;
+      if (str) {
+        this.utilityService.copyToClipboard(str);
+      }
+      this.strToCopy = null;
     }
   });
-
+  strToCopy;
   copySelectedTextCaller;
 
   textSelected(e, tpl, index, utterance: string) {
@@ -212,8 +231,12 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       e.stopPropagation();
     }
     const strToCopy = window.getSelection().toString();
-    this.copySelectedTextCaller = this.copySelectedText.bind(this, strToCopy);
+    this.strToCopy = window.getSelection().toString();
+    if (this.strToCopy) {
+      this.copySelectedTextCaller = this.copySelectedText.bind(this);
+    }
     document.addEventListener('keydown', this.copySelectedTextCaller);
+    // document.removeEventListener('keydown', this.copySelectedTextCaller);
     if (!this.selectedIntentBackup) {
       this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
     }
@@ -237,7 +260,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     const selectionStr = selection.toString();
     setTimeout(() => {
 
-      debugger;
+
       const positionsToBeRemoved: any[] = this.removeCrossover(target);
       // this.correctMarkerPosition();
       this.updateUtteranceText(this._selectedIntent);
@@ -336,7 +359,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
 
     ref.afterClosed$.subscribe((res: any) => {
-      debugger;
+
       document.removeEventListener('keydown', this.copySelectedTextCaller);
       this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((entity: IEntityMarker) => {
         return entity.entity_id !== '-1';

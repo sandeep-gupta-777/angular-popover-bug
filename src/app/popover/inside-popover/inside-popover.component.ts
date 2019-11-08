@@ -43,7 +43,7 @@ export class InsidePopoverComponent implements OnInit {
       type: 'custom',
       entity_id: ['', [
         function (control: AbstractControl) {
-          debugger;
+
           if (!control.value || control.value > -1) {
             return null;
           }
