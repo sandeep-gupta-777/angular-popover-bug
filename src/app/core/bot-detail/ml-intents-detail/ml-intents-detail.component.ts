@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, TemplateRef} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {MlIntentsSmartTable} from '../ml-model/ml-intents/ml-intents-smart-table';
 import {IBot} from '../../interfaces/IBot';
 import {IEntitiesItem, IIntentsItem} from '../../interfaces/mlBots';
@@ -28,7 +28,7 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   templateUrl: './ml-intents-detail.component.html',
   styleUrls: ['./ml-intents-detail.component.scss']
 })
-export class MlIntentsDetailComponent implements OnInit {
+export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   ConfirmValidParentMatcher = ConfirmValidParentMatcher;
   currentPage = 1;
   pageSize = 10;
@@ -94,10 +94,28 @@ export class MlIntentsDetailComponent implements OnInit {
   ) {
   }
 
-
+  @ViewChild('tpl') tpl: TemplateRef<any>;
   intent_id: string;
 
+  ngOnDestroy(): void {
+    document.removeEventListener('mouseup', this.y);
+  }
+
+  y;
+
   ngOnInit() {
+    this.y = ($event) => {
+      $event.stopPropagation();
+      debugger;
+      let target = window.getSelection().getRangeAt(0).endContainer.parentNode as HTMLElement;
+      while (target !== null && !target.classList.contains('utter')) {
+        target = target.parentElement;
+      }
+      const event = {target};
+      const index = Array.from(document.getElementsByClassName('utter')).findIndex(item => item === event.target);
+      this.textSelected(event, this.tpl, index, this._selectedIntent.utterances[0].utterance);
+    };
+    document.addEventListener('mouseup', this.y);
     this.intent_id = this.activatedRoute.snapshot.queryParams['intent_id'];
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
@@ -139,7 +157,7 @@ export class MlIntentsDetailComponent implements OnInit {
       start: position.split('-')[1],
       end: position.split('-')[2],
       id: $marker.getAttribute('data-id')
-    }
+    };
 
   }
 
@@ -190,6 +208,9 @@ export class MlIntentsDetailComponent implements OnInit {
   copySelectedTextCaller;
 
   textSelected(e, tpl, index, utterance: string) {
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
     const strToCopy = window.getSelection().toString();
     this.copySelectedTextCaller = this.copySelectedText.bind(this, strToCopy);
     document.addEventListener('keydown', this.copySelectedTextCaller);
@@ -315,18 +336,18 @@ export class MlIntentsDetailComponent implements OnInit {
 
 
     ref.afterClosed$.subscribe((res: any) => {
+      debugger;
       document.removeEventListener('keydown', this.copySelectedTextCaller);
-      const markerIndexToBeRemoved = this._selectedIntent.utterances[index].entities.findIndex((entity: IEntityMarker) => {
-        return entity.entity_id === '-1';
+      this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((entity: IEntityMarker) => {
+        return entity.entity_id !== '-1';
       });
-      if (markerIndexToBeRemoved !== -1) {
-        this._selectedIntent.utterances[index].entities.splice(markerIndexToBeRemoved, 1);
-      }
+      // if (markerIndexToBeRemoved !== -1) {
+      //   this._selectedIntent.utterances[index].entities.splice(markerIndexToBeRemoved, 1);
+      // }
       this.markerInputEditable = true;
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
-      if (!entityMarker) {
-        debugger;
+      if (!entityMarker || entityMarker.entity_id === '-1') {
         if (this.selectedIntentBackup) {
           this._selectedIntent = this.selectedIntentBackup;
           this.selectedIntentBackup = null;
@@ -335,14 +356,17 @@ export class MlIntentsDetailComponent implements OnInit {
         this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
         return;
       }
+      this.selectedIntentBackup = null;
       const markerIndex = this._selectedIntent.utterances[index].entities.findIndex((entity: IEntityMarker) => {
         return entity.start === Number(start);
       });
       if (markerIndex !== -1) {
         this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
-        const color = this.getColorByEntity(entityMarker.entity_id);
+        if (entityMarker.entity_id !== '-1') {
+          const color = this.getColorByEntity(entityMarker.entity_id);
+          origin.style.backgroundColor = color;
+        }
 
-        origin.style.backgroundColor = color;
         if (action === 'remove') {
           this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
           this.correctMarkerPosition();
@@ -364,8 +388,10 @@ export class MlIntentsDetailComponent implements OnInit {
           return true;
         });
         this._selectedIntent.utterances[index].entities.push(entityMarker);
-        const color = this.getColorByEntity(entityMarker.entity_id);
-        origin.style.backgroundColor = color;
+        if (entityMarker.entity_id !== '-1') {
+          const color = this.getColorByEntity(entityMarker.entity_id);
+          origin.style.backgroundColor = color;
+        }
         this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
           return !positionsToBeRemoved.find((position) => {
             return (marker.start == position.start && marker.end == position.end);
@@ -622,5 +648,6 @@ export class MlIntentsDetailComponent implements OnInit {
       });
     });
   }
+
 
 }

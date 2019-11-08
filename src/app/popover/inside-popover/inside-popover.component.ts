@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angul
 import {PopoverRef} from '../popover-ref';
 import {IEntitiesItem} from '../../core/interfaces/mlBots';
 import {IIntent} from '../../typings/intents';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EventService} from '../../event.service';
 
 @Component({
@@ -41,7 +41,17 @@ export class InsidePopoverComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       type: 'custom',
-      entity_id: ['', Validators.required],
+      entity_id: ['', [
+        function (control: AbstractControl) {
+          debugger;
+          if (!control.value || control.value > -1) {
+            return null;
+          }
+          return {
+            error: true
+          };
+        }]
+      ],
     });
 
 
@@ -68,7 +78,7 @@ export class InsidePopoverComponent implements OnInit {
     this.close({marker: {...(this.marker || {}), ...rest, ...this.form.value}, action: 'remove'});
   }
 
-  log(x){
+  log(x) {
     console.log(x);
   }
 
