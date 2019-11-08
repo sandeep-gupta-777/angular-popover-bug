@@ -8,12 +8,20 @@ import {ConstantsService} from '../../../constants.service';
 import {DatePipe} from '@angular/common';
 import {Popover} from '../../../popover/popover.service';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
-import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InsidePopoverComponent} from '../../../popover/inside-popover/inside-popover.component';
 import {UtilityService} from '../../../utility.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ActivatedRoute} from '@angular/router';
+import {ErrorStateMatcher} from '@angular/material';
+
+export class ConfirmValidParentMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    debugger;
+    return control.invalid && control.touched;
+  }
+}
 
 @Component({
   selector: 'app-ml-intents-detail',
@@ -21,7 +29,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./ml-intents-detail.component.scss']
 })
 export class MlIntentsDetailComponent implements OnInit {
-
+  ConfirmValidParentMatcher = ConfirmValidParentMatcher;
   currentPage = 1;
   pageSize = 10;
   isReloading = false;
@@ -409,6 +417,7 @@ export class MlIntentsDetailComponent implements OnInit {
     this.saveAndTrain$.emit({
       ...this._selectedIntent,
       name: this.form.value.name,
+      ...this.form.value
     });
   }
 
