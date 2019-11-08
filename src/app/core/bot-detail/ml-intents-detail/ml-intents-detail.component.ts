@@ -328,6 +328,7 @@ export class MlIntentsDetailComponent implements OnInit {
         debugger;
         if (this.selectedIntentBackup) {
           this._selectedIntent = this.selectedIntentBackup;
+          this.selectedIntentBackup = null;
         }
         this.updateUtteranceText();
         this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
@@ -558,14 +559,14 @@ export class MlIntentsDetailComponent implements OnInit {
     };
   }
 
-  updateUtteranceText(intent) {
+  updateUtteranceText(intent?) {
     intent = intent || this._selectedIntent;
     intent.utterances.forEach((value, index, array) => {
       value.utterance = document.getElementsByClassName('utter')[index].textContent;
     });
   }
 
-  correctMarkerPosition(intent) {
+  correctMarkerPosition(intent?) {
     intent = intent || this._selectedIntent;
     let x: any = document.querySelectorAll('[contenteditable=true]');
     x = Array.from(x);
