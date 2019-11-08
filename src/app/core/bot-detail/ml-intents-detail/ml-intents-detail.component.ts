@@ -215,10 +215,11 @@ export class MlIntentsDetailComponent implements OnInit {
 
     const selectionStr = selection.toString();
     setTimeout(() => {
+
+      debugger;
       const positionsToBeRemoved: any[] = this.removeCrossover(target);
       // this.correctMarkerPosition();
       this.updateUtteranceText(this._selectedIntent);
-      debugger;
       this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
         return !positionsToBeRemoved.find((position) => {
           return (marker.start == position.start && marker.end == position.end);

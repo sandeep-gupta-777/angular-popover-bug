@@ -10,7 +10,7 @@ export class UtteranceAddEntityPipe implements PipeTransform {
   transform(utteranceStr: any, args: any[]): any {
 
     const entityList: IEntitiesItem[] = MlService.entityList;
-    let str: string = utteranceStr.trim() + `<span> &nbsp; </span>`;
+    let str: string = utteranceStr.trim() + `&nbsp;`;
 
     args = [...args];
     args = args.map((arg) => {
