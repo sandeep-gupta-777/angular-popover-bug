@@ -88,9 +88,10 @@
 <!--        <i>{{_selectedIntent.utterances[0].entities|json}}</i>-->
         <div
           style="position: relative"
-          *ngFor="let question of _selectedIntent.utterances; let index = index;">
+          *ngFor="let question of _selectedIntent.utterances; let index = index; trackBy: trackByIndex">
           <div class="utter" [attr.contenteditable]="markerInputEditable"
                (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
+               (input)="x($event)"
                (click)="show2($event.target, tpl, index)"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
             <!--          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">-->

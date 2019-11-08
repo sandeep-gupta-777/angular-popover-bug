@@ -89,7 +89,7 @@ export class BotArticleHistoryComponent implements OnInit {
     if (!index || !action || !corpus_id) {
       return;
     }
-    debugger;
+
     // alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
     if (action === 'makelive') {
 
@@ -165,7 +165,7 @@ export class BotArticleHistoryComponent implements OnInit {
 
       if (data) {
         //
-      debugger;
+
         const headerData: IHeaderData = {
           'bot-access-token': ServerService.getBotTokenById(this.bot.id)
         };
