@@ -2,12 +2,12 @@
   <div>
     <label style="font-size: 11px; color: #ababab">Entity type</label>
   </div>
-<!--  <mat-radio-group formControlName="type" aria-label="Select an option" style="    display: flex;-->
-<!--    width: 100%;-->
-<!--    justify-content: space-around;">-->
-<!--    <mat-radio-button value="system">System</mat-radio-button>-->
-<!--    <mat-radio-button value="custom">Custom</mat-radio-button>-->
-<!--  </mat-radio-group>-->
+  <!--  <mat-radio-group formControlName="type" aria-label="Select an option" style="    display: flex;-->
+  <!--    width: 100%;-->
+  <!--    justify-content: space-around;">-->
+  <!--    <mat-radio-button value="system">System</mat-radio-button>-->
+  <!--    <mat-radio-button value="custom">Custom</mat-radio-button>-->
+  <!--  </mat-radio-group>-->
 
   <mat-form-field class="mt-2 mb-1">
     <mat-label>Select Entity</mat-label>
@@ -29,7 +29,6 @@
       + Save
     </button>
     <a
-      *ngIf="this.marker"
       (click)="removeMarkerHandler()"
       style="text-decoration: none; color: #bf3c3c; font-size: 13px; cursor: pointer">
       <i style="margin-right: 5px" class="fa fa-times"></i>Remove
@@ -40,7 +39,8 @@
   <div *ngIf="this.isNew">
     <hr style="margin: 10px 0">
     <a
-      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer" (click)="showCreateNewIntentModel$.emit()">+ New entity</a>
+      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer"
+      (click)="showCreateNewIntentModel$.emit()">+ New entity</a>
   </div>
 
 </form>

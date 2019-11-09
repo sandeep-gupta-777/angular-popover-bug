@@ -15,7 +15,13 @@ import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
-import {debounce} from 'rxjs/operators';
+import {debounce, debounceTime} from 'rxjs/operators';
+
+export enum EMarkerAttributes {
+  data_entity_id = 'data_entity_id',
+  data_id = 'data_id',
+  data_position = 'data_position',
+}
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -110,7 +116,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   y;
 
   ngOnInit() {
-    this.inputChanged$.pipe(debounce(100)).subscribe((event: any) => {
+    this.inputChanged$.pipe(debounceTime(100)).subscribe((event: any) => {
       if (event.target.textContent.includes(this.tempMarkingWord)) {
         return;
       }
@@ -118,7 +124,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
           this.correctMarkerPosition(this.selectedIntentBackup);
-          this.updateUtteranceText(this.selectedIntentBackup);
+          // this.updateUtteranceText(this.selectedIntentBackup);
         });
       });
     });
@@ -141,8 +147,6 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
         document.removeEventListener('keydown', this.copySelectedTextCaller);
       }
     };
-    console.clear();
-    console.log(this.y);
     document.addEventListener('mouseup', this.y);
     // document.removeEventListener('mouseup', this.y);
     this.intent_id = this.activatedRoute.snapshot.queryParams['intent_id'];
@@ -178,18 +182,22 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     if (!$marker) {
       return null;
     }
-    const position = $marker.getAttribute('data-position');
+    const position = $marker.getAttribute(EMarkerAttributes.data_position);
     if (!position) {
       return null;
     }
     return {
       start: position.split('-')[1],
       end: position.split('-')[2],
-      id: $marker.getAttribute('data-id')
+      id: $marker.getAttribute(EMarkerAttributes.data_id),
+      bg: $marker.style.backgroundColor
     };
-
   }
 
+  /**
+   * removeCrossover
+   * doesnt destroy selection
+   * */
   removeCrossover(target: HTMLElement) {
 
     let entities = [];
@@ -221,7 +229,6 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
           positions && entities.push(positions);
         });
       }
-      console.log(1);
     }
     return entities;
   }
@@ -241,26 +248,23 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   copySelectedTextCaller;
 
   textSelected(e, tpl, index, utterance: string) {
+    debugger;
+    const utterInnerHTML = this.getUtteranceByIndex(index).innerHTML;
     if (e.stopPropagation) {
       e.stopPropagation();
     }
-    const strToCopy = window.getSelection().toString();
     this.strToCopy = window.getSelection().toString();
     if (this.strToCopy) {
       this.copySelectedTextCaller = this.copySelectedText.bind(this);
     }
+    document.removeEventListener('keydown', this.copySelectedTextCaller);
     document.addEventListener('keydown', this.copySelectedTextCaller);
-    // document.removeEventListener('keydown', this.copySelectedTextCaller);
-    if (!this.selectedIntentBackup) {
-      this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
-    }
     const target = e.target as HTMLElement;
     if (target.classList.contains('bg-red') && (window.getSelection().toString() === target.textContent)) {
       return;
     }
 
-    var selection;
-
+    let selection;
     if (window.getSelection) {
       selection = window.getSelection();
     } else if ((<any>document).selection) {
@@ -270,41 +274,21 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     if (!selection.toString() || !selection.toString().trim()) {
       return;
     }
-
     const selectionStr = selection.toString();
-    setTimeout(() => {
+    const positionsToBeRemoved: any[] = this.removeCrossover(target);
+    positionsToBeRemoved.forEach((value) => {
+      const wrapper = document.getElementsByClassName('utter')[index];
+      let x = wrapper.querySelector(`[${EMarkerAttributes.data_position}="entity-${value.start}-${value.end}"]`) as HTMLElement;
+      if (!x) {
+        x = document.getElementsByClassName('utter')[index].querySelector(`[${EMarkerAttributes.data_id}="${value.id}"]`);
+      }
+      x.classList.remove('bg-red');
+      this.setBgColor(x, 'transparent');
+    });
 
-
-      const positionsToBeRemoved: any[] = this.removeCrossover(target);
-      // this.correctMarkerPosition();
-      this.updateUtteranceText(this._selectedIntent);
-      this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
-        return !positionsToBeRemoved.find((position) => {
-          return (marker.start == position.start && marker.end == position.end);
-        });
-      });
-      positionsToBeRemoved.forEach((value) => {
-        const wrapper = document.getElementsByClassName('utter')[index];
-        let x = wrapper.querySelector(`[data-position="entity-${value.start}-${value.end}"]`) as HTMLElement;
-        if (!x) {
-          x = document.getElementsByClassName('utter')[index].querySelector(`[data-id="${value.id}"]`);
-        }
-        x.classList.remove('bg-red');
-        x.style.backgroundColor = 'transparent';
-      });
-
-      this._selectedIntent.utterances[index].utterance = document.getElementsByClassName('utter')[index].textContent;
-      this.correctMarkerPosition();
-      const {start, end} = this.replaceSelectedText(selectionStr, utterance.endsWith(selectionStr));
-      this.removeAllMarkersBetweenRange(start, end, index);
-      this._selectedIntent.utterances[index].entities.push({start, end, entity_id: '-1', type: 'custom'});
-      this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
-      setTimeout(() => {
-        const x = document.getElementsByClassName('utter')[index].querySelector(`[data-position="entity-${start}-${end}"]`);
-        this.show2(x, tpl, index, positionsToBeRemoved, true);
-      });
-    }, 0);
-
+    const {start, end} = this.replaceSelectedText(utterance.endsWith(selectionStr));
+    const x = document.getElementsByClassName('utter')[index].querySelector(`[${EMarkerAttributes.data_position}="entity-${start}-${end}"]`);
+    this.show2(x, tpl, index, positionsToBeRemoved, true, utterInnerHTML);
   }
 
   removeAllMarkersBetweenRange(start, end, index) {
@@ -324,27 +308,46 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     };
   }
 
-  replaceSelectedText(selectionStr, isEnd) {
+
+  getUtteranceByIndex(index: number) {
+    return document.getElementsByClassName('utter')[index];
+  }
+
+
+  createSelection(index, start, end) {
+    /*https://stackoverflow.com/questions/17675056/set-selection-by-range-in-javascript*/
+    const node = this.getUtteranceByIndex(index).firstChild;
+    const range = document.createRange();
+    range.setStart(node, 0);
+    range.setEnd(node, 4);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  replaceSelectedText(isEnd) {
     let start = 0, end = 0;
     const random = Date.now();
-    if (selectionStr === '') {
+    const selectionStr = window.getSelection().toString();
+    if (window.getSelection().toString() === '') {
       return;
     }
 
     document.execCommand('insertHTML', false,
-      `<span class="bg-red bg-red2 bg-red1" data-position="entity-${start}-${end}" data-id="${random}">${this.tempMarkingWord}<span> <span></span>`);
+      `<span class="bg-red"
+                ${EMarkerAttributes.data_position}="entity-${start}-${end}"
+                ${EMarkerAttributes.data_entity_id}="${-1}"
+                ${EMarkerAttributes.data_id}="${random}">${this.tempMarkingWord}<span> <span></span>`);
 
-    const x = document.querySelector(`[data-id="${random}"]`);
+    const x = document.querySelector(`[${EMarkerAttributes.data_id}="${random}"]`);
     let parent = x.parentElement;
     while (parent !== null && !parent.classList.contains('utter')) {
       parent = parent.parentElement;
     }
     start = parent.textContent.split(this.tempMarkingWord)[0].length;
     end = start + selectionStr.replace(/\s*$/, '').length;
-    x.setAttribute('data-position', `entity-${start}-${end}`);
+    x.setAttribute(EMarkerAttributes.data_position, `entity-${start}-${end}`);
     x.textContent = selectionStr;
-    x.classList.remove('bg-red');
-    // x.parentElement.removeChild(x);
     return {
       start, end
     };
@@ -352,11 +355,12 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
   markerInputEditable = true;
 
-  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = [], isNew) {
-    const position = origin.getAttribute('data-position');
+  show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = [], isNew, utterInnerHTML) {
+    const position = origin.getAttribute(EMarkerAttributes.data_position);
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
     const end = Number(position.split('-')[2]);
+    const entity_id = UtilityService.getDataAttribute(origin, EMarkerAttributes.data_entity_id);
     this.markerInputEditable = false;
     const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any, showCreateNewIntentModel$: EventEmitter<any> }>({
       content: InsidePopoverComponent,
@@ -365,7 +369,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       data: <any>{
         entityList: this.entityList,
         selectedIntent: this._selectedIntent,
-        data: {start, index, end, value},
+        data: {start, index, end, value, entity_id, origin},
         isNew,
         showCreateNewIntentModel$: this.showCreateNewIntentModel$
       }
@@ -373,71 +377,35 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
 
     ref.afterClosed$.subscribe((res: any) => {
-
       document.removeEventListener('keydown', this.copySelectedTextCaller);
-      this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((entity: IEntityMarker) => {
-        return entity.entity_id !== '-1';
-      });
-      // if (markerIndexToBeRemoved !== -1) {
-      //   this._selectedIntent.utterances[index].entities.splice(markerIndexToBeRemoved, 1);
-      // }
       this.markerInputEditable = true;
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
+
+      /*popup closed without submit*/
       if (!entityMarker || entityMarker.entity_id === '-1') {
-        if (this.selectedIntentBackup) {
-          this._selectedIntent = this.selectedIntentBackup;
-          this.selectedIntentBackup = null;
-        }
-        this.updateUtteranceText();
-        this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
+        this.getUtteranceByIndex(index).innerHTML = utterInnerHTML;
         return;
       }
-      this.selectedIntentBackup = null;
-      const markerIndex = this._selectedIntent.utterances[index].entities.findIndex((entity: IEntityMarker) => {
-        return entity.start === Number(start);
-      });
-      if (markerIndex !== -1) {
-        this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
-        if (entityMarker.entity_id !== '-1') {
-          const color = this.getColorByEntity(entityMarker.entity_id);
-          origin.style.backgroundColor = color;
-        }
 
-        if (action === 'remove') {
-          this._selectedIntent.utterances[index].entities.splice(markerIndex, 1);
-          this.correctMarkerPosition();
-          this._selectedIntent = UtilityService.cloneObj(this._selectedIntent);
-          return;
-        }
-      } else {
+      const markerIndex = this._selectedIntent.entities.findIndex(e => e.entity_id === entityMarker.entity_id);
 
-        this.correctMarkerPosition();
-        console.dir(this._selectedIntent.utterances[index].entities);
-        this._selectedIntent.utterances[index].utterance = document.getElementsByClassName('utter')[index].textContent;
-        this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
-          // if ((marker.start <= start && start <= marker.end) || (marker.start <= end && end <= marker.end)) {
-          //   return false;
-          // }
-          if ((start <= marker.start && marker.end <= end) || (marker.start <= start && end <= marker.end)) {
-            return false;
-          }
-          return true;
-        });
-        this._selectedIntent.utterances[index].entities.push(entityMarker);
-        if (entityMarker.entity_id !== '-1') {
-          const color = this.getColorByEntity(entityMarker.entity_id);
-          origin.style.backgroundColor = color;
-        }
-        this._selectedIntent.utterances[index].entities = this._selectedIntent.utterances[index].entities.filter((marker) => {
-          return !positionsToBeRemoved.find((position) => {
-            return (marker.start == position.start && marker.end == position.end);
-          });
-        });
+      /*remove existing marking*/
+      if (action === 'remove') {
+        UtilityService.removeDataAttributes(origin, [EMarkerAttributes.data_id, EMarkerAttributes.data_entity_id]);
+        UtilityService.removeClass(origin, ['bg-red']);
+        this.setBgColor(origin, 'transparent');
+        return;
       }
 
-      if (!this._selectedIntent.entities.find(e => e.entity_id === entityMarker.entity_id)) {
-
+      const color = this.getColorByEntity(entityMarker.entity_id);
+      UtilityService.setDataAttribute(origin, EMarkerAttributes.data_entity_id, entityMarker.entity_id);
+      origin.style.backgroundColor = color;
+      /*new marker with existing entity*/
+      if (markerIndex !== -1) {
+        this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
+      } else {/*new marker with new entity*/
+        /*add into the list*/
         const markedEntity = this.entityList.find((e) => e.entity_id === entityMarker.entity_id);
         const {entity_id} = markedEntity;
         this._selectedIntent.entities.unshift(<any>{
@@ -446,9 +414,22 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
           template_key: 'fallback', entity_id
         });
       }
-
     });
 
+  }
+
+
+  getMarkerById(id) {
+    return document.querySelector(`[${EMarkerAttributes.data_id}="${id}"]`);
+  }
+
+
+  addMarkerClassById({id, bg}) {
+    const marker = this.getMarkerById(id) as HTMLElement;
+    if (!marker.classList.contains('bg-red')) {
+      marker.classList.add('bg-red');
+      marker.style.backgroundColor = bg;
+    }
   }
 
   getColorByEntity(entity_id: string) {
@@ -456,9 +437,10 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  show2(target, tpl, index, positionsToBeRemoved, isNew) {
+  show2(target, tpl, index, positionsToBeRemoved, isNew, innerHTML) {
+    innerHTML = innerHTML || this.getUtteranceByIndex(index).innerHTML;
     if (target.classList.contains('bg-red')) {
-      this.show(target, tpl, index, positionsToBeRemoved, isNew);
+      this.show(target, tpl, index, positionsToBeRemoved, isNew, innerHTML);
     }
   }
 
@@ -521,9 +503,38 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
   }
 
+
+  getMarkerData() {
+    const $utters = Array.from(document.getElementsByClassName('utter'));
+    const entity = [];
+    $utters.forEach(($utter, row) => {
+      debugger;
+      const $markings = Array.from($utter.getElementsByClassName('bg-red'));
+      const markings = [];
+      $markings.forEach(($marking: HTMLElement, col) => {
+        const entity_id = UtilityService.getDataAttribute($marking, EMarkerAttributes.data_entity_id);
+        const position = UtilityService.getDataAttribute($marking, EMarkerAttributes.data_position);
+        const start = Number(position.split('-')[1]);
+        const end = Number(position.split('-')[2]);
+        if ($marking.textContent) {
+          markings.push({
+            entity_id,
+            start,
+            end,
+            type: 'custom',
+            value: $marking.textContent
+          });
+        }
+      });
+      entity.push({entities: markings, utterance: $utter.textContent});
+    });
+    debugger;
+    return entity;
+  }
+
   saveAndTrain() {
-    this.correctMarkerPosition(this._selectedIntent);
-    this.updateUtteranceText(this._selectedIntent);
+    // this.correctMarkerPosition(this._selectedIntent);
+    // this.updateUtteranceText(this._selectedIntent);
     this.saveAndTrain$.emit({
       ...this._selectedIntent,
       name: this.form.value.name,
@@ -532,8 +543,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   saveOrUpdateIntent() {
-    this.correctMarkerPosition(this._selectedIntent);
-    this.updateUtteranceText(this._selectedIntent);
+    debugger;
+    const markerData = this.getMarkerData();
+    this._selectedIntent.utterances = markerData;
     this.saveOrUpdateIntent$.emit({
       'entities': [],
       'utterances': [
@@ -643,7 +655,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       });
 
       markers.forEach(($marker: HTMLElement, markerCount) => {
-        const position = $marker.getAttribute('data-position');
+        const position = $marker.getAttribute(EMarkerAttributes.data_position);
         const pre_start = Number(position.split('-')[1]);
         const pre_end = Number(position.split('-')[2]);
         const {start, end, value} = this.getPositionByMarkerNode($marker);
@@ -668,7 +680,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
         //   }
         //   return marker;
         // });
-        $marker.setAttribute('data-position', `entity-${start}-${end}`);
+        $marker.setAttribute(EMarkerAttributes.data_position, `entity-${start}-${end}`);
       });
     });
   }
@@ -677,6 +689,10 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
   x(event) {
     this.inputChanged$.emit(event);
+  }
+
+  setBgColor($el: HTMLElement, color: string | 'transparent') {
+    $el.style.backgroundColor = color;
   }
 
 

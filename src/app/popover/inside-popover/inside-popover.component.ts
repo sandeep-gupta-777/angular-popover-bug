@@ -11,24 +11,25 @@ import {EventService} from '../../event.service';
 })
 export class InsidePopoverComponent implements OnInit {
   entityList: IEntitiesItem[];
-  selectedIntent: IIntent;
   data = {
     entity_type: '',
     entity_id: '-1',
     index: -1,
     start: -1,
+    origin: null
   };
   form: FormGroup;
   isNew = false;
+  origin: HTMLElement;
   showCreateNewIntentModel$: EventEmitter<any>;
   @Output() entityMarker$ = new EventEmitter();
 
   constructor(private popoverRef: PopoverRef, private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {
     this.entityList = this.popoverRef.data.entityList;
-    this.selectedIntent = this.popoverRef.data.selectedIntent;
     this.showCreateNewIntentModel$ = this.popoverRef.data.showCreateNewIntentModel$;
     this.data = this.popoverRef.data.data || this.data;
     this.isNew = this.popoverRef.data.isNew;
+    this.origin = this.data.origin;
   }
 
   marker;
@@ -41,9 +42,8 @@ export class InsidePopoverComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       type: 'custom',
-      entity_id: ['', [
+      entity_id: [this.data.entity_id, [
         function (control: AbstractControl) {
-
           if (!control.value || control.value > -1) {
             return null;
           }
@@ -54,14 +54,14 @@ export class InsidePopoverComponent implements OnInit {
       ],
     });
 
-
-    const marker = this.selectedIntent.utterances[this.data.index].entities.find((entity: any) => {
-      return entity.start === Number(this.data.start);
+    this.form.valueChanges.subscribe((formData) => {
+      debugger;
+      this.origin.style.backgroundColor = this.getColorByEntity(formData.entity_id);
     });
-    if (marker) {
-      this.marker = marker;
-      this.form.patchValue(marker);
-    }
+  }
+
+  getColorByEntity(entity_id: string) {
+    return this.entityList.find(e => e.entity_id === entity_id).color;
   }
 
   close(data) {
