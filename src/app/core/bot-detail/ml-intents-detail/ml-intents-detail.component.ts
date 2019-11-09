@@ -15,6 +15,7 @@ import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
+import {debounce} from 'rxjs/operators';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -109,6 +110,19 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   y;
 
   ngOnInit() {
+    this.inputChanged$.pipe(debounce(100)).subscribe((event: any) => {
+      if (event.target.textContent.includes(this.tempMarkingWord)) {
+        return;
+      }
+      this._ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
+          this.correctMarkerPosition(this.selectedIntentBackup);
+          this.updateUtteranceText(this.selectedIntentBackup);
+        });
+      });
+    });
+
     this.y = ($event) => {
       try {
         $event.stopPropagation();
@@ -659,17 +673,10 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  inputChanged$ = new EventEmitter();
+
   x(event) {
-    if (event.target.textContent.includes(this.tempMarkingWord)) {
-      return;
-    }
-    this._ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
-        this.correctMarkerPosition(this.selectedIntentBackup);
-        this.updateUtteranceText(this.selectedIntentBackup);
-      });
-    });
+    this.inputChanged$.emit(event);
   }
 
 
