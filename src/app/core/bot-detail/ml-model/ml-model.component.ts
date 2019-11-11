@@ -79,7 +79,7 @@ export class MLModelComponent implements OnInit {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
       'entity_name': ['', [Validators.required,this.noWhitespaceValidator]],
-      'entity_value': '',
+      'entity_value': '' ,
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
   }
@@ -289,7 +289,13 @@ export class MLModelComponent implements OnInit {
   validationOfEntityModal(group: FormGroup) {
     let type = group.get('entity_type').value;
     if (type === 'regex' || type === 'custom') {
-      return group.get('entity_value').value ? null : {error: true};
+      if(!group.get('entity_value').value){
+        return {error: true}
+      }
+
+      const isWhitespace = (group.get('entity_value').value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
     }
     return null;
   }

@@ -105,9 +105,9 @@
           <input matInput ngModel placeholder="Entity name" formControlName="entity_name" required maxlength="200">
         </mat-form-field>
         <div class="d-flex">
-          <mat-form-field style="width: 120px;margin-right: 20px">
+          <mat-form-field style="width: 120px;margin-right: 20px" >
             <mat-label>Entity type</mat-label>
-            <mat-select formControlName="entity_type" ngModel required>
+            <mat-select formControlName="entity_type" ngModel required  [disabled]="modalForm.value.entity_id">
               <mat-option *ngFor="let entity_type of entity_types" [value]="entity_type.name">
                 {{toDisplayValue(entity_type.name)}}
               </mat-option>
@@ -115,7 +115,7 @@
           </mat-form-field>
           <mat-form-field style="width: 250px"
                           [hidden]="!(modalForm.value.entity_type == 'regex' || modalForm.value.entity_type == 'custom')">
-            <input ngModel matInput placeholder="Value" formControlName="entity_value">
+            <input ngModel matInput placeholder="Value" formControlName="entity_value" required>
           </mat-form-field>
         </div>
         <div class="d-flex ">
