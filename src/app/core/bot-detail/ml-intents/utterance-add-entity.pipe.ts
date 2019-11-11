@@ -1,6 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {MlService} from '../ml-model/ml.service';
+import {EMarkerAttributes} from '../ml-intents-detail/ml-intents-detail.component';
 
 @Pipe({
   name: 'utteranceAddEntity'
@@ -10,22 +11,16 @@ export class UtteranceAddEntityPipe implements PipeTransform {
   transform(utteranceStr: any, args: any[]): any {
 
     const entityList: IEntitiesItem[] = MlService.entityList;
-    let str: string = utteranceStr;
-    const random = Date.now();
+    let str: string = utteranceStr.trim() + `&nbsp;`;
+
     args = [...args];
-    let x = args.sort((a, b) => {
-      return -a.start + b.start;
+    args = args.map((arg) => {
+      return {
+        ...arg,
+        class: 'bg-red'
+      };
     });
-    console.dir(x);
-    x.forEach((value, index, array) => {
-      const isEnd = str.endsWith(value.value);
-      // const isStart = str.startsWith(value.value);
-      const first = str.substr(0, (value.start));
-      const second = `<span class="bg-red" style="background-color: ${this.getColorByEntity(entityList, value.entity_id)}" data-position="entity-${value.start}-${value.end}" data-id="${random}">${str.substr(value.start, (value.end - value.start))}</span>${isEnd ? '&nbsp' : ''}`;
-      const last = str.substr(value.end, 1000000);
-      str = first + second + last;
-    });
-    console.log(str);
+    str = this.replaceX(str, args, entityList);
     return str;
   }
 
@@ -33,5 +28,30 @@ export class UtteranceAddEntityPipe implements PipeTransform {
     const x = entityList.find(e => e.entity_id === entity_id);
     return x && x.color || 'red';
   }
+
+  replaceX(phrase, replacementArr, entityList) {
+    // let replacementArr = [{start: 0,  end: 11, class: "alive"},{start: 0,  end: 5, class: "firstName"},{start: 17,  end: 23, class: "firstName"},{start: 7,  end: 11, class: "lastName"},{start: 25,  end: 30, class: "lastName"},{start: 17, end: 30, class: "dead"}];
+    // let phrase = "Barack Obama and Abraham Lincon were US presidents"
+
+    const random = Date.now();
+    const result = replacementArr.flatMap(o => [
+      {
+        idx: o.start,
+        tag: `<${o.class} style="background-color: ${this.getColorByEntity(entityList, o.entity_id)}"
+                    ${EMarkerAttributes.data_position}="entity-${o.start}-${o.end}"
+                    ${EMarkerAttributes.data_entity_id}="${o.entity_id}"
+                    ${EMarkerAttributes.data_id}="${random}" class="${o.class}">`,
+        order: o.start - o.end - 1
+      },
+      {idx: o.end, tag: `</${o.class}>`, order: o.end - o.start}
+    ]).sort((a, b) =>
+      a.idx - b.idx || a.order - b.order
+    ).concat({tag: ''}).reduce((acc, {idx, tag}) => ({
+      str: acc.str + phrase.slice(acc.idx, idx) + tag,
+      idx
+    }), {str: '', idx: 0}).str;
+    return result;
+  }
+
 
 }

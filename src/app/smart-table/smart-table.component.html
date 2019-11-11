@@ -13,6 +13,7 @@
 <input type="text" #headerHoverd value="false" hidden>
 <input type="text" #calenderOpened hidden>
 <form #tableForm="ngForm"
+      class="fade-in-custom"
       data-cy="smart-table"
       *ngIf="tableData" (click)="handleDataValueClicked($event)"
       style="position: relative; min-height: 80%">

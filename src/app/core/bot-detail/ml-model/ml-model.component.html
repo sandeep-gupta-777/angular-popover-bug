@@ -1,9 +1,16 @@
 <!--<i>{{selectedIntent|json}}</i>-->
 <header *ngIf="view === 'table'">
-  <div class="d-flex flex-row heading">
+  <div class="d-flex flex-row heading p-0 flex-shrink-0" style="height: 32px">
     <strong class="heading-title">
       Machine learning model</strong>
-    <div class="model-state " *ngIf="corpusMiniObj &&  corpusMiniObj.state"
+    <ng-template #blinking>
+      <div class="article-state blinking">
+        <i class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></i>
+        <i class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></i>
+        <i class="fa fa-circle blinking" style="color: white; font-size: 6px;"></i>
+      </div>
+    </ng-template>
+    <div class="model-state " *ngIf="corpusMiniObj &&  corpusMiniObj.state; else blinking"
          [ngStyle]="{'background-color':  corpusMiniObj.state === 'saved' ? '#fdc31c':
           corpusMiniObj.state === 'training' ? '#f48a42' :
           corpusMiniObj.state === 'trained' ? '#00abd3' :
@@ -17,24 +24,24 @@
     </div>
     <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border"
             [hidden]=" corpusMiniObj.state != 'saved' && corpusMiniObj.state != 'trained'"
-            (click) = "trainOrMakeLiveMLBotsClicked()"
+            (click)="trainOrMakeLiveMLBotsClicked()"
             *ngIf="corpusMiniObj &&  corpusMiniObj.state"
     >
-      <mat-icon class = "mat-icon material-icons" *ngIf="corpusMiniObj.state === 'saved'">sync</mat-icon>
-      <mat-icon class = "mat-icon material-icons" *ngIf="corpusMiniObj.state === 'trained'">arrow_upward</mat-icon>
+      <mat-icon class="mat-icon material-icons" *ngIf="corpusMiniObj.state === 'saved'">sync</mat-icon>
+      <mat-icon class="mat-icon material-icons" *ngIf="corpusMiniObj.state === 'trained'">arrow_upward</mat-icon>
       {{ corpusMiniObj.state === 'saved' ? 'Train' :
         corpusMiniObj.state === 'trained' ? 'Make Live' : 'Train'}}
     </button>
-<!--    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" (click)="trainMLBots()">-->
-<!--      <mat-icon class="mat-icon material-icons">sync</mat-icon>-->
-<!--      Train-->
-<!--    </button>-->
+    <!--    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" (click)="trainMLBots()">-->
+    <!--      <mat-icon class="mat-icon material-icons">sync</mat-icon>-->
+    <!--      Train-->
+    <!--    </button>-->
   </div>
   <div style="color: #696969;font-size: 11px;">Configure intents and entities over which the bot will
     work
   </div>
 </header>
-<div style="position: relative; min-height: 70vh;" *ngIf="view === 'table'">
+<div style="position: relative; min-height: 70vh;" *ngIf="view === 'table'" class="fade-in-custom">
   <app-imi-loader *ngIf="loading" class="loader-center"></app-imi-loader>
   <app-button-wrapper
     class="card--update"
@@ -62,11 +69,11 @@
       <div *ngIf="!entityList || (entityList &&  entityList.length <= 0)" class="d-flex justify-content-center">
         No entities available, create new to use them within intents
       </div>
-      </mat-tab>
+    </mat-tab>
   </mat-tab-group>
 </div>
 
-<div *ngIf="view === 'detail' && !loading">
+<div *ngIf="view === 'detail' && !loading" class="fade-in-custom">
   <app-ml-intents-detail
     (selectedIntentChanged$)="selectedIntentChanged($event)"
     (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"
@@ -80,7 +87,7 @@
     (viewChanged$)="viewChanged($event)"></app-ml-intents-detail>
 </div>
 
-<div *ngIf="view === 'entity'" style="flex:1">
+<div *ngIf="view === 'entity'" style="flex:1;">
   <app-ml-edit-entity [edittingData]="edittingData" [entity_types]="entity_types"
                       (saveCustomEntity)="saveCustomEntity($event)"
                       (saveAndTrainCustomEntity)="saveAndTrainCustomEntity($event)"
@@ -92,7 +99,8 @@
 <ng-template #Primarytemplat>
   <div class="danger-modal">
     <div class="modal-header">
-      <h4 class="modal-title mb-1" style="display: flex;justify-content: start;color: #474747;">Create new entity</h4>
+      <h4 class="modal-title mb-1" style="display: flex;justify-content: start;color: #474747;">
+        {{modalForm?.value.entity_id ? 'Edit' : 'Create'}} entity</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>

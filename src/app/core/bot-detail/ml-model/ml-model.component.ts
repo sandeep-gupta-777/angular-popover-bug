@@ -231,10 +231,10 @@ export class MLModelComponent implements OnInit {
               }
             }
             this.entityList = [val.updated_entity, ...this.entityList];
-            this.utilityService.showSuccessToaster('Entity updated');
+            this.utilityService.showSuccessToaster(`Updated ${val.updated_entity.name} entity`);
           } else {
             this.entityList = [val.new_entity, ...this.entityList];
-            this.utilityService.showSuccessToaster('New entity added');
+            this.utilityService.showSuccessToaster(`Created ${val.new_entity.name} entity`);
           }
           EventService.entityListUpdated$.emit(this.entityList);
         })
@@ -340,7 +340,7 @@ export class MLModelComponent implements OnInit {
     };
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
-        this.myToasterService.showSuccessToaster('training started');
+        this.myToasterService.showSuccessToaster('Training started');
         this.getAndSetMlCorpusMiniData()
       });
   }
@@ -396,7 +396,7 @@ export class MLModelComponent implements OnInit {
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
     return obs.pipe(tap((res: any) => {
       this.getAndSetMlCorpusMiniData();
-      this.utilityService.showSuccessToaster(`Intent ${(!intent.intent_id) ? 'created' : 'updated'} successfully`);
+      this.utilityService.showSuccessToaster(`Intent ${(!intent.name) ? 'created' : 'updated'} successfully`);
       const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {

@@ -1,9 +1,16 @@
 <header>
-  <div class="d-flex flex-row heading">
+  <div class="d-flex flex-row heading" style="height: 32px">
     <strong class="heading-title">
       Responses
     </strong>
-    <div class="article-state " *ngIf="mlResponse && mlResponse.state as state"
+    <ng-template #blinking>
+      <div class="article-state blinking">
+        <i class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></i>
+        <i class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></i>
+        <i class="fa fa-circle blinking" style="color: white; font-size: 6px;"></i>
+      </div>
+    </ng-template>
+    <div class="article-state " *ngIf="mlResponse && mlResponse.state as state; else blinking"
          [ngStyle]="{'background-color':  (mlResponse.state === 'saved' || mlResponse.state ===  'cloned') ? '#fdc31c':
           state === 'training' ? '#f48a42' :
           state === 'trained' ? '#00abd3' :

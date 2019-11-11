@@ -19,6 +19,16 @@
             <span style="color: #00ABD3">Settings</span>
           </div>
         </a>
+        <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
+          <a mat-list-item class="mat-list-item-sidebar"
+             (click)="sideBarTabChanged(myESideBarTab.input)">
+            <div class="sidebar-nav-list-item"
+                 data-cy="sidebar-NLP"
+                 [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
+              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+              <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
+            </div>
+          </a></ng-container>
         <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
           <a mat-list-item class="mat-list-item-sidebar"
              (click)="sideBarTabChanged(myESideBarTab.ml_model)">
@@ -42,16 +52,7 @@
           </a></ng-container>
         <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
 
-        <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
-          <a mat-list-item class="mat-list-item-sidebar"
-             (click)="sideBarTabChanged(myESideBarTab.input)">
-            <div class="sidebar-nav-list-item"
-                 data-cy="sidebar-NLP"
-                 [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
-              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
-              <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
-            </div>
-          </a></ng-container>
+
 
         <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
            (click)="sideBarTabChanged('articles')">
@@ -163,21 +164,22 @@
             <div class="architecture py-3 pr-1" *ngIf="sideBarTab1 ==='setting'">
               <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal">
                 <app-bot-config (datachanged$)="pipelineDataChangeHandler($event)"
+                                class="fade-in-custom"
                                 (initDone$)="mySideBarService.init($event)"
                                 [bot]="(bot)"></app-bot-config>
               </div>
             </div>
           </ng-container>
           <ng-container *ngIf="sideBarTab1 === 'ml_model' && myEBotType.mlbot === bot.bot_type">
-            <app-ml-model style="flex:1" [bot]="bot"></app-ml-model>
+            <app-ml-model class="fade-in-custom" style="flex:1" [bot]="bot"></app-ml-model>
           </ng-container>
           <ng-container *ngIf="sideBarTab1 === 'articles' && myEBotType.faqbot === bot.bot_type">
-            <app-bot-articles style="flex:1" [bot]="bot"></app-bot-articles>
+            <app-bot-articles class="fade-in-custom" style="flex:1" [bot]="bot"></app-bot-articles>
           </ng-container>
 
           <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
             <ng-container>
-              <app-curation style="display: block; height: 100%" [bot]="bot"></app-curation>
+              <app-curation class="fade-in-custom" style="display: block; height: 100%" [bot]="bot"></app-curation>
             </ng-container>
           </ng-container>
 
@@ -185,13 +187,14 @@
           <ng-container
             *ngIf="sideBarTab1 === 'History' && (myEBotType.faqbot === bot.bot_type ||  myEBotType.mlbot === bot.bot_type)">
             <app-bot-article-history style="display: block; height: 100%"
+                                     class="fade-in-custom"
                                      [bot]="bot"></app-bot-article-history>
           </ng-container>
 
           <ng-container
             *ngIf="sideBarTab1 === MyESideBarTab.replies && (myEBotType.mlbot === bot.bot_type)">
             <ng-container>
-              <app-ml-reply style="display: flex; flex-direction: column; height: 100%" [bot]="bot"></app-ml-reply>
+              <app-ml-reply class="fade-in-custom" style="display: flex; flex-direction: column; height: 100%;" [bot]="bot"></app-ml-reply>
             </ng-container>
           </ng-container>
 
@@ -217,6 +220,7 @@
               <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
                 <mat-tab label="Pipeline" *appMyIf="[myEAllActions['Get Pipeline Module']]">
                   <app-pipeline
+                    class="fade-in-custom"
                     (datachanged$)="pipelineDataChangeHandler($event)"
                     *ngIf="selectedSideBarTab==='pipeline'"
                     (initDone$)="mySideBarService.init($event)"
@@ -225,6 +229,7 @@
                 <div *ngIf="bot.bot_type != myEBotType.mlbot">
                   <mat-tab label="Knowledge base" *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                     <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
+                                                class="fade-in-custom"
                                                 (initDone$)="mySideBarService.init($event)"
                                                 [bot]="bot"></app-knowledge-base-wrapper>
                   </mat-tab>
@@ -266,7 +271,7 @@
                   they are arranged
                 </div>
               </header>
-              <app-router-bot-rules [bot]="bot"></app-router-bot-rules>
+              <app-router-bot-rules class="fade-in-custom" [bot]="bot"></app-router-bot-rules>
             </div>
           </ng-container>
           <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type != myEBotType.intelligent">
@@ -284,7 +289,7 @@
 
               >
                 <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
-                  <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1"
+                  <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1 fade-in-custom"
                                     style="position: relative"
                                     [id]="bot.id" [bot]="bot"></app-bot-sessions>
                 </div>
@@ -293,7 +298,7 @@
                        *appMyIf="[myEAllActions['Get Consumers']]"
 
               >
-                <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper"
+                <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper fade-in-custom"
                      style="width: 100%; height: 100%">
                   <app-consumers style="position: relative"
                                  class="child-expand d-flex-column-last-child-flex-grow-1 "
@@ -316,6 +321,7 @@
                 </div>
               </header>
               <app-bot-testing style="position: relative;"
+                               class="fade-in-custom"
                                (initDone$)="mySideBarService.init($event)"
                                class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
               </app-bot-testing>
@@ -324,7 +330,7 @@
 
           <ng-container *ngIf="sideBarTab1 === 'pipelineTest' && bot.bot_type === myEBotType.intelligent">
             <app-pipeline-test style="position: relative;"
-                               class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
+                               class="child-expand d-flex-column-custom flex-grow-1 fade-in-custom" [bot]="bot">
             </app-pipeline-test>
           </ng-container>
 
