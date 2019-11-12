@@ -85,18 +85,15 @@
       </div>
 
       <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent" (keypress)="preventTypingInMarkers($event)">
-<!--        <i>{{_selectedIntent.utterances[0].entities|json}}</i>-->
         <div
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index; trackBy: trackByIndex">
           <div class="utter" [attr.contenteditable]="markerInputEditable"
                (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
                (input)="x($event)"
+               (keydown)="entityTextChangedHandler($event)"
                (click)="show2($event.target, tpl, index)"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
-            <!--          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">-->
-            <!--            <mat-icon>close</mat-icon>-->
-            <!--          </button>-->
           </div>
           <i class="fa fa-trash" *ngIf="_selectedIntent.utterances.length !== 1" (click)="removeUtterance(index)"></i>
         </div>

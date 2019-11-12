@@ -36,8 +36,13 @@ export class InsidePopoverComponent implements OnInit {
 
   ngOnInit(): void {
 
-    EventService.entityListUpdated$.subscribe(list => {
-      this.entityList = [...list];
+    EventService.entityListUpdated$.subscribe(({entityList, new_entity}) => {
+      debugger;
+      this.entityList = [...entityList];
+      if (new_entity) {
+        this.form.patchValue({entity_id: new_entity.entity_id});
+        this.entityMarkerHandler();
+      }
     });
 
     this.form = this.formBuilder.group({
@@ -55,7 +60,7 @@ export class InsidePopoverComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe((formData) => {
-      debugger;
+
       this.origin.style.backgroundColor = this.getColorByEntity(formData.entity_id);
     });
   }

@@ -15,7 +15,9 @@ import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
-import {debounce, debounceTime} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
+import {MlService} from '../ml-model/ml.service';
+import {EventService} from '../../../event.service';
 
 export enum EMarkerAttributes {
   data_entity_id = 'data_entity_id',
@@ -122,9 +124,11 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       }
       this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
-          this.selectedIntentBackup = UtilityService.cloneObj(this._selectedIntent);
-          this.correctMarkerPosition(this.selectedIntentBackup);
-          // this.updateUtteranceText(this.selectedIntentBackup);
+          try {
+            this.correctMarkerPosition(this.selectedIntentBackup);
+          } catch (e) {
+            console.log(e);
+          }
         });
       });
     });
@@ -141,7 +145,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
         }
         const event = {target};
         const index = Array.from(document.getElementsByClassName('utter')).findIndex(item => item === event.target);
-        this.textSelected(event, this.tpl, index, this._selectedIntent.utterances[0].utterance);
+        this.textSelected(event, this.tpl, index, this._selectedIntent.utterances[index].utterance);
       } catch (e) {
         document.removeEventListener('mouseup', this.copySelectedTextCaller);
         document.removeEventListener('keydown', this.copySelectedTextCaller);
@@ -149,6 +153,10 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     };
     document.addEventListener('mouseup', this.y);
     // document.removeEventListener('mouseup', this.y);
+    EventService.entityListUpdated$.subscribe(({entityList}) => {
+      this.entityList = entityList;
+      MlService.entityList = entityList;
+    });
     this.intent_id = this.activatedRoute.snapshot.queryParams['intent_id'];
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
@@ -247,9 +255,12 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   strToCopy;
   copySelectedTextCaller;
 
+  utterTextContentBackup = '';
+
   textSelected(e, tpl, index, utterance: string) {
-    debugger;
+    debugger
     const utterInnerHTML = this.getUtteranceByIndex(index).innerHTML;
+    this.utterTextContentBackup = this.getUtteranceByIndex(index).textContent;
     if (e.stopPropagation) {
       e.stopPropagation();
     }
@@ -286,7 +297,11 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       this.setBgColor(x, 'transparent');
     });
 
+    this.correctMarkerPosition();
     const {start, end} = this.replaceSelectedText(utterance.endsWith(selectionStr));
+    const utter = this.getUtteranceByIndex(index);
+    const markerDataInUtter = this.getMarkerData([utter]);
+    utter.innerHTML = MlService.replaceX(this.utterTextContentBackup, markerDataInUtter[0].entities, this.entityList);
     const x = document.getElementsByClassName('utter')[index].querySelector(`[${EMarkerAttributes.data_position}="entity-${start}-${end}"]`);
     this.show2(x, tpl, index, positionsToBeRemoved, true, utterInnerHTML);
   }
@@ -401,6 +416,13 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       const color = this.getColorByEntity(entityMarker.entity_id);
       UtilityService.setDataAttribute(origin, EMarkerAttributes.data_entity_id, entityMarker.entity_id);
       origin.style.backgroundColor = color;
+
+      debugger;
+      const utter = this.getUtteranceByIndex(index);
+      const markerDataInUtter = this.getMarkerData([utter]);
+      // this.correctMarkerPosition(this.selectedIntentBackup);
+      utter.innerHTML = MlService.replaceX(this.utterTextContentBackup, markerDataInUtter[0].entities, this.entityList);
+
       /*new marker with existing entity*/
       if (markerIndex !== -1) {
         this._selectedIntent.utterances[index].entities[markerIndex] = entityMarker;
@@ -442,6 +464,23 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     if (target.classList.contains('bg-red')) {
       this.show(target, tpl, index, positionsToBeRemoved, isNew, innerHTML);
     }
+  }
+
+
+  entityTextChangedHandler($event) {
+    const target = this.getFocusedElement() as HTMLElement;
+    if (target.nodeName === 'SPAN') {
+      const position = UtilityService.getDataAttribute(target, EMarkerAttributes.data_position);
+      const start = Number(position.split('-')[1]);
+      const end = start + target.textContent.length - 1;
+      UtilityService.setDataAttribute(target, EMarkerAttributes.data_position, `entity-${start}-${end}`);
+    }
+  }
+
+  getFocusedElement() {
+    const node = getSelection().getRangeAt(0).commonAncestorContainer;
+    let x = node.nodeType === 1 ? node : node.parentElement;
+    return x;
   }
 
   showEntityMarkingLoader = false;
@@ -504,11 +543,16 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  getMarkerData() {
-    const $utters = Array.from(document.getElementsByClassName('utter'));
+  getMarkerDataForUtter() {
+
+  }
+
+
+  getMarkerData($utters) {
+    debugger
     const entity = [];
     $utters.forEach(($utter, row) => {
-      debugger;
+
       const $markings = Array.from($utter.getElementsByClassName('bg-red'));
       const markings = [];
       $markings.forEach(($marking: HTMLElement, col) => {
@@ -528,13 +572,12 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       });
       entity.push({entities: markings, utterance: $utter.textContent});
     });
-    debugger;
+
     return entity;
   }
 
   saveAndTrain() {
-    // this.correctMarkerPosition(this._selectedIntent);
-    // this.updateUtteranceText(this._selectedIntent);
+    this.updateEntityMarkingDataFromView();
     this.saveAndTrain$.emit({
       ...this._selectedIntent,
       name: this.form.value.name,
@@ -542,10 +585,14 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateEntityMarkingDataFromView() {
+    const $utters = Array.from(document.getElementsByClassName('utter'));
+    this._selectedIntent.utterances = this.getMarkerData($utters);
+  }
+
   saveOrUpdateIntent() {
-    debugger;
-    const markerData = this.getMarkerData();
-    this._selectedIntent.utterances = markerData;
+    this.correctMarkerPosition();
+    this.updateEntityMarkingDataFromView();
     this.saveOrUpdateIntent$.emit({
       'entities': [],
       'utterances': [
@@ -643,16 +690,15 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   correctMarkerPosition(intent?) {
-    intent = intent || this._selectedIntent;
-    let x: any = document.querySelectorAll('[contenteditable=true]');
+    let x: any = document.querySelectorAll('.utter');
     x = Array.from(x);
 
     x.forEach((utterWrapper, index) => {
       let markers: any = utterWrapper.querySelectorAll('.bg-red');
       markers = Array.from(markers);
-      intent.utterances[index].entities = intent.utterances[index].entities.sort((a, b) => {
-        return -1 * (-a.start + b.start);
-      });
+      // intent.utterances[index].entities = intent.utterances[index].entities.sort((a, b) => {
+      //   return -1 * (-a.start + b.start);
+      // });
 
       markers.forEach(($marker: HTMLElement, markerCount) => {
         const position = $marker.getAttribute(EMarkerAttributes.data_position);
@@ -663,12 +709,12 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
         //   value.utterance = document.getElementsByClassName('utter')[index].textContent;
         // });
 
-        intent.utterances[index].entities[markerCount] = {
-          ...intent.utterances[index].entities[markerCount],
-          start: start,
-          end,
-          value
-        };
+        // intent.utterances[index].entities[markerCount] = {
+        //   ...intent.utterances[index].entities[markerCount],
+        //   start: start,
+        //   end,
+        //   value
+        // };
         // intent.utterances[index].entities = intent.utterances[index].entities.map((marker) => {
         //   if (marker.start == pre_start || marker.start == pre_end) {
         //     return {
@@ -688,7 +734,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   inputChanged$ = new EventEmitter();
 
   x(event) {
-    this.inputChanged$.emit(event);
+    // this.inputChanged$.emit(event);
   }
 
   setBgColor($el: HTMLElement, color: string | 'transparent') {
