@@ -600,7 +600,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   saveOrUpdateIntent() {
-    if (!this.form.valid) {
+    if (!this.form.valid || (this._selectedIntent.utterances && this._selectedIntent.utterances.length === 0)) {
       this.markFormGroupTouched(this.form);
       this.showError = true;
       return;

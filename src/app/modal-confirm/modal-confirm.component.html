@@ -26,7 +26,7 @@
 
   <div class="d-flex pt-2">
     <i class="custom-error"
-       *ngIf="showError">{{formGroup.get('inputData').errors['error']}}</i>
+       *ngIf="showError">{{formGroup?.get('inputData')?.errors && formGroup?.get('inputData')?.errors['error']}}</i>
     <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
             (click)="closeDialog(false)">{{dataCopy.closeButtonText || 'Cancel'}}</button>
 
