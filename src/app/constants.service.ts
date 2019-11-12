@@ -1121,7 +1121,7 @@ export class ConstantsService {
   }
 
   getEntityList() {
-    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/';
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/?order_by=updated_at';
   }
 
   getMLCorpus() {
