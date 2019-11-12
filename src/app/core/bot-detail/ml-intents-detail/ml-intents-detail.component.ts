@@ -252,7 +252,6 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   utterTextContentBackup = '';
 
   textSelected(e, tpl, index, utterance: string) {
-    debugger
     const utterInnerHTML = this.getUtteranceByIndex(index).innerHTML;
     this.utterTextContentBackup = this.getUtteranceByIndex(index).textContent;
     if (e.stopPropagation) {
@@ -411,7 +410,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       UtilityService.setDataAttribute(origin, EMarkerAttributes.data_entity_id, entityMarker.entity_id);
       origin.style.backgroundColor = color;
 
-      debugger;
+
       const utter = this.getUtteranceByIndex(index);
       const markerDataInUtter = this.getMarkerData([utter]);
       // this.correctMarkerPosition(this.selectedIntentBackup);
@@ -460,14 +459,45 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  focusAtTheEndofMarking(target) {
+    setTimeout(() => {
+      const endSpace = /\s$/;
+      const startSpace = /^\s/;
+      if (endSpace.test(target.textContent)) {
+        target.insertAdjacentHTML('afterend', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
+      } else if (startSpace.test(target.textContent)) {
+        target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
+      } else {
+        return;
+      }
+      target.parentElement.focus();
+      var p = document.getElementById('100'),
+        s = window.getSelection(),
+        r = document.createRange();
+      p.innerHTML = '\u00a0';
+      r.selectNodeContents(p);
+      s.removeAllRanges();
+      s.addRange(r);
+      document.execCommand('delete', false, null);
+      target.textContent = target.textContent.trim();
+      p.parentElement.removeChild(p);
+    });
+  }
 
   entityTextChangedHandler($event) {
     const target = this.getFocusedElement() as HTMLElement;
-    if (target.nodeName === 'SPAN') {
+    if (target.nodeName === 'SPAN' && target.classList.contains('bg-red')) {
+      if (event.keyCode === 32) {
+        // $event.preventDefault();
+        this.focusAtTheEndofMarking(target);
+        return;
+      }
       const position = UtilityService.getDataAttribute(target, EMarkerAttributes.data_position);
       const start = Number(position.split('-')[1]);
       const end = start + target.textContent.length - 1;
       UtilityService.setDataAttribute(target, EMarkerAttributes.data_position, `entity-${start}-${end}`);
+    } else if ($event.target.textContent.trim() === '') {
+      $event.target.textContent = 'test';
     }
   }
 
@@ -569,7 +599,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
     return entity;
   }
+
   showError = false;
+
   saveAndTrain() {
     if (!this.form.valid) {
       this.markFormGroupTouched(this.form);
