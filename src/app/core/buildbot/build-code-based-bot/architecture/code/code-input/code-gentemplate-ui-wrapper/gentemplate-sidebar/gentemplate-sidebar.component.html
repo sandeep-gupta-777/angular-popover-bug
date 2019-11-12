@@ -28,7 +28,7 @@
   </mat-icon>
   Audio
 </div>
-<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.file)"
+<div class="bot-template custom-disabled"
      data-cy="gentemp-sidebar-carousel">
   <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
     attach_file
@@ -43,7 +43,9 @@
   Video
 </div>
 
-<div class="bot-template cursor-pointer" (click)="genTemplateTypeClicked(ETemplateResponseType.code)"
+<div class="bot-template cursor-pointer"
+     [ngClass]="{'custom-disabled': templateKey === 'Welcome message'}"
+     (click)="genTemplateTypeClicked(ETemplateResponseType.code)"
      data-cy="gentemp-sidebar-carousel">
   <mat-icon style="font-size: 16px ;display: flex;align-items: center;color: #696969;justify-content: center;">
     code

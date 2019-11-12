@@ -14,20 +14,20 @@
 <!--      Save and Train-->
 <!--    </button>-->
 
-    <button
-      (click)="saveAndTrain()"
-      [disabled]="!form.valid || !isEntityValid"
-      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
-      <mat-icon class="mat-icon material-icons">refresh</mat-icon>
-      Save and Train
-    </button>
+<!--    <button-->
+<!--      (click)="saveAndTrain()"-->
+<!--      [disabled]="!isEntityValid"-->
+<!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
+<!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
+<!--      Save and Train-->
+<!--    </button>-->
 
     <button
       (click)="saveOrUpdateIntent()"
       style="border: 1px solid #e0e0e0 !important;"
       class="mat-theme-button mat-theme-button-border"
       mat-button
-      [disabled]="!form.valid || !isEntityValid"
+      [disabled]="!isEntityValid"
     >
       <mat-icon>save</mat-icon>
       Save
@@ -80,23 +80,22 @@
         </button>
       </form>
       <div *ngIf="!_selectedIntent ||  !(_selectedIntent.utterances) ||_selectedIntent.utterances.length === 0"
-           class="no-question">
+           class="no-question"
+           [ngClass]="{'text-danger': showError}"
+      >
         No utterances added yet, add now to train the intent
       </div>
 
       <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent" (keypress)="preventTypingInMarkers($event)">
-<!--        <i>{{_selectedIntent.utterances[0].entities|json}}</i>-->
         <div
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index; trackBy: trackByIndex">
           <div class="utter" [attr.contenteditable]="markerInputEditable"
                (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
                (input)="x($event)"
+               (keydown)="entityTextChangedHandler($event)"
                (click)="show2($event.target, tpl, index)"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
-            <!--          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">-->
-            <!--            <mat-icon>close</mat-icon>-->
-            <!--          </button>-->
           </div>
           <i class="fa fa-trash" *ngIf="_selectedIntent.utterances.length !== 1" (click)="removeUtterance(index)"></i>
         </div>

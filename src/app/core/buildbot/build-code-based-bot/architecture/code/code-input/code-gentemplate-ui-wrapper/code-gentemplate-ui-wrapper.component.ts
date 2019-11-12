@@ -7,6 +7,7 @@ import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrap
 import {EBotVersionTabs} from '../../../../../../../../interfaces/code-input';
 import {ETemplateResponseType} from '../../../../../../../typings/gentemplate';
 import {IMLResponse} from '../../../../../../../typings/reply';
+import {ConstantsService} from '../../../../../../../constants.service';
 
 export interface ICarousalItem {
   'image_url': string;
@@ -258,7 +259,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addVideoUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'video': [{'url': 'myvideo.mp4'}]
+      'video': [{'url': ConstantsService.getDefaultUrls().video}]
       // 'media': [{
       //   'video_url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
       // }]
@@ -271,7 +272,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addAudioUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'audio': [{'url': 'myaudio.mp3'}]
+      'audio': [{'url': ConstantsService.getDefaultUrls().audio}]
       // 'media': [{
       //   'audio_url': 'https://freesound.org/data/previews/347/347557_2247456-lq.mp3',
       // }]
@@ -283,7 +284,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addImageUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'image': [{'url': 'myimage.jpeg'}]
+      'image': [{'url': ConstantsService.getDefaultUrls().image}]
       // 'media': [{
       //   'image_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
       // }]
@@ -295,7 +296,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   addFileUnit() {
     const unit = {
       'include': this.createIncludesArray(),
-      'file': [{'url': 'myfile.jpeg'}]
+      'file': [{'url': ConstantsService.getDefaultUrls().file}]
     };
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
     setTimeout(() => this.scrollToBottom());

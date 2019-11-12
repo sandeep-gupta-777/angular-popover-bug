@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ETemplateResponseType} from '../../../../../../../../typings/gentemplate';
 
 @Component({
@@ -8,6 +8,7 @@ import {ETemplateResponseType} from '../../../../../../../../typings/gentemplate
 })
 export class GentemplateSidebarComponent implements OnInit {
   ETemplateResponseType = ETemplateResponseType;
+  @Input() templateKey = '';
 
   constructor() {
   }
@@ -18,6 +19,9 @@ export class GentemplateSidebarComponent implements OnInit {
   }
 
   genTemplateTypeClicked(tab) {
+    if (this.templateKey === 'Welcome message' && tab === ETemplateResponseType.code) {
+      return;
+    }
     this.genTemplateTypeClicked$.emit(tab);
   }
 }

@@ -24,25 +24,16 @@
     </mat-form-field>
   </form>
 
-
   <div class="d-flex pt-2">
     <i class="custom-error"
-       *ngIf="formGroup?.get('inputData').hasError('error')">{{formGroup.get('inputData').errors['error']}}</i>
+       *ngIf="showError">{{formGroup.get('inputData').errors['error']}}</i>
     <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
             (click)="closeDialog(false)">{{dataCopy.closeButtonText || 'Cancel'}}</button>
-<!--    <button class=" btn-theme px-15"-->
-<!--            *ngIf="!dataCopy.inputDescription"-->
-<!--            data-cy="modal-confirm-submit"-->
-<!--            [disabled]="formGroup? (!formGroup.valid): inputData?.length == 0"-->
-<!--            (click)="closeDialog((formGroup?.value?.inputData)||inputData|| true)"-->
-<!--            [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"-->
-<!--    >{{dataCopy.actionButtonText || 'Continue'}}</button>-->
 
     <button class=" btn-theme px-15"
             data-cy="modal-confirm-submit"
             type="submit"
             form="modalInputForm"
-            [disabled]="formGroup? (!formGroup.valid): (dataCopy.inputDescription && inputData.length == 0)"
             [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"
             (click)="attemptToClose()"
     >{{dataCopy.actionButtonText || 'Continue'}}

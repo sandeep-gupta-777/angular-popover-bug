@@ -16,8 +16,8 @@ import {MyToasterService} from '../../../my-toaster.service';
 import {map, takeUntil, tap} from 'rxjs/operators';
 import {EventService} from '../../../event.service';
 import {MlService} from './ml.service';
-import {SocketService} from "../../../socket.service";
-import {ModalConfirmComponent} from "../../../modal-confirm/modal-confirm.component";
+import {SocketService} from '../../../socket.service';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-ml-model',
@@ -61,13 +61,15 @@ export class MLModelComponent implements OnInit {
     this.setMLEntityList();
     this.subscribeToGetTrainedDataFormSocket();
   }
-  subscribeToGetTrainedDataFormSocket(){
-    SocketService.train$.pipe(takeUntil(this.destroy)).subscribe((payload:any)=>{
-      if(payload && this.bot.id === payload.bot_id){
+
+  subscribeToGetTrainedDataFormSocket() {
+    SocketService.train$.pipe(takeUntil(this.destroy)).subscribe((payload: any) => {
+      if (payload && this.bot.id === payload.bot_id) {
         this.corpusMiniObj.state = payload.status;
       }
-    })
+    });
   }
+
   selectedIntentInit() {
     return {
       entities: [],
@@ -78,16 +80,18 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [Validators.required,this.noWhitespaceValidator]],
-      'entity_value': '' ,
+      'entity_name': ['', [Validators.required, this.noWhitespaceValidator]],
+      'entity_value': '',
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
   }
+
   noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
-    return isValid ? null : { 'whitespace': true };
+    return isValid ? null : {'whitespace': true};
   }
+
   setMLEntityTypes() {
     let url = this.constantsService.getMLEntityTypes();
     const headerData: IHeaderData = {
@@ -97,7 +101,9 @@ export class MLModelComponent implements OnInit {
       this.entity_types = value.entity_types;
     });
   }
+
   loading = false;
+
   setMLEntityList() {
     const url = this.constantsService.getEntityList();
     const headerData: IHeaderData = {
@@ -120,7 +126,6 @@ export class MLModelComponent implements OnInit {
   }
 
 
-
   getAndSetMlIntent(page = 1) {
     const offset = (page - 1) * 10;
     const url = this.constantsService.getIntents();
@@ -140,17 +145,19 @@ export class MLModelComponent implements OnInit {
       }
     });
   }
-  getAndSetMlCorpusMiniData(){
+
+  getAndSetMlCorpusMiniData() {
     let url = this.constantsService.getMLDefaultCorpusMiniData();
 
     // let url = this.constantsService.getMLDefaultCorpus();
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
-    this.serverService.makeGetReq({url, headerData}).subscribe((val ) => {
+    this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
       this.corpusMiniObj = val;
     });
   }
+
   addNewIntentOrEntity(isIntent: number, template: TemplateRef<any>) {
     if (isIntent === 0) {
       this.viewChanged(this.view = 'detail');
@@ -167,7 +174,7 @@ export class MLModelComponent implements OnInit {
       'name': EntityObj.entity_name,
       'type': EntityObj.entity_type,
       'data': {},
-      'color': ''
+      'color': this.utilityService.getRandomColor()
     };
     if (EntityObj.entity_type === 'regex') {
       body['data'] = {'pattern': EntityObj.entity_value};
@@ -199,9 +206,9 @@ export class MLModelComponent implements OnInit {
   saveAndTrainCustomEntity(body) {
     let url = this.constantsService.updateMLEntity();
     this.entityUpdateService(url, body).subscribe(val => {
-      this.view = 'table';
-      this.trainMLBots(`Updated ml Entity of modal id ${this.corpusMiniObj.id}`);
-    },
+        this.view = 'table';
+        this.trainMLBots(`Updated ml Entity of modal id ${this.corpusMiniObj.id}`);
+      },
       error => {
         this.view = 'table';
         this.trainMLBots(`Updated ml Entity of modal id ${this.corpusMiniObj.id}`);
@@ -210,7 +217,7 @@ export class MLModelComponent implements OnInit {
 
   saveCustomEntity(body) {
     let url = this.constantsService.updateMLEntity();
-    this.entityUpdateService(url, body).subscribe((val)=>{
+    this.entityUpdateService(url, body).subscribe((val) => {
       this.view = 'table';
     });
   }
@@ -222,7 +229,7 @@ export class MLModelComponent implements OnInit {
     return this.serverService.makePostReq({headerData, url, body})
       .pipe(map((val: any) => {
           // this.view = 'table';
-          this.getAndSetMlCorpusMiniData()
+          this.getAndSetMlCorpusMiniData();
           if (body.entity_id) {
             for (var i = 0; i < this.entityList.length; i++) {
               if (this.entityList[i].entity_id === body.entity_id) {
@@ -236,7 +243,7 @@ export class MLModelComponent implements OnInit {
             this.entityList = [val.new_entity, ...this.entityList];
             this.utilityService.showSuccessToaster(`Created entity successfully`);
           }
-          EventService.entityListUpdated$.emit(this.entityList);
+          EventService.entityListUpdated$.emit({entityList: this.entityList, new_entity: val.new_entity});
         })
       );
   }
@@ -289,13 +296,13 @@ export class MLModelComponent implements OnInit {
   validationOfEntityModal(group: FormGroup) {
     let type = group.get('entity_type').value;
     if (type === 'regex' || type === 'custom') {
-      if(!group.get('entity_value').value){
-        return {error: true}
+      if (!group.get('entity_value').value) {
+        return {error: true};
       }
 
       const isWhitespace = (group.get('entity_value').value || '').trim().length === 0;
       const isValid = !isWhitespace;
-      return isValid ? null : { 'whitespace': true };
+      return isValid ? null : {'whitespace': true};
     }
     return null;
   }
@@ -303,13 +310,15 @@ export class MLModelComponent implements OnInit {
   selectedIntentChanged(intent: IIntent) {
 
   }
+
   toDisplayValue(value: string) {
     const pieces = value.split('_');
     const j = pieces[0].charAt(0).toUpperCase();
     pieces[0] = j + pieces[0].substr(1).toLowerCase();
     return pieces.join(' ');
   }
-  trainMLBotsModal(){
+
+  trainMLBotsModal() {
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
@@ -328,7 +337,8 @@ export class MLModelComponent implements OnInit {
       }
     });
   }
-  trainMLBots(str){
+
+  trainMLBots(str) {
 
     const url = this.constantsService.trainMlBotUrl();
     const headerData: IHeaderData = {
@@ -341,10 +351,11 @@ export class MLModelComponent implements OnInit {
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
         this.myToasterService.showSuccessToaster('Training started');
-        this.getAndSetMlCorpusMiniData()
+        this.getAndSetMlCorpusMiniData();
       });
   }
-  makeLiveMLBots(){
+
+  makeLiveMLBots() {
 
     const url = this.constantsService.makeMLCorpusLiveUrl();
     const headerData: IHeaderData = {
@@ -357,6 +368,7 @@ export class MLModelComponent implements OnInit {
         this.getAndSetMlCorpusMiniData();
       });
   }
+
   trainOrMakeLiveMLBotsClicked() {
     if (this.corpusMiniObj.state === 'saved') {
       this.trainMLBotsModal();
@@ -378,7 +390,6 @@ export class MLModelComponent implements OnInit {
 
   saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
 
-    console.log('sadasda');
     intent = {...intent};
     delete intent.created_at;
     delete intent.updated_at;
@@ -396,7 +407,8 @@ export class MLModelComponent implements OnInit {
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
     return obs.pipe(tap((res: any) => {
       this.getAndSetMlCorpusMiniData();
-      this.utilityService.showSuccessToaster(`Intent ${(!intent.name) ? 'created' : 'updated'} successfully`);
+      debugger;
+      this.utilityService.showSuccessToaster(`Intent ${(!intent.intent_id) ? 'created' : 'updated'} successfully`);
       const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
@@ -432,7 +444,26 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  deleteIntent(intent: IIntent) {
+  async deleteIntent(intent: IIntent) {
+    const data = await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Delete',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
+        title: `Delete ${intent.name}?`,
+        isActionButtonDanger: true,
+        inputDescription: null,
+        closeButtonText: 'Keep intent'
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    });
+
+    if (!data) {
+      return;
+    }
+
     const url = this.constantsService.deleteIntents(intent.intent_id);
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
@@ -445,10 +476,12 @@ export class MLModelComponent implements OnInit {
     this.serverService.makePostReq({url, headerData, body})
       .subscribe(() => {
         // this.loading = false;
+        this.utilityService.showSuccessToaster(`Intent ${intent.name} deleted`);
         this.getAndSetMlCorpusMiniData();
         this.viewChanged('table');
       });
   }
+
   ngOnDestroy(): void {
     try {
       this.destroy.next(true);

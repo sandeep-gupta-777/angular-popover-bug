@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {CodeInputService} from '../../../../buildbot/build-code-based-bot/architecture/code/code-input/code-input.service';
 import {ETemplateResponseType} from "../../../../../typings/gentemplate";
+import {ConstantsService} from '../../../../../constants.service';
 
 @Component({
   selector: 'app-answer-template-wrapper',
@@ -95,7 +96,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addImageUnit() {
     const unit = {
       'include': ['web'],
-      'image': [{'url': 'myimage.jpeg'}]
+      'image': [{'url': ConstantsService.getDefaultUrls().image}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
@@ -104,7 +105,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addFileUnit() {
     const unit = {
       'include': ['web'],
-      'file': [{'url': 'myfile.jpeg'}]
+      'file': [{'url': ConstantsService.getDefaultUrls().file}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
@@ -120,7 +121,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addVideoUnit() {
     const unit = {
       'include': ['web'],
-      'video': [{'url': 'myvideo.mp4'}]
+      'video': [{'url': ConstantsService.getDefaultUrls().video}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
@@ -129,7 +130,7 @@ export class AnswerTemplateWrapperComponent implements OnInit {
   addAudioUnit() {
     const unit = {
       'include': ['web'],
-      'audio': [{'url': 'myaudio.mp3'}]
+      'audio': [{'url': ConstantsService.getDefaultUrls().audio}]
     };
     this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
