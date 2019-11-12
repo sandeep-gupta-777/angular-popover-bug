@@ -80,16 +80,18 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [Validators.required,this.noWhitespaceValidator]],
-      'entity_value': '' ,
+      'entity_name': ['', [Validators.required, this.noWhitespaceValidator]],
+      'entity_value': '',
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
   }
+
   noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
-    return isValid ? null : { 'whitespace': true };
+    return isValid ? null : {'whitespace': true};
   }
+
   setMLEntityTypes() {
     let url = this.constantsService.getMLEntityTypes();
     const headerData: IHeaderData = {
@@ -294,13 +296,13 @@ export class MLModelComponent implements OnInit {
   validationOfEntityModal(group: FormGroup) {
     let type = group.get('entity_type').value;
     if (type === 'regex' || type === 'custom') {
-      if(!group.get('entity_value').value){
-        return {error: true}
+      if (!group.get('entity_value').value) {
+        return {error: true};
       }
 
       const isWhitespace = (group.get('entity_value').value || '').trim().length === 0;
       const isValid = !isWhitespace;
-      return isValid ? null : { 'whitespace': true };
+      return isValid ? null : {'whitespace': true};
     }
     return null;
   }
@@ -388,7 +390,6 @@ export class MLModelComponent implements OnInit {
 
   saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
 
-    console.log('sadasda');
     intent = {...intent};
     delete intent.created_at;
     delete intent.updated_at;
@@ -406,7 +407,8 @@ export class MLModelComponent implements OnInit {
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
     return obs.pipe(tap((res: any) => {
       this.getAndSetMlCorpusMiniData();
-      this.utilityService.showSuccessToaster(`Intent ${(!intent.name) ? 'created' : 'updated'} successfully`);
+      debugger;
+      this.utilityService.showSuccessToaster(`Intent ${(!intent.intent_id) ? 'created' : 'updated'} successfully`);
       const newIntent = res.new_intent || res.updated_intent;
       this.router.navigate([`core/botdetail/mlbot/${this.bot.id}`], {
         queryParams: {
@@ -442,7 +444,26 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  deleteIntent(intent: IIntent) {
+  async deleteIntent(intent: IIntent) {
+    const data = await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Delete',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
+        title: `Delete ${intent.name}?`,
+        isActionButtonDanger: true,
+        inputDescription: null,
+        closeButtonText: 'Keep intent'
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    });
+
+    if (!data) {
+      return;
+    }
+
     const url = this.constantsService.deleteIntents(intent.intent_id);
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
@@ -455,6 +476,7 @@ export class MLModelComponent implements OnInit {
     this.serverService.makePostReq({url, headerData, body})
       .subscribe(() => {
         // this.loading = false;
+        this.utilityService.showSuccessToaster(`Intent ${intent.name} deleted`);
         this.getAndSetMlCorpusMiniData();
         this.viewChanged('table');
       });

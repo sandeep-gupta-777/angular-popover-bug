@@ -16,6 +16,16 @@ export const ERouteNames = EAllActions;
 @Injectable()
 export class ConstantsService {
 
+
+  static getDefaultUrls() {
+    return {
+      audio: 'https://www.w3schools.com/html/horse.ogg',
+      video: 'https://storage.googleapis.com/coverr-main/mp4%2Fcoverr-brooklyn-bridge-1572178567128.mp4',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Zenith_%28ship%2C_1992%29.jpg/600px-Zenith_%28ship%2C_1992%29.jpg',
+      file: '',
+    };
+  }
+
   static bot_languages: IBotLanguage[] = [
     {display_name: 'English', language_code: 'en'},
     {display_name: 'Arabic', language_code: 'ar'},
@@ -939,6 +949,7 @@ export class ConstantsService {
   putCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
+
   putMlCorpus() {
     return this.BACKEND_URL + `api/v1/mlcorpus/`;
   }
@@ -1120,9 +1131,11 @@ export class ConstantsService {
   getMLDefaultCorpus() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/getdefault/';
   }
-  getMLDefaultCorpusMiniData(){
+
+  getMLDefaultCorpusMiniData() {
     return this.BACKEND_URL + 'api/v1/mlcorpus/getdefault/?display=true';
   }
+
   getIntents() {
     return this.BACKEND_URL + `api/v1/mlcorpus/intent/`;
   }

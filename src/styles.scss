@@ -423,6 +423,11 @@ h4 {
   pointer-events: none;
 }
 
+.custom-disabled{
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
 .cursor-not-allowed {
   cursor: not-allowed;
 }

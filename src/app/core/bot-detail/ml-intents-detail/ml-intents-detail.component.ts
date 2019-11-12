@@ -7,7 +7,7 @@ import {intentMock} from '../ml-intents/intent-mock';
 import {ConstantsService} from '../../../constants.service';
 import {DatePipe} from '@angular/common';
 import {Popover} from '../../../popover/popover.service';
-import {IEntityMarker, IIntent} from '../../../typings/intents';
+import {EMarkerAttributes, IEntityMarker, IIntent} from '../../../typings/intents';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InsidePopoverComponent} from '../../../popover/inside-popover/inside-popover.component';
 import {UtilityService} from '../../../utility.service';
@@ -18,12 +18,6 @@ import {ErrorStateMatcher} from '@angular/material';
 import {debounceTime} from 'rxjs/operators';
 import {MlService} from '../ml-model/ml.service';
 import {EventService} from '../../../event.service';
-
-export enum EMarkerAttributes {
-  data_entity_id = 'data_entity_id',
-  data_id = 'data_id',
-  data_position = 'data_position',
-}
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

@@ -1,7 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {MlService} from '../ml-model/ml.service';
-import {EMarkerAttributes} from '../ml-intents-detail/ml-intents-detail.component';
 
 @Pipe({
   name: 'utteranceAddEntity'

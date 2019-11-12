@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
-import {EMarkerAttributes} from '../ml-intents-detail/ml-intents-detail.component';
+import {EMarkerAttributes} from '../../../typings/intents';
 
 @Injectable({
   providedIn: 'root'

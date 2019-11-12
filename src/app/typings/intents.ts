@@ -8,6 +8,12 @@ export interface IEntityMarker {
   value?: string;
 }
 
+export enum EMarkerAttributes {
+  data_entity_id = 'data_entity_id',
+  data_id = 'data_id',
+  data_position = 'data_position',
+}
+
 export interface IUtterance {
   'entities': IEntityMarker[];
   'utterance': string;
