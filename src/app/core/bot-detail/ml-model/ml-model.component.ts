@@ -7,7 +7,7 @@ import {IEntitiesItem, IIntentsItem, IMLCorpus, IMLCorpusResult} from '../../int
 import {is} from 'tslint-sonarts/lib/utils/nodes';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {intentMock} from '../ml-intents/intent-mock';
 import {IIntent} from '../../../typings/intents';
 import {ActivatedRoute, Route, Router} from '@angular/router';
@@ -79,13 +79,17 @@ export class MLModelComponent implements OnInit {
 
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
-      'entity_type': ['', Validators.required],
-      'entity_name': ['', Validators.required],
-      'entity_value': '',
+      'entity_type': ['', [Validators.required]],
+      'entity_name': ['', [Validators.required,this.noWhitespaceValidator]],
+      'entity_value': '' ,
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
   }
-
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
   setMLEntityTypes() {
     let url = this.constantsService.getMLEntityTypes();
     const headerData: IHeaderData = {
@@ -179,7 +183,7 @@ export class MLModelComponent implements OnInit {
           'values': [
             {
               'value': EntityObj.entity_value,
-              'synonyms': [EntityObj.entity_value]
+              'synonyms': []
             }
           ]
         };
@@ -290,7 +294,13 @@ export class MLModelComponent implements OnInit {
   validationOfEntityModal(group: FormGroup) {
     let type = group.get('entity_type').value;
     if (type === 'regex' || type === 'custom') {
-      return group.get('entity_value').value ? null : {error: true};
+      if(!group.get('entity_value').value){
+        return {error: true}
+      }
+
+      const isWhitespace = (group.get('entity_value').value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
     }
     return null;
   }
