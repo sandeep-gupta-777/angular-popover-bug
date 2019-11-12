@@ -7,17 +7,9 @@
     </div>
     <div class="mr-auto">
     </div>
-    <div >
-      <button class=" btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
-              style="color: #FFFFFF"
-              mat-button (click)="saveAndTrain()">
-        <mat-icon>autorenew</mat-icon>
-        Save and train
-      </button>
-    </div>
     <div>
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
-              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;" (click)="saveEntity()">
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;" (click)="saveEntity()" [disabled] = "!editEntityForm.valid">
         <mat-icon>save</mat-icon>
         Save
       </button>
@@ -52,7 +44,7 @@
 
   <div class="heading p-0 pt-2">Add new value</div>
   <ng-form #NewEntityForm = "ngForm" class="d-flex flex-column mb-2">
-    <div class = "d-flex" style="align-items: baseline;">
+    <div class = "d-flex" style="align-items: flex-end;">
       <mat-form-field class="mr-4" >
         <input matInput ngModel name = "value" required>
       </mat-form-field>
@@ -84,7 +76,7 @@
     <div class="heading mt-4">All values</div>
     <div class = "d-flex flex-column" formArrayName="values">
       <div *ngFor="let singleEntity of editEntityForm.get('data').get('values')?.controls; let singleEntityIndex = index;">
-          <div [formGroupName]="singleEntityIndex" class="d-flex flex-row single-entity" >
+          <div [formGroupName]="singleEntityIndex" class="d-flex flex-row single-entity"  style="align-items: flex-end;">
             <mat-form-field class="mr-4" >
               <input matInput  formControlName="value" required>
             </mat-form-field>

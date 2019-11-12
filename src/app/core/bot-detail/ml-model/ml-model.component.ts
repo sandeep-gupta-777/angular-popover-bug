@@ -231,10 +231,10 @@ export class MLModelComponent implements OnInit {
               }
             }
             this.entityList = [val.updated_entity, ...this.entityList];
-            this.utilityService.showSuccessToaster(`Updated ${val.updated_entity.name} entity`);
+            this.utilityService.showSuccessToaster(`Edited entity successfully`);
           } else {
             this.entityList = [val.new_entity, ...this.entityList];
-            this.utilityService.showSuccessToaster(`Created ${val.new_entity.name} entity`);
+            this.utilityService.showSuccessToaster(`Created entity successfully`);
           }
           EventService.entityListUpdated$.emit(this.entityList);
         })
