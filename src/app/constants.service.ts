@@ -620,7 +620,7 @@ export class ConstantsService {
       type: 'time',
       dateRange: true,
       displayValue: 'Last update',
-      search: true,
+      search: false,
     },
     'actions': {
       originalKey: '',
@@ -662,7 +662,7 @@ export class ConstantsService {
       type: 'time',
       dateRange: true,
       displayValue: 'Last update',
-      search: true
+      search: false
     }
   };
 

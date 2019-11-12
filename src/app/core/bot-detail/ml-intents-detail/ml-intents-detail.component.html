@@ -14,20 +14,20 @@
 <!--      Save and Train-->
 <!--    </button>-->
 
-    <button
-      (click)="saveAndTrain()"
-      [disabled]="!form.valid || !isEntityValid"
-      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">
-      <mat-icon class="mat-icon material-icons">refresh</mat-icon>
-      Save and Train
-    </button>
+<!--    <button-->
+<!--      (click)="saveAndTrain()"-->
+<!--      [disabled]="!isEntityValid"-->
+<!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
+<!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
+<!--      Save and Train-->
+<!--    </button>-->
 
     <button
       (click)="saveOrUpdateIntent()"
       style="border: 1px solid #e0e0e0 !important;"
       class="mat-theme-button mat-theme-button-border"
       mat-button
-      [disabled]="!form.valid || !isEntityValid"
+      [disabled]="!isEntityValid"
     >
       <mat-icon>save</mat-icon>
       Save
@@ -80,7 +80,9 @@
         </button>
       </form>
       <div *ngIf="!_selectedIntent ||  !(_selectedIntent.utterances) ||_selectedIntent.utterances.length === 0"
-           class="no-question">
+           class="no-question"
+           [ngClass]="{'text-danger': showError}"
+      >
         No utterances added yet, add now to train the intent
       </div>
 

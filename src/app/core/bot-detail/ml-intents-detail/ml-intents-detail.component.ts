@@ -569,8 +569,13 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
     return entity;
   }
-
+  showError = false;
   saveAndTrain() {
+    if (!this.form.valid) {
+      this.markFormGroupTouched(this.form);
+      this.showError = true;
+      return;
+    }
     this.updateEntityMarkingDataFromView();
     this.saveAndTrain$.emit({
       ...this._selectedIntent,
@@ -584,7 +589,22 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     this._selectedIntent.utterances = this.getMarkerData($utters);
   }
 
+  markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
   saveOrUpdateIntent() {
+    if (!this.form.valid) {
+      this.markFormGroupTouched(this.form);
+      this.showError = true;
+      return;
+    }
     this.correctMarkerPosition();
     this.updateEntityMarkingDataFromView();
     this.saveOrUpdateIntent$.emit({

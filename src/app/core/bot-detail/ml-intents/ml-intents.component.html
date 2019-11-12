@@ -1,5 +1,5 @@
 <app-smart-table class="intents-table fade-in-custom"
-                 *ngIf="view === 'table'"
+                 *ngIf="view === 'table' && mlIntentsSmartTableObj?.tableData"
                  [currentPage]="currentPage"
                  [totalRecords]="totalIntentsLength"
                  (rowClicked$)="intentClickedHandler($event)"

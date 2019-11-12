@@ -35,9 +35,12 @@ export class ModalConfirmComponent {
   //     alert();
   // }
 
+  showError = false;
+
   attemptToClose() {
     const data: any = this.data;
     if ((this.formGroup && !this.formGroup.valid) || (data.inputDescription && this.inputData.trim().length === 0)) {
+      this.showError = true;
       return;
     }
 
