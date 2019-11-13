@@ -82,6 +82,7 @@ export class MlReplyComponent implements OnInit {
       .subscribe((value: IMLResponse) => {
         this.mlResponse = UtilityService.cloneObj(value);
         this.initTemplateDict(UtilityService.cloneObj(this.mlResponse));
+        this.getResponseTemplates();
       });
   }
 
