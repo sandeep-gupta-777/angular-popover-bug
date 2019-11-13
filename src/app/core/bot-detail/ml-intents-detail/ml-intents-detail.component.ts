@@ -18,6 +18,7 @@ import {ErrorStateMatcher} from '@angular/material';
 import {debounceTime} from 'rxjs/operators';
 import {MlService} from '../ml-model/ml.service';
 import {EventService} from '../../../event.service';
+import {DomService} from '../../../dom.service';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -470,17 +471,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       } else {
         return;
       }
-      target.parentElement.focus();
-      var p = document.getElementById('100'),
-        s = window.getSelection(),
-        r = document.createRange();
-      p.innerHTML = '\u00a0';
-      r.selectNodeContents(p);
-      s.removeAllRanges();
-      s.addRange(r);
-      document.execCommand('delete', false, null);
+
+      DomService.focusOnContentEditable(document.getElementById('100'));
       target.textContent = target.textContent.trim();
-      p.parentElement.removeChild(p);
     });
   }
 
@@ -497,7 +490,11 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       const end = start + target.textContent.length - 1;
       UtilityService.setDataAttribute(target, EMarkerAttributes.data_position, `entity-${start}-${end}`);
     } else if ($event.target.textContent.trim() === '') {
-      $event.target.textContent = 'test';
+      const cloneNode = $event.target.cloneNode();
+      $event.target.replaceWith(cloneNode);
+      setTimeout(() => {
+        DomService.focusOnContentEditable(cloneNode);
+      });
     }
   }
 
