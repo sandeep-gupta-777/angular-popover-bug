@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+    <g fill="none" fill-rule="evenodd">
+        <circle cx="64" cy="64" r="64" fill="#FFF"/>
+        <g fill-rule="nonzero">
+            <path fill="#556080" d="M63 48.31h3v32h-3z"/>
+            <path fill="#556080" d="M95 80.31h-2.696V65.08H35.696v15.23H33v-18h62z"/>
+            <path fill="#8697CB" d="M34.5 99.31a9.5 9.5 0 1 1 0-19 9.5 9.5 0 1 1 0 19z"/>
+            <path fill="#3D324C" d="M93.5 99.31a9.5 9.5 0 1 1 0-19 9.5 9.5 0 1 1 0 19z"/>
+            <path fill="#556080" d="M64.5 99.31a9.5 9.5 0 1 1 0-19 9.5 9.5 0 1 1 0 19z"/>
+            <path fill="#65DDB9" d="M64.5 48.31a9.5 9.5 0 1 1 0-19 9.5 9.5 0 1 1 0 19z"/>
+        </g>
+    </g>
+</svg>

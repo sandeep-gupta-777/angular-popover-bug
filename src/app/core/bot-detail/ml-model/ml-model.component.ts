@@ -18,6 +18,7 @@ import {EventService} from '../../../event.service';
 import {MlService} from './ml.service';
 import {SocketService} from '../../../socket.service';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {ESplashScreens} from "../../../splash-screen/splash-screen.component";
 
 @Component({
   selector: 'app-ml-model',
@@ -51,7 +52,7 @@ export class MLModelComponent implements OnInit {
   edittingData;
   destroy = new EventEmitter();
   IEntitiesItem;
-
+  myESplashScreens = ESplashScreens;
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
     this.getAndSetMlCorpusMiniData();

@@ -52,13 +52,22 @@
   </app-button-wrapper>
   <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event" [selectedIndex]="selectedTabIndex">
     <mat-tab label="Intents" style="min-height: 50vh">
-      <app-ml-intents [bot]="bot"
+      <app-ml-intents [bot]="bot" *ngIf="intentList && intentList.length > 0"
                       (selectedIntentChanged$)="selectedIntent = $event"
                       [intentData]="intentList"
                       [entitiesList]="entityList"
                       [view]="view"
                       (goToPage$)="loadIntent($event)"
                       (viewChanged$)="viewChanged($event)"></app-ml-intents>
+      <div class = "d-flex ">
+        <app-splash-screen
+          class = "absolute-center"
+          *ngIf = "!intentList || (intentList &&  intentList.length <= 0)"
+          [imageHRef]="myESplashScreens.no_intent_present"
+          [headingText]=""
+          [descriptionText]="'No entities added, create new entity to use them within intents'"
+        ></app-splash-screen>
+      </div>
     </mat-tab>
     <mat-tab label="Entities" class="no-over-flow h-100" style="min-height: 50vh">
       <div *ngIf="entityList && entityList.length > 0">
@@ -66,9 +75,16 @@
                          (deleteEntity)="deleteEntityClicked($event)"
                          (editEntity)="editEntityClicked($event,Primarytemplat)"></app-ml-entities>
       </div>
-      <div *ngIf="!entityList || (entityList &&  entityList.length <= 0)" class="d-flex justify-content-center">
-        No entities available, create new to use them within intents
+      <div class = "d-flex ">
+        <app-splash-screen
+          class = "absolute-center"
+          *ngIf = "!entityList || (entityList &&  entityList.length <= 0)"
+          [imageHRef]="myESplashScreens.no_entity_present"
+          [headingText]=""
+          [descriptionText]="'No entities added, create new entity to use them within intents'"
+        ></app-splash-screen>
       </div>
+
     </mat-tab>
   </mat-tab-group>
 </div>
