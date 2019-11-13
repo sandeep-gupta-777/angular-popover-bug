@@ -480,7 +480,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   entityTextChangedHandler($event) {
     const target = this.getFocusedElement() as HTMLElement;
     if (target.nodeName === 'SPAN' && target.classList.contains('bg-red')) {
-      if (event.keyCode === 32) {
+      if ((<any>event).keyCode === 32) {
         // $event.preventDefault();
         this.focusAtTheEndofMarking(target);
         return;
