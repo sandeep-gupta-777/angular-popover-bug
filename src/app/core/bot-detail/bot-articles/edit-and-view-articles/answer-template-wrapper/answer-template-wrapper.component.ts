@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {CodeInputService} from '../../../../buildbot/build-code-based-bot/architecture/code/code-input/code-input.service';
+import {ETemplateResponseType} from "../../../../../typings/gentemplate";
+import {ConstantsService} from '../../../../../constants.service';
 
 @Component({
   selector: 'app-answer-template-wrapper',
@@ -33,6 +35,16 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       this.addQuickReplyUnit();
     } else if (tab === 'code_input') {
       this.addCodeUnit();
+    }else if (tab === ETemplateResponseType.image) {
+      this.addImageUnit();
+    } else if (tab === ETemplateResponseType.audio) {
+      this.addAudioUnit();
+    } else if (tab === ETemplateResponseType.video) {
+      this.addVideoUnit();
+    } else if (tab === ETemplateResponseType.file) {
+      this.addFileUnit();
+    } else if(tab === ETemplateResponseType.code){
+      this.addCodeSnippetUnit();
     }
   }
 
@@ -78,6 +90,49 @@ export class AnswerTemplateWrapperComponent implements OnInit {
       'text': ['']
     };
     this.answerObject.push(textUnit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addImageUnit() {
+    const unit = {
+      'include': ['web'],
+      'image': [{'url': ConstantsService.getDefaultUrls().image}]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addFileUnit() {
+    const unit = {
+      'include': ['web'],
+      'file': [{'url': ConstantsService.getDefaultUrls().file}]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+  addCodeSnippetUnit() {
+    const unit = {
+      'include':  ['web'],
+      'function_code': 'code',
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+  addVideoUnit() {
+    const unit = {
+      'include': ['web'],
+      'video': [{'url': ConstantsService.getDefaultUrls().video}]
+    };
+    this.answerObject.push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addAudioUnit() {
+    const unit = {
+      'include': ['web'],
+      'audio': [{'url': ConstantsService.getDefaultUrls().audio}]
+    };
+    this.answerObject.push(unit);
     setTimeout(() => this.scrollToBottom());
   }
 

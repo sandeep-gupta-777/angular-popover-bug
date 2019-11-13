@@ -125,9 +125,9 @@
        *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' || articleData.section_id == 'partial_match')">
     <form #questionForm="ngForm" class="addQuestionPanel px-4 py-2">
       <mat-form-field [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
-      <textarea matInput type="text" placeholder="Add new question" ngModel name="questionText"
+      <textarea matInput type="text" placeholder="Add new variant" ngModel name="questionText"
                 data-cy="add-question-ti-tentemplate"
-                (keydown.enter)="addNewQuestion(questionForm.value.questionText);questionForm.reset()"
+                (keydown.enter)="$event.preventDefault();addNewQuestion(questionForm.value.questionText);questionForm.reset();"
                 cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
               </textarea>
       </mat-form-field>
@@ -135,10 +135,10 @@
               [disabled]="!questionForm.value.questionText"
               style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
               (click)="addNewQuestion(questionForm.value.questionText);questionForm.reset()">
-        + Add question
+        + Add variant
       </button>
     </form>
-    <div class="questions-heading">Questions</div>
+    <div class="questions-heading">Variants</div>
     <div *ngIf="articleData.questions.length === 0" class="no-question">No question added yet, atleast one is required
       to save the article
     </div>

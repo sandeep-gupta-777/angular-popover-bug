@@ -13,7 +13,11 @@ export enum EBotMessageMediaType {
   image = 'image',
   text = 'text',
   quickReply = 'quickReply',
-  bot_thinking = 'bot_thinking'
+  audio = 'audio',
+  video = 'video',
+  file = 'file',
+  bot_thinking = 'bot_thinking',
+  code = 'code'
 }
 
 export interface IMessageData extends IGeneratedMessageItem {

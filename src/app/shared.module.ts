@@ -86,7 +86,8 @@ import {FilePreviewOverlayService} from './overlay.service';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {PlayMediaComponent} from './chat/play-media/play-media.component';
 import {HttpTrackerLibModule} from 'ngx-loadify';
-// import {HttpTrackerLibModule} from 'ngx-loadify';
+import {ServerService} from './server.service';
+import {FilterPipeModule} from 'ngx-filter-pipe';
 
 @NgModule({
   declarations: [
@@ -150,12 +151,14 @@ import {HttpTrackerLibModule} from 'ngx-loadify';
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent,
-    PlayMediaComponent
+    PlayMediaComponent,
+
 
     // todo: put it inside view bot details moduel
 
   ],
   imports: [
+    FilterPipeModule,
     SharedEnterpriseListModuleModule,
     MyMaterialModule,
     FormsModule,
@@ -247,9 +250,12 @@ import {HttpTrackerLibModule} from 'ngx-loadify';
     FaqBotBasicInfoFormComponent,
     MatCardModule,
     // HttpTrackerLibModule
-    HttpTrackerLibModule
+    HttpTrackerLibModule,
+    FilterPipeModule,
+
   ],
-  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
+  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService, ServerService],
+
 })
 export class SharedModule {
 

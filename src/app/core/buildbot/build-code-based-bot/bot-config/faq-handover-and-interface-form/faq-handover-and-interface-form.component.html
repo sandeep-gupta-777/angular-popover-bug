@@ -18,7 +18,7 @@
     </div>
   </fieldset>
 
-  <fieldset class="pb-4">
+  <fieldset class="pb-4" *ngIf="bot.bot_type === 'faqbot'">
     <legend style="display: none;">Agent Handover</legend>
 
     <div style="width: 100%" class="pl-3">Agent Handover</div>
@@ -53,7 +53,7 @@
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
-          <input matInput type="number" displayName="Score below which fallback is shown" 
+          <input matInput type="number" displayName="Score below which fallback is shown"
                  placeholder="No. of fallback messages before handover" formControlName="value"
                  >
         </mat-form-field>
@@ -71,7 +71,7 @@
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
-          <input matInput type="number" displayName="Score below which fallback is shown" 
+          <input matInput type="number" displayName="Score below which fallback is shown"
                  placeholder="No. of partial matched messages before handover" formControlName="value">
         </mat-form-field>
       </div>
@@ -87,7 +87,7 @@
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
-          <input matInput type="number" displayName="Score below which fallback is shown" 
+          <input matInput type="number" displayName="Score below which fallback is shown"
                  placeholder="No. of consecutive messages before handover" formControlName="value"
                  >
         </mat-form-field>

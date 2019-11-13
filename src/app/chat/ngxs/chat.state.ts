@@ -66,7 +66,7 @@ export class ChatSessionStateReducer {
   showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
     const state: IChatSessionState = getState();
     const room = state.rooms.find((room_temp) => room_temp.id === payload.roomId);
-    if(room){
+    if (room) {
       room.showBotIsThinking = payload.shouldShowBotIsThinking;
     }
     setState({...state});
@@ -93,11 +93,20 @@ export class ChatSessionStateReducer {
   updateBotMessage({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: UpdateBotMessage) {
     const state: IChatSessionState = getState();
     const room = state.rooms.find((room_temp) => room_temp.id === payload.room_id);
-    const index = room.messageList.findIndex((message) => message.bot_message_id === payload.bot_message_id);
-    room.messageList[index] = {
-      ...room.messageList[index],
-      feedback: payload.feedback
-    };
+    // const index = room.messageList.findIndex((message) => message.bot_message_id === payload.bot_message_id);
+    // room.messageList[index] = {
+    //   ...room.messageList[index],
+    //   feedback: payload.feedback
+    // };
+    room.messageList = room.messageList.map((message) => {
+      if (message.bot_message_id === payload.bot_message_id) {
+        return {
+            ...message,
+            feedback: payload.feedback
+          };
+      }
+      return message;
+    });
     patchState({rooms: state.rooms});
   }
 
@@ -170,11 +179,10 @@ export class ChatSessionStateReducer {
     const rooms = state.rooms;
     const room_id = payload.id;
     let room: IRoomData = (rooms && (rooms.find((room_temp) => room_temp.id === room_id)));
-    debugger;
 
 
     if (!room) {
-      if(payload.async){
+      if (payload.async) {
         console.log('Async callback. Ignoring room:', payload);
         return;
       }
@@ -213,7 +221,7 @@ export class ChatSessionStateReducer {
     const room_id = payload.room_id;
 
     const room: IRoomData = (rooms && (rooms.find((room_temp) => room_temp.id === room_id)));
-    if(room){
+    if (room) {
       room.lastTemplateKey = payload.lastTemplateKey;
     }
     setState({...state});

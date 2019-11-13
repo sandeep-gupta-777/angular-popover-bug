@@ -1,0 +1,38 @@
+
+@import "~src/sass/main.scss";
+.entities-table {
+  ::ng-deep {
+    table {
+      th, td {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-right: 24px !important;
+        word-wrap: break-word !important;
+      }
+    .color-primary{
+      color: $color-primary ;
+    }
+    .color-danger{
+       color: $color-danger ;
+     }
+    }
+    .textVal {
+      width: 100% !important;
+
+    }
+    table {
+        mat-icon {
+          line-height: 2 !important;
+          font-size: 150% !important;
+        }
+        [name="build"] {
+          color: #d8d8d8;
+        }
+        [name="delete"] {
+          color: #bf3c3c;
+        }
+      }
+
+
+  }
+}

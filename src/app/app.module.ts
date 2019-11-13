@@ -18,6 +18,13 @@ import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass
 import {ScriptsLoadResolver} from './script-load.resolver';
 import {intersectionObserverPreset, LazyLoadImageModule, SetErrorImageProps} from 'ng-lazyload-image';
 import {HttpTrackerLibModule} from 'ngx-loadify';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {Popover} from './popover/popover.service';
+import {PopoverComponent1} from './popover/popover-component1.component';
+import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
+import {MatButtonModule, MatRadioModule, MatSelectModule} from '@angular/material';
+import {ReactiveFormsModule} from '@angular/forms';
+import {FilterPipeModule} from 'ngx-filter-pipe';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = 'http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg';
@@ -56,15 +63,16 @@ const routes: Route[] = [
     NotFoundComponent,
     NotAuthorisedComponent,
     FilterArrayPipe,
-
     // BackendDevComponent,
-
+    PopoverComponent1,
+    InsidePopoverComponent,
   ],
   imports: [
     BrowserModule,
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
+    MatButtonModule,
     HttpTrackerLibModule.forRoot({
       loaderClass: 'loading',
       errorClass: 'error',
@@ -73,6 +81,7 @@ const routes: Route[] = [
       successClassDuration: 2000,
       errorClassDuration: 2000,
     }),
+    OverlayModule,
 
     RouterModule.forRoot(routes, {enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
@@ -101,18 +110,23 @@ const routes: Route[] = [
     // AngularFireAuthModule,
     // AngularFireMessagingModule,
     // AngularFireModule.initializeApp(environment.firebase),
+    MatRadioModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [
     LoginPageGaurdService,
     ModuleGaurdLoadService,
-    ScriptsLoadResolver
+    ScriptsLoadResolver,
     //   {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
     //   multi: true
     // }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [PopoverComponent1, InsidePopoverComponent],
+
 })
 export class AppModule {
 

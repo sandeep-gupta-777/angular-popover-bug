@@ -18,7 +18,7 @@
                     required>
                       </mat-form-field>
         <mat-form-field class="w-50">
-          <mat-label>Language</mat-label>
+          <mat-label>Default language</mat-label>
           <mat-select formControlName="language">
             <mat-option *ngFor="let lang of bot_languages" [value]="lang.language_code">
               {{lang.display_name}}
@@ -67,7 +67,7 @@
                 </mat-slide-toggle>
             </div>
 
-            <div class="form-control d-flex flex-column">
+            <div class="form-control d-flex flex-column" *ngIf="bot_type === myEBotType.faqbot">
                 <label class="py-1">Allow agent handover <app-info-icon [text] = "'Transfer the message to an agent when bot fails'"></app-info-icon></label>
                 <mat-slide-toggle
                     formControlName="allow_agent_handover"

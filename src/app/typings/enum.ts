@@ -98,6 +98,23 @@ export enum EAllActions {
   'Add curation issues to a new article' = 'Add curation issues to a new article',
   'Faqbot curation overview counts' = 'Faqbot curation overview counts',
   'Faqbot curation top sections' = 'Faqbot curation top sections',
+  'Update Router Logic' = 'Update Router Logic',
+  'Get task bot Corpus' = 'Get task bot Corpus',
+  'Create task bot Corpus' = 'Create task bot Corpus',
+  'Create entity' = 'Create entity',
+  'Update entity' = 'Update entity',
+  'Remove entity' = 'Remove entity',
+  'Make trained model live' = 'Make trained model live',
+  'Create intent' = 'Create intent',
+  'Update intent' = 'Update intent',
+  'Remove intent' = 'Remove intent',
+  'Get default task bot corpus' = 'Get default task bot corpus',
+  'Train task bot' = 'Train task bot',
+  'Get default responses' = 'Get default responses',
+  'Get entities' = 'Get entities',
+  'Get intents' = 'Get intents',
+  'Make responses live' = 'Make responses live',
+  'Update responses' = 'Update responses',
 }
 
 
@@ -109,7 +126,9 @@ export enum ESideBarTab {
   test = 'test',
   History = 'History',
   faqbot = 'faqbot',
-  pipelineTest = 'pipelineTest'
+  pipelineTest = 'pipelineTest',
+  ml_model = 'ml_model',
+  replies = 'replies',
 }
 
 export enum ENgxsStogareKey {
@@ -117,3 +136,4 @@ export enum ENgxsStogareKey {
   IMI_BOT_STORAGE_KEY = '@@STATE',
   idTokenMap = 'idTokenMap'
 }
+

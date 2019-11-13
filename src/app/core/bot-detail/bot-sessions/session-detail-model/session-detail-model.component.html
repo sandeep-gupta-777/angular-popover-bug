@@ -9,6 +9,10 @@
       <div class="secondary">Room ID:</div>
       <div class="primary16 ">{{_session.id}}</div>
     </div>
+    <div *ngIf="_session.manager_bot_room_id" class="session-modal-section__header--item">
+      <div class="secondary">Manager Room ID:</div>
+      <div class="primary16 ">{{_session.manager_bot_room_id}}</div>
+    </div>
     <div class="session-modal-section__header--item">
       <div class="secondary">Consumer ID:</div>
       <div class="primary16 ">{{_session.consumer_id}}</div>

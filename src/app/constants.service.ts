@@ -16,6 +16,16 @@ export const ERouteNames = EAllActions;
 @Injectable()
 export class ConstantsService {
 
+
+  static getDefaultUrls() {
+    return {
+      audio: 'https://www.w3schools.com/html/horse.ogg',
+      video: 'https://storage.googleapis.com/coverr-main/mp4%2Fcoverr-brooklyn-bridge-1572178567128.mp4',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Zenith_%28ship%2C_1992%29.jpg/600px-Zenith_%28ship%2C_1992%29.jpg',
+      file: '',
+    };
+  }
+
   static bot_languages: IBotLanguage[] = [
     {display_name: 'English', language_code: 'en'},
     {display_name: 'Arabic', language_code: 'ar'},
@@ -242,6 +252,43 @@ export class ConstantsService {
 
 
   };
+
+  SMART_TABLE_INTENT_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    name: {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'name',
+      search: false,
+      searchValue: true,
+    },
+    Utterances: {
+      originalKey: 'Utterances',
+      value: '',
+      type: 'number',
+      displayValue: 'Utterances',
+      search: false,
+      searchValue: true,
+    },
+    template_key: {
+      originalKey: 'template_key',
+      value: '',
+      type: 'string',
+      displayValue: 'template_key',
+      search: false,
+      searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Updated At',
+      search: false,
+      searchValue: true,
+      dateRange: false
+    }
+  };
+
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
 
     channels: {
@@ -552,7 +599,72 @@ export class ConstantsService {
       searchValue: false,
     },
   };
+  SMART_TABLE_ML_ENTITIES_TEMPLATE: ITableColumn = {
+    'name': {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'Entity name',
+      search: true,
+    },
+    'type': {
+      originalKey: 'type',
+      value: '',
+      type: 'string',
+      displayValue: 'Entity type',
+      search: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      dateRange: true,
+      displayValue: 'Last update',
+      search: false,
+    },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'mat-icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+      search: false,
+      searchValue: true,
+    }
+  };
+  SMART_TABLE_ML_INTENTS_TEMPLATE: ITableColumn = {
+    'name': {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'Intent name',
+      search: true
 
+    },
+    'utterances': {
+      originalKey: 'utterances',
+      value: '',
+      type: 'number',
+      displayValue: 'Utterances',
+      search: true
+    },
+    'template_key': {
+      originalKey: 'template_key',
+      value: '',
+      type: 'string',
+      displayValue: 'Template key',
+      search: true
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      dateRange: true,
+      displayValue: 'Last update',
+      search: false
+    }
+  };
 
   SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
     description: {
@@ -838,8 +950,17 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
 
+  putMlCorpus() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/`;
+  }
+
   getLiveCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/?state=live`;
+  }
+
+  getAllCorpusForMLBot(limit, offset) {
+    //state__in=trained,live&
+    return this.BACKEND_URL + `api/v1/mlcorpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
 
   getAllCorpusForFAQBot(limit, offset) {
@@ -999,6 +1120,46 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/webhook/intelligent/`;
   }
 
+  getEntityList() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/?order_by=updated_at';
+  }
+
+  getMLCorpus() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/';
+  }
+
+  getMLDefaultCorpus() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/getdefault/';
+  }
+
+  getMLDefaultCorpusMiniData() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/getdefault/?display=true';
+  }
+
+  getIntents() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/`;
+  }
+
+  deleteIntents(id: number) {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/delete/`;
+  }
+
+  getMLEntityTypes() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/types/';
+  }
+
+  creatMLEntity() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/create/';
+  }
+
+  deleteMLEntity() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/delete/';
+  }
+
+  updateMLEntity() {
+    return this.BACKEND_URL + 'api/v1/mlcorpus/entity/update/';
+  }
+
   getRoomWithFilters(queryParams: object) {
     const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
@@ -1118,6 +1279,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
+  makeMLCorpusLiveUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/makelive/`;
+  }
+
   curationIssuesListUrl(limit, offset) {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
   }
@@ -1128,6 +1293,34 @@ export class ConstantsService {
 
   curationIssueIgnoreUrl() {
     return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
+  }
+
+  createIntentUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/create/`;
+  }
+
+  updateIntentUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/intent/update/`;
+  }
+
+  trainMlBotUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/train/`;
+  }
+
+  getResponseTemplates() {
+    return this.BACKEND_URL + `api/v1/responsetemplates/default/`;
+  }
+
+  loadFromLive() {
+    return this.BACKEND_URL + `api/v1/responsetemplates/`;
+  }
+
+  makeResponseLive() {
+    return this.BACKEND_URL + `api/v1/responsetemplates/makelive/`;
+  }
+
+  entityMarkingUrl() {
+    return this.BACKEND_URL + `api/v1/mlcorpus/entity/markup/`;
   }
 
   curationIssueLinkToExistingSectionUrl() {
@@ -1153,9 +1346,10 @@ export class ConstantsService {
   addMessageToCurationFromSession() {
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
   }
+
   //routerbot
-  getRouterBotRuleByRuleIDUrl(id){
-    return this.BACKEND_URL + `api/v1/router_logic/${id}/`
+  getRouterBotRuleByRuleIDUrl(id) {
+    return this.BACKEND_URL + `api/v1/router_logic/${id}/`;
   }
 
   updateBotSerializer(bot: IBot) {

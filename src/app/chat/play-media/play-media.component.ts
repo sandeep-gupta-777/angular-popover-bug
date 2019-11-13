@@ -15,4 +15,8 @@ export class PlayMediaComponent implements OnInit {
   ngOnInit() {
   }
 
+  log(x){
+    console.log(x);
+  }
+
 }

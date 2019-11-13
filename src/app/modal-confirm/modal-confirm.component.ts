@@ -2,7 +2,7 @@ import {Component, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angul
 import {EBotType} from '../utility.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DialogData} from '../core/view-bots/create-bot-dialog/create-bot-dialog.component';
-import { NgForm } from '@angular/forms';
+import {FormGroup, NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-modal-confirm',
@@ -13,12 +13,16 @@ export class ModalConfirmComponent {
 
   dataCopy: any;
   inputData = '';
+  formGroup: FormGroup;
   @Output() actionItemClicked$ = new EventEmitter();
+
   // @ViewChild('inputForm') Form: NgForm;
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.dataCopy = this.data;
+    this.formGroup = (<any>this.data).formGroup;
+
   }
 
 
@@ -31,4 +35,15 @@ export class ModalConfirmComponent {
   //     alert();
   // }
 
+  showError = false;
+
+  attemptToClose() {
+    const data: any = this.data;
+    if ((this.formGroup && !this.formGroup.valid) || (data.inputDescription && this.inputData.trim().length === 0)) {
+      this.showError = true;
+      return;
+    }
+
+    this.closeDialog((this.formGroup && this.formGroup.value.inputData.trim()) || (data.inputDescription && this.inputData.trim()) || true);
+  }
 }

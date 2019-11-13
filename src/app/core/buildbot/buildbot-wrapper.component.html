@@ -5,7 +5,8 @@
                 <h5>Create Bot</h5>
                 <div>{{bot_type === myEBotType.chatbot ? 'Code based' :
                     bot_type === myEBotType.faqbot ? 'Search based' :
-                        bot_type === myEBotType.intelligent ? 'Pipeline based' : 'Router'}}</div>
+                        bot_type === myEBotType.intelligent ? 'Pipeline based' :
+                            bot_type === myEBotType.router ? 'Router' : 'Task'}}</div>
             </header>
 
             <ng-container *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">
@@ -52,9 +53,11 @@
                            (selectedIndexChange)="selectedIndexChange($event)">
                 <mat-tab label="Tab 1">
                     <app-basic-info-form [formGroup]="basicInfoForm"
-                                         *ngIf="bot_type != myEBotType.faqbot"></app-basic-info-form>
-                    <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm"
+                                         *ngIf="bot_type != myEBotType.faqbot && bot_type != myEBotType.mlbot"></app-basic-info-form>
+                    <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm" [bot_type] = "bot_type"
                                                  *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
+                  <app-faq-bot-basic-info-form [formGroup]="mlbotBuildForm" [bot_type] = "bot_type"
+                                               *ngIf="bot_type === myEBotType.mlbot"></app-faq-bot-basic-info-form>
                 </mat-tab>
                 <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot || bot_type === myEBotType.router">
                     <app-data-manage-form [formGroup]="dataManagementForm" [isBuildBot]="true"></app-data-manage-form>

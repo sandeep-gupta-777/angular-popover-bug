@@ -1,0 +1,52 @@
+@import "~src/sass/main";
+.heading{
+  padding-bottom: 8px;
+  align-items: center;
+  .heading-title{
+    color: #474747;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    padding-right: 5px;
+  }
+  .mat-theme-button-border {
+    border-radius: 2px !important;
+  }
+  button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 13px;
+    padding-left: 12px;
+    border-radius: 2px;
+    mat-icon{
+      font-size: 13px;
+    }
+  }
+}
+.article-state{
+  border: none;
+  border-radius: 12px;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 24px !important;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: white;
+  background-color: $color-primary;
+}
+.go-back-button{
+  font-size: 16px;
+  font-weight: bold;
+}
+.single-entity{
+  .onParentHover{
+    opacity: 0;
+  }
+  &:hover{
+    .onParentHover{
+      opacity: 1;
+    }
+  }
+}

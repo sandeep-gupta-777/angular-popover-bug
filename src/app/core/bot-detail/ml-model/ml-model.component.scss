@@ -1,0 +1,58 @@
+@import "~src/sass/main";
+
+.heading {
+  padding-bottom: 8px;
+  align-items: center;
+
+  .heading-title {
+    color: #474747;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    padding-right: 5px;
+  }
+
+  .mat-theme-button-border {
+    border-radius: 2px !important;
+  }
+
+  button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 13px;
+    padding-left: 12px;
+    border-radius: 2px;
+
+    mat-icon {
+      font-size: 13px;
+    }
+  }
+}
+
+.no-over-flow {
+  ::ng-deep {
+    .mat-tab-body-wrapper {
+      height: 100%; /*TODO: check why its needed....for knowledge base editor*/
+    }
+  }
+}
+
+.model-state {
+  border: none;
+  border-radius: 12px;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  height: 24px !important;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: white;
+  background-color: $color-primary;
+}
+.absolute-center {
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}

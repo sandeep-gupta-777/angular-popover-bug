@@ -62,5 +62,25 @@
 }
 
 
+::ng-deep {
+  .play-media-wrapper {
+    margin: 10px 0;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .item {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .url-input {
+      height: 32px;
+      width: 90%;
+      border: 1px solid #e0e0e0;
+    }
+  }
 
 
+}

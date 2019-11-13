@@ -16,7 +16,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
   //$font-family:   'IBM Plex Sans, sans-serif',
-    $font-family: '' IBM Plex Sans ', sans-serif',
+  $font-family: '' IBM Plex Sans ', sans-serif',
   $display-4: mat-typography-level(112px, 112px, 300),
   $display-3: mat-typography-level(56px, 56px, 400),
   $display-2: mat-typography-level(45px, 48px, 400),
@@ -423,6 +423,11 @@ h4 {
   pointer-events: none;
 }
 
+.custom-disabled{
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
 .cursor-not-allowed {
   cursor: not-allowed;
 }
@@ -1383,4 +1388,93 @@ mat-dialog-container {
   left: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
+}
+
+
+.bg-red {
+  cursor: pointer;
+  background: #2b4f70;
+  color: white;
+  position: relative;
+
+  .cancel {
+    //content: 'x';
+    //display: none;
+    display: inline;
+
+    position: absolute;
+    //top: 0;
+    bottom: 0;
+    transform: translateY(50%);
+  }
+
+  &:hover .cancel {
+    display: inline;
+  }
+
+}
+
+.loader-center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+//
+.article-state {
+  border: none;
+  border-radius: 12px;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  height: 24px !important;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: white;
+  background-color: $color-primary;
+}
+
+//.article-state1{
+//  border: none ;
+//  border-radius: 12px ;
+//  padding-left: 15px !important;
+//  padding-right: 15px !important;
+//  height: 24px !important ;
+//  display: flex ;
+//  align-items: center ;
+//  font-size: 11px ;
+//  color: white ;
+//  background-color: $color-primary ;
+//}
+//
+
+
+.fade-in-custom {
+  animation: fade-in 500ms;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.blinking{
+  animation:blinkingText 1.5s infinite;
+}
+@keyframes blinkingText{
+  0%{		color: #000;	}
+  49%{	color: transparent;	}
+  50%{	color: transparent;	}
+  99%{	color:transparent;	}
+  100%{	color: #000;	}
 }

@@ -14,7 +14,7 @@ import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 import {LoggingService} from './logging.service';
 import {ServerService} from './server.service';
 import {ConstantsService} from './constants.service';
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
 
 const uuidv1 = require('uuid/v4');
 
@@ -22,7 +22,8 @@ export enum EBotType {
   chatbot = 'chatbot',
   intelligent = 'intelligent',
   faqbot = 'faqbot',
-  router = 'router'
+  router = 'router',
+  mlbot = 'mlbot'
 }
 
 export enum EFormValidationErrors {
@@ -224,6 +225,37 @@ export class UtilityService {
       return '';
     }
     return str.split(delimiter).map((str_temp) => str_temp[0].toUpperCase() + str_temp.slice(1)).join(' ');
+  }
+
+  static setDataAttribute($el: HTMLElement | string, attribute: string, value: string) {
+    if (typeof $el === 'string') {
+      $el = document.querySelector($el) as HTMLElement;
+    }
+    $el.setAttribute(attribute, value);
+  }
+  static getDataAttribute($el: HTMLElement | string, attribute: string) {
+    if (typeof $el === 'string') {
+      $el = document.querySelector($el) as HTMLElement;
+    }
+    return $el.getAttribute(attribute);
+  }
+
+  static removeDataAttributes($el: HTMLElement | string, attributeList: string[]) {
+    if (typeof $el === 'string') {
+      $el = document.querySelector($el) as HTMLElement;
+    }
+    attributeList.forEach((item) => {
+      ($el as HTMLElement).removeAttribute(item);
+    });
+  }
+
+  static removeClass($el: HTMLElement | string, classList: string[]) {
+    if (typeof $el === 'string') {
+      $el = document.querySelector($el) as HTMLElement;
+    }
+    classList.forEach((item) => {
+      ($el as HTMLElement).classList.remove(item);
+    });
   }
 
   static getCombinedBotData(forms: (FormGroup | NgForm)[]): IBot {
@@ -532,13 +564,13 @@ export class UtilityService {
         messageData = {
           ...messageData,
           messageMediatype: message.media[0] && message.media[0].type,
-          text: EBotMessageMediaType.image, // this is for preview of last message in chat room list,
+          // text: EBotMessageMediaType.image, // this is for preview of last message in chat room list,
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
         messageData = {
           ...messageData,
           messageMediatype: EBotMessageMediaType.quickReply, //
-          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, // this is for preview of last message in chat room list
+          // text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, // this is for preview of last message in chat room list
         };
       } else {
         /*if message type = text*/
@@ -650,12 +682,12 @@ export class UtilityService {
 
   copySharablePreviewLink(bot_unique_name, enterprise_unique_name) {
     const host = 'http://imi-preview.netlify.com';
-    let root = ".";
-    if(environment.backend_root === 'https://dev.imibot.ai/'){
-      root = "dev";
+    let root = '.';
+    if (environment.backend_root === 'https://dev.imibot.ai/') {
+      root = 'dev';
     }
-    if(environment.backend_root === 'https://staging.imibot.ai/'){
-      root = "staging";
+    if (environment.backend_root === 'https://staging.imibot.ai/') {
+      root = 'staging';
     }
     const url = `${host}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}&root=${root}`;
     this.copyToClipboard(encodeURI(url));
@@ -1478,6 +1510,10 @@ export class UtilityService {
     return str.substr(0, index) + replacement + str.substr(index + replacement.length);
   }
 
+  static replaceRange(str: string, replacement: string, start: number, end) {
+    return str.substr(0, start) + replacement + str.substr(end + str.length);
+  }
+
   areAllAvatorValesDefined(headerObj: object) {
     for (const key in headerObj) {
       if (headerObj[key] === null || headerObj[key] === '') {// 0!==null but 0==""
@@ -1520,6 +1556,21 @@ export class UtilityService {
       }
     }
     return false;
+  }
+
+  getRandomColor() {
+    return ('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
+  }
+
+  colorList() {
+    return [
+      'red',
+      'blue',
+      'green',
+      'yellow',
+      'black',
+      'orange',
+    ];
   }
 
 

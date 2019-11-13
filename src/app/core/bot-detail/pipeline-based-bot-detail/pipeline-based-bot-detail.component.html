@@ -100,6 +100,7 @@
 
           <div class="px-2 pt-2 pb-0 d-flex  w-100">
             <app-pipeline
+              class="fade-in-custom"
               (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
               [bot]="bot"></app-pipeline>
             <app-knowledge-base-wrapper [bot]="bot"

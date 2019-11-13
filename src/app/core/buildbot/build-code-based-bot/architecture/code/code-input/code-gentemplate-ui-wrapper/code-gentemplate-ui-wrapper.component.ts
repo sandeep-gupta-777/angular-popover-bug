@@ -1,10 +1,13 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {EBotVersionTabs} from '../../../../../../../../interfaces/code-input';
+import {ETemplateResponseType} from '../../../../../../../typings/gentemplate';
+import {IMLResponse} from '../../../../../../../typings/reply';
+import {ConstantsService} from '../../../../../../../constants.service';
 
 export interface ICarousalItem {
   'image_url': string;
@@ -23,15 +26,22 @@ export interface IQuickReplyItem {
 }
 
 export interface IOutputItem {
+  type: string;
   text?: string[];
   code?: string;
+  function_code?: string;
   include?: string[];
+  audio: { url: '' };
+  video: { url: '' };
+  file: { url: '' };
+  image: { url: '' };
+  media?: any;
   generic_template?: { 'elements': ICarousalItem[] }[];
   'quick_reply': [{
     'text': string,
     'quick_replies': [
       IQuickReplyItem
-      ]
+    ]
   }];
 
 }
@@ -46,6 +56,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
   myEBotVersionTabs = EBotVersionTabs;
   myObject = Object;
+
+  @Input() defaultTemplateKeys: string[];
+  @Input() headingAsSelectedTemplateKey: string;
+  @Input() hideChannelDropdown = false;
   @Input() activeTab;
   @Input() channelList;
   newTemplateKey: string;
@@ -57,13 +71,19 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   @Input() bot;
   _templateKeyDict;
   @Input() set templateKeyDict(val) {
-    this._templateKeyDict = val;
+    setTimeout(() => {
+      this._templateKeyDict = val;
 
-    if (Object.keys(this._templateKeyDict)) {
-      this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
-    }
+      const keys = Object.keys(this._templateKeyDict);
+      if (!this.selectedTemplateKeyInLeftSideBar && keys && !keys.find(key => key === this.selectedTemplateKeyInLeftSideBar)) {
+        this.updateSelectedTemplateKey(Object.keys(this._templateKeyDict)[0]);
+        this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
+      }
+    }, 0);
   }
+
   channelNameList;
+  dynamicLogicForm: FormGroup;
   //  @Input() selectedTemplateKeyOutputIndex;
   selectedTemplateKeyOutputIndex = [];
   selectedTemplateKeyInLeftSideBar;
@@ -72,19 +92,43 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   //  @Output() moveDownGentempate = new EventEmitter;
   //  @Output() selectGentempate = new EventEmitter;
   @Output() openNewIntentModal$ = new EventEmitter;
+  @Output() modeChanged$ = new EventEmitter;
+  @Output() dynamicLogicChanged$ = new EventEmitter;
   @Output() openEditTemplateKeyModal$ = new EventEmitter();
   @Output() openDeleteTemplateKeyModal$ = new EventEmitter();
   @Output() convertUiDictToGenTemplateCode$ = new EventEmitter();
+  mode = 'rich';
+
+  _response: IMLResponse;
+  selectedResponseItem;
+
+  @Input() set response(response: IMLResponse) {
+    this._response = response;
+    this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
+  }
+
+  @Input() showModeSelect = false;
   templateKeySearchKeyword: string;
   templateKeyDictClone;
 
   constructor(
     private utilityService: UtilityService,
+    private formBuilder: FormBuilder,
     private matDialog: MatDialog,
   ) {
   }
 
   ngOnInit() {
+    let logicText = '';
+    if (this.selectedTemplateKeyInLeftSideBar) {
+      logicText = this._response.templates[this.selectedTemplateKeyInLeftSideBar] && this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;
+    }
+    this.dynamicLogicForm = this.formBuilder.group({code: logicText});
+    this.dynamicLogicForm.valueChanges.subscribe((data) => {
+      this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
+    });
+    this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
+
     try {
       this.templateKeyDictClone = UtilityService.cloneObj(this._templateKeyDict);
 
@@ -120,7 +164,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   async selectedListCopyModel(IntentSelectionModal) {
     //  this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
 
-
+    this.copyModalTemplateSearchKeyword = "";
     const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: IntentSelectionModal,
@@ -133,22 +177,34 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       //  this.deleteTemplateKey(tempKey);
     }
   }
+
   genTemplateTypeClicked(tab: string) {
+
     if (tab === 'text') {
       this.addTextUnit();
     } else if (tab === 'carousel') {
-      this.addImageCaraosalUnit()
+      this.addImageCaraosalUnit();
     } else if (tab === 'quick_reply') {
-      this.addQuickReplyUnit()
+      this.addQuickReplyUnit();
     } else if (tab === 'code_input') {
       this.addCodeUnit();
+    } else if (tab === ETemplateResponseType.image) {
+      this.addImageUnit();
+    } else if (tab === ETemplateResponseType.audio) {
+      this.addAudioUnit();
+    } else if (tab === ETemplateResponseType.video) {
+      this.addVideoUnit();
+    } else if (tab === ETemplateResponseType.file) {
+      this.addFileUnit();
+    } else if (tab === ETemplateResponseType.code) {
+      this.addCodeSnippetUnit();
     }
   }
 
   addCodeUnit() {
     const codeUnit = {
       'include': this.createIncludesArray(),
-      'code': ['Write ur text here .....']
+      'code': ['Write ur text here .....'],
     };
     this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
     setTimeout(() => this.scrollToBottom());
@@ -200,6 +256,61 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
   }
 
+  addVideoUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'video': [{'url': ConstantsService.getDefaultUrls().video}]
+      // 'media': [{
+      //   'video_url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+      // }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+
+  }
+
+  addAudioUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'audio': [{'url': ConstantsService.getDefaultUrls().audio}]
+      // 'media': [{
+      //   'audio_url': 'https://freesound.org/data/previews/347/347557_2247456-lq.mp3',
+      // }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addImageUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'image': [{'url': ConstantsService.getDefaultUrls().image}]
+      // 'media': [{
+      //   'image_url': 'http://pluspng.com/img-png/google-logo-png-open-2000.png',
+      // }]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addFileUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'file': [{'url': ConstantsService.getDefaultUrls().file}]
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addCodeSnippetUnit() {
+    const unit = {
+      'include': this.createIncludesArray(),
+      'function_code': ''
+    };
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(unit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
   createIncludesArray() {
     return Array.isArray(this.channelNameList) ? ['web', ...this.channelNameList] : ['web'];
 
@@ -218,7 +329,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
       const arr1 = document.getElementsByClassName('gentemplateItem');
       const x = arr1[arr1.length - 1];
-      x.scrollIntoView();
+      // x.scrollIntoView();
 
 
     } catch (err) {
@@ -315,8 +426,19 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     //  this._templateKeyDict = {...this._templateKeyDict, ...intentUnit};
     this._templateKeyDict = Object.assign(this._templateKeyDict, intentUnit);
     this.modalRefWrapper.ref.close();
-    this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
+    this.updateSelectedTemplateKey(this.newTemplateKey);
     this.newTemplateKey = '';
+  }
+
+  updateSelectedTemplateKey(newTemplateKey) {
+
+    this.selectedTemplateKeyInLeftSideBar = newTemplateKey;
+    const code = this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;//response_type
+    if (newTemplateKey === 'first_message') {
+      this.mode = 'rich';
+    }
+    this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
+    this.dynamicLogicForm && this.dynamicLogicForm.patchValue({code});
   }
 
   selectGentempate(e) {
@@ -345,7 +467,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       return;
     }
     this.utilityService.renameKeyInObject(this._templateKeyDict, old_key, new_key);
-    this.selectedTemplateKeyInLeftSideBar = new_key;
+    this.updateSelectedTemplateKey(new_key);
     this.modalRefWrapper.ref.close();
   }
 
@@ -377,50 +499,73 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   //  }
 
   async openNewIntentModal() {
-    const dialogRefWrapper = this.modalRefWrapper;
-      //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-      this.utilityService.openDialog({
-        dialogRefWrapper: dialogRefWrapper,
-        classStr: 'primary-modal-header-border',
-        data: {
-          actionButtonText: `Create`,
-          message: null,
-          title: `Create new template key`,
-          isActionButtonDanger: false,
-          inputDescription: 'Template key name'
-        },
-        dialog: this.matDialog,
-        component: ModalConfirmComponent
-      }).then((data) => {
-        if (data) {
-          this.newTemplateKey = data;
-          this.createNewTemplatekey();
-        }
-      });
+    this.showCreateOrEditTemplateKeyModel('Create template key', null , true).then((data) => {
+      if (data) {
 
-      //  this.utilityService.openDialog({
-      //    component: template,
-      //    dialog: this.matDialog,
-      //    classStr: 'primary-modal-header-border',
-      //    dialogRefWrapper: this.dialogRefWrapper
-      //  });
+        this.newTemplateKey = data;
+        this.createNewTemplatekey();
+        this.utilityService.showSuccessToaster('Template key created');
+      }
+    });
+
+    //  this.utilityService.openDialog({
+    //    component: template,
+    //    dialog: this.matDialog,
+    //    classStr: 'primary-modal-header-border',
+    //    dialogRefWrapper: this.dialogRefWrapper
+    //  });
+  }
+
+  showCreateOrEditTemplateKeyModel(title: string, value = '', isNew = false) {
+    const dialogRefWrapper = this.modalRefWrapper;
+    //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    const formGroup = this.formBuilder.group({
+      inputData: [value, (formControl: FormControl) => {
+        if (!formControl.value || !formControl.value.trim || !formControl.value.trim()) {
+          return {
+            error: 'Template key required'
+          };
+        }
+        if (Object.keys(this._templateKeyDict).find((key) => key === formControl.value)) {
+          return {
+            error: 'Template key already exists'
+          };
+        }
+      }]
+    });
+    return this.utilityService.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'primary-modal-header-border',
+      data: {
+        actionButtonText: `${isNew ? 'Create' : 'Edit'}`,
+        message: null,
+        formGroup,
+        title,
+        isActionButtonDanger: false,
+        templateKeyDict: this._templateKeyDict
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    });
   }
 
   async openEditTemplateKeyModal(tempKey) {
-    const data = await this.utilityService.openDialog({
-      dialog: this.matDialog,
-      component: GentemplateEditKeyComponent,
-      data: {
-        old_key: tempKey,
-        templateKeyDict: this._templateKeyDict
-      },
-      dialogRefWrapper: this.modalRefWrapper,
-      classStr: 'primary-modal-header-border'
-    });
 
-    if (data) {
-      this.editTemplateKey({old_key: tempKey, new_key: data});
-    }
+    // const data = await this.utilityService.openDialog({
+    //   dialog: this.matDialog,
+    //   component: GentemplateEditKeyComponent,
+    //   data: {
+    //     old_key: tempKey,
+    //     templateKeyDict: this._templateKeyDict
+    //   },
+    //   dialogRefWrapper: this.modalRefWrapper,
+    //   classStr: 'primary-modal-header-border'
+    // });
+
+    this.showCreateOrEditTemplateKeyModel('Edit template key', tempKey)
+      .then((data) => {
+        this.editTemplateKey({old_key: tempKey, new_key: data});
+      });
   }
 
   //  openNewIntentModal(template) {
@@ -436,7 +581,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       return;
     }
     delete this._templateKeyDict[tempKey];
-    this.utilityService.showSuccessToaster('Template key deleted!');
+    this.updateSelectedTemplateKey(Object.keys(this._templateKeyDict)[0]);
     this.modalRefWrapper.ref.close();
   }
 
@@ -446,7 +591,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   ngAfterViewInit() {
-    this.channelSelectorForm.form.valueChanges.subscribe((value) => {
+    this.channelSelectorForm && this.channelSelectorForm.form.valueChanges.subscribe((value) => {
       this.selectedChannelOfGenTemplate = value;
     });
   }
@@ -455,5 +600,12 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     //  console.log(this.selectedVersion_st);
     //  console.log(this.bot.store_bot_versions);
     console.log(this._templateKeyDict);
+  }
+
+  modeChangeHandler(mode) {
+
+    this.modeChanged$.emit(mode);
+    this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type = mode;
+    this.mode = mode;
   }
 }

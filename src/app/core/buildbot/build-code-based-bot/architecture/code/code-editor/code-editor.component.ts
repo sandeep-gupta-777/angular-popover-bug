@@ -187,7 +187,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   writeValue(text: any): void {
-    if (text) {
+    if (text != null) {
       this.editor.setValue(text);
     }
   }
