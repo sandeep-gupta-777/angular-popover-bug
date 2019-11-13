@@ -4,6 +4,18 @@ export class DomService {
   * be scroll top the top, internally
   * */
   static scrollToTop($el) {
-    $el.scrollTop =  $el.scrollHeight;
+    $el.scrollTop = $el.scrollHeight;
+  }
+
+  static focusOnContentEditable(contentEditableDiv: HTMLElement) {
+    contentEditableDiv.focus();
+    const p = contentEditableDiv,
+      s = window.getSelection(),
+      r = document.createRange();
+    p.innerHTML = '\u00a0';
+    r.selectNodeContents(p);
+    s.removeAllRanges();
+    s.addRange(r);
+    document.execCommand('delete', false, null);
   }
 }

@@ -37,7 +37,7 @@ export class InsidePopoverComponent implements OnInit {
   ngOnInit(): void {
 
     EventService.entityListUpdated$.subscribe(({entityList, new_entity}) => {
-      debugger;
+
       this.entityList = [...entityList];
       if (new_entity) {
         this.form.patchValue({entity_id: new_entity.entity_id});

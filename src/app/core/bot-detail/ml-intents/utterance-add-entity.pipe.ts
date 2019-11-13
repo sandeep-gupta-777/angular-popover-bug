@@ -8,7 +8,7 @@ import {MlService} from '../ml-model/ml.service';
 export class UtteranceAddEntityPipe implements PipeTransform {
 
   transform(utteranceStr: any, args: any[]): any {
-    debugger;
+
     const entityList: IEntitiesItem[] = MlService.entityList;
     let str: string = utteranceStr;
     args = [...args];

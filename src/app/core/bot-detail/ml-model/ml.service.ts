@@ -31,7 +31,7 @@ export class MlService {
       str: acc.str + phrase.slice(acc.idx, idx) + tag,
       idx
     }), {str: '', idx: 0}).str;
-    return result + '&nbsp;';
+    return result;
   }
 
   static getColorByEntity(entityList: IEntitiesItem[], entity_id: string) {

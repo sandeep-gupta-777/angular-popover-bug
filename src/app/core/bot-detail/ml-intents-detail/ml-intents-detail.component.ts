@@ -18,6 +18,7 @@ import {ErrorStateMatcher} from '@angular/material';
 import {debounceTime} from 'rxjs/operators';
 import {MlService} from '../ml-model/ml.service';
 import {EventService} from '../../../event.service';
+import {DomService} from '../../../dom.service';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -252,7 +253,6 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   utterTextContentBackup = '';
 
   textSelected(e, tpl, index, utterance: string) {
-    debugger
     const utterInnerHTML = this.getUtteranceByIndex(index).innerHTML;
     this.utterTextContentBackup = this.getUtteranceByIndex(index).textContent;
     if (e.stopPropagation) {
@@ -411,7 +411,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       UtilityService.setDataAttribute(origin, EMarkerAttributes.data_entity_id, entityMarker.entity_id);
       origin.style.backgroundColor = color;
 
-      debugger;
+
       const utter = this.getUtteranceByIndex(index);
       const markerDataInUtter = this.getMarkerData([utter]);
       // this.correctMarkerPosition(this.selectedIntentBackup);
@@ -460,14 +460,43 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  focusAtTheEndofMarking(target) {
+    setTimeout(() => {
+      const endSpace = /\s$/;
+      const startSpace = /^\s/;
+      if (endSpace.test(target.textContent)) {
+        target.insertAdjacentHTML('afterend', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
+      }
+      // else if (startSpace.test(target.textContent)) {
+      //   target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
+      // }
+      else {
+        return;
+      }
+
+      DomService.focusOnContentEditable(document.getElementById('100'));
+      target.textContent = target.textContent.trim();
+    });
+  }
 
   entityTextChangedHandler($event) {
     const target = this.getFocusedElement() as HTMLElement;
-    if (target.nodeName === 'SPAN') {
+    if (target.nodeName === 'SPAN' && target.classList.contains('bg-red')) {
+      if ((<any>event).keyCode === 32) {
+        // $event.preventDefault();
+        this.focusAtTheEndofMarking(target);
+        return;
+      }
       const position = UtilityService.getDataAttribute(target, EMarkerAttributes.data_position);
       const start = Number(position.split('-')[1]);
       const end = start + target.textContent.length - 1;
       UtilityService.setDataAttribute(target, EMarkerAttributes.data_position, `entity-${start}-${end}`);
+    } else if ($event.target.textContent.trim() === '') {
+      const cloneNode = $event.target.cloneNode();
+      $event.target.replaceWith(cloneNode);
+      setTimeout(() => {
+        DomService.focusOnContentEditable(cloneNode);
+      });
     }
   }
 
@@ -569,7 +598,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
     return entity;
   }
+
   showError = false;
+
   saveAndTrain() {
     if (!this.form.valid) {
       this.markFormGroupTouched(this.form);
@@ -600,7 +631,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   saveOrUpdateIntent() {
-    if (!this.form.valid) {
+    if (!this.form.valid || (this._selectedIntent.utterances && this._selectedIntent.utterances.length === 0)) {
       this.markFormGroupTouched(this.form);
       this.showError = true;
       return;
