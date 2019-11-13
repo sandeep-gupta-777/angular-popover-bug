@@ -466,9 +466,11 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       const startSpace = /^\s/;
       if (endSpace.test(target.textContent)) {
         target.insertAdjacentHTML('afterend', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      } else if (startSpace.test(target.textContent)) {
-        target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      } else {
+      }
+      // else if (startSpace.test(target.textContent)) {
+      //   target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
+      // }
+      else {
         return;
       }
 
