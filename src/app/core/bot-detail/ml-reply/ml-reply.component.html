@@ -24,7 +24,7 @@
     </div>
     <div style="display: flex" *ngIf="mlResponse.state !== 'live'">
       <button (click)="makeLive()"
-              style="padding: 0 10px 0 8px !important;"
+              style="padding: 0 10px 0 8px !important;" *appMyIf="myEAllActions['Make responses live']"
               class="btn-theme btn-theme-primary mat-theme-button mr-1">
         <mat-icon class="mat-icon material-icons">arrow_upward</mat-icon>
         Make live
@@ -50,7 +50,7 @@
     style="position: absolute;
     right: 0;
     top: 23px;
-    z-index: 10;"
+    z-index: 10;" *appMyIf="myEAllActions['Make responses live']"
     class="card--update"
     [icon]="'refresh'"
     [isMatFlatButton]="false"

@@ -25,6 +25,7 @@
     <button
       (click)="saveOrUpdateIntent()"
       style="border: 1px solid #e0e0e0 !important;"
+      *appMyIf="myEAllActions['Update intent']"
       class="mat-theme-button mat-theme-button-border"
       mat-button
       [disabled]="!isEntityValid"
@@ -40,14 +41,16 @@
       <mat-icon>clear</mat-icon>
       Cancel
     </button>
-    <button
-      *ngIf="_selectedIntent && _selectedIntent.intent_id"
-      style="border: 1px solid #e0e0e0 !important;"
-      (click)="deleteIntent$.emit(_selectedIntent)"
-      class="mat-theme-button mat-theme-button-border" mat-button>
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
+    <ng-template *appMyIf="myEAllActions['Remove intent']">
+      <button
+        *ngIf="_selectedIntent && _selectedIntent.intent_id"
+        style="border: 1px solid #e0e0e0 !important;"
+        (click)="deleteIntent$.emit(_selectedIntent)"
+        class="mat-theme-button mat-theme-button-border" mat-button>
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </ng-template>
   </div>
   <div style="color: #696969;font-size: 11px; margin-right: 10px">
     Write actual information for each bit the user needs

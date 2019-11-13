@@ -29,8 +29,8 @@
               <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
             </div>
           </a></ng-container>
-        <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
-          <a mat-list-item class="mat-list-item-sidebar"
+        <ng-container  *appMyIf="myEAllActions['Get default task bot corpus']">
+          <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.mlbot === bot.bot_type"
              (click)="sideBarTabChanged(myESideBarTab.ml_model)">
             <div class="sidebar-nav-list-item"
                  data-cy="sidebar-ml_model"
@@ -40,8 +40,8 @@
             </div>
           </a></ng-container>
 
-        <ng-container *ngIf="myEBotType.mlbot === bot.bot_type">
-          <a mat-list-item class="mat-list-item-sidebar"
+        <ng-container *appMyIf="myEAllActions['Get default responses']">
+          <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.mlbot === bot.bot_type"
              (click)="sideBarTabChanged(myESideBarTab.replies)">
             <div class="sidebar-nav-list-item"
                  data-cy="sidebar-NLP"
@@ -123,18 +123,19 @@
               <span style="color: #00ABD3">Test</span>
             </div>
           </a></ng-container>
-
-        <a mat-list-item class="mat-list-item-sidebar"
-           *ngIf="bot.bot_type === myEBotType.faqbot || bot.bot_type === myEBotType.mlbot"
-           (click)="sideBarTabChanged(myESideBarTab.History)">
-          <div class="sidebar-nav-list-item"
-               [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
-               (click)="sideBarTabChanged('History')">
-            <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
-                 style="padding-right: 3px; padding-left: 3px;">
-            <span style="color: #00ABD3">History</span>
-          </div>
-        </a>
+        <div  *appMyIf="[myEAllActions['Get task bot Corpus'],myEAllActions['Get Corpus']];useOrOperation:true">
+          <a mat-list-item class="mat-list-item-sidebar"
+             *ngIf="bot.bot_type === myEBotType.faqbot || bot.bot_type === myEBotType.mlbot"
+             (click)="sideBarTabChanged(myESideBarTab.History)">
+            <div class="sidebar-nav-list-item"
+                 [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
+                 (click)="sideBarTabChanged('History')">
+              <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
+                   style="padding-right: 3px; padding-left: 3px;">
+              <span style="color: #00ABD3">History</span>
+            </div>
+          </a>
+        </div>
 
       </mat-nav-list>
     </mat-sidenav>

@@ -7,6 +7,7 @@ import {IMLResponse} from '../../../typings/reply';
 import {UtilityService} from '../../../utility.service';
 import {MatTabChangeEvent} from '@angular/material/typings/tabs';
 import {EventService} from '../../../event.service';
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-ml-reply',
@@ -19,7 +20,7 @@ export class MlReplyComponent implements OnInit {
   @Input() bot: IBot;
   showLoading = true;
   workFlowObj = {text: ''};
-
+  myEAllActions = EAllActions;
   constructor(
     private mlReplyService: MlReplyService,
     private utilityService: UtilityService,

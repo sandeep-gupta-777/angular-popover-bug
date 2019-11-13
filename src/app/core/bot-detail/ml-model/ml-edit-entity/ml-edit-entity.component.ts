@@ -5,6 +5,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {ModalConfirmComponent} from "../../../../modal-confirm/modal-confirm.component";
 import {UtilityService} from "../../../../utility.service";
 import {MatDialog} from "@angular/material";
+import {EAllActions} from "../../../../typings/enum";
 
 @Component({
   selector: 'app-ml-edit-entity',
@@ -42,6 +43,7 @@ export class MlEditEntityComponent implements OnInit {
   @Output() saveAndTrainCustomEntity = new EventEmitter();
   @Output() goBackToTableView = new EventEmitter();
   @Output() deleteCustomEntity = new EventEmitter();
+  myEAllActions = EAllActions;
   visible = true;
   selectable = true;
   removable = true;

@@ -32,7 +32,7 @@ import {switchMap, take} from 'rxjs/operators';
 //   history = 'history'
 // }
 @Component({
-  selector: 'app-code-based-bot-detail',
+  selector: '[app-code-based-bot-detail]',
   templateUrl: './code-based-bot-detail.component.html',
   styleUrls: ['./code-based-bot-detail.component.scss'],
   providers: [DatePipe]

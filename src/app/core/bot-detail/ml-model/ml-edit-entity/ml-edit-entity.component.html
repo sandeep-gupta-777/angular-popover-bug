@@ -8,7 +8,7 @@
     <div class="mr-auto">
     </div>
     <div>
-      <button class="mat-theme-button cursor-pointer mr-2" mat-button
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button *appMyIf="myEAllActions['Update entity']"
               style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;" (click)="saveEntity()" [disabled] = "!editEntityForm.valid">
         <mat-icon>save</mat-icon>
         Save
@@ -16,7 +16,7 @@
     </div>
     <div >
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
-              data-cy="article-delete-button"
+              data-cy="article-delete-button" *appMyIf="myEAllActions['Remove entity']"
               style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="deleteEntity()">
         <mat-icon>delete</mat-icon>
         Delete

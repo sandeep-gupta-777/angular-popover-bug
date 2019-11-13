@@ -34,7 +34,7 @@ export class RouterBotRulesComponent implements OnInit {
   @Input() bot: IBot;
   botListofChild: IBot[];
   @Select() botlist$: Observable<ViewBotStateModel>;
-  myEAllActions: EAllActions;
+  myEAllActions = EAllActions;
   rulesForm: FormGroup;
   reloading = false;
   uploadingData = ELoadingStatus.default;

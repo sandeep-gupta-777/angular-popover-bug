@@ -24,6 +24,8 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
 
   customTransformArticleHistoryDataForMaterialTable(data: any[]) {
     const tableDataMetaDict = this.metaData;
+    const updateAccess = !this.dependency.permissionService.isTabAccessDenied('Update entity');
+    const deleteAccess = !this.dependency.permissionService.isTabAccessDenied('Remove entity')
     const modifiedTableData = data.map((corpusTableDataItem, index) => {
       // "color": string,
       //   "created_at": number,
@@ -60,21 +62,28 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
             searchValue: corpusTableDataItem[key]
           };
         } else if (key === 'actions') {
-          obj[tableDataMetaDict[key].displayValue] = {
-            ...tableDataMetaDict[key],
-            originalKey: key,
-            skipXssValidation: true,
-            value: [{
+          let iconsWithPermissions = [];
+          if(updateAccess) {
+            iconsWithPermissions.push({
               show: true,
               name: 'edit',
               iconName: 'build',
               class: 'build'
-            },{
+            })
+          }
+          if(deleteAccess) {
+            iconsWithPermissions.push({
               show: true,
               name: 'delete',
               iconName: 'delete',
               class: 'delete'
-            }],
+            })
+          }
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            skipXssValidation: true,
+            value: iconsWithPermissions,
             searchValue: corpusTableDataItem[key]
           };
         }

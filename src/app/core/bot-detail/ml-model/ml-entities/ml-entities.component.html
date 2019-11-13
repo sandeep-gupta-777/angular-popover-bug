@@ -8,7 +8,7 @@
 <!--  </div>-->
 <!--</div>-->
 
-<app-smart-table class="entities-table"
+<app-smart-table class="entities-table" *appMyIf="myEAllActions['Get entities']"
                  [currentPage]="currentPage"
                  [totalRecords]="totalEntitiesLength"
                  [data]="mlEntitesSmartTableObj?.tableData"

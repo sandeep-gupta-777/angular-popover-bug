@@ -22,16 +22,22 @@
     </div>
     <div class="mr-auto">
     </div>
-    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border"
-            [hidden]=" corpusMiniObj.state != 'saved' && corpusMiniObj.state != 'trained'"
-            (click)="trainOrMakeLiveMLBotsClicked()"
-            *ngIf="corpusMiniObj &&  corpusMiniObj.state"
-    >
-      <mat-icon class="mat-icon material-icons" *ngIf="corpusMiniObj.state === 'saved'">sync</mat-icon>
-      <mat-icon class="mat-icon material-icons" *ngIf="corpusMiniObj.state === 'trained'">arrow_upward</mat-icon>
-      {{ corpusMiniObj.state === 'saved' ? 'Train' :
-        corpusMiniObj.state === 'trained' ? 'Make Live' : 'Train'}}
-    </button>
+    <div *ngIf= "corpusMiniObj &&  corpusMiniObj.state && corpusMiniObj.state === 'saved'">
+      <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border"
+              (click)="trainMLBotsModal()" *appMyIf="myEAllActions['Train task bot']"
+      >
+        <mat-icon class="mat-icon material-icons">sync</mat-icon>
+        Train
+      </button>
+    </div>
+    <div *ngIf= "corpusMiniObj &&  corpusMiniObj.state && corpusMiniObj.state === 'trained'">
+      <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border"
+              (click)="makeLiveMLBots()" *appMyIf="myEAllActions['Make trained model live']"
+      >
+        <mat-icon class="mat-icon material-icons">arrow_upward</mat-icon>
+        Make Live
+      </button>
+    </div>
     <!--    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" (click)="trainMLBots()">-->
     <!--      <mat-icon class="mat-icon material-icons">sync</mat-icon>-->
     <!--      Train-->
@@ -43,13 +49,25 @@
 </header>
 <div style="position: relative; min-height: 70vh;" *ngIf="view === 'table'" class="fade-in-custom">
   <app-imi-loader *ngIf="loading" class="loader-center"></app-imi-loader>
-  <app-button-wrapper
-    class="card--update"
-    [isMatFlatButton]="false"
-    [text]=" '+ Create ' +  ((selectedTabIndex === 0) ? 'intent' : 'entity' )"
-    style="position: absolute;right: 3px;top: 18px;z-index: 10;"
-    (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
-  </app-button-wrapper>
+  <div *ngIf="selectedTabIndex === 0">
+    <app-button-wrapper
+      class="card--update" *appMyIf="myEAllActions['Create intent']"
+      [isMatFlatButton]="false"
+      [text]=" '+ Create intent'"
+      style="position: absolute;right: 3px;top: 18px;z-index: 10;"
+      (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
+    </app-button-wrapper>
+  </div>
+  <div *ngIf="selectedTabIndex === 1">
+    <app-button-wrapper
+      class="card--update" *appMyIf="myEAllActions['Create entity']"
+      [isMatFlatButton]="false"
+      [text]=" '+ Create entity'"
+      style="position: absolute;right: 3px;top: 18px;z-index: 10;"
+      (btnClick)="addNewIntentOrEntity(selectedTabIndex,Primarytemplat)">
+    </app-button-wrapper>
+  </div>
+
   <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event" [selectedIndex]="selectedTabIndex">
     <mat-tab label="Intents" style="min-height: 50vh">
       <app-ml-intents [bot]="bot" *ngIf="intentList && intentList.length > 0"
@@ -143,11 +161,16 @@
           </mat-form-field>
         </div>
         <div class="d-flex ">
-          <button mat-flat-button type="submit" [disabled]="!modalForm.valid"
-                  (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()"
-                  color=primary class="mat-theme-button footer-btn px-2 ml-auto">
-            Save
-          </button>
+          <div *ngIf="modalForm.value.entity_id">
+              <ng-container
+                [ngTemplateOutlet]="saveEntityModalTemplate">
+              </ng-container>
+          </div>
+          <div *ngIf="!modalForm.value.entity_id">
+            <ng-container
+              [ngTemplateOutlet]="saveEntityModalTemplate">
+            </ng-container>
+          </div>
           <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn ml-2 mat-theme-button "
                   [disabled]="!modalForm.valid"
                   (click)="dialogRefWrapper.ref.close()">
@@ -158,4 +181,11 @@
 
     </div>
   </div>
+</ng-template>
+<ng-template #saveEntityModalTemplate>
+  <button mat-flat-button type="submit" [disabled]="!modalForm.valid" *appMyIf="myEAllActions['Update entity']"
+          (click)="submitEntityForm(modalForm.value);dialogRefWrapper.ref.close()"
+          color=primary class="mat-theme-button footer-btn px-2 ml-auto">
+    Save
+  </button>
 </ng-template>

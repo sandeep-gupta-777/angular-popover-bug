@@ -9,6 +9,8 @@ import {DatePipe} from "@angular/common";
 import {ModalConfirmComponent} from "../../../../modal-confirm/modal-confirm.component";
 import {UtilityService} from "../../../../utility.service";
 import {MatDialog} from "@angular/material";
+import {PermissionService} from "../../../../permission.service";
+import {EAllActions} from "../../../../typings/enum";
 
 @Component({
   selector: 'app-ml-entities',
@@ -23,6 +25,7 @@ export class MlEntitiesComponent implements OnInit {
     private datePipe: DatePipe,
     private utilityService: UtilityService,
     private matDialog : MatDialog,
+    private permissionService: PermissionService
   ) { }
   currentPage = 1;
   pageSize = 10;
@@ -30,6 +33,7 @@ export class MlEntitiesComponent implements OnInit {
   totalEntitiesLength;
   mlEntitesSmartTableObj: MlEntitesSmartTable;
   @Input() bot:IBot;
+  myEAllActions = EAllActions;
   _entitiesData:IEntitiesItem[];
   dialogRefWrapper = {ref: null};
   @Output() editEntity = new EventEmitter();
@@ -41,7 +45,7 @@ export class MlEntitiesComponent implements OnInit {
       this.totalEntitiesLength = value.length;
       this._entitiesData = value;
       let sliceData = this._entitiesData.slice((this.currentPage-1)*10 , (this.currentPage)*10);
-      this.mlEntitesSmartTableObj = new MlEntitesSmartTable(sliceData, this.getTableDataMetaDict(), {datePipe: this.datePipe});
+      this.mlEntitesSmartTableObj = new MlEntitesSmartTable(sliceData, this.getTableDataMetaDict(), {datePipe: this.datePipe, permissionService: this.permissionService });
       this.mlEntitesSmartTableObj.initializeTableData(sliceData);
     }
   }

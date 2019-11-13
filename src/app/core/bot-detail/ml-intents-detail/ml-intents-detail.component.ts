@@ -19,6 +19,7 @@ import {debounceTime} from 'rxjs/operators';
 import {MlService} from '../ml-model/ml.service';
 import {EventService} from '../../../event.service';
 import {DomService} from '../../../dom.service';
+import {EAllActions} from "../../../typings/enum";
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -40,6 +41,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isEntityValid = true;
   totalIntentsLength = 10;
+  myEAllActions = EAllActions;
   mlIntentsSmartTableObj: MlIntentsSmartTable;
   @Input() bot: IBot;
   _intentData: IIntentsItem[];

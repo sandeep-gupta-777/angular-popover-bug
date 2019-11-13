@@ -11,6 +11,7 @@ import {MlIntentsSmartTable} from '../ml-model/ml-intents/ml-intents-smart-table
 import {IEntitiesItem, IIntentsItem} from '../../interfaces/mlBots';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ESortDir} from '../../../smart-table/smart-table.component';
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-ml-intents',
@@ -27,6 +28,7 @@ export class MlIntentsComponent implements OnInit {
   @Input() bot: IBot;
   _intentData: IIntentsItem[];
   _entitiesList: IEntitiesItem[];
+  myEAllActions = EAllActions;
   @Input() set entitiesList(value: IEntitiesItem[]) {
     this._entitiesList = value;
   }

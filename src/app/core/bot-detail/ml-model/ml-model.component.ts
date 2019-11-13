@@ -19,6 +19,7 @@ import {MlService} from './ml.service';
 import {SocketService} from '../../../socket.service';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ESplashScreens} from "../../../splash-screen/splash-screen.component";
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-ml-model',
@@ -53,6 +54,7 @@ export class MLModelComponent implements OnInit {
   destroy = new EventEmitter();
   IEntitiesItem;
   myESplashScreens = ESplashScreens;
+  myEAllActions = EAllActions;
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
     this.getAndSetMlCorpusMiniData();
@@ -368,15 +370,6 @@ export class MLModelComponent implements OnInit {
         this.myToasterService.showSuccessToaster('Bot made live');
         this.getAndSetMlCorpusMiniData();
       });
-  }
-
-  trainOrMakeLiveMLBotsClicked() {
-    if (this.corpusMiniObj.state === 'saved') {
-      this.trainMLBotsModal();
-    }
-    if (this.corpusMiniObj.state === 'trained') {
-      this.makeLiveMLBots();
-    }
   }
 
   saveAndTrainHandler(intent: IIntent) {
