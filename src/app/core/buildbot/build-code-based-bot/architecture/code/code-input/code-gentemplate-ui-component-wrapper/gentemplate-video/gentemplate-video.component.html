@@ -24,6 +24,8 @@
           <img style="height: 100%"
                [src]="form.get('url').value" alt="">
         </div>
+<!--        <i>{{form.get('url').errors|json}}</i>-->
+
       </ng-container>
 
       <app-code-editor formControlName="code" style="height: 30vh" *ngIf="type === EBotMessageMediaType.code"></app-code-editor>
@@ -31,10 +33,8 @@
     </div>
     <mat-form-field class="example-full-width" style="width: 100%; margin-bottom: -30px;"
                     *ngIf="(outputItem|mediaDetecion)">
-      <input matInput
-             placeholder="Media url" type="text" formControlName="url"
-      >
-      <!--      <i *ngIf="outputItem?.media[0][type+'_url']">helo</i>-->
+      <input matInput placeholder="Media url" type="text" formControlName="url">
+      <mat-error style="height: 16px">{{form.get('url')?.errors?.error?.message}}</mat-error>
     </mat-form-field>
   </div>
 </form>
