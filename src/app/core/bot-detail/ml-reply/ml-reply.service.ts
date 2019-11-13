@@ -47,7 +47,7 @@ export class MlReplyService {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
-    const url = this.constantsService.getResponseTemplates() + `${id}/`;
+    const url = this.constantsService.loadFromLive() + `${id}/`;
     return this.serverService.makePutReq({url, headerData, body: response});
   }
 }

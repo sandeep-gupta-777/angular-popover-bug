@@ -22,7 +22,7 @@
     </div>
     <div class="mr-auto">
     </div>
-    <div style="display: flex" *ngIf="mlResponse.state !== 'live'">
+    <div style="display: flex" *ngIf="mlResponse?.state !== 'live'">
       <button (click)="makeLive()"
               style="padding: 0 10px 0 8px !important;" *appMyIf="myEAllActions['Make responses live']"
               class="btn-theme btn-theme-primary mat-theme-button mr-1">
