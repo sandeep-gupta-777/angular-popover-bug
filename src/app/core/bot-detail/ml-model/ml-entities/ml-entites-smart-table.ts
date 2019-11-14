@@ -67,8 +67,8 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
             iconsWithPermissions.push({
               show: true,
               name: 'edit',
-              iconName: 'build',
-              class: 'build'
+              iconName: 'edit',
+              class: 'edit'
             })
           }
           if(deleteAccess) {

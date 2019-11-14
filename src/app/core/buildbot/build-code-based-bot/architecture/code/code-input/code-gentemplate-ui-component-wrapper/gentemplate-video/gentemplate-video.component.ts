@@ -2,7 +2,8 @@ import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@ang
 import {IBot} from '../../../../../../../interfaces/IBot';
 import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 import {EBotMessageMediaType} from '../../../../../../../../../interfaces/chat-session-state';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UtilityService} from '../../../../../../../../utility.service';
 
 @Component({
   selector: 'app-gentemplate-video',
@@ -14,6 +15,7 @@ export class GentemplateVideoComponent implements OnInit {
   @Input() outputItem: IOutputItem;
   @Input() type: EBotMessageMediaType;
   @ViewChild('media') media: ElementRef<any>;
+
   EBotMessageMediaType = EBotMessageMediaType;
   header = {
     video: {
@@ -38,7 +40,7 @@ export class GentemplateVideoComponent implements OnInit {
     }
   };
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private utilityService: UtilityService) {
 
   }
 
@@ -47,7 +49,7 @@ export class GentemplateVideoComponent implements OnInit {
   ngOnInit() {
     let codeStr = '';
     let url = '';
-    debugger;
+
     try {
       codeStr = this.outputItem.function_code;
     } catch (e) {
@@ -65,9 +67,29 @@ export class GentemplateVideoComponent implements OnInit {
     // }
     this.form = this.formBuilder.group({
       code: [codeStr || ''],
-      url: [url]
-    });
+      url: [url, [
+        (control: FormControl) => {
+          if (control.value) {
+            const keys = Object.keys(this.outputItem);
+            if (keys.find(key => key === 'image')) {
+              return this.utilityService.imageUrlHavingValidExtnErrorV2(control) || this.utilityService.imageUrlHttpsErrorV2(control);
+            }
+            if (keys.find(key => key === 'audio')) {
+              return this.utilityService.audioUrlHavingValidExtnError(control) || this.utilityService.imageUrlHttpsErrorV2(control);
+            }
+            if (keys.find(key => key === 'video')) {
+              return this.utilityService.videoUrlHavingValidExtnError(control) || this.utilityService.imageUrlHttpsErrorV2(control);
+            }
+          }
+          return {
+            error: false
+          };
+        }]]
+    })
+    ;
 
+    this.form.get('url').markAsDirty();
+    this.form.get('url').markAsTouched();
     this.form.valueChanges.subscribe((formData) => {
 
       if (this.type !== 'code') {
@@ -78,7 +100,7 @@ export class GentemplateVideoComponent implements OnInit {
         audioVideo.play(); //call this to play the song right away
       } else {
         try {
-          debugger;
+
           // const obj = JSON.parse(formData.code);
           // Object.assign(this.outputItem, obj);
           this.outputItem.function_code = formData.code;

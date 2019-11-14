@@ -41,7 +41,7 @@
       <mat-icon>clear</mat-icon>
       Cancel
     </button>
-    <ng-template *appMyIf="myEAllActions['Remove intent']">
+    <ng-container *appMyIf="myEAllActions['Remove intent']">
       <button
         *ngIf="_selectedIntent && _selectedIntent.intent_id"
         style="border: 1px solid #e0e0e0 !important;"
@@ -50,7 +50,7 @@
         <mat-icon>delete</mat-icon>
         Delete
       </button>
-    </ng-template>
+    </ng-container>
   </div>
   <div style="color: #696969;font-size: 11px; margin-right: 10px">
     Add new utterances which determine the intent, link entities which can be recognized in the intent and configure template keys which will be triggered for required entities and when the intent is completed
@@ -92,7 +92,7 @@
       <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent" (keypress)="preventTypingInMarkers($event)">
         <div
           style="position: relative"
-          *ngFor="let question of _selectedIntent.utterances; let index = index; trackBy: trackByIndex">
+          *ngFor="let question of _selectedIntent.utterances; let index = index;">
           <div class="utter" [attr.contenteditable]="markerInputEditable"
                (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
                (input)="x($event)"

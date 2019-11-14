@@ -233,6 +233,7 @@ export class UtilityService {
     }
     $el.setAttribute(attribute, value);
   }
+
   static getDataAttribute($el: HTMLElement | string, attribute: string) {
     if (typeof $el === 'string') {
       $el = document.querySelector($el) as HTMLElement;
@@ -1351,6 +1352,9 @@ export class UtilityService {
     }
   }
 
+  /*
+  * @deprecated: use imageUrlHttpsErrorV2
+  * */
   imageUrlHttpsError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /^((https):\/\/)/;
@@ -1358,10 +1362,35 @@ export class UtilityService {
     return pattern.test(url) ? null : {'Must be Https Url': true};
   }
 
+  imageUrlHttpsErrorV2(formControl: FormControl) {
+    const url: string = formControl.value;
+    const pattern = /^((https):\/\/)/;
+    return pattern.test(url) ? null : {'error': {message: 'Must be Https Url'}};
+  }
+  /*
+    * @deprecated: use imageUrlHavingValidExtnErrorV2
+    * */
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png|svg)$/i;
-    return pattern.test(url) ? null : {'Image Extension is not correct': true};
+    return pattern.test(url) ? null : {'Extension is not correct': true};
+  }
+  imageUrlHavingValidExtnErrorV2(formControl: FormControl) {
+    const url: string = formControl.value;
+    const pattern = /\.(gif|jpg|jpeg|tiff|png|svg)$/i;
+    return pattern.test(url) ? null : {'error': {message: 'Only gif, jpg, jpeg, tiff, png, svg are allowed for videos'}};
+  }
+
+  audioUrlHavingValidExtnError(formControl: FormControl) {
+    const url: string = formControl.value;
+    const pattern = /\.(mp3|ogg)$/i;
+    return pattern.test(url) ? null : {'error': {message: 'Only mp3, ogg are allowed for videos'}};
+  }
+
+  videoUrlHavingValidExtnError(formControl: FormControl) {
+    const url: string = formControl.value;
+    const pattern = /\.(mp4|ogg|webm)$/i;
+    return pattern.test(url) ? null : {'error': {message: 'Only mp4, ogg, webm are allowed for videos'}};
   }
 
   isManagerValidator(formGroup: FormGroup) {

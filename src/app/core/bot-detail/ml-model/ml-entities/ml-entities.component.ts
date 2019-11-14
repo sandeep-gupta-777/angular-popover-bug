@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
 import {MlEntitesSmartTable} from "./ml-entites-smart-table";
 import {ConstantsService} from "../../../../constants.service";
 import {ServerService} from "../../../../server.service";
@@ -12,63 +13,71 @@ import {MatDialog} from "@angular/material";
 import {PermissionService} from "../../../../permission.service";
 import {EAllActions} from "../../../../typings/enum";
 import {ESortDir} from "../../../../smart-table/smart-table.component";
-
 @Component({
   selector: 'app-ml-entities',
   templateUrl: './ml-entities.component.html',
   styleUrls: ['./ml-entities.component.scss']
 })
 export class MlEntitiesComponent implements OnInit {
-
   constructor(
-    private constantsService : ConstantsService,
-    private serverService : ServerService,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
     private datePipe: DatePipe,
     private utilityService: UtilityService,
-    private matDialog : MatDialog,
+    private matDialog: MatDialog,
     private permissionService: PermissionService
-  ) { }
+  ) {
+  }
+
   currentPage = 1;
   pageSize = 10;
   isReloading = false;
   totalEntitiesLength;
   mlEntitesSmartTableObj: MlEntitesSmartTable;
-  @Input() bot:IBot;
+  @Input() bot: IBot;
   myEAllActions = EAllActions;
   myESortDir = ESortDir;
   _entitiesData:IEntitiesItem[];
   dialogRefWrapper = {ref: null};
   @Output() editEntity = new EventEmitter();
   @Output() deleteEntity = new EventEmitter();
-  @Input() set entitiesData( value : IEntitiesItem[]){
 
-    if(value){
+  @Input() set entitiesData(value: IEntitiesItem[]) {
+
+    if (value) {
       this.currentPage = 1;
       this.totalEntitiesLength = value.length;
       this._entitiesData = value;
-      let sliceData = this._entitiesData.slice((this.currentPage-1)*10 , (this.currentPage)*10);
-      this.mlEntitesSmartTableObj = new MlEntitesSmartTable(sliceData, this.getTableDataMetaDict(), {datePipe: this.datePipe, permissionService: this.permissionService });
+      let sliceData = this._entitiesData.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
+      this.mlEntitesSmartTableObj = new MlEntitesSmartTable(sliceData, this.getTableDataMetaDict(), {
+        datePipe: this.datePipe,
+        permissionService: this.permissionService
+      });
       this.mlEntitesSmartTableObj.initializeTableData(sliceData);
     }
   }
+
   ngOnInit() {
 
 
   }
+
   getTableDataMetaDict(): any {
-    return this.constantsService.SMART_TABLE_ML_ENTITIES_TEMPLATE ;
+    return this.constantsService.SMART_TABLE_ML_ENTITIES_TEMPLATE;
   }
+
   goToPage(val) {
 
     this.currentPage = val.page;
-    if(this._entitiesData){
-      let sliceData = this._entitiesData.slice((this.currentPage-1)*10 , (this.currentPage)*10);
+    if (this._entitiesData) {
+      let sliceData = this._entitiesData.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
       this.mlEntitesSmartTableObj.initializeTableData(sliceData);
     }
   }
   clickedOnTableRow(data){
     this.editEntity.emit(data);
   }
+
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
     debugger
     if (data.action === 'delete') {
@@ -93,7 +102,7 @@ export class MlEntitiesComponent implements OnInit {
     }
     if (data.action === 'edit') {
 
-        this.editEntity.emit(data);
+      this.editEntity.emit(data);
     }
   }
 }
