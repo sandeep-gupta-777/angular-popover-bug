@@ -485,14 +485,14 @@ export class ConstantsService {
     'role_id': {
       originalKey: 'role_id',
       value: '',
-      type: 'string',
+      type: 'number',
       displayValue: 'Role',
 
     },
     'bots': {
       originalKey: 'bots',
       value: '',
-      type: 'string',
+      type: 'number',
       displayValue: 'Bots assigned',
 
     },
