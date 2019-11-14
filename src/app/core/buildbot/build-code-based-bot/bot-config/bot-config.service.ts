@@ -55,7 +55,7 @@ export class BotConfigService {
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       allow_feedback: [bot.allow_feedback],
       language: [bot.language || 'en'],
-      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
+      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/mlbot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
     }, {validator: this.utilityService.isManagerValidator});
     return this.faqbotBuildForm;
   }

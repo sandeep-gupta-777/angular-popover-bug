@@ -13,6 +13,7 @@ export enum ESplashScreens {
   Lode_More_Issues = 'LodeMoreIssues.svg',
   no_entity_present = 'no_entity_present.svg',
   no_intent_present = 'no_intent_present.svg',
+  no_ml_bot_present = 'ml-bot-icon.svg',
   search = 'search.svg',
   router_bot_empty = 'router-bot-empty.svg'
 }
