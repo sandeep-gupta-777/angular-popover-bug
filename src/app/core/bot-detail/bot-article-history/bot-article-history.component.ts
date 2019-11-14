@@ -154,7 +154,7 @@ export class BotArticleHistoryComponent implements OnInit {
       data: {
         actionButtonText: 'Continue',
         message: 'All your untrained changes will be lost and this knowledge base will be the new draft for editing. Do you wish to continue?',
-        title: `Edit knowledge base`,
+        title: `${this.bot.bot_type === EBotType.faqbot? 'Load knowledge base' : 'Load training data' }`,
         isActionButtonDanger: false,
         inputDescription: null,
         closeButtonText: 'Cancel'

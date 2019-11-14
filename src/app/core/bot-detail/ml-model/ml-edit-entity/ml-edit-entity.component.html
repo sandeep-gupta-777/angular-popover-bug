@@ -30,7 +30,7 @@
 <form [formGroup]="editEntityForm">
   <div class = "d-flex flex-row">
     <mat-form-field class = "mr-4">
-      <input matInput placeholder="Entity name" formControlName="name">
+      <input matInput placeholder="Entity name*" formControlName="name">
     </mat-form-field>
 <!--    <mat-form-field style="width: 120px;margin-right: 20px">-->
 <!--      <mat-label>Entity type</mat-label>-->
@@ -46,7 +46,7 @@
   <ng-form #NewEntityForm = "ngForm" class="d-flex flex-column mb-2">
     <div class = "d-flex" style="align-items: flex-end;">
       <mat-form-field class="mr-4" >
-        <input matInput ngModel name = "value" required>
+        <input matInput ngModel name = "value" placeholder="Add value*" >
       </mat-form-field>
       <mat-form-field class="example-chip-list" style="flex:1">
         <mat-chip-list #chipList>
@@ -60,12 +60,13 @@
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  [matChipInputAddOnBlur]="addOnBlur"
                  (matChipInputTokenEnd)="addNewSynonym($event)"
+                 placeholder="Add synonyms"
           >
         </mat-chip-list>
       </mat-form-field>
     </div>
     <button class="mat-theme-button cursor-pointer mr-2" type = "submit" mat-button
-            [disabled]="!NewEntityForm.valid"
+            [disabled]="!NewEntityForm.value.value"
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
             (click)="addNewEntity(NewEntityForm.value);NewEntityForm.reset();"
     >
@@ -78,7 +79,7 @@
       <div *ngFor="let singleEntity of editEntityForm.get('data').get('values')?.controls; let singleEntityIndex = index;">
           <div [formGroupName]="singleEntityIndex" class="d-flex flex-row single-entity"  style="align-items: flex-end;">
             <mat-form-field class="mr-4" >
-              <input matInput  formControlName="value" required>
+              <input matInput  formControlName="value" required placeholder="Add value">
             </mat-form-field>
             <mat-form-field class="example-chip-list" style="flex:1">
               <mat-chip-list #chipList>
@@ -91,9 +92,10 @@
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        [matChipInputAddOnBlur]="addOnBlur"
                        (matChipInputTokenEnd)="addSynonym($event,singleEntity.get('synonyms'))"
+                       placeholder="Add synonyms"
                        >
                 <mat-icon matSuffix class="onParentHover cursor-pointer"
-                          style="font-size: 16px;color: #9e9e9e;"
+                          style="font-size: 16px;color: #9e9e9e;" *ngIf="editEntityForm.get('data').get('values').value.length > 1"
                           (click)="removeSynonymsById(singleEntityIndex,editEntityForm)">close
                 </mat-icon>
               </mat-chip-list>

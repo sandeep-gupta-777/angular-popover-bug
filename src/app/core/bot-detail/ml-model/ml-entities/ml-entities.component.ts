@@ -11,6 +11,7 @@ import {UtilityService} from "../../../../utility.service";
 import {MatDialog} from "@angular/material";
 import {PermissionService} from "../../../../permission.service";
 import {EAllActions} from "../../../../typings/enum";
+import {ESortDir} from "../../../../smart-table/smart-table.component";
 
 @Component({
   selector: 'app-ml-entities',
@@ -34,6 +35,7 @@ export class MlEntitiesComponent implements OnInit {
   mlEntitesSmartTableObj: MlEntitesSmartTable;
   @Input() bot:IBot;
   myEAllActions = EAllActions;
+  myESortDir = ESortDir;
   _entitiesData:IEntitiesItem[];
   dialogRefWrapper = {ref: null};
   @Output() editEntity = new EventEmitter();
@@ -65,9 +67,7 @@ export class MlEntitiesComponent implements OnInit {
     }
   }
   clickedOnTableRow(data){
-    if (data.data.type && data.data.type == "custom") {
-      this.editEntity.emit(data);
-    }
+    this.editEntity.emit(data);
   }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
     debugger
