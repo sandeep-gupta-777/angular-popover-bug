@@ -426,8 +426,16 @@ app-code-editor {
     grid-area: editor;
   }
 }
-
-
+.show-on-parent-hover{
+  visibility: hidden;
+}
+.single-template-row{
+  &:hover{
+    .show-on-parent-hover{
+      visibility: visible;
+    }
+  }
+}
 //#gentemplate-channel-selector /deep/{
 //  .mat-form-field-label{
 //    visibility: hidden;

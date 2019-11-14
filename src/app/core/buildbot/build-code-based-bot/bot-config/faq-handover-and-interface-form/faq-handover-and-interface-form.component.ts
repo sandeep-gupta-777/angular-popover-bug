@@ -39,7 +39,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
       this.disableOrEnableAll(this.agentHandover);
     }
     else{
-      this.agentHandover = true;
+      this.agentHandover = false;
     }
   }
 

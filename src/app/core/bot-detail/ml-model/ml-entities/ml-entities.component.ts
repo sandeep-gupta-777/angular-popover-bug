@@ -1,17 +1,18 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MlEntitesSmartTable} from './ml-entites-smart-table';
-import {ConstantsService} from '../../../../constants.service';
-import {ServerService} from '../../../../server.service';
-import {IHeaderData} from '../../../../../interfaces/header-data';
-import {IBot} from '../../../interfaces/IBot';
-import {IEntitiesItem} from '../../../interfaces/mlBots';
-import {DatePipe} from '@angular/common';
-import {ModalConfirmComponent} from '../../../../modal-confirm/modal-confirm.component';
-import {UtilityService} from '../../../../utility.service';
-import {MatDialog} from '@angular/material';
-import {PermissionService} from '../../../../permission.service';
-import {EAllActions} from '../../../../typings/enum';
 
+import {MlEntitesSmartTable} from "./ml-entites-smart-table";
+import {ConstantsService} from "../../../../constants.service";
+import {ServerService} from "../../../../server.service";
+import {IHeaderData} from "../../../../../interfaces/header-data";
+import {IBot} from "../../../interfaces/IBot";
+import {IEntitiesItem} from "../../../interfaces/mlBots";
+import {DatePipe} from "@angular/common";
+import {ModalConfirmComponent} from "../../../../modal-confirm/modal-confirm.component";
+import {UtilityService} from "../../../../utility.service";
+import {MatDialog} from "@angular/material";
+import {PermissionService} from "../../../../permission.service";
+import {EAllActions} from "../../../../typings/enum";
+import {ESortDir} from "../../../../smart-table/smart-table.component";
 @Component({
   selector: 'app-ml-entities',
   templateUrl: './ml-entities.component.html',
@@ -35,7 +36,8 @@ export class MlEntitiesComponent implements OnInit {
   mlEntitesSmartTableObj: MlEntitesSmartTable;
   @Input() bot: IBot;
   myEAllActions = EAllActions;
-  _entitiesData: IEntitiesItem[];
+  myESortDir = ESortDir;
+  _entitiesData:IEntitiesItem[];
   dialogRefWrapper = {ref: null};
   @Output() editEntity = new EventEmitter();
   @Output() deleteEntity = new EventEmitter();
@@ -72,11 +74,8 @@ export class MlEntitiesComponent implements OnInit {
       this.mlEntitesSmartTableObj.initializeTableData(sliceData);
     }
   }
-
-  clickedOnTableRow(data) {
-    if (data.data.type && data.data.type == 'custom') {
-      this.editEntity.emit(data);
-    }
+  clickedOnTableRow(data){
+    this.editEntity.emit(data);
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {

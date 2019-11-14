@@ -13,10 +13,10 @@
       </div>
       <input *ngIf="_templateKeyDict && myObject.keys(_templateKeyDict) && myObject.keys(_templateKeyDict).length>0;"
              type="text" placeholder="Search Templatekey" [(ngModel)]="templateKeySearchKeyword">
-      <div class="heading pl-2" *ngIf="defaultTemplateKeys">Default templates</div>
+      <div class="heading pl-2 mx-2" *ngIf="defaultTemplateKeys">Default templates</div>
       <ng-container [ngTemplateOutlet]="templateList"
                     [ngTemplateOutletContext]="{isIntersection: true, allowEdit: false}"></ng-container>
-      <div class="heading pl-2" *ngIf="defaultTemplateKeys">Custom templates</div>
+      <div class="heading pl-2 mx-2" *ngIf="defaultTemplateKeys">Custom templates</div>
       <ng-container *ngIf="defaultTemplateKeys" [ngTemplateOutlet]="templateList"
                     [ngTemplateOutletContext]="{isIntersection: false, allowEdit: true}"></ng-container>
     </div>
@@ -31,7 +31,7 @@
   <!--left sidebar ends-->
 
   <ng-template #templateList let-title="title" let-isIntersection="isIntersection" let-allowEdit="allowEdit">
-    <div class="d-flex align-items-center show-on-hover"
+    <div class="d-flex align-items-center show-on-hover mb-1 single-template-row"
          *ngFor="let tempKey of (_templateKeyDict||{})| keyvalue|filterTemplateLeyList:templateKeySearchKeyword: defaultTemplateKeys: isIntersection">
       <div class="pl-2 p-1 mr-1 flex-grow-1 tab-theme limit-oneline cursor-pointer"
            style="border-radius: 2px"
@@ -39,9 +39,9 @@
            (click)="updateSelectedTemplateKey(tempKey.key);selectedTemplateKeyOutputIndex = [];">{{tempKey.key}}
       </div>
       <ng-container *ngIf="allowEdit">
-        <span class="fa fa-edit mr-1 cursor-pointer hide-it" style="color: #9e9e9e"
+        <span class="fa fa-edit mr-1 cursor-pointer hide-it show-on-parent-hover" style="color: #9e9e9e"
               (click)="openEditTemplateKeyModal(tempKey.key);"></span>
-        <span class="fa fa-trash mx-2 cursor-pointer hide-it" style="color: #9e9e9e"
+        <span class="fa fa-trash mx-2 cursor-pointer hide-it show-on-parent-hover" style="color: #9e9e9e"
               (click)="openDeleteTemplateKeyModal(tempKey.key)"></span>
       </ng-container>
     </div>
