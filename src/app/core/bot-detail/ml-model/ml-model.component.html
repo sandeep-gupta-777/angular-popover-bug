@@ -143,11 +143,11 @@
     <div style="color: #696969;font-size: 11px;" class="mb-3">Select which type of entity to create
     </div>
     <div class="modal-body pt-0">
-      <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;align-items: flex-end;">
+      <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;">
         <mat-form-field style="width: 230px">
           <input matInput ngModel placeholder="Entity name" formControlName="entity_name" required maxlength="200">
         </mat-form-field>
-        <div class="d-flex">
+        <div class="d-flex" style="align-items: flex-end;">
           <mat-form-field style="width: 120px;margin-right: 20px" >
             <mat-label>Entity type</mat-label>
             <mat-select formControlName="entity_type" ngModel required  [disabled]="modalForm.value.entity_id">
