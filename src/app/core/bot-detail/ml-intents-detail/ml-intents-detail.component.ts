@@ -19,7 +19,7 @@ import {debounceTime} from 'rxjs/operators';
 import {MlService} from '../ml-model/ml.service';
 import {EventService} from '../../../event.service';
 import {DomService} from '../../../dom.service';
-import {EAllActions} from "../../../typings/enum";
+import {EAllActions} from '../../../typings/enum';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -255,6 +255,11 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   utterTextContentBackup = '';
 
   textSelected(e, tpl, index, utterance: string) {
+    const selectedTarget = this.getFocusedElement() as HTMLElement;
+    const container = document.querySelector('.utter-wrapper');
+    if (!DomService.isDescendant(container, selectedTarget)) {
+      return;
+    }
     const utterInnerHTML = this.getUtteranceByIndex(index).innerHTML;
     this.utterTextContentBackup = this.getUtteranceByIndex(index).textContent;
     if (e.stopPropagation) {
@@ -469,9 +474,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       if (endSpace.test(target.textContent)) {
         target.insertAdjacentHTML('afterend', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
       }
-      // else if (startSpace.test(target.textContent)) {
-      //   target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      // }
+      else if (startSpace.test(target.textContent)) {
+        target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
+      }
       else {
         return;
       }

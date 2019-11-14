@@ -26,7 +26,7 @@ export class MyIfDirective {
       let isDenied = true;
       // ;
 
-    debugger;
+
       if (Array.isArray(tabNameInfo) ) {
         if( this.useOrOperation) {
           isDenied = false;

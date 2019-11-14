@@ -49,7 +49,7 @@ export class GentemplateVideoComponent implements OnInit {
   ngOnInit() {
     let codeStr = '';
     let url = '';
-    debugger;
+
     try {
       codeStr = this.outputItem.function_code;
     } catch (e) {
@@ -100,7 +100,7 @@ export class GentemplateVideoComponent implements OnInit {
         audioVideo.play(); //call this to play the song right away
       } else {
         try {
-          debugger;
+
           // const obj = JSON.parse(formData.code);
           // Object.assign(this.outputItem, obj);
           this.outputItem.function_code = formData.code;
