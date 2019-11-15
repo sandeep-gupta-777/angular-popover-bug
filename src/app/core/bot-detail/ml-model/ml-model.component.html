@@ -32,7 +32,7 @@
       </button>
     </div>
     <div *ngIf= "corpusMiniObj &&  corpusMiniObj.state && corpusMiniObj.state === 'trained'">
-      <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border"
+      <button class="btn-theme btn-theme-primary mat-theme-button"
               (click)="makeLiveMLBots()" *appMyIf="myEAllActions['Make trained model live']"
       >
         <mat-icon class="mat-icon material-icons">arrow_upward</mat-icon>
