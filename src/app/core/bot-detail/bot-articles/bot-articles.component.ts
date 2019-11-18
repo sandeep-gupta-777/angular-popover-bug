@@ -152,7 +152,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goBackToArticalList() {
-
+    this.filter_categorie_id_list = [];
     this.getCorpusAndSetArticleFilterForm();
     this.showEditAndViewArtical = false;
     this.router.navigate(['.'], {
