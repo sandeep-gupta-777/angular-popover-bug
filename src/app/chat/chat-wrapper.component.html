@@ -1,6 +1,6 @@
 <!--chat box started-->
 <div *ngIf="!isFullScreenPreview && currentBot" class="imi-preview-container">
-  <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
+  <div class="chat-grid" *ngIf="(windowOpen && (loggeduser$|async).user)">
     <div class="chat-grid__header">
               <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">

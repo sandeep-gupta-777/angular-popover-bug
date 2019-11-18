@@ -45,12 +45,13 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   count = 0;
 
   @Input() set messageDataArray(value) {
-
+    let hideFeedback = true;
     if (this._messageDataArray) {
       if (value[0] !== this._messageDataArray[0]) {
         this.count = 0;
         this.imiPreview && this.imiPreview.removeAllChatMessages();
       }
+      hideFeedback = false;
     }
     const arrayToBeRenderer = value.slice(this.count, value.length);
     this._messageDataArray = value;
@@ -60,7 +61,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
 
         this.imiPreview && this.imiPreview.appendMessageInChatBody([{
           ...item,
-        }], {...item, room: this.room});
+        }], {...item, room: this.room}, hideFeedback);
       });
       this.count = value.length;
     }
