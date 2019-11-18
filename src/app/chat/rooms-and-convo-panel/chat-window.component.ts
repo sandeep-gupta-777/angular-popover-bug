@@ -16,10 +16,11 @@ declare const ImiPreview: any;
 export class ChatWindowComponent implements OnInit, AfterViewInit {
   messageByHuman: string;
   _bot: IBot;
-  @Input() set bot (val: IBot){
+  @Input() set bot(val: IBot) {
     this._bot = val;
     this.imiPreview && this.imiPreview.setOptions(this._bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
   }
+
   @Input() isFullScreenPreview: boolean;
   @Input() isAnonView: boolean;
   @Output() chatMessageFeedback$ = new EventEmitter();
@@ -44,26 +45,48 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   imiPreview;
   count = 0;
 
+  roomId;
+
+  shouldHideFeedBack() {
+    if (!this.imiPreview) {
+      return false;
+    }
+    let hideFeedback = false;
+    if (!this.room || !this.room.id || this.room.id !== this.roomId) {
+      hideFeedback = true;
+    }
+    if (!this._allow_feedback) {
+      hideFeedback = true;
+    }
+    this.roomId = this.room.id;
+    return hideFeedback;
+  }
+
   @Input() set messageDataArray(value) {
-    let hideFeedback = true;
+    debugger;
+    let hideFeedback = this.shouldHideFeedBack();
+
     if (this._messageDataArray) {
       if (value[0] !== this._messageDataArray[0]) {
         this.count = 0;
         this.imiPreview && this.imiPreview.removeAllChatMessages();
       }
-      hideFeedback = false;
     }
     const arrayToBeRenderer = value.slice(this.count, value.length);
     this._messageDataArray = value;
     setTimeout(() => this.scrollToBottom(), 0);
-    if (this.imiPreview) {
-      arrayToBeRenderer.forEach((item) => {
+    try {
+      if (this.imiPreview) {
+        arrayToBeRenderer.forEach((item) => {
 
-        this.imiPreview && this.imiPreview.appendMessageInChatBody([{
-          ...item,
-        }], {...item, room: this.room}, hideFeedback);
-      });
-      this.count = value.length;
+          this.imiPreview && this.imiPreview.appendMessageInChatBody([{
+            ...item,
+          }], {...item, room: this.room}, hideFeedback);
+        });
+        this.count = value.length;
+      }
+    } catch (e) {
+      console.log(e);
     }
 
   }
@@ -73,12 +96,16 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
     const arrayToBeRenderer = this._messageDataArray.slice(this.count, this._messageDataArray.length);
     try {
       this.imiPreview = this.render();
+      let hideFeedback = arrayToBeRenderer.length <= 2;
+      if (!this._allow_feedback) {
+        hideFeedback = true;
+      }
       this.imiPreview && this.imiPreview.setOptions(this._bot, {feedbackEnabled: this._allow_feedback, brandColor: '#2b4f70'});
       if (this.imiPreview) {
         arrayToBeRenderer.forEach((item) => {
           this.imiPreview && this.imiPreview.appendMessageInChatBody([{
             ...item
-          }]);
+          }], null, hideFeedback);
         });
         this.count = arrayToBeRenderer.length;
       }
