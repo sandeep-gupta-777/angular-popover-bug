@@ -33,7 +33,7 @@
       </div>
       <main class="right">
         <div class="text">
-          <div class="title">Login</div>
+          <div class="title">Sign in</div>
           <div class="description">
             Welcome back, please login to continue
           </div>
@@ -89,7 +89,7 @@
                         class="btn-theme btn-theme-primary my-3" (click)="sendEmailForReset()">
                   Request Reset Link
                 </button>
-                <div class="cursor-pointer" (click)="backToLogin()">Back to Sign in</div>
+                <div class="cursor-pointer" (click)="backToLogin()">Continue to sign in</div>
               </div>
             </form>
           </div>
@@ -117,11 +117,12 @@
             Hello, please enter a new password to continue
           </div>
           <div style="background-color: #9ad4ed; border-radius: 4px; padding: 12px 0; margin-bottom: 12px; color: #474747">
-            <ul style="margin-bottom: 0">
+            <ul style="margin-bottom: 0;
+    padding-left: 10px;">
               <strong>The password has to be</strong>
-              <li>Be between 6 to 16 characters</li>
-              <li>Must contain at least one number, one uppercase letter and one lowercase letter</li>
-              <li>Must contain one of these special characters ~!@#$%^&*</li>
+              <li style="margin-left: 14px;">Be between 6 to 16 characters</li>
+              <li style="margin-left: 14px;">Must contain at least one number, one uppercase letter and one lowercase letter</li>
+              <li style="margin-left: 14px;">Must contain one of these special characters ~!@#$%^&*</li>
             </ul>
           </div>
           <div class="col-12 d-flex justify-content-center align-items-center">
@@ -142,7 +143,7 @@
                         class="btn-theme btn-theme-primary my-3" (click)="resetPassword()">
                   {{panelActive === myELoginPanels.reset ? 'Reset' : 'Set'}}
                 </button>
-                <div class="cursor-pointer color-primary" (click)="backToLogin()">Back to Sign in</div>
+                <div class="cursor-pointer color-primary" (click)="backToLogin()">Continue to sign in</div>
               </div>
 
             </form>
@@ -152,7 +153,7 @@
     </section>
 
     <section *ngIf="panelActive==='email-reset-link-notify'" class="right" style="width: 100%">
-      <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Email sent', description:'Your password has been updated successfully, kindly login again to start using your account'}"></ng-container>
+      <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Email sent', description:'An email has been sent to your email address, consisting of the next steps kindly use the link to reset password'}"></ng-container>
     </section>
 
     <section *ngIf="panelActive==='password-reset-notify'" class="right">
@@ -204,7 +205,7 @@
       {{description}}
     </div>
     <button class="btn-theme btn-theme-primary my-3" (click)="panelActive='login'">
-      Back to Sign in
+      Continue to sign in
     </button>
   </div>
 </ng-template>
