@@ -1310,7 +1310,9 @@ export class ConstantsService {
   getResponseTemplates() {
     return this.BACKEND_URL + `api/v1/responsetemplates/default/`;
   }
-
+  getMLResponceStateMiniData(){
+    return this.BACKEND_URL + `api/v1/responsetemplates/default/?display = true`;
+  }
   loadFromLive() {
     return this.BACKEND_URL + `api/v1/responsetemplates/`;
   }

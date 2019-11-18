@@ -8,6 +8,9 @@ import {UtilityService} from '../../../utility.service';
 import {MatTabChangeEvent} from '@angular/material/typings/tabs';
 import {EventService} from '../../../event.service';
 import {EAllActions} from "../../../typings/enum";
+import {IHeaderData} from "../../../../interfaces/header-data";
+import {MatDialog} from "@angular/material";
+import {MyToasterService} from "../../../my-toaster.service";
 
 @Component({
   selector: 'app-ml-reply',
@@ -21,9 +24,15 @@ export class MlReplyComponent implements OnInit {
   showLoading = true;
   workFlowObj = {text: ''};
   myEAllActions = EAllActions;
+  corpusMiniObj ;
+  dialogRefWrapper = {ref: null};
   constructor(
     private mlReplyService: MlReplyService,
     private utilityService: UtilityService,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
+    private matDialog: MatDialog,
+    private myToasterService: MyToasterService
   ) {
   }
 
@@ -32,6 +41,7 @@ export class MlReplyComponent implements OnInit {
   ngOnInit() {
     this.showLoading = true;
     this.getResponseTemplates();
+    this.getAndSetMlCorpusMiniData();
   }
 
   getResponseTemplates(){
@@ -43,15 +53,51 @@ export class MlReplyComponent implements OnInit {
       });
   }
 
+  getAndSetMlCorpusMiniData() {
+    let url = this.constantsService.getMLDefaultCorpusMiniData();
 
+    // let url = this.constantsService.getMLDefaultCorpus();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
+      this.corpusMiniObj = val;
+    });
+  }
   makeLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
         this.utilityService.showSuccessToaster('Bot successfully made live');
         this.getResponseTemplates();
+        this.dialogRefWrapper.ref.close();
       });
   }
+  makeBothCorpusLive(){
+    this.makeLiveCorpus();
+    this.makeLive();
+  }
+  openMakeLiveCorpusModal(template){
+    debugger;
+    if(this.corpusMiniObj['state'] === 'trained'){
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    }else{
+      this.makeLive();
+    }
+  }
+  makeLiveCorpus() {
 
+    const url = this.constantsService.makeMLCorpusLiveUrl();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    const body = {'corpus_id': this.corpusMiniObj.id};
+    this.serverService.makePostReq({url, body, headerData})
+      .subscribe(() => {
+        this.myToasterService.showSuccessToaster('Bot made live');
+        this.getAndSetMlCorpusMiniData();
+        this.dialogRefWrapper.ref.close();
+      });
+  }
 
   updateResponse() {
 

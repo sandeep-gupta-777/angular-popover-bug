@@ -56,7 +56,6 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
   noOfArticleFoundInUpload: number;
   uploadingData = ELoadingStatus.default;
-
   constructor(
     private constantsService: ConstantsService,
     private serverService: ServerService,
@@ -71,6 +70,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+
     if (TempVariableService.firstQuestionListForNewArticle) {
       this.openArticleCreate();
       this.selectedArticle.questions = TempVariableService.firstQuestionListForNewArticle;
@@ -92,6 +92,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
           this.navigateToSection(params.section_id);
         }
       });
+
+
   }
 
   ngAfterViewInit(): void {
@@ -401,9 +403,6 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-
-  // make live stuff
-
   makeLiveCorpus() {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
@@ -422,7 +421,9 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
+  makeBothCorpusLive(){
 
+  }
   // category handeling
 
   categoryUpdate(body) {
