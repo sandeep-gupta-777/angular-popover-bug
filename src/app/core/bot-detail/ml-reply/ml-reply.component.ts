@@ -67,7 +67,7 @@ export class MlReplyComponent implements OnInit {
   makeLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
-        this.utilityService.showSuccessToaster('Bot successfully made live');
+        this.myToasterService.showSuccessToaster('Made live successfully');
         this.getResponseTemplates();
         this.dialogRefWrapper.ref.close();
       });
@@ -93,7 +93,6 @@ export class MlReplyComponent implements OnInit {
     const body = {'corpus_id': this.corpusMiniObj.id};
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
-        this.myToasterService.showSuccessToaster('Bot made live');
         this.getAndSetMlCorpusMiniData();
         this.dialogRefWrapper.ref.close();
       });
