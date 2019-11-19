@@ -47,15 +47,9 @@ export class GentemplateVideoComponent implements OnInit {
   form: FormGroup;
 
   ngOnInit() {
-    let codeStr = '';
+    let codeStr: string;
     let url = '';
-
-    try {
-      codeStr = this.outputItem.function_code;
-    } catch (e) {
-      console.log(e);
-    }
-
+    codeStr = (Array.isArray(this.outputItem.function_code) && this.outputItem.function_code[0]) || '';
 
     try {
       url = (this.outputItem.image || this.outputItem.audio || this.outputItem.video || this.outputItem.file)[0].url;
@@ -103,7 +97,7 @@ export class GentemplateVideoComponent implements OnInit {
 
           // const obj = JSON.parse(formData.code);
           // Object.assign(this.outputItem, obj);
-          this.outputItem.function_code = formData.code;
+          this.outputItem.function_code = [formData.code];
         } catch (e) {
           console.log(e);
         }
