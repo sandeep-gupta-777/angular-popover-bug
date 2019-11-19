@@ -20,6 +20,7 @@ import {SocketService} from '../../../socket.service';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ESplashScreens} from "../../../splash-screen/splash-screen.component";
 import {EAllActions} from "../../../typings/enum";
+import {MlReplyService} from "../ml-reply/ml-reply.service";
 
 @Component({
   selector: 'app-ml-model',
@@ -36,7 +37,8 @@ export class MLModelComponent implements OnInit {
     private matDialog: MatDialog,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private mlReplyService: MlReplyService
   ) {
   }
 
@@ -55,6 +57,7 @@ export class MLModelComponent implements OnInit {
   IEntitiesItem;
   myESplashScreens = ESplashScreens;
   myEAllActions = EAllActions;
+  responceState : string;
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
     this.getAndSetMlCorpusMiniData();
@@ -63,6 +66,7 @@ export class MLModelComponent implements OnInit {
     this.setMLEntityTypes();
     this.setMLEntityList();
     this.subscribeToGetTrainedDataFormSocket();
+    this.getResponceState();
   }
 
   subscribeToGetTrainedDataFormSocket() {
@@ -357,8 +361,38 @@ export class MLModelComponent implements OnInit {
         this.getAndSetMlCorpusMiniData();
       });
   }
+  getResponceState(){
+    let url = this.constantsService.getMLResponceStateMiniData();
 
-  makeLiveMLBots() {
+    // let url = this.constantsService.getMLDefaultCorpus();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
+      debugger;
+      this.responceState = val.state;
+    });
+  }
+  // make live stuff
+  makeBothCorpusLive(){
+    this.makeLiveCorpus();
+    this.makeResponseLive();
+  }
+  makeResponseLive() {
+    this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
+      .subscribe((test) => {
+        this.utilityService.showSuccessToaster('Responses successfully made live');
+        this.dialogRefWrapper.ref.close();
+      });
+  }
+  openMakeLiveCorpusModal(template){
+    if(this.responceState === 'saved'){
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    }else{
+      this.makeLiveCorpus();
+    }
+  }
+  makeLiveCorpus() {
 
     const url = this.constantsService.makeMLCorpusLiveUrl();
     const headerData: IHeaderData = {
@@ -369,6 +403,7 @@ export class MLModelComponent implements OnInit {
       .subscribe(() => {
         this.myToasterService.showSuccessToaster('Bot made live');
         this.getAndSetMlCorpusMiniData();
+        this.dialogRefWrapper.ref.close();
       });
   }
 
