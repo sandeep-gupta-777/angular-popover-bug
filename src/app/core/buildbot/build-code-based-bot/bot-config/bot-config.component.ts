@@ -140,7 +140,14 @@ export class BotConfigComponent implements OnInit, OnDestroy {
 
 
   createBotData() {
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm,this.mlHandoverANdInterfaceForm];
+    debugger;
+    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
+    if (this.bot.bot_type === EBotType.faqbot) {
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm];
+    }else if (this.bot.bot_type === EBotType.mlbot) {
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.mlHandoverANdInterfaceForm];
+    }
+
     combinedForms = combinedForms.filter(form => form);
     const bot = UtilityService.getCombinedBotData(combinedForms);
     if (this.integrationForm && this.integrationForm.value) {
@@ -153,7 +160,6 @@ export class BotConfigComponent implements OnInit, OnDestroy {
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   async updateBotHandler() {
-
     if (!!(this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled) !== !!this.dataManagementForm.get('bot_disabled_settings').get('bot_disabled').value) {
       const shouldContinue = await this.openNewServiceKeyModal();
       if (!shouldContinue) {

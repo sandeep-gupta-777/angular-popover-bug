@@ -74,16 +74,18 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
             ...tableDataMetaDict[key],
             originalKey: key,
             value: roleName,
-            searchValue: roleName
+            searchValue: roleName,
           };
+          consumerTableDataItem['role_id'] = thisUsersEnterperise[key];
         } else if (key === 'bots') {
 
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
             value: thisUsersEnterperise[key].length,
-            searchValue: thisUsersEnterperise[key].length
+            searchValue: thisUsersEnterperise[key].length,
           };
+          consumerTableDataItem['bots'] = thisUsersEnterperise[key].length;
         } else {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
