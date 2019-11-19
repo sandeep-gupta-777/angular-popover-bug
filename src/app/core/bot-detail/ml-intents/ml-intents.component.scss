@@ -67,3 +67,15 @@
 //.bg-red:hover::after {
 //  display: inline;
 //}
+
+::ng-deep{
+  tr{
+    .textVal{
+      //width: 90% !important;
+      //max-width: 300px;
+      word-break: break-all !important;
+      width: auto !important;
+      max-width: 300px;
+    }
+  }
+}

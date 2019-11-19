@@ -1,32 +1,33 @@
 <header class="mb-3">
   <div class="d-flex flex-row heading">
     <strong class="heading-title">
-      <i class="fa fa-angle-left" style="width: 11px;font-size: 18px;cursor: pointer;" (click)="viewChanged$.emit('table')"></i>
+      <i class="fa fa-angle-left" style="width: 11px;padding:10px 10px 10px 0;font-size: 18px;cursor: pointer;"
+         (click)="viewChanged$.emit('table')"></i>
       {{_selectedIntent?.name || 'Create intent'}}
     </strong>
     <div class="mr-auto"></div>
 
-<!--    <button-->
-<!--      (click)="correctMarkerPosition()"-->
-<!--      [disabled]="!form.valid || !isEntityValid"-->
-<!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
-<!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
-<!--      Save and Train-->
-<!--    </button>-->
+    <!--    <button-->
+    <!--      (click)="correctMarkerPosition()"-->
+    <!--      [disabled]="!form.valid || !isEntityValid"-->
+    <!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
+    <!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
+    <!--      Save and Train-->
+    <!--    </button>-->
 
-<!--    <button-->
-<!--      (click)="saveAndTrain()"-->
-<!--      [disabled]="!isEntityValid"-->
-<!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
-<!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
-<!--      Save and Train-->
-<!--    </button>-->
+    <!--    <button-->
+    <!--      (click)="saveAndTrain()"-->
+    <!--      [disabled]="!isEntityValid"-->
+    <!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
+    <!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
+    <!--      Save and Train-->
+    <!--    </button>-->
 
     <button
       (click)="saveOrUpdateIntent()"
-      style="border: 1px solid #e0e0e0 !important;"
+      style="color: white"
       *appMyIf="myEAllActions['Update intent']"
-      class="mat-theme-button mat-theme-button-border"
+      class="mat-theme-button btn-theme-primary mr-1"
       mat-button
       [disabled]="!isEntityValid"
     >
@@ -53,7 +54,8 @@
     </ng-container>
   </div>
   <div style="color: #696969;font-size: 11px; margin-right: 10px">
-    Add new utterances which determine the intent, link entities which can be recognized in the intent and configure template keys which will be triggered for required entities and when the intent is completed
+    Add new utterances which determine the intent, link entities which can be recognized in the intent and configure
+    template keys which will be triggered for required entities and when the intent is completed
   </div>
 </header>
 <!--<i>{{_selectedIntent.utterances|json}}</i>-->
@@ -71,7 +73,7 @@
         <mat-form-field [attr.dir]="this.bot?.language === 'ar' ? 'rtl' : 'ltr'" floatLabel="never">
           <input matInput type="text" placeholder="Add utterance" ngModel name="questionText"
                  data-cy="add-question-ti-tentemplate"
-                 />
+          />
         </mat-form-field>
         <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button
                 [disabled]="!questionForm.value.questionText"
@@ -89,7 +91,8 @@
         No utterances added yet, add now to train the intent
       </div>
 
-      <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent" (keypress)="preventTypingInMarkers($event)">
+      <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent"
+           (keypress)="preventTypingInMarkers($event)">
         <div
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index;">

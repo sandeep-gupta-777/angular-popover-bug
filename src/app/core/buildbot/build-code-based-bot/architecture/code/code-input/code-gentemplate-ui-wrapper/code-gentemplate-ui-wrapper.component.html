@@ -59,7 +59,7 @@
           ('(' + _templateKeyDict[selectedTemplateKeyInLeftSideBar].length + ')') : ""}}
       </span>
     </div>
-    <div *ngIf="showModeSelect &&  selectedTemplateKeyInLeftSideBar !== 'first_message'"
+    <div *ngIf="showModeSelect &&  selectedTemplateKeyInLeftSideBar !== 'Welcome message'"
          class="form-group m-0 channel-drop d-flex align-items-center">
       <mat-form-field style="margin-bottom: 0px" floatLabel="never">
         <mat-select required name="name" [(ngModel)]="mode" placeholder="Select Mode"
