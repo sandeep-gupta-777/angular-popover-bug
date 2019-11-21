@@ -79,7 +79,6 @@ export class MlEntitiesComponent implements OnInit {
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
-    debugger
     if (data.action === 'delete') {
       let usertoDelete = data.data;
       this.utilityService.openDialog({

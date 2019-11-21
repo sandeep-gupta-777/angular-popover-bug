@@ -77,7 +77,6 @@ export class MlReplyComponent implements OnInit {
     this.makeLive();
   }
   openMakeLiveCorpusModal(template){
-    debugger;
     if(this.corpusMiniObj['state'] === 'trained'){
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     }else{

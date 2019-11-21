@@ -1,7 +1,5 @@
-<!--<i (click)="log(message)">{{message|json}}</i>-->
 
 <ng-container *ngIf="message?.video || message?.audio || message?.image as mediaData">
-<!--  <ng-container *ngIf="message.media as media">-->
     <div class="play-media-wrapper" [ngClass]="direction">
       <div class="item" *ngIf="message.video as src">
         <video controls>
@@ -19,5 +17,4 @@
         <img [src]="mediaData.url" alt="">
       </div>
     </div>
-<!--  </ng-container>-->
 </ng-container>

@@ -5,9 +5,9 @@
     </strong>
     <ng-template #blinking>
       <div class="article-state blinking">
-        <i class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></i>
-        <i class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></i>
-        <i class="fa fa-circle blinking" style="color: white; font-size: 6px;"></i>
+        <span class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></span>
+        <span class="fa fa-circle blinking" style="color: white; font-size: 6px; margin-right: 4px"></span>
+        <span class="fa fa-circle blinking" style="color: white; font-size: 6px;"></span>
       </div>
     </ng-template>
     <div class="article-state " *ngIf="mlResponse && mlResponse.state as state; else blinking"
