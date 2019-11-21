@@ -1,7 +1,8 @@
 export const environment = {
   production: false,
   hmr: true,
-  backend_root: 'https://dev.imibot.ai/',
+  backend_root: 'https://preprod.imibot.ai/',
+
   mock: false,
   firebase: {
     apiKey: 'AIzaSyAZBqXqV_UPxVwFNorQNyCXp7hofhn3uJg',
