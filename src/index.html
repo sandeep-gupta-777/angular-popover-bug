@@ -71,233 +71,204 @@
 
   /*scrollbar styles end*/
 
-  .vertical-centered-box body {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-family: "proxima-nova-soft", sans-serif;
-    -webkit-user-select: none;
-    overflow: scroll;
-    line-height: 0 !important;
-  }
 
-  body .vertical-centered-box {
+  /*start: loader style*/
+
+  .loaderimg {
     position: absolute;
-    /*width: 100%;*/
-    /*height: 100%;*/
     top: 50%;
     left: 50%;
-    line-height: 0 !important;
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto;
     transform: translate(-50%, -50%);
+  }
+
+  .loadingtxt {
+    display: block;
+    width: 100%;
     text-align: center;
+    position: absolute;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #474747;
+    font-size: 13px;
+    bottom: -30px;
+    color: $ secondary-text;
   }
 
-  body .vertical-centered-box:after {
+  .loader {
+    position: absolute;
+    margin: 0 auto;
+    width: 75px;
+    left: 0px;
+    top: 35%;
+    right: 0px;
+    z-index: 9;
+  }
+
+  .loader:before {
     content: '';
-    display: inline-block;
+    display: block;
+    padding-top: 100%;
+    top: 30%;
+  }
+
+  .dashboard-infocards .loader:after {
+    content: '';
+    display: block;
+    padding-top: 100%;
+    top: 30%;
+  }
+
+  .circular {
+    -webkit-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+    height: 50%;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 8px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
+  }
+
+  .loader .circular {
+    -webkit-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
     height: 100%;
-    vertical-align: middle;
-    margin-right: -0.25em;
-  }
-
-  body .vertical-centered-box .content {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: left;
-    font-size: 0;
-  }
-
-  .vertical-centered-box * {
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
-  }
-
-
-  .vertical-centered-box .loader-circle {
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    width: 100%;
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 80%;
-    height: 80%;
-    border-radius: 50%;
-    margin-left: -60px;
-    margin-top: -60px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 
-  .vertical-centered-box .loader-line-mask {
+  .loading-small {
     position: absolute;
-    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+
+  .loading-small .loading-txt {
+    bottom: -10px;
+    position: absolute;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: $ secondary-text;
+  }
+
+  .loading-small .circular {
+    width: 20px;
+    height: 20px;
     top: 50%;
-    width: 60px;
-    height: 120px;
-    margin-left: -60px;
-    margin-top: -60px;
-    overflow: hidden;
-    -webkit-transform-origin: 60px 60px;
-    -moz-transform-origin: 60px 60px;
-    -ms-transform-origin: 60px 60px;
-    -o-transform-origin: 60px 60px;
-    transform-origin: 60px 60px;
-    -webkit-mask-image: -webkit-linear-gradient(top, #ffffff, rgba(255, 255, 255, 0));
-    -webkit-animation: rotate 1.2s infinite linear;
-    -moz-animation: rotate 1.2s infinite linear;
-    -o-animation: rotate 1.2s infinite linear;
-    animation: rotate 1.2s infinite linear;
   }
 
-  .vertical-centered-box .loader-line-mask .loader-line {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 2px #02BDE8;
+  .loader .loading-txt {
+    bottom: -20px;
+    position: absolute;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: $ secondary-text;
   }
 
-  .vertical-centered-box lesshat-selector {
-    -lh-property: 0;
-  }
 
-  @-webkit-keyframes rotate {
-    0% {
-      -webkit-transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-    }
-  }
-
-  @-moz-keyframes rotate {
-    0% {
-      -moz-transform: rotate(0deg);
-    }
-    100% {
-      -moz-transform: rotate(360deg);
-    }
-  }
-
-  @-o-keyframes rotate {
-    0% {
-      -o-transform: rotate(0deg);
-    }
-    100% {
-      -o-transform: rotate(360deg);
-    }
+  .path {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: 0;
+    -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
   }
 
   @keyframes rotate {
-    0% {
-      -webkit-transform: rotate(0deg);
-      -moz-transform: rotate(0deg);
-      -ms-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
     100% {
       -webkit-transform: rotate(360deg);
-      -moz-transform: rotate(360deg);
-      -ms-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
 
-  [not-existing] {
-    zoom: 1;
-  }
-
-  .vertical-centered-box lesshat-selector {
-    -lh-property: 0;
-  }
-
-  @-webkit-keyframes fade {
+  @-webkit-keyframes dash {
     0% {
-      opacity: 1;
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
     }
     50% {
-      opacity: 0.25;
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
     }
   }
 
-  @-moz-keyframes fade {
+  @keyframes dash {
     0% {
-      opacity: 1;
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
     }
     50% {
-      opacity: 0.25;
-    }
-  }
-
-  @-o-keyframes fade {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.25;
-    }
-  }
-
-  @keyframes fade {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.25;
-    }
-  }
-
-  [not-existing] {
-    zoom: 1;
-  }
-
-  lesshat-selector {
-    -lh-property: 0;
-  }
-
-  @-webkit-keyframes fade-in {
-    0% {
-      opacity: 0;
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
     }
     100% {
-      opacity: 1;
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
     }
   }
 
-  @-moz-keyframes fade-in {
+  @-webkit-keyframes color {
+    100%,
     0% {
-      opacity: 0;
+      stroke: #00abd3;
     }
-    100% {
-      opacity: 1;
+    40% {
+      stroke: #00abd3;
+    }
+    66% {
+      stroke: #00abd3;
+    }
+    80%,
+    90% {
+      stroke: #00abd3;
     }
   }
 
-  @-o-keyframes fade-in {
+
+  @keyframes color {
+    100%,
     0% {
-      opacity: 0;
+      stroke: #00abd3;
     }
-    100% {
-      opacity: 1;
+    40% {
+      stroke: #00abd3;
     }
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
+    66% {
+      stroke: # #00abd3;
     }
-    100% {
-      opacity: 1;
+    80%,
+    90% {
+      stroke: # #00abd3;
     }
   }
 
-  [not-existing] {
-    zoom: 1;
-  }
-
-  /*body, html{*/
-  /*width: 100vw;*/
-  /*height: 100vh;*/
-  /*}*/
+  /*end: loader style*/
 
 
 </style>
@@ -311,15 +282,15 @@
 <js-bubble></js-bubble>
 <script src="http://localhost:11637/assets/js/js-bubble.js"></script>
 <app-root>
-  <div class="vertical-centered-box">
-    <div class="content">
-      <div class="loader-circle"></div>
-      <div class="loader-line-mask">
-        <div class="loader-line"></div>
-      </div>
-      <img alt="Favicon" src="https://staging.imibot.ai/static/favicon.ico">
-    </div>
+
+  <div class="loader center-absolute">
+    <svg class="circular" viewBox="25 25 50 50">
+      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke="#00abd3" stroke-width="1"></circle>
+    </svg>
+    <img src="https://imibot.ai/static/assets/img/connect-copy@2x.png" class="loaderimg">
+    <!-- <span class="loadingtxt">Loading</span> -->
   </div>
+
 </app-root>
 <noscript>Please enable JavaScript to continue using this application.</noscript>
 

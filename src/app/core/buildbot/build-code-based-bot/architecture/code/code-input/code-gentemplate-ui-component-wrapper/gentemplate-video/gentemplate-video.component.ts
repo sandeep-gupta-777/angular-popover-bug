@@ -89,9 +89,11 @@ export class GentemplateVideoComponent implements OnInit {
       if (this.type !== 'code') {
         this.outputItem[this.type][0]['url'] = formData.url;
         /*audio video need load after url is updated*/
-        const audioVideo = this.media.nativeElement;
-        audioVideo.load(); //call this to just preload the audio without playing
-        audioVideo.play(); //call this to play the song right away
+        if (this.media) {
+          const audioVideo = this.media.nativeElement;
+          audioVideo.load(); //call this to just preload the audio without playing
+          audioVideo.play(); //call this to play the song right away
+        }
       } else {
         try {
 
