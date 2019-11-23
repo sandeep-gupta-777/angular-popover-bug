@@ -201,7 +201,7 @@
 
           <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
             <ng-container *ngIf="sideBarTab1 === 'input'">
-              <header *ngIf="!goFullScreen">
+              <header *ngIf="!goFullScreen" class="fade-in-custom">
                 <div style="padding-bottom: 8px"><strong
                   style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Input
                   recognition</strong></div>
@@ -276,7 +276,7 @@
             </div>
           </ng-container>
           <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type != myEBotType.intelligent">
-            <header>
+            <header class="fade-in-custom">
               <strong style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Conversations</strong>
               <div class="hide-phone" style="color: #696969;font-size: 11px; margin-top: 10px">See all the
                 conversations happened with the bot

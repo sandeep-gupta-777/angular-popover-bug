@@ -187,8 +187,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit, OnDestr
       };
 
       this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData})
-        .subscribe((value) => {
-
+        .subscribe((value: IUser) => {
+          value = {
+            ...value,
+            socket_key: this.userData.socket_key || Date.now().toString()
+          };
           this.store.dispatch([
             new SetUser({user: value, is_loggedIn: true}),
             new SetAllBotListAction({botList: []})

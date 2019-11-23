@@ -140,7 +140,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
 
 
   createBotData() {
-    debugger;
+
     let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
     if (this.bot.bot_type === EBotType.faqbot) {
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm];

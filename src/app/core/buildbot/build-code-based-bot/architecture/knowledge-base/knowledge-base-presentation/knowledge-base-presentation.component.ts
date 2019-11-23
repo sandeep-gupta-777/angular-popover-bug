@@ -162,7 +162,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     } else if (ner_type !== 'database') {
 
       if (!codeTextOutPutFromCodeEditor) {
-        this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
+        this.utilityService.showErrorToaster(`Invalid syntax. ${this.ner_type} only accepts arrays`);
         return;
       }
 

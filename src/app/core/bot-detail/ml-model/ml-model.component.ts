@@ -369,7 +369,7 @@ export class MLModelComponent implements OnInit {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
-      debugger;
+
       this.responceState = val.state;
     });
   }
@@ -381,7 +381,6 @@ export class MLModelComponent implements OnInit {
   makeResponseLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
-        this.utilityService.showSuccessToaster('Responses successfully made live');
         this.dialogRefWrapper.ref.close();
       });
   }
@@ -401,7 +400,7 @@ export class MLModelComponent implements OnInit {
     const body = {'corpus_id': this.corpusMiniObj.id};
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
-        this.myToasterService.showSuccessToaster('Bot made live');
+        this.myToasterService.showSuccessToaster('Made live successfully');
         this.getAndSetMlCorpusMiniData();
         this.dialogRefWrapper.ref.close();
       });

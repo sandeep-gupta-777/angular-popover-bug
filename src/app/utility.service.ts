@@ -690,6 +690,9 @@ export class UtilityService {
     if (environment.backend_root === 'https://staging.imibot.ai/') {
       root = 'staging';
     }
+    if (environment.backend_root === 'https://preprod.imibot.ai/') {
+      root = 'preprod';
+    }
     const url = `${host}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}&root=${root}`;
     this.copyToClipboard(encodeURI(url));
   }
@@ -1364,9 +1367,13 @@ export class UtilityService {
 
   imageUrlHttpsErrorV2(formControl: FormControl) {
     const url: string = formControl.value;
+    if (this.isValueAVar(url)) {
+      return null;
+    }
     const pattern = /^((https):\/\/)/;
     return pattern.test(url) ? null : {'error': {message: 'Must be Https Url'}};
   }
+
   /*
     * @deprecated: use imageUrlHavingValidExtnErrorV2
     * */
@@ -1375,20 +1382,37 @@ export class UtilityService {
     const pattern = /\.(gif|jpg|jpeg|tiff|png|svg)$/i;
     return pattern.test(url) ? null : {'Extension is not correct': true};
   }
+
+  isValueAVar(value) {
+    const str = value && value.trim();
+    if (str.startsWith('$')) {
+      return true;
+    }
+  }
+
   imageUrlHavingValidExtnErrorV2(formControl: FormControl) {
     const url: string = formControl.value;
+    if (this.isValueAVar(url)) {
+      return null;
+    }
     const pattern = /\.(gif|jpg|jpeg|tiff|png|svg)$/i;
-    return pattern.test(url) ? null : {'error': {message: 'Only gif, jpg, jpeg, tiff, png, svg are allowed for videos'}};
+    return pattern.test(url) ? null : {'error': {message: 'Only gif, jpg, jpeg, tiff, png, svg are allowed for images'}};
   }
 
   audioUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
+    if (this.isValueAVar(url)) {
+      return null;
+    }
     const pattern = /\.(mp3|ogg)$/i;
-    return pattern.test(url) ? null : {'error': {message: 'Only mp3, ogg are allowed for videos'}};
+    return pattern.test(url) ? null : {'error': {message: 'Only mp3, ogg are allowed for audios'}};
   }
 
   videoUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
+    if (this.isValueAVar(url)) {
+      return null;
+    }
     const pattern = /\.(mp4|ogg|webm)$/i;
     return pattern.test(url) ? null : {'error': {message: 'Only mp4, ogg, webm are allowed for videos'}};
   }

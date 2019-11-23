@@ -7,10 +7,11 @@ import {IMLResponse} from '../../../typings/reply';
 import {UtilityService} from '../../../utility.service';
 import {MatTabChangeEvent} from '@angular/material/typings/tabs';
 import {EventService} from '../../../event.service';
-import {EAllActions} from "../../../typings/enum";
-import {IHeaderData} from "../../../../interfaces/header-data";
-import {MatDialog} from "@angular/material";
-import {MyToasterService} from "../../../my-toaster.service";
+import {EAllActions} from '../../../typings/enum';
+import {IHeaderData} from '../../../../interfaces/header-data';
+import {MatDialog} from '@angular/material';
+import {MyToasterService} from '../../../my-toaster.service';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-ml-reply',
@@ -24,8 +25,9 @@ export class MlReplyComponent implements OnInit {
   showLoading = true;
   workFlowObj = {text: ''};
   myEAllActions = EAllActions;
-  corpusMiniObj ;
+  corpusMiniObj;
   dialogRefWrapper = {ref: null};
+
   constructor(
     private mlReplyService: MlReplyService,
     private utilityService: UtilityService,
@@ -44,7 +46,7 @@ export class MlReplyComponent implements OnInit {
     this.getAndSetMlCorpusMiniData();
   }
 
-  getResponseTemplates(){
+  getResponseTemplates() {
     this.mlReplyService.getResponseTemplates(this.bot)
       .subscribe((value: IMLResponse) => {
         this.showLoading = false;
@@ -64,26 +66,30 @@ export class MlReplyComponent implements OnInit {
       this.corpusMiniObj = val;
     });
   }
+
   makeLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
-        this.utilityService.showSuccessToaster('Bot successfully made live');
+        this.myToasterService.showSuccessToaster('Made live successfully');
         this.getResponseTemplates();
         this.dialogRefWrapper.ref.close();
       });
   }
-  makeBothCorpusLive(){
+
+  makeBothCorpusLive() {
     this.makeLiveCorpus();
     this.makeLive();
   }
-  openMakeLiveCorpusModal(template){
-    debugger;
-    if(this.corpusMiniObj['state'] === 'trained'){
+
+  openMakeLiveCorpusModal(template) {
+
+    if (this.corpusMiniObj['state'] === 'trained') {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    }else{
+    } else {
       this.makeLive();
     }
   }
+
   makeLiveCorpus() {
 
     const url = this.constantsService.makeMLCorpusLiveUrl();
@@ -93,7 +99,6 @@ export class MlReplyComponent implements OnInit {
     const body = {'corpus_id': this.corpusMiniObj.id};
     this.serverService.makePostReq({url, body, headerData})
       .subscribe(() => {
-        this.myToasterService.showSuccessToaster('Bot made live');
         this.getAndSetMlCorpusMiniData();
         this.dialogRefWrapper.ref.close();
       });
@@ -123,7 +128,23 @@ export class MlReplyComponent implements OnInit {
       });
   }
 
-  loadFromLive() {
+  async loadFromLive() {
+
+    const data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: ModalConfirmComponent,
+      data: {
+        title: `Discard draft version?`,
+        message: 'Current saved version will be discarded to load the live version again for editing. Do you wish to continue?',
+        actionButtonText: 'Confirm',
+        isActionButtonDanger: true,
+      },
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border'
+    });
+    if (!data) {
+      return;
+    }
 
     this.mlReplyService.loadFromLive(this.bot)
       .subscribe((value: IMLResponse) => {
@@ -135,6 +156,7 @@ export class MlReplyComponent implements OnInit {
 
   initTemplateDict(value: IMLResponse) {
     this.workFlowObj = {text: value.workflow && value.workflow.logic};
+    this.templateKeyDict = {};
     Object.keys(value.templates)
       .forEach((key) => {
         this.templateKeyDict[key] = value.templates[key].response;
@@ -149,7 +171,7 @@ export class MlReplyComponent implements OnInit {
     }
   }
 
-  log(x){
+  log(x) {
 
   }
 

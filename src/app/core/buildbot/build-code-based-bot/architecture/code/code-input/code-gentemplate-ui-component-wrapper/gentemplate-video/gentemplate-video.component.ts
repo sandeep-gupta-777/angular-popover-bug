@@ -47,15 +47,9 @@ export class GentemplateVideoComponent implements OnInit {
   form: FormGroup;
 
   ngOnInit() {
-    let codeStr = '';
+    let codeStr: string;
     let url = '';
-
-    try {
-      codeStr = this.outputItem.function_code;
-    } catch (e) {
-      console.log(e);
-    }
-
+    codeStr = (Array.isArray(this.outputItem.function_code) && this.outputItem.function_code[0]) || '';
 
     try {
       url = (this.outputItem.image || this.outputItem.audio || this.outputItem.video || this.outputItem.file)[0].url;
@@ -95,15 +89,17 @@ export class GentemplateVideoComponent implements OnInit {
       if (this.type !== 'code') {
         this.outputItem[this.type][0]['url'] = formData.url;
         /*audio video need load after url is updated*/
-        const audioVideo = this.media.nativeElement;
-        audioVideo.load(); //call this to just preload the audio without playing
-        audioVideo.play(); //call this to play the song right away
+        if (this.media) {
+          const audioVideo = this.media.nativeElement;
+          audioVideo.load(); //call this to just preload the audio without playing
+          audioVideo.play(); //call this to play the song right away
+        }
       } else {
         try {
 
           // const obj = JSON.parse(formData.code);
           // Object.assign(this.outputItem, obj);
-          this.outputItem.function_code = formData.code;
+          this.outputItem.function_code = [formData.code];
         } catch (e) {
           console.log(e);
         }
