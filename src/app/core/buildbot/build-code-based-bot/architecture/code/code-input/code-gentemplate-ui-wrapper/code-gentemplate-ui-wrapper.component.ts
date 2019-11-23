@@ -71,14 +71,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   @Input() bot;
   _templateKeyDict;
   @Input() set templateKeyDict(val) {
+
     setTimeout(() => {
       this._templateKeyDict = val;
 
       const keys = Object.keys(this._templateKeyDict);
-      if (!this.selectedTemplateKeyInLeftSideBar && keys && !keys.find(key => key === this.selectedTemplateKeyInLeftSideBar)) {
+      // if (!this.selectedTemplateKeyInLeftSideBar && keys && !keys.find(key => key === this.selectedTemplateKeyInLeftSideBar)) {
         this.updateSelectedTemplateKey(Object.keys(this._templateKeyDict)[0]);
-        this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
-      }
+        this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar] && this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
+      // }
     }, 0);
   }
 
@@ -103,6 +104,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   selectedResponseItem;
 
   @Input() set response(response: IMLResponse) {
+
     this._response = response;
     this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
   }
@@ -125,7 +127,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
-      this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
+      console.log();
+      if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
+        this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
+      }
     });
     this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
 
@@ -164,7 +169,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   async selectedListCopyModel(IntentSelectionModal) {
     //  this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
 
-    this.copyModalTemplateSearchKeyword = "";
+    this.copyModalTemplateSearchKeyword = '';
     const data = await this.utilityService.openDialog({
       dialog: this.matDialog,
       component: IntentSelectionModal,
@@ -433,11 +438,14 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   updateSelectedTemplateKey(newTemplateKey) {
 
     this.selectedTemplateKeyInLeftSideBar = newTemplateKey;
-    const code = this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;//response_type
+    const code = this._response.templates[this.selectedTemplateKeyInLeftSideBar] &&
+      this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;//response_type
     if (newTemplateKey === 'first_message') {
       this.mode = 'rich';
     }
-    this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
+    if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
+      this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
+    }
     this.dynamicLogicForm && this.dynamicLogicForm.patchValue({code});
   }
 
@@ -499,7 +507,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   //  }
 
   async openNewIntentModal() {
-    this.showCreateOrEditTemplateKeyModel('Create template key', null , true).then((data) => {
+    this.showCreateOrEditTemplateKeyModel('Create template key', null, true).then((data) => {
       if (data) {
 
         this.newTemplateKey = data;

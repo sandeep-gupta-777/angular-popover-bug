@@ -49,7 +49,7 @@ export class SocketService {
   }
 
   initializeSocketNow() {
-    debugger;
+
     let data;
     this.loggeduser$.pipe(take(1)).subscribe((value) => {
       data = {

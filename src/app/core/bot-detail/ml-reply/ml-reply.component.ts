@@ -82,7 +82,7 @@ export class MlReplyComponent implements OnInit {
   }
 
   openMakeLiveCorpusModal(template) {
-    debugger;
+
     if (this.corpusMiniObj['state'] === 'trained') {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     } else {
@@ -156,6 +156,7 @@ export class MlReplyComponent implements OnInit {
 
   initTemplateDict(value: IMLResponse) {
     this.workFlowObj = {text: value.workflow && value.workflow.logic};
+    this.templateKeyDict = {};
     Object.keys(value.templates)
       .forEach((key) => {
         this.templateKeyDict[key] = value.templates[key].response;

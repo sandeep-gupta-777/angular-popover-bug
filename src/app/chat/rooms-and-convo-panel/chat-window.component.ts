@@ -63,7 +63,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   }
 
   @Input() set messageDataArray(value) {
-    debugger;
+
     let hideFeedback = this.shouldHideFeedBack();
 
     if (this._messageDataArray) {
