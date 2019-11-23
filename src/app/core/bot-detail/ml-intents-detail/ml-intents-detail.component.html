@@ -1,28 +1,11 @@
 <header class="mb-3">
   <div class="d-flex flex-row heading">
     <strong class="heading-title">
-      <i class="fa fa-angle-left" style="width: 11px;padding:10px 10px 10px 0;font-size: 18px;cursor: pointer;"
-         (click)="viewChanged$.emit('table')"></i>
+      <span class="fa fa-angle-left" style="width: 11px;padding:10px 10px 10px 0;font-size: 18px;cursor: pointer;"
+         (click)="viewChanged$.emit('table')"></span>
       {{_selectedIntent?.name || 'Create intent'}}
     </strong>
     <div class="mr-auto"></div>
-
-    <!--    <button-->
-    <!--      (click)="correctMarkerPosition()"-->
-    <!--      [disabled]="!form.valid || !isEntityValid"-->
-    <!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
-    <!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
-    <!--      Save and Train-->
-    <!--    </button>-->
-
-    <!--    <button-->
-    <!--      (click)="saveAndTrain()"-->
-    <!--      [disabled]="!isEntityValid"-->
-    <!--      class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border">-->
-    <!--      <mat-icon class="mat-icon material-icons">refresh</mat-icon>-->
-    <!--      Save and Train-->
-    <!--    </button>-->
-
     <button
       (click)="saveOrUpdateIntent()"
       style="color: white"
@@ -58,7 +41,7 @@
     template keys which will be triggered for required entities and when the intent is completed
   </div>
 </header>
-<!--<i>{{_selectedIntent.utterances|json}}</i>-->
+
 <form [formGroup]="form" *ngIf="entityList">
   <div>
     <mat-form-field>
@@ -79,7 +62,7 @@
                 [disabled]="!questionForm.value.questionText"
                 style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
                 (click)="addNewUtterance(questionForm);">
-          <i class="fa fa-spin fa-spinner" *ngIf="showEntityMarkingLoader"></i>
+          <span class="fa fa-spin fa-spinner" *ngIf="showEntityMarkingLoader"></span>
           <span class="fa fa-plus" style="font-size: 11px; margin-right: 5px" *ngIf="!showEntityMarkingLoader"></span>
           Add utterance
         </button>
@@ -103,7 +86,7 @@
                (click)="show2($event.target, tpl, index)"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
           </div>
-          <i class="fa fa-trash" *ngIf="_selectedIntent.utterances.length !== 1" (click)="removeUtterance(index)"></i>
+          <span class="fa fa-trash" *ngIf="_selectedIntent.utterances.length !== 1" (click)="removeUtterance(index)"></span>
         </div>
       </div>
 

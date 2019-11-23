@@ -307,14 +307,14 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     this.show2(x, tpl, index, positionsToBeRemoved, true, utterInnerHTML);
   }
 
-  removeAllMarkersBetweenRange(start, end, index) {
-    this._selectedIntent.utterances[index].entities.filter((marker) => {
-      if (marker.start <= start && marker.end <= marker.end) {
-        return false;
-      }
-      return true;
-    });
-  }
+  // removeAllMarkersBetweenRange(start, end, index) {
+  //   this._selectedIntent.utterances[index].entities.filter((marker) => {
+  //     if (marker.start <= start && marker.end <= marker.end) {
+  //       return false;
+  //     }
+  //     return true;
+  //   });
+  // }
 
   getPositionOfStr(str, subStr) {
     const start = str.indexOf(subStr);
@@ -579,7 +579,6 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
 
   getMarkerData($utters) {
-    debugger
     const entity = [];
     $utters.forEach(($utter, row) => {
 

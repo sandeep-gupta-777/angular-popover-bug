@@ -312,7 +312,6 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
         if (typeof originalKey1 === 'number' && 'number' === typeof originalValue2) {
           return sortAsc * (sorDirection === ESortDir.ASC ? 1 : -1);
         } else {
-          debugger
           sortAsc = originalValue1.toString().toLowerCase() > originalValue2.toString().toLowerCase() ? 1 : -1;
         }
         return sortAsc * (sorDirection === ESortDir.ASC ? 1 : -1);

@@ -101,16 +101,6 @@
 
 
       <div class="login-box ">
-
-        <!--        <div [hidden]="panelActive!==myELoginPanels.set"-->
-        <!--             style="display: flex;justify-content: center; align-items: center">-->
-
-        <!--          <img src="assets/img/baseline-how_to_reg-24px.svg"-->
-        <!--               style="width: 24px; height: 24px; margin: 0 15px; "-->
-        <!--               alt="password verify">-->
-        <!--          <div style="color: #474747">Please set your password to verify your account.</div>-->
-        <!--        </div>-->
-
         <div class="login-form-box">
           <header class="title">{{panelActive === myELoginPanels.reset ? 'Reset' : 'Set'}} password</header>
           <div class="col-12 mb-3 text-theme-normal" style="color: white; line-height: 14px">
@@ -158,18 +148,6 @@
 
     <section *ngIf="panelActive==='password-reset-notify'" class="right">
       <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Password Updated', description:'Your password has been updated successfully, kindly login again to start using your account'}"></ng-container>
-<!--      <div class="forgot-password-container d-flex flex-column align-items-center">-->
-<!--        <div class="checkmark border-circle">-->
-<!--          <span class="fa fa-check"></span>-->
-<!--        </div>-->
-<!--        <div class="title">Password Updated Successfully</div>-->
-<!--        <div>-->
-<!--          Your password has been updated successfully, kindly login again to start using your account-->
-<!--        </div>-->
-<!--        <div class="text-center cursor-pointer color-primary" style="margin-top: 20px" (click)="backToLogin()">Back to-->
-<!--          Sign in-->
-<!--        </div>-->
-<!--      </div>-->
     </section>
 
     <section *ngIf="panelActive==='enterprise-list-display'" style="width: 100%" class="enterprise-flex mx-4 right">

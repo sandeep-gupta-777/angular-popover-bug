@@ -369,7 +369,6 @@ export class MLModelComponent implements OnInit {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
-
       this.responceState = val.state;
     });
   }
