@@ -5,14 +5,14 @@
   <a *ngIf="(entityList|filterEntities: selectedIntent?.entities).length > 0" [matMenuTriggerFor]="appMenu"
      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">+ Link entity</a>
 </div>
-<!--<i>{{selectedIntent?.entities|json}}</i>-->
+
 <mat-menu #appMenu="matMenu" yPosition="above" [class]="'entity-list'">
   <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent?.entities;"
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
 
 <form #entityForm="ngForm" class="list-wrapper">
-<!--  <button (click)="log(entityForm)">log</button>-->
+
   <div class="example-list" [ngClass]="{'overflow-hidden': selectedIntent?.entities?.length < 4}" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
        (cdkDropListDropped)="drop($event)">
     <table style="border: solid 1px #eaeaea;">
@@ -75,7 +75,7 @@
             </span>
             </td>
             <td>
-              <i class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e)"></i>
+              <span class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e)"></span>
             </td>
           </ng-container>
         </tr>

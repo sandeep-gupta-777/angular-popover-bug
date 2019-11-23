@@ -15,7 +15,6 @@ export class MyIfDirective {
   }
   useOrOperation = false;
   @Input('appMyIfUseOrOperation') set appMyIfUseOrOperation(val){
-    debugger
     this.useOrOperation = val;
   };
   @Input() set appMyIf(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
