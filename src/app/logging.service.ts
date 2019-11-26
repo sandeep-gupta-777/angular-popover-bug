@@ -15,8 +15,8 @@ export class LoggingService {
   constructor() { }
 
   static log(item: any, logType= ELogType.log) {
+    if (!isDevMode()) { return; }
     console.info(item);
-    // const x = isDevMode();
     // if (!isDevMode()) { return; }
     // (<any>console)[logType](item);
     // console.groupEnd();

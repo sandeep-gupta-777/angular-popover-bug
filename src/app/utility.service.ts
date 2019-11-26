@@ -549,7 +549,7 @@ export class UtilityService {
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number, response_language?): IMessageData[] {
-
+    const random = this.createRandomString();
     return generatedMessage.map((message: IGeneratedMessageItem, index) => {
       const isLast = index === generatedMessage.length - 1;
       let messageData: IMessageData = {
@@ -559,7 +559,8 @@ export class UtilityService {
         messageMediatype: null,
         sourceType: 'bot',
         isLast,
-        response_language
+        response_language,
+        ui_id: random
       };
 
       if (Object.keys(message)[0] === 'media') {

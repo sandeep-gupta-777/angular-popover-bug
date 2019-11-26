@@ -29,6 +29,7 @@ export interface IMessageData extends IGeneratedMessageItem {
   feedback?: EChatFeedback;
   isLast?: boolean;
   response_language?: string;
+  ui_id?: string
 }
 
 export interface IRoomData {

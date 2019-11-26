@@ -417,7 +417,6 @@ export class ChatWrapperComponent implements OnInit, AfterViewInit ,OnDestroy {
           EChatFrame.CHAT_BOX,
           this.is_dev_view)
           .subscribe(() => {
-
             if (messageData.updateConsumerInfo) {
               this.store.dispatch(new UpdateConsumerByRoomId({
                 consumerDetails: room.consumerDetails,
