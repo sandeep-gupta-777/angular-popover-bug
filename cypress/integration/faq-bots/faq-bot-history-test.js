@@ -13,7 +13,7 @@ describe('faq-history', function () {
         cy.url().should('include', 'viewbots?type=faqbot');
         cy.wait(3000);
       cy.contains("e2eFaq (pls dont use)").click({force: true});
-        // cy.get('[data-cy=bot-card]').first().click()
+
         cy.wait(3000);
         cy.url().should('include', '/botdetail/faqbot/')
 
@@ -24,8 +24,7 @@ describe('faq-history', function () {
         cy.get('.arrow-circle').first().trigger('mouseover')
         cy.contains('Make live').click({ force: true })
         cy.get('.arrow-circle').first().trigger('mouseover')
-        // cy.contains('Preview').click({ force: true })
-        // cy.get('.chat-grid__header')
+
         cy.get('.arrow-circle').first().trigger('mouseover')
         cy.contains('Edit').click({ force: true })
         cy.contains('Continue').click()
