@@ -694,7 +694,7 @@ export class UtilityService {
     if (environment.backend_root === 'https://preprod.imibot.ai/') {
       root = 'preprod';
     }
-    const url = `${host}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}&root=${root}`;
+    const url = `${host}/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}&root=${root}&phoneCasing=true`;
     this.copyToClipboard(encodeURI(url));
   }
 

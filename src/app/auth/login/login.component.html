@@ -1,29 +1,16 @@
 <div class="login-section" style="background: white">
   <div
     style="background-image: url('assets/img/login/TriangleL.png'); position: fixed; left: 0;z-index: -1; bottom: 0; width: 25vw; background-position: left; height: 75vh; background-repeat: no-repeat;  background-size: auto 100%;"></div>
-  <div class="info-section" style="position: relative">
+  <div class="info-section" style="position: relative; display: flex; justify-content: center; align-content: center">
     <div
       style="background-image: url('assets/img/login/TriangleR.png'); position:absolute; right: 0;z-index: -1; top: 0; width: 25vw; height: 25vw; background-position: top right; background-repeat: no-repeat"></div>
-    <div class="info-section-wrapper">
-      <header>
-        <div class="imi-logo">
-          <img src="assets/img/login/imibotlogo.svg" alt="">
-        </div>
-        <h1 class="hero-heading">
-          Automate your business conversations contextually, <strong class="nlp-bold">harnessing the power of nlp</strong>
-        </h1>
-      </header>
-      <div class="info-section-body">
-        <div class="intro-item" *ngFor="let item of infoPageData">
-          <div class="item-img-container">
-            <img src="{{item.img}}" alt="">
-          </div>
-          <div class="text">
-            <div class="title" style="margin-bottom: 0">{{item.title}}</div>
-            <div class="description">{{item.description}}</div>
-          </div>
-        </div>
+    <div>
+      <div class="imi-logo text-center">
+        <img src="assets/img/login/imibotlogo.svg" alt="">
       </div>
+      <h1 class="hero-heading text-center">
+        Build channel-aware contextual  virtual assistants
+      </h1>
     </div>
   </div>
   <div class="login-form-section">
@@ -109,7 +96,7 @@
           <div style="background-color: #9ad4ed; border-radius: 4px; padding: 12px 0; margin-bottom: 12px; color: #474747">
             <ul style="margin-bottom: 0;
     padding-left: 10px;">
-              <strong>The password has to be</strong>
+              <strong>Password rules</strong>
               <li style="margin-left: 14px;">Be between 6 to 16 characters</li>
               <li style="margin-left: 14px;">Must contain at least one number, one uppercase letter and one lowercase letter</li>
               <li style="margin-left: 14px;">Must contain one of these special characters ~!@#$%^&*</li>
