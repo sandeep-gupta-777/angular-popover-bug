@@ -521,9 +521,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
           maxNoOfQuestions = corpusSection.questions.length;
         }
         if (corpusSection.category_id !== 'default_articles') {
+
+          let ans = corpusSection.answers[0].text ? corpusSection.answers[0].text[0] : '';
+          let cat = this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone);
           return {
-            Answer:  corpusSection.answers[0].text ? corpusSection.answers[0].text[0] : '',
-            Category: this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone),
+            Answer: this.trimAllBadCharsFromStringToDownlode(ans) ,
+            Category: this.trimAllBadCharsFromStringToDownlode(cat),
             ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
           };
         }
@@ -535,6 +538,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     try {
       const json2csvParser = new Parser({fields, unwind: 'field2', unwindBlank: true, flatten: true});
+      // this.utilityService.sanitizeCSVData(data);
       const csv = json2csvParser.parse(data);
       this.utilityService.downloadText(csv, `corpus_${this.corpus.id}.csv`);
       console.log(csv);
@@ -542,7 +546,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(err);
     }
   }
-
+  trimAllBadCharsFromStringToDownlode(str){
+    const charsToBeRemoved = ['+', '-', '@', '='];
+    const trimmedCellData = str && str.trim && str.trim();
+    if (trimmedCellData && charsToBeRemoved.find(char => trimmedCellData[0] === char)) {
+      const replacement = `\\${trimmedCellData[0]}`;
+      return replacement + trimmedCellData.substr(1, (trimmedCellData.length - 1));
+    }
+    return trimmedCellData;
+  }
   downloadSample() {
     this.uploadingSampleData = ELoadingStatus.loading;
     this.serverService.makeGetReqToDownloadFiles({url: 'assets/sample_corpus.csv'})
@@ -561,7 +573,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     let i = 1;
     console.log(questions);
     for (const x of questions) {
-      obj[`questions variant ${i}`] = x;
+      obj[`questions variant ${i}`] = this.trimAllBadCharsFromStringToDownlode(x);
       i = i + 1;
     }
     console.log(obj);
