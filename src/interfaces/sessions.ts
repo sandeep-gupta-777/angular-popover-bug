@@ -54,7 +54,7 @@ export interface ITableColumn {
     search?: boolean,
     searchValue?: boolean,
     dateRange?: boolean
-    skipXssValidation: boolean
+    skipXssValidation?: boolean
   };
 }
 

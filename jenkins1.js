@@ -12,7 +12,7 @@ inquirer
       type: 'list',
       message: 'What env/branch you want to deploy?',
       name: 'branch',
-      choices: ["develop", "staging", "staging-v2"]
+      choices: ["develop", "staging", "staging-v2", 'master']
     }
   ])
   .then(answers => {
@@ -25,6 +25,9 @@ inquirer
     } else if (answers.branch === 'develop') {
       branch = 'develop';
       env = 'dev';
+    } else if (answers.branch === 'preprod') {
+      branch = 'preprod';
+      env = 'preprod';
     }
     console.log(`INFO::deploying branch: ${branch} on environment: ${env} `);
     buildInit(env, branch)
@@ -76,10 +79,10 @@ function buildInit(environment, branch) {
 
 process.on('SIGINT', function () {
   jenkins.build.stop(scope_name, build_number, function (err) {
-    if(err){
+    if (err) {
       console.log('Could not stop it', err);
       process.exit();
-    }else {
+    } else {
       console.log('\n Successfully stopped!');
       process.exit();
     }

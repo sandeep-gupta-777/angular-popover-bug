@@ -1577,7 +1577,7 @@ export class UtilityService {
       + tagBody
       + ')>',
       'gi');
-    const oldHtml;
+    let oldHtml;
     try {
       do {
         oldHtml = html;
