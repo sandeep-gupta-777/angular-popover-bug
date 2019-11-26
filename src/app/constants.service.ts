@@ -85,6 +85,7 @@ export class ConstantsService {
       displayValue: 'Active',
       search: true,
       searchValue: true,
+      skipXssValidation: true
     },
     bot: {
       originalKey: 'bot',
@@ -110,6 +111,8 @@ export class ConstantsService {
       displayValue: 'Frequency',
       search: true,
       searchValue: true,
+      skipXssValidation: true
+
     },
     lastreportgenerated: {
       originalKey: 'lastreportgenerated',
@@ -118,7 +121,9 @@ export class ConstantsService {
       displayValue: 'Last report generated',
       search: false,
       searchValue: '',
-      dateRange: true
+      dateRange: true,
+      skipXssValidation: true
+
     },
     nextreportgenerated: {
       originalKey: 'nextreportgenerated',
@@ -127,7 +132,9 @@ export class ConstantsService {
       displayValue: 'Next scheduled date',
       search: false,
       searchValue: '',
-      dateRange: true
+      dateRange: true,
+      skipXssValidation: true
+
     },
   };
   readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
@@ -156,7 +163,9 @@ export class ConstantsService {
       displayValue: 'Generated Date',
       search: false,
       searchValue: '',
-      dateRange: true
+      dateRange: true,
+      skipXssValidation: true
+
     },
     actions: {
       originalKey: '',
@@ -167,6 +176,7 @@ export class ConstantsService {
       name: '',
       search: false,
       searchValue: true,
+      skipXssValidation: true
     },
 
   };
@@ -210,7 +220,8 @@ export class ConstantsService {
       displayValue: 'Last Update',
       search: false,
       searchValue: true,
-      dateRange: true
+      dateRange: true,
+      skipXssValidation: true
     },
 
   };
@@ -247,7 +258,8 @@ export class ConstantsService {
       displayValue: 'Last Update',
       search: false,
       searchValue: true,
-      dateRange: true
+      dateRange: true,
+      skipXssValidation: true
     },
 
 
@@ -285,7 +297,8 @@ export class ConstantsService {
       displayValue: 'Updated At',
       search: false,
       searchValue: true,
-      dateRange: false
+      dateRange: false,
+      skipXssValidation: true
     }
   };
 
@@ -338,7 +351,8 @@ export class ConstantsService {
       displayValue: 'Updated At',
       search: false,
       searchValue: true,
-      dateRange: false
+      dateRange: false,
+      skipXssValidation: true
     },
     room_metadata: {
       originalKey: '',
@@ -374,14 +388,15 @@ export class ConstantsService {
         title: 'Created At'
       },
       updated_at: {
-        title: 'Updated At'
+        title: 'Updated At',
       }
     },
     //  hideSubHeader: true
     actions: {
       add: false,
       edit: false,
-      delete: false
+      delete: false,
+      skipXssValidation: true
     },
     pager: {
       display: false,
@@ -586,7 +601,8 @@ export class ConstantsService {
       displayValue: 'Updated At',
       search: false,
       searchValue: false,
-      dateRange: true
+      dateRange: true,
+      skipXssValidation: true
     },
     actions: {
       originalKey: '',
@@ -597,6 +613,7 @@ export class ConstantsService {
       name: '',
       search: false,
       searchValue: false,
+      skipXssValidation: true
     },
   };
   SMART_TABLE_ML_ENTITIES_TEMPLATE: ITableColumn = {
@@ -621,6 +638,7 @@ export class ConstantsService {
       dateRange: true,
       displayValue: 'Last update',
       search: false,
+      skipXssValidation: true
     },
     'actions': {
       originalKey: '',
@@ -662,7 +680,8 @@ export class ConstantsService {
       type: 'time',
       dateRange: true,
       displayValue: 'Last update',
-      search: false
+      search: false,
+      skipXssValidation: true
     }
   };
 
@@ -679,6 +698,7 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Updated on',
+      skipXssValidation: true
     },
     'actions': {
       originalKey: '',

@@ -5,7 +5,7 @@ import {DatePipe} from '@angular/common';
 @Injectable()
 export class SmartTableSettingsService {
 
-  constructor(    private datePipe: DatePipe
+  constructor(private datePipe: DatePipe
   ) {
   }
 
@@ -19,22 +19,27 @@ export class SmartTableSettingsService {
         title: 'Report Type'
       },
       frequency: {
-        title: 'Frequency'
+        title: 'Frequency',
+        skipXssValidation: true
       },
       last_jobId: {
-        title: 'Last job run'
+        title: 'Last job run',
+        skipXssValidation: true
       },
       nextreportgenerated: {
-        title: 'Next scheduled date'
+        title: 'Next scheduled date',
+        skipXssValidation: true
       },
       isactive: {
-        title: 'Active'
+        title: 'Active',
+        skipXssValidation: true
       },
     },
     actions: {
       add: false,
       edit: false,
-      delete: false
+      delete: false,
+      skipXssValidation: true
     },
     pager: {
       display: false,

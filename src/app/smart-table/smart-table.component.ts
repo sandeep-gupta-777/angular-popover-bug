@@ -46,7 +46,19 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (!dataValue) {
       return;
     }
-
+    debugger;
+    dataValue.forEach((value, index, array) => {
+      Object.keys(value).forEach((key) => {
+        if (key === 'originalSessionData') {
+          return;
+        }
+        const cell = value[key];
+        if (!cell.skipXssValidation) {
+          cell.value = UtilityService.sanitizeHTML(cell.value);
+        }
+      });
+    });
+    debugger;
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
     if (dataValue.length === 0) {

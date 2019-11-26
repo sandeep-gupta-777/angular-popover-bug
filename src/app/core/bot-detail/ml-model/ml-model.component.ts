@@ -44,7 +44,7 @@ export class MLModelComponent implements OnInit {
 
   @Input() bot: IBot;
   view = 'table';
-  intentList: IIntent[];
+  intentList: IIntent[] = [];
   entityList: IEntitiesItem[];
   corpusMiniObj;
   selectedTabIndex: number = 0;

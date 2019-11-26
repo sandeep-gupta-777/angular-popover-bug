@@ -47,6 +47,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         searchValue: this.dependency.datePipe.transform(date, 'date') + corpusTableDataItem['updated_by']
                     };
                 } else if (key === 'actions') {
+          debugger;
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,

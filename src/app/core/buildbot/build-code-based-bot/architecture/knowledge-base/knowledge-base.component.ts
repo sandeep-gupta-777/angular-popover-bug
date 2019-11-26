@@ -93,7 +93,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       /*Modifying Concept Key column*/
       additonalColumns['Concept name'] = row['Concept name'];
 
-      additonalColumns['Concept name'].value = `<strong>${additonalColumns['Concept name'].value}</strong>`;
+      additonalColumns['Concept name'].value = `${additonalColumns['Concept name'].value}`;
       //
       additonalColumns['Concept type'] = row['Concept type'];
       const concept_type_val = UtilityService.spaceCase(additonalColumns['Concept type'].value, '_');

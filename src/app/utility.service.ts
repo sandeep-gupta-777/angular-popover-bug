@@ -49,6 +49,7 @@ export class UtilityService {
   ) {
   }
 
+
   refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',
@@ -1557,6 +1558,35 @@ export class UtilityService {
     //   }
     // }
     // return data;
+  }
+
+  static sanitizeHTML(html: string) {
+    if (!html || typeof html !== 'string') {
+      return html;
+    }
+    const tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+    const tagOrComment = new RegExp(
+      '<(?:'
+      // Comment body.
+      + '!--(?:(?:-*[^->])*--+|-?)'
+      // Special "raw text" elements whose content should be elided.
+      + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
+      + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+      // Regular name
+      + '|/?[a-z]'
+      + tagBody
+      + ')>',
+      'gi');
+    const oldHtml;
+    try {
+      do {
+        oldHtml = html;
+        html = html.replace(tagOrComment, '');
+      } while (html !== oldHtml);
+    } catch (e) {
+      console.log(e);
+    }
+    return html.replace(/</g, '&lt;');
   }
 
   replaceAt(str: string, replacement: string, index: number) {

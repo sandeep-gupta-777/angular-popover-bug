@@ -44,7 +44,7 @@ export class ConsumerSmartTableModal extends AbstractSmartTable {
       };
 
       additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
-      console.log('131312312', tableRow['originalSessionData']);
+      // console.log('131312312', tableRow['originalSessionData']);
       if (tableRow['originalSessionData']['data_encrypted']) {
         // additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
 
