@@ -290,16 +290,7 @@ export class PermissionService {
       /*explicitly allowing get action route for all the users, since we can't create allowedApiHttpVerbPPathToActionNamesMapping without it*/
       isAllowed = true;
     } else {
-      let x = pathName.split('/');
-      let num = x.splice(x.length-2,1)[0];
-      let toNumber = parseInt(num);
-      if(toNumber){
-        let pathNameWhithOutId = x.join('/');
-        httpVerbAndPathKey = httpVerb + '+' + pathNameWhithOutId;
-      }else{
-        httpVerbAndPathKey = httpVerb + '+' + pathName;
-      }
-      // httpVerbAndPathKey = httpVerb + '+' + pathName;
+      httpVerbAndPathKey = httpVerb + '+' + pathName;
 
       isAllowed = !!PermissionService.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbAndPathKey];
     }

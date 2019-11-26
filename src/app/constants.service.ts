@@ -1351,9 +1351,11 @@ export class ConstantsService {
 
   //routerbot
   getRouterBotRuleByRuleIDUrl(id) {
+    return this.BACKEND_URL + `api/v1/router_logic/?id=${id}`;
+  }
+  putRouterBotRuleByRuleIDUrl(id) {
     return this.BACKEND_URL + `api/v1/router_logic/${id}/`;
   }
-
   updateBotSerializer(bot: IBot) {
     const clone = {...bot};
     const not_keys = [
