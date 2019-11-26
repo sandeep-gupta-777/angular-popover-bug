@@ -251,6 +251,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     if (this.expectedCSVHeaders) {
       csvData.unshift(this.expectedCSVHeaders);
     }
+    console.log(csvData);
     this.utilityService.downloadArrayAsCSV(csvData, [], 'test_data.csv');
   }
 

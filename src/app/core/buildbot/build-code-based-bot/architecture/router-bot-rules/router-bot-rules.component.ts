@@ -96,7 +96,7 @@ export class RouterBotRulesComponent implements OnInit {
       this.serverService.makeGetReq({url: getRouterBotRuleByRuleIDUrl})
         .subscribe((value: any) => {
           this.reloading = false;
-          this.creatRulesForm(value);
+          this.creatRulesForm(value.objects[0]);
         },()=>{
           this.reloading = false;
         });
@@ -340,12 +340,12 @@ export class RouterBotRulesComponent implements OnInit {
     }
   updateRouterBotLogic(){
     if(this.bot.bot_metadata.router_logic_id){
-      const getRouterBotRuleByRuleIDUrl = this.constantsService.getRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
+      const putRouterBotRuleByRuleIDUrl = this.constantsService.putRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
       const headerData: IHeaderData = {
         'bot-access-token': ServerService.getBotTokenById(this.bot.id)
       };
       const body = this.convertFormValueTologicJson();
-      this.serverService.makePutReq({url: getRouterBotRuleByRuleIDUrl, body, headerData})
+      this.serverService.makePutReq({url: putRouterBotRuleByRuleIDUrl, body, headerData})
         .subscribe((value: any) => {
           this.utilityService.showSuccessToaster("Bot rule updated");
           this.uploadingData = ELoadingStatus.success;
