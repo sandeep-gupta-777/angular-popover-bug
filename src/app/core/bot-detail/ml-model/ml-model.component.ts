@@ -121,6 +121,15 @@ export class MLModelComponent implements OnInit {
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
       this.loading = false;
       this.entityList = value.objects;
+      this.entityList.sort((a,b)=>{
+          if(a.updated_at > b.updated_at){
+            return -1;
+          }else if (a.updated_at < b.updated_at){
+            return 1
+          }else{
+            return 0;
+          }
+      })
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
         return {
@@ -143,6 +152,15 @@ export class MLModelComponent implements OnInit {
     this.serverService.makeGetReq({url, headerData}).subscribe((val: any) => {
       this.getAndSetMlCorpusMiniData();
       this.intentList = val.objects;
+      this.intentList.sort((a,b)=>{
+        if(a.updated_at > b.updated_at){
+          return -1;
+        }else if (a.updated_at < b.updated_at){
+          return 1
+        }else{
+          return 0;
+        }
+      })
       // this.entityList = val.objects[0].entities;
       this.loading = false;
       const intent_id = this.activatedRoute.snapshot.queryParams.intent_id;
