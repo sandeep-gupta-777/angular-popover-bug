@@ -76,7 +76,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       this._templateKeyDict = val;
 
       const keys = Object.keys(this._templateKeyDict);
-      debugger;
+       
       if (!this.selectedTemplateKeyInLeftSideBar || (keys && !keys.find(key => key === this.selectedTemplateKeyInLeftSideBar))) {
         this.updateSelectedTemplateKey(Object.keys(this._templateKeyDict)[0]);
         this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar] && this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;

@@ -11,6 +11,7 @@
 
 
 :host{
+  min-height: 300px;
   ::ng-deep{
     app-handsontable{
       z-index: 0;
