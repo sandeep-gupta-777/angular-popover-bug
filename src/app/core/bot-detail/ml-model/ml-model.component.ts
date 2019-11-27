@@ -109,7 +109,8 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  loading = false;
+  loading_entities = false;
+  loading_intents = false;
 
   setMLEntityList() {
     const url = this.constantsService.getEntityList();
@@ -117,9 +118,9 @@ export class MLModelComponent implements OnInit {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     // let colorList = JSON.parse(JSON.s);
-    this.loading = true;
+    this.loading_entities = true;
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
-      this.loading = false;
+      this.loading_entities = false;
       this.entityList = value.objects;
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
@@ -139,12 +140,12 @@ export class MLModelComponent implements OnInit {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
-    this.loading = true;
+    this.loading_intents = true;
     this.serverService.makeGetReq({url, headerData}).subscribe((val: any) => {
       this.getAndSetMlCorpusMiniData();
       this.intentList = val.objects;
       // this.entityList = val.objects[0].entities;
-      this.loading = false;
+      this.loading_intents = false;
       const intent_id = this.activatedRoute.snapshot.queryParams.intent_id;
 
       if (intent_id) {

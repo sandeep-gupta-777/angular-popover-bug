@@ -25,6 +25,7 @@ import {ConstantsService} from '../constants.service';
 import {environment} from '../../environments/environment';
 import {HttpMockRequestInterceptor} from '../interceptor.mock';
 import {HttpRequestInterceptor} from '../interceptor';
+import {SharedModule} from '../shared.module';
 
 declare var areReducersRegistered: any;
 
@@ -47,6 +48,7 @@ const routes: Route[] = [
     MatSnackBarModule,
     HttpClientModule,
     SharedEnterpriseListModuleModule,
+    SharedModule,
   ],
 
   providers: [

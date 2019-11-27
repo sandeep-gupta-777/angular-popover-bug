@@ -49,7 +49,7 @@
   </div>
 </header>
 <div style="position: relative; min-height: 70vh;" *ngIf="view === 'table'" class="fade-in-custom">
-  <app-imi-loader *ngIf="loading" class="loader-center"></app-imi-loader>
+  <app-imi-loader *ngIf="loading_entities" class="loader-center"></app-imi-loader>
   <div *ngIf="selectedTabIndex === 0">
     <app-button-wrapper
       class="card--update" *appMyIf="myEAllActions['Create intent']"
@@ -78,7 +78,7 @@
                       [view]="view"
                       (goToPage$)="loadIntent($event)"
                       (viewChanged$)="viewChanged($event)"></app-ml-intents>
-      <div class = "d-flex" *ngIf="!loading">
+      <div class = "d-flex" *ngIf="!loading_intents && intentList.length === 0">
         <app-splash-screen
           class = "absolute-center"
           *ngIf = "!intentList || (intentList &&  intentList.length <= 0)"
@@ -108,7 +108,7 @@
   </mat-tab-group>
 </div>
 
-<div *ngIf="view === 'detail' && !loading" class="fade-in-custom">
+<div *ngIf="view === 'detail' && !loading_entities" class="fade-in-custom">
   <app-ml-intents-detail
     (selectedIntentChanged$)="selectedIntentChanged($event)"
     (saveOrUpdateIntent$)="saveOrUpdateIntent($event)"

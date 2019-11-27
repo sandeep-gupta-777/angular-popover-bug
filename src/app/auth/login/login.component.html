@@ -1,15 +1,16 @@
 <div class="login-section" style="background: white">
-  <div
-    style="background-image: url('assets/img/login/TriangleL.png'); position: fixed; left: 0;z-index: -1; bottom: 0; width: 25vw; background-position: left; height: 75vh; background-repeat: no-repeat;  background-size: auto 100%;"></div>
+  <div style="position: fixed; left: 0;z-index: -1; bottom: 0; width: 20vw; background-position: left; height: 75vh; background-repeat: no-repeat;  background-size: auto 100%;display: flex">
+    <img src="assets/img/login/TriangleL.png" style="max-width: 25vw;" alt="">
+  </div>
   <div class="info-section" style="position: relative; display: flex; justify-content: center; align-content: center">
     <div
-      style="background-image: url('assets/img/login/TriangleR.png'); position:absolute; right: 0;z-index: -1; top: 0; width: 25vw; height: 25vw; background-position: top right; background-repeat: no-repeat"></div>
+      style="background-image: url('assets/img/login/TriangleR.png'); position:absolute; right: 0;z-index: -1; top: 0; width: 30vw; height: 30vw; background-position: top right; background-repeat: no-repeat"></div>
     <div>
       <div class="imi-logo text-center">
         <img src="assets/img/login/imibotlogo.svg" alt="">
       </div>
       <h1 class="hero-heading text-center">
-        Build channel-aware contextual  virtual assistants
+        Build channel-aware contextual virtual assistants
       </h1>
     </div>
   </div>
@@ -84,7 +85,8 @@
       </div>
     </section>
 
-    <section [hidden]="!(panelActive===myELoginPanels.reset || panelActive===myELoginPanels.set)" class="right" style="width: 100%; max-width: 450px">
+    <section [hidden]="!(panelActive===myELoginPanels.reset || panelActive===myELoginPanels.set)" class="right"
+             style="width: 100%; max-width: 450px">
 
 
       <div class="login-box ">
@@ -93,12 +95,15 @@
           <div class="col-12 mb-3 text-theme-normal" style="color: white; line-height: 14px">
             Hello, please enter a new password to continue
           </div>
-          <div style="background-color: #9ad4ed; border-radius: 4px; padding: 12px 0; margin-bottom: 12px; color: #474747">
+          <div
+            style="background-color: #9ad4ed; border-radius: 4px; padding: 12px 0; margin-bottom: 12px; color: #474747">
             <ul style="margin-bottom: 0;
     padding-left: 10px;">
               <strong>Password rules</strong>
               <li style="margin-left: 14px;">Between 6 to 16 characters</li>
-              <li style="margin-left: 14px;">Must contain at least one number, one uppercase letter and one lowercase letter</li>
+              <li style="margin-left: 14px;">Must contain at least one number, one uppercase letter and one lowercase
+                letter
+              </li>
               <li style="margin-left: 14px;">Must contain one of these special characters ~!@#$%^&*</li>
             </ul>
           </div>
@@ -130,11 +135,13 @@
     </section>
 
     <section *ngIf="panelActive==='email-reset-link-notify'" class="right" style="width: 100%">
-      <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Email sent', description:'An email has been sent to your email address, consisting of the next steps kindly use the link to reset password'}"></ng-container>
+      <ng-container [ngTemplateOutlet]="passwordChangeSuccess"
+                    [ngTemplateOutletContext]="{title:'Email sent', description:'An email has been sent to your email address, consisting of the next steps kindly use the link to reset password'}"></ng-container>
     </section>
 
     <section *ngIf="panelActive==='password-reset-notify'" class="right">
-      <ng-container [ngTemplateOutlet]="passwordChangeSuccess" [ngTemplateOutletContext]="{title:'Password Updated', description:'Your password has been updated successfully, kindly login again to start using your account'}"></ng-container>
+      <ng-container [ngTemplateOutlet]="passwordChangeSuccess"
+                    [ngTemplateOutletContext]="{title:'Password Updated', description:'Your password has been updated successfully, kindly login again to start using your account'}"></ng-container>
     </section>
 
     <section *ngIf="panelActive==='enterprise-list-display'" style="width: 100%" class="enterprise-flex mx-4 right">
@@ -157,8 +164,10 @@
   </div>
 </div>
 
+<app-imi-loader *ngIf="loading"></app-imi-loader>
 
-<ng-template #passwordChangeSuccess let-title="title" let-description="description" >
+
+<ng-template #passwordChangeSuccess let-title="title" let-description="description">
   <div class="forgot-password-container">
     <div style="display: flex; ">
       <div class="title">{{title}}</div>
