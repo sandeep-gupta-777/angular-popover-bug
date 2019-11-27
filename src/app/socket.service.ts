@@ -31,7 +31,7 @@ export class SocketService {
     });
   }
 
-  destroySocket(){
+  destroySocket() {
     this.socket && this.socket.destroy();
   }
 
@@ -42,7 +42,9 @@ export class SocketService {
       this.socket = io(url, {query: `data=${JSON.stringify(socketData)}`});
       this.socket.on('connect', () => {
         console.log('Client has connected to the server!');
-        this.initAllEvents();
+        if (!SocketService.isInitDone) {
+          this.initAllEvents();
+        }
       });
       SocketService.isInitDone = true;
     }

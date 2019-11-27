@@ -49,6 +49,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   changePasswordToken;
   changePasswordExpireTime;
   userValue: IUser;
+  loading = false;
   headerData: IHeaderData;
   enterpriseList: any[];
   userData: IUser;
@@ -165,6 +166,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       }),
       switchMap(() => {
         this.flashInfoMessage('Loading your dashboard', 10000);
+        this.loading = false;
         if (userValue.role.name === ERoleName.Analyst) {
           this.router.navigate(['/core/analytics2/overview']);
           return of();
@@ -334,6 +336,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   clickedEnterprise(Enterprise) {
+    this.loading = true;
     this.enterEnterprise(Enterprise)
       .subscribe((value) => {
         this.gotUserData$.emit(value);
