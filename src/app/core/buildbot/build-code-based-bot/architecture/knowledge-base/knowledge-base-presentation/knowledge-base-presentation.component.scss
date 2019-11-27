@@ -1,4 +1,7 @@
 @import '~src/sass/main';
+:host{
+  min-height: 400px;
+}
 
 .back-icon {
   position: absolute;

@@ -26,7 +26,7 @@
 }
 
 ::ng-deep td, th {
-  //max-width: 100px;
+  //max-width: 100px;     
   text-align: left;
 
   & > div {
@@ -34,3 +34,6 @@
   }
 }
 
+:host{
+  min-height: 300px;
+}

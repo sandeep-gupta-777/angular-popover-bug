@@ -19,16 +19,19 @@
             <span style="color: #00ABD3">Settings</span>
           </div>
         </a>
-        <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
-          <a mat-list-item class="mat-list-item-sidebar"
-             (click)="sideBarTabChanged(myESideBarTab.input)">
-            <div class="sidebar-nav-list-item"
-                 data-cy="sidebar-NLP"
-                 [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
-              <img class="" src="assets/img/sidebar/nlp.svg" alt="">
-              <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
-            </div>
-          </a></ng-container>
+        <ng-container *ngIf="bot.bot_type != myEBotType.mlbot">
+          <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
+            <a mat-list-item class="mat-list-item-sidebar"
+               (click)="sideBarTabChanged(myESideBarTab.input)">
+              <div class="sidebar-nav-list-item"
+                   data-cy="sidebar-NLP"
+                   [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
+                <img class="" src="assets/img/sidebar/nlp.svg" alt="">
+                <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
+              </div>
+            </a></ng-container>
+        </ng-container>
+
         <ng-container  *appMyIf="myEAllActions['Get default task bot corpus']">
           <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.mlbot === bot.bot_type"
              (click)="sideBarTabChanged(myESideBarTab.ml_model)">
@@ -238,6 +241,9 @@
               </mat-tab-group>
             </ng-container>
           </ng-container>
+
+
+
           <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
             <div style="height: 100%"
                  *ngIf="logicTabClicked && bot.bot_type === myEBotType.chatbot"
