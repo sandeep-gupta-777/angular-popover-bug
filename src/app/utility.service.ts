@@ -881,7 +881,7 @@ export class UtilityService {
         }
       }
     } catch (e) {
-      console.log(e);
+      LoggingService.log(e);
     }
 
     return templateKeyOutputObj;

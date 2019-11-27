@@ -37,7 +37,7 @@ export class HighlightSessionTexts implements PipeTransform {
       sessionMessageItem.messageByHuman = UtilityService.highlightText(sessionMessageItem.message, messageSearchKeyword);
     }
     // if (sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)) {
-    console.log('=====>', sessionMessageItem);
+
     if (sessionMessageItem.message && sessionMessageItem.message[0] && sessionMessageItem.message[0].text) {
       const match = this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message[0].text, messageSearchKeyword);
       if (match) {

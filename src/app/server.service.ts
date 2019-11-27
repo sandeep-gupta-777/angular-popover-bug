@@ -79,7 +79,6 @@ export class ServerService {
         bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
       } else {
         throw new Error('Bot access token is not set in ServerService. Please see below');
-        console.log('ServerService data: ', ServerService);
       }
     }
     return bot_access_token;
