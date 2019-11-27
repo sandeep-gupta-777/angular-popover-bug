@@ -70,7 +70,7 @@
   </div>
 
   <mat-tab-group (selectedIndexChange)="selectedTabIndex = $event" [selectedIndex]="selectedTabIndex">
-    <mat-tab label="Intents" style="min-height: 50vh">
+    <mat-tab label="Intents" style="min-height: 300px">
       <app-ml-intents [bot]="bot" *ngIf="intentList && intentList.length > 0"
                       (selectedIntentChanged$)="selectedIntent = $event"
                       [intentData]="intentList"
@@ -88,7 +88,7 @@
         ></app-splash-screen>
       </div>
     </mat-tab>
-    <mat-tab label="Entities" class="no-over-flow h-100" style="min-height: 50vh">
+    <mat-tab label="Entities" class="no-over-flow h-100" style="min-height: 300px">
       <div *ngIf="entityList && entityList.length > 0">
         <app-ml-entities [bot]="bot" [entitiesData]="entityList" class="h-100"
                          (deleteEntity)="deleteEntityClicked($event)"
