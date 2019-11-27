@@ -180,9 +180,13 @@ export class SideBarService {
 
   static createBotTestingFinalData() {
 
-    return SideBarService.botTestingComponent.testCaseData.map((array) => {
+    let x = SideBarService.botTestingComponent.testCaseData.map((array) => {
       return array.slice(0, 2);
     });
+    x = x.filter((arr)=>{
+      return arr[0] || arr[1]
+    })
+    return x;
     //  return SideBarService.botTestingComponent.testCaseData;
   }
 
