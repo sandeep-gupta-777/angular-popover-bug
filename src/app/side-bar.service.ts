@@ -169,6 +169,7 @@ export class SideBarService {
   /*Testing*/
 
   static botTestingInit(component) {
+    debugger;
     SideBarService.botTestingComponent = component;
 
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
@@ -179,7 +180,7 @@ export class SideBarService {
   }
 
   static createBotTestingFinalData() {
-
+    debugger;
     return SideBarService.botTestingComponent.testCaseData.map((array) => {
       return array.slice(0, 2);
     });
@@ -187,6 +188,7 @@ export class SideBarService {
   }
 
   static isBotTestingDirty() {
+    debugger;
     try {
       const botTestingData_final = this.createBotTestingFinalData();
       return !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
