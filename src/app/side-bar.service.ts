@@ -176,6 +176,9 @@ export class SideBarService {
     SideBarService.botTestingData_init = SideBarService.botTestingData_init.map((array) => {
       return array.slice(0, 2);
     });
+    SideBarService.botTestingData_init = SideBarService.botTestingData_init.filter((arr)=>{
+      return arr[0] || arr[1]
+    })
     SideBarService.activeTab = ESideBarTab.test;
   }
 
