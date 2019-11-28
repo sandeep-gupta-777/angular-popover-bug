@@ -46,7 +46,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (!dataValue) {
       return;
     }
-     
+
     dataValue.forEach((value, index, array) => {
       Object.keys(value).forEach((key) => {
         if (key === 'originalSessionData') {
@@ -58,7 +58,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
         }
       });
     });
-     
+
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
     if (dataValue.length === 0) {

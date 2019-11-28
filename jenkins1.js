@@ -6,8 +6,6 @@ spinner.setSpinnerTitle("Jenkins is busy. Pls wait");
 spinner.setSpinnerString('|/-\\');
 let build_number;
 let scope_name = 'IMIbot Frontend';
-let scope_name2 = 'IMIbot Platform Build';
-let deployBE = false;
 inquirer
   .prompt([
     {
@@ -76,20 +74,6 @@ function buildInit(environment, branch) {
 
     log.on('end', function () {
       console.log('INFO::', `Finished, please check: http://10.0.10.57/job/IMIbot%20Frontend/${id}/`);
-      if (deployBE) {
-        jenkins.job.build({
-          name: scope_name2,
-          parameters: {
-            environment: 'preproduction',
-            module: 'appserver',
-            deploymentType: 'release',
-            releaseType: 'patch'
-          }
-        }, function (err, id) {
-          if (err) throw err;
-          waitOnQueue(id);
-        });
-      }
     });
   }
 }

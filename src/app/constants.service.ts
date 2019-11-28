@@ -409,6 +409,7 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Token Id',
+      skipXssValidation: true
     },
     description: {
       originalKey: 'description',
@@ -421,18 +422,21 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Created on',
+      skipXssValidation: true
     },
     expired_at: {
       originalKey: 'expired_at',
       value: '',
       type: 'string',
       displayValue: 'Expires on',
+      skipXssValidation: true
     },
     expired_by: {
       originalKey: 'expired_by',
       value: '',
       type: 'string',
       displayValue: 'Expired by',
+      skipXssValidation: true
     }
 
   };
@@ -443,6 +447,7 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Token Id',
+      skipXssValidation: true,
     },
     description: {
       originalKey: 'description',
@@ -455,6 +460,7 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Created on',
+      skipXssValidation: true,
     },
     //  expired_at: {
     //    originalKey: 'expired_at',
@@ -469,7 +475,7 @@ export class ConstantsService {
       displayValue: 'Actions',
       custom: true,
       name: '',
-
+      skipXssValidation: true,
     }
 
   };
@@ -478,16 +484,16 @@ export class ConstantsService {
     first_name: {
       originalKey: 'first_name',
       value: '',
-      type: 'number',
+      type: 'string',
       displayValue: 'User Name',
 
     },
     email: {
       originalKey: 'email',
       value: '',
-      type: 'number',
+      type: 'string',
       displayValue: 'Email ID',
-
+      skipXssValidation: true
     },
     //  'role': {
     //    originalKey: 'role',
@@ -705,6 +711,7 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Actions',
+      skipXssValidation: true
     }
   };
   NEW_BOT_VERSION_TEMPLATE = {
@@ -1330,9 +1337,11 @@ export class ConstantsService {
   getResponseTemplates() {
     return this.BACKEND_URL + `api/v1/responsetemplates/default/`;
   }
-  getMLResponceStateMiniData(){
+
+  getMLResponceStateMiniData() {
     return this.BACKEND_URL + `api/v1/responsetemplates/default/?display = true`;
   }
+
   loadFromLive() {
     return this.BACKEND_URL + `api/v1/responsetemplates/`;
   }
@@ -1373,9 +1382,11 @@ export class ConstantsService {
   getRouterBotRuleByRuleIDUrl(id) {
     return this.BACKEND_URL + `api/v1/router_logic/?id=${id}`;
   }
+
   putRouterBotRuleByRuleIDUrl(id) {
     return this.BACKEND_URL + `api/v1/router_logic/${id}/`;
   }
+
   updateBotSerializer(bot: IBot) {
     const clone = {...bot};
     const not_keys = [

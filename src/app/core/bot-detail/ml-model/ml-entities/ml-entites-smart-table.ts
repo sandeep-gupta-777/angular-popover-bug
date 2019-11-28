@@ -1,5 +1,5 @@
 import {AbstractSmartTable} from 'src/app/smart-table/smart-table';
-import {ICorpus} from "../../../interfaces/faqbots";
+import {ICorpus} from '../../../interfaces/faqbots';
 
 export class MlEntitesSmartTable extends AbstractSmartTable {
   constructor(rawData, metaData, protected dependency) {
@@ -25,7 +25,7 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
   customTransformArticleHistoryDataForMaterialTable(data: any[]) {
     const tableDataMetaDict = this.metaData;
     const updateAccess = !this.dependency.permissionService.isTabAccessDenied('Update entity');
-    const deleteAccess = !this.dependency.permissionService.isTabAccessDenied('Remove entity')
+    const deleteAccess = !this.dependency.permissionService.isTabAccessDenied('Remove entity');
     const modifiedTableData = data.map((corpusTableDataItem, index) => {
       // "color": string,
       //   "created_at": number,
@@ -51,8 +51,7 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
             value: corpusTableDataItem[key],
             searchValue: corpusTableDataItem[key]
           };
-        }
-        else if (key === 'updated_at') {
+        } else if (key === 'updated_at') {
           const date = new Date(corpusTableDataItem[key]);
           //+ ' by ' + corpusTableDataItem['updated_by'],
           obj[tableDataMetaDict[key].displayValue] = {
@@ -63,21 +62,21 @@ export class MlEntitesSmartTable extends AbstractSmartTable {
           };
         } else if (key === 'actions') {
           let iconsWithPermissions = [];
-          if(updateAccess) {
+          if (updateAccess) {
             iconsWithPermissions.push({
               show: true,
               name: 'edit',
               iconName: 'edit',
               class: 'edit'
-            })
+            });
           }
-          if(deleteAccess) {
+          if (deleteAccess) {
             iconsWithPermissions.push({
               show: true,
               name: 'delete',
               iconName: 'delete',
               class: 'delete'
-            })
+            });
           }
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
