@@ -196,7 +196,6 @@ export class SideBarService {
   static isBotTestingDirty() {
 
     try {
-      debugger
       const botTestingData_final = this.createBotTestingFinalData();
       return !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
     } catch (e) {
