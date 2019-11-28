@@ -21,7 +21,9 @@ export class SocketService {
   private socket;
 
   initAllEvents() {
+
     this.socket.on('train', (data) => {
+
       SocketService.train$.emit(data);
     });
 
@@ -44,9 +46,9 @@ export class SocketService {
         console.log('Client has connected to the server!');
         if (!SocketService.isInitDone) {
           this.initAllEvents();
+          SocketService.isInitDone = true;
         }
       });
-      SocketService.isInitDone = true;
     }
   }
 
