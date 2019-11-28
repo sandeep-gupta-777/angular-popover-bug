@@ -691,7 +691,7 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Description of trained knowledge base',
-
+      skipXssValidation: true
     },
     updated_at: {
       originalKey: 'updated_at',

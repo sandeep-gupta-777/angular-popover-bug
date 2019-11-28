@@ -1,5 +1,6 @@
 import {AbstractSmartTable} from 'src/app/smart-table/smart-table';
 import {ICorpus} from '../../interfaces/faqbots';
+import {UtilityService} from 'src/app/utility.service';
 
 export class ArticleHistorySmartTable extends AbstractSmartTable {
   constructor(rawData, metaData, protected dependency) {
@@ -28,13 +29,14 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
       const obj: any = {};
       for (const key in tableDataMetaDict) {
         if (key === 'description') {
+          const displayVal = UtilityService.sanitizeHTML(corpusTableDataItem[key]);
           const exclamationIconHTML = `<span class="fa fa-circle color-green icon-postion" title="Corpus is live"></span>`;
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
             value: `<span class="email-wrapper">
                         ${(corpusTableDataItem.state === 'live') ? exclamationIconHTML : ''}
-                        <span>${corpusTableDataItem[key]}</span>
+                        <span>${displayVal}</span>
                     </span>`,
                         searchValue: corpusTableDataItem[key]
                     };
@@ -47,7 +49,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         searchValue: this.dependency.datePipe.transform(date, 'date') + corpusTableDataItem['updated_by']
                     };
                 } else if (key === 'actions') {
-           
+
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
