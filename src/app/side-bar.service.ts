@@ -176,6 +176,9 @@ export class SideBarService {
     SideBarService.botTestingData_init = SideBarService.botTestingData_init.map((array) => {
       return array.slice(0, 2);
     });
+    SideBarService.botTestingData_init = SideBarService.botTestingData_init.filter((arr)=>{
+      return arr[0] || arr[1]
+    })
     SideBarService.activeTab = ESideBarTab.test;
   }
 
@@ -193,6 +196,7 @@ export class SideBarService {
   static isBotTestingDirty() {
 
     try {
+      debugger
       const botTestingData_final = this.createBotTestingFinalData();
       return !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
     } catch (e) {
