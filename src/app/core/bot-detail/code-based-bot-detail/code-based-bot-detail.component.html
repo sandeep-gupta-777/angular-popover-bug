@@ -19,7 +19,7 @@
             <span style="color: #00ABD3">Settings</span>
           </div>
         </a>
-        <ng-container *ngIf="!((loggeduser$|async)?.user?.role?.name === 'Tester' && bot.bot_type === myEBotType.mlbot)">
+        <ng-container>
           <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
             <a mat-list-item class="mat-list-item-sidebar"
                (click)="sideBarTabChanged(myESideBarTab.input)">
