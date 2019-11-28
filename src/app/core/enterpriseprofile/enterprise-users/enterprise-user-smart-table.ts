@@ -2,6 +2,7 @@ import {AbstractSmartTable} from '../../../smart-table/smart-table';
 import {ConstantsService} from '../../../constants.service';
 import {IBot} from '../../interfaces/IBot';
 import {IEnterpriseUser} from '../../interfaces/enterprise-users';
+import {UtilityService} from '../../../utility.service';
 
 
 export class EnterpriseUserSmartTable extends AbstractSmartTable {
@@ -64,7 +65,7 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
     const modifiedTableData = data.map((consumerTableDataItem) => {
       const obj: any = {};
       const thisUsersEnterperise = consumerTableDataItem.enterprises.find(value => value.enterprise_id === this.dependency.enterpriseId);
-
+    debugger;
 
       for (const key in tableDataMetaDict) {
 
@@ -101,10 +102,11 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
 
     const modifiedTableData2 = modifiedTableData.map((tableGataItem) => {
       const exclamationIconHTML = `<span class="fa fa-exclamation-triangle color-yellow" title="User not verified"></span>`;
+      const email = UtilityService.sanitizeHTML( tableGataItem['Email ID'].value);
       tableGataItem['Email ID'].value = `
               <span class="email-wrapper">
                   ${!tableGataItem.originalSessionData.enterprises[0].is_active ? exclamationIconHTML : ''}
-                  <span>${tableGataItem['Email ID'].value}</span>
+                  <span>${email}</span>
               </span>`;
       tableGataItem.Actions.value = tableGataItem.Actions.value || [];
       tableGataItem.Actions.value.push({show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary'});
