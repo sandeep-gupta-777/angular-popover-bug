@@ -1,0 +1,189 @@
+<ng-container>
+  <app-button-wrapper
+    *ngIf="activeTab == 3"
+    class="card--update"
+    [isMatFlatButton]="false"
+    [text]="'Update settings'"
+    [icon]="'refresh'"
+    (btnClick)="updateSettingsHandler()">
+  </app-button-wrapper>
+  <app-button-wrapper
+    *ngIf="activeTab != 3"
+    class="card--update"
+    [isMatFlatButton]="false"
+    [text]="'Refresh'"
+    [icon]="'refresh'"
+    (btnClick)="refershCurrentTabHandler()">
+  </app-button-wrapper>
+  <mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTab">
+    <mat-tab label="Overview">
+      <app-curation-overview
+        *ngIf="topArticlesWithIssues"
+        [reloading]="topArticlesWithIssuesReloading"
+        [TopArticlesWithIssues]="topArticlesWithIssues"
+        [issuesAggrigationData]="issuesAggrigationData"
+        (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
+        (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
+
+      ></app-curation-overview>
+    </mat-tab>
+    <mat-tab label="Issues">
+      <div *ngIf="isBotAdvancedDataProtective">
+        <app-splash-screen
+          [imageHRef]="'padlock.svg'"
+          class="absolute-center"
+          [headingText]="'All data is encrypted'"
+          [descriptionText]="'Provide a decryption key to see unresolved and resolved issues'"
+        >
+          <form class = "d-flex encrypt-form" #dataEncryptionForm="ngForm" (ngSubmit)="requestEncription(dataEncryptionForm.value.qtext)">
+            <input type="text" name="qtext" ngModel autocomplete="off">
+            <button type="submit"
+                    class="btn-theme btn-theme-primary "
+                    (click)="requestEncription(dataEncryptionForm.value.qtext)"
+            >
+              <mat-icon
+                style="font-size: 15px;
+                  display: flex;
+                  align-items: center;
+                  color: #ffffff;
+                  justify-content: center;"
+              >lock_open</mat-icon>
+            </button>
+          </form>
+        </app-splash-screen>
+      </div>
+      <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationIssuesList">
+        <app-curation-filter (formSubmitted)="submitedForm($event)"
+                             [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
+                             [form]="curationIssuesFilterForm"
+                             [hidden]="!curationIssuesList"
+                             [unsolved]="true"
+                             style="z-index: 100;"></app-curation-filter>
+
+        <app-curation-issues-list [bot]=" bot" *ngIf="curationIssuesList"
+                                  [curationItemList]="curationIssuesList"
+                                  [isMorePresent]="isMoreCurationIssuesListPresent"
+                                  [reloadingMore]="curationIssuesListisReloading"
+                                  (loadMoreNext)="load10MoreCurationIssues(false)"
+                                  (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
+                                  [totallength]="totalLengthCurationIssue" [liveBotUpdatedAt]="liveBotUpdatedAt"
+                                  (addQueryToArticleByIds)="addQueryToArticleByIds($event)"
+                                  [corpusState]="corpusState">
+        </app-curation-issues-list>
+        <div *ngIf="
+        !curationIssuesListisReloading &&
+        objToSrt(IssuesFilterQueryParams) != '&order_by=-updated_at' &&
+        curationIssuesList &&
+        !isMoreCurationIssuesListPresent &&
+        curationIssuesList.length == 0">
+          <app-splash-screen [imageHRef]="myESplashScreens.search"
+                             class="d-flex justify-content-center align-items-center" [descriptionText]=""
+                             style="
+                  position: absolute;
+                  top: 43%;
+                  left: 51%;">
+          </app-splash-screen>
+        </div>
+        <div *ngIf="
+        !curationIssuesListisReloading &&
+        objToSrt(IssuesFilterQueryParams) == '&order_by=-updated_at' &&
+        curationIssuesList &&
+        curationIssuesList.length === 0 &&
+        !isMoreCurationIssuesListPresent">
+          <app-splash-screen [imageHRef]="myESplashScreens.curation_all_resolved"
+                             class="d-flex justify-content-center align-items-center"
+                             [descriptionText]="'Congratulations, you have no more issues to resolve'"
+                             style="
+                  position: absolute;
+                  top: 43%;
+                  left: 51%;">
+          </app-splash-screen>
+        </div>
+        <app-imi-loader *ngIf="curationIssuesListisReloading" style="position: absolute;top:40vh;right:63vh">
+        </app-imi-loader>
+      </section>
+    </mat-tab>
+    <mat-tab label="Resolved">
+      <div *ngIf="isBotAdvancedDataProtective">
+        <app-splash-screen
+          [imageHRef]="'padlock.svg'"
+          class="absolute-center"
+          [headingText]="'All data is encrypted'"
+          [descriptionText]="'Provide a decryption key to see unresolved and resolved issues'"
+        >
+          <form class = "d-flex encrypt-form" #dataEncryptionForm="ngForm" (ngSubmit)="requestEncription(dataEncryptionForm.value.qtext)">
+            <input type="text" name="qtext" ngModel autocomplete="off">
+            <button type="submit"
+                    class="btn-theme btn-theme-primary "
+                    (click)="requestEncription(dataEncryptionForm.value.qtext)"
+            >
+              <mat-icon
+                style="font-size: 15px;
+                  display: flex;
+                  align-items: center;
+                  color: #ffffff;
+                  justify-content: center;"
+              >lock_open</mat-icon>
+            </button>
+          </form>
+        </app-splash-screen>
+      </div>
+
+      <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData"
+                                         *ngIf="!isBotAdvancedDataProtective && aggregationResolvedData"></app-curation-resolved-aggrigation>
+      <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationResolvedAndIgnoredList">
+        <app-curation-filter [form]="curationResolvedFilterForm" (formSubmitted)="submitedForm($event)"
+                             [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
+                             [hidden]="!curationResolvedAndIgnoredList"
+                             [unsolved]="false" style="z-index: 100;"></app-curation-filter>
+        <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
+                                    [bot]="bot"
+                                    [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
+                                    (loadMoreNext)="load10MoreCurationResolvedAndIgnored(false)"
+                                    [totallength]="totalLengthCurationResolvedAndIgnored"
+                                    [reloadingMore]="curationResolvedAndIgnoredListisReloading"
+                                    [liveBotUpdatedAt]="liveBotUpdatedAt">
+        </app-curation-resolved-list>
+        <div *ngIf="
+        !curationResolvedAndIgnoredListisReloading &&
+        curationResolvedAndIgnoredList &&
+        curationResolvedAndIgnoredList.length == 0 &&
+        objToSrt(ResolvedFilterQueryParams) == '&order_by=-updated_at'">
+          <app-splash-screen [imageHRef]="myESplashScreens.curation_all_resolved"
+                             class="d-flex justify-content-center align-items-center"
+                             [descriptionText]="'You have no resolved issues'"
+                             style="
+                position: absolute;
+                top: 43%;
+                left: 51%;">
+          </app-splash-screen>
+        </div>
+        <div *ngIf="
+      !curationResolvedAndIgnoredListisReloading &&
+      curationResolvedAndIgnoredList &&
+      curationResolvedAndIgnoredList.length == 0 &&
+      objToSrt(ResolvedFilterQueryParams) != '&order_by=-updated_at'">
+          <app-splash-screen [imageHRef]="myESplashScreens.search"
+                             class="d-flex justify-content-center align-items-center" [descriptionText]=""
+                             style="
+                position: absolute;
+                top: 43%;
+                left: 51%;">
+          </app-splash-screen>
+        </div>
+        <app-imi-loader *ngIf="curationResolvedAndIgnoredListisReloading"
+                        style="position: absolute;top:40vh;right:63vh">
+        </app-imi-loader>
+      </section>
+    </mat-tab>
+<!--    <mat-tab label="Settings">-->
+<!--      <app-curation-settings [bot]="bot" [curationSettingsForm]="curationSettingsForm"></app-curation-settings>-->
+<!--    </mat-tab>-->
+  </mat-tab-group>
+
+  <app-imi-loader *ngIf="reloading">
+  </app-imi-loader>
+</ng-container>
+
+
+
