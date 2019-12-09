@@ -116,6 +116,7 @@ import {GentemplateImageComponent} from '../buildbot/build-code-based-bot/archit
 import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-file/gentemplate-file.component';
 import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
 import {HttpIdleInterceptor} from '../../http-idle.interceptor';
+import {MlCurationComponent} from "./ml-curation/ml-curation.component";
 
 
 const routes: Route[] = [
@@ -204,6 +205,7 @@ const routes: Route[] = [
     CurationSettingsComponent,
     CurationResolvedAggrigationComponent,
     CurationOverviewComponent,
+    MlCurationComponent,
     MLModelComponent,
     MlReplyComponent,
     MlIntentsComponent,

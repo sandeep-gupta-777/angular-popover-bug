@@ -35,7 +35,121 @@ export class MlCurationComponent implements OnInit {
   curation_filter_form: FormGroup;
   @Input() bot: IBot;
   myESplashScreens = ESplashScreens;
-  curationIssuesList: ICurationItem[];
+  curationIssuesList : any = [
+    {
+      "bot_id": 848,
+      "bot_message_id": 129948,
+      "consumer_id": 18390,
+      "corpus_id": 59,
+      "created_at": 1556678158000,
+      "created_by": 0,
+      "curation_state": "in_curation",
+      "template_key": "Fallback Message",
+      "generated_msg": [
+        {
+          "text": "Sorry,  I could not understand your message. Could you please rephrase that?"
+        }
+      ],
+      "id": 1,
+      "platform": "web",
+      "resolved_intent": {},
+      "resource_uri": "/api/v1/faqbotcuration/43064/",
+      "room_id": 43064,
+      "matched_intents":[],
+      "transaction_id": "00a7295ca0224d0b858d953609bd00b1",
+      "triggered_rules": {
+        "agent_handover": false,
+        "downvoted": true,
+        "fallback": true,
+        "from_session": false,
+        "low_confidence": false,
+        "partial_match": false
+      },
+      "updated_at": 1556679025000,
+      "updated_by": 0,
+      "user_message": "hello"
+    },
+    {
+      "bot_id": 848,
+      "bot_message_id": 129952,
+      "consumer_id": 18390,
+      "corpus_id": 59,
+      "created_at": 1556687534000,
+      "created_by": 62,
+      "curation_state": "in_curation",
+      "template_key": "Help",
+      "generated_msg": [
+        {
+          "text": "Hey, this is one of the bots default articles. You can add your own answer to this section and add more variants"
+        }
+      ],
+      "id": 4,
+      "platform": "web",
+      "resolved_intent": {},
+      "resource_uri": "/api/v1/faqbotcuration/43064/",
+      "room_id": 43064,
+      "matched_intents":[
+        {"id":"1","name":"help"}
+      ],
+      "transaction_id": "a8c28364d9164bf9874afbd2c0c62107",
+      "triggered_rules": {
+        "agent_handover": false,
+        "downvoted": false,
+        "fallback": false,
+        "from_session": true,
+        "low_confidence": false,
+        "partial_match": false
+      },
+      "updated_at": 1556687534000,
+      "updated_by": 62,
+      "user_message": "help"
+    },
+    {
+      "bot_id": 848,
+      "bot_message_id": 129962,
+      "consumer_id": 18390,
+      "corpus_id": 59,
+      "created_at": 1556688006000,
+      "created_by": 0,
+      "curation_state": "in_curation",
+      "template_key": "Partial match message",
+      "generated_msg": [
+        {
+          "text": "Sorry I was unable to understand your message, could you select the message you were referring to?"
+        },
+        {
+          "text": "1. What can you do?"
+        },
+        {
+          "text": "2. Where is my order?"
+        },
+        {
+          "text": "3. When can you deliver?"
+        }
+      ],
+      "id": 9,
+      "platform": "web",
+      "resolved_intent": {},
+      "resource_uri": "/api/v1/faqbotcuration/43064/",
+      "room_id": 43064,
+      "matched_intents":[
+        {"id":"1","name":"help"},
+        {"id":"2","name":"do you deliver"}
+      ],
+      "transaction_id": "374960877a034122b251f5d1f19a7d55",
+      "triggered_rules": {
+        "agent_handover": false,
+        "downvoted": false,
+        "fallback": false,
+        "from_session": false,
+        "low_confidence": false,
+        "partial_match": true
+      },
+      "updated_at": 1556688006000,
+      "updated_by": 0,
+      "user_message": "hello"
+    }
+  ];
   curationIssuesListLength = 0;
   isMoreCurationIssuesListPresent = false;
   totalLengthCurationIssue: number;
@@ -43,7 +157,134 @@ export class MlCurationComponent implements OnInit {
   IssuesFilterQueryParams: object = {
     'order_by': `-updated_at`
   };
-  curationResolvedAndIgnoredList: ICurationItem[];
+  curationResolvedAndIgnoredList : any= [
+    {
+      "bot_id": 848,
+      "bot_message_id": 130517,
+      "consumer_id": 18513,
+      "corpus_id": 60,
+      "created_at": 1558488916000,
+      "created_by": 0,
+      "curation_state": "resolved",
+      "template_key": "Partial match message",
+      "generated_msg": [
+        {
+          "text": "These are the top matched queries"
+        },
+        {
+          "text": "1. What can you do?"
+        },
+        {
+          "text": "2. where do you work?"
+        },
+        {
+          "text": "3. Talk to an agent"
+        }
+      ],
+      "id": 50,
+      "platform": "web",
+      "resolved_intent": {
+        "corpus_id": 212,
+        "intent_name": "book an appointment",
+        "new_intent": false,
+        "intent_id": "3"
+      },
+      "resource_uri": "/api/v1/faqbotcuration/43212/",
+      "room_id": 43212,
+      "matched_intents":[
+        {"id":"1","name":"help"},
+        {"id":"2","name":"Work info"},
+        {"id":"3","name":"Talk to agent"}
+      ],
+      "transaction_id": "393452b7f82845928393043b622d6b57",
+      "triggered_rules": {
+        "agent_handover": false,
+        "downvoted": false,
+        "fallback": false,
+        "from_session": false,
+        "low_confidence": false,
+        "partial_match": true
+      },
+      "updated_at": 1560912115000,
+      "updated_by": 62,
+      "user_message": "what can you do"
+    },
+    {
+      "bot_id": 848,
+      "bot_message_id": 130519,
+      "consumer_id": 18513,
+      "corpus_id": 60,
+      "created_at": 1558489078000,
+      "created_by": 0,
+      "curation_state": "resolved",
+      "template_key": "help message",
+      "generated_msg": [
+        {
+          "text": "Hey, this is one of the bots default articles. You can add your own answer to this section and add more variants"
+        }
+      ],
+      "id": 51,
+      "platform": "web",
+      "resolved_intent": {
+        "corpus_id": 212,
+        "intent_name": "book an appointment",
+        "new_intent": false,
+        "intent_id": "3"
+      },
+      "resource_uri": "/api/v1/faqbotcuration/43212/",
+      "room_id": 43212,
+      "matched_intents":[
+        {"id":"1","name":"help"}
+      ],
+      "transaction_id": "da2b4b10fb6e42c1958198d9d989c55e",
+      "triggered_rules": {
+        "agent_handover": false,
+        "downvoted": false,
+        "fallback": false,
+        "from_session": false,
+        "low_confidence": true,
+        "partial_match": false
+      },
+      "updated_at": 1560912115000,
+      "updated_by": 62,
+      "user_message": "what can you do"
+    },
+    {
+      "bot_id": 848,
+      "bot_message_id": 130519,
+      "consumer_id": 18513,
+      "corpus_id": 60,
+      "created_at": 1558489078000,
+      "created_by": 0,
+      "curation_state": "ignored",
+      "template_key": "help message",
+      "generated_msg": [
+        {
+          "text": "Hey, this is one of the bots default articles. You can add your own answer to this section and add more variants"
+        }
+      ],
+      "id": 51,
+      "platform": "web",
+      "resolved_intent": {},
+      "resource_uri": "/api/v1/faqbotcuration/43212/",
+      "room_id": 43212,
+      "matched_intents":[
+        {"id":"1","name":"help"}
+      ],
+      "transaction_id": "da2b4b10fb6e42c1958198d9d989c55e",
+      "triggered_rules": {
+        "agent_handover": false,
+        "downvoted": false,
+        "fallback": false,
+        "from_session": false,
+        "low_confidence": true,
+        "partial_match": false
+      },
+      "updated_at": 1560912115000,
+      "updated_by": 62,
+      "user_message": "what can you do"
+    }
+  ];
   curationResolvedAndIgnoredListLength = 0;
   isMoreCurationResolvedAndIgnoredListPresent = false;
   totalLengthCurationResolvedAndIgnored: number;
@@ -52,7 +293,7 @@ export class MlCurationComponent implements OnInit {
     'order_by': `-updated_at`
   };
   curationResolvedAndIgnoredListisReloading = false;
-  reloading = true;
+  reloading = false;
   liveBotUpdatedAt: number;
   aggregationResolvedData: ICurationResolvedAggregation;
   issuesAggrigationData: ICurationIssuesAggregation;
@@ -68,64 +309,64 @@ export class MlCurationComponent implements OnInit {
 
   ngOnInit() {
 
-    this.reloading = true;
-    this.curation_filter_form = this.formBuilder.group({
-      room_id: [''],
-      rule_triggered: [''],
-      date_range: [''],
-    });
+    // this.reloading = true;
+    // this.curation_filter_form = this.formBuilder.group({
+    //   room_id: [''],
+    //   rule_triggered: [''],
+    //   date_range: [''],
+    // });
 
-    this.load10MoreCurationIssues(false);
-    this.load10MoreCurationResolvedAndIgnored(false);
-    this.setLiveBotUpdatedAt();
-    this.getResolvedAggregationData();
-    this.getIssuesAggregationData();
-    this.setTopArticlesWithIssues();
-    this.makeCurationSettingsForm();
-    this.getCorpus$().subscribe();
+    // this.load10MoreCurationIssues(false);
+    // this.load10MoreCurationResolvedAndIgnored(false);
+    // this.setLiveBotUpdatedAt();
+    // this.getResolvedAggregationData();
+    // this.getIssuesAggregationData();
+    // this.setTopArticlesWithIssues();
+    // this.makeCurationSettingsForm();
+    // this.getCorpus$().subscribe();
+    //
+    // this.makeCurationIssuesFilterForm();
+    // this.makeCurationResolvedFilterForm();
 
-    this.makeCurationIssuesFilterForm();
-    this.makeCurationResolvedFilterForm();
-
-    this.curationIssuesFilterForm.get('order_by').valueChanges
-      .subscribe((val) => {
-        if (val) {
-
-          const data = {
-            'unsolved': true,
-            'value': {...this.curationIssuesFilterForm.value, 'order_by': val}
-          };
-          this.submitedForm(data);
-        }
-      });
-    this.curationResolvedFilterForm.get('order_by').valueChanges
-      .subscribe((val) => {
-        if (val) {
-          const data = {
-            'unsolved': false,
-            'value': {...this.curationResolvedFilterForm.value, 'order_by': val}
-          };
-          this.submitedForm(data);
-        }
-      });
-    this.curationIssuesFilterForm.get('count').disable();
-    this.curationResolvedFilterForm.get('count').disable();
-    this.curationIssuesFilterForm.get('issue_count_filter').valueChanges
-      .subscribe((val) => {
-        if (!!val) {
-          this.curationIssuesFilterForm.get('count').enable();
-        } else {
-          this.curationIssuesFilterForm.get('count').disable();
-        }
-      });
-    this.curationResolvedFilterForm.get('issue_count_filter').valueChanges
-      .subscribe((val) => {
-        if (!!val) {
-          this.curationResolvedFilterForm.get('count').enable();
-        } else {
-          this.curationResolvedFilterForm.get('count').disable();
-        }
-      });
+    // this.curationIssuesFilterForm.get('order_by').valueChanges
+    //   .subscribe((val) => {
+    //     if (val) {
+    //
+    //       const data = {
+    //         'unsolved': true,
+    //         'value': {...this.curationIssuesFilterForm.value, 'order_by': val}
+    //       };
+    //       this.submitedForm(data);
+    //     }
+    //   });
+    // this.curationResolvedFilterForm.get('order_by').valueChanges
+    //   .subscribe((val) => {
+    //     if (val) {
+    //       const data = {
+    //         'unsolved': false,
+    //         'value': {...this.curationResolvedFilterForm.value, 'order_by': val}
+    //       };
+    //       this.submitedForm(data);
+    //     }
+    //   });
+    // this.curationIssuesFilterForm.get('count').disable();
+    // this.curationResolvedFilterForm.get('count').disable();
+    // this.curationIssuesFilterForm.get('issue_count_filter').valueChanges
+    //   .subscribe((val) => {
+    //     if (!!val) {
+    //       this.curationIssuesFilterForm.get('count').enable();
+    //     } else {
+    //       this.curationIssuesFilterForm.get('count').disable();
+    //     }
+    //   });
+    // this.curationResolvedFilterForm.get('issue_count_filter').valueChanges
+    //   .subscribe((val) => {
+    //     if (!!val) {
+    //       this.curationResolvedFilterForm.get('count').enable();
+    //     } else {
+    //       this.curationResolvedFilterForm.get('count').disable();
+    //     }
+    //   });
   }
 
   // filter curation form

@@ -111,15 +111,14 @@
           <mat-icon>remove_circle_outline</mat-icon> &nbsp; Ignored query
         </div>
 
-        <div *ngIf="curationItemData.curation_state === 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
-          <mat-icon>add</mat-icon> &nbsp; Added to a new article:
-            “{{curationItemData.resolved_section.first_question}}”
-        </div>
-        <div *ngIf="curationItemData.curation_state === 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
-              <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:
-              “{{curationItemData.resolved_section.first_question}}”
-          </div>
-
+<!--        <div *ngIf="curationItemData.curation_state === 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
+<!--          <mat-icon>add</mat-icon> &nbsp; Added to a new article:-->
+<!--            “{{curationItemData.resolved_section.first_question}}”-->
+<!--        </div>-->
+<!--        <div *ngIf="curationItemData.curation_state === 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
+<!--              <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:-->
+<!--              “{{curationItemData.resolved_section.first_question}}”-->
+<!--          </div>-->
         <div class="ml-auto" style="min-width: 200px;">
           Resolved at
           {{curationItemData.updated_at | date:"shortTime"}},&nbsp;{{curationItemData.updated_at | date:"MMM d"}}&nbsp;'{{curationItemData.updated_at | date:"yy"}}

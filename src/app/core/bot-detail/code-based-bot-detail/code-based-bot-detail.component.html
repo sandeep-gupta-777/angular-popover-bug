@@ -67,7 +67,7 @@
           </div>
         </a>
         <ng-container *appMyIf="[myEAllActions['Get FAQbot curation issues']]">
-          <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
+          <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type || myEBotType.mlbot === bot.bot_type"
              (click)="sideBarTabChanged('curation')">
             <div class="sidebar-nav-list-item"
                  [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
@@ -186,7 +186,11 @@
               <app-curation class="fade-in-custom" style="display: block; height: 100%" [bot]="bot"></app-curation>
             </ng-container>
           </ng-container>
-
+          <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.mlbot === bot.bot_type">
+            <ng-container>
+              <app-ml-curation class="fade-in-custom" style="display: block; height: 100%" [bot]="bot"></app-ml-curation>
+            </ng-container>
+          </ng-container>
 
           <ng-container
             *ngIf="sideBarTab1 === 'History' && (myEBotType.faqbot === bot.bot_type ||  myEBotType.mlbot === bot.bot_type)">
