@@ -109,19 +109,19 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
 
 
-    this.reportFormData.delivery = <any>[{
-      ...this.reportFormData.delivery['sftp'],
-      delivery_type: 'sftp',
-      enabled: this.reportFormData.delivery['sftp'].enabled || false,
-    },
-      {
-        ...this.reportFormData.delivery['email'],
-        delivery_type: 'email',
-        enabled: this.reportFormData.delivery['email'].enabled || false,
-        recipients:  this.getRecipientsArr(this.reportFormData) || []
-      }
-    ];
-
+    // this.reportFormData.delivery = <any>[{
+    //   ...this.reportFormData.delivery['sftp'],
+    //   delivery_type: 'sftp',
+    //   enabled: this.reportFormData.delivery['sftp'].enabled || false,
+    // },
+    //   {
+    //     ...this.reportFormData.delivery['email'],
+    //     delivery_type: 'email',
+    //     enabled: this.reportFormData.delivery['email'].enabled || false,
+    //     recipients:  this.getRecipientsArr(this.reportFormData) || []
+    //   }
+    // ];
+    //
     this.reportFormData.updated_at = new Date().toISOString();
     let url;
 

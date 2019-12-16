@@ -30,6 +30,7 @@
                             <mat-form-field class="w-100">
                                 <input type="text" class="form-control" matInput placeholder="Enterprise name"
                                        formControlName="name" required>
+                                <mat-error class="mat-error-small" *ngIf="formGroup.get('name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -59,6 +60,7 @@
                                 <input type="text" class="form-control" required matInput
                                        placeholder="Enterprise Unique Name" formControlName="enterprise_unique_name"
                                        readonly>
+                              <mat-error class="mat-error-small" *ngIf="formGroup.get('enterprise_unique_name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
                             </mat-form-field>
                         </div>
                     </div>

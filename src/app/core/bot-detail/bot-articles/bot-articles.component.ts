@@ -22,6 +22,7 @@ import downloadCsv from 'download-csv';
 import {CategoryIdToNamePipe} from './category-id-to-name.pipe';
 import {ELoadingStatus} from 'src/app/button-wrapper/button-wrapper.component';
 import * as Papa from 'papaparse';
+import {FormsService} from '../../../forms.service';
 
 @Component({
   selector: 'app-bot-articles',
@@ -341,7 +342,10 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
         title: `Train knowledge base`,
         isActionButtonDanger: false,
-        inputDescription: 'Comment'
+        //inputDescription: 'Comment',
+        formGroup: this.formBuilder.group({
+          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator(1, 500)]]
+        })
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent

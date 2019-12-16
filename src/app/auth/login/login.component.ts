@@ -336,6 +336,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   clickedEnterprise(Enterprise) {
+
+    console.log('asdadasd');
     this.loading = true;
     this.enterEnterprise(Enterprise)
       .subscribe((value) => {

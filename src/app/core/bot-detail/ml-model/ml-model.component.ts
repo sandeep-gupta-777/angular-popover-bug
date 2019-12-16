@@ -18,9 +18,10 @@ import {EventService} from '../../../event.service';
 import {MlService} from './ml.service';
 import {SocketService} from '../../../socket.service';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
-import {ESplashScreens} from "../../../splash-screen/splash-screen.component";
-import {EAllActions} from "../../../typings/enum";
-import {MlReplyService} from "../ml-reply/ml-reply.service";
+import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {EAllActions} from '../../../typings/enum';
+import {MlReplyService} from '../ml-reply/ml-reply.service';
+import {FormsService} from '../../../forms.service';
 
 @Component({
   selector: 'app-ml-model',
@@ -57,7 +58,8 @@ export class MLModelComponent implements OnInit {
   IEntitiesItem;
   myESplashScreens = ESplashScreens;
   myEAllActions = EAllActions;
-  responceState : string;
+  responceState: string;
+
   ngOnInit() {
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
     this.getAndSetMlCorpusMiniData();
@@ -87,7 +89,7 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [Validators.required, this.noWhitespaceValidator]],
+      'entity_name': ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64), this.noWhitespaceValidator]],
       'entity_value': '',
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
@@ -122,15 +124,15 @@ export class MLModelComponent implements OnInit {
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
       this.loading_entities = false;
       this.entityList = value.objects;
-      this.entityList.sort((a,b)=>{
-          if(a.updated_at > b.updated_at){
-            return -1;
-          }else if (a.updated_at < b.updated_at){
-            return 1
-          }else{
-            return 0;
-          }
-      })
+      this.entityList.sort((a, b) => {
+        if (a.updated_at > b.updated_at) {
+          return -1;
+        } else if (a.updated_at < b.updated_at) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       this.entityList = this.entityList.map((entity) => {
         const color = this.utilityService.getRandomColor();
         return {
@@ -153,15 +155,15 @@ export class MLModelComponent implements OnInit {
     this.serverService.makeGetReq({url, headerData}).subscribe((val: any) => {
       this.getAndSetMlCorpusMiniData();
       this.intentList = val.objects;
-      this.intentList.sort((a,b)=>{
-        if(a.updated_at > b.updated_at){
+      this.intentList.sort((a, b) => {
+        if (a.updated_at > b.updated_at) {
           return -1;
-        }else if (a.updated_at < b.updated_at){
-          return 1
-        }else{
+        } else if (a.updated_at < b.updated_at) {
+          return 1;
+        } else {
           return 0;
         }
-      })
+      });
       // this.entityList = val.objects[0].entities;
       this.loading_intents = false;
       const intent_id = this.activatedRoute.snapshot.queryParams.intent_id;
@@ -353,7 +355,10 @@ export class MLModelComponent implements OnInit {
         message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
         title: `Train knowledge base`,
         isActionButtonDanger: false,
-        inputDescription: 'Comment'
+        //inputDescription: 'Comment',
+        formGroup: this.formBuilder.group({
+          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator(1, 500)]]
+        })
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent
@@ -380,7 +385,8 @@ export class MLModelComponent implements OnInit {
         this.getAndSetMlCorpusMiniData();
       });
   }
-  getResponceState(){
+
+  getResponceState() {
     let url = this.constantsService.getMLResponceStateMiniData();
 
     // let url = this.constantsService.getMLDefaultCorpus();
@@ -391,24 +397,28 @@ export class MLModelComponent implements OnInit {
       this.responceState = val.state;
     });
   }
+
   // make live stuff
-  makeBothCorpusLive(){
+  makeBothCorpusLive() {
     this.makeLiveCorpus();
     this.makeResponseLive();
   }
+
   makeResponseLive() {
     this.mlReplyService.makeResponseLive(this.bot, {comment: 'test'})
       .subscribe((test) => {
         this.dialogRefWrapper.ref.close();
       });
   }
-  openMakeLiveCorpusModal(template){
-    if(this.responceState === 'saved'){
+
+  openMakeLiveCorpusModal(template) {
+    if (this.responceState === 'saved') {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    }else{
+    } else {
       this.makeLiveCorpus();
     }
   }
+
   makeLiveCorpus() {
 
     const url = this.constantsService.makeMLCorpusLiveUrl();

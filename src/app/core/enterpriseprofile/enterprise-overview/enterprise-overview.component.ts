@@ -20,6 +20,7 @@ import {map, takeUntil} from 'rxjs/operators';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EnterpriseOverviewSmartTable} from './enterprise-overview-smart-table';
 import {ESortDir} from '../../../smart-table/smart-table.component';
+import {FormsService} from '../../../forms.service';
 
 @Component({
   selector: 'app-enterprise-overview',
@@ -124,12 +125,12 @@ export class EnterpriseOverviewComponent implements OnInit, OnDestroy {
     this.serviceKeyActiveTableModal = this.enterpriseOverViewTableFactory(this.serviceKeyTableDataActive, this.getTableDataMetaDictActive());
     this.serviceKeyExpiredTableModal = this.enterpriseOverViewTableFactory(this.serviceKeyTableDataExpired, this.getTableDataMetaDictExpired());
     this.formGroup = this.formBuilder.group({
-      name: [''],
+      name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
       industry: [''],
       logo: ['', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       email: [''],
       // websiteUrl: [''],
-      enterprise_unique_name: [''],
+      enterprise_unique_name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
       tier_group: [''],
       log_retention_period: [''],
     });

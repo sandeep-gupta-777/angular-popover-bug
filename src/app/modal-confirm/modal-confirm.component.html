@@ -21,6 +21,7 @@
   <form [formGroup]="formGroup" class="input-form pb-2" id="modalInputForm" *ngIf="formGroup">
     <mat-form-field class="example-full-width">
       <input autofocus matInput required [placeholder]="dataCopy.inputDescription" formControlName="inputData">
+      <mat-error class="mat-error-small" *ngIf="formGroup.get('inputData').errors?.error?.message as message">{{message}}</mat-error>
     </mat-form-field>
   </form>
 

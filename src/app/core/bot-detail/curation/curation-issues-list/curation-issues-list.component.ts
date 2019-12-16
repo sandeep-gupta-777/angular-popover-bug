@@ -9,10 +9,11 @@ import {IHeaderData} from '../../../../../interfaces/header-data';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
 import {ESplashScreens} from 'src/app/splash-screen/splash-screen.component';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {EAllActions} from '../../../../typings/enum';
+import {FormsService} from '../../../../forms.service';
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -29,6 +30,7 @@ export class CurationIssuesListComponent implements OnInit {
     private matDialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
   ) {
   }
 
@@ -86,7 +88,11 @@ export class CurationIssuesListComponent implements OnInit {
         message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
         title: `Train knowledge base`,
         isActionButtonDanger: false,
-        inputDescription: 'Comment'
+        //inputDescription: 'Comment',
+// asdasdasd
+        formGroup: this.formBuilder.group({
+          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator(1, 500)]]
+        })
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent

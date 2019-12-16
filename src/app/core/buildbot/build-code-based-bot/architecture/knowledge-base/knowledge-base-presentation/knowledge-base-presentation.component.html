@@ -1,4 +1,4 @@
-<div class="d-flex-column-last-child-flex-grow-1 create-concept-row" style="padding-left: 14px">
+<form [formGroup]="form" class="d-flex-column-last-child-flex-grow-1 create-concept-row" style="padding-left: 14px">
 
   <header>
     <div style="position: relative;padding-bottom: 16px">
@@ -10,21 +10,21 @@
     </div>
   </header>
 
-  <div class="child d-flex justify-content-between">
+  <div class="child d-flex justify-content-between" style="margin-bottom: 0.7em">
 
-    <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
+    <div class="options d-flex align-items-end w-100">
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput
                [disabled]="disableAll"
                data-cy="concept-name-input"
-               placeholder="Concept name" required [(ngModel)]="key" name="key">
+               placeholder="Concept name" required  formControlName="key">
+        <mat-error class="mat-error-small" *ngIf="form.get('key').errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>
       <div class="d-flex flex-column mx-2">
-
         <mat-form-field style="margin-bottom: -1.25em">
-          <mat-select [(ngModel)]="ner_type"
+          <mat-select
                       [disabled]="disableAll"
-                      required name="ner_type" placeholder="Concept Type">
+                      required formControlName="ner_type" placeholder="Concept Type">
             <mat-option value="single_match">Single Match</mat-option>
             <mat-option value="double_match">Double Match</mat-option>
             <mat-option value="with_metadata">With Metadata</mat-option>
@@ -39,38 +39,38 @@
         <div style="height: 26px;">
           <mat-slide-toggle
             [disabled]="disableAll"
-            name="process_raw_text"
+            formControlName="process_raw_text"
             color="primary"
             class="d-flex align-items-center mx-1"
             style="border:none;padding: 0;"
-            [(ngModel)]="process_raw_text"></mat-slide-toggle>
+            ></mat-slide-toggle>
         </div>
       </div>
 
-      <div class="d-flex flex-column mx-2" *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='regex';">
+      <div class="d-flex flex-column mx-2" *ngIf="form.value.ner_type==='single_match' ||form.value.ner_type==='double_match' ||form.value.ner_type==='regex';">
         <label class="m-0 p-0 mb-1">Mask concept value</label>
         <div style="height: 26px;">
           <mat-slide-toggle
             [disabled]="disableAll"
-            name="is_sensitive"
+            formControlName="is_sensitive"
             color="primary"
             class="d-flex align-items-center mx-1"
             style="border:none;padding: 0;"
-            [(ngModel)]="is_sensitive"></mat-slide-toggle>
+            ></mat-slide-toggle>
         </div>
       </div>
 
 
-      <div class="d-flex flex-column mx-2" *ngIf="ner_type==='single_match';">
+      <div class="d-flex flex-column mx-2" *ngIf="form.value.ner_type==='single_match';">
         <label class="m-0 p-0 mb-1">Ignore punctuations</label>
         <div style="height: 26px;">
           <mat-slide-toggle
             [disabled]="disableAll"
-            name="ignore_punctuation"
+            formControlName="ignore_punctuation"
             color="primary"
             class="d-flex align-items-center mx-1"
             style="border:none;padding: 0;"
-            [(ngModel)]="ignore_punctuation"></mat-slide-toggle>
+            ></mat-slide-toggle>
         </div>
       </div>
 
@@ -81,13 +81,13 @@
             [ngClass]="{'label-selected':conflict_policy==='override','label-unselected': conflict_policy==='merge'}"
             class="p-0 px-2 m-0"
             for="radio1">Override</label>
-          <input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
-                 [(ngModel)]="conflict_policy" value="override" checked>
+          <input hidden type="radio" class="form-check-input" id="radio1" required formControlName="conflict_policy"
+                  value="override" checked>
           <label
             [ngClass]="{'label-unselected':conflict_policy==='override','label-selected': conflict_policy==='merge'}"
             class="p-0 px-2 m-0" for="radio2">Merge</label>
-          <input hidden type="radio" class="form-check-input" id="radio2" required name="conflict_policy"
-                 [(ngModel)]="conflict_policy" value="merge">
+          <input hidden type="radio" class="form-check-input" id="radio2" required formControlName="conflict_policy"
+                  value="merge">
 
         </div>
 
@@ -173,18 +173,19 @@
           </button>
         </div>
       </ng-container>
-    </form>
+    </div>
   </div>
 
   <div class="mt-2 d-flex-column-last-child-flex-grow-1 child">
     <div class="d-flex-column-last-child-flex-grow-1"
-         *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">
-      <app-code-editor class="" (textChangedEvent)="textChanged($event)"
+         *ngIf="form.value.ner_type==='single_match' ||form.value.ner_type==='double_match' ||form.value.ner_type==='with_metadata' ||form.value.ner_type==='regex';">
+      <app-code-editor
                        [readOnly]="disableAll"
-                       [text]="codeTextInputToCodeEditorObj"></app-code-editor>
+                       formControlName="code"
+                       ></app-code-editor>
     </div>
     <app-handsontable
-      *ngIf="ner_type==='database'"
+      *ngIf="form.value.ner_type==='database'"
       class="d-flex-column-last-child-flex-grow-1"
       style="overflow: auto;"
       [testData]="handsontableData"
@@ -192,7 +193,7 @@
       [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
     </app-handsontable>
   </div>
-</div>
+</form>
 
 <ng-template #deleteTemplate>
   <div class="danger-modal">

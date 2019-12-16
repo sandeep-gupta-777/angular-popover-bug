@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -68,4 +68,16 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
     return index + (this.selectedIntent && this.selectedIntent.entities && this.selectedIntent.entities.length);
   }
 
+  retry_message: string;
+  x = function ($input: any) {
+    debugger;
+    if (Number($input.value) == NaN) {
+      $input.value = 0;
+    }
+    if ($input.value > 100) {
+      $input.value = 100;
+    } else if ($input.value < -1) {
+      $input.value = 0;
+    }
+  };
 }

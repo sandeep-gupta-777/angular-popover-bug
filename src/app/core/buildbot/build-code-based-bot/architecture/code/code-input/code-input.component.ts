@@ -23,7 +23,7 @@ import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
-import {FormGroup, NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {IUser} from '../../../../../interfaces/user';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
@@ -105,13 +105,20 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     public utilityService: UtilityService,
     public formsService: FormsService,
     public codeInputService: CodeInputService,
+    public formBuilder: FormBuilder,
     public matDialog: MatDialog,
     private router: Router,
   ) {
     super(utilityService, matDialog);
   }
 
+  newVersionModalForm: FormGroup;
+
   ngOnInit() {
+    this.newVersionModalForm = this.formBuilder.group({
+      version: [],
+      comment: ['', [FormsService.alphanumericValidators()]]
+    });
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
     this.channelListClone = CodeInputService.createChannelList(this.bot);
     EventService.botUpdatedInServer$.subscribe((bot) => {
@@ -232,6 +239,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   openForkNewVersionModal(template) {
+    this.newVersionModalForm.patchValue({version_id: this.selectedVersion_st.version, comment: ''});
     this.openPrimaryModal(template);
   }
 

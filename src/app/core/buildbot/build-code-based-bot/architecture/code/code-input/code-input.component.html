@@ -205,14 +205,15 @@
     </div>
 
     <div class="modal-body">
-      <form class="d-flex flex-column" #fork_new_version_form="ngForm" style="align-items: start;">
+      <form [formGroup]="newVersionModalForm" class="d-flex flex-column" style="align-items: start;">
         <div class="d-flex" style="align-items: center;">
           <div class="mr-4">
             <label for="">Fork from</label>
           </div>
           <mat-form-field style="width: 46px;">
-            <mat-select placeholder="Version" [ngModel]="selectedVersion_st.version" required type="number"
-                        name="version_id" #select>
+            <mat-select placeholder="Version"
+                        required type="number"
+                        formControlName="version_id">
               <mat-option *ngFor="let version of versions_st" [value]="version.version">
                 {{version.version}}
               </mat-option>
@@ -221,10 +222,11 @@
         </div>
 
         <mat-form-field class="example-full-width" style="width: 85%;">
-          <input matInput placeholder="Comments on the new version" ngModel
+          <input matInput placeholder="Comments on the new version"
                  data-cy="version-fork-comment"
                  required
-                 name="comment">
+                 formControlName="comment">
+          <mat-error class="mat-error-small" *ngIf="newVersionModalForm.get('comment').errors?.error as errorObj">{{errorObj.message}}</mat-error>
         </mat-form-field>
 
         <div class="ml-auto pt-4">
@@ -234,9 +236,9 @@
                   (click)="dialogRefWrapper.ref.close()">Cancel
           </button>
 
-          <button [disabled]="!fork_new_version_form.valid" class="btn-theme btn-theme-primary"
+          <button [disabled]="!newVersionModalForm.valid" class="btn-theme btn-theme-primary"
                   data-cy="version-fork-submit"
-                  (click)="forkNewVersion(fork_new_version_form.value)">
+                  (click)="forkNewVersion(newVersionModalForm.value)">
             Fork new version
           </button>
         </div>

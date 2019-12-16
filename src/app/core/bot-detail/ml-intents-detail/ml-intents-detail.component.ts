@@ -20,6 +20,7 @@ import {MlService} from '../ml-model/ml.service';
 import {EventService} from '../../../event.service';
 import {DomService} from '../../../dom.service';
 import {EAllActions} from '../../../typings/enum';
+import {FormsService} from '../../../forms.service';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -158,7 +159,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
       template_key: ['', Validators.required],
       reset_state: false
     });
