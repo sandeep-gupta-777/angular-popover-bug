@@ -41,8 +41,8 @@ export class BotConfigService {
 
   getFaqbotBuildForm(bot: IBot) {
     this.faqbotBuildForm = this.formBuilder.group({
-      name: [bot.name, [FormsService.lengthValidator(1, 64)]],
-      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator(1, 64), FormsService.startWithAlphabetValidator()].reverse()],
+      name: [bot.name, [FormsService.lengthValidator()]],
+      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator(), FormsService.startWithAlphabetValidator()].reverse()],
       allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
       language: [bot.language || 'en'],
@@ -53,8 +53,8 @@ export class BotConfigService {
 
   getMlbotBuildForm(bot: IBot) {
     this.faqbotBuildForm = this.formBuilder.group({
-      name: [bot.name, [FormsService.lengthValidator(1, 64)]],
-      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator(1, 64), FormsService.startWithAlphabetValidator()].reverse()],
+      name: [bot.name, [FormsService.lengthValidator()]],
+      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator(), FormsService.startWithAlphabetValidator()].reverse()],
       allow_feedback: [bot.allow_feedback],
       language: [bot.language || 'en'],
       logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/mlbot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
@@ -69,24 +69,24 @@ export class BotConfigService {
     const partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
     const consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
     const metaDataInnit = {
-      threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [FormsService.numberValidator({min: 0, max: 100})]],
-      threshold_min_score: [bot.bot_metadata.threshold_min_score, [FormsService.numberValidator({min: 0, max: 100})]],
-      n_results: [bot.bot_metadata.n_results, [FormsService.numberValidator({min: 0, max: 100})]]
+      threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [FormsService.numberValidator()]],
+      threshold_min_score: [bot.bot_metadata.threshold_min_score, [FormsService.numberValidator()]],
+      n_results: [bot.bot_metadata.n_results, [FormsService.numberValidator()]]
     };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(metaDataInnit),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           'enabled': [consecutive_count && consecutive_count.enabled],
-          'value': [consecutive_count && consecutive_count.value, [FormsService.numberValidator({min: 0, max: 100})]]
+          'value': [consecutive_count && consecutive_count.value, [FormsService.numberValidator()]]
         }),
         fallback_count: this.formBuilder.group({
           'enabled': [fallback_count && fallback_count.enabled],
-          'value': [fallback_count && fallback_count.value, [FormsService.numberValidator({min: 0, max: 100})]]
+          'value': [fallback_count && fallback_count.value, [FormsService.numberValidator()]]
         }),
         partial_match_count: this.formBuilder.group({
           'enabled': [partial_match_count && partial_match_count.enabled],
-          'value': [partial_match_count && partial_match_count.value, [FormsService.numberValidator({min: 0, max: 100})]]
+          'value': [partial_match_count && partial_match_count.value, [FormsService.numberValidator()]]
         })
       })
     });
@@ -102,15 +102,14 @@ export class BotConfigService {
       logo = 'https://cdn.zeplin.io/5c34452abb7a224bba47af50/assets/F4AB8C86-E2CD-4A3A-A4DB-AD109535E302.svg';
     }
     this.basicInfoForm = this.formBuilder.group({
-      name: [bot.name, [FormsService.lengthValidator(1, 64), FormsService.startWithAlphabetValidator()].reverse()],
-      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator(1, 64), FormsService.startWithAlphabetValidator()].reverse()],
-      description: [bot.description, [FormsService.lengthValidator(1, 64), FormsService.startWithAlphabetValidator()].reverse()],
+      name: [bot.name, [FormsService.lengthValidator(), FormsService.startWithAlphabetValidator()].reverse()],
+      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator(), FormsService.startWithAlphabetValidator()].reverse()],
+      description: [bot.description, [FormsService.lengthValidator(), FormsService.startWithAlphabetValidator()].reverse()],
       logo: [bot.logo || logo, [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-      first_message: [bot.first_message, [FormsService.alphanumericValidators()].reverse()],
+      first_message: [bot.first_message, [FormsService.alphanumericValidators(), FormsService.lengthValidator({max: FormsService.MAX_LENGTH_DESCRIPTION})]],
       language: [bot.language || 'en'],
-      error_message: [bot.error_message, [FormsService.alphanumericValidators()].reverse()],
+      error_message: [bot.error_message, [FormsService.alphanumericValidators(), FormsService.lengthValidator({max: FormsService.MAX_LENGTH_DESCRIPTION})]],
     }, {validator: this.utilityService.isManagerValidator});
-
 
     return this.basicInfoForm;
   }
@@ -124,15 +123,14 @@ export class BotConfigService {
       // advanced_data_protection: [bot.advanced_data_protection],
       // allow_anonymization: [bot.allow_anonymization],
       // blanket_consent: [bot.blanket_consent],
-      room_persistence_time: [bot.room_persistence_time || 240, [FormsService.numberValidator({max: 500, min: 0})]],
+      room_persistence_time: [bot.room_persistence_time || 240, [FormsService.numberValidator()]],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
-      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator({max: 50, min: 0})]],
+      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator()]],
       // first_message: [bot.first_message],
       is_manager: [bot.is_manager || false],
 
       child_bots: [bot.child_bots],
-      //for router bots
       bot_disabled_settings: this.formBuilder.group({
         'bot_disabled': bot_disabled_settings && bot_disabled_settings.bot_disabled || false,
         'disabled_message': bot_disabled_settings && bot_disabled_settings.disabled_message || 'Hey, this bot has been disabled',
@@ -157,7 +155,7 @@ export class BotConfigService {
 
   getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
-      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator({max: 50, min: 0})]],
+      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator()]],
       // heading: [bot.heading],
       advanced_data_protection: [bot.advanced_data_protection || false], // new FormControl({value: bot.advanced_data_protection}, Validators.required),
       // transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],

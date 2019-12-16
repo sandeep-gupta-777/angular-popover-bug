@@ -91,7 +91,7 @@ export class CurationIssuesListComponent implements OnInit {
         //inputDescription: 'Comment',
 // asdasdasd
         formGroup: this.formBuilder.group({
-          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator(1, 500)]]
+          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator({max: FormsService.MAX_LENGTH_DESCRIPTION})]]
         })
       },
       dialog: this.matDialog,

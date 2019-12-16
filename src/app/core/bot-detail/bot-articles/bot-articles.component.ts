@@ -57,6 +57,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
   noOfArticleFoundInUpload: number;
   uploadingData = ELoadingStatus.default;
+
   constructor(
     private constantsService: ConstantsService,
     private serverService: ServerService,
@@ -237,7 +238,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       'category_id': articleData.category_id,
       'response_type': articleData.response_type,
     };
-    if(articleData.response_type === 'dynamic'){
+    if (articleData.response_type === 'dynamic') {
       body['logic'] = articleData.logic;
     }
     let url;
@@ -342,9 +343,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
         title: `Train knowledge base`,
         isActionButtonDanger: false,
-        //inputDescription: 'Comment',
         formGroup: this.formBuilder.group({
-          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator(1, 500)]]
+          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator({
+            min: 0,
+            max: FormsService.MAX_LENGTH_DESCRIPTION
+          })]]
         })
       },
       dialog: this.matDialog,
@@ -407,6 +410,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
+
   makeLiveCorpus() {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
@@ -425,9 +429,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-  makeBothCorpusLive(){
+
+  makeBothCorpusLive() {
 
   }
+
   // category handeling
 
   categoryUpdate(body) {
@@ -529,7 +535,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
           let ans = corpusSection.answers[0].text ? corpusSection.answers[0].text[0] : '';
           let cat = this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone);
           return {
-            Answer: this.trimAllBadCharsFromStringToDownlode(ans) ,
+            Answer: this.trimAllBadCharsFromStringToDownlode(ans),
             Category: this.trimAllBadCharsFromStringToDownlode(cat),
             ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
           };
@@ -550,7 +556,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(err);
     }
   }
-  trimAllBadCharsFromStringToDownlode(str){
+
+  trimAllBadCharsFromStringToDownlode(str) {
     const charsToBeRemoved = ['+', '-', '@', '='];
     const trimmedCellData = str && str.trim && str.trim();
     if (trimmedCellData && charsToBeRemoved.find(char => trimmedCellData[0] === char)) {
@@ -559,6 +566,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return trimmedCellData;
   }
+
   downloadSample() {
     this.uploadingSampleData = ELoadingStatus.loading;
     this.serverService.makeGetReqToDownloadFiles({url: 'assets/sample_corpus.csv'})

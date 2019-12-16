@@ -117,7 +117,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
           ip: [''],
           password: [''],
           port: [''],
-          username: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
+          username: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
           privatekey: [''],
         }),
         this.formBuilder.group({

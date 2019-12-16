@@ -159,7 +159,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
     this.form = this.formBuilder.group({
-      name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
+      name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
       template_key: ['', Validators.required],
       reset_state: false
     });

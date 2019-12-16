@@ -4,10 +4,13 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Injectable()
 export class FormsService {
-  static MAX_NUMBER_GENERAL = 100;
-  static MIN_NUMBER_GENERAL = 0;
-  static MAX_LENGTH_GENERAL = 0;
+  static MAX_LENGTH_GENERAL = 400;
   static MIN_LENGTH_GENERAL = 0;
+  static MIN_LENGTH_DESCRIPTION = 0;
+  static MAX_LENGTH_DESCRIPTION = 400;
+  static MAX_NUMBER_GENERAL = 400;
+  static MIN_NUMBER_GENERAL = 0;
+
   static isValueAVar(value) {
     const str = value && value.trim();
     if (str.startsWith('$')) {
@@ -15,7 +18,12 @@ export class FormsService {
     }
   }
 
-  static lengthValidator(min, max) {
+  static lengthValidator(config?: { min?: number, max?: number }) {
+    if (!config) {
+      config = {max: FormsService.MAX_LENGTH_GENERAL, min: FormsService.MIN_LENGTH_GENERAL};
+    }
+    config = {min: config.min || FormsService.MIN_NUMBER_GENERAL, max: config.max || FormsService.MAX_NUMBER_GENERAL};
+    const {max, min} = config;
     return (formControl) => {
 
       const url: string = (formControl.value && formControl.value.trim() || '');
@@ -60,7 +68,11 @@ export class FormsService {
     };
   }
 
-  static numberValidator(config: { max: number, min: number }) {
+  static numberValidator(config?: { max: number, min: number }) {
+    if (!config) {
+      config = {max: FormsService.MAX_LENGTH_GENERAL, min: FormsService.MIN_LENGTH_GENERAL};
+    }
+    config = {min: config.min || FormsService.MIN_NUMBER_GENERAL, max: config.max || FormsService.MAX_NUMBER_GENERAL};
     return (formControl: FormControl) => {
       debugger;
       const url: number = (formControl.value || null);

@@ -89,7 +89,7 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64), this.noWhitespaceValidator]],
+      'entity_name': ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(), this.noWhitespaceValidator]],
       'entity_value': '',
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
@@ -357,7 +357,7 @@ export class MLModelComponent implements OnInit {
         isActionButtonDanger: false,
         //inputDescription: 'Comment',
         formGroup: this.formBuilder.group({
-          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator(1, 500)]]
+          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator({max: FormsService.MAX_LENGTH_DESCRIPTION})]]
         })
       },
       dialog: this.matDialog,

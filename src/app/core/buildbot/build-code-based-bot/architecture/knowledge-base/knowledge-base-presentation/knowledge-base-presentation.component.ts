@@ -112,7 +112,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   createForm() {
     return this.formBuilder.group({
-      key: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
+      key: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
       ner_type: ['double_match', []],
       process_raw_text: ['', []],
       is_sensitive: ['', []],

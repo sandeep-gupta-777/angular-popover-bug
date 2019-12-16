@@ -29,6 +29,7 @@ export class RolesComponent implements OnInit {
     private matDialog: MatDialog
   ) {
   }
+
   roleForm: FormGroup;
   selectedPermissionIdList: number[] = [];
   selectedRoleData: IRole;
@@ -152,7 +153,7 @@ export class RolesComponent implements OnInit {
   ngOnInit() {
 
     this.roleForm = this.formBuilder.group({
-      selectedRoleName: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]],
+      selectedRoleName: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
       selectedRoleBaseRole: [''],
     });
     // this.system_role = false;

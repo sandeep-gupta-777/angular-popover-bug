@@ -545,7 +545,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     const dialogRefWrapper = this.modalRefWrapper;
     //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     const formGroup = this.formBuilder.group({
-      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphabetValidator(), FormsService.lengthValidator(1, 64)]]
+      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphabetValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]]
     });
     return this.utilityService.openDialog({
       dialogRefWrapper: dialogRefWrapper,
