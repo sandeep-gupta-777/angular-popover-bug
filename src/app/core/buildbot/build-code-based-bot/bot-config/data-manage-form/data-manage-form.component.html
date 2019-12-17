@@ -63,7 +63,9 @@
 
 
   <p class="full-width subheading" style="margin-top: 30px">Session Management</p>
-  <div class="switch-wrapper" style="margin-bottom: 20px" *ngIf="(bot_type===myEBotType.chatbot)">
+
+
+  <div class="switch-wrapper" style="margin-bottom: 20px" *ngIf="!(bot_type===myEBotType.intelligent || bot_type===myEBotType.router)">
     <div class="form-control d-flex flex-column">
       <label class="pr-2">Room Close Callback
         <app-info-icon [text]="'Trigger callback api before a room is about to close'"></app-info-icon>
