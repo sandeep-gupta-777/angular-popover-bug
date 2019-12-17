@@ -112,7 +112,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   createForm() {
     return this.formBuilder.group({
-      key: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
+      key: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
       ner_type: ['double_match', []],
       process_raw_text: ['', []],
       is_sensitive: ['', []],
@@ -202,7 +202,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       return !!array.find(element => (element !== null) && (element !== undefined) && (element !== ''));
     });
     const {code, ...formData} = this.form.value;
-    debugger;
+
     const outputData = {
       mode: formData.ner_id ? 'Update' : 'Create',
       ...formData,

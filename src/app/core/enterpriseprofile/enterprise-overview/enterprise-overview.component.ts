@@ -125,12 +125,12 @@ export class EnterpriseOverviewComponent implements OnInit, OnDestroy {
     this.serviceKeyActiveTableModal = this.enterpriseOverViewTableFactory(this.serviceKeyTableDataActive, this.getTableDataMetaDictActive());
     this.serviceKeyExpiredTableModal = this.enterpriseOverViewTableFactory(this.serviceKeyTableDataExpired, this.getTableDataMetaDictExpired());
     this.formGroup = this.formBuilder.group({
-      name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
+      name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
       industry: [''],
       logo: ['', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       email: [''],
       // websiteUrl: [''],
-      enterprise_unique_name: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
+      enterprise_unique_name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
       tier_group: [''],
       log_retention_period: [''],
     });

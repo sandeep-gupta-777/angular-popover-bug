@@ -1491,6 +1491,8 @@ mat-dialog-container {
 }
 
 .mat-error-small{
-  font-size: 10px;
+  font-size: 10px!important;
   margin-bottom: 10px;
+  color: red;
+  text-align: left;
 }

@@ -344,8 +344,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         title: `Train knowledge base`,
         isActionButtonDanger: false,
         formGroup: this.formBuilder.group({
-          inputData: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator({
-            min: 0,
+          inputData: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
+            min: 1,
             max: FormsService.MAX_LENGTH_DESCRIPTION
           })]]
         })

@@ -6,8 +6,6 @@
       <mat-select placeholder="Child Bots"
                   formControlName="child_bots"
                   multiple>
-
-
         <mat-select-trigger *ngIf="formGroup.get('child_bots') && formGroup.get('child_bots').value">
                         <span *ngFor="let botId of formGroup.get('child_bots').value|slice:0:4; let last = last">
                             {{(botId|botById|async)?.name || ("Not found (id =)" + botId)}}<span *ngIf="!last">,</span>
@@ -45,7 +43,8 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="Disabled Message*"></textarea>
-          <mat-error>Required</mat-error>
+          <mat-error class="mat-error-small"
+                     *ngIf="formGroup.get('bot_disabled_settings').get('disabled_message').errors?.error as errorObj">{{errorObj.message}}</mat-error>
         </mat-form-field>
 
         <div class="switch-wrapper small-dia-radio">
@@ -82,7 +81,8 @@
     <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
            onkeydown="return event.keyCode !== 69"
            placeholder="Transactions Per Billing Unit">
-    <mat-error class="mat-error-small" *ngIf="formGroup.get('transactions_per_pricing_unit').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+    <mat-error class="mat-error-small"
+               *ngIf="formGroup.get('transactions_per_pricing_unit').errors?.error as errorObj">{{errorObj.message}}</mat-error>
   </mat-form-field>
 
   <div class="switch-wrapper" style="margin-bottom: 20px">
@@ -102,7 +102,8 @@
     <input matInput formControlName="room_persistence_time" type="number" class=""
            onkeydown="return event.keyCode !== 69"
            placeholder="Session Close Time [mins]">
-    <mat-error class="mat-error-small" *ngIf="formGroup.get('room_persistence_time').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+    <mat-error class="mat-error-small"
+               *ngIf="formGroup.get('room_persistence_time').errors?.error as errorObj">{{errorObj.message}}</mat-error>
   </mat-form-field>
 
   <div *ngIf="(bot_type===myEBotType.chatbot)">

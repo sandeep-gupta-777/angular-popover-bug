@@ -19,6 +19,7 @@ import { EAllActions } from '../../../../../typings/enum';
           <mat-form-field class="w-100">
               <input matInput formControlName="consent_message"
                      placeholder="Consent disclaimer message">
+              <mat-error class="mat-error-small" *ngIf="formGroup.get('consent_message').errors?.error as errorObj">{{errorObj.message}}</mat-error>
           </mat-form-field>
 
           <div class="switch-wrapper" style="margin-bottom: 20px">

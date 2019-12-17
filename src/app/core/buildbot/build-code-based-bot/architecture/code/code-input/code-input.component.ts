@@ -116,8 +116,8 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   ngOnInit() {
     this.newVersionModalForm = this.formBuilder.group({
-      version: [],
-      comment: ['', [FormsService.alphanumericValidators()]]
+      version_id: [],
+      comment: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator({max: 2000, min: 1})]]
     });
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
     this.channelListClone = CodeInputService.createChannelList(this.bot);
@@ -239,6 +239,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   openForkNewVersionModal(template) {
+    debugger;
     this.newVersionModalForm.patchValue({version_id: this.selectedVersion_st.version, comment: ''});
     this.openPrimaryModal(template);
   }

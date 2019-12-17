@@ -4,7 +4,7 @@
     <input type="text"
            matInput
            formControlName="name"
-           placeholder="Bot Name1">
+           placeholder="Bot Name">
     <mat-error class="mat-error-small" *ngIf="formGroup.get('name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
   </mat-form-field>
 
@@ -18,13 +18,7 @@
                matInput
                formControlName="logo"
                placeholder="URL for the Bot Logo/Brand Image">
-        <mat-error *ngIf="formGroup.get('logo').hasError('required')">Required</mat-error>
-
-        <mat-error
-          *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
-          Must be Https Url
-        </mat-error>
-
+        <mat-error class="mat-error-small" *ngIf="formGroup.get('logo').errors?.error as errorObj">{{errorObj.message}}</mat-error>
         <mat-error
           *ngIf="!formGroup.get('logo').hasError('required')  && formGroup.get('logo').hasError('Image Extension is not correct')">
           Image Extension is not correct

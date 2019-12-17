@@ -153,7 +153,7 @@ export class RolesComponent implements OnInit {
   ngOnInit() {
 
     this.roleForm = this.formBuilder.group({
-      selectedRoleName: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
+      selectedRoleName: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
       selectedRoleBaseRole: [''],
     });
     // this.system_role = false;

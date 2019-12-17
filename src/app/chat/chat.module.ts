@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule, DatePipe} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {ChatWrapperComponent} from './chat-wrapper.component';
 import {MsToHhMmPipe} from '../ms-to-hh-mm.pipe';
@@ -69,7 +69,8 @@ const routes: Route[] = [
     NgxsModule.forFeature([ChatSessionStateReducer]),
     SharedModule, // TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
     LayoutModule,
-    OverlayModule
+    OverlayModule,
+    ReactiveFormsModule
 
   ],
   exports: [

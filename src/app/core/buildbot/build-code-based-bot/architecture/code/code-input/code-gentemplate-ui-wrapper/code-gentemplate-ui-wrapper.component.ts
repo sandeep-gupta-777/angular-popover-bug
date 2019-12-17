@@ -530,7 +530,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     return (formControl: FormControl) => {
       if (!formControl.value || !formControl.value.trim || !formControl.value.trim()) {
         return {
-          error: {message: 'Template key already exists'}
+          error: {message: 'Required'}
         };
       }
       if (Object.keys(this._templateKeyDict).find((key) => key === formControl.value)) {
@@ -545,7 +545,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     const dialogRefWrapper = this.modalRefWrapper;
     //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     const formGroup = this.formBuilder.group({
-      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphabetValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]]
+      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]]
     });
     return this.utilityService.openDialog({
       dialogRefWrapper: dialogRefWrapper,

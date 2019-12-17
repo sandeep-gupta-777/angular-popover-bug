@@ -117,7 +117,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
           ip: [''],
           password: [''],
           port: [''],
-          username: ['', [FormsService.startWithAlphabetValidator(), FormsService.lengthValidator()]],
+          username: [''],
           privatekey: [''],
         }),
         this.formBuilder.group({
@@ -155,9 +155,9 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
                 } catch (e) {
                   LoggingService.error(e);
                 }
-                debugger;
+
                 const startdate = new Date(value_report.startdate);
-                debugger;
+
                 this.f.patchValue({...value_report, startdate});
                 let hh: string = new Date(value_report.startdate).getHours().toString();
                 let mm: string = new Date(value_report.startdate).getMinutes().toString();
@@ -201,7 +201,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   getReportControlFormData() {/*to be called by parent*/
-    debugger;
+
     const reportFormData = UtilityService.cloneObj(this.f.value);
     reportFormData.botName = this.botlist.find((bot) => bot.id === reportFormData.bot_id).name;
     const start_time_arr = this.start_time.split(':');
@@ -221,7 +221,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
 
   async openFile(inputEl) {
-    debugger;
+
     try {
       const privatekey = await this.utilityService.readInputFileAsText(inputEl);
       (this.f.get('delivery') as FormArray).at(0).patchValue({privatekey: 'privatekey'});

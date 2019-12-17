@@ -17,8 +17,11 @@
       placeholder='Write your text here ...' rows="3">
       </textarea>
     <div class="text-danger" *ngIf="textarea.value.length===0">
-      <em style="font-size: 11px">This field cannot be left empty</em>
+      <em class="mat-error-small">This field cannot be left empty</em>
     </div>
+    <div class="mat-error-small m-0"
+         *ngIf="(textarea.value|validationPipe:{start_with_alphanumeric: true})?.error as errorObj">
+      {{errorObj.message}}</div>
   </div>
   <div class="text-danger pl-2" *ngIf="userErrorMessage">
     <em style="font-size: 11px">{{userErrorMessage}}</em>

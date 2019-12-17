@@ -88,6 +88,7 @@ import {PlayMediaComponent} from './chat/play-media/play-media.component';
 import {HttpTrackerLibModule} from 'ngx-loadify';
 import {ServerService} from './server.service';
 import {FilterPipeModule} from 'ngx-filter-pipe';
+import { ValidationPipePipe } from './validation-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import {FilterPipeModule} from 'ngx-filter-pipe';
     FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent,
     PlayMediaComponent,
+    ValidationPipePipe,
 
 
     // todo: put it inside view bot details moduel
@@ -194,7 +196,7 @@ import {FilterPipeModule} from 'ngx-filter-pipe';
     IntegrationLogosPipe,
     DataManageFormComponent,
     BotByIdPipe,
-
+    ValidationPipePipe,
     SpliceEllipsisPipe,
     InfoIconComponent,
     BasicInfoFormComponent,
