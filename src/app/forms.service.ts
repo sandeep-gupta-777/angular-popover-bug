@@ -123,7 +123,6 @@ export class FormsService {
       intOnly: (config.intOnly === undefined || config.intOnly === null) ? true : config.intOnly
     };
     return (formControl: FormControl) => {
-      debugger;
       const val: number = (formControl.value || null);
       if (val === null) {
         return null;
