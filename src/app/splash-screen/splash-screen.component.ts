@@ -15,7 +15,8 @@ export enum ESplashScreens {
   no_intent_present = 'no_intent_present.svg',
   no_ml_bot_present = 'ml-bot-icon.svg',
   search = 'search.svg',
-  router_bot_empty = 'router-bot-empty.svg'
+  router_bot_empty = 'router-bot-empty.svg',
+  no_QnA_present = 'no_QnA_present.svg'
 }
 
 @Component({
