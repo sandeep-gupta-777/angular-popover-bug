@@ -46,7 +46,6 @@ export class FaqImportFromLinkComponent implements OnInit {
       "url": this.extractURL.trim(),
       "access_token": "gAAAAABd54JjdQJuW4NCIQopW_uPmVi5Yl8hiF-et3CEflvABusLeHa9KsmONFa7XlVrFKcsPoB726W0_Q6Dur7Md4LR47UQF5XZhol64TpkW9WYpdiIBTA="
     };
-    debugger;
     this.serverService.makePostReq({url:url, body:body})
       .subscribe((value : IQnAItem[]) => {
         let FAQformList = [];
@@ -58,7 +57,6 @@ export class FaqImportFromLinkComponent implements OnInit {
             'selected': false,
           });
           f.get('selected').valueChanges.subscribe((val)=>{
-            debugger;
             if(val)this.selectedCount++;
             if(!val) this.selectedCount--;
           })
