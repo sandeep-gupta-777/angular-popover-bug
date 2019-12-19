@@ -235,7 +235,7 @@ const routes: Route[] = [
     GentemplateImageComponent,
     GentemplateFileComponent,
     MediaDetecionPipe,
-    TemplateKeyAutosuggestionInputComponent
+    TemplateKeyAutosuggestionInputComponent,
     FaqImportFromLinkComponent
   ],
   imports: [
