@@ -93,6 +93,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   timestamp = new Date();
 
   ngOnInit() {
+    const accesstoken = (window as any).accesstoken;
+    const domainname = (window as any).domainname;
+    if (accesstoken && domainname) {
+      this.loginSubmitHandler();
+    }
     try {
       /*replace with plateform.roomId*/
       // localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
@@ -231,7 +236,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       });
   }
 
-  loginSubmitHandler() {
+  loginSubmitHandler(creds: any) {
 
     this.flashInfoMessage('Connecting to the server', 10000);
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
@@ -245,14 +250,20 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
-    const loginUrl = this.constantsService.getLoginUrl();
     let body;
-    if (this.loginForm.valid) {
-      body = this.loginForm.value;
+    let url = '';
+    if (creds) {
+      body = creds;
+      url = this.constantsService.getConnectLoginUrl();
     } else {
-      this.flashErrorMessage('Details not valid');
-      this.disabeLoginButton = false;
-      return;
+      url = this.constantsService.getLoginUrl();
+      if (this.loginForm.valid) {
+        body = this.loginForm.value;
+      } else {
+        this.flashErrorMessage('Details not valid');
+        this.disabeLoginButton = false;
+        return;
+      }
     }
     body = {
       ...body,
@@ -262,7 +273,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       'auth-token': null,
       'user-access-token': null
     };
-    this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
+    this.serverService.makePostReq<IUser>({url, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
             ServerService.setCookie('auth-token', user.auth_token);
