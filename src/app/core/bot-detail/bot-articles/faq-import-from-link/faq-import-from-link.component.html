@@ -1,0 +1,87 @@
+<div class = "d-flex flex-column">
+  <div class="d-flex w-100 flex-row align-items-center py-2"  >
+    <div class="d-flex  flex-column justify-content-center">
+      <div class="d-flex flex-row justify-content-center">
+        <span class="fa fa-angle-left cursor-pointer p-1 mr-1" style="font-size: 19px;font-weight: bold;"(click)="goBackToArticlePage()" ></span>
+        <div style="font-size: 16px;font-weight: bold;">Import FAQs from link</div>
+      </div>
+    </div>
+    <div class="d-flex ml-auto flex-row align-items-center" style="height: 32px">
+      <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2 mat-button"
+              (click)="exportToArticle()" [disabled]="!FAQListForm"
+      >Import</button>
+      <button class="mat-theme-button cursor-pointer mat-button px-15" style="border: 1px solid #e0e0e0;" (click)="goBackToArticlePage()"
+      >Cancel</button>
+    </div>
+
+  </div>
+  <div class = "container">
+    <div style="margin: 12px 28px;" class="d-flex flex-column">
+      <div class = "d-flex search-form" >
+<!--        <i>111 {{extractURL}}</i>-->
+        <input type="text" [(ngModel)]="extractURL" autocomplete="off" placeholder="URL to extract">
+        <app-button-wrapper [disabled]="!(extractURL.trim())" class="card--update"
+                            [isMatFlatButton]="true" [status]="uploadingData" [text]="'Extract'" (btnClick)="getFaqsList()">
+        </app-button-wrapper>
+      </div>
+      <div class="d-flex flex-row pro-con-table" style="justify-content: space-evenly;align-items: start">
+        <div class="d-flex flex-column w-50">
+          <div class = "heading">Works best for</div>
+          <div class = "pro-con"><mat-icon class="mat-icon material-icons" color="primary">check_circle_outline</mat-icon> Single page FAQ sites </div>
+          <div class = "pro-con"><mat-icon class="mat-icon material-icons" color="primary">check_circle_outline</mat-icon> Single page FAQ sites</div>
+        </div>
+        <div class="d-flex flex-column w-50">
+          <div class = "heading">Does not work for</div>
+          <div class = "pro-con"><mat-icon class="mat-icon material-icons" style="color:#d03f3f;">highlight_off</mat-icon> Multi page FAQ sites </div>
+          <div class = "pro-con"><mat-icon class="mat-icon material-icons" style="color:#d03f3f;">highlight_off</mat-icon> Multi page FAQ sites </div>
+        </div>
+      </div>
+      <div class = "faq-heading pb-3 pt-3">
+        <div class = "heading ">Detected FAQs ({{selectedCount}})</div>
+        <div class = "sub-heading">Select FAQs to import</div>
+      </div>
+      <div class = "faq-body" >
+        <app-splash-screen [imageHRef]="myESplashScreens.no_QnA_present" *ngIf="!FAQListForm"
+                           [descriptionText]="'No FAQs detected. Please provide a URL to extract from'"
+                           class="d-flex justify-content-center align-items-center pt-3"
+        ></app-splash-screen>
+<!--        &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+        <form *ngIf="FAQListForm" [formGroup]="FAQListForm">
+<!--    <i>{{FAQListForm.value | json}}</i>-->
+          <div style="font-size: 13px;" class="d-flex flex-row align-items-center pb-2 pt-2" >
+            <div style= "width:30px;height: 20px;">
+              <label class="container-chekbox text-dark">
+                <input type="checkbox" (change)="selectAllQnA($event)">
+                <span class="checkmark mr-1"></span>
+              </label>
+            </div>
+            <div class="px-2">All FAQs</div>
+          </div>
+          <div class = "d-flex flex-column w-100" formArrayName="QustionNAnswer">
+            <div  class = "d-flex flex-column w-100"
+                  *ngFor = "let singleQnA of FAQListForm.get('QustionNAnswer').controls;let QnAIndex = index;">
+              <div class="d-flex flex-column align-items-center pb-3 w-100" [formGroupName]="QnAIndex">
+<!--          {{singleQnA.value | json}}-->
+                <div class="d-flex flex-row align-items-center pb-2 pt-2 w-100">
+                  <div style= "width:30px;height: 20px;">
+                    <label class="container-chekbox text-dark">
+                      <input type="checkbox"  formControlName="selected">
+                      <span class="checkmark mr-1"></span>
+                    </label>
+                  </div>
+                  <input formControlName="question"  placeholder="Question" class="px-2 py-1 w-100 w-100">
+                </div>
+                <div class="d-flex flex-row align-items-center pb-2 pt-2 w-100">
+                  <div style= "width:30px;height: 20px;"></div>
+                  <textarea formControlName="answer" placeholder="Answer" class="px-2 py-1 w-100" rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -24,18 +24,26 @@ import {ELoadingStatus} from 'src/app/button-wrapper/button-wrapper.component';
 import * as Papa from 'papaparse';
 import {FormsService} from '../../../forms.service';
 
+export enum EArticleEditMode {
+  table = "table",
+  article = "article",
+  extractLink = "extractLink"
+}
+
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
   styleUrls: ['./bot-articles.component.scss']
 })
+
 export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() bot: IBot;
   corpus: ICorpus;
   uploadingSampleData = ELoadingStatus.default;
   loaded = false;
-  showEditAndViewArtical = false;
+  myArticleEditMode = EArticleEditMode;
+  showEditAndViewArtical : EArticleEditMode = EArticleEditMode.table;
   myObject = Object;
   articleFilterForm: FormGroup;
   filter_categorie_id_list: string[];
@@ -158,7 +166,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   goBackToArticalList() {
     this.filter_categorie_id_list = [];
     this.getCorpusAndSetArticleFilterForm();
-    this.showEditAndViewArtical = false;
+    this.showEditAndViewArtical = EArticleEditMode.table;
     this.router.navigate(['.'], {
       queryParams: {isArticle: false, section_id: null},
       relativeTo: this.activatedRoute,
@@ -189,7 +197,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
-    this.showEditAndViewArtical = true;
+    this.showEditAndViewArtical =  EArticleEditMode.article;
     this.selectedArticle = article;
   }
 
@@ -205,7 +213,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
-    this.showEditAndViewArtical = true;
+    this.showEditAndViewArtical =  EArticleEditMode.article;
     this.selectedArticle = article;
   }
 
@@ -271,7 +279,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
           TempVariableService.curationIds = null;
           this.getCorpusAndSetArticleFilterForm$().subscribe((v) => {
             this.utilityService.showSuccessToaster('Article succesfully saved');
-            this.showEditAndViewArtical = false;
+            this.showEditAndViewArtical =  EArticleEditMode.table;
             this.router.navigate(['.'], {
               queryParams: {isArticle: false, section_id: null},
               relativeTo: this.activatedRoute,
@@ -321,7 +329,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         if (value) {
           this.getCorpusAndSetArticleFilterForm$()
             .subscribe(v => {
-              this.showEditAndViewArtical = false;
+              this.showEditAndViewArtical =  EArticleEditMode.table;
               this.router.navigate(['.'], {
                 queryParams: {isArticle: false, section_id: null},
                 relativeTo: this.activatedRoute,
@@ -382,7 +390,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         if (value) {
           this.getCorpusAndSetArticleFilterForm$()
             .subscribe(() => {
-              this.showEditAndViewArtical = false;
+              this.showEditAndViewArtical =  EArticleEditMode.table;
               this.router.navigate(['.'], {
                 queryParams: {isArticle: false, section_id: null},
                 relativeTo: this.activatedRoute,

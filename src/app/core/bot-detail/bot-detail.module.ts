@@ -116,7 +116,9 @@ import {GentemplateImageComponent} from '../buildbot/build-code-based-bot/archit
 import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-file/gentemplate-file.component';
 import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
 import {HttpIdleInterceptor} from '../../http-idle.interceptor';
+import { FaqImportFromLinkComponent } from './bot-articles/faq-import-from-link/faq-import-from-link.component';
 import { TemplateKeyAutosuggestionInputComponent } from './ml-intent-response/template-key-autosuggestion-input/template-key-autosuggestion-input.component';
+
 
 
 const routes: Route[] = [
@@ -234,6 +236,7 @@ const routes: Route[] = [
     GentemplateFileComponent,
     MediaDetecionPipe,
     TemplateKeyAutosuggestionInputComponent
+    FaqImportFromLinkComponent
   ],
   imports: [
     RichMediaModule,
