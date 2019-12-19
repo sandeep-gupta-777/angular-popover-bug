@@ -836,7 +836,7 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/login/';
   }
   getConnectLoginUrl() {
-    return this.BACKEND_URL + 'api/v1/user/login/';
+    return this.BACKEND_URL + 'api/v1/user/connectLogin/';
   }
 
   sendEmailUrl() {

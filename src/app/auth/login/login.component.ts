@@ -95,8 +95,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   ngOnInit() {
     const accesstoken = (window as any).accesstoken;
     const domainname = (window as any).domainname;
+    debugger;
     if (accesstoken && domainname) {
-      this.loginSubmitHandler();
+      this.loginSubmitHandler({accesstoken, domainname});
     }
     try {
       /*replace with plateform.roomId*/
