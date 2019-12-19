@@ -1,10 +1,11 @@
 <form [formGroup]="formGroup" class="bot-creation-form bot-creation-form-grid">
 
-  <mat-form-field class="w-100">
+  <mat-form-field class="w-100" cdkStepHeaderm>
     <input type="text"
            matInput
            formControlName="name"
            placeholder="Bot Name">
+    <mat-error class="mat-error-small" *ngIf="formGroup.get('name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
   </mat-form-field>
 
   <div class="logo-input">
@@ -17,14 +18,7 @@
                matInput
                formControlName="logo"
                placeholder="URL for the Bot Logo/Brand Image">
-        <mat-error *ngIf="formGroup.get('logo').hasError('required')">Required</mat-error>
-
-        <mat-error
-          *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
-          Must be Https Url
-
-        </mat-error>
-
+        <mat-error class="mat-error-small" *ngIf="formGroup.get('logo').errors?.error as errorObj">{{errorObj.message}}</mat-error>
         <mat-error
           *ngIf="!formGroup.get('logo').hasError('required')  && formGroup.get('logo').hasError('Image Extension is not correct')">
           Image Extension is not correct
@@ -38,11 +32,12 @@
            matInput
            formControlName="bot_unique_name"
            placeholder="Bot Unique Name">
+    <mat-error class="mat-error-small" *ngIf="formGroup.get('bot_unique_name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
   </mat-form-field>
 
 
   <mat-form-field class="" ngNativeValidate>
-                <textarea type="text" id="alterEgo"
+                <textarea type="text"
                           matInput
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"
@@ -50,7 +45,7 @@
                           formControlName="description"
                           placeholder="Description"
                           [disabled]="isDisabled"></textarea>
-    <mat-error>Required</mat-error>
+    <mat-error class="mat-error-small" *ngIf="formGroup.get('description').errors?.error as errorObj">{{errorObj.message}}</mat-error>
   </mat-form-field>
 
   <mat-form-field *ngIf="myEBotType.intelligent !== bot_type">
@@ -65,7 +60,8 @@
   <div class="spacer"></div>
 
   <ng-container *ngIf="myEBotType.intelligent !== bot_type">
-    <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot === bot_type || myEBotType.router === bot_type">
+    <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']"
+              *ngIf="myEBotType.chatbot === bot_type || myEBotType.router === bot_type">
       <legend style="display: none;">first messgae</legend>
       <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
@@ -73,7 +69,7 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="First Message"></textarea>
-
+        <mat-error class="mat-error-small" *ngIf="formGroup.get('first_message').errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>
     </fieldset>
     <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
@@ -84,6 +80,7 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="Default Platform Error Message "></textarea>
+        <mat-error class="mat-error-small" *ngIf="formGroup.get('error_message').errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>
     </fieldset>
   </ng-container>

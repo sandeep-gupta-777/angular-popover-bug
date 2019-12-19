@@ -13,11 +13,13 @@ import { EAllActions } from '../../../../../typings/enum';
                      required
                      onkeydown="return event.keyCode !== 69"
                      placeholder="Data retention period((in days)">
+              <mat-error class="mat-error-small" *ngIf="formGroup.get('data_persistence_period').errors?.error as errorObj">{{errorObj.message}}</mat-error>
           </mat-form-field>
 
           <mat-form-field class="w-100">
               <input matInput formControlName="consent_message"
                      placeholder="Consent disclaimer message">
+              <mat-error class="mat-error-small" *ngIf="formGroup.get('consent_message').errors?.error as errorObj">{{errorObj.message}}</mat-error>
           </mat-form-field>
 
           <div class="switch-wrapper" style="margin-bottom: 20px">

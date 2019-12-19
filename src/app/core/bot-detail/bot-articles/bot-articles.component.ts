@@ -22,19 +22,28 @@ import downloadCsv from 'download-csv';
 import {CategoryIdToNamePipe} from './category-id-to-name.pipe';
 import {ELoadingStatus} from 'src/app/button-wrapper/button-wrapper.component';
 import * as Papa from 'papaparse';
+import {FormsService} from '../../../forms.service';
+
+export enum EArticleEditMode {
+  table = "table",
+  article = "article",
+  extractLink = "extractLink"
+}
 
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
   styleUrls: ['./bot-articles.component.scss']
 })
+
 export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() bot: IBot;
   corpus: ICorpus;
   uploadingSampleData = ELoadingStatus.default;
   loaded = false;
-  showEditAndViewArtical = false;
+  myArticleEditMode = EArticleEditMode;
+  showEditAndViewArtical : EArticleEditMode = EArticleEditMode.table;
   myObject = Object;
   articleFilterForm: FormGroup;
   filter_categorie_id_list: string[];
@@ -56,6 +65,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
   noOfArticleFoundInUpload: number;
   uploadingData = ELoadingStatus.default;
+
   constructor(
     private constantsService: ConstantsService,
     private serverService: ServerService,
@@ -156,7 +166,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   goBackToArticalList() {
     this.filter_categorie_id_list = [];
     this.getCorpusAndSetArticleFilterForm();
-    this.showEditAndViewArtical = false;
+    this.showEditAndViewArtical = EArticleEditMode.table;
     this.router.navigate(['.'], {
       queryParams: {isArticle: false, section_id: null},
       relativeTo: this.activatedRoute,
@@ -187,7 +197,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
-    this.showEditAndViewArtical = true;
+    this.showEditAndViewArtical =  EArticleEditMode.article;
     this.selectedArticle = article;
   }
 
@@ -203,7 +213,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
-    this.showEditAndViewArtical = true;
+    this.showEditAndViewArtical =  EArticleEditMode.article;
     this.selectedArticle = article;
   }
 
@@ -236,7 +246,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       'category_id': articleData.category_id,
       'response_type': articleData.response_type,
     };
-    if(articleData.response_type === 'dynamic'){
+    if (articleData.response_type === 'dynamic') {
       body['logic'] = articleData.logic;
     }
     let url;
@@ -269,7 +279,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
           TempVariableService.curationIds = null;
           this.getCorpusAndSetArticleFilterForm$().subscribe((v) => {
             this.utilityService.showSuccessToaster('Article succesfully saved');
-            this.showEditAndViewArtical = false;
+            this.showEditAndViewArtical =  EArticleEditMode.table;
             this.router.navigate(['.'], {
               queryParams: {isArticle: false, section_id: null},
               relativeTo: this.activatedRoute,
@@ -319,7 +329,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         if (value) {
           this.getCorpusAndSetArticleFilterForm$()
             .subscribe(v => {
-              this.showEditAndViewArtical = false;
+              this.showEditAndViewArtical =  EArticleEditMode.table;
               this.router.navigate(['.'], {
                 queryParams: {isArticle: false, section_id: null},
                 relativeTo: this.activatedRoute,
@@ -341,7 +351,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
         title: `Train knowledge base`,
         isActionButtonDanger: false,
-        inputDescription: 'Comment'
+        formGroup: this.formBuilder.group({
+          inputData: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
+            min: 1,
+            max: FormsService.MAX_LENGTH_DESCRIPTION
+          })]]
+        })
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent
@@ -375,7 +390,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         if (value) {
           this.getCorpusAndSetArticleFilterForm$()
             .subscribe(() => {
-              this.showEditAndViewArtical = false;
+              this.showEditAndViewArtical =  EArticleEditMode.table;
               this.router.navigate(['.'], {
                 queryParams: {isArticle: false, section_id: null},
                 relativeTo: this.activatedRoute,
@@ -403,6 +418,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
+
   makeLiveCorpus() {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
@@ -421,9 +437,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-  makeBothCorpusLive(){
+
+  makeBothCorpusLive() {
 
   }
+
   // category handeling
 
   categoryUpdate(body) {
@@ -525,7 +543,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
           let ans = corpusSection.answers[0].text ? corpusSection.answers[0].text[0] : '';
           let cat = this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone);
           return {
-            Answer: this.trimAllBadCharsFromStringToDownlode(ans) ,
+            Answer: this.trimAllBadCharsFromStringToDownlode(ans),
             Category: this.trimAllBadCharsFromStringToDownlode(cat),
             ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
           };
@@ -546,7 +564,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(err);
     }
   }
-  trimAllBadCharsFromStringToDownlode(str){
+
+  trimAllBadCharsFromStringToDownlode(str) {
     const charsToBeRemoved = ['+', '-', '@', '='];
     const trimmedCellData = str && str.trim && str.trim();
     if (trimmedCellData && charsToBeRemoved.find(char => trimmedCellData[0] === char)) {
@@ -555,6 +574,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return trimmedCellData;
   }
+
   downloadSample() {
     this.uploadingSampleData = ELoadingStatus.loading;
     this.serverService.makeGetReqToDownloadFiles({url: 'assets/sample_corpus.csv'})

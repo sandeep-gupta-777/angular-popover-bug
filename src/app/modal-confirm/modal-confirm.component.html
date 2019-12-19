@@ -21,12 +21,13 @@
   <form [formGroup]="formGroup" class="input-form pb-2" id="modalInputForm" *ngIf="formGroup">
     <mat-form-field class="example-full-width">
       <input autofocus matInput required [placeholder]="dataCopy.inputDescription" formControlName="inputData">
+      <mat-error class="mat-error-small" *ngIf="formGroup.get('inputData').errors?.error as errorObj">{{errorObj.message||errorObj}}</mat-error>
     </mat-form-field>
   </form>
 
   <div class="d-flex pt-2">
-    <em class="custom-error"
-       *ngIf="showError">{{formGroup?.get('inputData')?.errors && formGroup?.get('inputData')?.errors['error']}}</em>
+<!--    <em class="custom-error"-->
+<!--       *ngIf="showError">{{formGroup?.get('inputData')?.errors && formGroup?.get('inputData')?.errors['error']}}</em>-->
     <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15"
             (click)="closeDialog(false)">{{dataCopy.closeButtonText || 'Cancel'}}</button>
 

@@ -131,7 +131,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             this.serverService.getNSetIntegrationList(),
             this.serverService.getNSetPipelineModuleV2(),
             this.serverService.getNSetBotLanguages(),
-            this.serverService.getNSetRoleInfo()
+            // this.serverService.getNSetRoleInfo()
           ]
         );
       }),
@@ -336,6 +336,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   clickedEnterprise(Enterprise) {
+
+    console.log('asdadasd');
     this.loading = true;
     this.enterEnterprise(Enterprise)
       .subscribe((value) => {

@@ -58,9 +58,10 @@
               <mat-form-field [hidden]="e.required !== true"
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
-                <input matInput value="1" type="number" min="0" oninput="validity.valid||(value='');"
+                <input matInput value="1" type="number" min="0" max="100" #input (input)="x(input)"
                        [required]="e.required"
                        [(ngModel)]="e.counter" name="retries">
+                <mat-error class="mat-error-small">{{'test'}}</mat-error>
               </mat-form-field>
               <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
             </td>

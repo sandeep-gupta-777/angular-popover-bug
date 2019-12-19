@@ -1489,3 +1489,10 @@ mat-dialog-container {
   99%{	color:transparent;	}
   100%{	color: #000;	}
 }
+
+.mat-error-small{
+  font-size: 10px!important;
+  margin-bottom: 10px;
+  color: red;
+  text-align: left;
+}

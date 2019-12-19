@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
 import {ConstantsService, ERouteNames} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
@@ -12,6 +12,7 @@ import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confi
 import {SideBarService} from '../../../../../../side-bar.service';
 import {EAllActions} from '../../../../../../typings/enum';
 import {PermissionService} from '../../../../../../permission.service';
+import {FormsService} from '../../../../../../forms.service';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -43,16 +44,18 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     this.process_raw_text = !!value.process_raw_text;
     this.is_sensitive = !!value.is_sensitive;
     this.ignore_punctuation = !!value.ignore_punctuation;
-
-    // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
-    // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
+    let code: string;
     if (value.ner_type === 'regex') {
-      this.codeTextInputToCodeEditorObj.text = value.values && value.values[0];
+      code = value.values && value.values[0];
     } else {
-      this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
+      code = value.values && JSON.stringify(value.values);
     }
 
+    if (!this.form) {
+      this.form = this.createForm();
+    }
     this.codeTextOutPutFromCodeEditor = this.codeTextInputToCodeEditorObj.text;
+    this.form.patchValue({...value, code});
 
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
     try {
@@ -74,7 +77,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   @Output() deleteNer$ = new EventEmitter();
   @Output() showTable$ = new EventEmitter();
   @Output() refreshTable$ = new EventEmitter();
-  @ViewChild('form') form: NgForm;
+  form: FormGroup;
   ner_id: string;
   key: string;
   routeName: string;
@@ -83,38 +86,43 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   codeTextInputToCodeEditor: string;
   codeTextInputToCodeEditorObj: { text: string } = {text: ''};
   codeTextOutPutFromCodeEditor: string;
-  // handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
-  // readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', '',"","",'','','',''];
   handontable_column = [];
-  // readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
-  //   {data: 0, type: 'text'},
-  //   {data: 1, type: 'text'},
-  //   {data: 2, type: 'text'},
-  //   {data: 3, type: 'text'},
-  //   {data: 4, type: 'text'},
-  //   {data: 5, type: 'text'}
-  // ];
+
   constructor(
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private permissionService: PermissionService,
+    private formBuilder: FormBuilder,
     public matDialog: MatDialog
   ) {
     super(utilityService, matDialog);
   }
 
   ngOnInit() {
+    if (!this.form) {
+      this.form = this.createForm();
+    }
     this.routeName = this.activatedRoute.snapshot.data['routeName'];
     this.activatedRoute.queryParamMap.subscribe((queryParamMap: ParamMap) => {
       this.ner_id = (<any>queryParamMap).params['ner_id'];
     });
   }
 
-  async openDeleteModal() {
-    // this.modalRef = this.modalService.show(template);
+  createForm() {
+    return this.formBuilder.group({
+      key: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
+      ner_type: ['double_match', []],
+      process_raw_text: ['', []],
+      is_sensitive: ['', []],
+      ignore_punctuation: ['', []],
+      conflict_policy: ['', []],
+      code: ['', []],
+    });
+  }
 
+  async openDeleteModal() {
     await this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
@@ -139,12 +147,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     // this.openDangerModal(template);
   }
 
-  async openFile(inputEl) {
-
-    this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
-    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
-  }
-
   textChanged(codeText) {
     this.codeTextOutPutFromCodeEditor = codeText;
   }
@@ -152,7 +154,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   updateOrSaveConcept() {
 
     const outputData = this.createOutPutData();
-    const ner_type = outputData.ner_type;
+    const ner_type = this.form.value.ner_type;
     const codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;
     if (this.ner_type === 'regex') {
       if (!codeTextOutPutFromCodeEditor) {
@@ -160,7 +162,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         return;
       }
     } else if (ner_type !== 'database') {
-
       if (!codeTextOutPutFromCodeEditor) {
         this.utilityService.showErrorToaster(`Invalid syntax. ${this.ner_type} only accepts arrays`);
         return;
@@ -173,7 +174,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
         return;
       }
-
     }
     this.updateOrSaveConcept$.emit(outputData);
   }
@@ -181,26 +181,16 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   createOutPutData() {
     let codeTextFromEditor;
+    const codeData = this.form.value.code;
     if (this.ner_type === 'regex') {
-      // if (!this.codeTextOutPutFromCodeEditor) {
-      //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accepts String`);
-      //   return;
-      // }
-      codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
+      codeTextFromEditor = [codeData];
     } else if (this.ner_type !== 'database') {
       try {
-
-        // if (!this.codeTextOutPutFromCodeEditor) {
-        //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
-        //   return;
-        // }
-        // codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
-        codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
+        codeTextFromEditor = codeData;
       } catch (e) {
-        // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
         LoggingService.log(e);
         try {
-          codeTextFromEditor = eval(this.codeTextOutPutFromCodeEditor);
+          codeTextFromEditor = eval(codeData);
         } catch (e) {
           LoggingService.log(e);
           this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
@@ -211,17 +201,13 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     const tableData = this.handsontableData.filter((array: any) => {
       return !!array.find(element => (element !== null) && (element !== undefined) && (element !== ''));
     });
+    const {code, ...formData} = this.form.value;
+
     const outputData = {
-      mode: this.ner_id ? 'Update' : 'Create',
-      key: this.key || '',
-      ner_type: this.ner_type,
-      conflict_policy: this.conflict_policy,
+      mode: formData.ner_id ? 'Update' : 'Create',
+      ...formData,
       codeTextOutPutFromCodeEditor: codeTextFromEditor || '',
       handsontableData: tableData,
-      //   ...this.handsontableComponent.getHotTableData(),
-      process_raw_text: this.process_raw_text,
-      is_sensitive: this.is_sensitive,
-      ignore_punctuation: this.ignore_punctuation
     };
     const ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (ner_id_str) {

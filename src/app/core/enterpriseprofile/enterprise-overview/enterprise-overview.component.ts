@@ -20,6 +20,7 @@ import {map, takeUntil} from 'rxjs/operators';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EnterpriseOverviewSmartTable} from './enterprise-overview-smart-table';
 import {ESortDir} from '../../../smart-table/smart-table.component';
+import {FormsService} from '../../../forms.service';
 
 @Component({
   selector: 'app-enterprise-overview',
@@ -124,12 +125,12 @@ export class EnterpriseOverviewComponent implements OnInit, OnDestroy {
     this.serviceKeyActiveTableModal = this.enterpriseOverViewTableFactory(this.serviceKeyTableDataActive, this.getTableDataMetaDictActive());
     this.serviceKeyExpiredTableModal = this.enterpriseOverViewTableFactory(this.serviceKeyTableDataExpired, this.getTableDataMetaDictExpired());
     this.formGroup = this.formBuilder.group({
-      name: [''],
+      name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
       industry: [''],
       logo: ['', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       email: [''],
       // websiteUrl: [''],
-      enterprise_unique_name: [''],
+      enterprise_unique_name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
       tier_group: [''],
       log_retention_period: [''],
     });
@@ -137,32 +138,32 @@ export class EnterpriseOverviewComponent implements OnInit, OnDestroy {
     this.loggeduser$
       .pipe(takeUntil(this.destroy))
       .subscribe(({user}) => {
-      if (!user) {
-        return;
-      }
-      this.userid = user.id;
-      this.role = user.role.name;
-      this.enterpriseId = user.enterprise_id;
-      const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
-      this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
-        .subscribe((value: IEnterpriseProfileInfo) => {
-          this.store.dispatch([
-            new SetEnterpriseInfoAction({enterpriseInfo: value})
-          ]);
-          this.formGroup.patchValue(<any>value);
-        });
-      if (this.role === 'Admin') {
-        const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
-        this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
-          .subscribe((value) => {
+        if (!user) {
+          return;
+        }
+        this.userid = user.id;
+        this.role = user.role.name;
+        this.enterpriseId = user.enterprise_id;
+        const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
+        this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
+          .subscribe((value: IEnterpriseProfileInfo) => {
             this.store.dispatch([
-              new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
+              new SetEnterpriseInfoAction({enterpriseInfo: value})
             ]);
-
+            this.formGroup.patchValue(<any>value);
           });
-      }
+        if (this.role === 'Admin') {
+          const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
+          this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
+            .subscribe((value) => {
+              this.store.dispatch([
+                new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
+              ]);
 
-    });
+            });
+        }
+
+      });
 
     this.loggeduserenterpriseinfoMap$ =
       this.loggeduserenterpriseinfo$.pipe(

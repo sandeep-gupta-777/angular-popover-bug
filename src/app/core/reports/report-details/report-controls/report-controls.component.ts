@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../../interfaces/IBot';
 import {IReportItem} from '../../../../../interfaces/report';
-import {NgForm} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {EBotType, UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
@@ -14,6 +14,8 @@ import {ELogType, LoggingService} from '../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
 import {DebugBase} from '../../../../debug-base';
 import {EventService} from '../../../../event.service';
+import {FormsService} from '../../../../forms.service';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 declare var $: any;
 
@@ -28,7 +30,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   datePickerConfig: any;
-  @ViewChild('form') f: NgForm;
+  @ViewChild('form') f: FormGroup;
   botlist: IBot[] = [];
   selectedBot: IBot;
   codebasedBotList: IBot[];
@@ -79,6 +81,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
     private tempVariableService: TempVariableService,
     private serverService: ServerService,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private router: Router,
     private constantsService: ConstantsService,
   ) {
@@ -91,15 +94,39 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   ngAfterViewInit() {
     if (this.activatedRoute.snapshot.data['name'] === ERouteNames['Create Reports']) {
       setTimeout(() => {
-
-        this.f.form.patchValue({bot_id: this.botlist[0].id, frequency: 'daily'});
+        this.f.patchValue({bot_id: this.botlist[0].id, frequency: 'daily'});
       }, 0);
     }
   }
 
 
   ngOnInit() {
-
+    this.f = this.formBuilder.group({
+      bot_id: [''],
+      single_match: ['messages'],
+      filetype: ['csv'],
+      isactive: [true],
+      frequency: [''],
+      start_time: [''],
+      startdate: [new Date()],
+      delivery: this.formBuilder.array([
+        this.formBuilder.group({
+          delivery_type: ['sftp'],
+          directory: [''],
+          enabled: [false],
+          ip: [''],
+          password: [''],
+          port: [''],
+          username: [''],
+          privatekey: [''],
+        }),
+        this.formBuilder.group({
+          delivery_type: ['email'],
+          enabled: false,
+          recipients: [[]],
+        }),
+      ])
+    });
     LoggingService.log(this);
     console.log(this);
 
@@ -111,7 +138,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.botlistSub = this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];
-      this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot ||  bot.bot_type === EBotType.faqbot);
+      this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot || bot.bot_type === EBotType.faqbot);
 
       setTimeout(() => {
         if (_id && _id !== 'new') {
@@ -128,19 +155,10 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
                 } catch (e) {
                   LoggingService.error(e);
                 }
-                const formDataSerialized = {
-                  ...value_report,
-                  delivery: {
-                    sftp: value_report.delivery.find((item: any) => item.delivery_type === 'sftp'),
-                    email: email
-                  }
-                };
-                // delete value.startdate;
-                if (value_report) {
-                  this.f.form.patchValue(formDataSerialized);
-                }
-                this.startdate = new Date(value_report.startdate);
-                // let start_time:string  = (<any>document).getElementById("start_time").value;
+
+                const startdate = new Date(value_report.startdate);
+
+                this.f.patchValue({...value_report, startdate});
                 let hh: string = new Date(value_report.startdate).getHours().toString();
                 let mm: string = new Date(value_report.startdate).getMinutes().toString();
                 if (mm.length === 1) {
@@ -150,16 +168,10 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
                   hh = '0' + hh;
                 }
                 this.start_time = hh + ':' + mm;
-                // (<any>document).getElementById('start_time').value = hh + ':' + mm;
               } catch (e) {
                 LoggingService.error(e);
               }
-              // this.f.f.patchValue({startdate:value.startdate});
-              // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
             });
-          // } else if(_id==='new') {
-          //   this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-          //   if (this.reportFormData && !_id) this.f.f.patchValue(this.reportFormData);
         }
       }, 0);
     });
@@ -190,21 +202,18 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
   getReportControlFormData() {/*to be called by parent*/
 
-    this.reportFormData.botName = this.botlist.find((bot) => bot.id === this.reportFormData.bot_id).name;
-    this.reportFormData = {...this.reportFormData};
-    // const start_time: string = (<any>document).getElementById('start_time').value;
+    const reportFormData = UtilityService.cloneObj(this.f.value);
+    reportFormData.botName = this.botlist.find((bot) => bot.id === reportFormData.bot_id).name;
     const start_time_arr = this.start_time.split(':');
     const hh = Number(start_time_arr[0]);
     const mm = Number(start_time_arr[1]);
-    if (!this.reportFormData.filetype) {
-      this.reportFormData.filetype = 'csv';
+    if (!reportFormData.filetype) {
+      reportFormData.filetype = 'csv';
     }
 
-    this.reportFormData.startdate
-      = new Date(this.reportFormData.startdate).setHours(hh, mm, 0, 0);
-
-
-    return this.reportFormData;
+    reportFormData.startdate = new Date(reportFormData.startdate).setHours(hh, mm, 0, 0);
+    reportFormData.delivery[1].recipients = [reportFormData.delivery[1].recipients] as any;
+    return reportFormData;
   }
 
   click() {
@@ -214,7 +223,9 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   async openFile(inputEl) {
 
     try {
-      this.privateKey = await this.utilityService.readInputFileAsText(inputEl);
+      const privatekey = await this.utilityService.readInputFileAsText(inputEl);
+      (this.f.get('delivery') as FormArray).at(0).patchValue({privatekey: 'privatekey'});
+      console.log(this.f.value);
     } catch (e) {
       LoggingService.log(e, ELogType.error);
     }

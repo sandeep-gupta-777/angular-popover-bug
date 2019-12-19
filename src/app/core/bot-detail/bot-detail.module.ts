@@ -117,7 +117,7 @@ import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/archite
 import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
 import {HttpIdleInterceptor} from '../../http-idle.interceptor';
 import {MlCurationComponent} from "./ml-curation/ml-curation.component";
-
+import { FaqImportFromLinkComponent } from './bot-articles/faq-import-from-link/faq-import-from-link.component';
 
 const routes: Route[] = [
   {
@@ -233,7 +233,8 @@ const routes: Route[] = [
     GentemplateAudioComponent,
     GentemplateImageComponent,
     GentemplateFileComponent,
-    MediaDetecionPipe
+    MediaDetecionPipe,
+    FaqImportFromLinkComponent
   ],
   imports: [
     RichMediaModule,

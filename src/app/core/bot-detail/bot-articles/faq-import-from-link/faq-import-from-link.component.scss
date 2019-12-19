@@ -1,0 +1,60 @@
+@import "~src/sass/main";
+.search-form{
+  input{
+    width:90%;
+    padding-left: 5px;
+    border: solid 1px #d8d8d8;
+    background-color: #ffffff;
+  }
+  button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:10%;
+    background-color: #b5b5b5;
+    margin-top: 5px;
+    border-radius: 0px;
+    height: 25px !important;
+  }
+}
+.pro-con-table{
+  padding-top: 20px;
+  .heading{
+    color: #787878;
+    font-size: 11px;
+  }
+  .pro-con{
+    color: #474747;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    mat-icon{
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+    }
+  }
+}
+.faq-heading{
+  .heading{
+    color: #474747;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .sub-heading{
+    color: #787878;
+    font-size: 11px;
+  }
+}
+.faq-body{
+  input{
+    border-radius: 2px;
+    border: solid 1px #d8d8d8;
+  }
+  textarea{
+    border-radius: 2px;
+    border: solid 1px #d8d8d8 !important;
+    resize: none;
+  }
+}

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UtilityService} from '../utility.service';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {FormsService} from '../forms.service';
 
 @Component({
   selector: 'app-chat-consumer-form',
@@ -18,17 +19,26 @@ export class ChatConsumerFormComponent implements OnInit {
   isEditMode = false;
   test = true;
   uuid = UtilityService.generateUUid();
-
+  form: FormGroup;
   errorMessage = '';
 
-  constructor(private utilityService: UtilityService) {
+  constructor(private utilityService: UtilityService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      name: ['asdasdadsa', [FormsService.lengthValidator({max: 64}), FormsService.startWithAlphanumericValidator()]],
+      phone: ['', [FormsService.numberValidator({max: 20000000000})]],
+      email: ['', [FormsService.lengthValidator({max: 64}),
+        FormsService.startWithAlphanumericValidator(), FormsService.emailValidators()]],
+      facebook_id: ['', [FormsService.lengthValidator({max: 64}), FormsService.startWithAlphanumericValidator()]],
+      uid: ['', [FormsService.lengthValidator({max: 64}), FormsService.startWithAlphanumericValidator()]],
+    });
+    this.form.patchValue(this.customConsumerDetails);
   }
 
-  validateAndSubmit(form: NgForm) {
-    const customConsumerDetails = form.form.getRawValue();
+  validateAndSubmit(form: FormGroup) {
+    const customConsumerDetails = form.getRawValue();
     // let customConsumerDetails = form.form.getRawValues();
     this.errorMessage = '';
     const doesConsumerFomContainSomeDetail = this.utilityService.isAtleastOneValueIsDefined(customConsumerDetails);

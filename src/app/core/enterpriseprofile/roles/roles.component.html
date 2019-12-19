@@ -7,14 +7,14 @@
           <div class="card-header">
             <span class="fa fa-chevron-left mr-2 cursor-pointer" (click)="navegateRole()"></span>
             {{isNewRole? "Create a new role" :
-            (!system_role ? "Edit role" : selectedRoleName)}}
+            (!system_role ? "Edit role" : roleForm.value.selectedRoleName)}}
           </div>
           <div class="ml-auto">
             <button class="btn-theme btn-theme-danger mr-2" (click)="openDeletModal()" *ngIf="!isNewRole && !system_role">Delete
               role</button>
-            <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf="isNewRole" [disabled]="!selectedRoleName || !selectedRoleBaseRole || selectedPermissionIdList.length === 0">Create
+            <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf="isNewRole" [disabled]="!roleForm.value.selectedRoleName || !roleForm.value.selectedRoleBaseRole || selectedPermissionIdList.length === 0">Create
               role</button>
-            <button class="btn-theme btn-theme-primary" (click)="modifyRole()" *ngIf="!isNewRole && !system_role" [disabled]="!selectedRoleName || selectedPermissionIdList.length === 0">Update
+            <button class="btn-theme btn-theme-primary" (click)="modifyRole()" *ngIf="!isNewRole && !system_role" [disabled]="!roleForm.value.selectedRoleName || selectedPermissionIdList.length === 0">Update
               role</button>
 
           </div>
@@ -27,18 +27,19 @@
           </div>
         </div>
       </header>
-      <div class="example-container mb-2" [hidden]="system_role">
+      <form [formGroup]="roleForm" class="example-container mb-2" [hidden]="system_role">
         <mat-form-field style="width:250px; height: 40px;" class="p-0">
-          <input matInput placeholder="Role name" required [(ngModel)]="selectedRoleName" [disabled]="system_role">
+          <input matInput placeholder="Role name" formControlName="selectedRoleName" [disabled]="system_role">
+          <mat-error class="mat-error-small" *ngIf="roleForm.get('selectedRoleName').errors?.error as errorObj">{{errorObj.message}}</mat-error>
         </mat-form-field>
 
         <mat-form-field style="width: 140px;height: 40px;" *ngIf="isNewRole" class="p-0">
-          <mat-select placeholder="Base role" [(ngModel)]="selectedRoleBaseRole" (ngModelChange)="baseRoleChanged(selectedRoleBaseRole)">
+          <mat-select placeholder="Base role" formControlName="selectedRoleBaseRole">
             <mat-option [value]="role.id" *ngFor="let role of allRolesList" [disabled]="role.name === 'Admin'">{{role.name}}</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div class="row" style="border-top: 1px solid #e0e0e0;" *ngIf = "!isNewRole || selectedRoleBaseRole ">
+      </form>
+      <div class="row" style="border-top: 1px solid #e0e0e0;" *ngIf = "!isNewRole || roleForm.value.selectedRoleBaseRole ">
         <div class="col-6 all-permission">
 
           <div class="d-flex" style="font-size: 13px;align-items: center;">
@@ -82,7 +83,7 @@
       </div>
       <div style="border-top: 1px solid #e0e0e0;height: 49vh;"
       class= "d-flex justify-content-center align-items-center "
-      *ngIf="isNewRole && !selectedRoleBaseRole">
+      *ngIf="isNewRole && !roleForm.value.selectedRoleBaseRole">
         <app-splash-screen
         [imageHRef]="myESplashScreens.rolesCreate"
         [headingText]=""

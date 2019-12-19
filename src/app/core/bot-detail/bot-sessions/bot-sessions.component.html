@@ -1,45 +1,46 @@
 <section class="bot-session-section fade-in-custom">
-  <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results hide-phone">
+  <form *ngIf="filterForm" [hidden]="!showFilterForm" [formGroup]="filterForm" class="refine-results hide-phone">
     <strong>Refine Results</strong>
     <hr class="refine-results__divider">
     <mat-form-field>
       <input matInput placeholder="Room Id"
-             ngModel
              type="number"
-             name="id">
+             formControlName="id">
+      <mat-error class="mat-error-small"
+                 *ngIf="filterForm.get('id').errors?.error as errorObj">{{errorObj.message}}</mat-error>
     </mat-form-field>
     <mat-form-field class="">
       <input matInput placeholder="Consumer Id"
-             ngModel
              type="number"
-             name="consumer_id">
+             formControlName="consumer_id">
+      <mat-error class="mat-error-small"
+                 *ngIf="filterForm.get('consumer_id').errors?.error as errorObj">{{errorObj.message}}</mat-error>
     </mat-form-field>
-
 
     <div class="refine-results__length">
       <div>Messages</div>
       <div class="input-container">
         <mat-form-field class="input-no-label" floatLabel="never">
           <input matInput placeholder="min" type="number"
-                 ngModel
-                 name="total_message_count__gte">
+                 formControlName="total_message_count__gte">
         </mat-form-field>
         <span>to</span>
         <mat-form-field class="input-no-label" floatLabel="never">
           <input matInput placeholder="max" type="number"
-                 ngModel
-                 name="total_message_count__lte">
+                 formControlName="total_message_count__lte">
         </mat-form-field>
+      </div>
+      <div *ngIf="filterForm.get('total_message_count__gte').errors?.error || filterForm.get('total_message_count__lte').errors?.error as errorObj">
+        <mat-error class="mat-error-small">{{errorObj.message}}</mat-error>
       </div>
     </div>
 
     <div class="refine-results__channel">
       <div>Channels</div>
-      <ul ngModelGroup="channels">
-        <li *ngFor="let channel of channels">
+      <ul formArrayName="channels">
+        <li *ngFor="let channel of channels; let index = index" formGroupName="{{index}}">
           <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary"
-                        [ngModel]="false"
-                        name="{{channel.key}}" [title]="channel.unique_name">
+                        formControlName="{{channel.key}}" [title]="channel.unique_name">
             <img alt="channel icon" [src]="channel.icon" [alt]="channel.unique_name">
           </mat-checkbox>
         </li>
@@ -48,9 +49,10 @@
 
     <mat-form-field floatLabel="never">
       <input matInput
-             name="updated_at"
-             ngModel
+             formControlName="updated_at"
+             readonly
              placeholder="Last Updated"
+             style="pointer-events: none"
              [satDatepicker]="picker">
       <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
@@ -58,26 +60,26 @@
 
     <ul>Room metadata
       <li>
-        <mat-checkbox name="is_live" [ngModel]="false" color="primary">Hide test sessions</mat-checkbox>
+        <mat-checkbox formControlName="is_live" color="primary">Hide test sessions</mat-checkbox>
       </li>
       <li>
-        <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
+        <mat-checkbox formControlName="sendtoagent" color="primary">Agent handover happened</mat-checkbox>
       </li>
       <li>
-        <mat-checkbox name="error" [ngModel]="false" color="primary">Error occurred</mat-checkbox>
+        <mat-checkbox formControlName="error" color="primary">Error occurred</mat-checkbox>
       </li>
       <li>
-        <mat-checkbox name="downvote" [ngModel]="false" color="primary">Downvoted</mat-checkbox>
+        <mat-checkbox formControlName="downvote" color="primary">Downvoted</mat-checkbox>
       </li>
     </ul>
 
     <div class="refine-results__action">
       <button mat-flat-button class="mat-theme-button"
-              color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
+              color="primary" type="submit" (click)="sessionFormSubmitted(filterForm.value)">Submit
       </button>
       <button mat-button class="mat-theme-button cancel"
               type="button"
-              (click)="resetSearchForm(form)">Clear
+              (click)="resetSearchForm(filterForm)">Clear
       </button>
     </div>
   </form>

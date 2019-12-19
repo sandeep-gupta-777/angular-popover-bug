@@ -973,6 +973,11 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
 
+  getFaqFromURL(){
+    // return this.BACKEND_URL + `faq/extractByUrl/Hierarchy`;
+    return `https://dev.imibot.ai/faq/extractByUrl/Hierarchy`;
+  }
+
   putCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }

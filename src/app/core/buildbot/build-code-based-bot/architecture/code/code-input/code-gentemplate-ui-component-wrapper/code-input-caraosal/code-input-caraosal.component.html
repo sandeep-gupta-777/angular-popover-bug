@@ -47,18 +47,24 @@
           <div [ngStyle]="{'background-image': 'url('+ carousalItem.image_url +')'}" class="card-img-top">
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item limit-three-lines cursor-pointer mt-2">
-              <input #mainInput type="text" class="border" autofocus placeholder="title"
-                     [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
-                     [name]="'title'+ carouselIndex"
-                     [(ngModel)]="carousalItem.title"
-                     style="width: 100%">
+            <li class="list-group-item limit-three-lines cursor-pointer mt-2" style="display: block!important;">
+              <div>
+                <input #mainInput type="text" class="border" autofocus placeholder="title"
+                       [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
+                       [name]="'title'+ carouselIndex"
+                       [(ngModel)]="carousalItem.title"
+                       style="width: 100%">
+              </div>
+              <div class="mat-error-small m-0"
+                   *ngIf="(carousalItem.title|validationPipe:{start_with_alphanumeric: true, required: false})?.error as errorObj">
+                {{errorObj.message}}</div>
             </li>
             <li class="list-group-item limit-three-lines flex-column align-items-start cursor-pointer">
               <input appUrlValidator type="text" name="image_url" [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
               <div class="d-flex justify-content-between w-100">
-                <em class="faded-text text-danger" *ngIf="!(carousalItem?.image_url|checkImageValidity)">Invalid
-                  image</em>
+                <div class="mat-error-small m-0"
+                     *ngIf="(carousalItem.image_url|validationPipe:{image: true, https: true})?.error as errorObj">
+                  {{errorObj.message}}</div>
               </div>
             </li>
             <li class="list-group-item limit-three-lines cursor-pointer flex-column align-items-start">
@@ -68,11 +74,17 @@
                         [name]="'subtitle'+ carouselIndex"
                         [(ngModel)]="carousalItem.subtitle"></textarea>
               <span class="faded-text">{{carousalItem?.subtitle?.length || 0}}/80</span>
+              <div class="mat-error-small m-0"
+                   *ngIf="(carousalItem.subtitle|validationPipe:{start_with_alphanumeric: true, required: false})?.error as errorObj">
+                {{errorObj.message}}</div>
             </li>
-            <li class="list-group-item limit-three-lines cursor-pointer">
+            <li class="list-group-item limit-three-lines cursor-pointer" style="display: block !important;">
               <input type="text" name="url" [(ngModel)]="carousalItem.url"
                      [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                      placeholder="URL" style="width: 100%">
+              <div class="mat-error-small m-0"
+                   *ngIf="(carousalItem.url|validationPipe:{https: true})?.error as errorObj">
+                {{errorObj.message}}</div>
             </li>
           </ul>
           <ul class="list-group list-group-flush p-0 px-1  align-items-center">

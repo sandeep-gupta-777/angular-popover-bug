@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
@@ -8,6 +8,7 @@ import {EBotVersionTabs} from '../../../../../../../../interfaces/code-input';
 import {ETemplateResponseType} from '../../../../../../../typings/gentemplate';
 import {IMLResponse} from '../../../../../../../typings/reply';
 import {ConstantsService} from '../../../../../../../constants.service';
+import {FormsService} from '../../../../../../../forms.service';
 
 export interface ICarousalItem {
   'image_url': string;
@@ -76,7 +77,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
       this._templateKeyDict = val;
 
       const keys = Object.keys(this._templateKeyDict);
-       
+
       if (!this.selectedTemplateKeyInLeftSideBar || (keys && !keys.find(key => key === this.selectedTemplateKeyInLeftSideBar))) {
         this.updateSelectedTemplateKey(Object.keys(this._templateKeyDict)[0]);
         this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar] && this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
@@ -525,22 +526,26 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     //  });
   }
 
+  templateKeyExistsValidator() {
+    return (formControl: FormControl) => {
+      if (!formControl.value || !formControl.value.trim || !formControl.value.trim()) {
+        return {
+          error: {message: 'Required'}
+        };
+      }
+      if (Object.keys(this._templateKeyDict).find((key) => key === formControl.value)) {
+        return {
+          error: {message: 'Template key already exists'}
+        };
+      }
+    };
+  }
+
   showCreateOrEditTemplateKeyModel(title: string, value = '', isNew = false) {
     const dialogRefWrapper = this.modalRefWrapper;
     //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     const formGroup = this.formBuilder.group({
-      inputData: [value, (formControl: FormControl) => {
-        if (!formControl.value || !formControl.value.trim || !formControl.value.trim()) {
-          return {
-            error: 'Template key required'
-          };
-        }
-        if (Object.keys(this._templateKeyDict).find((key) => key === formControl.value)) {
-          return {
-            error: 'Template key already exists'
-          };
-        }
-      }]
+      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]]
     });
     return this.utilityService.openDialog({
       dialogRefWrapper: dialogRefWrapper,

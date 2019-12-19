@@ -65,7 +65,6 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
     const modifiedTableData = data.map((consumerTableDataItem) => {
       const obj: any = {};
       const thisUsersEnterperise = consumerTableDataItem.enterprises.find(value => value.enterprise_id === this.dependency.enterpriseId);
-    debugger;
 
       for (const key in tableDataMetaDict) {
 

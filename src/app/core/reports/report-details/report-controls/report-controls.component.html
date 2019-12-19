@@ -1,7 +1,7 @@
-<form class="row report-detail-row" #form="ngForm">
+<form class="row report-detail-row" [formGroup]="f">
   <div class="col-6">
     <mat-form-field>
-      <mat-select required placeholder="Bot" ngModel name="bot_id" [value]="codebasedBotList[0].id">
+      <mat-select required placeholder="Bot" formControlName="bot_id" [value]="codebasedBotList[0].id">
         <mat-option *ngFor="let bot of codebasedBotList let i = index;" [value]="bot.id">
           {{bot.name}}
         </mat-option>
@@ -10,9 +10,9 @@
   </div>
 
   <div class="col-6">
-     <mat-form-field>
+    <mat-form-field>
       <!--TODO: hardcoded messges since there is no other option as of now-->
-      <mat-select required placeholder="Report type" name="single_match" value="single_match" [ngModel]="'messages'">
+      <mat-select required placeholder="Report type" formControlName="single_match" value="messages">
         <mat-option value="messages">
           Messages
         </mat-option>
@@ -29,22 +29,24 @@
         disabled
         [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
         for="pdf" class="btn-theme d-flex align-items-center">PDF</label>
-      <input type="radio" [ngModel]="filetype" required [checked]="true" id="csv" name="filetype" value="csv" hidden>
-      <input disabled type="radio" [ngModel]="filetype" required id="pdf" name="filetype" value="pdf" hidden>
+      <input type="radio" formGroupName="filetype" required [checked]="true" id="csv" formControlName="filetype"
+             value="csv" hidden>
+      <input disabled type="radio" formGroupName="filetype" required id="pdf" formControlName="filetype" value="pdf"
+             hidden>
     </div>
   </div>
 
   <div class="col-5 mt-3 d-flex align-items-center ">
     <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
-      <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive" color="primary"></mat-slide-toggle>
+      <mat-slide-toggle class="m-0" required formControlName="isactive" color="primary"></mat-slide-toggle>
     </div>
   </div>
 
   <div class="col-6 mt-4">
     <div class="select-theme-primary">
       <mat-form-field>
-        <mat-select  placeholder="Frequency" ngModel required name="frequency">
+        <mat-select placeholder="Frequency" required formControlName="frequency">
           <mat-option value="daily">Daily</mat-option>
           <mat-option value="weekly">Weekly</mat-option>
           <mat-option value="bi-weekly">Bi-weekly</mat-option>
@@ -55,11 +57,11 @@
   </div>
 
   <div class="col-5 mt-4">
-      <mat-form-field>
-          <mat-select required [(ngModel)]="start_time" name="start_time"  placeholder="Time" required>
-              <mat-option *ngFor="let item of timeRanges" value="{{item}}">{{item}}</mat-option>
-          </mat-select>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-select required [(ngModel)]="start_time" formControlName="start_time" placeholder="Time" required>
+        <mat-option *ngFor="let item of timeRanges" value="{{item}}">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
   </div>
 
@@ -68,11 +70,11 @@
       <div class="col-12 col-md-4 form-group">
         <mat-form-field>
           <input
-                  required
-            [(ngModel)]="startdate"
+            required
             [min]="today"
-            name="startdate"
+            formControlName="startdate"
             matInput
+            readonly
             autocomplete="off"
             [matDatepicker]="picker"
             placeholder="Start Date">
@@ -81,17 +83,15 @@
         </mat-form-field>
       </div>
     </div>
-
-    <!---->
   </div>
 
-  <div class="row m-0 p-0" ngModelGroup='delivery'>
+  <div class="row m-0 p-0">
     <div class="col-12">
       <div class="" style="width: 100%; color: #474747">Delivery Mode</div>
     </div>
     <div class="col-12">
       <ul class="nav nav-tabs my-2">
-        <input type="text" ngModel name="delivery_type" hidden>
+        <input type="text" hidden>
         <li class="nav-item">
           <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='sftp'}"
              (click)="navigate('sftp')"><strong>SFTP</strong></a>
@@ -103,55 +103,77 @@
       </ul>
     </div>
 
-    <div class="row m-0" [hidden]="deliveryMode!=='email'" ngModelGroup='email'>
-      <div class="col-8 text-report ">
-        Schedule emails for multiple recipients, separate with semi-colon(;)
-      </div>
-      <div class="col-4 text-right ">
-        <mat-slide-toggle ngModel name="enabled" color="primary"></mat-slide-toggle>
-
-      </div>
-      <fieldset class="col-12 ">
-        <legend style="display: none;">Recipients</legend>
-        <div class="col-10 mt-2">
-          <div class="text-report pb-2">Recipients</div>
-          <textarea ngModel name="recipients" class="p-2" style="width: 100%; height: 90px"></textarea>
+    <div [hidden]="deliveryMode!=='email'" formArrayName='delivery'>
+      <div formGroupName="1" class="row m-0">
+        <div class="col-8 text-report ">
+          Schedule emails for multiple recipients, separate with semi-colon(;)
         </div>
-      </fieldset>
+        <div class="col-4 text-right ">
+          <mat-slide-toggle formControlName="enabled" color="primary"></mat-slide-toggle>
+        </div>
+        <fieldset class="col-12" [disabled]="!f.get('delivery')?.at(1)?.value?.enabled">
+          <legend style="display: none;">Recipients</legend>
+          <div class="col-10 mt-2">
+            <div class="text-report pb-2">Recipients</div>
+            <textarea formControlName="recipients" class="p-2" style="width: 100%; height: 90px"></textarea>
+          </div>
+        </fieldset>
+      </div>
     </div>
 
-    <div class="row m-0 " [hidden]="deliveryMode!=='sftp'" ngModelGroup='sftp'>
-      <div class="col-12 d-flex justify-content-between align-items-center">
-        <div class="text-report ">Push reports to a secure location as scheduled</div>
-        <mat-slide-toggle [(ngModel)]="isSftpReportEnabled" color="primary" name="enabled"></mat-slide-toggle>
-
-      </div>
-
-      <fieldset [disabled]="!isSftpReportEnabled" class="col-12 p-0">
-        <legend style="display: none;">report sender details</legend>
-        <div class="co-10 mt-2 sftp-grid">
-          <label for="" class=" m-0">IP Address</label>
-          <label for="" class=" m-0">Port</label>
-          <input class="input-material mb-3" type="text" ngModel name="ip">
-          <input class="input-material mb-3" type="text" ngModel name="port">
-          <label for="" class=" m-0">Username</label>
-          <label for="" class=" m-0">Password</label>
-          <input class="input-material mb-3" type="text" ngModel name="username">
-          <input class="input-material mb-3" type="password" ngModel name="password">
-          <label for="" class=" m-0">Upload directory</label>
-          <label for="uploadInput" class="btn btn-theme-secondary-outline upload-private-key-button">
-            {{privateKey?'Uploaded':'Upload File'}}
-            <input type="file"
-                   hidden
-                   id="uploadInput"
-                   (change)='openFile(uploadInput);uploadInput.value=null'
-                   accept='text/plain' multiple
-                   #uploadInput>
-            <input type="text" hidden [(ngModel)]="privateKey" type="password" name="privatekey">
-          </label>
-          <input class="input-material"  ngModel name="directory">
+    <div class="row m-0 " [hidden]="deliveryMode!=='sftp'" formArrayName='delivery'>
+      <div formGroupName="0">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+          <div class="text-report ">Push reports to a secure location as scheduled</div>
+          <mat-slide-toggle color="primary" formControlName="enabled"></mat-slide-toggle>
         </div>
-      </fieldset>
+        <fieldset [disabled]="!f.get('delivery')?.at(0)?.value?.enabled" class="row p-0 m-0">
+          <legend style="display: none;">report sender details</legend>
+          <div class="co-10 mt-2">
+            <div class="d-flex">
+              <mat-form-field class="stfp-input">
+                <input matInput placeholder="IP Address" formControlName="ip">
+                <mat-error class="mat-error-small" *ngIf="f.get('delivery')?.at(0).get('ip').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+              </mat-form-field>
+              <mat-form-field class="stfp-input">
+                <input matInput placeholder="Port" formControlName="port">
+                <mat-error class="mat-error-small" *ngIf="f.get('delivery')?.at(0).get('port').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="d-flex">
+              <mat-form-field class="stfp-input">
+                <input matInput placeholder="Username" formControlName="username">
+                <mat-error class="mat-error-small" *ngIf="f.get('delivery')?.at(0).get('username').errors as errorObj">{{errorObj?.error?.message}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="stfp-input">
+                <input matInput placeholder="Password" formControlName="password">
+                <mat-error class="mat-error-small" *ngIf="f.get('delivery')?.at(0).get('password').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="d-flex">
+              <mat-form-field class="stfp-input">
+                <input matInput placeholder="Private Key" formControlName="privatekey" type="password">
+                <mat-error class="mat-error-small" *ngIf="f.get('delivery')?.at(0).get('privatekey').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+              </mat-form-field>
+
+              <div>
+                <label for="" class=" m-0">Upload directory</label>
+                <label for="uploadInput" class="btn btn-theme-secondary-outline upload-private-key-button">
+                  {{privateKey?'Uploaded':'Upload File'}}
+                  <input type="file"
+                         hidden
+                         id="uploadInput"
+                         (change)='openFile(uploadInput);uploadInput.value=null'
+                         accept='text/plain' multiple
+                         #uploadInput>
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
 
     </div>
 

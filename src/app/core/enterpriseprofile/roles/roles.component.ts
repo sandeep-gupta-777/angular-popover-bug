@@ -11,6 +11,8 @@ import {UtilityService} from 'src/app/utility.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ESplashScreens} from 'src/app/splash-screen/splash-screen.component';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormsService} from '../../../forms.service';
 
 @Component({
   selector: 'app-roles',
@@ -22,15 +24,16 @@ export class RolesComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private utilityService: UtilityService,
+    private formBuilder: FormBuilder,
     private constantsService: ConstantsService,
     private matDialog: MatDialog
   ) {
   }
 
+  roleForm: FormGroup;
   selectedPermissionIdList: number[] = [];
   selectedRoleData: IRole;
-  selectedRoleName = '';
-  selectedRoleBaseRole: number;
+  // selectedRoleBaseRole: number;
   serchedAction = '';
   serchedPermission = '';
   myESplashScreens = ESplashScreens;
@@ -52,7 +55,7 @@ export class RolesComponent implements OnInit {
 
   modifyRole() {
     const body = {
-      'name': this.selectedRoleName,
+      'name': this.roleForm.value.selectedRoleName,
       'permissions': {
         'actions': this.selectedPermissionIdList
       }
@@ -70,11 +73,11 @@ export class RolesComponent implements OnInit {
 
   createNewRole() {
     const body = {
-      'name': this.selectedRoleName,
+      'name': this.roleForm.value.selectedRoleName,
       'permissions': {
         'actions': this.selectedPermissionIdList
       },
-      'base_role': +this.selectedRoleBaseRole
+      'base_role': +this.roleForm.value.selectedRoleBaseRole
     };
     const getRoleUrl = this.constantsService.getRoleUrl();
 
@@ -122,7 +125,7 @@ export class RolesComponent implements OnInit {
       classStr: 'danger-modal-header-border',
       data: {
         actionButtonText: 'Remove',
-        message: `Do you want to remove ${this.selectedRoleName} ? `,
+        message: `Do you want to remove ${this.roleForm.value.selectedRoleName} ? `,
         title: 'Delete role?',
         isActionButtonDanger: true
       },
@@ -149,6 +152,10 @@ export class RolesComponent implements OnInit {
 
   ngOnInit() {
 
+    this.roleForm = this.formBuilder.group({
+      selectedRoleName: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
+      selectedRoleBaseRole: [''],
+    });
     // this.system_role = false;
     if (!this.isNewRole) {
       const getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
@@ -157,7 +164,8 @@ export class RolesComponent implements OnInit {
         .subscribe((roles) => {
 
           this.system_role = roles.objects[0].enterprise_id === 0;
-          this.selectedRoleName = roles.objects[0].name;
+          const selectedRoleName = roles.objects[0].name;
+          this.roleForm.patchValue({selectedRoleName: selectedRoleName});
           this.selectedRoleData = roles.objects[0];
           this.selectedPermissionIdList = roles.objects[0].permissions.actions.filter(id => {
             return !!!this.notConfigtablePermissionIdList.find(id1 => id1 === id);

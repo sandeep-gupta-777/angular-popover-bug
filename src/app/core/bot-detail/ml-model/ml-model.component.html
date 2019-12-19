@@ -146,6 +146,7 @@
       <form class="d-flex flex-column" [formGroup]="modalForm" style="width: 460px;">
         <mat-form-field style="width: 230px">
           <input matInput ngModel placeholder="Entity name" formControlName="entity_name" required maxlength="200">
+          <mat-error class="mat-error-small" *ngIf="modalForm.get('entity_name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
         </mat-form-field>
         <div class="d-flex" style="align-items: flex-end;">
           <mat-form-field style="width: 120px;margin-right: 20px" >

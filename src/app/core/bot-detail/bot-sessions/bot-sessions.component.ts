@@ -15,9 +15,10 @@ import {EventService} from '../../../event.service';
 import {tap} from 'rxjs/internal/operators';
 import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {BotSessionSmartTableModal} from './bot-session-smart-table-modal';
+import {FormsService} from '../../../forms.service';
 
 interface ISessionFilterData {
   id: number;
@@ -35,7 +36,7 @@ interface ISessionFilterData {
 })
 export class BotSessionsComponent implements OnInit, AfterViewInit {
   dialogRefWrapper = {ref: null};
-
+  filterForm: FormGroup;
   myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
@@ -59,7 +60,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   showFilterForm = false; /*filter form will be shown when if table has data when no filters are applied*/
-  @ViewChild('form') filterForm: NgForm;
   // decryptReason: string;
   filterDataFromTable: ISessionFilterData;
   filterFormData: ISessionFilterData;
@@ -76,18 +76,40 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
     private eventService: EventService,
+    private formBuilder: FormBuilder,
     private store: Store,
     private matDialog: MatDialog,
-  ) {}
+  ) {
+  }
 
+  initSearchForm(channels) {
+    const channelFA = channels.reduce((total, current) => {
+      return [
+        ...total,
+        this.formBuilder.group({[current.key]: false})
+      ];
+    }, []);
+    this.filterForm = this.formBuilder.group({
+      id: ['', [FormsService.numberValidator({max: 100000000000})]],
+      consumer_id: ['', [FormsService.numberValidator({max: 100000000000})]],
+      total_message_count__gte: ['', [FormsService.numberValidator({max: 100000000000})]],
+      total_message_count__lte: ['', [FormsService.numberValidator({max: 100000000000})]],
+      updated_at: ['', []],
+      is_live: ['', []],
+      sendtoagent: ['', []],
+      error: ['', []],
+      downvote: ['', []],
+      channels: this.formBuilder.array(channelFA)
+    });
+  }
 
   ngOnInit() {
-
     this.sessionsSmartTableDataModal = this.tableDataFactory();
 
     this.app$
       .subscribe((appState) => {
         this.channels = appState.masterIntegrationList.filter(e => e.integration_type === 'channels');
+        this.initSearchForm(this.channels);
       });
 
     this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
@@ -472,8 +494,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
     this.performSearchInDbForSession(filterData)
       .subscribe(() => {
-        // this.filterFormDirty  = false;
-        this.filterForm.form.markAsPristine(); /*Because we want to disable button when data is unchanged*/
+        this.filterForm.markAsPristine(); /*Because we want to disable button when data is unchanged*/
       });
   }
 
@@ -482,8 +503,8 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     console.log(this.headerData);
   }
 
-  resetSearchForm(form: NgForm) {
-    form.resetForm();
+  resetSearchForm(form: FormGroup) {
+    form.reset();
     this.filterFormData = null;
     this.performSearchInDbForSession(null)
       .subscribe();
