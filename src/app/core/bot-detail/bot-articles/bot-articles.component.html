@@ -1,5 +1,5 @@
 <app-imi-loader *ngIf="!loaded"></app-imi-loader>
-<div *ngIf="loaded && !showEditAndViewArtical" style="display: block; height: 100%">
+<div *ngIf="loaded && showEditAndViewArtical === myArticleEditMode.table" style="display: block; height: 100%">
   <app-artical-header [corpus]="corpus" (train)="openTrainModal()" (makeLive)="makeLiveCorpus()" [bot]="bot">
   </app-artical-header>
 
@@ -18,6 +18,10 @@
           </button>
         </div>
         <div class="action-item py-1 cursor-pointer" *appMyIf="myEAllActions['Update Category']"
+             (click)="showEditAndViewArtical = myArticleEditMode.extractLink" >
+          <mat-icon style="transform:rotate(130deg)" class="material-icons">insert_link</mat-icon>Extract faqs from link
+        </div>
+        <div class="action-item py-1 cursor-pointer" *appMyIf="myEAllActions['Update Category']"
           (click)="openCorpusImportModal(ImportArticlesTemplate)">
           <mat-icon class="material-icons">publish</mat-icon>Import articles from csv
         </div>
@@ -34,12 +38,15 @@
     </div>
   </div>
 </div>
-<div style="height: 100%" *ngIf="loaded && showEditAndViewArtical">
+<div style="height: 100%" *ngIf="loaded && showEditAndViewArtical === myArticleEditMode.article">
   <app-edit-and-view-articles style="height: 100%" [bot]="bot" [article]="selectedArticle"
     [category_mapping]="corpus && corpus.category_mapping" [corpus]="corpus" (goBack)="goBackToArticalList();"
     (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()" (saveAndTrain)="trainBotAndGetCorpus('')"
     (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
     (trainAndUpdate)="trainAndUpdate($event)"></app-edit-and-view-articles>
+</div>
+<div *ngIf="loaded && showEditAndViewArtical === myArticleEditMode.extractLink">
+  <app-faq-import-from-link [bot]="bot" (goBackToArticlePageEvent)="showEditAndViewArtical = myArticleEditMode.table" (newFaqUpdated) = "getCorpusAndSetArticleFilterForm()" ></app-faq-import-from-link>
 </div>
 
 <ng-template #categoriesTemplate>
