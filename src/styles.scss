@@ -1113,7 +1113,7 @@ mat-dialog-container {
 .primary-modal-header-border {
   .mat-dialog-container {
     border-radius: 4px;
-    padding: 20px 20px 20px 30px;
+    padding: 15px;
   }
 }
 
@@ -1495,4 +1495,32 @@ mat-dialog-container {
   margin-bottom: 10px;
   color: red;
   text-align: left;
+}
+
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner{
+  color: transparent;
+  position: relative;
+}
+
+.spinner:before {
+  content: '';
+  pointer-events: none;
+  opacity: .7;
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid white;
+  border-top-color: $color-primary-v2;
+  animation: spinner .8s linear infinite;
 }

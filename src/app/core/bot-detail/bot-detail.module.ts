@@ -74,7 +74,7 @@ import {EditAndViewArticlesComponent} from './bot-articles/edit-and-view-article
 import {CategorieModalInputComponent} from './bot-articles/categorie-modal-input/categorie-modal-input.component';
 import {ConstantsService} from '../../constants.service';
 import {LayoutModule} from '@angular/cdk/layout';
-import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {MatAutocompleteModule, MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
 
 import {SearchArticleByQuestionPipe} from './bot-detail-header/search-article-by-question.pipe';
@@ -116,6 +116,7 @@ import {GentemplateImageComponent} from '../buildbot/build-code-based-bot/archit
 import {GentemplateFileComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-file/gentemplate-file.component';
 import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
 import {HttpIdleInterceptor} from '../../http-idle.interceptor';
+import { TemplateKeyAutosuggestionInputComponent } from './ml-intent-response/template-key-autosuggestion-input/template-key-autosuggestion-input.component';
 
 
 const routes: Route[] = [
@@ -231,7 +232,8 @@ const routes: Route[] = [
     GentemplateAudioComponent,
     GentemplateImageComponent,
     GentemplateFileComponent,
-    MediaDetecionPipe
+    MediaDetecionPipe,
+    TemplateKeyAutosuggestionInputComponent
   ],
   imports: [
     RichMediaModule,
@@ -248,6 +250,7 @@ const routes: Route[] = [
     MatToolbarModule,
     MatListModule,
     OverlayModule,
+    MatAutocompleteModule,
   ],
   providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe, CategoryIdToNamePipe, MlReplyService,
     {

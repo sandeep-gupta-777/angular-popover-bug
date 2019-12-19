@@ -12,16 +12,16 @@
 </mat-menu>
 
 <form #entityForm="ngForm" class="list-wrapper">
-
-  <div class="example-list" [ngClass]="{'overflow-hidden': selectedIntent?.entities?.length < 4}" cdkDropList #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
+  <div class="example-list" [ngClass]="{'overflow-hidden': selectedIntent?.entities?.length < 4}" cdkDropList
+       #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
        (cdkDropListDropped)="drop($event)">
     <table style="border: solid 1px #eaeaea;">
       <tr style="height: 32px">
         <th style="width: 5%"></th>
-        <th style="width: 25%">Entity name</th>
-        <th style="width: 10%">Required</th>
-        <th style="width: 15%">Retries</th>
-        <th style="width: 25%">Template Key</th>
+        <th style="width: 25%">Entity_name</th>
+        <th style="width: 10%"></th>
+        <th style="width: 15%"></th>
+        <th style="width: 25%"></th>
         <th style="width: 5%"></th>
       </tr>
       <tr style="background-color: #eeeeee; border: solid 1px #eaeaea;
@@ -38,20 +38,21 @@
         <th style="width: 25%">Template Key</th>
         <th style="width: 5%"></th>
       </tr>
-      <tbody >
+      <tbody>
       <ng-container *ngIf="selectedIntent">
         <tr class="example-box" *ngFor="let e of selectedIntent.entities; let index = index; trackBy: trackBy"
             ngModelGroup="{{index}}"
             style="min-height: 140px" cdkDrag>
           <ng-container *ngIf="(e|getEntityByName:entityList) as entity">
             <td [ngStyle]="{borderColor: entity.color}" style="position: relative">
-                <div class="center-absolute flex-theme-center">
-                  <mat-icon>drag_handle</mat-icon>
-                </div>
+              <div class="center-absolute flex-theme-center">
+                <mat-icon>drag_handle</mat-icon>
+              </div>
             </td>
             <td>{{entity.name}}</td>
             <td>
-              <mat-checkbox color="primary" [checked]="entity.required" name="required" [(ngModel)]="e.required" (change)="change(e)"></mat-checkbox>
+              <mat-checkbox color="primary" [checked]="entity.required" name="required" [(ngModel)]="e.required"
+                            (change)="change(e)"></mat-checkbox>
             </td>
             <td>
 
@@ -66,11 +67,21 @@
               <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
             </td>
             <td>
-              <mat-form-field [hidden]="e.required !== true"
+              <mat-form-field hidden
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
-                <input matInput placeholder="Template key" value="" name="template_key" [required]="e.required" [(ngModel)]="e.template_key">
+                <input matInput placeholder="Template key" value="" name="template_key" [required]="e.required"
+                       [(ngModel)]="e.template_key">
               </mat-form-field>
+              <app-template-key-autosuggestion-input
+                class="no-mat-input-padding"
+                style="margin-bottom: -1.25em"
+                [hidden]="e.required !== true"
+                [bot]="bot"
+                [keys]="keys"
+                (createTemplateKey$)="updateResponse$.emit($event)"
+                [fc]="entityForm.form?.controls[index]?.get('template_key')">
+              </app-template-key-autosuggestion-input>
               <span *ngIf="e.required !== true">
               {{entity.template_key || 'None'}}
             </span>

@@ -95,13 +95,16 @@
 
     <div style="width: 50%">
       <app-ml-intent-utterance
+        (updateResponse$)="updateResponse($event)"
         (linkEntity$)="linkEntityHandler($event)"
+        [bot]="bot"
+        [keys]="keys"
         (removeEntity$)="removeEntityHandler($event)"
         (formValidity$)="isEntityValid = $event"
         [entityList]="entityList"
         [selectedIntent]="_selectedIntent"
         style="display: block; margin-bottom: 28px"></app-ml-intent-utterance>
-      <app-ml-intent-response [form]="form"></app-ml-intent-response>
+      <app-ml-intent-response (updateResponse$)="updateResponse($event)" [bot]="bot" [keys]="keys" [form]="form"></app-ml-intent-response>
     </div>
   </div>
 </form>

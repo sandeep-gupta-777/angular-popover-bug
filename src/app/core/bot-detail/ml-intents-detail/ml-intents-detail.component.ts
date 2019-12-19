@@ -21,6 +21,8 @@ import {EventService} from '../../../event.service';
 import {DomService} from '../../../dom.service';
 import {EAllActions} from '../../../typings/enum';
 import {FormsService} from '../../../forms.service';
+import {IMLResponse} from '../../../typings/reply';
+import {MlReplyService} from '../ml-reply/ml-reply.service';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -87,11 +89,14 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   @Output() deleteIntent$ = new EventEmitter<IIntent>();
   @Output() saveAndTrain$ = new EventEmitter<IIntent>();
   @Output() showCreateNewIntentModel$ = new EventEmitter();
+  keys;
+  mlResponse: IMLResponse;
 
   constructor(
     private constantsService: ConstantsService,
     private datePipe: DatePipe,
     private popper: Popover,
+    private mlReplyService: MlReplyService,
     private formBuilder: FormBuilder,
     private serverService: ServerService,
     private utilityService: UtilityService,
@@ -116,6 +121,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   y;
 
   ngOnInit() {
+    this.getResponseTemplates();
     this.inputChanged$.pipe(debounceTime(100)).subscribe((event: any) => {
       if (event.target.textContent.includes(this.tempMarkingWord)) {
         return;
@@ -164,7 +170,48 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       reset_state: false
     });
     this.form && this._selectedIntent && this.form.patchValue(this._selectedIntent);
+  }
 
+  updateResponse({data, modalRefWrapper, fc}) {
+    debugger;
+    const newTemplates = {
+      [data.template_key]: {
+        'logic': '',
+        'response': [
+          {
+            'include': [
+              'web'
+            ],
+            'text': [
+              data.text_response
+            ]
+          }
+        ],
+        'response_type': 'rich'
+      }
+    };
+
+    this.mlResponse.templates = {
+      ...this.mlResponse.templates,
+      ...newTemplates
+    };
+    this.mlReplyService.updateResponseTemplates(this.bot, this.mlResponse, this.mlResponse.id)
+      .subscribe((value: IMLResponse) => {
+        this.keys.push(data.template_key);
+        fc.patchValue(data.template_key);
+        modalRefWrapper.ref.close();
+        this.utilityService.showSuccessToaster('Template key created');
+        this.getResponseTemplates();
+      });
+  }
+
+  getResponseTemplates() {
+    debugger;
+    this.mlReplyService.getResponseTemplates(this.bot)
+      .subscribe((value: IMLResponse) => {
+        this.keys = Object.keys(value.templates);
+        this.mlResponse = value;
+      });
   }
 
   tableDataFactory() {

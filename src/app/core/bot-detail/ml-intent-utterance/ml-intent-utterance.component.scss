@@ -6,11 +6,11 @@ table {
 }
 
 
-tr{
+tr {
   border-bottom: 1px solid #e0e0e0;
 }
 
-th{
+th {
   min-width: 60px;
   width: 25px;
   height: 14px;
@@ -22,7 +22,7 @@ th{
   letter-spacing: normal;
 }
 
-td, th{
+td, th {
   vertical-align: baseline !important;
   padding: 8px 8px;
 }
@@ -40,25 +40,26 @@ tr:nth-child(even) {
 }
 
 
-.fa-circle-o{
+.fa-circle-o {
   font-size: 9px;
 }
 
 
-tbody{
-  tr{
-    td:nth-child(1){
+tbody {
+  tr {
+    td:nth-child(1) {
       padding-left: 10px;
       border-right: 3px solid #e9caa2;
     }
   }
 }
 
-::ng-deep{
-  .entity-list{
+::ng-deep {
+  .entity-list {
     max-height: 300px;
   }
 }
+
 /*=================*/
 .example-container {
   max-width: 100%;
@@ -68,7 +69,7 @@ tbody{
 
 }
 
-.list-wrapper{
+.list-wrapper {
   position: relative;
   overflow: hidden;
   border-radius: 4px;
@@ -123,6 +124,15 @@ tbody{
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.overflow-hidden{
+.overflow-hidden {
   overflow: hidden !important;
+}
+
+::ng-deep {
+  .no-mat-input-padding {
+    mat-form-field {
+      margin-bottom: -1.25em;
+      width: 130px;
+    }
+  }
 }

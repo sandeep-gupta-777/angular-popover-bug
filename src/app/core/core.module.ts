@@ -55,6 +55,7 @@ import {ScriptsLoadResolver} from '../script-load.resolver';
 import {BotAccessTokenResolver} from '../bot-access-token.resolver';
 import {BotResolver} from '../bot.resolver';
 import {HttpIdleInterceptor} from '../http-idle.interceptor';
+import { ModalConfirmV2Component } from '../modal-confirm-v2/modal-confirm-v2.component';
 // import { MediaDetecionPipe } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/media-detecion.pipe';
 
 const routes: Route[] = [
@@ -141,10 +142,12 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
+    ModalConfirmV2Component,
     // MediaDetecionPipe,
   ],
   entryComponents: [
     ModalConfirmComponent,
+    ModalConfirmV2Component,
     GentemplateEditKeyComponent,
   ],
   imports: [

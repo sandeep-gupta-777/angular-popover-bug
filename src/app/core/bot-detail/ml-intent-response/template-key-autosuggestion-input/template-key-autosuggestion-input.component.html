@@ -1,0 +1,32 @@
+<mat-form-field class="example-full-width">
+  <input type="text" matInput placeholder="Final template key*" [formControl]="fc" [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" class="template-list-autocomplete">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+      {{option}}
+    </mat-option>
+    <mat-option *ngIf="!((filteredOptions | async)?.length)" disabled>
+      <em>No template key found</em>
+    </mat-option>
+    <mat-option (click)="showModalForTemplateKey()" style="border-top: 1px solid #d8d8d8; color: #00abd3"
+                [value]="fc.value">
+      + Create new
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<ng-template #templateRef>
+  <form style="min-width: 450px; display: flex; flex-direction: column" [formGroup]="formGroupTemplateKeyCreation">
+    <div>
+      <mat-form-field>
+        <input matInput formControlName="template_key" placeholder="Template key">
+        <mat-error class="mat-error-small"
+                   *ngIf="formGroupTemplateKeyCreation.get('template_key').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <textarea formControlName="text_response" matInput placeholder="Leave a comment"></textarea>
+      <mat-error class="mat-error-small"
+                 *ngIf="formGroupTemplateKeyCreation.get('text_response').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+    </mat-form-field>
+  </form>
+</ng-template>

@@ -3,9 +3,9 @@
     Response
   </h2>
   <div style="padding: 10px; background-color: white; border: solid 1px #eaeaea; margin-top: 8px">
-    <mat-form-field class="example-full-width">
-      <input type="text" matInput placeholder="Final template key*" formControlName="template_key">
-    </mat-form-field>
+    <app-template-key-autosuggestion-input [bot]="bot" [keys]="_keys"
+                                           (createTemplateKey$)="updateResponse$.emit($event)"
+                                           [fc]="form.get('template_key')"></app-template-key-autosuggestion-input>
     <div style="display: flex; align-items: center">
       <span style="margin-right: 10px">Reset slots after completion</span>
       <div>
@@ -13,5 +13,4 @@
       </div>
     </div>
   </div>
-
 </form>

@@ -3,6 +3,7 @@ import {IEntitiesItem} from '../../interfaces/mlBots';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {NgForm} from '@angular/forms';
+import {IBot} from '../../interfaces/IBot';
 
 @Component({
   selector: 'app-ml-intent-utterance',
@@ -13,10 +14,13 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
 
   @Input() selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
+  @Input() bot: IBot;
   @Output() linkEntity$ = new EventEmitter();
   @Output() removeEntity$ = new EventEmitter();
   @Output() formValidity$ = new EventEmitter();
+  @Output() updateResponse$ = new EventEmitter();
   @ViewChild('entityForm') f: NgForm;
+  @Input() keys;
 
   constructor() {
   }
@@ -26,7 +30,6 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.f.valueChanges.subscribe(() => {
-
       this.formValidity$.emit(this.f.valid);
     });
   }
@@ -60,7 +63,7 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   }
 
   log(entityList) {
-
+    debugger;
     console.log(entityList);
   }
 

@@ -239,7 +239,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   openForkNewVersionModal(template) {
-    debugger;
+
     this.newVersionModalForm.patchValue({version_id: this.selectedVersion_st.version, comment: ''});
     this.openPrimaryModal(template);
   }
