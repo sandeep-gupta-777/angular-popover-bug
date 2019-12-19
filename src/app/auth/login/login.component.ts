@@ -45,6 +45,7 @@ enum ELoginPanels {
 export class LoginComponent extends MessageDisplayBase implements OnInit, AfterViewInit {
   myELoginPanels = ELoginPanels;
   panelActive: ELoginPanels = ELoginPanels.login;
+  showConnectLoginScreen = false;
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
@@ -95,8 +96,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   ngOnInit() {
     const accesstoken = (window as any).accesstoken;
     const domainname = (window as any).domainname;
-    debugger;
+    this.showConnectLoginScreen = accesstoken && domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
     if (accesstoken && domainname) {
+      this.router.navigate(['/auth/login'], {queryParams: {source: 'connect'}});
       this.loginSubmitHandler({accesstoken, domainname});
     }
     try {
