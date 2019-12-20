@@ -59,6 +59,11 @@
                  data-cy="add-question-ti-tentemplate"
           />
         </mat-form-field>
+        <div class="mat-error-small m-0"
+             style="margin-top: -14px !important;
+    margin-bottom: 10px !important;"
+             *ngIf="(questionForm.value?.questionText|validationPipe:{start_with_alphanumeric: true, max: 64})?.error as errorObj">
+          {{errorObj.message}}</div>
         <button class="mat-theme-button cursor-pointer mr-2" type="submit" mat-button
                 [disabled]="!questionForm.value.questionText"
                 style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"

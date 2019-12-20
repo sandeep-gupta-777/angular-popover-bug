@@ -59,7 +59,7 @@
               <mat-form-field [hidden]="e.required !== true"
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
-                <input matInput value="1" type="number" min="0" max="100" #input (input)="x(input)"
+                <input matInput value="1" type="number" min="0" max="10" #input (input)="x(input)"
                        [required]="e.required"
                        [(ngModel)]="e.counter" name="retries">
                 <mat-error class="mat-error-small">{{'test'}}</mat-error>
@@ -70,8 +70,7 @@
               <mat-form-field hidden
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
-                <input matInput placeholder="Template key" value="" name="template_key" [required]="e.required"
-                       [(ngModel)]="e.template_key">
+                <input matInput placeholder="Template key" maxlength="64" value="" name="template_key" [required]="e.required" [(ngModel)]="e.template_key">
               </mat-form-field>
               <app-template-key-autosuggestion-input
                 class="no-mat-input-padding"
