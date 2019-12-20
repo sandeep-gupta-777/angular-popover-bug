@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-ml-intent-utterance',
@@ -17,11 +17,12 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   @Output() removeEntity$ = new EventEmitter();
   @Output() formValidity$ = new EventEmitter();
   @ViewChild('entityForm') f: NgForm;
-
-  constructor() {
+  form: FormGroup;
+  constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
+    // this.form = this.formBuilder.group({});
   }
 
   ngAfterViewInit(): void {

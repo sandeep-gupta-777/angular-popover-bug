@@ -161,9 +161,9 @@
           <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
           </mat-icon>
         </mat-form-field>
-        <div class="mat-error-small m-0"
-             *ngIf="(articleData.questions[index]|validationPipe:{start_with_alphanumeric: true})?.error as errorObj">
-          {{errorObj.message}}</div>
+<!--        <div class="mat-error-small m-0"-->
+<!--             *ngIf="(articleData.questions[index]|validationPipe:{start_with_alphanumeric: true})?.error as errorObj">-->
+<!--          {{errorObj.message}}</div>-->
       </ng-container>
     </div>
 
