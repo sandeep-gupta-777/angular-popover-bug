@@ -43,6 +43,7 @@ enum ELoginPanels {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit, AfterViewInit {
+  connect_redirect_time = 3;
   myELoginPanels = ELoginPanels;
   panelActive: ELoginPanels = ELoginPanels.login;
   showConnectLoginScreen = false;
@@ -92,14 +93,16 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   gotUserData$ = new EventEmitter();
   showCustomEmails = false;
   timestamp = new Date();
+  accesstoken;
+  domainname;
 
   ngOnInit() {
-    const accesstoken = (window as any).accesstoken;
-    const domainname = (window as any).domainname;
-    this.showConnectLoginScreen = accesstoken && domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
-    if (accesstoken && domainname) {
-      this.router.navigate(['/auth/login'], {queryParams: {source: 'connect'}});
-      this.loginSubmitHandler({accesstoken, domainname});
+    this.accesstoken = (window as any).accesstoken;
+    this.domainname = (window as any).domainname;
+    this.showConnectLoginScreen = this.accesstoken && this.domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
+    if (this.accesstoken && this.domainname) {
+      this.router.navigate(['/auth/login'],);
+      this.loginSubmitHandler({accesstoken: this.accesstoken, domainname: this.domainname});
     }
     try {
       /*replace with plateform.roomId*/
@@ -312,6 +315,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginFailedHandler() {
+    if (this.accesstoken && this.domainname) {
+      this.connect_redirect_time = 4;
+      setInterval(() => {
+        --this.connect_redirect_time;
+        if (this.connect_redirect_time === 1) {
+          location.href = 'https://imiconnect.com/';
+        }
+        if (this.connect_redirect_time < 0) {
+          this.connect_redirect_time = 0;
+        }
+      }, 1000);
+    }
     this.disabeLoginButton = false;
     this.flashErrorMessage('Problem with login. Please try again', 10000);
     return this.store.dispatch([
