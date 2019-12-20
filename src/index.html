@@ -291,6 +291,21 @@
 </style>
 <body class="dewa-theme12" style="background-color: #f0f3f4">
 
+<script>
+    function getQueryStringValue(key) {
+        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+    }
+
+    // ApptrayApplicationURL?accesstoken=$(accesstoken)&domain=$(domainname)
+    var accesstoken = getQueryStringValue("accesstoken");
+    var domainname = getQueryStringValue("domain");
+    if (accesstoken && domainname) {
+        // location.href = 'http://localhost:4201/';
+        window.history.pushState('page2', 'Title', '/auth/login');
+    }
+
+    debugger;
+</script>
 
 <script>
     let areReducersRegistered = false;
@@ -312,8 +327,7 @@
 <noscript>Please enable JavaScript to continue using this application.</noscript>
 <script>
     document.querySelector("[type='number']").addEventListener("keypress", function (evt) {
-        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
-        {
+        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
             evt.preventDefault();
         }
     });

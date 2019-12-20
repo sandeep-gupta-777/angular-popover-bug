@@ -43,8 +43,10 @@ enum ELoginPanels {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit, AfterViewInit {
+  connect_redirect_time = 3;
   myELoginPanels = ELoginPanels;
   panelActive: ELoginPanels = ELoginPanels.login;
+  showConnectLoginScreen = false;
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
@@ -91,8 +93,17 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   gotUserData$ = new EventEmitter();
   showCustomEmails = false;
   timestamp = new Date();
+  accesstoken;
+  domainname;
 
   ngOnInit() {
+    this.accesstoken = (window as any).accesstoken;
+    this.domainname = (window as any).domainname;
+    this.showConnectLoginScreen = this.accesstoken && this.domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
+    if (this.accesstoken && this.domainname) {
+      this.router.navigate(['/auth/login'],);
+      this.loginSubmitHandler({accesstoken: this.accesstoken, domainname: this.domainname});
+    }
     try {
       /*replace with plateform.roomId*/
       // localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
@@ -231,7 +242,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       });
   }
 
-  loginSubmitHandler() {
+  loginSubmitHandler(creds: any) {
 
     this.flashInfoMessage('Connecting to the server', 10000);
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
@@ -245,14 +256,20 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
-    const loginUrl = this.constantsService.getLoginUrl();
     let body;
-    if (this.loginForm.valid) {
-      body = this.loginForm.value;
+    let url = '';
+    if (creds) {
+      body = creds;
+      url = this.constantsService.getConnectLoginUrl();
     } else {
-      this.flashErrorMessage('Details not valid');
-      this.disabeLoginButton = false;
-      return;
+      url = this.constantsService.getLoginUrl();
+      if (this.loginForm.valid) {
+        body = this.loginForm.value;
+      } else {
+        this.flashErrorMessage('Details not valid');
+        this.disabeLoginButton = false;
+        return;
+      }
     }
     body = {
       ...body,
@@ -262,7 +279,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       'auth-token': null,
       'user-access-token': null
     };
-    this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
+    this.serverService.makePostReq<IUser>({url, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
             ServerService.setCookie('auth-token', user.auth_token);
@@ -298,6 +315,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginFailedHandler() {
+    if (this.accesstoken && this.domainname) {
+      this.connect_redirect_time = 4;
+      setInterval(() => {
+        --this.connect_redirect_time;
+        if (this.connect_redirect_time === 1) {
+          location.href = 'https://imiconnect.com/';
+        }
+        if (this.connect_redirect_time < 0) {
+          this.connect_redirect_time = 0;
+        }
+      }, 1000);
+    }
     this.disabeLoginButton = false;
     this.flashErrorMessage('Problem with login. Please try again', 10000);
     return this.store.dispatch([

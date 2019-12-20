@@ -1,5 +1,12 @@
+<div class="connect-login-overlay" *ngIf="showConnectLoginScreen">
+  <app-splash-screen
+    descriptionText="Login unsuccessful, redirecting you to login page in {{connect_redirect_time}} seconds"
+    [imageHRef]="'connect_login_splash.svg'"></app-splash-screen>
+</div>
+
 <div class="login-section" style="background: white">
-  <div style="position: fixed; left: 0;z-index: -1; bottom: 0; width: 20vw; background-position: left; height: 75vh; background-repeat: no-repeat;  background-size: auto 100%;display: flex">
+  <div
+    style="position: fixed; left: 0;z-index: -1; bottom: 0; width: 20vw; background-position: left; height: 75vh; background-repeat: no-repeat;  background-size: auto 100%;display: flex">
     <img src="assets/img/login/TriangleL.png" style="max-width: 25vw;" alt="">
   </div>
   <div class="info-section" style="position: relative; display: flex; justify-content: center; align-content: center">
