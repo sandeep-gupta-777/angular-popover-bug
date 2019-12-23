@@ -1,5 +1,7 @@
 <section class="bot-session-section fade-in-custom">
-  <form *ngIf="filterForm" [hidden]="!showFilterForm" [formGroup]="filterForm" class="refine-results hide-phone">
+  <form *ngIf="filterForm" [hidden]="!showFilterForm" [formGroup]="filterForm"
+        (ngSubmit)="sessionFormSubmitted(filterForm.value)"
+        class="refine-results hide-phone">
     <strong>Refine Results</strong>
     <hr class="refine-results__divider">
     <mat-form-field>

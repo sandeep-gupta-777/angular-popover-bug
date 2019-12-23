@@ -26,6 +26,7 @@ import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {MyToasterService} from '../../my-toaster.service';
 import {LoggingService} from '../../logging.service';
 import {LoadJsService} from '../../core/load-js.service';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 enum ELoginPanels {
   set = 'set',
@@ -103,7 +104,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     if (this.accesstoken && this.domainname) {
       (window as any).accesstoken = '';
       this.router.navigate(['/auth/login']);
-      this.loginSubmitHandler({accesstoken: this.accesstoken, domainname: this.domainname});
+      this.loginSubmitHandler({accesstoken: this.accesstoken, domain: this.domainname});
     }
     try {
       /*replace with plateform.roomId*/
@@ -164,10 +165,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         }
       }),
       switchMap(() => {
-        // document.cookie = `user-access-token-test=${this.userData.user_access_token}`;
-        // document.cookie = `auth-token=${this.userData.auth_token};`;
-        // document.cookie = `user-access-token=${this.userData.user_access_token}`;
-        // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
         this.userValue = {
           ...this.userValue,
           socket_key: Date.now().toString()
@@ -183,13 +180,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
           this.router.navigate(['/core/analytics2/overview']);
           return of();
         }
-
-        // if (userValue.role.name === ERoleName.Analyst) {
-        //   this.router.navigate(['/core/analytics2/volume']);
-        // } else {
-        //   this.router.navigate(['/']);
-        // }
-
         return of(this.router.navigate(['/']));
       }),
       catchError((e, x) => {
@@ -286,14 +276,19 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
             ServerService.setCookie('auth-token', user.auth_token);
             ServerService.setCookie('user-access-token', user.user_access_token);
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
-            if (this.userData.enterprises.length <= 1) {
-              const enterpriseDate = {
-                enterpriseId: this.userData.enterprises[0].enterprise_id.id,
-                roleId: this.userData.enterprises[0].role_id.id,
-                isActive: this.userData.is_active
-              };
-              return this.enterEnterprise(enterpriseDate);
-
+            if (this.userData.enterprise || this.userData.enterprises.length <= 1) {
+              let enterpriseData;
+              if (this.userData.enterprise) {
+                enterpriseData = this.userData;
+                return of(enterpriseData);
+              } else {
+                enterpriseData = {
+                  enterpriseId: this.userData.enterprises[0].enterprise_id.id,
+                  roleId: this.userData.enterprises[0].role_id.id,
+                  isActive: this.userData.is_active
+                };
+              }
+              return this.enterEnterprise(enterpriseData);
             } else {
               this.enterpriseList = this.userData.enterprises;
               this.panelActive = ELoginPanels.enterprise_list_display;
@@ -321,7 +316,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       setInterval(() => {
         --this.connect_redirect_time;
         if (this.connect_redirect_time === 1) {
-          location.href = `https://${this.domainname}/login`;
+          // location.href = `https://${this.domainname}/login`;
         }
         if (this.connect_redirect_time < 0) {
           this.connect_redirect_time = 0;

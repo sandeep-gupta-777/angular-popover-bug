@@ -443,7 +443,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     return this.serverService.makeGetReq({url, headerData: this.headerData})
       .pipe(
         tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
-          debugger;
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
           } else {
@@ -471,6 +470,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
   sessionFormSubmitted(formData) {
+    debugger;
     const filterData = UtilityService.cloneObj(formData);
     this.filterFormData = filterData;
     const channelsObj = filterData.channels.reduce((total, current) => {
