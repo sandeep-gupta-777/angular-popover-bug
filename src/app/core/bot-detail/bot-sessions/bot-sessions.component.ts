@@ -470,7 +470,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
   sessionFormSubmitted(formData) {
-    debugger;
+
     const filterData = UtilityService.cloneObj(formData);
     this.filterFormData = filterData;
     const channelsObj = filterData.channels.reduce((total, current) => {

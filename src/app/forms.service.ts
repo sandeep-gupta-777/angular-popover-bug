@@ -25,14 +25,8 @@ export class FormsService {
     config = {min: config.min || FormsService.MIN_LENGTH_GENERAL, max: config.max || FormsService.MAX_LENGTH_GENERAL};
     const {max, min} = config;
     return (formControl) => {
-      console.log(config);
       let val: any = formControl.value == null || '';
       val = (formControl.value && formControl.value.toString().trim() || '');
-
-      // if (FormsService.isValueAVar(val)) {
-      //   return null;
-      // }
-
       if (val.length > max) {
         return {'error': {message: `Maximum ${max} characters allowed`}};
       }

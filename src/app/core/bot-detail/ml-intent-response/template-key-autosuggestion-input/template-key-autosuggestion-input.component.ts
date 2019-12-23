@@ -19,7 +19,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
   _fc: FormControl;
   @Input() set fc(val: FormControl) {
-    debugger;
+
     this._fc = val;
   }
 
@@ -47,7 +47,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+
     this.filteredOptions = this._fc.valueChanges
       .pipe(
         startWith(''),

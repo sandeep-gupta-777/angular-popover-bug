@@ -33,7 +33,7 @@ export class CategorieModalInputComponent implements OnInit {
       this.editMode = true;
     }
     this.form = this.formBuilder.group({
-      name: [this.categorieClone && this.categorieClone.name, [ FormsService.lengthValidator({min: 1, max: 40}), FormsService.startWithAlphanumericValidator()]]
+      name: [this.categorieClone && this.categorieClone.name, [ FormsService.lengthValidator({min: 1, max: 64}), FormsService.startWithAlphanumericValidator()]]
     });
     this.form.valueChanges.subscribe((formData) => {
       const name = formData.name;

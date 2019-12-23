@@ -26,8 +26,9 @@ import {PermissionService} from 'src/app/permission.service';
 import {MatDialog} from '@angular/material';
 import {UtilityService} from 'src/app/utility.service';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
+import {FormsService} from '../../../../forms.service';
 
 // [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
 
@@ -39,7 +40,12 @@ import {debounceTime} from 'rxjs/operators';
 export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
-
+  questionsForm = this.formBuilder.group({
+    text: ['', [FormsService.startWithAlphanumericValidator()]]
+  });
+  utteranceForm = this.formBuilder.group({
+    questions: this.formBuilder.array([])
+  });
   store: any;
 
   constructor(
@@ -62,27 +68,8 @@ export class EditAndViewArticlesComponent implements OnInit {
       logic: [value.logic || '', Validators.required],
     });
     this.articleData = this.utilityService.createDeepClone(value);
-    // this.articleData = {
-    //   "answers": [
-    //     {
-    //       "include": [
-    //         "web"
-    //       ],
-    //       "text": [
-    //         "Congratulations on creating a new bot, go ahead and type “What can you do” to see how bot works.Oh, this is the welcome message which can be configured in the ‘Welcome message’ article"
-    //       ]
-    //     }
-    //   ],
-    //   "category_id": "default_articles",
-    //   "created_at": 1568103827043,
-    //   "logic": "output={'df':{'greeting':'hi'},\n       'responseflag': True,\n       'generated_msg': [{'text':[variables.get('dataStore',{}).get('city', 'response from logic') if variables.get('dataStore') else 'no dataStore']}]}\n",
-    //   "questions": [
-    //     "Welcome Message"
-    //   ],
-    //   "response_type": "rich",
-    //   "section_id": "partial_match",
-    //   "updated_at": 1568103827043
-    // }
+
+    this.initUtteranceForm(this.articleData.questions);
     this._article = value;
   }
 
@@ -90,12 +77,12 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Input() corpus: ICorpus;
   articleData: IArticleItem;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  @Output() goBack = new EventEmitter();
-  @Output() corpusNeedsReload = new EventEmitter();
-  @Output() saveAndTrain = new EventEmitter();
-  @Output() updateArticle = new EventEmitter();
-  @Output() deleteArticle = new EventEmitter();
-  @Output() trainAndUpdate = new EventEmitter();
+  @Output() goBack$ = new EventEmitter();
+  @Output() corpusNeedsReload$ = new EventEmitter();
+  @Output() saveAndTrain$ = new EventEmitter();
+  @Output() updateArticle$ = new EventEmitter();
+  @Output() deleteArticle$ = new EventEmitter();
+  @Output() trainAndUpdate$ = new EventEmitter();
   userRole;
   myEAllActions = EAllActions;
   myERoleName = ERoleName;
@@ -116,32 +103,47 @@ export class EditAndViewArticlesComponent implements OnInit {
           this.userRole = value.user.role.name;
         }
       });
+  }
+
+  initUtteranceForm(array: any[]) {
+    array.forEach((val) => {
+      (this.utteranceForm.get('questions') as FormArray).push(this.getUtteranceFG(val));
+    });
 
   }
 
 
   trackByIndex(index: number, obj: any): any {
-    return index;
+    debugger;
+    return obj.__id;
   }
 
   deleteQustionWithId(index: number) {
     if (!(this.userRole === ERoleName.Analyst || this.userRole === ERoleName.Tester)) {
       if (index > -1) {
-        if (this.articleData.questions.length === 1) {
+        if (this.utteranceForm.value.length === 1) {
           this.utilityService.showErrorToaster('Atleast one question is needed for an article');
         } else {
-          this.articleData.questions.splice(index, 1);
+          // this.articleData.questions.splice(index, 1);
+          (this.utteranceForm.get('questions') as FormArray).removeAt(index);
         }
       }
     }
   }
 
-  addNewQuestion(text) {
-    if(text.trim()) this.articleData.questions.push(text.trim());
+  addNewQuestion(form: FormGroup) {
+    if (!form.valid) {
+      return;
+    }
+    const text = form.value.text;
+    if (text.trim()) {
+      (this.utteranceForm.get('questions') as FormArray).insert(0, this.getUtteranceFG(text.trim()));
+      form.reset();
+    }
   }
 
   goBackToArticle() {
-    this.goBack.emit();
+    this.goBack$.emit();
   }
 
   updateArticleClicked() {
@@ -149,7 +151,7 @@ export class EditAndViewArticlesComponent implements OnInit {
       this.trainingIsGoingOn();
     } else {
       this.articleData.logic = this.logicCodeForm.value.logic || '';
-      this.updateArticle.emit(this.articleData);
+      this.updateArticle$.emit({...this.articleData, questions: this.utteranceForm.value.questions.map(e => e.text)});
     }
   }
 
@@ -160,7 +162,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     } else {
 
 
-      this.deleteArticle.emit(this.articleData);
+      this.deleteArticle$.emit(this.articleData);
     }
   }
 
@@ -169,7 +171,7 @@ export class EditAndViewArticlesComponent implements OnInit {
       this.trainingIsGoingOn();
     } else {
 
-      this.trainAndUpdate.emit(this.articleData);
+      this.trainAndUpdate$.emit({...this.articleData, questions: this.utteranceForm.value.questions.map(e => e.text)});
     }
   }
 
@@ -195,6 +197,8 @@ export class EditAndViewArticlesComponent implements OnInit {
               this.category_mapping = [...this.category_mapping];
               this._article.category_id = value.new_category;
               this.articleData.category_id = value.new_category;
+
+              this.initUtteranceForm(this.articleData.questions);
               this.utilityService.showSuccessToaster('Category succesfully updated');
               resolve(value);
             });
@@ -211,6 +215,8 @@ export class EditAndViewArticlesComponent implements OnInit {
               this.category_mapping = [...this.category_mapping];
               this._article.category_id = value.new_category;
               this.articleData.category_id = value.new_category;
+
+              this.initUtteranceForm(this.articleData.questions);
               this.utilityService.showSuccessToaster('Category succesfully updated');
               resolve(value);
             });
@@ -311,9 +317,6 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   isThisPermissionGiven(tabNameInfo) {
     let isDenied = true;
-    // ;
-
-
     if (Array.isArray(tabNameInfo)) {
       tabNameInfo.forEach((tab) => {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
@@ -353,12 +356,17 @@ export class EditAndViewArticlesComponent implements OnInit {
       dialog: this.matDialog,
       component: ModalConfirmComponent
     }).then((data) => {
-
       if (data) {
         this.goBackToArticle();
       }
     });
+  }
 
+  getUtteranceFG(val: string): FormGroup {
+    return this.formBuilder.group({
+      'text': [val, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1})]],
+      '__id': [UtilityService.generateUUid()]
+    });
   }
 }
 

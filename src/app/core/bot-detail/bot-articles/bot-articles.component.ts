@@ -230,6 +230,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   // edit and view artical functions
   // update artical
   updateArticle$(articleData: IArticleItem) {
+    debugger;
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
@@ -272,8 +273,9 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   updateArticle(articleData: IArticleItem) {
-    this.updateArticle$(articleData)
 
+    debugger;
+    this.updateArticle$(articleData)
       .subscribe((value) => {
         if (value) {
           TempVariableService.curationIds = null;
@@ -354,7 +356,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         formGroup: this.formBuilder.group({
           inputData: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
             min: 1,
-            max: FormsService.MAX_LENGTH_DESCRIPTION
+            max: 2000
           })]]
         })
       },
