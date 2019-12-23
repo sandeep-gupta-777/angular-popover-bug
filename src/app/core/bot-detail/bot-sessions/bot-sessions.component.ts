@@ -443,18 +443,17 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     return this.serverService.makeGetReq({url, headerData: this.headerData})
       .pipe(
         tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
-
+          debugger;
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
           } else {
             this.showSplashScreen = false;
           }
-          if (Object.keys(combinedFilterData).length === 0 && value.objects.length !== 0) {
+          if (value.objects.length !== 0) {
             this.showFilterForm = true;
           }
 
           if (page) {
-
             this.pageNumberOfCurrentRowSelected = page;
           }
           this.sessions = value.objects;
