@@ -62,7 +62,7 @@
                 <input matInput value="1" type="number" min="0" max="10" #input (input)="x(input)"
                        [required]="e.required"
                        [(ngModel)]="e.counter" name="retries">
-                <mat-error class="mat-error-small">{{'test'}}</mat-error>
+<!--                <mat-error class="mat-error-small">{{'test'}}</mat-error>-->
               </mat-form-field>
               <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
             </td>
@@ -74,9 +74,9 @@
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
                 <input matInput placeholder="Template key" maxlength="64" value="" name="template_key" [required]="e.required" [(ngModel)]="e.template_key">
-
               </mat-form-field>
               <app-template-key-autosuggestion-input
+                *ngIf="entityForm.form?.controls[index]?.get('template_key') as fc"
                 maxlengthValue="64"
                 class="no-mat-input-padding"
                 style="margin-bottom: -1.25em"
@@ -86,7 +86,7 @@
                 [keys]="keys"
                 (valueUpdated$)="e.template_key = $event"
                 (createTemplateKey$)="updateResponse$.emit($event)"
-                [fc]="entityForm.form?.controls[index]?.get('template_key')">
+                [fc]="fc">
               </app-template-key-autosuggestion-input>
               <span *ngIf="e.required !== true">
               {{entity.template_key || 'None'}}

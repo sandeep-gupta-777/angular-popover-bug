@@ -76,10 +76,10 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
 
   retry_message: string;
   x = function ($input: any) {
-
-    if (!Number.isInteger($input.value)) {
-      $input.value = 0;
-    }
+      debugger;
+    // if (!Number.isInteger($input.value)) {
+    //   $input.value = 0;
+    // }
     if ($input.value > 10) {
       $input.value = 10;
     } else if ($input.value < -1) {

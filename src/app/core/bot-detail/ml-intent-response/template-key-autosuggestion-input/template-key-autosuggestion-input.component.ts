@@ -17,7 +17,12 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
 
   modalRefWrapper = {ref: null};
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
-  @Input() fc: FormControl;
+  _fc: FormControl;
+  @Input() set fc(val: FormControl) {
+    debugger;
+    this._fc = val;
+  }
+
   @Input() maxlengthValue: string;
   @Input() bot: IBot;
   @Input() loading: boolean;
@@ -28,7 +33,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
 
   @Input() set keys(val: string[]) {
     this._keys = val;
-    this.fc.patchValue(this.fc.value);
+    this._fc && this._fc.patchValue(this._fc.value);
   }
 
   filteredOptions;
@@ -42,12 +47,13 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredOptions = this.fc.valueChanges
+    debugger;
+    this.filteredOptions = this._fc.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value)),
       );
-    this.fc.valueChanges.subscribe((val) => {
+    this._fc.valueChanges.subscribe((val) => {
       this.valueUpdated$.emit(val);
     });
   }
@@ -64,7 +70,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
 
     const data = await this.showCreateOrEditTemplateKeyModel();
     if (data) {
-      this.createTemplateKey$.emit({data, modalRefWrapper: this.modalRefWrapper, fc: this.fc});
+      this.createTemplateKey$.emit({data, modalRefWrapper: this.modalRefWrapper, fc: this._fc});
     }
 
   }

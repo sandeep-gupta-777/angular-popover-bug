@@ -13,6 +13,9 @@ export class ValidationPipePipe implements PipeTransform {
         return {'error': {message: 'Required'}};
       }
     }
+    if (!value) {
+      return null;
+    }
 
     if (config.https) {
       if (!value.startsWith('https://')) {
