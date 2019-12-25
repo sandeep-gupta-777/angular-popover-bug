@@ -17,6 +17,6 @@ export class ReducerListService {
     // ChatSessionStateReducer,
     BotCreationStateReducer,
     AnalysisStateReducer2,
-    ReportsStateReducer,
+    // ReportsStateReducer,
   ];
 }

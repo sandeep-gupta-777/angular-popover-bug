@@ -230,7 +230,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   // edit and view artical functions
   // update artical
   updateArticle$(articleData: IArticleItem) {
-    debugger;
+
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
@@ -274,7 +274,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updateArticle(articleData: IArticleItem) {
 
-    debugger;
+
     this.updateArticle$(articleData)
       .subscribe((value) => {
         if (value) {

@@ -168,7 +168,12 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       }
 
       try {
-        outputData.codeTextOutPutFromCodeEditor = eval(codeTextOutPutFromCodeEditor);
+        let parse = JSON.parse(codeTextOutPutFromCodeEditor);
+        if (Array.isArray(parse)) {
+          outputData.codeTextOutPutFromCodeEditor = parse;
+        } else {
+          throw new Error('Code input not an array!');
+        }
       } catch (e) {
         LoggingService.log(e);
         this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
@@ -185,18 +190,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     if (this.ner_type === 'regex') {
       codeTextFromEditor = [codeData];
     } else if (this.ner_type !== 'database') {
-      try {
-        codeTextFromEditor = codeData;
-      } catch (e) {
-        LoggingService.log(e);
-        try {
-          codeTextFromEditor = eval(codeData);
-        } catch (e) {
-          LoggingService.log(e);
-          this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
-          return;
-        }
-      }
+      codeTextFromEditor = codeData;
     }
     const tableData = this.handsontableData.filter((array: any) => {
       return !!array.find(element => (element !== null) && (element !== undefined) && (element !== ''));

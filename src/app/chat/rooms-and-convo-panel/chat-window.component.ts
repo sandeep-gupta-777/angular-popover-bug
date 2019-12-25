@@ -5,6 +5,7 @@ import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {IBot} from '../../core/interfaces/IBot';
 import {data} from '../mock-data';
+import {UtilityService} from '../../utility.service';
 
 declare const ImiPreview: any;
 
@@ -171,6 +172,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
 
   sendMessageByHuman(message) {
     if (message && message.trim()) {
+      message = UtilityService.sanitizeHTML(message);
       this.sendMessageByHuman$.emit({messageByHuman: message, room: this.room});
       this.messageByHuman = '';
     }
