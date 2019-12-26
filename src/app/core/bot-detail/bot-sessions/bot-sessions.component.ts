@@ -39,6 +39,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   dialogRefWrapper = {ref: null};
   filterForm: FormGroup;
   myESplashScreens = ESplashScreens;
+  isSessionEmptyWithoutFilter = true;
   @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';
@@ -443,7 +444,12 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     return this.serverService.makeGetReq({url, headerData: this.headerData})
       .pipe(
         tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
-          if (!filterData && value.objects.length === 0) {
+          debugger;
+          if (this.isSessionEmptyWithoutFilter === true && value.objects.length > 0) {
+            this.isSessionEmptyWithoutFilter = false;
+          }
+          this.showLoader = false;
+          if (value.objects.length === 0) {
             this.showSplashScreen = true;
           } else {
             this.showSplashScreen = false;

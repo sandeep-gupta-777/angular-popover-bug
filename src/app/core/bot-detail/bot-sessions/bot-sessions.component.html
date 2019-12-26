@@ -84,7 +84,6 @@
       </button>
     </div>
   </form>
-
   <app-smart-table
     *ngIf="sessionsSmartTableDataModal.tableData as tableData"
     [data]="tableData"
@@ -107,8 +106,7 @@
   </app-smart-table>
 </section>
 
-
-<app-splash-screen *ngIf="showSplashScreen && !showLoader"
+<app-splash-screen *ngIf="showSplashScreen && !showLoader && isSessionEmptyWithoutFilter"
                    [imageHRef]="myESplashScreens.sessions"
                    [headingText]="'No sessions found'"
                    [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"

@@ -16,7 +16,7 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {BotSessionSmartTableModal} from '../bot-sessions/bot-session-smart-table-modal';
 import {ConsumerSmartTableModal} from './consumer-smart-table-modal';
 import {EAllActions} from '../../../typings/enum';
-import { ESortDir } from '../../../smart-table/smart-table.component';
+import {ESortDir} from '../../../smart-table/smart-table.component';
 
 @Component({
   selector: 'app-consumers',
@@ -75,14 +75,21 @@ export class ConsumersComponent implements OnInit {
     this.loadConsumerData(10, (page - 1) * 10);
   }
 
+  showSplashScreen = false;
+
   loadConsumerData(limit: number = 10, offset: number = 0) {
+    debugger;
     this.showLoader = true;
+    this.showSplashScreen = false;
     const url = this.constantsService.getBotConsumerUrl(limit, offset);
     this.serverService
       .makeGetReq<IConsumerResultsFromServer>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
       .subscribe((value) => {
-        this.totalRecords = value.meta.total_count;
         this.showLoader = false;
+        this.totalRecords = value.meta.total_count;
+        if (this.totalRecords === 0) {
+          this.showSplashScreen = true;
+        }
         this.consumerItems = value.objects;
         this.sessionsSmartTableDataModal.refreshData(value.objects);
       });
