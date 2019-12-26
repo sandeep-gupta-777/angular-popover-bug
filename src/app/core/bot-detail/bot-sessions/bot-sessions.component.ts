@@ -444,7 +444,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     return this.serverService.makeGetReq({url, headerData: this.headerData})
       .pipe(
         tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
-          debugger;
+
           if (this.isSessionEmptyWithoutFilter === true && value.objects.length > 0) {
             this.isSessionEmptyWithoutFilter = false;
           }

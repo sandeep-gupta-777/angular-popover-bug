@@ -78,7 +78,7 @@ export class ConsumersComponent implements OnInit {
   showSplashScreen = false;
 
   loadConsumerData(limit: number = 10, offset: number = 0) {
-    debugger;
+
     this.showLoader = true;
     this.showSplashScreen = false;
     const url = this.constantsService.getBotConsumerUrl(limit, offset);
