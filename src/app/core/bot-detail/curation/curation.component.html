@@ -22,6 +22,8 @@
                     [reloading]="topArticlesWithIssuesReloading"
                     [TopArticlesWithIssues]="topArticlesWithIssues"
                     [issuesAggrigationData]="issuesAggrigationData"
+                    [isMlBot]="false"
+                    (resolveMlArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
                     (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"
                     (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
 
@@ -58,6 +60,7 @@
                                      [form]="curationIssuesFilterForm"
                                      [hidden]="!curationIssuesList"
                                      [unsolved]="true"
+                                     [isMlBot]="false"
                                      style="z-index: 100;"></app-curation-filter>
 
                 <app-curation-issues-list [bot]=" bot" *ngIf="curationIssuesList"
@@ -68,6 +71,7 @@
                                           (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
                                           [totallength]="totalLengthCurationIssue" [liveBotUpdatedAt]="liveBotUpdatedAt"
                                           (addQueryToArticleByIds)="addQueryToArticleByIds($event)"
+                                          [isMlBot]="false"
                                           [corpusState]="corpusState">
                 </app-curation-issues-list>
                 <div *ngIf="
@@ -135,6 +139,7 @@
                 <app-curation-filter [form]="curationResolvedFilterForm" (formSubmitted)="submitedForm($event)"
                                      [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                                      [hidden]="!curationResolvedAndIgnoredList"
+                                     [isMlBot]="false"
                                      [unsolved]="false" style="z-index: 100;"></app-curation-filter>
                 <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
                                             [bot]="bot"

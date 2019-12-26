@@ -14,6 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {EAllActions} from '../../../../typings/enum';
 import {FormsService} from '../../../../forms.service';
+import {IIntent} from "../../../../typings/intents";
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -50,7 +51,8 @@ export class CurationIssuesListComponent implements OnInit {
   myESplashScreens = ESplashScreens;
   selectedArticleToAddCuration: number;
   @Input() totallength: number;
-
+  @Input() mlIntentList : IIntent[] = [];
+  @Input() isMlBot = false;
   ngOnInit() {
 
     this.SelectedListForm.form.valueChanges
@@ -139,6 +141,15 @@ export class CurationIssuesListComponent implements OnInit {
     if (val && val.section_id) {
       this.selectedArticleToAddCuration = val.section_id;
     }
+  }
+
+  toDisplayValue(value: string) {
+    var pieces = value.split('_');
+    for (var i = 0; i < pieces.length; i++) {
+      var j = pieces[i].charAt(0).toUpperCase();
+      pieces[i] = j + pieces[i].substr(1).toLowerCase();
+    }
+    return pieces.join(' ');
   }
 
   addMultiIssueToNewArticle() {

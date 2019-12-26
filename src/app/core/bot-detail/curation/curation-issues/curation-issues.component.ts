@@ -21,6 +21,7 @@ import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {BotSessionSmartTableModal} from '../../bot-sessions/bot-session-smart-table-modal';
+import {IIntent} from "../../../../typings/intents";
 
 
 @Component({
@@ -43,6 +44,8 @@ export class CurationIssuesComponent implements OnInit {
   @Input() isResolved: boolean;
   @Input() curationItemData: ICurationItem;
   @Input() selected: boolean = false;
+  @Input() mlIntentList : IIntent[] = [];
+  @Input() isMlBot = false;
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
 

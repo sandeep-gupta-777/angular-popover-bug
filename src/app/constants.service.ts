@@ -1382,7 +1382,42 @@ export class ConstantsService {
   addMessageToCurationFromSession() {
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
   }
+  //ml curation Urls
+  mlCurationIssueLinkToExistingSectionUrl() {
+    return this.BACKEND_URL + `api/v1/mlcuration/linktoexistingsection/`;
+  }
 
+  addMlCurationToNewSection() {
+    return this.BACKEND_URL + `api/v1/mlcuration/addtonewsection/`;
+  }
+
+  getMlAggregationResolved() {
+    return this.BACKEND_URL + `api/v1/mlcuration/aggregationcounts/?curation_state=resolved,ignored`;
+  }
+
+  getMlAggregationIssues() {
+    return this.BACKEND_URL + `api/v1/mlcuration/aggregationcounts/?curation_state=in_curation`;
+  }
+
+  getTopMlArticlesWithIssues() {
+    return this.BACKEND_URL + `api/v1/mlcuration/topintentissues/`;
+  }
+
+  addMessageToMlCurationFromSession() {
+    return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
+  }
+
+  mlCurationIssuesListUrl(limit, offset) {
+    return this.BACKEND_URL + `api/v1/mlcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
+  }
+
+  mlCurationResolvedAndIgnoredListUrl(limit, offset) {
+    return this.BACKEND_URL + `api/v1/mlcuration/?limit=${limit}&offset=${offset}`;
+  }
+
+  mlCurationIssueActionUrl() {
+    return this.BACKEND_URL + `api/v1/mlcuration/actions/`;
+  }
   //routerbot
   getRouterBotRuleByRuleIDUrl(id) {
     return this.BACKEND_URL + `api/v1/router_logic/?id=${id}`;

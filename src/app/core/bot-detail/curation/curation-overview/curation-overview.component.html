@@ -6,10 +6,13 @@
 
   <div class="article-item-heading py-2 px-4" >
     <div class="heading-first" style="color: #878787;">
-      Article
+      {{isMlBot ?'Intent':'Article'}}
     </div>
     <div class="second" style="color: #878787;">
       Issues logged
+    </div>
+    <div class="second-half" style="color: #878787;">
+      Last issue on
     </div>
     <div class="third" style="color: #878787;">
       Action
@@ -21,12 +24,18 @@
                   </app-splash-screen>
   </div>
   <div class="article-item py-2 px-4" *ngFor="let section of TopArticlesWithIssues">
-    <div class="first">
+    <div class="first" *ngIf="!isMlBot">
       <div class="catagory">{{section.category_name}}</div>
       <div class="first_question" [innerHTML]="section.first_question"></div>
     </div>
+    <div class="first" *ngIf="isMlBot">
+      <div class="first_question" [innerHTML]="section.intent_name"></div>
+    </div>
     <div class="second">
       {{section.count}}
+    </div>
+    <div class="second-half" style="color: #878787;" >
+      {{section.last_issue_time | date:"MMM d"}}&nbsp;'{{section.last_issue_time | date:"yy"}}&nbsp;{{section.last_issue_time | date:"shortTime"}}
     </div>
     <div class="third">
       <div class="d-flex showNoParentHover" (click)="resolveArticleWithTopIssues(section)">

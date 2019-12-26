@@ -71,7 +71,7 @@
           </div>
         </div>
         <div *ngIf="!selected">
-            <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
+            <div *ngIf = "articleSearchMode && !isMlBot" class="d-flex w-100  not-resolved-footer" >
                 <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
                                     (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
                 <div class="ml-auto"></div>
@@ -82,10 +82,35 @@
                   Cancel
                 </button>
               </div>
-              <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
+
+            <div *ngIf = "articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
+              <div class="form-group m-0 padding-input sort-decrease-height" *ngIf = "isMlBot">
+                <mat-form-field class="input-width mr-2">
+                  <mat-select placeholder="Intent">
+                    <mat-option *ngFor="let intent of mlIntentList" [value]="intent.intent_id">
+                      {{toDisplayValue(intent.name)}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            <div>
+              <mat-form-field class="input-width">
+                <input type="text" matInput>
+              </mat-form-field>
+            </div>
+            <div class="ml-auto"></div>
+            <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
+              Link and save
+            </button>
+            <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
+              Cancel
+            </button>
+          </div>
+
+            <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
                 <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true" *appMyIf="myEAllActions['Link curation issues to an article']">
                   <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
-                  Link to an existing article
+                  Link to an existing intent
                 </button>
 
                 <button mat-button
@@ -93,7 +118,7 @@
                         class="mat-theme-button footer-btn px-2"
                         (click)="addIssueToNewArticle()"
                         *appMyIf="myEAllActions['Add curation issues to a new article']">
-                  <mat-icon>add</mat-icon>&nbsp; Add to a new article
+                  <mat-icon>add</mat-icon>&nbsp; Add to a new intent
                 </button>
 
                 <div class="ml-auto"></div>

@@ -17,15 +17,16 @@
   </app-button-wrapper>
   <mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTab">
     <mat-tab label="Overview">
-<!--      <app-curation-overview-->
-<!--        *ngIf="topArticlesWithIssues"-->
-<!--        [reloading]="topArticlesWithIssuesReloading"-->
-<!--        [TopArticlesWithIssues]="topArticlesWithIssues"-->
-<!--        [issuesAggrigationData]="issuesAggrigationData"-->
-<!--        (resolveArticleWithTopIssues$)="resolveArticleWithTopIssues($event)"-->
-<!--        (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"-->
+      <app-curation-overview
+        *ngIf="topArticlesWithIssues"
+        [reloading]="topArticlesWithIssuesReloading"
+        [TopArticlesWithIssues]="topArticlesWithIssues"
+        [issuesAggrigationData]="issuesAggrigationData"
+        [isMlBot]="true"
+        (resolveMlArticleWithTopIssues$)="resolveMlArticleWithTopIssues($event)"
+        (filterArticleWithTriggeredRule$)="filterArticleWithTriggeredRule($event)"
 
-<!--      ></app-curation-overview>-->
+      ></app-curation-overview>
     </mat-tab>
     <mat-tab label="Issues">
 <!--      <div *ngIf="isBotAdvancedDataProtective">-->
@@ -57,7 +58,10 @@
                              [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                              [form]="curationIssuesFilterForm"
                              [hidden]="!curationIssuesList"
+                             [mlTemplateKeyList]="mlTemplateKeyList"
+                             [mlIntentList]="mlIntentList"
                              [unsolved]="true"
+                             [isMlBot]="true"
                              style="z-index: 100;"></app-curation-filter>
 
         <app-curation-issues-list [bot]=" bot" *ngIf="curationIssuesList"
@@ -68,6 +72,8 @@
                                   (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
                                   [totallength]="totalLengthCurationIssue" [liveBotUpdatedAt]="liveBotUpdatedAt"
                                   (addQueryToArticleByIds)="addQueryToArticleByIds($event)"
+                                  [mlIntentList]="mlIntentList"
+                                  [isMlBot]="true"
                                   [corpusState]="corpusState">
         </app-curation-issues-list>
 <!--        <div *ngIf="-->
@@ -129,12 +135,15 @@
 <!--        </app-splash-screen>-->
 <!--      </div>-->
 
-<!--      <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData"-->
-<!--                                         *ngIf="!isBotAdvancedDataProtective && aggregationResolvedData"></app-curation-resolved-aggrigation>-->
+      <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData"
+                                         *ngIf="!isBotAdvancedDataProtective && aggregationResolvedData"></app-curation-resolved-aggrigation>
       <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationResolvedAndIgnoredList">
         <app-curation-filter [form]="curationResolvedFilterForm" (formSubmitted)="submitedForm($event)"
                              [attr.dir]="bot.language === 'ar' ? 'rtl' : 'ltr'"
                              [hidden]="!curationResolvedAndIgnoredList"
+                             [isMlBot]="true"
+                             [mlTemplateKeyList]="mlTemplateKeyList"
+                             [mlIntentList]="mlIntentList"
                              [unsolved]="false" style="z-index: 100;"></app-curation-filter>
         <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
                                     [bot]="bot"

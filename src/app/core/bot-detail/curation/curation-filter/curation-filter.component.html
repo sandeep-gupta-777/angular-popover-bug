@@ -5,7 +5,7 @@
       <mat-form-field class="input-width">
         <mat-select formControlName="order_by" class="input-width" [ngModel]="'updated_at'">
           <mat-option value="updated_at" class="sort-radio-item">Last Updated </mat-option>
-          <mat-option value="group_by_section" class="sort-radio-item">Articles with most issues </mat-option>
+          <mat-option value="group_by_section" class="sort-radio-item" *ngIf="!isMlBot">Articles with most issues </mat-option>
           <mat-option value="room_id" class="sort-radio-item">Issues in the same session </mat-option>
         </mat-select>
       </mat-form-field>
@@ -32,16 +32,37 @@
       </mat-form-field>
     </div>
 
+    <div class="form-group m-0 padding-input sort-decrease-height" *ngIf = "isMlBot">
+      <mat-form-field class="input-width">
+        <mat-select placeholder="Intent" ngModel formControlName="intent_id">
+          <mat-option *ngFor="let intent of mlIntentList" [value]="intent.intent_id">
+            {{toDisplayValue(intent.name)}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group m-0 padding-input sort-decrease-height" *ngIf = "isMlBot">
+      <mat-form-field class="input-width">
+        <mat-select placeholder="Template key" ngModel formControlName="template_key" >
+          <mat-option *ngFor="let temp_key of mlTemplateKeyList" [value]="temp_key">
+            {{toDisplayValue(temp_key)}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
     <div class="m-0 padding-input sort-decrease-height">
 
       <mat-form-field class="input-width">
         <input matInput readonly placeholder="Choose a date range" formControlName="updated_at__range"
-          [satDatepicker]="picker" type="text">
+               [satDatepicker]="picker" type="text">
         <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="m-0 padding-input count-sub-form sort-decrease-height w-100">
+
+    <div class="m-0 padding-input count-sub-form sort-decrease-height w-100" *ngIf = "!isMlBot">
       <mat-form-field class="count-select">
         <mat-label>Articles with issues</mat-label>
         <mat-select class="count-type" formControlName="issue_count_filter" ngModel>
@@ -62,6 +83,7 @@
           formControlName="count" type="number" ngModel>
       </mat-form-field>
     </div>
+
     <div class="w-100 ">
       <div class="d-flex flex-row padding-input pb-3">
         <button class="btn-theme btn-theme-primary filter-btn" type="button" [disabled] = "!form?.valid"
