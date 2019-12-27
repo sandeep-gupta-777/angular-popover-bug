@@ -102,7 +102,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
           templateRef: this.templateRef,
           isActionButtonDanger: false,
           preCloseFn: () => {
-            debugger;
+            FormsService.markFormGroupTouched(this.formGroupTemplateKeyCreation);
             if (this.formGroupTemplateKeyCreation.valid) {
               resolve(this.formGroupTemplateKeyCreation.value);
             }
@@ -112,5 +112,9 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
         component: ModalConfirmV2Component
       });
     });
+  }
+
+  ignoreEnter($event) {
+    $event.preventDefault();
   }
 }

@@ -12,7 +12,7 @@
   </button>
 </div>
 
-<div class="modal-body">
+<div class="modal-body" (keyup.enter)="attemptToClose()">
 
   <div class="pb-2" *ngIf="dataCopy.message">
     <p class="mb-1" [innerHTML]="dataCopy.message"></p>

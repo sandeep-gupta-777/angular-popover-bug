@@ -675,13 +675,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
+    FormsService.markFormGroupTouched(formGroup);
   }
 
   saveOrUpdateIntent() {

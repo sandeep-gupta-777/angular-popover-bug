@@ -210,6 +210,16 @@ export class FormsService {
     });
   }
 
+  static markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        FormsService.markFormGroupTouched(control);
+      }
+    });
+  }
+
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
     formArray.push(formBuilder.control(item));
   }

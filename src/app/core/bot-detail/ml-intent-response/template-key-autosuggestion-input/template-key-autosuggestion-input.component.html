@@ -24,7 +24,9 @@
       </mat-form-field>
     </div>
     <mat-form-field>
-      <textarea formControlName="text_response" matInput placeholder="Leave a comment"></textarea>
+      <input formControlName="text_response" matInput placeholder="Leave a comment"
+                (keyup.enter)="ignoreEnter($event)"
+      >
       <mat-error class="mat-error-small"
                  *ngIf="formGroupTemplateKeyCreation.get('text_response').errors?.error as errorObj">{{errorObj.message}}</mat-error>
     </mat-form-field>
