@@ -77,7 +77,7 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   retry_message: string;
   x = function ($input: any) {
 
-    if (Number($input.value) == NaN) {
+    if (!Number.isInteger($input.value)) {
       $input.value = 0;
     }
     if ($input.value > 10) {

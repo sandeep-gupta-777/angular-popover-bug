@@ -412,7 +412,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   createNewTemplatekey() {
-    debugger;
+
     this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this._templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
@@ -439,7 +439,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   updateSelectedTemplateKey(newTemplateKey) {
-    debugger;
+
     this.selectedTemplateKeyInLeftSideBar = newTemplateKey;
     const code = this._response.templates[this.selectedTemplateKeyInLeftSideBar] &&
       this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;//response_type
