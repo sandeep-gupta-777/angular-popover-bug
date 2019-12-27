@@ -77,8 +77,8 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
     if (Number($input.value) == NaN) {
       $input.value = 0;
     }
-    if ($input.value > 100) {
-      $input.value = 100;
+    if ($input.value > 10) {
+      $input.value = 10;
     } else if ($input.value < -1) {
       $input.value = 0;
     }

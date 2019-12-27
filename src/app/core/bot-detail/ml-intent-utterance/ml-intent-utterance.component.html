@@ -67,18 +67,24 @@
               <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
             </td>
             <td>
+              <!--hack: there are 2 inputs with the same name, one is stay hidden and is part of the form,
+              another one will just consume the FC from first
+              -->
               <mat-form-field hidden
                               floatLabel="never"
                               style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
-                <input matInput placeholder="Template key" value="" name="template_key" [required]="e.required"
+                <input matInput placeholder="Template key" maxlength="64" value="" name="template_key" [required]="e.required"
+
                        [(ngModel)]="e.template_key">
               </mat-form-field>
               <app-template-key-autosuggestion-input
                 class="no-mat-input-padding"
                 style="margin-bottom: -1.25em"
                 [hidden]="e.required !== true"
+                placeholderText="template key*"
                 [bot]="bot"
                 [keys]="keys"
+                (valueUpdated$)="e.template_key = $event"
                 (createTemplateKey$)="updateResponse$.emit($event)"
                 [fc]="entityForm.form?.controls[index]?.get('template_key')">
               </app-template-key-autosuggestion-input>
