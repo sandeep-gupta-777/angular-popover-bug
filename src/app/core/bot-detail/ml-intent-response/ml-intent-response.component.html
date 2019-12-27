@@ -5,15 +5,11 @@
   <div style="padding: 10px; background-color: white; border: solid 1px #eaeaea; margin-top: 8px">
 <!--<<<<<<< HEAD-->
     <app-template-key-autosuggestion-input [bot]="bot" [keys]="_keys"
+                                           [placeholderText]="'Final template key*'"
                                            (createTemplateKey$)="updateResponse$.emit($event)"
                                            [fc]="form.get('template_key')"></app-template-key-autosuggestion-input>
-    <mat-error class="mat-error-small" *ngIf="form.get('template_key').errors?.error as errorObj">{{errorObj.message}}</mat-error>
-<!--=======-->
-<!--    <mat-form-field class="example-full-width">-->
-<!--      <input type="text" matInput placeholder="Final template key*" formControlName="template_key">-->
-<!--      <mat-error class="mat-error-small" *ngIf="form.get('template_key').errors?.error as errorObj">{{errorObj.message}}</mat-error>-->
-<!--    </mat-form-field>-->
-<!--&gt;>>>>>> staging-BOT-1646-Limit-on-retries-and-entity-characters-in-frontend-->
+    <mat-error class="mat-error-small"
+               *ngIf="form.get('template_key').errors?.error as errorObj">{{errorObj.message}}</mat-error>
     <div style="display: flex; align-items: center">
       <span style="margin-right: 10px">Reset slots after completion</span>
       <div>

@@ -4,7 +4,7 @@ import {IBot} from '../../../interfaces/IBot';
 import {MlReplyService} from '../../ml-reply/ml-reply.service';
 import {UtilityService} from '../../../../utility.service';
 import {MatDialog} from '@angular/material';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, tap} from 'rxjs/operators';
 import {FormsService} from '../../../../forms.service';
 import {ModalConfirmV2Component} from '../../../../modal-confirm-v2/modal-confirm-v2.component';
 
@@ -20,8 +20,10 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   @Input() fc: FormControl;
   @Input() bot: IBot;
   @Input() loading: boolean;
+  @Input() placeholderText: string;
   _keys = [];
   @Output() createTemplateKey$ = new EventEmitter();
+  @Output() valueUpdated$ = new EventEmitter();
 
   @Input() set keys(val: string[]) {
     this._keys = val;
@@ -44,6 +46,9 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value)),
       );
+    this.fc.valueChanges.subscribe((val) => {
+      this.valueUpdated$.emit(val);
+    });
   }
 
   private _filter(value: string): string[] {
