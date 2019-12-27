@@ -424,10 +424,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         }
       });
 
-
-      // if(combinedFilterData.feedback ===  true){
-      //   combinedFilterData.feedback = EChatFeedback.NEGATIVE;
-      // }
       combinedFilterData = {
         ...combinedFilterData,
         offset: (combinedFilterData.page - 1) * 10,
@@ -451,6 +447,8 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
+          } else {
+            this.showSplashScreen = false;
           }
           if (Object.keys(combinedFilterData).length === 0 && value.objects.length !== 0) {
             this.showFilterForm = true;
