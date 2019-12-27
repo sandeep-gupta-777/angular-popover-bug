@@ -66,7 +66,7 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   }
 
   log(entityList) {
-    debugger;
+
     console.log(entityList);
   }
 

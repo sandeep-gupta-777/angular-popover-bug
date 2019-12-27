@@ -173,7 +173,6 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   updateResponse({data, modalRefWrapper, fc}) {
-    debugger;
     const newTemplates = {
       [data.template_key]: {
         'logic': '',
@@ -206,7 +205,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   }
 
   getResponseTemplates() {
-    debugger;
+
     this.mlReplyService.getResponseTemplates(this.bot)
       .subscribe((value: IMLResponse) => {
         this.keys = Object.keys(value.templates);

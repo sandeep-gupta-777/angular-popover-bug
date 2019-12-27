@@ -18,7 +18,7 @@ export class MlIntentResponseComponent implements OnInit {
   _keys;
   @Output() updateResponse$ = new EventEmitter();
   @Input() set keys(val) {
-    debugger;
+
     this._keys = val;
     /*hack: to trigger value changes in autocomplete filter*/
     this.form.patchValue(this.form.value);

@@ -173,6 +173,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
     const codeText = await this.utilityService.readInputFileAsText(inputEl);
     if (this.editor) {
       this.editor.setValue(codeText);
+      this.onChanges(codeText);
     }
   }
 
