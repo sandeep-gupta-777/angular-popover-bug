@@ -129,10 +129,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
-      console.log();
-      if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
-        this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
+      if (!this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
+        this._response.templates[this.selectedTemplateKeyInLeftSideBar] = {logic: {code: ''}};
       }
+      this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
     });
     this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
 
@@ -412,7 +412,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   createNewTemplatekey() {
-
+    debugger;
     this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this._templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
@@ -435,10 +435,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     this.modalRefWrapper.ref.close();
     this.updateSelectedTemplateKey(this.newTemplateKey);
     this.newTemplateKey = '';
+    this.dynamicLogicForm.patchValue({code: ''});
   }
 
   updateSelectedTemplateKey(newTemplateKey) {
-
+    debugger;
     this.selectedTemplateKeyInLeftSideBar = newTemplateKey;
     const code = this._response.templates[this.selectedTemplateKeyInLeftSideBar] &&
       this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic;//response_type
@@ -543,7 +544,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
 
   showCreateOrEditTemplateKeyModel(title: string, value = '', isNew = false) {
     const dialogRefWrapper = this.modalRefWrapper;
-    //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     const formGroup = this.formBuilder.group({
       inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]]
     });
@@ -619,7 +619,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   modeChangeHandler(mode) {
 
     this.modeChanged$.emit(mode);
-    this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type = mode;
+    if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
+      this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type = mode;
+    }
     this.mode = mode;
   }
 }

@@ -29,9 +29,9 @@ export class FormsService {
       let val: any = formControl.value == null || '';
       val = (formControl.value && formControl.value.toString().trim() || '');
 
-      if (FormsService.isValueAVar(val)) {
-        return null;
-      }
+      // if (FormsService.isValueAVar(val)) {
+      //   return null;
+      // }
 
       if (val.length > max) {
         return {'error': {message: `Maximum ${max} characters allowed`}};
@@ -52,9 +52,9 @@ export class FormsService {
       if (!val) {
         return null;
       }
-      if (FormsService.isValueAVar(val)) {
-        return null;
-      }
+      // if (FormsService.isValueAVar(val)) {
+      //   return null;
+      // }
       return val.startsWith('https://') ? null : {'error': {message: 'Please provide a url which starts with https'}};
     };
   }
@@ -76,9 +76,9 @@ export class FormsService {
       if (!val) {
         return null;
       }
-      if (FormsService.isValueAVar(val)) {
-        return null;
-      }
+      // if (FormsService.isValueAVar(val)) {
+      //   return null;
+      // }
 
       const pattern = /^[a-zA-Z1-9].*/i;
       return pattern.test(val) ? null : {'error': {message: 'First letter should be alphanumeric'}};
@@ -91,9 +91,9 @@ export class FormsService {
       if (!val) {
         return null;
       }
-      if (FormsService.isValueAVar(val)) {
-        return null;
-      }
+      // if (FormsService.isValueAVar(val)) {
+      //   return null;
+      // }
       const pattern = /^[0-9a-z]+$/;
       return pattern.test(val) ? null : {'error': {message: 'Only alphanumeric chars allowed'}};
     };
@@ -105,9 +105,9 @@ export class FormsService {
       if (!val) {
         return null;
       }
-      if (FormsService.isValueAVar(val)) {
-        return null;
-      }
+      // if (FormsService.isValueAVar(val)) {
+      //   return null;
+      // }
       const pattern = /\S+@\S+\.\S+/;
       return pattern.test(val) ? null : {'error': {message: 'Invalid email format'}};
     };
@@ -152,9 +152,9 @@ export class FormsService {
       if (!val) {
         return null;
       }
-      if (FormsService.isValueAVar(val)) {
-        return null;
-      }
+      // if (FormsService.isValueAVar(val)) {
+      //   return null;
+      // }
       const pattern = /\.(gif|jpg|jpeg|tiff|png|svg)$/i;
       return pattern.test(val) ? null : {'error': {message: 'Only gif, jpg, jpeg, tiff, png, svg are allowed for images'}};
     };
