@@ -18,6 +18,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   modalRefWrapper = {ref: null};
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
   @Input() fc: FormControl;
+  @Input() maxlengthValue: string;
   @Input() bot: IBot;
   @Input() loading: boolean;
   @Input() placeholderText: string;

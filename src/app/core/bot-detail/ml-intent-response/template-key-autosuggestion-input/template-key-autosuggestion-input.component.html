@@ -1,5 +1,5 @@
 <mat-form-field class="example-full-width">
-  <input type="text" matInput placeholder="{{placeholderText}}" [formControl]="fc" [matAutocomplete]="auto">
+  <input type="text" matInput [maxLength]="maxlengthValue||64" placeholder="{{placeholderText}}" [formControl]="fc" [matAutocomplete]="auto">
   <mat-autocomplete #auto="matAutocomplete" class="template-list-autocomplete">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{option}}
@@ -18,7 +18,8 @@
   <form style="min-width: 450px; display: flex; flex-direction: column" [formGroup]="formGroupTemplateKeyCreation">
     <div>
       <mat-form-field>
-        <input matInput formControlName="template_key" placeholder="Template key">
+        <input matInput formControlName="template_key"
+               placeholder="Template key">
         <mat-error class="mat-error-small"
                    *ngIf="formGroupTemplateKeyCreation.get('template_key').errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>
