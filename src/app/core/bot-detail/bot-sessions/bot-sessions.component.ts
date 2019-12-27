@@ -25,6 +25,7 @@ interface ISessionFilterData {
   updated_at: { begin: number, end: number };
   limit: number;
   page: number;
+  channels: string, //'facebook,skype'
   is_test?: boolean;
   is_live?: boolean;
 }
@@ -84,6 +85,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   initSearchForm(channels) {
     const channelFA = channels.reduce((total, current) => {
+
       return [
         ...total,
         this.formBuilder.group({[current.key]: false})
@@ -384,8 +386,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {
-
-
     this.showLoader = true;
     let url: string;
     let page: number;
@@ -414,7 +414,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       }
       if (combinedFilterData.total_message_count) {
         combinedFilterData.total_message_count__range = `${combinedFilterData.total_message_count},${combinedFilterData.total_message_count}`;
-
       }
 
       page = combinedFilterData.page = combinedFilterData.page || 1;
@@ -474,11 +473,10 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   sessionFormSubmitted(formData) {
     const filterData = UtilityService.cloneObj(formData);
-
-
     this.filterFormData = filterData;
-
-    const channelsObj = filterData.channels;
+    const channelsObj = filterData.channels.reduce((total, current) => {
+      return {...total, ...current};
+    }, {});
     const channelStr = Object.keys(channelsObj).filter(key => channelsObj[key]).join(',');
     delete filterData.channels;
     if (channelStr) {
