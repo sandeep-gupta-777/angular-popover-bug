@@ -300,6 +300,7 @@
     var accesstoken = getQueryStringValue("accesstoken");
     var domainname = getQueryStringValue("domain");
     if (accesstoken && domainname) {
+      localStorage.removeItem('@@STATE');
         // location.href = 'http://localhost:4201/';
         window.history.pushState('page2', 'Title', '/auth/login');
     }

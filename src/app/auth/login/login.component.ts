@@ -101,7 +101,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.domainname = (window as any).domainname;
     this.showConnectLoginScreen = this.accesstoken && this.domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
     if (this.accesstoken && this.domainname) {
-      this.router.navigate(['/auth/login'],);
+      (window as any).accesstoken = '';
+      this.router.navigate(['/auth/login']);
       this.loginSubmitHandler({accesstoken: this.accesstoken, domainname: this.domainname});
     }
     try {
@@ -315,7 +316,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginFailedHandler() {
-    if (this.accesstoken && this.domainname) {
+    if (this.domainname) {
       this.connect_redirect_time = 4;
       setInterval(() => {
         --this.connect_redirect_time;
