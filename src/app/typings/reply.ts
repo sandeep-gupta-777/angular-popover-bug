@@ -10,31 +10,31 @@ export interface ITemplateResponse {
 export interface IMlTemplate {
   [index: string]: {
     'logic': string;
-    'response': ITemplateResponse;
-    'response_type': 'rich'
+    'response'?: ITemplateResponse;
+    'response_type'?: string
   };
 }
 
 
 export interface IMLResponse {
-  'bot_id': number;
-  'comment': 'Default response templates';
-  'created_at': 1571378574000.0;
-  'created_by': 'Manjula Choudhary';
-  'default_templates': [
+  'bot_id'?: number;
+  'comment'?: 'Default response templates';
+  'created_at'?: 1571378574000.0;
+  'created_by'?: 'Manjula Choudhary';
+  'default_templates'?: [
     'fallback',
     'agent',
     'first_message'
   ];
-  'generation_rules': {};
-  'id': number;
-  'metadata': {};
-  'resource_uri': '/api/v1/responsetemplates/6/';
-  'state': string;
-  'templates': IMlTemplate;
-  'updated_at': 1571573175000.0;
-  'updated_by': 'Manjula Choudhary';
-  'workflow': {
+  'generation_rules'?: {};
+  'id'?: number;
+  'metadata'?: {};
+  'resource_uri'?: '/api/v1/responsetemplates/6/';
+  'state'?: string;
+  'templates'?: IMlTemplate;
+  'updated_at'?: 1571573175000.0;
+  'updated_by'?: 'Manjula Choudhary';
+  'workflow'?: {
     'logic': string
   };
 }

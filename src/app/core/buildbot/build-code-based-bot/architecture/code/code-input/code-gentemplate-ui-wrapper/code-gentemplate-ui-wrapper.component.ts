@@ -130,7 +130,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
       if (!this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
-        this._response.templates[this.selectedTemplateKeyInLeftSideBar] = {logic: {code: ''}};
+        this._response.templates[this.selectedTemplateKeyInLeftSideBar] = {logic: '', response_type: 'dynamic'};
       }
       this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
     });
