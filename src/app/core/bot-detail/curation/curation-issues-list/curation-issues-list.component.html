@@ -18,6 +18,19 @@
     </button>
   </ng-container>
 </div>
+
+
+<!--<form [formGroup]="form" *ngIf="entityList">-->
+<!--  <div class="utter"-->
+<!--       appEntityMarking-->
+<!--       formControlName="test"-->
+<!--       [intent]="_selectedIntent"-->
+<!--       [entityList]="entityList"-->
+<!--       (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
+<!--  >-->
+<!--  </div>-->
+<!--</form>-->
+
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
 
     <div *ngIf = "articleSearchMode && !isMlBot" class="d-flex w-100  not-resolved-footer">

@@ -23,6 +23,7 @@ export class EventService {
   static kbRefresh$ = new EventEmitter<IBot>();
   static startANewChat$ = new EventEmitter<{ bot: IBot, consumerDetails: any }>();
   static entityListUpdated$ = new EventEmitter<{entityList: IEntitiesItem[], new_entity: IEntitiesItem}>();
+  static appEntityMarkingUpdate$ = new EventEmitter();
 
   static startANewChat(data: { bot: IBot, consumerDetails: any }) {
     EventService.startANewChat$.emit(data);

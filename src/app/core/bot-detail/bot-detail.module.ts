@@ -118,6 +118,7 @@ import {MediaDetecionPipe} from '../buildbot/build-code-based-bot/architecture/c
 import {HttpIdleInterceptor} from '../../http-idle.interceptor';
 import {MlCurationComponent} from "./ml-curation/ml-curation.component";
 import { FaqImportFromLinkComponent } from './bot-articles/faq-import-from-link/faq-import-from-link.component';
+import { EntityMarkingDirective } from './ml-intents-detail/entity-marking.directive';
 
 const routes: Route[] = [
   {
@@ -234,7 +235,8 @@ const routes: Route[] = [
     GentemplateImageComponent,
     GentemplateFileComponent,
     MediaDetecionPipe,
-    FaqImportFromLinkComponent
+    FaqImportFromLinkComponent,
+    EntityMarkingDirective
   ],
   imports: [
     RichMediaModule,

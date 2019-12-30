@@ -43,13 +43,6 @@
 </header>
 
 <form [formGroup]="form" *ngIf="entityList">
-  <div>
-    <mat-form-field>
-      <input matInput placeholder="Intent name*" formControlName="name">
-      <mat-error class="mat-error-small" *ngIf="form.get('name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
-    </mat-form-field>
-  </div>
-
   <div *ngIf="view === 'detail'" style="display: flex">
     <div #questionListContainer class="questions-list px-2" style="width: 50%;">
       <div class="questions-heading">All utterances</div>
@@ -80,12 +73,14 @@
         <div
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index;">
-          <div class="utter" [attr.contenteditable]="markerInputEditable"
-               (mouseup)="textSelected($event, tpl, index, _selectedIntent.utterances[index].utterance)"
-               (input)="x($event)"
-               (keydown)="entityTextChangedHandler($event)"
-               (click)="show2($event.target, tpl, index)"
-               [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml">
+          <div class="utter"
+               appEntityMarking="yellow"
+               [intent]="_selectedIntent"
+               [entityList]="entityList"
+               [utter]="_selectedIntent.utterances[index].utterance"
+               [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml"
+               (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
+               >
           </div>
           <span class="fa fa-trash" *ngIf="_selectedIntent.utterances.length !== 1" (click)="removeUtterance(index)"></span>
         </div>
