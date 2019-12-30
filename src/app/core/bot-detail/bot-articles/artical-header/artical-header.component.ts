@@ -21,6 +21,7 @@ export class ArticalHeaderComponent implements OnInit {
   @Input() corpus: ICorpus;
   @Output() train = new EventEmitter();
   @Output() makeLive = new EventEmitter();
+  @Output() refreshTraining = new EventEmitter();
   destroy = new EventEmitter();
   ngOnInit() {
     SocketService.train$.pipe(takeUntil(this.destroy)).subscribe((payload:any)=>{
@@ -45,5 +46,8 @@ export class ArticalHeaderComponent implements OnInit {
     } catch (e) {
       console.log(e);
     }
+  }
+  refreshTrainingClicked(){
+    this.refreshTraining.emit();
   }
 }
