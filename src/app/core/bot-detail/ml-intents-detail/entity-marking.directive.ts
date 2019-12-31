@@ -28,9 +28,9 @@ export class EntityMarkingDirective implements ControlValueAccessor {
     private utilityService: UtilityService,
     private popper: Popover,
   ) {
+    debugger;
     this.makeEditable(true);
     EventService.appEntityMarkingUpdate$.subscribe(() => {
-      debugger;
       if (this.changeFn) {
         this.changeFn(this.getMarkerData([this.el.nativeElement]));
       }
@@ -441,8 +441,10 @@ export class EntityMarkingDirective implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    debugger;
     this.utter = obj;
+    if (this.el) {
+      this.el.nativeElement.innerHTML = this.utter;
+    }
   }
 
   changeFn: Function;
