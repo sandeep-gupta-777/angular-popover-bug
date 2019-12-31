@@ -96,12 +96,13 @@ export class CurationIssuesComponent implements OnInit {
   }
 
   addIssueToNewArticle() {
+    debugger;
     TempVariableService.firstQuestionListForNewArticle = [
       this.curationItemData.user_message
     ];
     TempVariableService.curationIds = [this.curationItemData.id];
     this.router.navigate(['.'], {
-      queryParams: {build: 'articles', section_id: null},
+      queryParams: {build: 'ml_model'},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });

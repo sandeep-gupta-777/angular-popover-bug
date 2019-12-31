@@ -89,7 +89,7 @@ export class MlCurationComponent implements OnInit {
     this.getResolvedAggregationData();
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
-    // this.makeCurationSettingsForm();
+    this.makeCurationSettingsForm();
     // this.getCorpus$().subscribe();
     //
     this.makeCurationIssuesFilterForm();

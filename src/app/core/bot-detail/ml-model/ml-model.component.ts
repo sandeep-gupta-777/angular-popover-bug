@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, TemplateRef} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {IBot} from '../../interfaces/IBot';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ServerService} from '../../../server.service';
@@ -9,7 +9,7 @@ import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {intentMock} from '../ml-intents/intent-mock';
-import {IIntent} from '../../../typings/intents';
+import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {MyToasterService} from '../../../my-toaster.service';
@@ -22,6 +22,7 @@ import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {EAllActions} from '../../../typings/enum';
 import {MlReplyService} from '../ml-reply/ml-reply.service';
 import {FormsService} from '../../../forms.service';
+import {TempVariableService} from "../../../temp-variable.service";
 
 @Component({
   selector: 'app-ml-model',
@@ -59,8 +60,19 @@ export class MLModelComponent implements OnInit {
   myESplashScreens = ESplashScreens;
   myEAllActions = EAllActions;
   responceState: string;
-
+  // @ViewChild('Primarytemplat') PrimaryEntitytemplat: TemplateRef<any>;
   ngOnInit() {
+    debugger;
+    if (TempVariableService.firstQuestionListForNewArticle) {
+      this.viewChanged(this.view = 'detail');
+      this.selectedIntent.utterances.push(
+        {
+          'entities': [],
+          'utterance': TempVariableService.firstQuestionListForNewArticle[0]
+        }
+      )
+      TempVariableService.firstQuestionListForNewArticle = null;
+    }
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
     this.getAndSetMlCorpusMiniData();
     this.getAndSetMlIntent();
@@ -187,6 +199,7 @@ export class MLModelComponent implements OnInit {
   }
 
   addNewIntentOrEntity(isIntent: number, template: TemplateRef<any>) {
+    debugger;
     if (isIntent === 0) {
       this.viewChanged(this.view = 'detail');
     }
@@ -443,8 +456,35 @@ export class MLModelComponent implements OnInit {
     });
   }
 
+  updateIntentWithCuration(intent: IIntent){
+    const curationIssueIgnoreUrl = this.constantsService.mlCurationIssueActionUrl();
+    let body;
+    if(TempVariableService.curationIds) {
+      body = {
+        curation_id_list: TempVariableService.curationIds,
+        data: {"type": "add", ...intent}
+      }
+    }
+    this.serverService.makePostReq<any>(
+      {
+        url: curationIssueIgnoreUrl,
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
+        body
+      }).subscribe((res) => {
+        debugger;
+        this.utilityService.showSuccessToaster("Issues successfully added to new intent");
+        TempVariableService.curationIds = null;
+        this.viewChanged(this.view = 'table');
+    });
+  }
+
   saveOrUpdateIntent(intent: IIntent) {
-    this.saveOrUpdateIntentHandler(intent).subscribe();
+  debugger;
+    if(TempVariableService.curationIds){
+      this.updateIntentWithCuration(intent)
+    }else{
+      this.saveOrUpdateIntentHandler(intent).subscribe();
+    }
   }
 
   saveOrUpdateIntentHandler(intent: IIntent): Observable<any> {
@@ -463,7 +503,10 @@ export class MLModelComponent implements OnInit {
     } else {
       url = this.constantsService.createIntentUrl();
     }
+
     obs = this.serverService.makePostReq({url, body: intent, headerData: header});
+
+
     return obs.pipe(tap((res: any) => {
       this.getAndSetMlCorpusMiniData();
 
