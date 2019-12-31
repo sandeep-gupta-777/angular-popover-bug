@@ -9,12 +9,14 @@ import {IHeaderData} from '../../../../../interfaces/header-data';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
 import {ESplashScreens} from 'src/app/splash-screen/splash-screen.component';
-import {FormBuilder, NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {EAllActions} from '../../../../typings/enum';
 import {FormsService} from '../../../../forms.service';
 import {IIntent} from "../../../../typings/intents";
+import {IEntitiesItem} from "../../../interfaces/mlBots";
+import {MlService} from "../../ml-model/ml.service";
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -52,7 +54,10 @@ export class CurationIssuesListComponent implements OnInit {
   selectedArticleToAddCuration: number;
   @Input() totallength: number;
   @Input() mlIntentList : IIntent[] = [];
+  selectedIntent : IIntent;
+  @Input() entityList: IEntitiesItem[];
   @Input() isMlBot = false;
+  intentInputForm : FormGroup;
   ngOnInit() {
 
     this.SelectedListForm.form.valueChanges
@@ -66,8 +71,22 @@ export class CurationIssuesListComponent implements OnInit {
         }
         this.IssuesSelectedSet = Array.from(temArray);
       });
+    this.intentInputForm =this.formBuilder.group({
+      intentInput : 'asdasdasd sa dasd asd asd a sd',
+    })
+    this.setMLEntityList();
   }
-
+  setMLEntityList() {
+    const url = this.constantsService.getEntityList();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    // let colorList = JSON.parse(JSON.s);
+    this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
+      this.entityList = value.objects;
+      MlService.entityList = this.entityList;
+    });
+  }
   load10More() {
 
     this.loadMoreNext.emit();

@@ -1,3 +1,8 @@
+{{entityList | json}}
+--------------------------------------------<br>
+{{selectedIntent | json}}
+--------------------------------------------<br>
+{{intentInputForm.value | json}}
 <div class="curation-list-heading" *ngIf="!(IssuesSelectedSet.length > 0)">
   <div class="header-text">
       <div *ngIf="liveBotUpdatedAt">
@@ -20,16 +25,7 @@
 </div>
 
 
-<!--<form [formGroup]="form" *ngIf="entityList">-->
-<!--  <div class="utter"-->
-<!--       appEntityMarking-->
-<!--       formControlName="test"-->
-<!--       [intent]="_selectedIntent"-->
-<!--       [entityList]="entityList"-->
-<!--       (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
-<!--  >-->
-<!--  </div>-->
-<!--</form>-->
+
 
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
 
@@ -44,21 +40,28 @@
         Cancel
       </button>
     </div>
+
   <div *ngIf = "articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
-    <div class="form-group m-0 padding-input sort-decrease-height" *ngIf = "isMlBot">
+    <div class="form-group m-0 padding-input sort-decrease-height">
       <mat-form-field class="input-width mr-2">
-        <mat-select placeholder="Intent">
-          <mat-option *ngFor="let intent of mlIntentList" [value]="intent.intent_id">
+        <mat-select placeholder="Intent" [(ngModel)]="selectedIntent">
+          <mat-option *ngFor="let intent of mlIntentList" [value]="intent">
             {{toDisplayValue(intent.name)}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <div>
-      <mat-form-field class="input-width">
-        <input type="text" matInput>
-      </mat-form-field>
-    </div>
+
+    <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
+      <div class="utter"
+           appEntityMarking="yellow"
+           formControlName="intentInput"
+           [intent]="selectedIntent"
+           [entityList]="entityList"
+      >
+<!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
+      </div>
+    </form>
     <div class="ml-auto"></div>
     <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2" [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
       Link and save

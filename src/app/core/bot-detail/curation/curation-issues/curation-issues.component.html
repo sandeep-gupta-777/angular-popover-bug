@@ -84,19 +84,27 @@
               </div>
 
             <div *ngIf = "articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
-              <div class="form-group m-0 padding-input sort-decrease-height" *ngIf = "isMlBot">
-                <mat-form-field class="input-width mr-2">
-                  <mat-select placeholder="Intent">
-                    <mat-option *ngFor="let intent of mlIntentList" [value]="intent.intent_id">
-                      {{toDisplayValue(intent.name)}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+              <form >
+                <div class="form-group m-0 padding-input sort-decrease-height" >
+                  <mat-form-field class="input-width mr-2">
+                    <mat-select placeholder="Intent">
+                      <mat-option *ngFor="let intent of mlIntentList" [value]="intent.intent_id">
+                        {{toDisplayValue(intent.name)}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+<!--                <div class="utter"-->
+<!--                     appEntityMarking-->
+<!--                     formControlName="test"-->
+<!--                     [intent]="_selectedIntent"-->
+<!--                     [entityList]="entityList"-->
+<!--                     (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
+<!--                >-->
+<!--                </div>-->
+              </form>
             <div>
-              <mat-form-field class="input-width">
-                <input type="text" matInput>
-              </mat-form-field>
+
             </div>
             <div class="ml-auto"></div>
             <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
