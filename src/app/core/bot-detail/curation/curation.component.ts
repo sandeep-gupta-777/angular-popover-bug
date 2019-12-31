@@ -355,6 +355,9 @@ export class CurationComponent implements OnInit {
       this.getResolvedAggregationData();
     });
   }
+  addQueryToIntentEvent(data){
+    debugger;
+  }
 
 //  filter form ::
 

@@ -22,6 +22,9 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {IHeaderData} from 'src/interfaces/header-data';
 import {BotSessionSmartTableModal} from '../../bot-sessions/bot-session-smart-table-modal';
 import {IIntent} from "../../../../typings/intents";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {IEntitiesItem} from "../../../interfaces/mlBots";
+import {EventService} from "../../../../event.service";
 
 
 @Component({
@@ -36,7 +39,8 @@ export class CurationIssuesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private serverService: ServerService,
     private utilityService: UtilityService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
   }
 
@@ -46,9 +50,10 @@ export class CurationIssuesComponent implements OnInit {
   @Input() selected: boolean = false;
   @Input() mlIntentList : IIntent[] = [];
   @Input() isMlBot = false;
+  intentInputForm: FormGroup;
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
-
+  @Output() addQueryToIntentEvent = new EventEmitter();
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   myEAllActions = EAllActions;
@@ -63,12 +68,21 @@ export class CurationIssuesComponent implements OnInit {
   sessions: ISessionItem[] = [];
   url: string;
   sessionItemToBeDecrypted: ISessionItem;
-
+  selectedIntent: IIntent;
+  @Input() entityList: IEntitiesItem[];
   // sessionitem: string;
 
   ngOnInit() {
+    this.intentInputForm =this.formBuilder.group({
+      intentInput : ['asdasdasd sa dasd asd asd a sd',this.uttrenceValidation],
+    })
   }
-
+  uttrenceValidation(form){
+    return {error : {message : "hello"}}
+  }
+  appEntityMarkingUpdate(){
+    EventService.appEntityMarkingUpdate$.emit();
+  }
   channelNameToImg(channel: string) {
     let iconObj = this.constantsService.getIntegrationIconForChannelName(
       channel
@@ -113,7 +127,13 @@ export class CurationIssuesComponent implements OnInit {
       curationItemId: [this.curationItemData.id]
     });
   }
-
+  addIssueToThisIntent() {
+    this.appEntityMarkingUpdate();
+    this.addQueryToIntentEvent.emit({
+      intent_data: {intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
+      curationItemId: [this.curationItemData.id]
+    });
+  }
 
   curationIssueIconClicked(roomId) {
     //

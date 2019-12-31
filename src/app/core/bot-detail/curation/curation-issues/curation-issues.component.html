@@ -1,12 +1,11 @@
-
 <div class="curation-issues-wrapper">
   <mat-card class="curation-card-master">
 
 
     <mat-card-actions style="margin: 0; padding: 0;">
       <div
-      [ngClass]="selected? 'curation-card-header-wrapper-selected': '' "
-      class="curation-card-header-wrapper">
+        [ngClass]="selected? 'curation-card-header-wrapper-selected': '' "
+        class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
 
           <div class="header--img" (click)="curationIssueIconClicked(curationItemData.room_id)">
@@ -22,18 +21,21 @@
         </span>
 
         <span class="curation-card-header-icon-list">
-          <mat-icon style="color: #d94254;" [matTooltip]="'Bot’s message was downvoted'" *ngIf="curationItemData.triggered_rules.downvoted">
+          <mat-icon style="color: #d94254;" [matTooltip]="'Bot’s message was downvoted'"
+                    *ngIf="curationItemData.triggered_rules.downvoted">
             thumb_down</mat-icon>
-          <mat-icon style="color: #fd901c;" [matTooltip]="'Bot was unable to understand'" *ngIf="curationItemData.triggered_rules.fallback">
+          <mat-icon style="color: #fd901c;" [matTooltip]="'Bot was unable to understand'"
+                    *ngIf="curationItemData.triggered_rules.fallback">
             sentiment_dissatisfied</mat-icon>
-          <mat-icon style="color: #00abd3;" [matTooltip]="'Added to curation from session'" *ngIf="curationItemData.triggered_rules.from_session">
+          <mat-icon style="color: #00abd3;" [matTooltip]="'Added to curation from session'"
+                    *ngIf="curationItemData.triggered_rules.from_session">
             question_answer</mat-icon>
           <mat-icon style="color: #193a57;" [matTooltip]="'Bot was unable to disambiguate'"
-            *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
+                    *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
           <mat-icon style="color: #000000;" [matTooltip]="'Handed over to agent'"
-            *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
+                    *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
           <mat-icon style="color: #ff8c41;" [matTooltip]="'Article recognized has a low score'"
-            *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
+                    *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
         </span>
       </div>
     </mat-card-actions>
@@ -47,7 +49,8 @@
             <!-- curationItemData.resolved_section.first_question -->
           </div>
         </div>
-        <div class='column border-partiation'  [ngClass]="{'rtl pr-4': this.bot.language === 'ar','pl-4' : this.bot.language != 'ar'}">
+        <div class='column border-partiation'
+             [ngClass]="{'rtl pr-4': this.bot.language === 'ar','pl-4' : this.bot.language != 'ar'}">
           <div class='column-2' *ngIf="curationItemData.section_id != 'partial_match'">
             <p style="font-size: 11px">Bot understood it as</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.first_question}}&#34;></p>
@@ -64,79 +67,92 @@
 
     <mat-card-actions class="curation-footer">
 
-      <div *ngIf="isResolved == false" class = "w-100">
+      <div *ngIf="isResolved == false" class="w-100">
         <div *ngIf="selected">
-          <div class ="d-flex w-100">
-              Query is selected. Deselect to take action on this specific query.
+          <div class="d-flex w-100">
+            Query is selected. Deselect to take action on this specific query.
           </div>
         </div>
         <div *ngIf="!selected">
-            <div *ngIf = "articleSearchMode && !isMlBot" class="d-flex w-100  not-resolved-footer" >
-                <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
-                                    (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
-                <div class="ml-auto"></div>
-                <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
-                  Link and save
-                </button>
-                <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
-                  Cancel
-                </button>
-              </div>
-
-            <div *ngIf = "articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
-              <form >
-                <div class="form-group m-0 padding-input sort-decrease-height" >
-                  <mat-form-field class="input-width mr-2">
-                    <mat-select placeholder="Intent">
-                      <mat-option *ngFor="let intent of mlIntentList" [value]="intent.intent_id">
-                        {{toDisplayValue(intent.name)}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-<!--                <div class="utter"-->
-<!--                     appEntityMarking-->
-<!--                     formControlName="test"-->
-<!--                     [intent]="_selectedIntent"-->
-<!--                     [entityList]="entityList"-->
-<!--                     (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
-<!--                >-->
-<!--                </div>-->
-              </form>
-            <div>
-
-            </div>
+          <div *ngIf="articleSearchMode && !isMlBot" class="d-flex w-100  not-resolved-footer">
+            <app-faq-search-box class="searchForArticle" [bot]="bot" [inCuration]="true"
+                                (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
             <div class="ml-auto"></div>
-            <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
+            <button mat-flat-button color=primary class="mat-theme-button footer-btn px-2"
+                    [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
               Link and save
             </button>
-            <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
+            <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
+                    (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
               Cancel
             </button>
           </div>
 
-            <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
-                <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true" *appMyIf="myEAllActions['Link curation issues to an article']">
-                  <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
-                  Link to an existing intent
-                </button>
+          <div *ngIf="articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
 
-                <button mat-button
-                        style="border: solid 1px #eaeaea;"
-                        class="mat-theme-button footer-btn px-2"
-                        (click)="addIssueToNewArticle()"
-                        *appMyIf="myEAllActions['Add curation issues to a new article']">
-                  <mat-icon>add</mat-icon>&nbsp; Add to a new intent
-                </button>
+            <div class="form-group m-0 padding-input sort-decrease-height">
+              <mat-form-field class="input-width mr-2">
+                <mat-select placeholder="Intent" [(ngModel)]="selectedIntent">
+                  <mat-option *ngFor="let intent of mlIntentList" [value]="intent">
+                    {{toDisplayValue(intent.name)}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-                <div class="ml-auto"></div>
-
-                <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="ignoreQuery(curationItemData.id)" *appMyIf="myEAllActions['Ignore curation issues']">
-                  <mat-icon>remove_circle_outline</mat-icon>&nbsp;
-                  Ignore query
-                </button>
+            <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
+              <div class="utter"
+                   appEntityMarking="yellow"
+                   formControlName="intentInput"
+                   [intent]="selectedIntent"
+                   [entityList]="entityList"
+              >
+                <!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
               </div>
+            </form>
+
+            <div>
+
+            </div>
+            <div class="ml-auto"></div>
+            <button *ngIf="!isMlBot" mat-flat-button color=primary class="mat-theme-button footer-btn px-2"
+                    [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
+              Link and save
+            </button>
+            <button *ngIf="isMlBot" mat-flat-button color=primary class="mat-theme-button footer-btn px-2 mr-2"
+                    (click)="addIssueToThisIntent()">
+              Link and save
+            </button>
+            <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
+                    (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
+              Cancel
+            </button>
           </div>
+
+          <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
+            <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2"
+                    (click)="articleSearchMode = true" *appMyIf="myEAllActions['Link curation issues to an article']">
+              <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
+              Link to an existing intent
+            </button>
+
+            <button mat-button
+                    style="border: solid 1px #eaeaea;"
+                    class="mat-theme-button footer-btn px-2"
+                    (click)="addIssueToNewArticle()"
+                    *appMyIf="myEAllActions['Add curation issues to a new article']">
+              <mat-icon>add</mat-icon>&nbsp; Add to a new intent
+            </button>
+
+            <div class="ml-auto"></div>
+
+            <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
+                    (click)="ignoreQuery(curationItemData.id)" *appMyIf="myEAllActions['Ignore curation issues']">
+              <mat-icon>remove_circle_outline</mat-icon>&nbsp;
+              Ignore query
+            </button>
+          </div>
+        </div>
       </div>
       <div *ngIf="isResolved === true" class="d-flex w-100 resolved-footer">
 
@@ -144,17 +160,18 @@
           <mat-icon>remove_circle_outline</mat-icon> &nbsp; Ignored query
         </div>
 
-<!--        <div *ngIf="curationItemData.curation_state === 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
-<!--          <mat-icon>add</mat-icon> &nbsp; Added to a new article:-->
-<!--            “{{curationItemData.resolved_section.first_question}}”-->
-<!--        </div>-->
-<!--        <div *ngIf="curationItemData.curation_state === 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
-<!--              <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:-->
-<!--              “{{curationItemData.resolved_section.first_question}}”-->
-<!--          </div>-->
+        <!--        <div *ngIf="curationItemData.curation_state === 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
+        <!--          <mat-icon>add</mat-icon> &nbsp; Added to a new article:-->
+        <!--            “{{curationItemData.resolved_section.first_question}}”-->
+        <!--        </div>-->
+        <!--        <div *ngIf="curationItemData.curation_state === 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
+        <!--              <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:-->
+        <!--              “{{curationItemData.resolved_section.first_question}}”-->
+        <!--          </div>-->
         <div class="ml-auto" style="min-width: 200px;">
           Resolved at
-          {{curationItemData.updated_at | date:"shortTime"}},&nbsp;{{curationItemData.updated_at | date:"MMM d"}}&nbsp;'{{curationItemData.updated_at | date:"yy"}}
+          {{curationItemData.updated_at | date:"shortTime"}}
+          ,&nbsp;{{curationItemData.updated_at | date:"MMM d"}}&nbsp;'{{curationItemData.updated_at | date:"yy"}}
           by {{curationItemData.updated_by}}
         </div>
       </div>

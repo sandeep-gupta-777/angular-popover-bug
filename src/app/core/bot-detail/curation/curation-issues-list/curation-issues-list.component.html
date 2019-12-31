@@ -63,7 +63,12 @@
       </div>
     </form>
     <div class="ml-auto"></div>
-    <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2" [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
+    <button *ngIf = "!isMlBot" mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2"
+            [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
+      Link and save
+    </button>
+    <button *ngIf = "isMlBot" mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2"
+            (click)="addMultiIssueToThisIntent()">
       Link and save
     </button>
     <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
@@ -103,12 +108,15 @@
         <app-curation-issues
         [curationItemData]="curationItem"
         [isResolved]=false
+        [entityList]="entityList"
         (ignoreQueryEvent)="ignoreIt($event)"
         [bot]="bot"
         [mlIntentList] = "mlIntentList"
         [isMlBot] = "isMlBot"
         [selected] = "!!issuesSelectedListForm.value[curationItem.id]"
-        (addQueryToArticleEvent)="addQueryToArticle($event)">
+        (addQueryToArticleEvent)="addQueryToArticle($event)"
+        (addQueryToIntentEvent)="addMultiIssueToThisIntent($event)"
+        >
       </app-curation-issues>
       </div>
 </form>

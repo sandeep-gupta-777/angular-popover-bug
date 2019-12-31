@@ -9,7 +9,7 @@ import {IHeaderData} from '../../../../../interfaces/header-data';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
 import {ESplashScreens} from 'src/app/splash-screen/splash-screen.component';
-import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {EAllActions} from '../../../../typings/enum';
@@ -17,6 +17,7 @@ import {FormsService} from '../../../../forms.service';
 import {IIntent} from "../../../../typings/intents";
 import {IEntitiesItem} from "../../../interfaces/mlBots";
 import {MlService} from "../../ml-model/ml.service";
+import {EventService} from "../../../../event.service";
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -43,6 +44,7 @@ export class CurationIssuesListComponent implements OnInit {
   @Output() loadMoreNext = new EventEmitter();
   @Output() ignoreCurationIssueById = new EventEmitter();
   @Output() addQueryToArticleByIds = new EventEmitter();
+  @Output() addQueryToIntentEvent = new EventEmitter();
   @Input() reloadingMore: boolean;
   @Input() liveBotUpdatedAt: number;
   @ViewChild('issuesSelectedListForm') SelectedListForm: NgForm;
@@ -72,9 +74,16 @@ export class CurationIssuesListComponent implements OnInit {
         this.IssuesSelectedSet = Array.from(temArray);
       });
     this.intentInputForm =this.formBuilder.group({
-      intentInput : 'asdasdasd sa dasd asd asd a sd',
+      intentInput : ['asdasdasd sa dasd asd asd a sd',this.uttrenceValidation],
     })
     this.setMLEntityList();
+  }
+  uttrenceValidation(form){
+    debugger;
+    return {error : {message : "hello"}}
+  }
+  appEntityMarkingUpdate(){
+    EventService.appEntityMarkingUpdate$.emit();
   }
   setMLEntityList() {
     const url = this.constantsService.getEntityList();
@@ -194,5 +203,17 @@ export class CurationIssuesListComponent implements OnInit {
     );
     this.articleSearchMode = false;
     this.selectedArticleToAddCuration = null;
+  }
+
+  addMultiIssueToThisIntent(data) {
+    if(!data){
+      this.appEntityMarkingUpdate();
+      this.addQueryToIntentEvent.emit({
+        intent_data: {intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
+        curationItemId: this.IssuesSelectedSet
+      });
+    }else{
+      this.addQueryToIntentEvent.emit(data);
+    }
   }
 }
