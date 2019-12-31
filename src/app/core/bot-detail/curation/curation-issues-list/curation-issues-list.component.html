@@ -1,8 +1,3 @@
-{{entityList | json}}
---------------------------------------------<br>
-{{selectedIntent | json}}
---------------------------------------------<br>
-{{intentInputForm.value | json}}
 <div class="curation-list-heading" *ngIf="!(IssuesSelectedSet.length > 0)">
   <div class="header-text">
       <div *ngIf="liveBotUpdatedAt">
@@ -23,9 +18,6 @@
     </button>
   </ng-container>
 </div>
-
-
-
 
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
 
@@ -54,8 +46,8 @@
 
     <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
       <div class="utter"
-           appEntityMarking="yellow"
-           formControlName="intentInput"
+           appEntityMarking
+           formControlName="utterances"
            [intent]="selectedIntent"
            [entityList]="entityList"
       >
@@ -71,7 +63,7 @@
             (click)="addMultiIssueToThisIntent()">
       Link and save
     </button>
-    <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
+    <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedIntent = null;selectedArticleToAddCuration = null;">
       Cancel
     </button>
   </div>
@@ -120,7 +112,6 @@
       </app-curation-issues>
       </div>
 </form>
-
 
 <div class="splash-load-more" *ngIf="curationItemList && isMorePresent && curationItemList.length === 0">
   <app-splash-screen [imageHRef]="myESplashScreens.Lode_More_Issues" style="width: 300px;"

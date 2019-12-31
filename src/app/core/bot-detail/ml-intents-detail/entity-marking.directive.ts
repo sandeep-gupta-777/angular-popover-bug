@@ -1,4 +1,15 @@
-import {AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import {DomService} from '../../../dom.service';
 import {EMarkerAttributes, IEntityMarker, IIntent} from '../../../typings/intents';
 import {MlService} from '../ml-model/ml.service';
@@ -18,7 +29,7 @@ import {EventService} from '../../../event.service';
   },
   ]
 })
-export class EntityMarkingDirective implements ControlValueAccessor {
+export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   strToCopy;
   tempMarkingWord = 'xxxxxxxxxxxxx1123';
   copySelectedTextCaller;
@@ -28,7 +39,6 @@ export class EntityMarkingDirective implements ControlValueAccessor {
     private utilityService: UtilityService,
     private popper: Popover,
   ) {
-    debugger;
     this.makeEditable(true);
     EventService.appEntityMarkingUpdate$.subscribe(() => {
       if (this.changeFn) {
@@ -46,8 +56,9 @@ export class EntityMarkingDirective implements ControlValueAccessor {
   @Input('appHighlight') highlightColor: string;
   @Output() showCreateNewIntentModel$ = new EventEmitter();
 
-  @HostListener('mouseup', ['$event']) onMouseUp($event) {
-    debugger;
+  @HostListener('mouseout', ['$event'])
+  @HostListener('mouseup', ['$event'])
+  onMouseUp($event) {
     this.textSelected($event, this.tpl, this.index, this.utter);
   }
 
@@ -57,6 +68,7 @@ export class EntityMarkingDirective implements ControlValueAccessor {
 
   @HostListener('keydown', ['$event']) keyDownHandler($event) {
     this.entityTextChangedHandler($event);
+    this.changeFn(this.getMarkerData([this.el.nativeElement]));
   }
 
   // tslint:disable-next-line:member-ordering
@@ -441,25 +453,31 @@ export class EntityMarkingDirective implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.utter = obj;
     if (this.el) {
-      this.el.nativeElement.innerHTML = this.utter;
+      if (typeof obj === 'object') {
+        this.utter = obj && obj[0].utterance;
+      } else {
+        this.utter = this.utter || 'this is test';
+      }
+      this.el.nativeElement.innerHTML =
+        MlService.replaceX(this.utter, obj[0].entities, this.entityList);
     }
   }
 
   changeFn: Function;
 
   registerOnChange(fn: any): void {
-    debugger;
     this.changeFn = fn;
   }
 
   registerOnTouched(fn: any): void {
-    debugger;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    debugger;
+  }
+
+  ngOnDestroy(): void {
+    this.changeFn(this.getMarkerData([this.el.nativeElement]));
   }
 
 }

@@ -103,7 +103,7 @@
             <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
               <div class="utter"
                    appEntityMarking="yellow"
-                   formControlName="intentInput"
+                   formControlName="utterances"
                    [intent]="selectedIntent"
                    [entityList]="entityList"
               >
@@ -123,8 +123,12 @@
                     (click)="addIssueToThisIntent()">
               Link and save
             </button>
-            <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
+            <button *ngIf="!isMlBot" mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
                     (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
+              Cancel
+            </button>
+            <button  *ngIf="isMlBot" mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
+                    (click)="selectedIntent = null;articleSearchMode = false;">
               Cancel
             </button>
           </div>

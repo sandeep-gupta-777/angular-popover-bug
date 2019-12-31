@@ -223,7 +223,6 @@ getTemplateKeyList(){
 
   // getting 10
   load10MoreCurationIssues$(innit: boolean) {
-  debugger;
     this.curationIssuesListisReloading = true;
     const curationIssuesListUrl = this.constantsService.mlCurationIssuesListUrl(10, this.curationIssuesListLength);
     return this.serverService.makeGetReq<ICurationResult>(
@@ -574,6 +573,26 @@ getTemplateKeyList(){
 
     }
 
+  }
+  addQueryToIntentEvent(data){
+    const curationIssueIgnoreUrl = this.constantsService.mlCurationIssueActionUrl();
+    const body = data;
+    this.serverService.makePostReq<any>(
+      {
+        url: curationIssueIgnoreUrl,
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
+        body
+      }).subscribe((value) => {
+        debugger;
+      this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curation_id_list.length;
+      this.utilityService.showSuccessToaster('Issues have been successfully added to intent.');
+      this.curationIssuesListLength = this.curationIssuesListLength - data.curation_id_list.length;
+      this.curationIssuesList = this.curationIssuesList.filter((item) => {
+        return !(data.curation_id_list.find(c_id => c_id === item.id));
+      });
+      this.reinnetalizeCurationResolvedAndIgnored();
+      this.getResolvedAggregationData();
+    });
   }
 
 }

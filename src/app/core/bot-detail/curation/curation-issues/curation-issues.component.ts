@@ -22,7 +22,7 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {IHeaderData} from 'src/interfaces/header-data';
 import {BotSessionSmartTableModal} from '../../bot-sessions/bot-session-smart-table-modal';
 import {IIntent} from "../../../../typings/intents";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {IEntitiesItem} from "../../../interfaces/mlBots";
 import {EventService} from "../../../../event.service";
 
@@ -73,9 +73,19 @@ export class CurationIssuesComponent implements OnInit {
   // sessionitem: string;
 
   ngOnInit() {
-    this.intentInputForm =this.formBuilder.group({
-      intentInput : ['asdasdasd sa dasd asd asd a sd',this.uttrenceValidation],
-    })
+    this.intentInputForm = this.formBuilder.group({
+      utterances: [[{'entities': [], 'utterance': 'test'}], function (formControl: FormControl) {
+        // if (formControl.value) {
+        if (!formControl.value[0].utterance) {
+          return {
+            error: {
+              message: 'Cant be empty'
+            }
+          };
+        }
+        // }
+      }],
+    });
   }
   uttrenceValidation(form){
     return {error : {message : "hello"}}
@@ -128,10 +138,11 @@ export class CurationIssuesComponent implements OnInit {
     });
   }
   addIssueToThisIntent() {
+    debugger;
     this.appEntityMarkingUpdate();
     this.addQueryToIntentEvent.emit({
-      intent_data: {intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
-      curationItemId: [this.curationItemData.id]
+      data: {"type": "link",intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
+      curation_id_list: [this.curationItemData.id]
     });
   }
 
