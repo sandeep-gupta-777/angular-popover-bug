@@ -2,10 +2,11 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@an
 import {IEntitiesItem} from '../../../interfaces/mlBots';
 import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {ModalConfirmComponent} from "../../../../modal-confirm/modal-confirm.component";
-import {UtilityService} from "../../../../utility.service";
-import {MatDialog} from "@angular/material";
-import {EAllActions} from "../../../../typings/enum";
+import {ModalConfirmComponent} from '../../../../modal-confirm/modal-confirm.component';
+import {UtilityService} from '../../../../utility.service';
+import {MatDialog} from '@angular/material';
+import {EAllActions} from '../../../../typings/enum';
+import {FormsService} from '../../../../forms.service';
 
 @Component({
   selector: 'app-ml-edit-entity',
@@ -16,8 +17,8 @@ export class MlEditEntityComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private utilityService : UtilityService,
-    private matDialog : MatDialog,
+    private utilityService: UtilityService,
+    private matDialog: MatDialog,
   ) {
   }
 
@@ -50,7 +51,7 @@ export class MlEditEntityComponent implements OnInit {
   addOnBlur = true;
   NewEntityObjSynonyms: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  dialogRefWrapper = {ref:null};
+  dialogRefWrapper = {ref: null};
 
   ngOnInit() {
 
@@ -65,7 +66,7 @@ export class MlEditEntityComponent implements OnInit {
     this.editEntityForm = this.formBuilder.group({
       entity_id: this._edittingData.entity_id,
       data: this.formBuilder.group({values: this.formBuilder.array(entityValueArray)}),
-      name: [this._edittingData.name,Validators.required],
+      name: [this._edittingData.name, Validators.required],
       system_entity: this._edittingData.system_entity,
       type: this._edittingData.type
     });
@@ -73,16 +74,21 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   getSingleEntityForm(ruleData) {
+    debugger;
+    const synonymsFA = ruleData.synonyms.map((val) => {
+      return this.formBuilder.control(['ello']);
+    });
     return this.formBuilder.group({
-      synonyms: this.formBuilder.array(ruleData.synonyms),
-      value: ruleData.value
+      synonyms: this.formBuilder.array(synonymsFA),
+      value: this.formBuilder.control(ruleData.value, FormsService.startWithAlphanumericValidator())
     });
   }
 
   deleteSynonym(index, formArr) {
     formArr.removeAt(index);
   }
-  removeSynonymsById(index, formArr){
+
+  removeSynonymsById(index, formArr) {
     formArr.get('data').get('values').removeAt(index);
 
   }

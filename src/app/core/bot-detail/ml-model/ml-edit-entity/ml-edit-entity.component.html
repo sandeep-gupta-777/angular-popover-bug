@@ -80,6 +80,8 @@
           <div [formGroupName]="singleEntityIndex" class="d-flex flex-row single-entity"  style="align-items: flex-end;">
             <mat-form-field class="mr-4" >
               <input matInput  formControlName="value" required placeholder="Add value">
+              <mat-error class="mat-error-small"
+                         *ngIf="this.editEntityForm.get('data').get('values').at(singleEntityIndex).get('value').errors?.error as errorObj">{{errorObj.message}}</mat-error>
             </mat-form-field>
             <mat-form-field class="example-chip-list" style="flex:1">
               <mat-chip-list #chipList>
