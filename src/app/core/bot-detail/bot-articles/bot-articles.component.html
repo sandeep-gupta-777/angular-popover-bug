@@ -1,6 +1,6 @@
 <app-imi-loader *ngIf="!loaded"></app-imi-loader>
 <div *ngIf="loaded && showEditAndViewArtical === myArticleEditMode.table" style="display: block; height: 100%">
-  <app-artical-header [corpus]="corpus" (train)="openTrainModal()" (makeLive)="makeLiveCorpus()" [bot]="bot">
+  <app-artical-header [corpus]="corpus" (train)="openTrainModal()" (makeLive)="makeLiveCorpus()" (refreshTraining)="getCorpusAndSetArticleFilterForm()" [bot]="bot">
   </app-artical-header>
 
   <div class="main-frame">

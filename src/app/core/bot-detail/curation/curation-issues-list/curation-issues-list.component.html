@@ -40,7 +40,7 @@
 
       <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2"
               *appMyIf="myEAllActions['Add curation issues to a new article']"
-              (click)="addMultiIssueToNewArticle()" >
+              (click)="addMultiIssueToNewArticle()" >Create and edit articles which the bot can recognise and respond back
         <mat-icon>add</mat-icon>&nbsp; Add to a new article
       </button>
 
@@ -59,8 +59,8 @@
 <form #issuesSelectedListForm="ngForm">
     <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
         <mat-checkbox [ngClass]="{'select-checkbox' :true, 'checkbox-in-curation':!issuesSelectedListForm.value[curationItem.id]}" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
-        <app-curation-issues  
-        [curationItemData]="curationItem" 
+        <app-curation-issues
+        [curationItemData]="curationItem"
         [isResolved]=false
         (ignoreQueryEvent)="ignoreIt($event)"
         [bot]="bot"
