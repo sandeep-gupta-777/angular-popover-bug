@@ -578,7 +578,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadSample() {
-    debugger;
+
     this.uploadingSampleData = ELoadingStatus.loading;
     // bot_platform-fe/src/assets/sample_corpus.csv
     this.serverService.makeGetReqToDownloadFiles({url: 'assets/sample_corpus.csv'})

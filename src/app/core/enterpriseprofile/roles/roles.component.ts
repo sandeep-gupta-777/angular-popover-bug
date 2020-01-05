@@ -73,7 +73,7 @@ export class RolesComponent implements OnInit {
 
   createNewRole() {
     const body = {
-      'name': this.roleForm.value.selectedRoleName,
+      'name': UtilityService.sanitizeHTML(this.roleForm.value.selectedRoleName),
       'permissions': {
         'actions': this.selectedPermissionIdList
       },
@@ -87,8 +87,6 @@ export class RolesComponent implements OnInit {
         this.roleListChanged.emit();
         this.navegateRole();
       });
-    console.log(body);
-    console.log(body);
   }
 
   navegateRole() {

@@ -105,6 +105,7 @@ export class MlReplyComponent implements OnInit {
   updateResponse() {
 
     const newTemplates = {};
+    this.templateKeyDict = JSON.parse(UtilityService.sanitizeHTML(JSON.stringify(this.templateKeyDict)));
     Object.keys(this.templateKeyDict).forEach((templateKey) => {
       newTemplates[templateKey] = {
         ...this.mlResponse.templates[templateKey],

@@ -74,7 +74,7 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   getSingleEntityForm(ruleData) {
-    debugger;
+
     const synonymsFA = ruleData.synonyms.map((val) => {
       return this.formBuilder.control(['ello']);
     });

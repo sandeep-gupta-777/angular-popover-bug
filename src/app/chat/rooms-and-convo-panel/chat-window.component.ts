@@ -171,6 +171,7 @@ export class ChatWindowComponent implements OnInit, AfterViewInit {
   }
 
   sendMessageByHuman(message) {
+
     if (message && message.trim()) {
       message = UtilityService.sanitizeHTML(message);
       this.sendMessageByHuman$.emit({messageByHuman: message, room: this.room});

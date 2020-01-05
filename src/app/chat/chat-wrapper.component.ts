@@ -35,8 +35,10 @@ import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
 import {SocketService} from '../socket.service';
 import {take} from 'rxjs/operators';
-import {data} from "./mock-data";
+import {data} from './mock-data';
+
 declare const ImiPreview: any;
+
 export interface IBotPreviewFirstMessage {
   'generated_msg': any[];
   'room': IRoomData;
@@ -61,7 +63,7 @@ export interface IChatFeedback {
   templateUrl: './chat-wrapper.component.html',
   styleUrls: ['./chat-wrapper.component.scss']
 })
-export class ChatWrapperComponent implements OnInit, AfterViewInit ,OnDestroy {
+export class ChatWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
   anon_chat_path = ConstantsService.fullscreenchatpath_anon;
@@ -126,7 +128,7 @@ export class ChatWrapperComponent implements OnInit, AfterViewInit ,OnDestroy {
 
     this.initializeSocketNow(); /*todo: code repeat*/
     this.preview$Sub = SocketService.preview$.subscribe((data) => {
-      console.log("SocketService.preview$.subscribe");
+      console.log('SocketService.preview$.subscribe');
       this.chatService.botReplyHandler(data, true);
     });
 
@@ -522,7 +524,7 @@ export class ChatWrapperComponent implements OnInit, AfterViewInit ,OnDestroy {
   ngAfterViewInit(): void {
 
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
     }, 2000);
   }

@@ -21,7 +21,6 @@ export class HighlightSessionTexts implements PipeTransform {
     const modifiedarr = txnSessionMessagesItems.map((txnSessionMessagesItem: ITxnSessionMessagesItem) => {
 
       txnSessionMessagesItem.convoList = txnSessionMessagesItem.convoList.map((sessionMessageItem: ISessionMessageItem) => {
-
         return this.highlightMatchedTextInSessionMessageItem(sessionMessageItem, messageSearchKeyword);
       });
       this.highlightMatchedTransactionId(txnSessionMessagesItem, messageSearchKeyword);
