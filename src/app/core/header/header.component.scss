@@ -1,13 +1,14 @@
 @import "./../../../sass/main";
 
 
-%header-highlighted-nav-item{
+%header-highlighted-nav-item {
   background-color: #26415b !important;
   color: white;
 
   span {
     color: white;
   }
+
   a {
     color: white;
   }
@@ -67,9 +68,11 @@ header {
     color: #ffffff;
     text-decoration: none;
     margin-left: 4px;
-    &:hover{
+
+    &:hover {
       @extend %header-highlighted-nav-item;
-      span{
+
+      span {
         font-weight: 300;
       }
     }
@@ -152,7 +155,8 @@ header {
 
 .highlight-nav-item {
   @extend %header-highlighted-nav-item;
-  span{
+
+  span {
     font-weight: bold !important;
   }
 }
@@ -161,10 +165,10 @@ header {
 .header-dropdown-item {
   line-height: 30px;
   height: auto;
-  text-decoration: none!important;
+  text-decoration: none !important;
   font-size: 11px;
 
-  &:first-child {/*first child is user's name*/
+  &:first-child { /*first child is user's name*/
     cursor: default !important;
 
     background-color: white !important;
@@ -185,13 +189,13 @@ header {
 }
 
 
-::ng-deep{
-  button{
+::ng-deep {
+  button {
     //padding-top: 2px !important;
     //font-size: 13px !important;
   }
 
-  .mat-menu-panel{
+  .mat-menu-panel {
     width: 170px !important;
     border-radius: 2px !important;
   }
@@ -208,6 +212,12 @@ header {
       //  line-height: 13px;
       //}
     }
+  }
+}
+
+.header_icon-row {
+  @media screen and (min-width: 780px) {
+    display: none !important;
   }
 }
 
