@@ -93,10 +93,10 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       ];
     }, []);
     this.filterForm = this.formBuilder.group({
-      id: ['', [FormsService.numberValidator({max: 100000000000})]],
-      consumer_id: ['', [FormsService.numberValidator({max: 100000000000})]],
-      total_message_count__gte: ['', [FormsService.numberValidator({max: 100000000000})]],
-      total_message_count__lte: ['', [FormsService.numberValidator({max: 100000000000})]],
+      id: ['', [FormsService.numberValidator({})]],
+      consumer_id: ['', [FormsService.numberValidator({})]],
+      total_message_count__gte: ['', [FormsService.numberValidator({})]],
+      total_message_count__lte: ['', [FormsService.numberValidator({})]],
       updated_at: ['', []],
       is_live: ['', []],
       sendtoagent: ['', []],

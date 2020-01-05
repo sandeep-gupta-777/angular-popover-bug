@@ -41,12 +41,11 @@ export class BasicInfoFormComponent implements OnInit {
   ngOnInit() {
     /*TODO: data for bot details and queryParamMap is for build bot*/
     this.bot_type = this.activatedRoute.snapshot.data.bot_type || this.activatedRoute.snapshot.queryParamMap.get('bot_type');
-
     /*todo: why is this here and not in parent?*/
     if (!this.botId) {/*only for new bots*/
-      this.formGroup.get('name').valueChanges.subscribe((value) => {
+      this.formGroup.get('name').valueChanges.subscribe((value: string) => {
         if (value) {
-          const uniqueName = value.replace(/\s/g, '');
+          const uniqueName = value.split(' ').join('_');
           this.formGroup.get('bot_unique_name').patchValue(uniqueName);
         } else {
           this.formGroup.get('bot_unique_name').patchValue('');

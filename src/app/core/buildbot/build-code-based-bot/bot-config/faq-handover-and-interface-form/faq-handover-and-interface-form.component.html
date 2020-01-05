@@ -4,17 +4,17 @@
     <div style="width: 100%" class="py-2">Inference</div>
     <div class="interface-form-grid">
       <mat-form-field>
-        <input matInput type="number" displayName="Score below which fallback is shown" data-cy="faq-habdover-first-input"
+        <input matInput type="number" data-type="float" displayName="Score below which fallback is shown" data-cy="faq-habdover-first-input"
                placeholder="Score below which fallback is shown" formControlName="threshold_min_score" >
         <mat-error class="mat-error-small" *ngIf="formGroup.get('bot_metadata').get('threshold_min_score')?.errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput type="number" displayName="Difference in score for partial match"
+        <input matInput type="number" data-type="float" displayName="Difference in score for partial match"
                formControlName="threshold_diff_score" placeholder="Difference in score for partial match" >
         <mat-error class="mat-error-small" *ngIf="formGroup.get('bot_metadata').get('threshold_diff_score')?.errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput type="number" displayName="No. of results to store for each message" formControlName="n_results"
+        <input matInput type="number" data-type="float" displayName="No. of results to store for each message" formControlName="n_results"
                placeholder="No. of results to store for each message" >
         <mat-error class="mat-error-small" *ngIf="formGroup.get('bot_metadata').get('n_results')?.errors?.error as errorObj">{{errorObj.message}}</mat-error>
       </mat-form-field>

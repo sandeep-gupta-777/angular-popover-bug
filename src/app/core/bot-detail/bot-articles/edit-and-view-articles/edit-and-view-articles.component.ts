@@ -90,8 +90,23 @@ export class EditAndViewArticlesComponent implements OnInit {
   currentModal: string;
   JSON = JSON;
   dialogRefWrapper = {ref: null};
+  assignCategoryModal: FormGroup;
 
   ngOnInit() {
+    this.assignCategoryModal = this.formBuilder.group({
+      inputType: ['existing'],
+      existingCategoryName: [''],
+      newCategoryName: [{value: '', disabled: true}, [FormsService.alphanumericValidators(), FormsService.lengthValidator({min: 1})]],
+    });
+    this.assignCategoryModal.get('inputType').valueChanges.subscribe((data) => {
+      if (data === 'new') {
+        this.assignCategoryModal.get('newCategoryName').enable();
+        this.assignCategoryModal.get('existingCategoryName').disable();
+      } else {
+        this.assignCategoryModal.get('newCategoryName').disable();
+        this.assignCategoryModal.get('existingCategoryName').enable();
+      }
+    });
     this.logicCodeForm.get('logic').valueChanges
       .pipe(debounceTime(100))
       .subscribe((val) => {
@@ -263,6 +278,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     if (this.currentModal === 'save') {
       this.updateArticleClicked();
     }
+    this.assignCategoryModal.reset();
   }
 
   globalConformationModalSubmitted(formValue) {

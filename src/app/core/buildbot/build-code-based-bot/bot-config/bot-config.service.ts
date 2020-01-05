@@ -75,22 +75,22 @@ export class BotConfigService {
     const metaDataInnit = {
       threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [FormsService.numberValidator({intOnly: false})]],
       threshold_min_score: [bot.bot_metadata.threshold_min_score, [FormsService.numberValidator({intOnly: false})]],
-      n_results: [bot.bot_metadata.n_results, [FormsService.numberValidator({intOnly: true})]]
+      n_results: [bot.bot_metadata.n_results, [FormsService.numberValidator({intOnly: false})]]
     };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(metaDataInnit),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           'enabled': [consecutive_count && consecutive_count.enabled],
-          'value': [consecutive_count && consecutive_count.value, [FormsService.numberValidator({intOnly: true})]]
+          'value': [consecutive_count && consecutive_count.value, [FormsService.numberValidator({intOnly: true, max: 10, min: 0})]]
         }),
         fallback_count: this.formBuilder.group({
           'enabled': [fallback_count && fallback_count.enabled],
-          'value': [fallback_count && fallback_count.value, [FormsService.numberValidator({intOnly: true})]]
+          'value': [fallback_count && fallback_count.value, [FormsService.numberValidator({intOnly: true, max: 10, min: 0})]]
         }),
         partial_match_count: this.formBuilder.group({
           'enabled': [partial_match_count && partial_match_count.enabled],
-          'value': [partial_match_count && partial_match_count.value, [FormsService.numberValidator({intOnly: true})]]
+          'value': [partial_match_count && partial_match_count.value, [FormsService.numberValidator({intOnly: true, max: 10, min: 0})]]
         })
       })
     });
@@ -108,8 +108,7 @@ export class BotConfigService {
     this.basicInfoForm = this.formBuilder.group({
       name: [bot.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1})]],
       bot_unique_name: [bot.bot_unique_name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
-        min: 1,
-        max: 64
+        min: 1
       })]],
       description: [bot.description, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
         min: 0,
@@ -138,10 +137,10 @@ export class BotConfigService {
 
     const bot_disabled_settings = bot.bot_disabled_settings;
     return this.formBuilder.group({
-      room_persistence_time: [bot.room_persistence_time || 240, [FormsService.numberValidator({max: 340}), FormsService.lengthValidator({min: 1})]],
+      room_persistence_time: [bot.room_persistence_time || 240, [FormsService.numberValidator({max: 3000}), FormsService.lengthValidator({min: 1})]],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
-      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator({max: 300})]],
+      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator({max: 5000})]],
       is_manager: [bot.is_manager || false],
       child_bots: [bot.child_bots],
       bot_disabled_settings: this.formBuilder.group({
