@@ -41,7 +41,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
   questionsForm = this.formBuilder.group({
-    text: ['', [FormsService.startWithAlphanumericValidator()]]
+    text: ['', []]
   });
   utteranceForm = this.formBuilder.group({
     questions: this.formBuilder.array([])
@@ -380,7 +380,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   getUtteranceFG(val: string): FormGroup {
     return this.formBuilder.group({
-      'text': [val, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1})]],
+      'text': [val, []],
       '__id': [UtilityService.generateUUid()]
     });
   }
