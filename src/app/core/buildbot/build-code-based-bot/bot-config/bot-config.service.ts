@@ -168,7 +168,7 @@ export class BotConfigService {
 
   getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
-      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator(), FormsService.lengthValidator({min: 1, max: 360})]],
+      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator({max: 360})]],
       advanced_data_protection: [bot.advanced_data_protection || false],
       consent_message: [bot.consent_message, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
         min: 1,
