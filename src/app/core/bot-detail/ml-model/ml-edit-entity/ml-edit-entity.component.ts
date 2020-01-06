@@ -66,7 +66,7 @@ export class MlEditEntityComponent implements OnInit {
     this.editEntityForm = this.formBuilder.group({
       entity_id: this._edittingData.entity_id,
       data: this.formBuilder.group({values: this.formBuilder.array(entityValueArray)}),
-      name: [this._edittingData.name, Validators.required],
+      name: [this._edittingData.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
       system_entity: this._edittingData.system_entity,
       type: this._edittingData.type
     });
@@ -76,7 +76,7 @@ export class MlEditEntityComponent implements OnInit {
   getSingleEntityForm(ruleData) {
 
     const synonymsFA = ruleData.synonyms.map((val) => {
-      return this.formBuilder.control(['ello']);
+      return this.formBuilder.control([val]);
     });
     return this.formBuilder.group({
       synonyms: this.formBuilder.array(synonymsFA),

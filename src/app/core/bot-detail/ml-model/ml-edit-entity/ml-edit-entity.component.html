@@ -31,6 +31,7 @@
   <div class = "d-flex flex-row">
     <mat-form-field class = "mr-4">
       <input matInput placeholder="Entity name*" formControlName="name">
+      <mat-error class="mat-error-small" *ngIf="editEntityForm.get('name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
     </mat-form-field>
 <!--    <mat-form-field style="width: 120px;margin-right: 20px">-->
 <!--      <mat-label>Entity type</mat-label>-->
