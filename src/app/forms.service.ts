@@ -88,8 +88,18 @@ export class FormsService {
       // if (FormsService.isValueAVar(val)) {
       //   return null;
       // }
-      const pattern = /^[0-9a-z]+$/;
+      const pattern = /^[0-9a-zA-Z]+$/;
       return pattern.test(val) ? null : {'error': {message: 'Only alphanumeric chars allowed'}};
+    };
+  }
+  static startWithAlphabetValidators() {
+    return (formControl: FormControl) => {
+      const val: string = (formControl.value && formControl.value.trim() || '');
+      if (!val) {
+        return null;
+      }
+      const pattern = /^[a-zA-Z].*/i;
+      return pattern.test(val) ? null : {'error': {message: 'First letter should be alphabet'}};
     };
   }
 

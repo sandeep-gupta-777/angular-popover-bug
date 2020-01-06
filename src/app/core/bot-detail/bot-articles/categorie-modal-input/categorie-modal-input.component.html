@@ -1,3 +1,4 @@
+<!--<i>{{form.value|json}}</i>-->
 <form [formGroup]="form" class="d-flex flex-row align-items-center categorie-modal-input-item">
   <mat-form-field style="width:160px">
     <input matInput formControlName="name" [readonly]='!editMode' *ngIf = "typeIsEdit">
@@ -14,7 +15,8 @@
   *ngIf = "typeIsEdit && !editMode && !(categorieClone.category_id === 'unassigned' || categorieClone.category_id === 'default_articles' )" (click) = "categoryDeleteClicked()">
     <mat-icon class="color-danger">delete</mat-icon> Delete
   </div>
-  <div class="input-icon cursor-pointer" *ngIf = "editMode" [ngClass] = "{'opp':  typeIsEdit && isNameChanged()}" (click) = "categoryUpdateClicked()">
+  <div class="input-icon cursor-pointer" *ngIf = "editMode" [ngClass] = "{'opp':  (typeIsEdit && isNameSame()) || !form.valid}"
+       (click) = "categoryUpdateClicked()">
     <mat-icon class="color-primary">done</mat-icon> Save
   </div>
   <div class="input-icon cursor-pointer" *ngIf = "editMode" (click) = "cancelClicked(true)">

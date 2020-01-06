@@ -112,7 +112,7 @@ export class BotConfigService {
       })]],
       description: [bot.description, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
         min: 0,
-        max: FormsService.MAX_LENGTH_DESCRIPTION
+        max: 2000
       })]],
       logo: [bot.logo || logo, [FormsService.lengthValidator({
         min: 1,
@@ -140,7 +140,7 @@ export class BotConfigService {
       room_persistence_time: [bot.room_persistence_time || 240, [FormsService.numberValidator({max: 3000}), FormsService.lengthValidator({min: 1})]],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
-      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator({max: 5000})]],
+      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator({max: 50000, min: 1})]],
       is_manager: [bot.is_manager || false],
       child_bots: [bot.child_bots],
       bot_disabled_settings: this.formBuilder.group({
@@ -168,7 +168,7 @@ export class BotConfigService {
 
   getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
-      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator(), FormsService.lengthValidator({min: 1})]],
+      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator(), FormsService.lengthValidator({min: 1, max: 360})]],
       advanced_data_protection: [bot.advanced_data_protection || false],
       consent_message: [bot.consent_message, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
         min: 1,

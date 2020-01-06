@@ -44,16 +44,16 @@ export class CategorieModalInputComponent implements OnInit {
     });
   }
 
-  isNameChanged() {
+  isNameSame() {
     const name = this.categorieMappingReal.find((cat) => cat.category_id === this.categorieClone.category_id).name;
     return name === this.categorieClone.name;
   }
 
   categoryUpdateClicked() {
-    if (!(this.typeIsEdit && this.isNameChanged())) {
+    if (!(this.typeIsEdit && this.isNameSame())) {
       if (this.typeIsEdit) {
         const body = {
-          'category_name': this.categorieClone.name,
+          'category_name': this.form.value.name,
           'category_id': this.categorieClone.category_id
         };
         if (body.category_name.trim().length === 0) {

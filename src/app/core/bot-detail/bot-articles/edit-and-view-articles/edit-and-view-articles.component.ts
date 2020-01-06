@@ -96,7 +96,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     this.assignCategoryModal = this.formBuilder.group({
       inputType: ['existing'],
       existingCategoryName: [''],
-      newCategoryName: [{value: '', disabled: true}, [FormsService.alphanumericValidators(), FormsService.lengthValidator({min: 1})]],
+      newCategoryName: [{value: '', disabled: true}, [FormsService.startWithAlphabetValidators(), FormsService.lengthValidator({min: 1, max: 64})]],
     });
     this.assignCategoryModal.get('inputType').valueChanges.subscribe((data) => {
       if (data === 'new') {
