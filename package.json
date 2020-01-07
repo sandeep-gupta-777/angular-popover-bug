@@ -44,9 +44,9 @@
     "e2e-develop": "cypress open --env backend_root=https://dev.imibot.ai/static",
     "e2e-dev": "npm run e2e-develop",
     "e2e-staging": "cypress open --env backend_root=https://staging.imibot.ai/static",
-    "e2e": "cypress open --env backend_root=http://localhost:4200",
-    "e2e:headless:dev": "cypress run --env backend_root=https://dev.imibot.ai/static",
-    "e2e:headless:staging": "cypress run --env backend_root=https://staging.imibot.ai/static"
+    "e2e": "",
+    "e2e:headless:dev": "",
+    "e2e:headless:staging": ""
   },
   "private": true,
   "dependencies": {
@@ -110,7 +110,6 @@
     "bootstrap": "^4.1.1",
     "codelyzer": "~4.2.1",
     "concat": "^1.0.3",
-    "cypress": "^3.2.0",
     "inquirer": "^6.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
