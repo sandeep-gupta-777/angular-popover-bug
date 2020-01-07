@@ -119,11 +119,11 @@ export class FormsService {
 
   static numberValidator(config?: { max?: number, min?: number, intOnly?: boolean }) {
     if (!config) {
-      config = {max: FormsService.MAX_LENGTH_GENERAL, min: FormsService.MIN_LENGTH_GENERAL, intOnly: true};
+      config = {max: null, min: null, intOnly: true};
     }
     config = {
-      min: config.min || FormsService.MIN_NUMBER_GENERAL,
-      max: config.max || FormsService.MAX_NUMBER_GENERAL,
+      min: config.min,
+      max: config.max,
       intOnly: (config.intOnly === undefined || config.intOnly === null) ? true : config.intOnly
     };
     return (formControl: FormControl) => {
@@ -139,10 +139,10 @@ export class FormsService {
           return {'error': {message: 'Only integers are allowed'}};
         }
       }
-      if (val > config.max) {
+      if (config.max && val > config.max) {
         return {'error': {message: `Must be less than  ${config.max}`}};
       }
-      if (val < config.min) {
+      if (config.min && val < config.min) {
         return {'error': {message: `Must be greater than ${config.min}`}};
       }
       return null;
