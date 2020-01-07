@@ -146,7 +146,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         }
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
-          'bot-access-token': ServerService.getBotTokenById(selectedBot.id),
+          'bot-access-token': ServerService.getBotTokenById(selectedBot),
           platform: 'web',
           ...formData,
           startdate: formData && formData.date_range.begin,

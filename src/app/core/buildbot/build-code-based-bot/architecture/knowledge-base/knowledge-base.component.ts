@@ -148,7 +148,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     // if (this.bot) {
     //   /*this block should not run in case this component is called by parent component: view-customner.component*/
     //   let url = this.constantsService.getCustomBotNER(this.bot.roomId);
-    //   let headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
+    //   let headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot)};
     //   this.serverService.makeGetReq({url, headerData})
     //     .subscribe((value: { objects: [ICustomNerItem] }) => {
     //       this.custumNerDataForSmartTable = value.objects;
@@ -251,7 +251,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     // if (this.bot) {
     //   // this.custumNerDataForSmartTable.push(data);
     //   LoggingService.log(this.custumNerDataForSmartTable);
-    //   let headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
+    //   let headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot)};
     //   if (this.selectedRowData && this.selectedRowData.roomId) {
     //     /*update customner*/
     //     let url = this.constantsService.updateCustomBotNER(this.selectedRowData.roomId);

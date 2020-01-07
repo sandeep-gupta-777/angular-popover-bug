@@ -124,13 +124,13 @@ export class CurationIssuesComponent implements OnInit {
       this.selectedRow_Session = <any>{id: roomId};
       const url = this.constantsService.getRoomWithFilters({id: roomId});
       const headers: IHeaderData = {
-        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+        'bot-access-token': ServerService.getBotTokenById(this.bot)
       };
       this.serverService.makeGetReq({url, headerData: headers})
         .subscribe((val:{objects: ISessionItem[]}) => {
           this.selectedRow_Session = val.objects[0];
         });
-      // this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
+      // this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot)};
       this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
     }
 
@@ -164,7 +164,7 @@ export class CurationIssuesComponent implements OnInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id),}
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot),}
     });
   }
 
@@ -187,7 +187,7 @@ export class CurationIssuesComponent implements OnInit {
 
   decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {
       room_id: sessionTobeDecryptedId,

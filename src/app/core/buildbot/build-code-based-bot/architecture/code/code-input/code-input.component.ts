@@ -154,7 +154,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.codeInputForm = this.formsService.getCodeInputForm();
     this.store.dispatch(new ResetVersionState())
       .subscribe(() => {
-        this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: ServerService.getBotTokenById(this.bot.id)})]);
+        this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: ServerService.getBotTokenById(this.bot)})]);
       });
 
     this.codeInputForm.valueChanges
@@ -211,7 +211,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   async saveSelectedVersion() {
     this.syncBotViews(this.showGenTempEditor);
-    ServerService.getBotTokenById(this.bot.id);
+    ServerService.getBotTokenById(this.bot);
 // this.syncBotViews(false);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
@@ -255,7 +255,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     // forkedVersionInfo.forked_from = this.forked_version_number;
     forkedVersionInfo.forked_from = value.version_id;
     forkedVersionInfo.bot_id = this.bot.id;
-    ServerService.getBotTokenById(this.bot.id);
+    ServerService.getBotTokenById(this.bot);
     setTimeout(() => {
       this.store.dispatch([new CreateForkedVersion$({bot: this.bot, version: forkedVersionInfo})]);
     }, 1000);
@@ -367,7 +367,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     if (this.permanentlyShowUIViewFormBackend) {
       this.syncBotViews(!this.showGenTempEditor);
     }
-    ServerService.getBotTokenById(this.bot.id);
+    ServerService.getBotTokenById(this.bot);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {

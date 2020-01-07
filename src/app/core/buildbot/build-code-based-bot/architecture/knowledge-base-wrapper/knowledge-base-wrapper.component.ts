@@ -75,7 +75,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   fetchNers(limit: number = 10, offset: number = 0) {
     this.showLoader = true;
     const url = this.constantsService.getCustomBotNER(limit, (offset * 10));
-    const headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
+    const headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot)};
     return this.serverService.makeGetReq({url, headerData})
       .pipe(
         map(((value: { meta: { total_count: number }, objects: [ICustomNerItem] }) => {
@@ -148,7 +148,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   }
 
   //   let body: ICustomNerItem;
-  //   let headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
+  //   let headerData: IHeaderData = {'bot-access-token': ServerService.getBotTokenById(this.bot)};
   //   let url, methodStr;
   //   if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
   //     url = this.constantsService.updateCustomBotNER(selectedOrNewRowData.id);

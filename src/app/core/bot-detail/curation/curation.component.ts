@@ -207,7 +207,7 @@ export class CurationComponent implements OnInit {
   // setLiveBotUpdatedAt
   setLiveBotUpdatedAt() {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const url = this.constantsService.getLiveCorpus();
     this.serverService.makeGetReq<IAllCorpusResult>({url, headerData})
@@ -226,7 +226,7 @@ export class CurationComponent implements OnInit {
     return this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationIssuesListUrl + this.objToSrt(this.IssuesFilterQueryParams),
-        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)}
       }
     ).pipe(
       map((value: ICurationResult) => {
@@ -272,7 +272,7 @@ export class CurationComponent implements OnInit {
     return this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationResolvedAndIgnoredListUrl + this.objToSrt(this.ResolvedFilterQueryParams),
-        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)}
       }).pipe(
       map((value: ICurationResult) => {
         if (value.meta && value.meta.data_encrypted) {
@@ -317,7 +317,7 @@ export class CurationComponent implements OnInit {
     this.serverService.makePostReq<any>(
       {
         url: curationIssueIgnoreUrl,
-        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)},
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - curationIds.length;
@@ -342,7 +342,7 @@ export class CurationComponent implements OnInit {
     this.serverService.makePostReq<any>(
       {
         url: curationIssueLinkToExistingSectionUrl,
-        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)},
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
@@ -384,7 +384,7 @@ export class CurationComponent implements OnInit {
   // get resolved issues
   getResolvedAggregationData() {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const getAggregationResolvedUrl = this.constantsService.getAggregationResolved();
     this.serverService.makeGetReq<IAllCorpusResult>({url: getAggregationResolvedUrl, headerData})
@@ -395,7 +395,7 @@ export class CurationComponent implements OnInit {
 
   getIssuesAggregationData() {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const getAggregationIssuesUrl = this.constantsService.getAggregationIssues();
     this.serverService.makeGetReq<IAllCorpusResult>({url: getAggregationIssuesUrl, headerData})
@@ -407,7 +407,7 @@ export class CurationComponent implements OnInit {
   setTopArticlesWithIssues() {
     this.topArticlesWithIssuesReloading = true;
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const url = this.constantsService.getTopArticlesWithIssues();
     this.serverService.makeGetReq<IAllCorpusResult>({url, headerData})
@@ -468,7 +468,7 @@ export class CurationComponent implements OnInit {
         let botImage: IBot;
         botImage = {...this.curationSettingsForm.value};
         botImage.id = this.bot.id;
-        botImage.bot_access_token = ServerService.getBotTokenById(this.bot.id);
+        botImage.bot_access_token = ServerService.getBotTokenById(this.bot);
         this.updateSettingsLoading = ELoadingStatus.loading;
         this.serverService.updateBot(botImage).subscribe(() => {
           this.updateSettingsLoading = ELoadingStatus.success;
@@ -533,7 +533,7 @@ export class CurationComponent implements OnInit {
 
   getCorpus$() {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
 
@@ -552,7 +552,7 @@ export class CurationComponent implements OnInit {
       this.utilityService.showErrorToaster('Invalid decryption key');
     }else{
       const headerData: IHeaderData = {
-        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+        'bot-access-token': ServerService.getBotTokenById(this.bot)
       };
       const body = {
         decrypt_audit_type: 'bot',

@@ -29,11 +29,11 @@ export class PipelineTestComponent implements OnInit {
   }
 
   test() {
-    console.log( ServerService.getBotTokenById(this.bot.id));
+    console.log( ServerService.getBotTokenById(this.bot));
       this.serverService.makePostReq({
         url: this.constantsService.pipelineTestUrl(),
         headerData: {
-          'bot-access-token': ServerService.getBotTokenById(this.bot.id),
+          'bot-access-token': ServerService.getBotTokenById(this.bot),
           'auth-token': null,
           'user-access-token': null,
           'content-type': 'application/json'

@@ -342,7 +342,7 @@ export class RouterBotRulesComponent implements OnInit {
     if(this.bot.bot_metadata.router_logic_id){
       const putRouterBotRuleByRuleIDUrl = this.constantsService.putRouterBotRuleByRuleIDUrl(this.bot.bot_metadata.router_logic_id);
       const headerData: IHeaderData = {
-        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+        'bot-access-token': ServerService.getBotTokenById(this.bot)
       };
       const body = this.convertFormValueTologicJson();
       this.serverService.makePutReq({url: putRouterBotRuleByRuleIDUrl, body, headerData})

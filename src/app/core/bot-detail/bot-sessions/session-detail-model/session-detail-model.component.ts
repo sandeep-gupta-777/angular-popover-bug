@@ -105,7 +105,7 @@ export class SessionDetailModelComponent implements OnInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({
       url: this.url,
-      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)}
     });
     this.sessionMessageData$.subscribe((value) => {
 

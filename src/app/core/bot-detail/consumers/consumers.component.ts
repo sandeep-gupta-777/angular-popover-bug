@@ -83,7 +83,7 @@ export class ConsumersComponent implements OnInit {
     this.showSplashScreen = false;
     const url = this.constantsService.getBotConsumerUrl(limit, offset);
     this.serverService
-      .makeGetReq<IConsumerResultsFromServer>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
+      .makeGetReq<IConsumerResultsFromServer>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)}})
       .subscribe((value) => {
         this.showLoader = false;
         this.totalRecords = value.meta.total_count;
@@ -126,7 +126,7 @@ export class ConsumersComponent implements OnInit {
 
 
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {
       'consumer_id': this.consumerItemToBeDecrypted.id,
@@ -140,7 +140,7 @@ export class ConsumersComponent implements OnInit {
         //
         const url_temp = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
-          .makeGetReq<IConsumerItem>({url: url_temp, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
+          .makeGetReq<IConsumerItem>({url: url_temp, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)}})
           .subscribe((value: { objects: IConsumerItem[] }) => {
             this.consumersDecrypted = value.objects[0];
             const index = this.consumerItems.findIndex((value_temp) => value_temp.id === this.consumerItemToBeDecrypted.id);
@@ -161,7 +161,7 @@ export class ConsumersComponent implements OnInit {
     }
     const url = this.constantsService.getBotConsumerByIdUrl(data['id']);
     this.serverService
-      .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}})
+      .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)}})
       .subscribe(({objects, meta}) => {
         this.totalRecords = meta.total_count;
         this.sessionsSmartTableDataModal.refreshData(objects);

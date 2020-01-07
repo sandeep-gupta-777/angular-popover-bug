@@ -111,7 +111,7 @@ export class CurationIssuesListComponent implements OnInit {
 
   trainCorpus$(description) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
 
     const body = {

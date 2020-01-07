@@ -46,7 +46,7 @@ import {ResetAuthToDefaultState, ResetLoggedInStatus} from './auth/ngxs/auth.act
 import {ResetEnterpriseUsersAction} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from './core/buildbot/ngxs/buildbot.action';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from './core/analysis2/ngxs/analysis.action';
-import {SocketService} from "./socket.service";
+import {SocketService} from './socket.service';
 
 @Injectable()
 export class ServerService {
@@ -63,29 +63,34 @@ export class ServerService {
 
 
   static getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    if (match) {
-      return match[2];
+    // const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    // if (match) {
+    //   return match[2];
+    // }
+    if (name === 'auth-token') {
+      return ServerService.AUTH_TOKEN;
+    } else if (name === 'user-access-token') {
+      return ServerService.USER_ACCESS_TOKEN;
     }
   }
 
-  static getBotTokenById(id: number) {
+  static getBotTokenById(bot: IBot) {
 
-    let bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
-    if (!bot_access_token) {
-      const idTokenMap_SS = JSON.parse(sessionStorage.getItem(ENgxsStogareKey.idTokenMap));
-      if (idTokenMap_SS) {
-        ServerService.idTokenMap = idTokenMap_SS;
-        bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
-      } else {
-        throw new Error('Bot access token is not set in ServerService. Please see below');
-      }
-    }
-    return bot_access_token;
+    // let bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
+    // if (!bot_access_token) {
+    //   const idTokenMap_SS = JSON.parse(sessionStorage.getItem(ENgxsStogareKey.idTokenMap));
+    //   if (idTokenMap_SS) {
+    //     ServerService.idTokenMap = idTokenMap_SS;
+    //     bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
+    //   } else {
+    //     throw new Error('Bot access token is not set in ServerService. Please see below');
+    //   }
+    // }
+    return bot.bot_access_token;
   }
 
-  static setCookie(name: string, value: string) {
-    document.cookie = `${name}=${value}; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT`;
+  static setToken(name: string, value: string) {
+    // document.cookie = `${name}=${value}; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT`;
     if (name === 'auth-token') {
       ServerService.AUTH_TOKEN = value;
     } else if (name === 'user-access-token') {
@@ -94,14 +99,17 @@ export class ServerService {
   }
 
   static resetCookie() {
-    const cookies = document.cookie.split(';');
 
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i];
-      const eqPos = cookie.indexOf('=');
-      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;Secure;';
-    }
+    ServerService.USER_ACCESS_TOKEN = null;
+    ServerService.AUTH_TOKEN = null;
+    // const cookies = document.cookie.split(';');
+    //
+    // for (let i = 0; i < cookies.length; i++) {
+    //   const cookie = cookies[i];
+    //   const eqPos = cookie.indexOf('=');
+    //   const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    //   document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;Secure;';
+    // }
   }
 
   static setSessionStorage(key, value: object) {
@@ -138,8 +146,8 @@ export class ServerService {
       if (!value || !value.user) {
         return;
       }
-      // ServerService.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
-      // ServerService.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      ServerService.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
+      ServerService.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
         if (!this.roleInfo && appState && appState.roleInfoArr) {
@@ -250,7 +258,7 @@ export class ServerService {
     //   this.showErrorMessageForErrorTrue({error: true, message: e.error_message, action: null});
     // }
     if (e.error && (e.error.error === true)) {
-     this.showErrorMessageForErrorTrue(e.error);
+      this.showErrorMessageForErrorTrue(e.error);
     } else {
       this.showErrorMessageForErrorTrue({error: true, message: 'Sorry, we are unable to process your request', action: null});
     }
@@ -474,7 +482,7 @@ export class ServerService {
   fetchSpecificBotFromServerAndUpdateBotList(bot: IBot) {
     const getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(bot.id)
+      'bot-access-token': ServerService.getBotTokenById(bot)
     };
     return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData}).pipe(
       map((val) => {
@@ -527,15 +535,14 @@ export class ServerService {
         // });
         if (botResult) {
 
-          const idTokenMap = botResult.objects.reduce((total, bot) => {
-            return {
-              ...total,
-              [bot.id]: (bot.bot_access_token)
-            };
-          }, {});
-          // sessionStorage.setItem(ENgxsStogareKey.idTokenMap, JSON.stringify(idTokenMap));
-          ServerService.setSessionStorage(ENgxsStogareKey.idTokenMap, idTokenMap);
-          ServerService.idTokenMap = idTokenMap;
+          // const idTokenMap = botResult.objects.reduce((total, bot) => {
+          //   return {
+          //     ...total,
+          //     [bot.id]: (bot.bot_access_token)
+          //   };
+          // }, {});
+          // ServerService.setSessionStorage(ENgxsStogareKey.idTokenMap, idTokenMap);
+          // ServerService.idTokenMap = idTokenMap;
           this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         }
       }));
@@ -630,7 +637,7 @@ export class ServerService {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
     let body: ICustomNerItem;
-    const headerData: IHeaderData = {'bot-access-token': bot && ServerService.getBotTokenById(bot.id)};
+    const headerData: IHeaderData = {'bot-access-token': bot && ServerService.getBotTokenById(bot)};
     let url, methodStr;
     if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
       url = this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
@@ -653,7 +660,7 @@ export class ServerService {
     if (bot) {
       url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
       headerData = {
-        'bot-access-token': (ServerService.getBotTokenById(bot.id)) || null
+        'bot-access-token': (ServerService.getBotTokenById(bot)) || null
       };
     } else {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
@@ -697,7 +704,7 @@ export class ServerService {
   updateBot(bot: IBot) {
     const url = this.constantsService.updateBotUrl(bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(bot.id)
+      'bot-access-token': ServerService.getBotTokenById(bot)
     };
 
     return this.makePutReq({url, body: bot, headerData})

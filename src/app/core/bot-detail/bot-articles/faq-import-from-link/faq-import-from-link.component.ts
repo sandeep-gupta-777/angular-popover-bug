@@ -102,7 +102,7 @@ export class FaqImportFromLinkComponent implements OnInit {
   }
   makePostRequestToExport(data){
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {
       'sections': data

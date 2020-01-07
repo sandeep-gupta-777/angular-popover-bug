@@ -96,7 +96,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
     const url = this.constantsService.updateBotUrl(this.bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
       if (!confirm('active Versions has been changed')) {
@@ -133,7 +133,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   deleteBot() {
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.serverService.makeDeleteReq({url, headerData})
       .subscribe((value) => {

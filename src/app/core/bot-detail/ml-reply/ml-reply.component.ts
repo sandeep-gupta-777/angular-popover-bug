@@ -60,7 +60,7 @@ export class MlReplyComponent implements OnInit {
 
     // let url = this.constantsService.getMLDefaultCorpus();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
       this.corpusMiniObj = val;
@@ -92,7 +92,7 @@ export class MlReplyComponent implements OnInit {
 
     const url = this.constantsService.makeMLCorpusLiveUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {'corpus_id': this.corpusMiniObj.id};
     this.serverService.makePostReq({url, body, headerData})

@@ -91,7 +91,7 @@ export class SessionMessageComponent implements OnInit {
 
   addMessageToCuration(event) {
     const headerData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {
       'bot_message_id': this.bot_message_id

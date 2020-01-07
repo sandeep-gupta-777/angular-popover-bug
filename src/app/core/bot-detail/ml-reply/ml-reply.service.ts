@@ -16,7 +16,7 @@ export class MlReplyService {
 
   makeResponseLive(bot: IBot, body: { 'comment': string }) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(bot.id)
+      'bot-access-token': ServerService.getBotTokenById(bot)
     };
     const url = this.constantsService.makeResponseLive();
     return this.serverService.makePostReq({url, headerData, body});
@@ -24,7 +24,7 @@ export class MlReplyService {
 
   loadFromLive(bot: IBot) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(bot.id)
+      'bot-access-token': ServerService.getBotTokenById(bot)
     };
     const url = this.constantsService.loadFromLive();
     return this.serverService.makePostReq({
@@ -37,7 +37,7 @@ export class MlReplyService {
 
   getResponseTemplates(bot: IBot) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(bot.id)
+      'bot-access-token': ServerService.getBotTokenById(bot)
     };
     const url = this.constantsService.getResponseTemplates();
     return this.serverService.makeGetReq({url, headerData});
@@ -45,7 +45,7 @@ export class MlReplyService {
 
   updateResponseTemplates(bot: IBot, response: IMLResponse, id) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(bot.id)
+      'bot-access-token': ServerService.getBotTokenById(bot)
     };
     const url = this.constantsService.loadFromLive() + `${id}/`;
     return this.serverService.makePutReq({url, headerData, body: response});

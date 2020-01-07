@@ -328,7 +328,7 @@ export class ChatService {
   startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }, is_test = true) {
     const url = this.constantsService.getStartNewChatLoginUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(startNewChatData.bot.id),
+      'bot-access-token': ServerService.getBotTokenById(startNewChatData.bot),
       'auth-token': null,
       'user-access-token': null,
       'content-type': 'application/json'

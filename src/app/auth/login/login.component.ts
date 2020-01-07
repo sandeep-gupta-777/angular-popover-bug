@@ -126,11 +126,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.gotUserData$.pipe(
       map((value: IUser) => {
         this.userValue = userValue = value;
-        ServerService.setCookie('auth-token', value.auth_token);
-        ServerService.setCookie('user-access-token', value.user_access_token);
-        console.log('AUTH_TOKEN', ServerService.AUTH_TOKEN);
-        console.log('USER_ACCESS_TOKEN', ServerService.USER_ACCESS_TOKEN);
-        console.log('document.cookie', document.cookie);
+        ServerService.setToken('auth-token', value.auth_token);
+        ServerService.setToken('user-access-token', value.user_access_token);
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {
@@ -273,8 +270,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
     this.serverService.makePostReq<IUser>({url, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
-            ServerService.setCookie('auth-token', user.auth_token);
-            ServerService.setCookie('user-access-token', user.user_access_token);
+            ServerService.setToken('auth-token', user.auth_token);
+            ServerService.setToken('user-access-token', user.user_access_token);
             this.flashInfoMessage('Logged in. Fetching enterprise', 10000);
             if (this.userData.enterprise || this.userData.enterprises.length <= 1) {
               let enterpriseData;

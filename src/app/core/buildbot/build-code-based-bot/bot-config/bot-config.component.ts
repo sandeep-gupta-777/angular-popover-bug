@@ -174,7 +174,7 @@ export class BotConfigComponent implements OnInit, OnDestroy {
     }
     const bot = this.createBotData();
     bot.id = this.bot.id;
-    bot.bot_access_token = ServerService.getBotTokenById(this.bot.id);
+    bot.bot_access_token = ServerService.getBotTokenById(this.bot);
     this.updateBotLoading = ELoadingStatus.loading;
     this.serverService.updateBot(bot).subscribe(() => {
       this.updateBotLoading = ELoadingStatus.success;

@@ -28,7 +28,7 @@ export class SetAllBotListAction {
   static readonly type = '[view-bots] set SetAllBotListAction';
 
   constructor(public payload: { botList: IBot[] }) {
-    this.payload.botList = removeBotAccessToken(this.payload.botList) as IBot[];
+    // this.payload.botList = removeBotAccessToken(this.payload.botList) as IBot[];
   }
 }
 

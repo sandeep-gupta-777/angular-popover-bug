@@ -104,7 +104,7 @@ export class MLModelComponent implements OnInit {
   setMLEntityTypes() {
     let url = this.constantsService.getMLEntityTypes();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
       this.entity_types = value.entity_types;
@@ -117,7 +117,7 @@ export class MLModelComponent implements OnInit {
   setMLEntityList() {
     const url = this.constantsService.getEntityList();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     // let colorList = JSON.parse(JSON.s);
     this.loading_entities = true;
@@ -149,7 +149,7 @@ export class MLModelComponent implements OnInit {
     const offset = (page - 1) * 10;
     const url = this.constantsService.getIntents();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.loading_intents = true;
     this.serverService.makeGetReq({url, headerData}).subscribe((val: any) => {
@@ -179,7 +179,7 @@ export class MLModelComponent implements OnInit {
 
     // let url = this.constantsService.getMLDefaultCorpus();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
       this.corpusMiniObj = val;
@@ -252,7 +252,7 @@ export class MLModelComponent implements OnInit {
 
   entityUpdateService(url, body) {
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     return this.serverService.makePostReq({headerData, url, body})
       .pipe(map((val: any) => {
@@ -302,7 +302,7 @@ export class MLModelComponent implements OnInit {
   deleteEntityClicked(data) {
     let url = this.constantsService.deleteMLEntity();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     let body = {'entity_id': data.data.entity_id};
     this.serverService.makePostReq({headerData, url, body})
@@ -376,7 +376,7 @@ export class MLModelComponent implements OnInit {
 
     const url = this.constantsService.trainMlBotUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {
       'bot_id': this.bot.id,
@@ -394,7 +394,7 @@ export class MLModelComponent implements OnInit {
 
     // let url = this.constantsService.getMLDefaultCorpus();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.serverService.makeGetReq({url, headerData}).subscribe((val) => {
       this.responceState = val.state;
@@ -426,7 +426,7 @@ export class MLModelComponent implements OnInit {
 
     const url = this.constantsService.makeMLCorpusLiveUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     const body = {'corpus_id': this.corpusMiniObj.id};
     this.serverService.makePostReq({url, body, headerData})
@@ -454,7 +454,7 @@ export class MLModelComponent implements OnInit {
     delete intent.updated_at;
     let url;
     const header: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     let obs;
     if (intent.intent_id) {
@@ -525,7 +525,7 @@ export class MLModelComponent implements OnInit {
 
     const url = this.constantsService.deleteIntents(intent.intent_id);
     const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
 
     // this.loading = true;

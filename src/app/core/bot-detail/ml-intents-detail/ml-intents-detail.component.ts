@@ -584,7 +584,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       })
     };
     const header: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
     this.showEntityMarkingLoader = true;
     this.serverService.makePostReq(({url, body, headerData: header}))
