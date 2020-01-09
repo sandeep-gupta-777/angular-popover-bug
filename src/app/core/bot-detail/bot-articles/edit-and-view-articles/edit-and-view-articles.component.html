@@ -218,7 +218,6 @@
     </div>
 
     <div class="modal-body pt-0 ">
-      {{assignCategoryModal.value | json}}
       <form role="menu" class="d-flex flex-column" [formGroup]="assignCategoryModal">
         <mat-radio-group formControlName="inputType" class="d-flex flex-column">
 
@@ -240,7 +239,6 @@
             <input matInput placeholder="Name" formControlName="newCategoryName" data-cy='add-new-category'
                    [disabled]='!(assignCategoryModal.value.inputType == "new")' maxlength=40>
             <mat-error class="mat-error-small" *ngIf="assignCategoryModal.get('newCategoryName').errors?.error as errorObj">{{errorObj.message}}</mat-error>
-
           </mat-form-field>
         </mat-radio-group>
         <div class="d-flex justify-content-center">
