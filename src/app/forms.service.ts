@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {isNullOrUndefined, isUndefined} from 'util';
 
 
 @Injectable()
@@ -92,6 +93,7 @@ export class FormsService {
       return pattern.test(val) ? null : {'error': {message: 'Only alphanumeric chars allowed'}};
     };
   }
+
   static startWithAlphabetValidators() {
     return (formControl: FormControl) => {
       const val: string = (formControl.value && formControl.value.trim() || '');
@@ -127,7 +129,7 @@ export class FormsService {
       intOnly: (config.intOnly === undefined || config.intOnly === null) ? true : config.intOnly
     };
     return (formControl: FormControl) => {
-      const val: number = (formControl.value || null);
+      const val: number = (isNullOrUndefined(formControl.value) ? null : formControl.value);
       if (val === null) {
         return null;
       }

@@ -73,8 +73,8 @@ export class BotConfigService {
     const partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
     const consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
     const metaDataInnit = {
-      threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [FormsService.numberValidator({intOnly: false})]],
-      threshold_min_score: [bot.bot_metadata.threshold_min_score, [FormsService.numberValidator({intOnly: false})]],
+      threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [FormsService.numberValidator({intOnly: false, min: 0.00005, max: 0.99995})]],
+      threshold_min_score: [bot.bot_metadata.threshold_min_score, [FormsService.numberValidator({intOnly: false, min: 0.00005, max: 0.99995})]],
       n_results: [bot.bot_metadata.n_results, [FormsService.numberValidator({intOnly: false})]]
     };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
