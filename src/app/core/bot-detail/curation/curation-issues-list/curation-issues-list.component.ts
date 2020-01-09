@@ -9,11 +9,15 @@ import {IHeaderData} from '../../../../../interfaces/header-data';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
 import {ESplashScreens} from 'src/app/splash-screen/splash-screen.component';
-import {FormBuilder, NgForm} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {EAllActions} from '../../../../typings/enum';
 import {FormsService} from '../../../../forms.service';
+import {IIntent} from "../../../../typings/intents";
+import {IEntitiesItem} from "../../../interfaces/mlBots";
+import {MlService} from "../../ml-model/ml.service";
+import {EventService} from "../../../../event.service";
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -40,6 +44,7 @@ export class CurationIssuesListComponent implements OnInit {
   @Output() loadMoreNext = new EventEmitter();
   @Output() ignoreCurationIssueById = new EventEmitter();
   @Output() addQueryToArticleByIds = new EventEmitter();
+  @Output() addQueryToIntentEvent = new EventEmitter();
   @Input() reloadingMore: boolean;
   @Input() liveBotUpdatedAt: number;
   @ViewChild('issuesSelectedListForm') SelectedListForm: NgForm;
@@ -50,6 +55,11 @@ export class CurationIssuesListComponent implements OnInit {
   myESplashScreens = ESplashScreens;
   selectedArticleToAddCuration: number;
   @Input() totallength: number;
+  @Input() mlIntentList: IIntent[] = [];
+  selectedIntent: IIntent;
+  @Input() entityList: IEntitiesItem[];
+  @Input() isMlBot = false;
+  intentInputForm: FormGroup;
 
   ngOnInit() {
 
@@ -64,6 +74,36 @@ export class CurationIssuesListComponent implements OnInit {
         }
         this.IssuesSelectedSet = Array.from(temArray);
       });
+
+    this.intentInputForm = this.formBuilder.group({
+      utterances: [[{'entities': [], 'utterance': 'test'}], function (formControl: FormControl) {
+        // if (formControl.value) {
+        if (!formControl.value[0].utterance) {
+          return {
+            error: {
+              message: 'Cant be empty'
+            }
+          };
+        }
+        // }
+      }],
+    });
+    this.setMLEntityList();
+  }
+
+  appEntityMarkingUpdate(){
+    EventService.appEntityMarkingUpdate$.emit();
+  }
+  setMLEntityList() {
+    const url = this.constantsService.getEntityList();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
+    };
+    // let colorList = JSON.parse(JSON.s);
+    this.serverService.makeGetReq({url, headerData}).subscribe((value) => {
+      this.entityList = value.objects;
+      MlService.entityList = this.entityList;
+    });
   }
 
   load10More() {
@@ -141,6 +181,15 @@ export class CurationIssuesListComponent implements OnInit {
     }
   }
 
+  toDisplayValue(value: string) {
+    var pieces = value.split('_');
+    for (var i = 0; i < pieces.length; i++) {
+      var j = pieces[i].charAt(0).toUpperCase();
+      pieces[i] = j + pieces[i].substr(1).toLowerCase();
+    }
+    return pieces.join(' ');
+  }
+
   addMultiIssueToNewArticle() {
     let user_message_list = this.curationItemList.filter((item) => {
       return !!(this.IssuesSelectedSet.find(c_id => c_id === item.id));
@@ -164,5 +213,18 @@ export class CurationIssuesListComponent implements OnInit {
     );
     this.articleSearchMode = false;
     this.selectedArticleToAddCuration = null;
+  }
+
+  addMultiIssueToThisIntent(data) {
+    debugger;
+    if(!data){
+      this.appEntityMarkingUpdate();
+      this.addQueryToIntentEvent.emit({
+        data: {"type": "link",intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
+        curation_id_list: this.IssuesSelectedSet
+      });
+    }else{
+      this.addQueryToIntentEvent.emit(data);
+    }
   }
 }

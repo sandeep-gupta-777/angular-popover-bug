@@ -18,9 +18,10 @@
     </button>
   </ng-container>
 </div>
+
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
 
-    <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
+    <div *ngIf = "articleSearchMode && !isMlBot" class="d-flex w-100  not-resolved-footer">
       <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
       (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
       <div class="ml-auto"></div>
@@ -31,17 +32,53 @@
         Cancel
       </button>
     </div>
+
+  <div *ngIf = "articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
+    <div class="form-group m-0 padding-input sort-decrease-height">
+      <mat-form-field class="input-width mr-2">
+        <mat-select placeholder="Intent" [(ngModel)]="selectedIntent">
+          <mat-option *ngFor="let intent of mlIntentList" [value]="intent">
+            {{toDisplayValue(intent.name)}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
+      <div class="utter"
+           appEntityMarking
+           formControlName="utterances"
+           [intent]="selectedIntent"
+           [entityList]="entityList"
+      >
+<!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
+      </div>
+    </form>
+    <div class="ml-auto"></div>
+    <button *ngIf = "!isMlBot" mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2"
+            [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
+      Link and save
+    </button>
+    <button *ngIf = "isMlBot" mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2"
+            (click)="addMultiIssueToThisIntent()">
+      Link and save
+    </button>
+    <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedIntent = null;selectedArticleToAddCuration = null;">
+      Cancel
+    </button>
+  </div>
+
     <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
       <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
       <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
         <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
-        Link to an existing article
+        Link to an existing {{isMlBot?'intent':'article'}}
       </button>
 
       <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2"
               *appMyIf="myEAllActions['Add curation issues to a new article']"
               (click)="addMultiIssueToNewArticle()" >
-        <mat-icon>add</mat-icon>&nbsp; Add to a new article
+        <mat-icon>add</mat-icon>&nbsp; Add to a new {{isMlBot?'intent':'article'}}
       </button>
 
       <div class="ml-auto"></div>
@@ -55,21 +92,26 @@
         Deselect all
         </button>
     </div>
+
   </div>
 <form #issuesSelectedListForm="ngForm">
     <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
         <mat-checkbox [ngClass]="{'select-checkbox' :true, 'checkbox-in-curation':!issuesSelectedListForm.value[curationItem.id]}" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
-        <app-curation-issues  
-        [curationItemData]="curationItem" 
+        <app-curation-issues
+        [curationItemData]="curationItem"
         [isResolved]=false
+        [entityList]="entityList"
         (ignoreQueryEvent)="ignoreIt($event)"
         [bot]="bot"
+        [mlIntentList] = "mlIntentList"
+        [isMlBot] = "isMlBot"
         [selected] = "!!issuesSelectedListForm.value[curationItem.id]"
-        (addQueryToArticleEvent)="addQueryToArticle($event)">
+        (addQueryToArticleEvent)="addQueryToArticle($event)"
+        (addQueryToIntentEvent)="addMultiIssueToThisIntent($event)"
+        >
       </app-curation-issues>
       </div>
 </form>
-
 
 <div class="splash-load-more" *ngIf="curationItemList && isMorePresent && curationItemList.length === 0">
   <app-splash-screen [imageHRef]="myESplashScreens.Lode_More_Issues" style="width: 300px;"

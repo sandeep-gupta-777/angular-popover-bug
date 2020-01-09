@@ -166,8 +166,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     this.sessionsSmartTableDataModal.refreshData(this.intents);
     this.form = this.formBuilder.group({
       name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
-      template_key: ['', [/*FormsService.startWithAlphanumericValidator(),*/ FormsService.lengthValidator()]],
-      reset_state: false
+      template_key: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
+      reset_state: false,
+      test: ['hello']
     });
     this.form && this._selectedIntent && this.form.patchValue(this._selectedIntent);
   }
@@ -520,11 +521,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       const startSpace = /^\s/;
       if (endSpace.test(target.textContent)) {
         target.insertAdjacentHTML('afterend', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      }
-      else if (startSpace.test(target.textContent)) {
+      } else if (startSpace.test(target.textContent)) {
         target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      }
-      else {
+      } else {
         return;
       }
 
@@ -746,6 +745,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
   test(k, index) {
     this._selectedIntent.utterances[index].utterance = k.target.textContent;
+  }
+  test1(){
+    EventService.appEntityMarkingUpdate$.emit();
   }
 
   preventTypingInMarkers(event) {
