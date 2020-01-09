@@ -125,7 +125,7 @@ export class CurationIssuesComponent implements OnInit {
     ];
     TempVariableService.curationIds = [this.curationItemData.id];
     this.router.navigate(['.'], {
-      queryParams: {build: 'articles', section_id: null},
+      queryParams: {build: 'ml_model'},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
@@ -138,7 +138,6 @@ export class CurationIssuesComponent implements OnInit {
     });
   }
   addIssueToThisIntent() {
-    debugger;
     this.appEntityMarkingUpdate();
     this.addQueryToIntentEvent.emit({
       data: {"type": "link",intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},

@@ -114,7 +114,6 @@ export class EditAndViewArticlesComponent implements OnInit {
 
 
   trackByIndex(index: number, obj: any): any {
-    debugger;
     return obj.__id;
   }
 

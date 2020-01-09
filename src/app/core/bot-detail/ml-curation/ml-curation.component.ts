@@ -89,7 +89,7 @@ export class MlCurationComponent implements OnInit {
     this.getResolvedAggregationData();
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
-    // this.makeCurationSettingsForm();
+    this.makeCurationSettingsForm();
     // this.getCorpus$().subscribe();
     //
     this.makeCurationIssuesFilterForm();
@@ -583,7 +583,6 @@ getTemplateKeyList(){
         headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)},
         body
       }).subscribe((value) => {
-        debugger;
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curation_id_list.length;
       this.utilityService.showSuccessToaster('Issues have been successfully added to intent.');
       this.curationIssuesListLength = this.curationIssuesListLength - data.curation_id_list.length;

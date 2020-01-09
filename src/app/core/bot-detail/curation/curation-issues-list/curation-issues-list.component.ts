@@ -216,7 +216,6 @@ export class CurationIssuesListComponent implements OnInit {
   }
 
   addMultiIssueToThisIntent(data) {
-    debugger;
     if(!data){
       this.appEntityMarkingUpdate();
       this.addQueryToIntentEvent.emit({

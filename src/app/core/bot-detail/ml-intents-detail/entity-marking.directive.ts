@@ -188,7 +188,6 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   removeCrossover(target: HTMLElement) {
-    debugger;
     let entities = [];
     let contentContainer;
     while (!target.classList.contains('utter')) {

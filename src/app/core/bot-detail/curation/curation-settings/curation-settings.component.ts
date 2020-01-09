@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../interfaces/IBot';
 import {ConstantsService} from '../../../../constants.service';
-import {IHeaderData} from '../../../../../interfaces/header-data';
 import {ServerService} from '../../../../server.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {EBotType} from "../../../../utility.service";
 
 @Component({
   selector: 'app-curation-settings',
@@ -30,6 +30,11 @@ export class CurationSettingsComponent implements OnInit {
     if (!this.curationSettingsForm.get('curation_settings').get('low_confidence').get('enabled').value) {
       this.curationSettingsForm.get('curation_settings').get('low_confidence').get('low_confidence_score').disable();
     }
+    if(this.bot.bot_type == EBotType.mlbot){
+      //remove this after agent handover is added
+      this.curationSettingsForm.get('curation_settings').get('agent_handover').get('enabled').disable();
+    }
+
     this.curationSettingsForm.get('allow_curation').valueChanges
       .subscribe((val) => {
         if (!val) {
@@ -40,6 +45,10 @@ export class CurationSettingsComponent implements OnInit {
         }
         if (!this.curationSettingsForm.get('curation_settings').get('low_confidence').get('enabled').value) {
           this.curationSettingsForm.get('curation_settings').get('low_confidence').get('low_confidence_score').disable();
+        }
+        if(this.bot.bot_type == EBotType.mlbot){
+          //remove this after agent handover is added
+          this.curationSettingsForm.get('curation_settings').get('agent_handover').get('enabled').disable();
         }
       });
     this.curationSettingsForm.get('curation_settings').get('low_confidence').get('enabled').valueChanges
