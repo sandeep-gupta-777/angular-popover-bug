@@ -218,13 +218,14 @@
     </div>
 
     <div class="modal-body pt-0 ">
-      <form role="menu" #form="ngForm" class="d-flex flex-column">
-        <mat-radio-group name="inputType" ngModel class="d-flex flex-column">
+      {{assignCategoryModal.value | json}}
+      <form role="menu" class="d-flex flex-column" [formGroup]="assignCategoryModal">
+        <mat-radio-group formControlName="inputType" class="d-flex flex-column">
 
           <mat-radio-button value="existing" color=primary>Add to existing category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
             <mat-label>Existing Category</mat-label>
-            <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
+            <mat-select name="existingCategoryName" ngModel [disabled]='!(assignCategoryModal.value.inputType == "existing")'>
               <div *ngFor="let categorie of category_mapping">
                 <mat-option [value]="categorie.category_id" *ngIf="!(categorie.category_id == 'default_articles' )">
                   {{categorie.name}}
@@ -236,8 +237,10 @@
           <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;"
                           [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
-            <input matInput placeholder="Name" name="newCategoryName" ngModel data-cy='add-new-category'
-                   [disabled]='!(form.value.inputType == "new")' maxlength=40>
+            <input matInput placeholder="Name" formControlName="newCategoryName" data-cy='add-new-category'
+                   [disabled]='!(assignCategoryModal.value.inputType == "new")' maxlength=40>
+            <mat-error class="mat-error-small" *ngIf="assignCategoryModal.get('newCategoryName').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+
           </mat-form-field>
         </mat-radio-group>
         <div class="d-flex justify-content-center">
@@ -247,8 +250,8 @@
           </button>
 
           <button class="btn-theme btn-theme-primary cursor-pointer" style="font-size: 13px;"
-                  (click)="changeArticalCategory(form.value);dialogRefWrapper.ref.close(true)"
-                  [disabled]="!(form.value.inputType)">
+                  (click)="changeArticalCategory(assignCategoryModal.value);dialogRefWrapper.ref.close(true)"
+                  [disabled]="!(assignCategoryModal.valid)">
             Change category
           </button>
         </div>
@@ -274,7 +277,7 @@
     </div>
 
     <div class="modal-body pt-0 ">
-      <form role="menu" [formGroup]="assignCategoryModal" class="d-flex flex-column">
+      <form role="menu" [formGroup]="assignCategoryModal" class="d-flex flex-column" >
         <mat-radio-group formControlName="inputType" class="d-flex flex-column">
 
           <mat-radio-button value="existing" color=primary>Add to existing category</mat-radio-button>
