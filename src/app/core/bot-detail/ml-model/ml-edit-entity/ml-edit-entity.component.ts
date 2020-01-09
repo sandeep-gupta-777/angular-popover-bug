@@ -66,7 +66,7 @@ export class MlEditEntityComponent implements OnInit {
     this.editEntityForm = this.formBuilder.group({
       entity_id: this._edittingData.entity_id,
       data: this.formBuilder.group({values: this.formBuilder.array(entityValueArray)}),
-      name: [this._edittingData.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
+      name: [this._edittingData.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1})]],
       system_entity: this._edittingData.system_entity,
       type: this._edittingData.type
     });
@@ -74,13 +74,13 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   getSingleEntityForm(ruleData) {
-
+    debugger;
     const synonymsFA = ruleData.synonyms.map((val) => {
-      return this.formBuilder.control([val]);
+      return this.formBuilder.control(val);
     });
     return this.formBuilder.group({
       synonyms: this.formBuilder.array(synonymsFA),
-      value: this.formBuilder.control(ruleData.value, FormsService.startWithAlphanumericValidator())
+      value: this.formBuilder.control(ruleData.value, FormsService.lengthValidator({min: 1}))
     });
   }
 
@@ -96,7 +96,9 @@ export class MlEditEntityComponent implements OnInit {
   addSynonym(str, formArr) {
 
     if ((str.value || '').trim()) {
-      formArr.push(new FormControl(str.value, Validators.required));
+      // formArr.push(new FormControl(str.value, Validators.required));
+      debugger;
+      formArr.push(this.formBuilder.control(str.value, FormsService.lengthValidator({min: 1})));
       if (str.input) {
         str.input.value = '';
       }

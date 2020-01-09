@@ -380,7 +380,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   getUtteranceFG(val: string): FormGroup {
     return this.formBuilder.group({
-      'text': [val, []],
+      'text': [val, [FormsService.startWithAlphanumericValidator()]],
       '__id': [UtilityService.generateUUid()]
     });
   }

@@ -19,19 +19,15 @@ export class FormsService {
     }
   }
 
-  static lengthValidator(config?: { min?: number, max?: number }) {
-    if (!config) {
-      config = {max: FormsService.MAX_LENGTH_GENERAL, min: FormsService.MIN_LENGTH_GENERAL};
-    }
-    config = {min: config.min || FormsService.MIN_LENGTH_GENERAL, max: config.max || FormsService.MAX_LENGTH_GENERAL};
+  static lengthValidator(config: { min?: number, max?: number }) {
     const {max, min} = config;
     return (formControl) => {
       let val: any = formControl.value == null || '';
       val = (formControl.value && formControl.value.toString().trim() || '');
-      if (val.length > max) {
+      if (!isNullOrUndefined(max) && val.length > max) {
         return {'error': {message: `Maximum ${max} characters allowed`}};
       }
-      if (val.length < min) {
+      if (!isNullOrUndefined(min) && val.length < min) {
         if (val.length === 0) {
           return {'error': {message: `Required`}};
         }
