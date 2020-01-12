@@ -85,7 +85,7 @@ export class BotConfigService {
           min: 0.00005,
           max: 0.99995
         }),
-        ]],
+      ]],
       threshold_min_score: [bot.bot_metadata.threshold_min_score, [
         FormsService.lengthValidator({min: 1}),
         FormsService.numberValidator({
@@ -93,7 +93,7 @@ export class BotConfigService {
           min: 0.00005,
           max: 0.99995
         }),
-        ]],
+      ]],
       n_results: [bot.bot_metadata.n_results, [
         FormsService.lengthValidator({min: 1}),
         FormsService.numberValidator({
@@ -101,7 +101,7 @@ export class BotConfigService {
           min: 1,
           max: 50
         }),
-        ]]
+      ]]
     };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(metaDataInnit),
@@ -125,7 +125,7 @@ export class BotConfigService {
               max: 10,
               min: 1
             }),
-            ]]
+          ]]
         }),
         partial_match_count: this.formBuilder.group({
           'enabled': [partial_match_count && partial_match_count.enabled],
@@ -136,7 +136,7 @@ export class BotConfigService {
               max: 10,
               min: 1
             }),
-            ]]
+          ]]
         })
       })
     });
@@ -217,7 +217,10 @@ export class BotConfigService {
 
   getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
-      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator({min: 1, max: 360})]],
+      data_persistence_period: [bot.data_persistence_period || 30, [FormsService.lengthValidator({min: 1}), FormsService.numberValidator({
+        min: 1,
+        max: 360
+      })]],
       advanced_data_protection: [bot.advanced_data_protection || false],
       consent_message: [bot.consent_message, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
         max: 2000
