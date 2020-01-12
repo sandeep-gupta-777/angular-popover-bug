@@ -578,18 +578,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadSample() {
-
     this.uploadingSampleData = ELoadingStatus.loading;
-    // bot_platform-fe/src/assets/sample_corpus.csv
-    this.serverService.makeGetReqToDownloadFiles({url: 'assets/sample_corpus.csv'})
-      .subscribe((data) => {
-          this.utilityService.downloadText(data, `sample_corpus.csv`);
-          this.uploadingSampleData = ELoadingStatus.success;
-        },
-        (err) => {
-          this.uploadingSampleData = ELoadingStatus.error;
-        });
-
+    this.utilityService.downloadAsset( `/assets/sample_corpus.csv`, 'sample_corpus.csv');
   }
 
   getVarientsObjFromQuestionArray(questions) {

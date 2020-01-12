@@ -1478,6 +1478,15 @@ export class UtilityService {
     return hours + ':' + minutes;
   }
 
+  downloadAsset(url: string, filename: string) {
+    const link = document.createElement('a');
+    link.setAttribute('type', 'hidden');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
 
   downloadText(text, filename) {
     const saveData = (function () {
