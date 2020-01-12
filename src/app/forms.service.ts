@@ -125,8 +125,9 @@ export class FormsService {
       intOnly: (config.intOnly === undefined || config.intOnly === null) ? true : config.intOnly
     };
     return (formControl: FormControl) => {
-      const val: number = (isNullOrUndefined(formControl.value) ? null : formControl.value);
-      if (val === null) {
+      debugger;
+      const val: string | number = (isNullOrUndefined(formControl.value) ? null : formControl.value);
+      if (val === null || val === undefined || val === '') {
         return null;
       }
       if (typeof val !== 'number') {
@@ -137,10 +138,10 @@ export class FormsService {
           return {'error': {message: 'Only integers are allowed'}};
         }
       }
-      if (config.max && val > config.max) {
+      if (!isNullOrUndefined(config.max) && val > config.max) {
         return {'error': {message: `Must be less than  ${config.max}`}};
       }
-      if (config.min && val < config.min) {
+      if (!isNullOrUndefined(config.min) && val < config.min) {
         return {'error': {message: `Must be greater than ${config.min}`}};
       }
       return null;

@@ -42,7 +42,10 @@ export class BotConfigService {
   getFaqbotBuildForm(bot: IBot) {
     this.faqbotBuildForm = this.formBuilder.group({
       name: [bot.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
-      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator({min: 1, max: 64}), FormsService.startWithAlphanumericValidator()].reverse()],
+      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator({
+        min: 1,
+        max: 64
+      }), FormsService.startWithAlphanumericValidator()].reverse()],
       allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
       language: [bot.language || 'en'],
@@ -57,7 +60,10 @@ export class BotConfigService {
   getMlbotBuildForm(bot: IBot) {
     this.faqbotBuildForm = this.formBuilder.group({
       name: [bot.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
-      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator({min: 1, max: 64}), FormsService.startWithAlphanumericValidator()].reverse()],
+      bot_unique_name: [bot.bot_unique_name, [FormsService.lengthValidator({
+        min: 1,
+        max: 64
+      }), FormsService.startWithAlphanumericValidator()].reverse()],
       allow_feedback: [bot.allow_feedback],
       language: [bot.language || 'en'],
       logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/mlbot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
@@ -72,24 +78,65 @@ export class BotConfigService {
     const partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
     const consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
     const metaDataInnit = {
-      threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [FormsService.numberValidator({intOnly: false, min: 0.00005, max: 0.99995})]],
-      threshold_min_score: [bot.bot_metadata.threshold_min_score, [FormsService.numberValidator({intOnly: false, min: 0.00005, max: 0.99995})]],
-      n_results: [bot.bot_metadata.n_results, [FormsService.numberValidator({intOnly: true, min: 1, max: 50})]]
+      threshold_diff_score: [bot.bot_metadata.threshold_diff_score, [
+        FormsService.lengthValidator({min: 1}),
+        FormsService.numberValidator({
+          intOnly: false,
+          min: 0.00005,
+          max: 0.99995
+        }),
+        ]],
+      threshold_min_score: [bot.bot_metadata.threshold_min_score, [
+        FormsService.lengthValidator({min: 1}),
+        FormsService.numberValidator({
+          intOnly: false,
+          min: 0.00005,
+          max: 0.99995
+        }),
+        ]],
+      n_results: [bot.bot_metadata.n_results, [
+        FormsService.lengthValidator({min: 1}),
+        FormsService.numberValidator({
+          intOnly: true,
+          min: 1,
+          max: 50
+        }),
+        ]]
     };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(metaDataInnit),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           'enabled': [consecutive_count && consecutive_count.enabled],
-          'value': [consecutive_count && consecutive_count.value, [FormsService.numberValidator({intOnly: true, max: 10, min: 1})]]
+          'value': [consecutive_count && consecutive_count.value, [
+            FormsService.lengthValidator({min: 1}),
+            FormsService.numberValidator({
+              intOnly: true,
+              max: 10,
+              min: 1
+            })]]
         }),
         fallback_count: this.formBuilder.group({
           'enabled': [fallback_count && fallback_count.enabled],
-          'value': [fallback_count && fallback_count.value, [FormsService.numberValidator({intOnly: true, max: 10, min: 1})]]
+          'value': [fallback_count && fallback_count.value, [
+            FormsService.lengthValidator({min: 1}),
+            FormsService.numberValidator({
+              intOnly: true,
+              max: 10,
+              min: 1
+            }),
+            ]]
         }),
         partial_match_count: this.formBuilder.group({
           'enabled': [partial_match_count && partial_match_count.enabled],
-          'value': [partial_match_count && partial_match_count.value, [FormsService.numberValidator({intOnly: true, max: 10, min: 1})]]
+          'value': [partial_match_count && partial_match_count.value, [
+            FormsService.lengthValidator({min: 1}),
+            FormsService.numberValidator({
+              intOnly: true,
+              max: 10,
+              min: 1
+            }),
+            ]]
         })
       })
     });
@@ -136,7 +183,10 @@ export class BotConfigService {
 
     const bot_disabled_settings = bot.bot_disabled_settings;
     return this.formBuilder.group({
-      room_persistence_time: [bot.room_persistence_time || 240, [FormsService.numberValidator({min: 1, max: 3000}), FormsService.lengthValidator({min: 1})]],
+      room_persistence_time: [bot.room_persistence_time || 240, [FormsService.lengthValidator({min: 1}), FormsService.numberValidator({
+        min: 1,
+        max: 3000
+      })]],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
       transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30, [FormsService.numberValidator({max: 50000, min: 1})]],
@@ -170,7 +220,6 @@ export class BotConfigService {
       data_persistence_period: [bot.data_persistence_period || 30, [FormsService.numberValidator({min: 1, max: 360})]],
       advanced_data_protection: [bot.advanced_data_protection || false],
       consent_message: [bot.consent_message, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
-        min: 1,
         max: 2000
       })]],
       blanket_consent: [bot.blanket_consent],
