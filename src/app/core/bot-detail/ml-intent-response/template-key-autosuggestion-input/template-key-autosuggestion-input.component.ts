@@ -54,7 +54,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value)),
       );
-    this._fc.valueChanges.pipe(debounceTime(50)).subscribe((val: string) => {
+    this._fc.valueChanges.pipe(debounceTime(500)).subscribe((val: string) => {
       if (val.endsWith(this.REMOVE_ME)) {
         this._fc.patchValue(val.replace(this.REMOVE_ME, ''));
       }
@@ -71,6 +71,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   }
 
   async showModalForTemplateKey(event?) {
+    debugger;
     if ((event && this._fc.value.endsWith(this.REMOVE_ME)) || !event) {
       const data = await this.showCreateOrEditTemplateKeyModel();
       if (data) {
