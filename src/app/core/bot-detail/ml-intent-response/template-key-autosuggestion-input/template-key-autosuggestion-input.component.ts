@@ -4,7 +4,7 @@ import {IBot} from '../../../interfaces/IBot';
 import {MlReplyService} from '../../ml-reply/ml-reply.service';
 import {UtilityService} from '../../../../utility.service';
 import {MatDialog} from '@angular/material';
-import {map, startWith, tap} from 'rxjs/operators';
+import {debounceTime, map, startWith, tap} from 'rxjs/operators';
 import {FormsService} from '../../../../forms.service';
 import {ModalConfirmV2Component} from '../../../../modal-confirm-v2/modal-confirm-v2.component';
 
@@ -19,9 +19,10 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
   _fc: FormControl;
   @Input() set fc(val: FormControl) {
-
     this._fc = val;
   }
+
+  REMOVE_ME = '                            ___________';
 
   @Input() maxlengthValue: string;
   @Input() bot: IBot;
@@ -53,7 +54,10 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value)),
       );
-    this._fc.valueChanges.subscribe((val) => {
+    this._fc.valueChanges.pipe(debounceTime(50)).subscribe((val: string) => {
+      if (val.endsWith(this.REMOVE_ME)) {
+        this._fc.patchValue(val.replace(this.REMOVE_ME, ''));
+      }
       this.valueUpdated$.emit(val);
     });
   }
@@ -66,13 +70,13 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
     return this._keys.filter(option => option && option.toLowerCase().includes(filterValue));
   }
 
-  async showModalForTemplateKey() {
-
-    const data = await this.showCreateOrEditTemplateKeyModel();
-    if (data) {
-      this.createTemplateKey$.emit({data, modalRefWrapper: this.modalRefWrapper, fc: this._fc});
+  async showModalForTemplateKey(event) {
+    if ((event && this._fc.value.endsWith(this.REMOVE_ME)) || !event) {
+      const data = await this.showCreateOrEditTemplateKeyModel();
+      if (data) {
+        this.createTemplateKey$.emit({data, modalRefWrapper: this.modalRefWrapper, fc: this._fc});
+      }
     }
-
   }
 
 
@@ -98,8 +102,8 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
     const title = 'Create a new template key';
     //  this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.formGroupTemplateKeyCreation = this.formBuilder.group({
-      template_key: ['', [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]],
-      text_response: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]],
+      template_key: ['', [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: 64})]],
+      text_response: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: 2000})]],
     });
     return new Promise((resolve, reject) => {
       this.utilityService.openDialog({

@@ -62,7 +62,6 @@
                 <input matInput value="1" type="number" min="0" max="10" #input (input)="x(input)"
                        [required]="e.required"
                        [(ngModel)]="e.counter" name="retries">
-<!--                <mat-error class="mat-error-small">{{'test'}}</mat-error>-->
               </mat-form-field>
               <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
             </td>
@@ -84,7 +83,7 @@
                 placeholderText="template key*"
                 [bot]="bot"
                 [keys]="keys"
-                (valueUpdated$)="e.template_key = $event"
+                (valueUpdated$)="valueUpdatedHandler(e, $event)"
                 (createTemplateKey$)="updateResponse$.emit($event)"
                 [fc]="fc">
               </app-template-key-autosuggestion-input>
