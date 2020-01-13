@@ -70,7 +70,7 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
     return this._keys.filter(option => option && option.toLowerCase().includes(filterValue));
   }
 
-  async showModalForTemplateKey(event) {
+  async showModalForTemplateKey(event?) {
     if ((event && this._fc.value.endsWith(this.REMOVE_ME)) || !event) {
       const data = await this.showCreateOrEditTemplateKeyModel();
       if (data) {
