@@ -74,7 +74,7 @@ export class MlEditEntityComponent implements OnInit {
   }
 
   getSingleEntityForm(ruleData) {
-    debugger;
+
     const synonymsFA = ruleData.synonyms.map((val) => {
       return this.formBuilder.control(val);
     });
@@ -97,7 +97,7 @@ export class MlEditEntityComponent implements OnInit {
 
     if ((str.value || '').trim()) {
       // formArr.push(new FormControl(str.value, Validators.required));
-      debugger;
+
       formArr.push(this.formBuilder.control(str.value, FormsService.lengthValidator({min: 1})));
       if (str.input) {
         str.input.value = '';
