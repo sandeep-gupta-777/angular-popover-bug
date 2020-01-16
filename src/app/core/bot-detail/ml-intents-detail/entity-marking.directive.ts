@@ -57,7 +57,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   @Input('appHighlight') highlightColor: string;
   @Output() showCreateNewIntentModel$ = new EventEmitter();
 
-  @HostListener('mouseout', ['$event'])
+  // @HostListener('mouseout', ['$event'])
   @HostListener('mouseup', ['$event'])
   onMouseUp($event) {
     this.textSelected($event, this.tpl, this.index, this.utter);

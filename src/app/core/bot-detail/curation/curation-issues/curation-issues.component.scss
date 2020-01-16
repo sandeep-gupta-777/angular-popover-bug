@@ -173,10 +173,10 @@
 .utter {
   height: 23px;
   width: 220px;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
   margin-bottom: 12px;
   margin-right: 24px;
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 4px;
+  //padding-bottom: 4px;
 }

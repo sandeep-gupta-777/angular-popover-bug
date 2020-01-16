@@ -41,7 +41,7 @@
     <em class="no-entities">No entities found</em>
   </ng-template>
 
-  <ng-container *ngIf="this.hideAddNewEntityButton">
+  <ng-container *ngIf="!this.hideAddNewEntityButton">
     <div *ngIf="this.isNew">
       <hr style="margin: 10px 0">
       <a

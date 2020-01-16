@@ -90,7 +90,7 @@
                [intent]="_selectedIntent"
                [entityList]="entityList"
                [utter]="_selectedIntent.utterances[index].utterance"
-               [hideAddNewEntityButton]="true"
+               [hideAddNewEntityButton]="false"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml"
                (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
                >
