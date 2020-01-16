@@ -103,6 +103,7 @@
             <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
               <div class="utter"
                    appEntityMarking="yellow"
+                   (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
                    formControlName="utterances"
                    [intent]="selectedIntent"
                    [entityList]="entityList"
@@ -164,14 +165,16 @@
           <mat-icon>remove_circle_outline</mat-icon> &nbsp; Ignored query
         </div>
 
-        <!--        <div *ngIf="curationItemData.curation_state === 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
-        <!--          <mat-icon>add</mat-icon> &nbsp; Added to a new article:-->
-        <!--            “{{curationItemData.resolved_section.first_question}}”-->
-        <!--        </div>-->
-        <!--        <div *ngIf="curationItemData.curation_state === 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">-->
-        <!--              <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:-->
-        <!--              “{{curationItemData.resolved_section.first_question}}”-->
-        <!--          </div>-->
+                <div *ngIf="curationItemData.curation_state === 'resolved' &&
+                (curationItemData.resolved_section?.new_section || curationItemData.resolved_intent?.name) " class="d-flex align-items-center mr-2">
+                  <mat-icon>add</mat-icon> &nbsp; Added to a new {{isMlBot?'intent':'article'}}:
+                    “{{isMlBot ? curationItemData.resolved_intent?.name :curationItemData.resolved_section?.first_question}}”
+                </div>
+                <div *ngIf="curationItemData.curation_state === 'resolved' &&
+                !(curationItemData.resolved_section?.new_section || curationItemData.resolved_intent?.name)" class="d-flex align-items-center mr-2">
+                      <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to {{isMlBot?'intent':'article'}}:
+                      “{{isMlBot ? curationItemData.resolved_intent?.name :curationItemData.resolved_section?.first_question}}”
+                  </div>
         <div class="ml-auto" style="min-width: 200px;">
           Resolved at
           {{curationItemData.updated_at | date:"shortTime"}}

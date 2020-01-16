@@ -54,6 +54,7 @@ export class CurationIssuesComponent implements OnInit {
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
   @Output() addQueryToIntentEvent = new EventEmitter();
+  @Output() showCreateNewIntentModel$ = new EventEmitter();
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   myEAllActions = EAllActions;

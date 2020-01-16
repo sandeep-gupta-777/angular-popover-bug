@@ -9,7 +9,7 @@
 </div>
 <app-curation-issues
   [bot]="bot"
-  *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem"
+  *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem" [isMlBot]="isMlBot"
                      [isResolved]=true></app-curation-issues>
 <ng-container *ngIf="isMorePresent">
   <div class="load-more"
