@@ -100,16 +100,15 @@
               </mat-form-field>
             </div>
 
-            <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
+            <form [formGroup]="intentInputForm">
               <div class="utter"
-                   appEntityMarking="yellow"
+                   appEntityMarking
+                   contenteditable="true"
+                   (keydown)="test($event)"
                    (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
                    formControlName="utterances"
                    [intent]="selectedIntent"
-                   [entityList]="entityList"
-              >
-                <!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
-              </div>
+                   [entityList]="entityList"> </div>
             </form>
 
             <div>

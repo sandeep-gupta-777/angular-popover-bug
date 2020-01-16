@@ -68,8 +68,10 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   @HostListener('keydown', ['$event']) keyDownHandler($event) {
-    this.entityTextChangedHandler($event);
-    this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    if ($event.target !== this.el.nativeElement) {
+      this.entityTextChangedHandler($event);
+      this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    }
   }
 
   // tslint:disable-next-line:member-ordering
