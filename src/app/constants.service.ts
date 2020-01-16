@@ -1084,6 +1084,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reporthistory/downloadreports/?id=${id}`; // http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
   }
 
+  getDownloadSampleUrl() {
+    return this.BACKEND_URL + `static/assets/sample_corpus.csv`; // http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
+  }
+
   geReportTypesUrl() {
     return this.BACKEND_URL + 'api/v1/reporttypes/'; // http://dev.imibot.ai/api/v1/reporttypes
   }

@@ -70,8 +70,8 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
     console.log(entityList);
   }
 
-  trackBy(index) {
-    return index + (this.selectedIntent && this.selectedIntent.entities && this.selectedIntent.entities.length);
+  trackBy(index, val) {
+    return index + val.key + (this.selectedIntent && this.selectedIntent.entities && this.selectedIntent.entities.length);
   }
 
   retry_message: string;
@@ -86,4 +86,8 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
       $input.value = 0;
     }
   };
+
+  valueUpdatedHandler(e, $event) {
+    e.template_key = $event;
+  }
 }

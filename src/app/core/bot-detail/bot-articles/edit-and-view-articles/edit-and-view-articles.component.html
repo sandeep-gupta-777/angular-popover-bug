@@ -224,7 +224,7 @@
           <mat-radio-button value="existing" color=primary>Add to existing category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
             <mat-label>Existing Category</mat-label>
-            <mat-select name="existingCategoryName" ngModel [disabled]='!(assignCategoryModal.value.inputType == "existing")'>
+            <mat-select formControlName="existingCategoryName">
               <div *ngFor="let categorie of category_mapping">
                 <mat-option [value]="categorie.category_id" *ngIf="!(categorie.category_id == 'default_articles' )">
                   {{categorie.name}}
@@ -237,7 +237,7 @@
           <mat-form-field style="width: 55%; padding-left: 26px;"
                           [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
             <input matInput placeholder="Name" formControlName="newCategoryName" data-cy='add-new-category'
-                   [disabled]='!(assignCategoryModal.value.inputType == "new")' maxlength=40>
+                   [disabled]='!(assignCategoryModal.value.inputType == "new")'>
             <mat-error class="mat-error-small" *ngIf="assignCategoryModal.get('newCategoryName').errors?.error as errorObj">{{errorObj.message}}</mat-error>
           </mat-form-field>
         </mat-radio-group>

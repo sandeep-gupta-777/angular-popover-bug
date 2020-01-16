@@ -89,8 +89,8 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator(), this.noWhitespaceValidator]],
-      'entity_value': '',
+      'entity_name': ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1}), this.noWhitespaceValidator]],
+      'entity_value': ['', [FormsService.lengthValidator({min: 1})]],
       'entity_id': ''
     }, {validator: this.validationOfEntityModal});
   }

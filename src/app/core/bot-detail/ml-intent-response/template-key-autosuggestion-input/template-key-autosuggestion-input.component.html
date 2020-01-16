@@ -1,14 +1,16 @@
-<mat-form-field class="example-full-width">
+<mat-form-field class="example-full-width" (keyup.enter)="showModalForTemplateKey($event)">
   <input type="text" matInput [maxLength]="maxlengthValue||64" placeholder="{{placeholderText}}" [formControl]="_fc" [matAutocomplete]="auto">
   <mat-autocomplete #auto="matAutocomplete" class="template-list-autocomplete">
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+    <mat-option matTooltip="{{option}}" *ngFor="let option of filteredOptions | async" [value]="option">
       {{option}}
     </mat-option>
     <mat-option *ngIf="!((filteredOptions | async)?.length)" disabled>
-      <em>No template key found</em>
+      <em>No template key</em>
     </mat-option>
-    <mat-option (click)="showModalForTemplateKey()" style="border-top: 1px solid #d8d8d8; color: #00abd3"
-                [value]="_fc.value">
+    <mat-option
+      (click)="showModalForTemplateKey()"
+      style="border-top: 1px solid #d8d8d8; color: #00abd3"
+                [value]="_fc.value + REMOVE_ME">
       + Create new
     </mat-option>
   </mat-autocomplete>
@@ -25,11 +27,14 @@
       </mat-form-field>
     </div>
     <mat-form-field>
-      <input formControlName="text_response" matInput placeholder="Leave a comment"
+      <input formControlName="text_response" matInput placeholder="Text response (optional)"
                 (keyup.enter)="ignoreEnter($event)"
       >
       <mat-error class="mat-error-small"
                  *ngIf="formGroupTemplateKeyCreation.get('text_response').errors?.error as errorObj">{{errorObj.message}}</mat-error>
     </mat-form-field>
+    <div style="background-color: #e7e7e7; padding: 5px; display: flex; align-items: center; margin-bottom: 16px">
+      <mat-icon style="color: #00abd3; height: 14px; width: 20px; font-size: 14px; border-radius: 2px;">error</mat-icon> You can configure other response types from the responses widget
+    </div>
   </form>
 </ng-template>

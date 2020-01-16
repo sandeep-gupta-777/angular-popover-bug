@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {isNullOrUndefined, isUndefined} from 'util';
 
 
 @Injectable()
@@ -18,19 +19,15 @@ export class FormsService {
     }
   }
 
-  static lengthValidator(config?: { min?: number, max?: number }) {
-    if (!config) {
-      config = {max: FormsService.MAX_LENGTH_GENERAL, min: FormsService.MIN_LENGTH_GENERAL};
-    }
-    config = {min: config.min || FormsService.MIN_LENGTH_GENERAL, max: config.max || FormsService.MAX_LENGTH_GENERAL};
+  static lengthValidator(config: { min?: number, max?: number }) {
     const {max, min} = config;
     return (formControl) => {
       let val: any = formControl.value == null || '';
       val = (formControl.value && formControl.value.toString().trim() || '');
-      if (val.length > max) {
+      if (!isNullOrUndefined(max) && val.length > max) {
         return {'error': {message: `Maximum ${max} characters allowed`}};
       }
-      if (val.length < min) {
+      if (!isNullOrUndefined(min) && val.length < min) {
         if (val.length === 0) {
           return {'error': {message: `Required`}};
         }
@@ -92,6 +89,7 @@ export class FormsService {
       return pattern.test(val) ? null : {'error': {message: 'Only alphanumeric chars allowed'}};
     };
   }
+
   static startWithAlphabetValidators() {
     return (formControl: FormControl) => {
       const val: string = (formControl.value && formControl.value.trim() || '');
@@ -127,8 +125,9 @@ export class FormsService {
       intOnly: (config.intOnly === undefined || config.intOnly === null) ? true : config.intOnly
     };
     return (formControl: FormControl) => {
-      const val: number = (formControl.value || null);
-      if (val === null) {
+
+      const val: string | number = (isNullOrUndefined(formControl.value) ? null : formControl.value);
+      if (val === null || val === undefined || val === '') {
         return null;
       }
       if (typeof val !== 'number') {
@@ -139,10 +138,10 @@ export class FormsService {
           return {'error': {message: 'Only integers are allowed'}};
         }
       }
-      if (config.max && val > config.max) {
+      if (!isNullOrUndefined(config.max) && val > config.max) {
         return {'error': {message: `Must be less than  ${config.max}`}};
       }
-      if (config.min && val < config.min) {
+      if (!isNullOrUndefined(config.min) && val < config.min) {
         return {'error': {message: `Must be greater than ${config.min}`}};
       }
       return null;

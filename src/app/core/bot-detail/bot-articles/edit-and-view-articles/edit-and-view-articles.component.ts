@@ -41,7 +41,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
   questionsForm = this.formBuilder.group({
-    text: ['', []]
+    text: ['', [FormsService.startWithAlphanumericValidator()]]
   });
   utteranceForm = this.formBuilder.group({
     questions: this.formBuilder.array([])
@@ -129,7 +129,6 @@ export class EditAndViewArticlesComponent implements OnInit {
 
 
   trackByIndex(index: number, obj: any): any {
-
     return obj.__id;
   }
 
@@ -380,7 +379,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   getUtteranceFG(val: string): FormGroup {
     return this.formBuilder.group({
-      'text': [val, []],
+      'text': [val, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1})]],
       '__id': [UtilityService.generateUUid()]
     });
   }

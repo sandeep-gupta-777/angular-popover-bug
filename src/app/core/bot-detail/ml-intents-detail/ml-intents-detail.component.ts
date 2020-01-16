@@ -82,7 +82,15 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
   @Input() set selectedIntent(val: IIntent) {
     this._selectedIntent = val;
-    this.form && this.form.patchValue(val);
+    if (val) {
+      this._selectedIntent.entities = this._selectedIntent.entities.map((entity) => {
+        return {
+          ...entity,
+          key: UtilityService.generateUUid()
+        };
+      });
+      this.form && this.form.patchValue(val);
+    }
   }
 
   @Output() saveOrUpdateIntent$ = new EventEmitter<IIntent>();
@@ -165,8 +173,8 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.sessionsSmartTableDataModal.refreshData(this.intents);
     this.form = this.formBuilder.group({
-      name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator()]],
-      template_key: ['', [/*FormsService.startWithAlphanumericValidator(),*/ FormsService.lengthValidator()]],
+      name: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
+      template_key: ['', [/*FormsService.startWithAlphanumericValidator(),*/ FormsService.lengthValidator({min: 1, max: 64})]],
       reset_state: false
     });
     this.form && this._selectedIntent && this.form.patchValue(this._selectedIntent);
@@ -520,11 +528,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
       const startSpace = /^\s/;
       if (endSpace.test(target.textContent)) {
         target.insertAdjacentHTML('afterend', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      }
-      else if (startSpace.test(target.textContent)) {
+      } else if (startSpace.test(target.textContent)) {
         target.insertAdjacentHTML('beforebegin', `<span>&nbsp;</span><span contenteditable="true" id="100">&nbsp;</span>`);
-      }
-      else {
+      } else {
         return;
       }
 
@@ -711,7 +717,13 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
     this._selectedIntent = this._selectedIntent || {};
     this._selectedIntent.entities = this._selectedIntent.entities || [];
-    this._selectedIntent.entities.unshift(<any>{'counter': 3, required: false, entity_id, template_key: 'fallback'});
+    this._selectedIntent.entities.unshift(<any>{
+      'counter': 3,
+      required: false,
+      entity_id,
+      template_key: 'fallback',
+      key: UtilityService.generateUUid()
+    });
     this._selectedIntent.entities = UtilityService.cloneObj(this._selectedIntent.entities);
     this._selectedIntent = {...this._selectedIntent};
     this.changeDetectorRef.detectChanges();

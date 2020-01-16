@@ -12,7 +12,7 @@
       *appMyIf="myEAllActions['Update intent']"
       class="mat-theme-button btn-theme-primary mr-1"
       mat-button
-      [disabled]="!isEntityValid"
+      [disabled]="!isEntityValid || !form.valid"
     >
       <mat-icon>save</mat-icon>
       Save
