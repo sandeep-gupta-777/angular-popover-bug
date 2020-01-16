@@ -476,7 +476,9 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    if (this.changeFn) {
+      this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    }
   }
 
 }

@@ -43,6 +43,13 @@
 </header>
 
 <form [formGroup]="form" *ngIf="entityList">
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Intent name*" formControlName="name">
+      <mat-error class="mat-error-small" *ngIf="form.get('name').errors?.error as errorObj">{{errorObj.message}}</mat-error>
+    </mat-form-field>
+  </div>
+
   <div *ngIf="view === 'detail'" style="display: flex">
     <div #questionListContainer class="questions-list px-2" style="width: 50%;">
       <div class="questions-heading">All utterances</div>
