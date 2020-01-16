@@ -21,10 +21,10 @@ import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {BotSessionSmartTableModal} from '../../bot-sessions/bot-session-smart-table-modal';
-import {IIntent} from "../../../../typings/intents";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {IEntitiesItem} from "../../../interfaces/mlBots";
-import {EventService} from "../../../../event.service";
+import {IIntent} from '../../../../typings/intents';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {IEntitiesItem} from '../../../interfaces/mlBots';
+import {EventService} from '../../../../event.service';
 
 
 @Component({
@@ -48,12 +48,13 @@ export class CurationIssuesComponent implements OnInit {
   @Input() isResolved: boolean;
   @Input() curationItemData: ICurationItem;
   @Input() selected: boolean = false;
-  @Input() mlIntentList : IIntent[] = [];
+  @Input() mlIntentList: IIntent[] = [];
   @Input() isMlBot = false;
   intentInputForm: FormGroup;
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
   @Output() addQueryToIntentEvent = new EventEmitter();
+  @Output() showCreateNewIntentModel$ = new EventEmitter();
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   myEAllActions = EAllActions;
@@ -70,11 +71,12 @@ export class CurationIssuesComponent implements OnInit {
   sessionItemToBeDecrypted: ISessionItem;
   selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
+
   // sessionitem: string;
 
   ngOnInit() {
     this.intentInputForm = this.formBuilder.group({
-      utterances: [[{'entities': [], 'utterance': 'test'}], function (formControl: FormControl) {
+      utterances: [[{'entities': [], 'utterance': 'edit utterance'}], function (formControl: FormControl) {
         // if (formControl.value) {
         if (!formControl.value[0].utterance) {
           return {
@@ -87,12 +89,15 @@ export class CurationIssuesComponent implements OnInit {
       }],
     });
   }
-  uttrenceValidation(form){
-    return {error : {message : "hello"}}
+
+  uttrenceValidation(form) {
+    return {error: {message: 'hello'}};
   }
-  appEntityMarkingUpdate(){
+
+  appEntityMarkingUpdate() {
     EventService.appEntityMarkingUpdate$.emit();
   }
+
   channelNameToImg(channel: string) {
     let iconObj = this.constantsService.getIntegrationIconForChannelName(
       channel
@@ -137,10 +142,11 @@ export class CurationIssuesComponent implements OnInit {
       curationItemId: [this.curationItemData.id]
     });
   }
+
   addIssueToThisIntent() {
     this.appEntityMarkingUpdate();
     this.addQueryToIntentEvent.emit({
-      data: {"type": "link",intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
+      data: {'type': 'link', intent_id: this.selectedIntent.intent_id, ...this.intentInputForm.value},
       curation_id_list: [this.curationItemData.id]
     });
   }
@@ -160,7 +166,7 @@ export class CurationIssuesComponent implements OnInit {
         'bot-access-token': ServerService.getBotTokenById(this.bot)
       };
       this.serverService.makeGetReq({url, headerData: headers})
-        .subscribe((val:{objects: ISessionItem[]}) => {
+        .subscribe((val: { objects: ISessionItem[] }) => {
           this.selectedRow_Session = val.objects[0];
         });
       // this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot)};
@@ -252,4 +258,11 @@ export class CurationIssuesComponent implements OnInit {
     this.dialogRefWrapper.ref.close();
   }
 
+  test($event: KeyboardEvent) {
+    const target = $event.target as HTMLElement;
+    if ($event.key === 'Backspace' && target.innerText.length <= 0) {
+      $event.preventDefault();
+      $event.stopPropagation();
+    }
+  }
 }

@@ -13,6 +13,7 @@ export class CurationResolvedListComponent implements OnInit {
 
   @Input() curationItemList: ICurationItem[];
   @Input() isMorePresent: boolean;
+  @Input() isMlBot=false;
   @Output() loadMoreNext = new EventEmitter();
   @Input() totallength: number;
   @Input() reloadingMore: boolean;

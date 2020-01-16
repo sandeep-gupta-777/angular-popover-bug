@@ -40,6 +40,7 @@ export class CurationIssuesListComponent implements OnInit {
 
   @Input() curationItemList: ICurationItem[];
   @Input() isMorePresent: boolean;
+  @Input() isMlBot: boolean;
   @Input() bot: IBot;
   @Output() loadMoreNext = new EventEmitter();
   @Output() ignoreCurationIssueById = new EventEmitter();
@@ -58,7 +59,6 @@ export class CurationIssuesListComponent implements OnInit {
   @Input() mlIntentList: IIntent[] = [];
   selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
-  @Input() isMlBot = false;
   intentInputForm: FormGroup;
 
   ngOnInit() {
@@ -76,7 +76,7 @@ export class CurationIssuesListComponent implements OnInit {
       });
 
     this.intentInputForm = this.formBuilder.group({
-      utterances: [[{'entities': [], 'utterance': 'test'}], function (formControl: FormControl) {
+      utterances: [[{'entities': [], 'utterance': 'edit utterance'}], function (formControl: FormControl) {
         // if (formControl.value) {
         if (!formControl.value[0].utterance) {
           return {

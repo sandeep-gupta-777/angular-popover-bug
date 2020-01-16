@@ -19,6 +19,7 @@ export class InsidePopoverComponent implements OnInit {
     origin: null
   };
   form: FormGroup;
+  hideAddNewEntityButton: false;
   isNew = false;
   origin: HTMLElement;
   showCreateNewIntentModel$: EventEmitter<any>;
@@ -29,6 +30,7 @@ export class InsidePopoverComponent implements OnInit {
     this.showCreateNewIntentModel$ = this.popoverRef.data.showCreateNewIntentModel$;
     this.data = this.popoverRef.data.data || this.data;
     this.isNew = this.popoverRef.data.isNew;
+    this.hideAddNewEntityButton = this.popoverRef.data.hideAddNewEntityButton;
     this.origin = this.data.origin;
   }
 

@@ -53,6 +53,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   @Input() index: number;
   @Input() intent: IIntent;
   @Input() tpl: TemplateRef<any>;
+  @Input() hideAddNewEntityButton = false;
   @Input('appHighlight') highlightColor: string;
   @Output() showCreateNewIntentModel$ = new EventEmitter();
 
@@ -67,8 +68,10 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   @HostListener('keydown', ['$event']) keyDownHandler($event) {
-    this.entityTextChangedHandler($event);
-    this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    if ($event.target !== this.el.nativeElement) {
+      this.entityTextChangedHandler($event);
+      this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    }
   }
 
   // tslint:disable-next-line:member-ordering
@@ -392,7 +395,8 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
         selectedIntent: this.intent,
         data: {start, index, end, value, entity_id, origin},
         isNew,
-        showCreateNewIntentModel$: this.showCreateNewIntentModel$
+        showCreateNewIntentModel$: this.showCreateNewIntentModel$,
+        hideAddNewEntityButton: this.hideAddNewEntityButton
       }
     });
 
@@ -476,7 +480,9 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    if (this.changeFn) {
+      this.changeFn(this.getMarkerData([this.el.nativeElement]));
+    }
   }
 
 }

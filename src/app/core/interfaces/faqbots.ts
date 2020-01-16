@@ -57,6 +57,12 @@ export interface ICurationItem {
         'generated_msg'?: object[];
         'id'?: number;
         'platform'?: string;
+        'resolved_intent'?: {
+          'corpus_id': number;
+          'id': string;
+          'name': string;
+          'new_intent': boolean;
+        }
         'resolved_section'?: {
             'corpus_id'?: number,
             'first_question'?: string,
