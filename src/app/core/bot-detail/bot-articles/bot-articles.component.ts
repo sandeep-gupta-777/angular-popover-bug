@@ -230,7 +230,6 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   // edit and view artical functions
   // update artical
   updateArticle$(articleData: IArticleItem) {
-
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot)
     };

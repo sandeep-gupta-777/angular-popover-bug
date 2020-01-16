@@ -21,8 +21,9 @@ import {EventService} from '../../../event.service';
 import {DomService} from '../../../dom.service';
 import {EAllActions} from '../../../typings/enum';
 import {FormsService} from '../../../forms.service';
-import {IMLResponse} from '../../../typings/reply';
 import {MlReplyService} from '../ml-reply/ml-reply.service';
+import {TempVariableService} from "../../../temp-variable.service";
+import {IMLResponse} from '../../../typings/reply';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -118,7 +119,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   intent_id: string;
 
   ngOnDestroy(): void {
-
+    TempVariableService.curationIds = null;
     document.removeEventListener('mouseup', this.y);
     document.removeEventListener('keydown', this.y);
     document.removeEventListener('mouseup', this.y);
@@ -759,6 +760,9 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   test(k, index) {
     this._selectedIntent.utterances[index].utterance = k.target.textContent;
   }
+  test1(){
+    EventService.appEntityMarkingUpdate$.emit();
+  }
 
   preventTypingInMarkers(event) {
 
@@ -844,6 +848,5 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   setBgColor($el: HTMLElement, color: string | 'transparent') {
     $el.style.backgroundColor = color;
   }
-
 
 }

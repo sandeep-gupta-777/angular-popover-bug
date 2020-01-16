@@ -4,7 +4,7 @@
     flex-direction: row;
     align-items: center;
     margin-bottom: 8px;
-    height: 32px;
+    height: 38px;
     .header-text{
         font-size: 13px;
         color: #4a4a4a;
@@ -70,4 +70,21 @@
             opacity: 1;
         }
     }
+}
+.not-resolved-footer{
+  display: flex;
+  align-items: baseline;
+  .footer-btn{
+    height: 32px;
+  }
+}
+.utter {
+  height: 23px;
+  width: 220px;
+  overflow-y: scroll;
+  position: relative;
+  margin-bottom: 12px;
+  margin-right: 24px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 4px;
 }

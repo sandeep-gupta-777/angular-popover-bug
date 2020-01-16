@@ -13,14 +13,20 @@ export class CurationOverviewComponent implements OnInit {
   @Input() issuesAggrigationData: ICurationIssuesAggregation;
   @Input() TopArticlesWithIssues: any[];
   @Input() reloading: boolean;
+  @Input() isMlBot = false;
   @Output() resolveArticleWithTopIssues$ = new EventEmitter();
+  @Output() resolveMlArticleWithTopIssues$ = new EventEmitter();
   @Output() filterArticleWithTriggeredRule$ = new EventEmitter();
   myESplashScreens = ESplashScreens;
   ngOnInit() {
 
   }
   resolveArticleWithTopIssues(section) {
-    this.resolveArticleWithTopIssues$.emit(section);
+    if(!this.isMlBot){
+      this.resolveArticleWithTopIssues$.emit(section);
+    }else{
+      this.resolveMlArticleWithTopIssues$.emit(section);
+    }
   }
 
   filterArticleWithTriggeredRule(filterToken){
