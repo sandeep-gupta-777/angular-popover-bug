@@ -53,6 +53,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   @Input() index: number;
   @Input() intent: IIntent;
   @Input() tpl: TemplateRef<any>;
+  @Input() hideAddNewEntityButton = false;
   @Input('appHighlight') highlightColor: string;
   @Output() showCreateNewIntentModel$ = new EventEmitter();
 
@@ -392,7 +393,8 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
         selectedIntent: this.intent,
         data: {start, index, end, value, entity_id, origin},
         isNew,
-        showCreateNewIntentModel$: this.showCreateNewIntentModel$
+        showCreateNewIntentModel$: this.showCreateNewIntentModel$,
+        hideAddNewEntityButton: this.hideAddNewEntityButton
       }
     });
 

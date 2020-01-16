@@ -86,10 +86,11 @@
           style="position: relative"
           *ngFor="let question of _selectedIntent.utterances; let index = index;">
           <div class="utter"
-               appEntityMarking="yellow"
+               appEntityMarking
                [intent]="_selectedIntent"
                [entityList]="entityList"
                [utter]="_selectedIntent.utterances[index].utterance"
+               [hideAddNewEntityButton]="true"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml"
                (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
                >
