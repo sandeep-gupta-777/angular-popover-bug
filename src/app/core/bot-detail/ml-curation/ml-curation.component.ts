@@ -1,37 +1,38 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {IBot} from "../../interfaces/IBot";
+import {ELoadingStatus} from "../../../button-wrapper/button-wrapper.component";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ConstantsService} from "../../../constants.service";
+import {ServerService} from "../../../server.service";
+import {UtilityService} from "../../../utility.service";
+import {ESplashScreens} from "../../../splash-screen/splash-screen.component";
 import {
-  ICorpus,
-  ICurationResult,
-  ICurationItem,
   IAllCorpusResult,
-  ICurationResolvedAggregation,
-  ICurationIssuesAggregation
-} from '../../interfaces/faqbots';
-import {IBot} from '../../interfaces/IBot';
-import {ConstantsService} from 'src/app/constants.service';
-import {ServerService} from 'src/app/server.service';
-import {map} from 'rxjs/operators';
-import {UtilityService} from '../../../utility.service';
-import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {IHeaderData} from '../../../../interfaces/header-data';
-import {ELoadingStatus} from '../../../button-wrapper/button-wrapper.component';
-import {ISessionItem} from '../../../../interfaces/sessions';
-import {fakeAsync} from '@angular/core/testing';
+  ICurationIssuesAggregation,
+  ICurationItem,
+  ICurationResolvedAggregation, ICurationResult
+} from "../../interfaces/faqbots";
+import {IHeaderData} from "../../../../interfaces/header-data";
+import {map} from "rxjs/operators";
+import {debug} from "util";
+import {IIntent} from "../../../typings/intents";
+import {MlReplyService} from "../ml-reply/ml-reply.service";
+import {IMLResponse} from "../../../typings/reply";
 
 @Component({
-  selector: 'app-curation',
-  templateUrl: './curation.component.html',
-  styleUrls: ['./curation.component.scss']
+  selector: 'app-ml-curation',
+  templateUrl: './ml-curation.component.html',
+  styleUrls: ['./ml-curation.component.scss']
 })
-export class CurationComponent implements OnInit {
-  myELoadingStatus = ELoadingStatus;
+export class MlCurationComponent implements OnInit {
 
+  myELoadingStatus = ELoadingStatus;
   constructor(
     private formBuilder: FormBuilder,
     private constantsService: ConstantsService,
     private serverService: ServerService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private mlReplyService: MlReplyService,
   ) {
   }
 
@@ -39,7 +40,7 @@ export class CurationComponent implements OnInit {
   curation_filter_form: FormGroup;
   @Input() bot: IBot;
   myESplashScreens = ESplashScreens;
-  curationIssuesList: ICurationItem[];
+  curationIssuesList : any = [];
   curationIssuesListLength = 0;
   isMoreCurationIssuesListPresent = false;
   totalLengthCurationIssue: number;
@@ -47,7 +48,7 @@ export class CurationComponent implements OnInit {
   IssuesFilterQueryParams: object = {
     'order_by': `-updated_at`
   };
-  curationResolvedAndIgnoredList: ICurationItem[];
+  curationResolvedAndIgnoredList : any= [];
   curationResolvedAndIgnoredListLength = 0;
   isMoreCurationResolvedAndIgnoredListPresent = false;
   totalLengthCurationResolvedAndIgnored: number;
@@ -56,7 +57,7 @@ export class CurationComponent implements OnInit {
     'order_by': `-updated_at`
   };
   curationResolvedAndIgnoredListisReloading = false;
-  reloading = true;
+  reloading = false;
   liveBotUpdatedAt: number;
   aggregationResolvedData: ICurationResolvedAggregation;
   issuesAggrigationData: ICurationIssuesAggregation;
@@ -67,6 +68,9 @@ export class CurationComponent implements OnInit {
   updateSettingsLoading = ELoadingStatus.default;
   curationIssuesFilterForm: FormGroup;
   curationResolvedFilterForm: FormGroup;
+
+  mlIntentList: IIntent[] = [];
+  mlTemplateKeyList;
 
   isBotAdvancedDataProtective = false;
 
@@ -81,13 +85,13 @@ export class CurationComponent implements OnInit {
 
     this.load10MoreCurationIssues(false);
     this.load10MoreCurationResolvedAndIgnored(false);
-    this.setLiveBotUpdatedAt();
+    // this.setLiveBotUpdatedAt();
     this.getResolvedAggregationData();
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
     this.makeCurationSettingsForm();
-    this.getCorpus$().subscribe();
-
+    // this.getCorpus$().subscribe();
+    //
     this.makeCurationIssuesFilterForm();
     this.makeCurationResolvedFilterForm();
 
@@ -112,25 +116,24 @@ export class CurationComponent implements OnInit {
           this.submitedForm(data);
         }
       });
-    this.curationIssuesFilterForm.get('count').disable();
-    this.curationResolvedFilterForm.get('count').disable();
-    this.curationIssuesFilterForm.get('issue_count_filter').valueChanges
-      .subscribe((val) => {
-        if (!!val) {
-          this.curationIssuesFilterForm.get('count').enable();
-        } else {
-          this.curationIssuesFilterForm.get('count').disable();
-        }
-      });
-    this.curationResolvedFilterForm.get('issue_count_filter').valueChanges
-      .subscribe((val) => {
-        if (!!val) {
-          this.curationResolvedFilterForm.get('count').enable();
-        } else {
-          this.curationResolvedFilterForm.get('count').disable();
-        }
-      });
+
+    this.getIntentList();
+    this.getTemplateKeyList();
   }
+getIntentList() {
+    const url = this.constantsService.getIntents();
+    const headerData: IHeaderData = {
+      'bot-access-token': ServerService.getBotTokenById(this.bot)
+    };
+    this.serverService.makeGetReq({url, headerData}).subscribe((val: any) => {
+      this.mlIntentList = val.objects;
+    });
+}
+getTemplateKeyList(){
+  this.mlReplyService.getResponseTemplates(this.bot).subscribe((val:IMLResponse)=>{
+    this.mlTemplateKeyList = Object.keys(val.templates);
+  })
+}
 
   // filter curation form
   makeCurationIssuesFilterForm() {
@@ -139,8 +142,8 @@ export class CurationComponent implements OnInit {
       'room_id': [],
       'triggered_rules': [],
       'updated_at__range': [],
-      'issue_count_filter': [],
-      'count': []
+      'template_key': [],
+      'intent_id': [],
     });
   }
 
@@ -151,8 +154,8 @@ export class CurationComponent implements OnInit {
       'room_id': [],
       'triggered_rules': [],
       'updated_at__range': [],
-      'issue_count_filter': [],
-      'count': []
+      'template_key': [],
+      'intent_id': [],
     });
   }
 
@@ -171,14 +174,14 @@ export class CurationComponent implements OnInit {
       delete body['updated_at__range'];
     }
 
-    if (body['issue_count_filter'] && body['count']) {
-      body[body['issue_count_filter']] = body['count'];
-      delete body['issue_count_filter'];
-      delete body['count'];
-    } else {
-      delete body['issue_count_filter'];
-      delete body['count'];
-    }
+    // if (body['issue_count_filter'] && body['count']) {
+    //   body[body['issue_count_filter']] = body['count'];
+    //   delete body['issue_count_filter'];
+    //   delete body['count'];
+    // } else {
+    //   delete body['issue_count_filter'];
+    //   delete body['count'];
+    // }
 
     if (body['order_by']) {
       body['order_by'] = `-${body['order_by']}`;
@@ -220,9 +223,8 @@ export class CurationComponent implements OnInit {
 
   // getting 10
   load10MoreCurationIssues$(innit: boolean) {
-
     this.curationIssuesListisReloading = true;
-    const curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10, this.curationIssuesListLength);
+    const curationIssuesListUrl = this.constantsService.mlCurationIssuesListUrl(10, this.curationIssuesListLength);
     return this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationIssuesListUrl + this.objToSrt(this.IssuesFilterQueryParams),
@@ -268,7 +270,7 @@ export class CurationComponent implements OnInit {
   load10MoreCurationResolvedAndIgnored$(innit: boolean) {
     this.curationResolvedAndIgnoredListisReloading = true;
 
-    const curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10, this.curationResolvedAndIgnoredListLength);
+    const curationResolvedAndIgnoredListUrl = this.constantsService.mlCurationResolvedAndIgnoredListUrl(10, this.curationResolvedAndIgnoredListLength);
     return this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationResolvedAndIgnoredListUrl + this.objToSrt(this.ResolvedFilterQueryParams),
@@ -310,9 +312,12 @@ export class CurationComponent implements OnInit {
 
 // ignoring
   ignoreCurationIssueById(curationIds) {
-    const curationIssueIgnoreUrl = this.constantsService.curationIssueIgnoreUrl();
+    const curationIssueIgnoreUrl = this.constantsService.mlCurationIssueActionUrl();
     const body = {
-      'curation_id_list': curationIds
+      'curation_id_list': curationIds,
+      "data": {
+        "type": "ignore"
+      }
     };
     this.serverService.makePostReq<any>(
       {
@@ -327,7 +332,7 @@ export class CurationComponent implements OnInit {
         return !(curationIds.find(c_id => c_id === item.id));
       });
       this.reinnetalizeCurationResolvedAndIgnored();
-      this.getResolvedAggregationData();
+      // this.getResolvedAggregationData();
     });
   }
 
@@ -355,7 +360,6 @@ export class CurationComponent implements OnInit {
       this.getResolvedAggregationData();
     });
   }
-
 
 //  filter form ::
 
@@ -387,8 +391,8 @@ export class CurationComponent implements OnInit {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
-    const getAggregationResolvedUrl = this.constantsService.getAggregationResolved();
-    this.serverService.makeGetReq<IAllCorpusResult>({url: getAggregationResolvedUrl, headerData})
+    const getMlAggregationResolvedUrl = this.constantsService.getMlAggregationResolved();
+    this.serverService.makeGetReq<IAllCorpusResult>({url: getMlAggregationResolvedUrl, headerData})
       .subscribe((Result) => {
         this.aggregationResolvedData = Result;
       });
@@ -398,8 +402,8 @@ export class CurationComponent implements OnInit {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
-    const getAggregationIssuesUrl = this.constantsService.getAggregationIssues();
-    this.serverService.makeGetReq<IAllCorpusResult>({url: getAggregationIssuesUrl, headerData})
+    const getMlAggregationIssuesUrl = this.constantsService.getMlAggregationIssues();
+    this.serverService.makeGetReq<IAllCorpusResult>({url: getMlAggregationIssuesUrl, headerData})
       .subscribe((Result) => {
         this.issuesAggrigationData = Result;
       });
@@ -410,24 +414,21 @@ export class CurationComponent implements OnInit {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
-    const url = this.constantsService.getTopArticlesWithIssues();
+    const url = this.constantsService.getTopMlArticlesWithIssues();
     this.serverService.makeGetReq<IAllCorpusResult>({url, headerData})
       .subscribe((Result) => {
         this.topArticlesWithIssuesReloading = false;
         this.topArticlesWithIssues = Result.objects;
       });
   }
-
-  resolveArticleWithTopIssues(section) {
+  resolveMlArticleWithTopIssues(section){
     this.curationIssuesFilterForm.reset();
 
     const value = {
-      'order_by': 'group_by_section',
-      'issue_count_filter': 'issue_count_per_section',
-      'count': section.count
+      'order_by': `updated_at`,
+      'intent_id': section.intent_id
     };
     this.curationIssuesFilterForm.patchValue(value, {onlySelf: true, emitEvent: false});
-    this.curationIssuesFilterForm.get('count').enable();
     this.activeTab = 1;
     this.submitedForm({
       'unsolved': true,
@@ -573,4 +574,24 @@ export class CurationComponent implements OnInit {
     }
 
   }
+  addQueryToIntentEvent(data){
+    const curationIssueIgnoreUrl = this.constantsService.mlCurationIssueActionUrl();
+    const body = data;
+    this.serverService.makePostReq<any>(
+      {
+        url: curationIssueIgnoreUrl,
+        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)},
+        body
+      }).subscribe((value) => {
+      this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curation_id_list.length;
+      this.utilityService.showSuccessToaster('Issues have been successfully added to intent.');
+      this.curationIssuesListLength = this.curationIssuesListLength - data.curation_id_list.length;
+      this.curationIssuesList = this.curationIssuesList.filter((item) => {
+        return !(data.curation_id_list.find(c_id => c_id === item.id));
+      });
+      this.reinnetalizeCurationResolvedAndIgnored();
+      this.getResolvedAggregationData();
+    });
+  }
+
 }

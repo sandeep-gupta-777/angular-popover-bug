@@ -34,8 +34,6 @@ import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
 import {environment} from '../../environments/environment.hmr';
 import {SocketService} from '../socket.service';
-import {take} from 'rxjs/operators';
-import {data} from './mock-data';
 
 declare const ImiPreview: any;
 

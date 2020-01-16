@@ -8,7 +8,7 @@
 
 .article-item{
     display: grid;
-    grid-template-columns: 1fr 200px 100px;
+    grid-template-columns: 1fr 200px 200px 100px;
     align-items: center;
     border-bottom: solid 1px #d8d8d8;
     min-height: 62px;
@@ -46,8 +46,14 @@
         font-size: 13px;
         color: #474747;
         margin-left: 11px;
-        
+
     }
+  .second-half{
+    font-size: 13px;
+    color: #474747;
+    margin-left: 11px;
+
+  }
     .third{
         margin-left: 11px;
         color: #00abd3;
@@ -66,7 +72,7 @@
 
 .article-item-heading{
     display: grid;
-    grid-template-columns: 1fr 200px 100px;
+    grid-template-columns: 1fr 200px 200px 100px;
     align-items: center;
     border-bottom: solid 1px #d8d8d8;
     min-height: 40px;
@@ -81,8 +87,12 @@
     .second{
         font-size: 11px;
         margin-left: 11px;
-        
+
     }
+  .second-half{
+    font-size: 11px;
+    margin-left: 11px;
+  }
     .third{
         margin-left: 11px;
         font-size: 11px;

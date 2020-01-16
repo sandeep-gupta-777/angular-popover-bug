@@ -4,7 +4,6 @@ import {LoggingService} from '../../logging.service';
 import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {IBot} from '../../core/interfaces/IBot';
-import {data} from '../mock-data';
 import {UtilityService} from '../../utility.service';
 
 declare const ImiPreview: any;

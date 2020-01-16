@@ -1,6 +1,8 @@
 import {Component, OnInit, Input, ViewChild, EventEmitter, Output, AfterViewInit, OnDestroy, AfterViewChecked} from '@angular/core';
 import {NgForm, FormGroup, FormControl} from '@angular/forms';
 import {ConstantsService} from '../../../../constants.service';
+import {IIntent} from "../../../../typings/intents";
+import {IMLResponse} from "../../../../typings/reply";
 
 @Component({
   selector: 'app-curation-filter',
@@ -19,7 +21,10 @@ export class CurationFilterComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter();
   @Output() clearForm = new EventEmitter();
   @Input() unsolved: boolean;
-
+  @Input() isMlBot: boolean = false;
+  @Input() mlTemplateKeyList;
+  @Input() mlIntentList : IIntent[] = []
+  myObject = Object;
   // @ViewChild('filterForm') curationForm: NgForm;
 
   formChangesSubscription;
