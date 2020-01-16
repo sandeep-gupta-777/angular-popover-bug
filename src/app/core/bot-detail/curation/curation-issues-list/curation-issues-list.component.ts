@@ -76,7 +76,7 @@ export class CurationIssuesListComponent implements OnInit {
       });
 
     this.intentInputForm = this.formBuilder.group({
-      utterances: [[{'entities': [], 'utterance': 'test'}], function (formControl: FormControl) {
+      utterances: [[{'entities': [], 'utterance': 'edit utterance'}], function (formControl: FormControl) {
         // if (formControl.value) {
         if (!formControl.value[0].utterance) {
           return {
