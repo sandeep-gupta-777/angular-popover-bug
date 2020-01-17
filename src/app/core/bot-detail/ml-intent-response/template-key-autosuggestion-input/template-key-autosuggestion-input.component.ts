@@ -71,7 +71,6 @@ export class TemplateKeyAutosuggestionInputComponent implements OnInit {
   }
 
   async showModalForTemplateKey(event?) {
-    debugger;
     if ((event && this._fc.value.endsWith(this.REMOVE_ME)) || !event) {
       const data = await this.showCreateOrEditTemplateKeyModel();
       if (data) {

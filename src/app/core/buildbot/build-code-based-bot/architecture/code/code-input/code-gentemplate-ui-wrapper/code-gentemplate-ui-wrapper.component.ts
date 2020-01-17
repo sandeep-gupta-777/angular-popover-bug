@@ -545,7 +545,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   showCreateOrEditTemplateKeyModel(title: string, value = '', isNew = false) {
     const dialogRefWrapper = this.modalRefWrapper;
     const formGroup = this.formBuilder.group({
-      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: FormsService.MIN_LENGTH_DESCRIPTION})]]
+      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: 64, min: 0})]]
     });
     return this.utilityService.openDialog({
       dialogRefWrapper: dialogRefWrapper,
