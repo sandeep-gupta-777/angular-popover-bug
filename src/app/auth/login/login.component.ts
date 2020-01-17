@@ -315,7 +315,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       setInterval(() => {
         --this.connect_redirect_time;
         if (this.connect_redirect_time === 1) {
-          // location.href = `https://${this.domainname}/login`;
+          location.href = `https://${this.domainname}/login`;
         }
         if (this.connect_redirect_time < 0) {
           this.connect_redirect_time = 0;
