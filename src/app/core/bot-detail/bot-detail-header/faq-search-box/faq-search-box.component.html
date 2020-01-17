@@ -1,9 +1,11 @@
 <div (clickOutside)="input_foused = false">
+
     <div class="faq-search">
       <span class="fa fa-search icon-color input-icon" [ngClass]="{'input-foused':input_foused}"></span>
-      <input placeholder="Search for questions"(focus)="input_foused = true"  [(ngModel)]="searchAricleString" data-cy="article-search"  [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
+      <input #InputRef id="" placeholder="Search for questions"(focus)="input_foused = true"  [(ngModel)]="searchAricleString" data-cy="article-search"  [attr.dir]="this.bot.language === 'ar' ? 'rtl' : 'ltr'">
     </div>
-    <div class = "searchBox"
+<!--  getBoundingClientRect().bottom > window.screen.height/2-->
+    <div class = "searchBox " [ngClass]="{'showSearchBoxOnTop' : InputRef.getBoundingClientRect().bottom > win.screen.height/2}"
       *ngIf="input_foused && corpus && corpus.sections && (corpus.sections | searchArticleByQuestion : searchAricleString) &&(corpus.sections | searchArticleByQuestion : searchAricleString).length > 0">
       <div class="d-flex article-item flex-column py-2 px-2 search-item"
            [ngStyle]="{'text-align':this.bot.language === 'ar'?'right':'left'}"
@@ -18,8 +20,7 @@
         </div>
       </div>
     </div>
-
-      <div class ="searchBox"
+    <div class ="searchBox"
        *ngIf="corpus && corpus.sections && (corpus.sections | searchArticleByQuestion : searchAricleString) &&(corpus.sections | searchArticleByQuestion : searchAricleString).length == 0">
         <div class="d-flex flex-column py-2 px-2">
           <div class="first_question mr-auto question" >No questions found in all articles

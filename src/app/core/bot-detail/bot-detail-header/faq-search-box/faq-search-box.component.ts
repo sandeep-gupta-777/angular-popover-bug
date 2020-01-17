@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import { IBot } from 'src/app/core/interfaces/IBot';
 import { ICorpus } from 'src/app/core/interfaces/faqbots';
 import { IHeaderData } from 'src/interfaces/header-data';
@@ -24,6 +24,8 @@ export class FaqSearchBoxComponent implements OnInit {
   @Input() bot: IBot;
   @Output() clickedOnArticle = new EventEmitter();
   @Input() inCuration: boolean;
+  @ViewChild('#InputRef') InputRef :  ElementRef;
+  win = window;
   corpus: ICorpus;
   searchAricleString: string;
   input_foused = false;
