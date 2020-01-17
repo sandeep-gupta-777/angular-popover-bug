@@ -106,7 +106,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   selectedResponseItem;
 
   @Input() set response(response: IMLResponse) {
-
     this._response = response;
     this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
   }
@@ -129,10 +128,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
-      if (!this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
-        this._response.templates[this.selectedTemplateKeyInLeftSideBar] = {logic: '', response_type: 'dynamic'};
+      console.log();
+      if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
+        this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
       }
-      this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
     });
     this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
 
@@ -412,7 +411,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   createNewTemplatekey() {
-
+  debugger;
     this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this._templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
@@ -512,7 +511,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   async openNewIntentModal() {
     this.showCreateOrEditTemplateKeyModel('Create template key', null, true).then((data) => {
       if (data) {
-
+      debugger;
         this.newTemplateKey = data;
         this.createNewTemplatekey();
         this.utilityService.showSuccessToaster('Template key created');
