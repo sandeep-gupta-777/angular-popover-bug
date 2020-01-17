@@ -101,7 +101,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   ngOnInit() {
     this.accesstoken = (window as any).accesstoken;
     this.domainname = (window as any).domainname;
-    debugger;
     this.showConnectLoginScreen = this.accesstoken && this.domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
     if (this.accesstoken && this.domainname) {
       (window as any).accesstoken = '';
