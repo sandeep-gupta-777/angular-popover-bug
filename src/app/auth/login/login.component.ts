@@ -96,10 +96,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   timestamp = new Date();
   accesstoken;
   domainname;
+  connectLoginLoading = false;
 
   ngOnInit() {
     this.accesstoken = (window as any).accesstoken;
     this.domainname = (window as any).domainname;
+    debugger;
     this.showConnectLoginScreen = this.accesstoken && this.domainname || this.activatedRoute.snapshot.queryParams.source === 'connect';
     if (this.accesstoken && this.domainname) {
       (window as any).accesstoken = '';
@@ -234,8 +236,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginSubmitHandler(creds: any) {
-
-    this.flashInfoMessage('Connecting to the server', 10000);
+    this.connectLoginLoading = true;
+      this.flashInfoMessage('Connecting to the server', 10000);
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     /*logging out so that only one use can login in at one time*/
     this.store.dispatch([
@@ -311,6 +313,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
   }
 
   loginFailedHandler() {
+    this.connectLoginLoading = false;
     if (this.domainname) {
       this.connect_redirect_time = 4;
       setInterval(() => {

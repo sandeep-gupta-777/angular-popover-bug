@@ -23,6 +23,7 @@ import {EAllActions} from '../../../typings/enum';
 import {FormsService} from '../../../forms.service';
 import {MlReplyService} from '../ml-reply/ml-reply.service';
 import {TempVariableService} from "../../../temp-variable.service";
+import {IMLResponse} from '../../../typings/reply';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

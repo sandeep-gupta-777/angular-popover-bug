@@ -1,7 +1,10 @@
 <div class="connect-login-overlay" *ngIf="showConnectLoginScreen">
-  <app-splash-screen
-    descriptionText="Login unsuccessful, redirecting you to login page in {{connect_redirect_time}} seconds"
-    [imageHRef]="'connect_login_splash.svg'"></app-splash-screen>
+  <app-imi-loader *ngIf="connectLoginLoading; else failedLogin"></app-imi-loader>
+  <ng-template #failedLogin>
+    <app-splash-screen
+      descriptionText="Login unsuccessful, redirecting you to login page in {{connect_redirect_time}} seconds"
+      [imageHRef]="'connect_login_splash.svg'"></app-splash-screen>
+  </ng-template>
 </div>
 
 <div class="login-section" style="background: white">
