@@ -85,20 +85,22 @@ export class FaqImportFromLinkComponent implements OnInit {
   exportToArticle(){
     if(this.selectedCount == 0){
       this.utilityService.showErrorToaster("No QnA selected");
-    }
-    let list = this.FAQListForm.value;
-    list = list.QustionNAnswer;
-    list = list.filter((qnA)=>{return qnA.selected});
-    let listInAPIFromat = [];
-    for(let QnA of list){
-      let obj = {
-        category_name : 'unassigned',
-        questions : [QnA.question],
-        answers : [{'text': [QnA.answer],'include' : ['web']}]
+    }else{
+      let list = this.FAQListForm.value;
+      list = list.QustionNAnswer;
+      list = list.filter((qnA)=>{return qnA.selected});
+      let listInAPIFromat = [];
+      for(let QnA of list){
+        let obj = {
+          category_name : 'unassigned',
+          questions : [QnA.question],
+          answers : [{'text': [QnA.answer],'include' : ['web']}]
+        }
+        listInAPIFromat.push(obj);
       }
-      listInAPIFromat.push(obj);
+      this.makePostRequestToExport(listInAPIFromat);
     }
-    this.makePostRequestToExport(listInAPIFromat);
+
   }
   makePostRequestToExport(data){
     const headerData: IHeaderData = {

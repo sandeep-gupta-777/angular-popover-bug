@@ -113,7 +113,7 @@ export class RouterBotRulesComponent implements OnInit {
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group({
-        "destination_bot_id": [formData.else_action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
+        "destination_bot_id": [formData.else_action.destination_bot_id, [Validators.required]],
         "reply_message": [formData.else_action.reply_message,[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
@@ -131,7 +131,7 @@ export class RouterBotRulesComponent implements OnInit {
     const andRules = this.formBuilder.group({
       and: this.formBuilder.array(getOrRulesFGArray),
       output: this.formBuilder.group({
-        "destination_bot_id":[ruleData.action.destination_bot_id || this.bot.child_bots[0], [Validators.required]],
+        "destination_bot_id":[ruleData.action.destination_bot_id , [Validators.required]],
         "reply_message": [ruleData.action.reply_message ,[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
