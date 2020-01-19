@@ -411,7 +411,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   }
 
   createNewTemplatekey() {
-  debugger;
+
     this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this._templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
@@ -511,7 +511,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   async openNewIntentModal() {
     this.showCreateOrEditTemplateKeyModel('Create template key', null, true).then((data) => {
       if (data) {
-      debugger;
+
         this.newTemplateKey = data;
         this.createNewTemplatekey();
         this.utilityService.showSuccessToaster('Template key created');
