@@ -50,7 +50,7 @@ export class CategorieModalInputComponent implements OnInit {
   }
 
   categoryUpdateClicked() {
-    if (!(this.typeIsEdit && this.isNameSame() || !this.form.valid)) {
+    if (!((this.typeIsEdit && this.isNameSame()) || !this.form.valid)) {
       if (this.typeIsEdit) {
         const body = {
           'category_name': this.form.value.name,
