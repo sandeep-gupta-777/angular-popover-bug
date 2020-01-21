@@ -20,6 +20,9 @@
         corpusMiniObj.state === 'training' ? 'Training' :
             corpusMiniObj.state === 'trained' ? 'Trained' :
                 corpusMiniObj.state === 'live' ? 'Live' : 'Trained' }}
+      <mat-icon *ngIf="corpusMiniObj.state === 'training'"  class = "ml-1 cursor-pointer"
+                (click)="getAndSetMlCorpusMiniData()"
+                style="font-size: 16px;height: 16px;width: 16px;">refresh</mat-icon>
     </div>
     <div class="mr-auto">
     </div>
