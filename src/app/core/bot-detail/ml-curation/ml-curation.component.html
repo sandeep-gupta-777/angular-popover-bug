@@ -136,7 +136,7 @@
 <!--        </app-splash-screen>-->
 <!--      </div>-->
 
-      <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData"
+      <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData" [isMlBot]="true"
                                          *ngIf="!isBotAdvancedDataProtective && aggregationResolvedData"></app-curation-resolved-aggrigation>
       <section class="curation-issues-wrapper-section" *ngIf="!isBotAdvancedDataProtective && curationResolvedAndIgnoredList">
         <app-curation-filter [form]="curationResolvedFilterForm" (formSubmitted)="submitedForm($event)"

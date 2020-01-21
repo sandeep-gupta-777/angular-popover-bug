@@ -97,7 +97,9 @@ export interface ICurationResolvedAggregation {
  'aggregation_counts'?: {
     'ignored'?: number,
     'section_added'?: number,
-    'section_updated'?: number
+    'section_updated'?: number,
+    'intent_added'?:number,
+    'intent_updated'?:number,
 };
 'today_count'?: number;
 'total_count'?: number;
