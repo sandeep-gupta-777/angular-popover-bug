@@ -107,7 +107,7 @@ export class AppStateReducer {
 
   @Action(SetShowBackendURlRoot)
   setShowBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetShowBackendURlRoot) {
-    //
+    debugger;
     patchState({showBackendUrlRootButton: payload.payload.showBackendURlRoot});
   }
 

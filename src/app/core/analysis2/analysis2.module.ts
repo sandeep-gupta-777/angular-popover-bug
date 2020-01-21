@@ -40,7 +40,7 @@ const routes: Route[] = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forChild(routes),
     FormsModule,
     // DragAndDropModule.forRoot(),
     // NgxsModule.forFeature([

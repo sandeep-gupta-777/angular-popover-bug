@@ -23,7 +23,7 @@ import {Popover} from './popover/popover.service';
 import {PopoverComponent1} from './popover/popover-component1.component';
 import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
 import {MatButtonModule, MatRadioModule, MatSelectModule} from '@angular/material';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipeModule} from 'ngx-filter-pipe';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
@@ -65,10 +65,11 @@ const routes: Route[] = [
     FilterArrayPipe,
     // BackendDevComponent,
     PopoverComponent1,
-    InsidePopoverComponent,
+    InsidePopoverComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
@@ -83,10 +84,8 @@ const routes: Route[] = [
     }),
     OverlayModule,
 
-    RouterModule.forRoot(routes, {enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    // RouterModule,
+    RouterModule.forRoot(routes, {enableTracing: false}),
     NgxsModule.forRoot([]),
-    // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
     NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),

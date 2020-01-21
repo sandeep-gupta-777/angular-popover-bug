@@ -153,7 +153,7 @@ const routes: Route[] = [
   imports: [
     ChatModule,
     CommonModule,
-    RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

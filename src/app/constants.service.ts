@@ -775,7 +775,7 @@ export class ConstantsService {
 
       this.appState = appState;
       /*TODO: uncomment this*/
-      // this.BACKEND_URL = (appState && appState.backendUrlRoot);
+      this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {

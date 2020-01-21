@@ -26,6 +26,9 @@ import {environment} from '../../environments/environment';
 import {HttpMockRequestInterceptor} from '../interceptor.mock';
 import {HttpRequestInterceptor} from '../interceptor';
 import {SharedModule} from '../shared.module';
+import {BackendDevComponent} from '../backend-dev/backend-dev.component';
+import {UtilityService} from '../utility.service';
+import {StoreVariableService} from '../core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 
 declare var areReducersRegistered: any;
 
@@ -37,21 +40,25 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     LoginComponent,
+    BackendDevComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    FormsModule,
-    NgxsModule.forFeature([
-      ...ReducerListService.list
-    ]),
-    MatSnackBarModule,
-    HttpClientModule,
-    SharedEnterpriseListModuleModule,
-    SharedModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        NgxsModule.forFeature([
+            ...ReducerListService.list
+        ]),
+        MatSnackBarModule,
+        HttpClientModule,
+        SharedEnterpriseListModuleModule,
+        SharedModule,
+
+    ],
 
   providers: [
+    StoreVariableService,
+    UtilityService,
     PermissionService,
     MyToasterService,
     LoginGaurdService,
