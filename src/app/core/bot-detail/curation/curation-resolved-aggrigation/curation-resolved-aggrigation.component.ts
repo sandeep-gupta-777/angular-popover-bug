@@ -9,6 +9,7 @@ import { ICurationResolvedAggregation } from 'src/app/core/interfaces/faqbots';
 export class CurationResolvedAggrigationComponent implements OnInit {
 
   constructor() { }
+  @Input() isMlBot: boolean = false;
   @Input() aggrigationData: ICurationResolvedAggregation;
   ngOnInit() {
 
