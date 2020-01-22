@@ -17,6 +17,7 @@ import {LoggingService} from '../logging.service';
 import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IRoleInfo} from '../../interfaces/role-info';
 import {IBotLanguage} from '../core/interfaces/IBot';
+import {environment} from '../../environments/environment';
 
 
 export interface IAppState {
@@ -47,7 +48,7 @@ const appDefaultState: IAppState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions: null,
-  backendUrlRoot: 'https://imibot.ai/', //// 'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
+  backendUrlRoot: environment.backend_root, //// 'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
