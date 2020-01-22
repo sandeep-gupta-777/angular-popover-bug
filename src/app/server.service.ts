@@ -146,8 +146,8 @@ export class ServerService {
       if (!value || !value.user) {
         return;
       }
-      ServerService.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
-      ServerService.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      ServerService.AUTH_TOKEN =  value.user.auth_token;
+      ServerService.USER_ACCESS_TOKEN =  value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
         if (!this.roleInfo && appState && appState.roleInfoArr) {
