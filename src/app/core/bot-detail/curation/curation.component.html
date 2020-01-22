@@ -71,6 +71,7 @@
                                           (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
                                           [totallength]="totalLengthCurationIssue" [liveBotUpdatedAt]="liveBotUpdatedAt"
                                           (addQueryToArticleByIds)="addQueryToArticleByIds($event)"
+                                          (trainingDone)="getCorpus$().subscribe()"
                                           [isMlBot]="false"
                                           [corpusState]="corpusState">
                 </app-curation-issues-list>

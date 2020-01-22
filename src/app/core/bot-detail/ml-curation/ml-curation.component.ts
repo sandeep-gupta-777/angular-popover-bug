@@ -68,21 +68,16 @@ export class MlCurationComponent implements OnInit {
   updateSettingsLoading = ELoadingStatus.default;
   curationIssuesFilterForm: FormGroup;
   curationResolvedFilterForm: FormGroup;
-
   mlIntentList: IIntent[] = [];
   mlTemplateKeyList;
-
   isBotAdvancedDataProtective = false;
-
   ngOnInit() {
-
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
       room_id: [''],
       rule_triggered: [''],
       date_range: [''],
     });
-
     this.load10MoreCurationIssues(false);
     this.load10MoreCurationResolvedAndIgnored(false);
     // this.setLiveBotUpdatedAt();
@@ -90,8 +85,7 @@ export class MlCurationComponent implements OnInit {
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
     this.makeCurationSettingsForm();
-    // this.getCorpus$().subscribe();
-    //
+    this.getCorpus$().subscribe();
     this.makeCurationIssuesFilterForm();
     this.makeCurationResolvedFilterForm();
 
@@ -332,34 +326,12 @@ getTemplateKeyList(){
         return !(curationIds.find(c_id => c_id === item.id));
       });
       this.reinnetalizeCurationResolvedAndIgnored();
-      // this.getResolvedAggregationData();
+      this.getResolvedAggregationData();
     });
   }
 
 
 //  add to article
-  addQueryToArticleByIds(data) {
-    const curationIssueLinkToExistingSectionUrl = this.constantsService.curationIssueLinkToExistingSectionUrl();
-    const body = {
-      'curation_id_list': data.curationItemId,
-      'section_id': data.section_id
-    };
-    this.serverService.makePostReq<any>(
-      {
-        url: curationIssueLinkToExistingSectionUrl,
-        headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)},
-        body
-      }).subscribe((value) => {
-      this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
-      this.utilityService.showSuccessToaster('Issues have been successfully added to article.');
-      this.curationIssuesListLength = this.curationIssuesListLength - data.curationItemId.length;
-      this.curationIssuesList = this.curationIssuesList.filter((item) => {
-        return !(data.curationItemId.find(c_id => c_id === item.id));
-      });
-      this.reinnetalizeCurationResolvedAndIgnored();
-      this.getResolvedAggregationData();
-    });
-  }
 
 //  filter form ::
 
@@ -533,11 +505,12 @@ getTemplateKeyList(){
     }
   }
 
+
   getCorpus$() {
     const headerData: IHeaderData = {
       'bot-access-token': ServerService.getBotTokenById(this.bot)
     };
-    const getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
+    const getCorpusForFAQBot = this.constantsService.getMLDefaultCorpusMiniData();
 
     return this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
       .pipe(
@@ -549,31 +522,6 @@ getTemplateKeyList(){
       );
   }
 
-  requestEncription(resone: string) {
-    if(!(resone.trim())){
-      this.utilityService.showErrorToaster('Invalid decryption key');
-    }else{
-      const headerData: IHeaderData = {
-        'bot-access-token': ServerService.getBotTokenById(this.bot)
-      };
-      const body = {
-        decrypt_audit_type: 'bot',
-        message: resone.trim()
-      };
-      const url = this.constantsService.getDecryptUrl();
-      this.serverService.makePostReq({headerData, body, url}).subscribe((val) => {
-        this.load10MoreCurationIssues(false);
-        this.load10MoreCurationResolvedAndIgnored(false);
-        this.setLiveBotUpdatedAt();
-        this.getResolvedAggregationData();
-        this.getIssuesAggregationData();
-
-        this.isBotAdvancedDataProtective = true;
-      });
-
-    }
-
-  }
   addQueryToIntentEvent(data){
     const curationIssueIgnoreUrl = this.constantsService.mlCurationIssueActionUrl();
     const body = data;
@@ -589,6 +537,7 @@ getTemplateKeyList(){
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
         return !(data.curation_id_list.find(c_id => c_id === item.id));
       });
+      this.getCorpus$().subscribe();
       this.reinnetalizeCurationResolvedAndIgnored();
       this.getResolvedAggregationData();
     });

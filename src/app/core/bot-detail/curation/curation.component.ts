@@ -351,6 +351,7 @@ export class CurationComponent implements OnInit {
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
         return !(data.curationItemId.find(c_id => c_id === item.id));
       });
+      this.getCorpus$().subscribe();
       this.reinnetalizeCurationResolvedAndIgnored();
       this.getResolvedAggregationData();
     });

@@ -59,6 +59,7 @@ export class CurationIssuesListComponent implements OnInit {
   @Input() mlIntentList: IIntent[] = [];
   selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
+  @Output() trainingDone = new EventEmitter();
   // intentInputForm: FormGroup;
 
   ngOnInit() {
@@ -128,7 +129,6 @@ export class CurationIssuesListComponent implements OnInit {
     }).then((data) => {
       if (data) {
         // this.decryptSubmit()
-
         this.trainCorpus(data);
       }
     });
@@ -144,14 +144,17 @@ export class CurationIssuesListComponent implements OnInit {
       'bot_id': this.bot.id,
       'description': description
     };
+    let url;
+    if(this.isMlBot)  url = this.constantsService.trainMlBotUrl();
+    else url = this.constantsService.corpusTrainUrl();
 
-    const url = this.constantsService.corpusTrainUrl();
     return this.serverService.makePostReq<any>({headerData, body, url});
   }
 
   trainCorpus(data) {
     this.trainCorpus$(data).subscribe((val) => {
       this.utilityService.showSuccessToaster(val.message);
+      this.trainingDone.emit();
     });
   }
 
@@ -177,7 +180,6 @@ export class CurationIssuesListComponent implements OnInit {
   }
 
   addMultiIssueToNewArticle() {
-    debugger;
     let user_message_list = this.curationItemList.filter((item) => {
       return !!(this.IssuesSelectedSet.find(c_id => c_id === item.id));
     }).map(a => a.user_message);
