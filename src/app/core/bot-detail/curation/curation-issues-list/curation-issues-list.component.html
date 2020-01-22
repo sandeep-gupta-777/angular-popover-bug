@@ -44,17 +44,6 @@
       </mat-form-field>
     </div>
 
-    <form [formGroup]="intentInputForm" *ngIf="entityList && selectedIntent">
-      <div class="utter"
-           appEntityMarking
-           formControlName="utterances"
-           [intent]="selectedIntent"
-           [entityList]="entityList"
-           [hideAddNewEntityButton]="true"
-      >
-<!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
-      </div>
-    </form>
     <div class="ml-auto"></div>
     <button *ngIf = "!isMlBot" mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2"
             [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">

@@ -137,7 +137,7 @@
               Link and save
             </button>
             <button *ngIf="isMlBot" mat-flat-button color=primary class="mat-theme-button footer-btn px-2 mr-2"
-                    (click)="addIssueToThisIntent()">
+                    (click)="addIssueToThisIntent()" [disabled]="!selectedIntent ">
               Link and save
             </button>
             <button *ngIf="!isMlBot" mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button"
