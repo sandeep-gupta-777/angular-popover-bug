@@ -1,14 +1,11 @@
 import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {ReportControlsComponent} from './report-controls/report-controls.component';
-import {Select, Selector} from '@ngxs/store';
+import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {ReportStateModel} from '../ngxs/reports.state';
 import {IReportItem} from '../../../../interfaces/report';
-// import {validate} from 'codelyzer/walkerFactory/walkerFn';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
-// import * as moment from 'moment';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../interfaces/IBot';
@@ -26,12 +23,10 @@ import {EventService} from '../../../event.service';
 export class ReportDetailsComponent extends ModalImplementer implements OnInit {
 
   @ViewChild(ReportControlsComponent) reportControlsComponent: ReportControlsComponent;
-  @Select() reportItem$: Observable<ReportStateModel>;
   @Select() botlist$: Observable<ViewBotStateModel>;
   allBotList: IBot[];
   reportFormData: IReportItem;
   report_id: number;
-
   myEventService = EventService;
 
   constructor(
@@ -54,7 +49,6 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
   }
 
   async showReportDeleteModel() {
-
       await this.utilityService.openDialog({
         dialogRefWrapper: this.dialogRefWrapper,
         classStr: 'danger-modal-header-border',
@@ -68,7 +62,6 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
         dialog: this.matDialog,
         component: ModalConfirmComponent
       }).then((data) => {
-
         if (data) {
           this.deleteReport();
         }
@@ -101,30 +94,12 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
   }
 
   updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate: TemplateRef<any>) {
-
     this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
-    // let timeNow = (new Date()).toString();
     const _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
     this.reportFormData.id = _id_str ? Number(_id_str) : null;
     this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
-
-
-    // this.reportFormData.delivery = <any>[{
-    //   ...this.reportFormData.delivery['sftp'],
-    //   delivery_type: 'sftp',
-    //   enabled: this.reportFormData.delivery['sftp'].enabled || false,
-    // },
-    //   {
-    //     ...this.reportFormData.delivery['email'],
-    //     delivery_type: 'email',
-    //     enabled: this.reportFormData.delivery['email'].enabled || false,
-    //     recipients:  this.getRecipientsArr(this.reportFormData) || []
-    //   }
-    // ];
-    //
     this.reportFormData.updated_at = new Date().toISOString();
     let url;
-
     this.report_id ?
       url = this.constantsService.getSaveReportsEditInfo(this.reportFormData.id)
       : url = this.constantsService.getCreateReportUrl();
@@ -132,21 +107,14 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     delete body.created_at;
     delete body.updated_at;
     delete body.botName;
-    // delete body.id;
-    // body.isactive = true;
     body.reporttype_id = 1;
     body.bot_id = Number(body.bot_id);
-    // delete body.delivery;
-    // delete body.startdate;/*TODO: temporary; since date is not working*/
     if (body.id) {
-      //
       this.serverService.makePutReq({url, body})
         .subscribe((value: IReportItem) => {
           if (value.isactive) {
-            // this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
             this.openPrimaryModal(subscribeTemplate);
           } else {
-            // this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'modal-md'});
             this.openDangerModal(unsubscribeTemplate);
           }
         });
@@ -157,11 +125,9 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
       this.serverService.makePostReq({url, body, headerData})
         .subscribe((value: IReportItem) => {
           this.router.navigate([`core/reports/edit/${value.id}`]);
-          // this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
           this.openPrimaryModal(subscribeTemplate);
         });
     }
-
   }
 
 }
