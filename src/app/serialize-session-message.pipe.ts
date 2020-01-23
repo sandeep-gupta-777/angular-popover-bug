@@ -24,6 +24,9 @@ export class SerializeSessionMessagePipe implements PipeTransform {
       // sessionMessage.message_store.response_language
       const txnId = sessionMessage.transaction_id;
       const conversationObjectForGivenTxnId: ITxnSessionMessagesItem = txnConversationItems.find(item => item.transaction_id === txnId);
+      if (typeof sessionMessage.message === 'string') {
+        sessionMessage.message = UtilityService.sanitizeHTML(sessionMessage.message);
+      }
       if (conversationObjectForGivenTxnId && conversationObjectForGivenTxnId.convoList) {
         if (sessionMessage.message && sessionMessage.message[0] && sessionMessage.message[0].text) {
           sessionMessage.message[0].text = UtilityService.sanitizeHTML(sessionMessage.message[0].text);

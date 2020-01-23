@@ -89,6 +89,7 @@ import {HttpTrackerLibModule} from 'ngx-loadify';
 import {ServerService} from './server.service';
 import {FilterPipeModule} from 'ngx-filter-pipe';
 import { ValidationPipePipe } from './validation-pipe.pipe';
+import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { ValidationPipePipe } from './validation-pipe.pipe';
     FaqBotBasicInfoFormComponent,
     PlayMediaComponent,
     ValidationPipePipe,
+    SanitizeHtmlPipe,
 
 
     // todo: put it inside view bot details moduel

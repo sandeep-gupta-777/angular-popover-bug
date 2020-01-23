@@ -221,7 +221,7 @@ export class EnterpriseUsersComponent implements OnInit, OnDestroy {
         classStr: 'danger-modal-header-border',
         data: {
           actionButtonText: 'Remove',
-          message: `Do you want to remove ${this.usertoDelete.first_name} ${this.usertoDelete.last_name} from ${this.loggeduserenterpriseinfo.name}?`,
+          message: UtilityService.sanitizeHTML(`Do you want to remove ${this.usertoDelete.first_name} ${this.usertoDelete.last_name} from ${this.loggeduserenterpriseinfo.name}?`),
           title: 'Remove user?',
           isActionButtonDanger: true
         },
