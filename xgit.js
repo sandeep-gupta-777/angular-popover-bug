@@ -11,8 +11,8 @@ async function f() {
   let currentBranch = await runCommand(`git rev-parse --abbrev-ref HEAD`);
   let lastDeploy = await runCommand(`git log -1 -s --format=%ct`);
   const obj = {currentBranch, lastDeploy: Number(lastDeploy) * 1000}
-  fs.writeFileSync('src\\assets\\js\\deploy.json',
-    JSON.stringify(obj));
+  fs.writeFileSync('src\\assets\\js\\deploy.json', JSON.stringify(obj));
+  fs.writeFileSync('src\\assets\\js\\deploy.js', `var deploy_obj_botplateform_fe = {"currentBranch":"${currentBranch}","lastDeploy":${lastDeploy}};`);
   console.dir(obj);
 }
 
