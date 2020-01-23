@@ -746,7 +746,7 @@ export class ServerService {
     }
     const lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url: environment.backend_root + `static/deploy.json?time=${Date.now()}`})
-      .subscribe((value: { 'currentBranch': string, 'lastDeploy': number }) => {
+      .subscribe((value: { 'currentBranch': string, lastDeploy: number }) => {
         const lastDeployed_api = value.lastDeploy;
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
         const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
