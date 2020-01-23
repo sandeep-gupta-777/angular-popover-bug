@@ -76,7 +76,7 @@ export class CurationIssuesComponent implements OnInit {
 
   ngOnInit() {
     this.intentInputForm = this.formBuilder.group({
-      utterances: [[{'entities': [], 'utterance': 'edit utterance'}], function (formControl: FormControl) {
+      utterances: [[{'entities': [], 'utterance': this.curationItemData.user_message}], function (formControl: FormControl) {
         // if (formControl.value) {
         if (!formControl.value[0].utterance) {
           return {
@@ -130,7 +130,7 @@ export class CurationIssuesComponent implements OnInit {
     ];
     TempVariableService.curationIds = [this.curationItemData.id];
     this.router.navigate(['.'], {
-      queryParams: {build: 'ml_model'},
+      queryParams: {build: this.isMlBot ?'ml_model':'articles' },
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });

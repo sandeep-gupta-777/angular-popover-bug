@@ -23,6 +23,7 @@ import {EAllActions} from '../../../typings/enum';
 import {MlReplyService} from '../ml-reply/ml-reply.service';
 import {FormsService} from '../../../forms.service';
 import {TempVariableService} from "../../../temp-variable.service";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-ml-model',
@@ -64,12 +65,14 @@ export class MLModelComponent implements OnInit {
   ngOnInit() {
     if (TempVariableService.firstQuestionListForNewArticle) {
       this.viewChanged(this.view = 'detail');
-      this.selectedIntent.utterances.push(
-        {
-          'entities': [],
-          'utterance': TempVariableService.firstQuestionListForNewArticle[0]
-        }
-      )
+      TempVariableService.firstQuestionListForNewArticle.forEach((question => {
+        this.selectedIntent.utterances.push(
+          {
+            'entities': [],
+            'utterance': question,
+          }
+        )
+      }))
       TempVariableService.firstQuestionListForNewArticle = null;
     }
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';

@@ -46,8 +46,8 @@ export class BotConfigService {
         min: 1,
         max: 64
       }), FormsService.startWithAlphanumericValidator()].reverse()],
-      allow_agent_handover: [bot.allow_agent_handover],
-      allow_feedback: [bot.allow_feedback],
+      allow_agent_handover: [bot.allow_agent_handover || false],
+      allow_feedback: [bot.allow_feedback || false],
       language: [bot.language || 'en'],
       logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/mlbot-icon.svg',
         [FormsService.lengthValidator({
@@ -64,7 +64,7 @@ export class BotConfigService {
         min: 1,
         max: 64
       }), FormsService.startWithAlphanumericValidator()].reverse()],
-      allow_feedback: [bot.allow_feedback],
+      allow_feedback: [bot.allow_feedback || false],
       language: [bot.language || 'en'],
       logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/mlbot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
     }, {validator: this.utilityService.isManagerValidator});

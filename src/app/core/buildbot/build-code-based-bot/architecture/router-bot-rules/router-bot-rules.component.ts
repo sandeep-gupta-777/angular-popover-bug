@@ -113,7 +113,7 @@ export class RouterBotRulesComponent implements OnInit {
     this.rulesForm = this.formBuilder.group({
       rules: this.formBuilder.array(getAndRulesArray),
       else_action: this.formBuilder.group({
-        "destination_bot_id": [formData.else_action.destination_bot_id, [Validators.required]],
+        "destination_bot_id": [formData.else_action.destination_bot_id],
         "reply_message": [formData.else_action.reply_message,[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
@@ -131,7 +131,7 @@ export class RouterBotRulesComponent implements OnInit {
     const andRules = this.formBuilder.group({
       and: this.formBuilder.array(getOrRulesFGArray),
       output: this.formBuilder.group({
-        "destination_bot_id":[ruleData.action.destination_bot_id , [Validators.required]],
+        "destination_bot_id":[ruleData.action.destination_bot_id ],
         "reply_message": [ruleData.action.reply_message ,[this.validationOfOutputFormReplyMessage.bind(this, typeFormControl)]]
       },{validators:this.validationOfOutputForm.bind(this)})
     });
@@ -218,6 +218,9 @@ export class RouterBotRulesComponent implements OnInit {
   validationOfOutputForm(group: FormGroup){
     if(group.get('type')){
       if(group.get('type').value === "bot" && this.botListofChild){
+        if(!group.get('destination_bot_id').value ){
+          return {botNotPresent : "Please select a child bot"}
+        }
         if(this.botListofChild.find(bot => {return bot.id === group.get('destination_bot_id').value })){
           return null;
         }else{

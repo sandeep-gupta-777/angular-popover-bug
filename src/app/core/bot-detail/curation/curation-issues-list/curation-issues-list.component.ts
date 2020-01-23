@@ -59,7 +59,8 @@ export class CurationIssuesListComponent implements OnInit {
   @Input() mlIntentList: IIntent[] = [];
   selectedIntent: IIntent;
   @Input() entityList: IEntitiesItem[];
-  intentInputForm: FormGroup;
+  @Output() trainingDone = new EventEmitter();
+  // intentInputForm: FormGroup;
 
   ngOnInit() {
 
@@ -74,21 +75,7 @@ export class CurationIssuesListComponent implements OnInit {
         }
         this.IssuesSelectedSet = Array.from(temArray);
       });
-
-    this.intentInputForm = this.formBuilder.group({
-      utterances: [[{'entities': [], 'utterance': 'edit utterance'}], function (formControl: FormControl) {
-        // if (formControl.value) {
-        if (!formControl.value[0].utterance) {
-          return {
-            error: {
-              message: 'Cant be empty'
-            }
-          };
-        }
-        // }
-      }],
-    });
-    this.setMLEntityList();
+    if(this.isMlBot) this.setMLEntityList();
   }
 
   appEntityMarkingUpdate(){
@@ -142,7 +129,6 @@ export class CurationIssuesListComponent implements OnInit {
     }).then((data) => {
       if (data) {
         // this.decryptSubmit()
-
         this.trainCorpus(data);
       }
     });
@@ -158,14 +144,17 @@ export class CurationIssuesListComponent implements OnInit {
       'bot_id': this.bot.id,
       'description': description
     };
+    let url;
+    if(this.isMlBot)  url = this.constantsService.trainMlBotUrl();
+    else url = this.constantsService.corpusTrainUrl();
 
-    const url = this.constantsService.corpusTrainUrl();
     return this.serverService.makePostReq<any>({headerData, body, url});
   }
 
   trainCorpus(data) {
     this.trainCorpus$(data).subscribe((val) => {
       this.utilityService.showSuccessToaster(val.message);
+      this.trainingDone.emit();
     });
   }
 
@@ -198,7 +187,7 @@ export class CurationIssuesListComponent implements OnInit {
     TempVariableService.firstQuestionListForNewArticle = user_message_list;
     TempVariableService.curationIds = this.IssuesSelectedSet;
     this.router.navigate(['.'], {
-      queryParams: {build: 'articles', section_id: null},
+      queryParams: {build: this.isMlBot ?'ml_model':'articles', section_id: null},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     });
@@ -218,8 +207,15 @@ export class CurationIssuesListComponent implements OnInit {
   addMultiIssueToThisIntent(data) {
     if(!data){
       this.appEntityMarkingUpdate();
+      let selectedCurationIssuesMessages = this.curationItemList.filter((item) => {
+        return !!(this.IssuesSelectedSet.find(c_id => c_id === item.id));
+      }).map(a => a.user_message);
+      let utt = [];
+      for(let i =0;i < selectedCurationIssuesMessages.length;i++){
+        utt.push({ "entities": [], "utterance": selectedCurationIssuesMessages[i] });
+      }
       this.addQueryToIntentEvent.emit({
-        data: {"type": "link",intent_id:this.selectedIntent.intent_id,...this.intentInputForm.value},
+        data: {"type": "link",intent_id:this.selectedIntent.intent_id,utterances : utt},
         curation_id_list: this.IssuesSelectedSet
       });
     }else{

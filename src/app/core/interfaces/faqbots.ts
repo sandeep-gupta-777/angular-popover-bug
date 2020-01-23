@@ -84,7 +84,14 @@ export interface ICurationItem {
         'updated_at'?: number;
         'updated_by'?: number;
         'user_message'?: string;
-
+//        ml Bot
+        'intent_name'?:string;
+        'template_key'?:string;
+        'matched_intents'?:{
+          confidence: number,
+          intent_id: string,
+          name: string
+        }[]
 }
 
 export interface IAllCorpusResult {
@@ -97,7 +104,9 @@ export interface ICurationResolvedAggregation {
  'aggregation_counts'?: {
     'ignored'?: number,
     'section_added'?: number,
-    'section_updated'?: number
+    'section_updated'?: number,
+    'intent_added'?:number,
+    'intent_updated'?:number,
 };
 'today_count'?: number;
 'total_count'?: number;

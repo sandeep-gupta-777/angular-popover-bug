@@ -13,10 +13,10 @@
   <div class = "curation_settings_items_heading">
     <div class = "first">
         System defined curation rules
-    </div> 
+    </div>
     <div class = "ml-auto">
         Status
-    </div> 
+    </div>
   </div>
   <fieldset formGroupName="curation_settings">
     <legend style="display: none;">curation settings</legend>
@@ -73,11 +73,11 @@
                 score for low confidence and minimum threshold score </div>
             </div>
             <mat-slide-toggle color=primary formControlName="enabled" class = "curation_settings_slide"></mat-slide-toggle>
-      </div> 
-      
+      </div>
+
       <mat-form-field class="curation_settings_item_low_confidence_input">
-          <input matInput placeholder="Max low confidence score" formControlName="low_confidence_score" 
-          type="number" 
+          <input matInput placeholder="Max low confidence score" formControlName="low_confidence_score"  data-type="float"
+          type="number"
           required>
         </mat-form-field>
     </div>
