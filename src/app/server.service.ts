@@ -748,7 +748,7 @@ export class ServerService {
     this.makeGetReq({url: environment.backend_root + `static/assets/js/deploy.json?time=${Date.now()}`})
       .subscribe((value: { 'currentBranch': string, lastDeploy: number }) => {
         const lastDeployed_api = value.lastDeploy;
-        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
+        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_Cache=${lastDeployed_Cache}`);
         const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
         if (lastDeployed_api > lastDeployed_Cache) {
           this.myToasterService.showErrorToaster(`your version is ${days} old.
