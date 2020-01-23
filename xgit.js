@@ -1,8 +1,6 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const fs = require('fs');
-
-
 async function runCommand(str) {
   return (await exec(str)).stdout.trim();
 }
