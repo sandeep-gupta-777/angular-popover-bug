@@ -20,7 +20,8 @@ async function f() {
   } catch (e) {
     console.log(e);
   }
-  console.dir(obj);
+  console.log("deploy.js ==>", fs.readFileSync('src\\assets\\js\\deploy.js').toString());
+  console.log("deploy.js ==>", fs.readFileSync('src\\assets\\js\\deploy.json').toString());
 }
 
 f();
