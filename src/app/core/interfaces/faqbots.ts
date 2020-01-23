@@ -87,7 +87,11 @@ export interface ICurationItem {
 //        ml Bot
         'intent_name'?:string;
         'template_key'?:string;
-
+        'matched_intents'?:{
+          confidence: number,
+          intent_id: string,
+          name: string
+        }[]
 }
 
 export interface IAllCorpusResult {

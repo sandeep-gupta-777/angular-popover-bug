@@ -69,9 +69,13 @@
             <p style="font-size: 11px">and replied with template key</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.template_key}}&#34;></p>
           </div>
-          <div class='column-2' *ngIf="!curationItemData.intent_name">
+          <div class='column-2' *ngIf="!curationItemData.intent_name && curationItemData.template_key">
             <p style="font-size: 11px">Bot did not understand and replied with template key</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.template_key}}&#34;></p>
+          </div>
+          <div class='column-2' *ngIf="!curationItemData.intent_name && !curationItemData.template_key && curationItemData.matched_intents">
+            <p style="font-size: 11px">Bot understood it partially as one of these intents</p>
+            <p style="font-size: 13px" *ngFor="let intent of curationItemData.matched_intents; let index = index ">{{(index+1)+'. '+intent.name}}</p>
           </div>
         </div>
       </div>
