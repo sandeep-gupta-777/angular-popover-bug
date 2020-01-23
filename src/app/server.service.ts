@@ -740,7 +740,8 @@ export class ServerService {
 
 
   compareDeployDates() {
-    if (!deploy_obj_botplateform_fe || isDevMode() || environment.production) {
+    debugger;
+    if (!deploy_obj_botplateform_fe || isDevMode()) {
       return;
     }
     const lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
