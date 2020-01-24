@@ -740,7 +740,6 @@ export class ServerService {
 
 
   compareDeployDates() {
-    debugger;
     if (!deploy_obj_botplateform_fe || isDevMode()) {
       return;
     }

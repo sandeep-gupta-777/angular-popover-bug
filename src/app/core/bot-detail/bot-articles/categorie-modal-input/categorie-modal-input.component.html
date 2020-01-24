@@ -1,4 +1,3 @@
-<i>{{form.value|json}}</i>
 <form [formGroup]="form" class="d-flex flex-row align-items-center categorie-modal-input-item">
   <mat-form-field style="width:160px">
     <input matInput formControlName="name" [readonly]='!editMode' *ngIf = "typeIsEdit">

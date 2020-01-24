@@ -105,7 +105,7 @@ export class EnterpriseUsersComponent implements OnInit, OnDestroy {
       .subscribe((newUser: any) => {
         this.loggeduserenterpriseinfo.enterpriseusers.push(newUser);
         this.utilityService.showSuccessToaster(' New user has been added successfully');
-
+        this.dialogRefWrapper.ref.close();
         this.store.dispatch([
           new SetEnterpriseUsersAction({enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers})
         ]);
