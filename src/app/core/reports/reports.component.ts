@@ -285,7 +285,7 @@ export class ReportsComponent  implements OnInit, OnDestroy {
   }
 
   goToReportEditComponent(eventData: any) {
-    this.store.dispatch(new SetCurrentEditedReportAction({reportItem: eventData.data}));
+    // this.store.dispatch(new SetCurrentEditedReportAction({reportItem: eventData.data}));
     this.tempVariableService.reportRowClicked = eventData.data;
     this.router.navigate(['/core', 'reports', 'edit', eventData.data.id]);
   }
