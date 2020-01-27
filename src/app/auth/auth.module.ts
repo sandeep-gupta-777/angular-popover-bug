@@ -57,8 +57,8 @@ const routes: Route[] = [
     ],
 
   providers: [
-    StoreVariableService,
     UtilityService,
+    StoreVariableService,
     PermissionService,
     MyToasterService,
     LoginGaurdService,

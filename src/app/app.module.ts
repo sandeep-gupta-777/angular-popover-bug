@@ -22,9 +22,11 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {Popover} from './popover/popover.service';
 import {PopoverComponent1} from './popover/popover-component1.component';
 import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
-import {MatButtonModule, MatRadioModule, MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatRadioModule, MatSelectModule, MatSnackBarModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipeModule} from 'ngx-filter-pipe';
+import {UtilityService} from './utility.service';
+import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = 'http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg';
@@ -111,11 +113,14 @@ const routes: Route[] = [
     // AngularFireModule.initializeApp(environment.firebase),
     MatRadioModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [
+    UtilityService,
     LoginPageGaurdService,
     ModuleGaurdLoadService,
+    StoreVariableService,
     ScriptsLoadResolver,
     //   {
     //   provide: HTTP_INTERCEPTORS,
