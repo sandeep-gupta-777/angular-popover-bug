@@ -19,7 +19,7 @@
     "heroku-nobuild": "cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
     "build-old": "ng build --prod && ",
     "hmr": "ng serve --port 4201 --configuration hmr -o",
-    "xgit": "sudo node xgit.js",
+    "xgit": " node xgit.js",
     "develop": "npm run xgit && ng build --configuration develop --namedChunks=true --base-href /static/",
     "staging": "npm run xgit && ng build --configuration staging --namedChunks=true --base-href /static/",
 
