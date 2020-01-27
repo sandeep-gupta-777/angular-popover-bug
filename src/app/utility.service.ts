@@ -1339,10 +1339,10 @@ export class UtilityService {
     });
   }
 
-  showSuccessToaster(message) {
+  showSuccessToaster(message, duration = 2000) {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
-      duration: 2000,
+      duration: duration,
       panelClass: ['bg-success'],
       verticalPosition: 'top',
       horizontalPosition: 'right'
