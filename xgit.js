@@ -6,6 +6,8 @@ async function runCommand(str) {
 }
 
 async function f() {
+  console.log("=======start=======");
+  logFiles();
   let currentBranch = await runCommand(`git rev-parse --abbrev-ref HEAD`);
   let lastDeploy = await runCommand(`git log -1 -s --format=%ct`);
   lastDeploy = Number(lastDeploy) * 1000;
@@ -20,9 +22,13 @@ async function f() {
   } catch (e) {
     console.log(e);
   }
-  console.log("deploy.js ==>", fs.readFileSync('src\\assets\\js\\deploy.js').toString());
-  console.log("deploy.js ==>", fs.readFileSync('src\\assets\\js\\deploy.json').toString());
+  console.log("====end=======");
+  logFiles();
 }
 
 f();
 
+function logFiles() {
+  console.log("deploy.js ==>", fs.readFileSync('src\\assets\\js\\deploy.js').toString());
+  console.log("deploy.js ==>", fs.readFileSync('src\\assets\\js\\deploy.json').toString());
+}
