@@ -22,7 +22,6 @@
     "xgit": "sudo node xgit.js",
     "develop": "npm run xgit && ng build --configuration develop --namedChunks=true --base-href /static/",
     "staging": "npm run xgit && ng build --configuration staging --namedChunks=true --base-href /static/",
-
     "local": "ng build --prod --namedChunks=true && cd dist/botPlateformFE && angular-http-server",
     "staging-github": "npm run xgit && ng build --configuration staging --base-href /imibot-fe/",
     "v1": "sudo npm run xgit && ng build --configuration staging --base-href /v1/",
@@ -96,6 +95,7 @@
     "rxjs": "^6.3.3",
     "saturn-datepicker": "^7.0.2",
     "session-storage-sync": "^0.6.0",
+    "shelljs": "^0.8.3",
     "uuid": "^3.3.2",
     "zone.js": "^0.8.26"
   },
