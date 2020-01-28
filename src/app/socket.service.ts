@@ -18,7 +18,7 @@ export class SocketService {
   static preview$ = new EventEmitter();
 
   constructor(
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
   ) {
   }
 

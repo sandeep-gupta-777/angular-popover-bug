@@ -740,7 +740,6 @@ export class ServerService {
 
 
   compareDeployDates() {
-    debugger;
     if (!deploy_obj_botplateform_fe || isDevMode()) {
       return;
     }
@@ -751,8 +750,9 @@ export class ServerService {
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_Cache=${lastDeployed_Cache}`);
         const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
         if (lastDeployed_api > lastDeployed_Cache) {
-          this.myToasterService.showErrorToaster(`your version is ${days} old.
-        Please hard reload (Ctrl + shit + r). `);
+          // this.myToasterService.showErrorToaster(`your version is ${days} old.
+        // Please hard reload (Ctrl + shit + r). `);
+          this.myToasterService.showInfoToaster();
         }
       });
   }

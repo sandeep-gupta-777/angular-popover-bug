@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
+import {ReloadSnackbarComponent} from './reload-snackbar/reload-snackbar.component';
 
 @Injectable()
 export class MyToasterService {
@@ -36,8 +37,8 @@ export class MyToasterService {
     // }
   }
 
-  showInfoToaster(message) {
-    // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+  showSuccessToaster(message) {
+    // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
       panelClass: ['bg-success'],
@@ -46,13 +47,18 @@ export class MyToasterService {
     });
   }
 
-  showSuccessToaster(message) {
+  showInfoToaster() {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
-    this.snackBar.open(message, '', {
-      duration: 2000,
-      panelClass: ['bg-success'],
+    const dialogRefWrapper = this.snackBar.openFromComponent(ReloadSnackbarComponent, {
+      duration: 100000000,
+      panelClass: ['reload-info-snackbar'],
       verticalPosition: 'top',
-      horizontalPosition: 'right'
+      horizontalPosition: 'center',
+      data: {
+        preClose: () => {
+          dialogRefWrapper.dismiss();
+        }
+      }
     });
   }
 

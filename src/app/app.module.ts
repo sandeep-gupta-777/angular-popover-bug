@@ -25,6 +25,7 @@ import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.co
 import {MatButtonModule, MatRadioModule, MatSelectModule} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FilterPipeModule} from 'ngx-filter-pipe';
+import { ReloadSnackbarComponent } from './reload-snackbar/reload-snackbar.component';
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = 'http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg';
@@ -66,6 +67,7 @@ const routes: Route[] = [
     // BackendDevComponent,
     PopoverComponent1,
     InsidePopoverComponent,
+    ReloadSnackbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -125,7 +127,7 @@ const routes: Route[] = [
     // }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PopoverComponent1, InsidePopoverComponent],
+  entryComponents: [PopoverComponent1, InsidePopoverComponent, ReloadSnackbarComponent],
 
 })
 export class AppModule {
