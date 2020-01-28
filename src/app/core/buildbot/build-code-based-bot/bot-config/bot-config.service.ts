@@ -154,7 +154,8 @@ export class BotConfigService {
     this.basicInfoForm = this.formBuilder.group({
       name: [bot.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
       bot_unique_name: [bot.bot_unique_name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
-        min: 1
+        min: 1,
+        max: 64
       })]],
       description: [bot.description, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
         min: 0,

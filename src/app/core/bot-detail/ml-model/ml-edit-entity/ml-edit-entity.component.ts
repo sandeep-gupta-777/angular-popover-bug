@@ -66,7 +66,7 @@ export class MlEditEntityComponent implements OnInit {
     this.editEntityForm = this.formBuilder.group({
       entity_id: this._edittingData.entity_id,
       data: this.formBuilder.group({values: this.formBuilder.array(entityValueArray)}),
-      name: [this._edittingData.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1})]],
+      name: [this._edittingData.name, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64})]],
       system_entity: this._edittingData.system_entity,
       type: this._edittingData.type
     });

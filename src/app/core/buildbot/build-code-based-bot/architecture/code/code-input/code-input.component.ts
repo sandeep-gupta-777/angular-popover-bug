@@ -117,7 +117,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
     this.newVersionModalForm = this.formBuilder.group({
       version_id: [],
-      comment: ['', [FormsService.alphanumericValidators(), FormsService.lengthValidator({max: 2000, min: 1})]]
+      comment: ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: 2000, min: 1})]]
     });
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
     this.channelListClone = CodeInputService.createChannelList(this.bot);

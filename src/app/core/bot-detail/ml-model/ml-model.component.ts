@@ -103,7 +103,7 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1}), this.noWhitespaceValidator]],
+      'entity_name': ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64}), this.noWhitespaceValidator]],
       'entity_value': ['', [(formGroup) =>{
         if(this.modalForm && (this.modalForm.value.entity_type === 'regex' || this.modalForm.value.entity_type === 'custom')){
           FormsService.lengthValidator({min: 1})(formGroup);
