@@ -40,6 +40,9 @@ export class CoreWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.serverService.compareDeployDates(); // TODO: after refactor
+    EventService.deploy_jenkins$.subscribe(()=>{
+      this.serverService.compareDeployDates(); // TODO: after refactor
+    });
     this.initializeProgressBarSubscription(); // todo: after refactor
     this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
     this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');

@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {environment} from '../environments/environment';
 import {UtilityService} from './utility.service';
+import {EventService} from './event.service';
 
 declare const io: any;
 
@@ -40,6 +41,7 @@ export class SocketService {
         deployHost = 'staging.imibot';
       }
       if (environment.backend_root.includes(deployHost) || location.host.includes('localhost')) {
+        EventService.deploy_jenkins$.emit();
         this.utilityService.showSuccessToaster((`${branch.toLocaleUpperCase()}: ` + 'New deployment started'), 7000);
       }
     });

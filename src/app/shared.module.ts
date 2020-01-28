@@ -90,6 +90,7 @@ import {ServerService} from './server.service';
 import {FilterPipeModule} from 'ngx-filter-pipe';
 import { ValidationPipePipe } from './validation-pipe.pipe';
 import { SanitizeHtmlPipe } from './sanitize-html.pipe';
+import {UtilityService} from './utility.service';
 
 @NgModule({
   declarations: [
@@ -258,8 +259,7 @@ import { SanitizeHtmlPipe } from './sanitize-html.pipe';
     FilterPipeModule,
 
   ],
-  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService, ServerService],
-
+  providers: [UtilityService, ConstantsService, PermissionService, BotConfigService, BreakpointService, ServerService],
 })
 export class SharedModule {
 
