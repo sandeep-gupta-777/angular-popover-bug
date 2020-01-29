@@ -1411,7 +1411,7 @@ export class ConstantsService {
   }
 
   addMessageToMlCurationFromSession() {
-    return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`;
+    return this.BACKEND_URL + `api/v1/message/movetocuration/`;
   }
 
   mlCurationIssuesListUrl(limit, offset) {

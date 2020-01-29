@@ -1,3 +1,13 @@
+
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const fs = require('fs');
+
+
+async function runCommand(str) {
+  return (await exec(str)).stdout.trim();
+}
+
 const jenkins = require('jenkins')({baseUrl: 'http://sandeep:imi@12345@10.0.10.57', crumbIssuer: true});
 const inquirer = require('inquirer');
 const Spinner = require('cli-spinner').Spinner;
@@ -6,17 +16,21 @@ spinner.setSpinnerTitle("Jenkins is busy. Pls wait");
 spinner.setSpinnerString('|/-\\');
 let build_number;
 let scope_name = 'IMIbot Frontend';
-inquirer
-  .prompt([
-    {
-      type: 'list',
-      message: 'What env/branch you want to deploy?',
-      name: 'branch',
-      choices: ["develop", "staging", "staging-v2", 'master']
-    }
-  ])
-  .then(answers => {
+// inquirer
+//   .prompt([
+//     {
+//       type: 'list',
+//       message: 'What env/branch you want to deploy?',
+//       name: 'branch',
+//       choices: ["develop", "staging", "staging-v2", 'master']
+//     }
+//   ])
+Promise.resolve()
+  .then(async (answers) => {
     let branch, env;
+    answers = {
+      branch: await runCommand(`git rev-parse --abbrev-ref HEAD`)
+    };
     if (answers.branch === 'staging') {
       branch = env = 'staging';
     } else if (answers.branch === 'staging-v2') {
@@ -36,7 +50,6 @@ inquirer
   });
 
 function buildInit(environment, branch) {
-
   function waitOnQueue(id) {
     jenkins.queue.item(id, function (err, item) {
       if (err) throw err;

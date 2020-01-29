@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {environment} from '../environments/environment';
 import {UtilityService} from './utility.service';
+import {EventService} from './event.service';
 
 declare const io: any;
 
@@ -27,6 +28,7 @@ export class SocketService {
   initAllEvents() {
 
     this.socket.on('train', (data) => {
+      console.log('train', data);
       SocketService.train$.emit(data);
     });
 
@@ -40,11 +42,13 @@ export class SocketService {
         deployHost = 'staging.imibot';
       }
       if (environment.backend_root.includes(deployHost) || location.host.includes('localhost')) {
+        EventService.deploy_jenkins$.emit();
         this.utilityService.showSuccessToaster((`${branch.toLocaleUpperCase()}: ` + 'New deployment started'), 7000);
       }
     });
 
     this.socket.on('preview', (data) => {
+      debugger;
       console.log('preview event train :-)');
       SocketService.preview$.emit(data);
     });

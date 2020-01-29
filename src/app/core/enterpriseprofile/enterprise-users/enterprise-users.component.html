@@ -159,7 +159,9 @@
         <div class="d-flex w-100 mt-2">
           <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" [disabled]="!newBotDetails.valid"
-            (click)="addNewUser();dialogRefWrapper.ref.close()">Add new user
+                  *loadify="{partialPath:'api/v1'}; let statusChanged$=statusChanged$"
+                  [ngClass]="{'spinner': (statusChanged$|async).loading}"
+            (click)="addNewUser()">Add new user
           </button>
         </div>
       </div>

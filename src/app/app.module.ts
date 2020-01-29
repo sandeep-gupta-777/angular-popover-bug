@@ -23,8 +23,9 @@ import {Popover} from './popover/popover.service';
 import {PopoverComponent1} from './popover/popover-component1.component';
 import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
 import {MatButtonModule, MatRadioModule, MatSelectModule, MatSnackBarModule} from '@angular/material';
+
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {FilterPipeModule} from 'ngx-filter-pipe';
+import { ReloadSnackbarComponent } from './reload-snackbar/reload-snackbar.component';
 import {UtilityService} from './utility.service';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 
@@ -67,7 +68,8 @@ const routes: Route[] = [
     FilterArrayPipe,
     // BackendDevComponent,
     PopoverComponent1,
-    InsidePopoverComponent
+    InsidePopoverComponent,
+    ReloadSnackbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,6 +119,7 @@ const routes: Route[] = [
     MatSnackBarModule
   ],
   providers: [
+    StoreVariableService,
     UtilityService,
     LoginPageGaurdService,
     ModuleGaurdLoadService,
@@ -129,7 +132,7 @@ const routes: Route[] = [
     // }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PopoverComponent1, InsidePopoverComponent],
+  entryComponents: [PopoverComponent1, InsidePopoverComponent, ReloadSnackbarComponent],
 
 })
 export class AppModule {

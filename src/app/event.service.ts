@@ -35,6 +35,7 @@ export class EventService {
   static knowledgeBaseData$ = new EventEmitter();
 
   static updateBotinit$ = new EventEmitter();
+  static deploy_jenkins$ = new EventEmitter();
   static createConceptFullScreen$ = new EventEmitter();
   static botDataDirty$ = new EventEmitter<{ [index: string]: boolean }>();
 

@@ -1,1 +1,1 @@
-var deploy_obj_botplateform_fe = {"currentBranch":"develop","lastDeploy":1561200290290};
+var deploy_obj_botplateform_fe = {"currentBranch":"staging","lastDeploy":1580120153000};

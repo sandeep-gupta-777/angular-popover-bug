@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/sessions';
+import {ISessionMessageItem} from '../../../../../../interfaces/sessions';
 import {ITxnSessionMessagesItem} from '../../../../../serialize-session-message.pipe';
-import {UtilityService} from '../../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../../utility.service';
 import {LoggingService} from '../../../../../logging.service';
 import {EChatFeedback} from '../../../../../chat/chat-wrapper.component';
 import {IBot} from 'src/app/core/interfaces/IBot';
@@ -31,7 +31,7 @@ export class SessionMessageComponent implements OnInit {
         this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
         this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
         this.bot_message_id = sessionMessage.id;
-        this.isFirstMessage = this.getSectionId(sessionMessage) === 'first_message';
+        this.isFirstMessage = this.getSectionId(sessionMessage) === 'botFirstMessage';
       }
     });
   }
@@ -48,7 +48,7 @@ export class SessionMessageComponent implements OnInit {
   inCuration = false;
   bot_message_id: number;
   isFirstMessage = false;
-
+  myEBotType = EBotType;
   constructor(
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
@@ -85,8 +85,7 @@ export class SessionMessageComponent implements OnInit {
   getSectionId(sessionMessage) {
     return sessionMessage &&
       sessionMessage.message_store &&
-      sessionMessage.message_store.top_match_section &&
-      sessionMessage.message_store.top_match_section.section_id;
+      sessionMessage.message_store.templateKey;
   }
 
   addMessageToCuration(event) {
@@ -96,7 +95,10 @@ export class SessionMessageComponent implements OnInit {
     const body = {
       'bot_message_id': this.bot_message_id
     };
-    const url = this.constantsService.addMessageToCurationFromSession();
+    let url;
+    if(this.bot.bot_type === EBotType.faqbot) url = this.constantsService.addMessageToCurationFromSession();
+    else url = this.constantsService.addMessageToMlCurationFromSession();
+
     this.serverService.makePostReq<any>({headerData, body, url})
       .subscribe(val => {
         this.utilityService.showSuccessToaster('Flagged for curation');

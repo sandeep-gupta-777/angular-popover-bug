@@ -67,6 +67,21 @@
                         [bot]="bot"></app-integration-option-list>
             </mat-tab>
         </ng-container>
+
+      <ng-container>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span style="margin-right: 6px">Style</span>
+            <span *loadify="{partialPath:'api/v1'}; let statusChanged$=statusChanged$">
+              <mat-spinner *ngIf="(statusChanged$|async)?.loading" [diameter]="15"></mat-spinner>
+            </span>
+            <mat-icon style="color: red;font-size: 100%;" *ngIf="!integrationForm?.valid"
+                      class="example-tab-icon">highlight_off
+            </mat-icon>
+          </ng-template>
+          <app-style-config></app-style-config>
+        </mat-tab>
+      </ng-container>
     </mat-tab-group>
 
 </div>

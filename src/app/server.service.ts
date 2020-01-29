@@ -740,24 +740,26 @@ export class ServerService {
 
 
   compareDeployDates() {
-    if (!deploy_obj_botplateform_fe || isDevMode() || environment.production) {
+    if (!deploy_obj_botplateform_fe || isDevMode()) {
       return;
     }
-    const lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
-    this.makeGetReq({url: `/static/deploy.json?time=${Date.now()}`})
-      .subscribe((value: { 'currentBranch': string, 'lastDeploy': number }) => {
-        const lastDeployed_api = value.lastDeploy;
-        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
+    const lastDeployed_Cache = deploy_obj_botplateform_fe.COMMIT_TIME;
+    this.makeGetReq({url: environment.backend_root + `static/assets/js/deploy.json?time=${Date.now()}`})
+      .subscribe((value: { 'COMMIT_TIME': string, COMMIT_ID: string }) => {
+        const lastDeployed_api = value.COMMIT_TIME;
+        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_Cache=${lastDeployed_Cache}`);
         const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
-        if (lastDeployed_api > lastDeployed_Cache) {
-          this.myToasterService.showErrorToaster(`your version is ${days} old.
-        Please hard reload (Ctrl + shit + r). `);
+        if (lastDeployed_api !== lastDeployed_Cache) {
+          // this.myToasterService.showErrorToaster(`your version is ${days} old.
+        // Please hard reload (Ctrl + shit + r). `);
+          this.myToasterService.showInfoToaster();
         }
       });
   }
 
   timeDifference(current, previous) {
-
+    current = new Date(current).getTime();
+    previous = new Date(previous).getTime();
     const msPerMinute = 60 * 1000;
     const msPerHour = msPerMinute * 60;
     const msPerDay = msPerHour * 24;
