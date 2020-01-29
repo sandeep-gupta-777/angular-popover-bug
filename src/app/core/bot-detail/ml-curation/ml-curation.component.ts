@@ -500,7 +500,6 @@ getTemplateKeyList(){
     return this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
       .pipe(
         map((val) => {
-          debugger;
           this.corpusState = val.state;
           this.liveBotUpdatedAt = val.updated_at;
           const j = val.state.charAt(0).toUpperCase();
