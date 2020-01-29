@@ -91,9 +91,11 @@ import {FilterPipeModule} from 'ngx-filter-pipe';
 import { ValidationPipePipe } from './validation-pipe.pipe';
 import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 import {UtilityService} from './utility.service';
+import {StyleConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/style-config/style-config.component';
 
 @NgModule({
   declarations: [
+    StyleConfigComponent,
     ButtonWrapperComponent,
     IntegrationChannelListComponent,
     IntegrationLogosPipe,
@@ -185,6 +187,7 @@ import {UtilityService} from './utility.service';
     })
   ],
   exports: [
+    StyleConfigComponent,
     PlayMediaComponent,
     ButtonWrapperComponent,
     SharedEnterpriseListModuleModule,
