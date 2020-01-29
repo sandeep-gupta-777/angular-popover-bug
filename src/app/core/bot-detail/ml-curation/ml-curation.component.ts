@@ -80,7 +80,6 @@ export class MlCurationComponent implements OnInit {
     });
     this.load10MoreCurationIssues(false);
     this.load10MoreCurationResolvedAndIgnored(false);
-    // this.setLiveBotUpdatedAt();
     this.getResolvedAggregationData();
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
@@ -153,6 +152,8 @@ getTemplateKeyList(){
     });
   }
 
+  // getting 10
+
   submitedForm(data) {
     const body = {};
     const unsolved = data.unsolved;
@@ -200,22 +201,6 @@ getTemplateKeyList(){
       this.ResolvedFormSubmitted(body);
     }
   }
-
-  // setLiveBotUpdatedAt
-  setLiveBotUpdatedAt() {
-    const headerData: IHeaderData = {
-      'bot-access-token': ServerService.getBotTokenById(this.bot)
-    };
-    const url = this.constantsService.getLiveCorpus();
-    this.serverService.makeGetReq<IAllCorpusResult>({url, headerData})
-      .subscribe((Result) => {
-        if (Result.objects && Result.objects[0] && Result.objects[0].updated_at) {
-          this.liveBotUpdatedAt = Result.objects[0].updated_at;
-        }
-      });
-  }
-
-  // getting 10
   load10MoreCurationIssues$(innit: boolean) {
     this.curationIssuesListisReloading = true;
     const curationIssuesListUrl = this.constantsService.mlCurationIssuesListUrl(10, this.curationIssuesListLength);
@@ -515,7 +500,9 @@ getTemplateKeyList(){
     return this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
       .pipe(
         map((val) => {
+          debugger;
           this.corpusState = val.state;
+          this.liveBotUpdatedAt = val.updated_at;
           const j = val.state.charAt(0).toUpperCase();
           this.corpusState = j + val.state.substr(1).toLowerCase();
         })

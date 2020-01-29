@@ -65,7 +65,7 @@
              [ngClass]="{'rtl pr-4': this.bot.language === 'ar','pl-4' : this.bot.language != 'ar'}">
           <div class='column-2' *ngIf="curationItemData.intent_name">
             <p style="font-size: 11px">Bot understood it as intent</p>
-            <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.intent_name}}&#34;></p>
+            <p style="font-size: 13px;margin-bottom: 8px;" innerHTML=&#34;{{curationItemData.intent_name}}&#34;></p>
             <p style="font-size: 11px">and replied with template key</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.template_key}}&#34;></p>
           </div>
@@ -79,7 +79,6 @@
           </div>
         </div>
       </div>
-      Add new categories or modify existing categories.
     </mat-card-content>
 
     <mat-card-actions class="curation-footer">
@@ -107,7 +106,7 @@
 
           <div *ngIf="articleSearchMode && isMlBot" class="d-flex w-100  not-resolved-footer">
 
-            <div class="form-group m-0 padding-input sort-decrease-height">
+            <div class="form-group padding-input sort-decrease-height" style="margin-bottom: -16px;">
               <mat-form-field class="input-width mr-2">
                 <mat-select placeholder="Intent" [(ngModel)]="selectedIntent">
                   <mat-option *ngFor="let intent of mlIntentList" [value]="intent">
@@ -116,21 +115,24 @@
                 </mat-select>
               </mat-form-field>
             </div>
+            <div class = "d-flex" style="flex: 1;flex-direction: column;">
+              <div style="font-size:10px">Utterance (Tag entities if any)</div>
+              <form [formGroup]="intentInputForm" style="flex:1">
+                <div class="utter"
+                     appEntityMarking
+                     contenteditable="true"
+                     (keydown)="test($event)"
+                     (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
+                     formControlName="utterances"
+                     [intent]="selectedIntent"
+                     [entityList]="entityList"
+                     [hideAddNewEntityButton]="true"
+                >
+                  <!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
+                </div>
+              </form>
+            </div>
 
-            <form [formGroup]="intentInputForm">
-              <div class="utter"
-                   appEntityMarking
-                   contenteditable="true"
-                   (keydown)="test($event)"
-                   (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
-                   formControlName="utterances"
-                   [intent]="selectedIntent"
-                   [entityList]="entityList"
-                   [hideAddNewEntityButton]="true"
-              >
-                <!--        (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"-->
-              </div>
-            </form>
             <div>
             </div>
             <div class="ml-auto"></div>
