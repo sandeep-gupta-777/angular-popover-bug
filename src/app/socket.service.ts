@@ -3,6 +3,9 @@ import {take} from 'rxjs/operators';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAuthState} from './auth/ngxs/auth.state';
+import {environment} from '../environments/environment';
+import {UtilityService} from './utility.service';
+import {EventService} from './event.service';
 
 declare const io: any;
 
@@ -15,7 +18,9 @@ export class SocketService {
   static train$ = new EventEmitter();
   static preview$ = new EventEmitter();
 
-  constructor() {
+  constructor(
+    private utilityService: UtilityService,
+  ) {
   }
 
   private socket;
@@ -23,8 +28,22 @@ export class SocketService {
   initAllEvents() {
 
     this.socket.on('train', (data) => {
-
       SocketService.train$.emit(data);
+    });
+
+    this.socket.on('deploy_jenkins', (data) => {
+      console.log('deploy_jenkins', data);
+      const branch: string = data.branch;
+      let deployHost;
+      if (branch === 'develop') {
+        deployHost = 'dev.imibot';
+      } else if (branch === 'staging') {
+        deployHost = 'staging.imibot';
+      }
+      if (environment.backend_root.includes(deployHost) || location.host.includes('localhost')) {
+        EventService.deploy_jenkins$.emit();
+        this.utilityService.showSuccessToaster((`${branch.toLocaleUpperCase()}: ` + 'New deployment started'), 7000);
+      }
     });
 
     this.socket.on('preview', (data) => {
@@ -39,8 +58,8 @@ export class SocketService {
 
   initializeSocketConnection(socketData) {
     if (!SocketService.isInitDone) {
-      const url = 'https://rtm.imibot.ai';
-      // const url = 'https://imi-bot-middleware.herokuapp.com';
+      // const url = 'https://rtm.imibot.ai';
+      const url = 'https://imi-bot-middleware.herokuapp.com';
       // const url = 'http://localhost:3000';
       this.socket = io(url, {query: `data=${JSON.stringify(socketData)}`});
       this.socket.on('connect', () => {

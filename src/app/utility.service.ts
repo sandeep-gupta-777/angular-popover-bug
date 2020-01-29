@@ -15,6 +15,7 @@ import {LoggingService} from './logging.service';
 import {ServerService} from './server.service';
 import {ConstantsService} from './constants.service';
 import {environment} from '../environments/environment';
+import {ReloadSnackbarComponent} from './reload-snackbar/reload-snackbar.component';
 
 const uuidv1 = require('uuid/v4');
 
@@ -47,6 +48,7 @@ export class UtilityService {
     // private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
+
   }
 
 
@@ -1329,23 +1331,28 @@ export class UtilityService {
     // }
   }
 
-  showInfoToaster(message) {
-    // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+  showSuccessToaster(message, duration = 2000) {
+    // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
-      duration: 2000,
+      duration,
       panelClass: ['bg-success'],
       verticalPosition: 'top',
       horizontalPosition: 'right'
     });
   }
 
-  showSuccessToaster(message) {
+  showInfoToaster(message, duration = 2000) {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
-    this.snackBar.open(message, '', {
-      duration: 2000,
-      panelClass: ['bg-success'],
+    const dialogRefWrapper = this.snackBar.openFromComponent(ReloadSnackbarComponent, {
+      duration: 100000000,
+      panelClass: ['reload-info-snackbar'],
       verticalPosition: 'top',
-      horizontalPosition: 'right'
+      horizontalPosition: 'center',
+      data: {
+        preClose: () => {
+          dialogRefWrapper.dismiss();
+        }
+      }
     });
   }
 
