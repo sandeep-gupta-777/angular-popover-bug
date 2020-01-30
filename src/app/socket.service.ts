@@ -58,8 +58,8 @@ export class SocketService {
 
   initializeSocketConnection(socketData) {
     if (!SocketService.isInitDone) {
-      // const url = 'https://rtm.imibot.ai';
-      const url = 'https://imi-bot-middleware.herokuapp.com';
+      const url = 'https://rtm.imibot.ai';
+      // const url = 'https://imi-bot-middleware.herokuapp.com';
       // const url = 'http://localhost:3000';
       this.socket = io(url, {query: `data=${JSON.stringify(socketData)}`});
       this.socket.on('connect', () => {
