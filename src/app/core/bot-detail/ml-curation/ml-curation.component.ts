@@ -502,6 +502,7 @@ getTemplateKeyList(){
         map((val) => {
           this.corpusState = val.state;
           this.liveBotUpdatedAt = val.updated_at;
+
           const j = val.state.charAt(0).toUpperCase();
           this.corpusState = j + val.state.substr(1).toLowerCase();
         })
