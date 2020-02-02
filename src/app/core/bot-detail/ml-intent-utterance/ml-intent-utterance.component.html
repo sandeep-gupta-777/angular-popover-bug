@@ -2,18 +2,17 @@
   <h2 class="heading">
     Slots
   </h2>
-  <a *ngIf="(entityList|filterEntities: selectedIntent?.entities).length > 0" [matMenuTriggerFor]="appMenu"
+  <a *ngIf="(_entityList|filterEntities: _selectedIntent?.entities).length > 0" [matMenuTriggerFor]="appMenu"
      style="text-decoration: none; color: #00abd3; font-size: 13px; cursor: pointer">+ Link entity</a>
 </div>
-
 <mat-menu #appMenu="matMenu" yPosition="above" [class]="'entity-list'">
-  <button mat-menu-item *ngFor="let entity of entityList|filterEntities: selectedIntent?.entities;"
+  <button mat-menu-item *ngFor="let entity of _entityList|filterEntities: _selectedIntent?.entities;"
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
-
-<form #entityForm="ngForm" class="list-wrapper">
-  <div class="example-list" [ngClass]="{'overflow-hidden': selectedIntent?.entities?.length < 4}" cdkDropList
-       #todoList="cdkDropList" [cdkDropListData]="selectedIntent?.entities||[]"
+<!--<i>{{entityForm.value|json}}</i>-->
+<form [formGroup]="entityForm" class="list-wrapper">
+  <div formArrayName="entities" class="example-list" [ngClass]="{'overflow-hidden': _selectedIntent?.entities?.length < 4}" cdkDropList
+       #todoList="cdkDropList" [cdkDropListData]="entityForm.get('entities')?.controls"
        (cdkDropListDropped)="drop($event)">
     <table style="border: solid 1px #eaeaea;">
       <tr style="height: 32px">
@@ -39,68 +38,68 @@
         <th style="width: 5%"></th>
       </tr>
       <tbody>
-      <ng-container *ngIf="selectedIntent">
-        <tr class="example-box" *ngFor="let e of selectedIntent.entities; let index = index; trackBy: trackBy"
-            ngModelGroup="{{index}}"
-            style="min-height: 140px" cdkDrag>
-          <ng-container *ngIf="(e|getEntityByName:entityList) as entity">
-            <td [ngStyle]="{borderColor: entity.color}" style="position: relative">
-              <div class="center-absolute flex-theme-center">
-                <mat-icon>drag_handle</mat-icon>
-              </div>
-            </td>
-            <td>{{entity.name}}</td>
-            <td>
-              <mat-checkbox color="primary" [checked]="entity.required" name="required" [(ngModel)]="e.required"
-                            (change)="change(e)"></mat-checkbox>
-            </td>
-            <td>
 
-              <mat-form-field [hidden]="e.required !== true"
-                              floatLabel="never"
-                              style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
-                <input matInput value="1" type="number" min="0" max="10" #input (input)="x(input)"
-                       [required]="e.required"
-                       [(ngModel)]="e.counter" name="retries">
-              </mat-form-field>
-              <span *ngIf="e.required !== true">{{entity.counter || 'None'}}</span>
-            </td>
-            <td>
-              <!--hack: there are 2 inputs with the same name, one is stay hidden and is part of the form,
-              another one will just consume the FC from first
-              -->
-              <mat-form-field hidden
-                              floatLabel="never"
-                              style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
-                <input matInput placeholder="Template key" maxlength="64" value="" name="template_key" [required]="e.required" [(ngModel)]="e.template_key">
-              </mat-form-field>
-              <app-template-key-autosuggestion-input
-                *ngIf="entityForm.form?.controls[index]?.get('template_key') as fc"
-                maxlengthValue="64"
-                class="no-mat-input-padding"
-                style="margin-bottom: -1.25em"
-                [hidden]="e.required !== true"
-                placeholderText="template key*"
-                [bot]="bot"
-                [keys]="keys"
-                (valueUpdated$)="valueUpdatedHandler(e, $event)"
-                (createTemplateKey$)="updateResponse$.emit($event)"
-                [fc]="fc">
-              </app-template-key-autosuggestion-input>
-              <span *ngIf="e.required !== true">
-              {{entity.template_key || 'None'}}
-            </span>
-            </td>
-            <td>
-              <span class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e)"></span>
-            </td>
+          <ng-container *ngIf="entityForm.get('entities').value.length > 0">
+            <tr class="example-box" *ngFor="let e of entityForm.get('entities').value; let index = index; trackBy: trackBy"
+                formGroupName="{{index}}"
+                style="min-height: 140px" cdkDrag>
+              <ng-container *ngIf="(e|getEntityByName:_entityList) as entity">
+                <td [ngStyle]="{borderColor: entity.color}" style="position: relative">
+                  <div class="center-absolute flex-theme-center">
+                    <mat-icon>drag_handle</mat-icon>
+                  </div>
+                </td>
+                <td>{{entity.name}}</td>
+                <td>
+                  <mat-checkbox color="primary"
+                                formControlName="required"
+                  ></mat-checkbox>
+                </td>
+                <td>
+                  <mat-form-field [hidden]="entityForm.get('entities').value[index].required !== true"
+                                  floatLabel="never"
+                                  style="margin-bottom: -1.25em; margin-top: -1.25em; width: 50px">
+                    <input formControlName="counter" matInput type="number" min="0" max="10" (input)="x(index)"
+                    >
+                  </mat-form-field>
+                  <span *ngIf="entityForm.get('entities').value[index].required !== true">{{entity.counter || 'None'}}</span>
+                </td>
+                <td>
+                  <!--hack: there are 2 inputs with the same name, one is stay hidden and is part of the form,
+                  another one will just consume the FC from first
+                  -->
+                  <mat-form-field hidden
+                                  floatLabel="never"
+                                  style="margin-bottom: -1.25em; margin-top: -1.25em; width: 100px">
+                    <input formControlName="template_key" matInput placeholder="Template key" maxlength="64" value="" >
+                  </mat-form-field>
+                  <ng-container *ngIf="entityForm.get('entities').value[index].required === true">
+                    <app-template-key-autosuggestion-input
+                      *ngIf="entityForm.get('entities')?.at(index).get('template_key') as fc"
+                      maxlengthValue="64"
+                      class="no-mat-input-padding"
+                      style="margin-bottom: -1.25em"
+                      placeholderText="template key*"
+                      [bot]="bot"
+                      [keys]="keys"
+                      (valueUpdated$)="valueUpdatedHandler(e, $event)"
+                      (createTemplateKey$)="updateResponse$.emit($event)"
+                      [fc]="fc">
+                    </app-template-key-autosuggestion-input>
+                  </ng-container>
+                  <span *ngIf="entityForm.get('entities').value[index].required !== true">{{entity.template_key || 'None'}}</span>
+                </td>
+                <td>
+                  <span class="fa fa-trash" style="cursor: pointer" (click)="removeEntityHandler(e, index)"></span>
+                </td>
+              </ng-container>
+            </tr>
           </ng-container>
-        </tr>
-      </ng-container>
+
       </tbody>
 
     </table>
-    <div *ngIf="!selectedIntent || !selectedIntent.entities|| selectedIntent.entities.length===0"
+    <div *ngIf="!_selectedIntent || !_selectedIntent.entities|| _selectedIntent.entities.length===0"
          style="background: white; width: 100%; height: 50px; display: flex; justify-content: center; align-items: center">
       No entities linked yet, link to start using them
     </div>

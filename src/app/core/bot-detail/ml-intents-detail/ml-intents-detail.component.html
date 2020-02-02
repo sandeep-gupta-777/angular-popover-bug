@@ -89,6 +89,7 @@
                appEntityMarking
                [intent]="_selectedIntent"
                [entityList]="entityList"
+               [index]="index"
                [utter]="_selectedIntent.utterances[index].utterance"
                [hideAddNewEntityButton]="false"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml"
@@ -110,6 +111,7 @@
         (removeEntity$)="removeEntityHandler($event)"
         (formValidity$)="isEntityValid = $event"
         [entityList]="entityList"
+        [entityForm]="entityForm"
         [selectedIntent]="_selectedIntent"
         style="display: block; margin-bottom: 28px"></app-ml-intent-utterance>
       <app-ml-intent-response (updateResponse$)="updateResponse($event)" [bot]="bot" [keys]="keys" [form]="form"></app-ml-intent-response>
