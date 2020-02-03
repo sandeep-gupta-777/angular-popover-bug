@@ -105,7 +105,6 @@ export class MlIntentUtteranceComponent implements OnInit, DoCheck {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log(this.entityForm.get('entities').controls[0].value.entity_id);
     if (event.previousContainer === event.container) {
       const fa = this.entityForm.get('entities') as FormArray;
       const fg1 = fa.at(event.previousIndex);
@@ -117,13 +116,6 @@ export class MlIntentUtteranceComponent implements OnInit, DoCheck {
         event.previousIndex,
         event.currentIndex);
     }
-    console.log(this.entityForm.get('entities').controls[0].value.entity_id);
-    setTimeout(() => {
-      console.log(this.entityForm.get('entities').controls[0].value.entity_id);
-      console.log(this.entityForm.get('entities').controls);
-    }, 1000);
-    this.entityForm.patchValue(this.entityForm.value);/*to trigger change detection*/
-    this.entityForm.updateValueAndValidity();
   }
 
   log(val) {
