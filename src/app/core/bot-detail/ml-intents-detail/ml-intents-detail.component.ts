@@ -660,6 +660,10 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     return entity;
   }
 
+  entityForm = this.formBuilder.group({
+    entities: this.formBuilder.array([])
+  });
+
   showError = false;
 
   saveAndTrain() {
@@ -693,8 +697,8 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     }
     this.correctMarkerPosition();
     this.updateEntityMarkingDataFromView();
+    debugger;
     this.saveOrUpdateIntent$.emit({
-      'entities': [],
       'utterances': [
         {
           'entities': [],
@@ -702,6 +706,10 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
         }
       ],
       ...this._selectedIntent,
+      'entities': this.entityForm.value.entities.map((item) => {
+        const {uuid, ...rest} = item;
+        return rest;
+      }),
       name: this.form.value.name,
       ...this.form.value
     });
