@@ -67,11 +67,11 @@
             <p style="font-size: 11px">Bot understood it as intent</p>
             <p style="font-size: 13px;margin-bottom: 8px;" innerHTML=&#34;{{curationItemData.intent_name}}&#34;></p>
             <p style="font-size: 11px">and replied with template key</p>
-            <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.template_key}}&#34;></p>
+            <p style="font-size: 13px" innerHTML={{curationItemData.template_key}}></p>
           </div>
           <div class='column-2' *ngIf="!curationItemData.intent_name && curationItemData.template_key">
             <p style="font-size: 11px">Bot did not understand and replied with template key</p>
-            <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.template_key}}&#34;></p>
+            <p style="font-size: 13px" innerHTML={{curationItemData.template_key}}></p>
           </div>
           <div class='column-2' *ngIf="!curationItemData.intent_name && !curationItemData.template_key && curationItemData.matched_intents">
             <p style="font-size: 11px">Bot understood it partially as one of these intents</p>
