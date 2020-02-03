@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef,
   Component, DoCheck,
   ElementRef,
   EventEmitter,
@@ -47,7 +47,7 @@ export class MlIntentUtteranceComponent implements OnInit, DoCheck {
   form: FormGroup;
   iterableDiffer;
 
-  constructor(private formBuilder: FormBuilder, private iterableDiffers: IterableDiffers) {
+  constructor(private formBuilder: FormBuilder, private iterableDiffers: IterableDiffers, private changeDetectorRef: ChangeDetectorRef) {
     this.iterableDiffer = iterableDiffers.find([]).create(null);
   }
 
@@ -105,19 +105,29 @@ export class MlIntentUtteranceComponent implements OnInit, DoCheck {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-
+    console.log(this.entityForm.get('entities').controls[0].value.entity_id);
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      const fa = this.entityForm.get('entities') as FormArray;
+      const fg1 = fa.at(event.previousIndex);
+      fa.removeAt(event.previousIndex);
+      fa.insert(event.currentIndex, fg1);
     } else {
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
     }
+    console.log(this.entityForm.get('entities').controls[0].value.entity_id);
+    setTimeout(() => {
+      console.log(this.entityForm.get('entities').controls[0].value.entity_id);
+      console.log(this.entityForm.get('entities').controls);
+    }, 1000);
+    this.entityForm.patchValue(this.entityForm.value);/*to trigger change detection*/
+    this.entityForm.updateValueAndValidity();
   }
 
-  log(entityList) {
-    console.log(entityList);
+  log(val) {
+    console.log(val);
   }
 
   trackBy(index, val) {
