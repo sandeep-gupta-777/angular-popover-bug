@@ -79,7 +79,6 @@
       >
         No utterances added yet, add now to train the intent
       </div>
-
       <div class="utter-wrapper" style="overflow-y: auto;height: 40vh;" *ngIf="_selectedIntent"
            (keypress)="preventTypingInMarkers($event)">
         <div
@@ -90,6 +89,7 @@
                [intent]="_selectedIntent"
                [entityList]="entityList"
                [index]="index"
+               [tpl]="tpl"
                [utter]="_selectedIntent.utterances[index].utterance"
                [hideAddNewEntityButton]="false"
                [innerHTML]="_selectedIntent.utterances[index].utterance| utteranceAddEntity:_selectedIntent.utterances[index].entities |safeHtml"

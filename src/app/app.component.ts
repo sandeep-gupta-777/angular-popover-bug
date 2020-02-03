@@ -39,27 +39,4 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       });
   }
-
-
-
-
-  show(content: TemplateRef<any>, origin) {
-    const ref = this.popper.open<{ skills: number[] }>({
-      // content,
-      //  content: 'Hello world!',
-      content: InsidePopoverComponent,
-      origin,
-      width: '200px',
-      height: '200px',
-      data: {
-        skills: [1, 2, 3]
-      }
-    });
-
-    ref.afterClosed$.subscribe(res => {
-      console.log(res);
-    });
-
-  }
-
 }
