@@ -39,7 +39,7 @@ export class MlIntentsComponent implements OnInit {
       this.currentPage = 1;
       this.totalIntentsLength = value.length;
       this._intentData = value;
-      const sliceData = this._intentData;//.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
+      const sliceData = this._intentData.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
       this.mlIntentsSmartTableObj = new MlIntentsSmartTable(sliceData, this.getTableDataMetaDict(), {datePipe: this.datePipe});
       this.mlIntentsSmartTableObj.initializeTableData(sliceData);
     }
@@ -50,7 +50,6 @@ export class MlIntentsComponent implements OnInit {
   }
 
   goToPage(val) {
-
     this.currentPage = val.page;
     if (this._intentData) {
       const sliceData = this._intentData.slice((this.currentPage - 1) * 10, (this.currentPage) * 10);
