@@ -148,6 +148,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
     });
 
     this.y = ($event) => {
+      return;
       try {
         $event.stopPropagation();
         let target = window.getSelection().getRangeAt(0).endContainer.parentNode as HTMLElement;
@@ -429,6 +430,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
   markerInputEditable = true;
 
   show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = [], isNew, utterInnerHTML) {
+    alert();
     const position = origin.getAttribute(EMarkerAttributes.data_position);
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
@@ -518,6 +520,7 @@ export class MlIntentsDetailComponent implements OnInit, OnDestroy {
 
 
   show2(target, tpl, index, positionsToBeRemoved, isNew, innerHTML) {
+    debugger;
     innerHTML = innerHTML || this.getUtteranceByIndex(index).innerHTML;
     if (target.classList.contains('bg-red')) {
       this.show(target, tpl, index, positionsToBeRemoved, isNew, innerHTML);

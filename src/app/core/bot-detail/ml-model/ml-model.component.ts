@@ -487,7 +487,7 @@ export class MLModelComponent implements OnInit {
   }
 
   saveOrUpdateIntent(intent: IIntent) {
-    debugger;
+
     if (TempVariableService.curationIds) {
       this.updateIntentWithCuration(intent);
     } else {

@@ -128,7 +128,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
-      debugger;
+
       if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
         this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
       } else {
@@ -453,7 +453,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
       this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
     }
-    debugger;
+
     this.dynamicLogicForm && this.dynamicLogicForm.patchValue({code});
   }
 

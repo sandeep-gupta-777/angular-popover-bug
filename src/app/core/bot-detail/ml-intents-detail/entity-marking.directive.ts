@@ -33,6 +33,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   strToCopy;
   tempMarkingWord = 'xxxxxxxxxxxxx1123';
   copySelectedTextCaller;
+  clonedEl: HTMLElement;
 
   constructor(
     private el: ElementRef,
@@ -52,6 +53,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   @Input() entityList: IEntitiesItem[];
   @Input() index: number;
   @Input() intent: IIntent;
+  @Input() dontClone = false;
   @Input() tpl: TemplateRef<any>;
   @Input() hideAddNewEntityButton = false;
   @Input('appHighlight') highlightColor: string;
@@ -68,10 +70,11 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   @HostListener('keydown', ['$event']) keyDownHandler($event) {
+
     if ($event.target !== this.el.nativeElement) {
-      this.entityTextChangedHandler($event);
       this.changeFn(this.getMarkerData([this.el.nativeElement]));
     }
+    this.entityTextChangedHandler($event);
   }
 
   // tslint:disable-next-line:member-ordering
@@ -86,14 +89,20 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   });
 
   getUtteranceNode() {
-    return this.el.nativeElement;
+    return this.clonedEl || this.el.nativeElement;
   }
 
   makeEditable(enable: boolean) {
     if (enable) {
       this.el.nativeElement.setAttribute('contenteditable', 'true');
+      if (this.clonedEl) {
+        this.clonedEl.setAttribute('contenteditable', 'true');
+      }
     } else {
       this.el.nativeElement.removeAttribute('contenteditable');
+      if (this.clonedEl) {
+        this.clonedEl.removeAttribute('contenteditable');
+      }
     }
   }
 
@@ -160,13 +169,24 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
         this.focusAtTheEndofMarking(target);
         return;
       }
+
       const position = UtilityService.getDataAttribute(target, EMarkerAttributes.data_position);
       const start = Number(position.split('-')[1]);
       const end = start + target.textContent.length - 1;
       UtilityService.setDataAttribute(target, EMarkerAttributes.data_position, `entity-${start}-${end}`);
-    } else if ($event.target.textContent.trim() === '') {
-      const cloneNode = $event.target.cloneNode();
+    } else if ($event.target.textContent.trim() === '' && !this.dontClone) {
+      const cloneNode: HTMLElement = $event.target.cloneNode();
+      this.clonedEl = cloneNode;
       $event.target.replaceWith(cloneNode);
+      cloneNode.onkeyup = (keyupEvent) => {
+        this.entityTextChangedHandler(keyupEvent);
+      };
+      cloneNode.onclick = (clickEvent) => {
+        this.show2(clickEvent.target, this.tpl, this.index, null, null, null);
+      };
+      cloneNode.onmouseup = (mouseEvent) => {
+        this.textSelected(mouseEvent, this.tpl, this.index, this.utter);
+      };
       setTimeout(() => {
         DomService.focusOnContentEditable(cloneNode);
       });
@@ -380,12 +400,12 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   }
 
   show(origin: HTMLElement, content: TemplateRef<any>, index, positionsToBeRemoved = [], isNew, utterInnerHTML) {
+    debugger;
     const position = origin.getAttribute(EMarkerAttributes.data_position);
     const value = origin.textContent;
     const start = Number(position.split('-')[1]);
     const end = Number(position.split('-')[2]);
     const entity_id = UtilityService.getDataAttribute(origin, EMarkerAttributes.data_entity_id);
-    this.makeEditable(false);
     const ref = this.popper.open<{ entityList: IEntitiesItem[], selectedIntent: IIntent, data: any, showCreateNewIntentModel$: EventEmitter<any> }>({
       content: InsidePopoverComponent,
       origin,
@@ -400,10 +420,10 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
       }
     });
 
-
+    this.makeEditable(false);
     ref.afterClosed$.subscribe((res: any) => {
-      document.removeEventListener('keydown', this.copySelectedTextCaller);
       this.makeEditable(true);
+      document.removeEventListener('keydown', this.copySelectedTextCaller);
       const entityMarker: IEntityMarker = res.data && res.data.marker;
       const action: string = res.data && res.data.action;
 

@@ -452,7 +452,11 @@ export class ServerService {
                   location.reload();//
                 }
               }, () => {
-                // this.router.navigate(['auth', 'login']);
+                if (!isNavigationSuccess) {
+                  /*reload if not successful*/
+                  localStorage.clear();
+                  location.reload();
+                }
               });
             // this.bc.postMessage('This is a test message.');
           } else {
