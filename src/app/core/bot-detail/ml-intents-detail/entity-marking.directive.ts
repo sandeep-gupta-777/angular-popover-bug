@@ -53,6 +53,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
   @Input() entityList: IEntitiesItem[];
   @Input() index: number;
   @Input() intent: IIntent;
+  @Input() dontClone = false;
   @Input() tpl: TemplateRef<any>;
   @Input() hideAddNewEntityButton = false;
   @Input('appHighlight') highlightColor: string;
@@ -173,7 +174,7 @@ export class EntityMarkingDirective implements ControlValueAccessor, OnDestroy {
       const start = Number(position.split('-')[1]);
       const end = start + target.textContent.length - 1;
       UtilityService.setDataAttribute(target, EMarkerAttributes.data_position, `entity-${start}-${end}`);
-    } else if ($event.target.textContent.trim() === '') {
+    } else if ($event.target.textContent.trim() === '' && !this.dontClone) {
       const cloneNode: HTMLElement = $event.target.cloneNode();
       this.clonedEl = cloneNode;
       $event.target.replaceWith(cloneNode);

@@ -124,6 +124,7 @@
                      (keydown)="test($event)"
                      (showCreateNewIntentModel$)="showCreateNewIntentModel$.emit($event)"
                      formControlName="utterances"
+                     [dontClone]="true"
                      [intent]="selectedIntent"
                      [entityList]="entityList"
                      [hideAddNewEntityButton]="true"
