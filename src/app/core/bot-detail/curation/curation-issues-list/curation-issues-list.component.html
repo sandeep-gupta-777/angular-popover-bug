@@ -1,7 +1,7 @@
 <div class="curation-list-heading" *ngIf="!(IssuesSelectedSet.length > 0)">
   <div class="header-text">
       <div *ngIf="liveBotUpdatedAt">
-          Live bot updated at {{liveBotUpdatedAt| date:"shortTime"}},&nbsp;{{liveBotUpdatedAt| date:"MMM d"}}&nbsp;'{{liveBotUpdatedAt| date:"yy"}}
+          Bot updated at {{liveBotUpdatedAt| date:"shortTime"}},&nbsp;{{liveBotUpdatedAt| date:"MMM d"}}&nbsp;'{{liveBotUpdatedAt| date:"yy"}}
       </div>
     {{totallength}} issues remaining
   </div>

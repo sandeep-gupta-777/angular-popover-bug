@@ -1,19 +1,41 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef,
+  Component, DoCheck,
+  ElementRef,
+  EventEmitter,
+  Input, IterableDiffers,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {IEntitiesItem} from '../../interfaces/mlBots';
 import {IEntityMarker, IIntent} from '../../../typings/intents';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {IBot} from '../../interfaces/IBot';
-import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, NgForm} from '@angular/forms';
+import {UtilityService} from '../../../utility.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-ml-intent-utterance',
   templateUrl: './ml-intent-utterance.component.html',
   styleUrls: ['./ml-intent-utterance.component.scss']
 })
-export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
+export class MlIntentUtteranceComponent implements OnInit, DoCheck {
+  _selectedIntent: IIntent;
 
-  @Input() selectedIntent: IIntent;
-  @Input() entityList: IEntitiesItem[];
+  @Input() set selectedIntent(val: IIntent) {
+    this._selectedIntent = val;
+  }
+
+  _entityList: any[] = [];
+  @Input() set entityList(value) {
+    this._entityList = value;
+  }
+
+  @Input() entityForm: FormGroup;
   @Input() bot: IBot;
   @Output() linkEntity$ = new EventEmitter();
   @Output() removeEntity$ = new EventEmitter();
@@ -22,24 +44,51 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   @ViewChild('entityForm') f: NgForm;
   @Input() keys;
 
-
   form: FormGroup;
+  iterableDiffer;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private iterableDiffers: IterableDiffers, private changeDetectorRef: ChangeDetectorRef) {
+    this.iterableDiffer = iterableDiffers.find([]).create(null);
   }
 
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    this.f.valueChanges.subscribe(() => {
-      this.formValidity$.emit(this.f.valid);
-    });
+  pushEntityFormArray(data) {
+    const fa = (this.entityForm.get('entities') as FormArray);
+    fa.push(this.formBuilder.group({
+      ...data,
+      required: data.required || false,
+      retries: data.retries || 3,
+      template_key: data.template_key || 'fallback',
+      entity_id: data.entity_id || 'no_entity_id',
+      uuid: UtilityService.generateUUid(),
+    }));
   }
+
+
+  sub: Subscription;
+
+  createForm() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (!this.entityForm) {
+      return;
+    }
+    const fa = this.entityForm.get('entities') as FormArray;
+    this._selectedIntent.entities.forEach((item) => {
+      if (!fa.value.find(e => e.entity_id === item.entity_id)) {
+        this.pushEntityFormArray(item);
+      }
+    });
+    this.entityForm.patchValue(this.entityForm.value);/*to trigger change detection*/
+  }
+
 
   linkEntityHandler(entity) {
     this.linkEntity$.emit(entity);
-    this.selectedIntent = {...this.selectedIntent};
+    this._selectedIntent = {...this._selectedIntent};
   }
 
   change(e) {
@@ -50,13 +99,17 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
   }
 
 
-  removeEntityHandler(e: IEntityMarker) {
+  removeEntityHandler(e, index) {
+    (this.entityForm.get('entities') as FormArray).removeAt(index);
     this.removeEntity$.emit(e);
   }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      const fa = this.entityForm.get('entities') as FormArray;
+      const fg1 = fa.at(event.previousIndex);
+      fa.removeAt(event.previousIndex);
+      fa.insert(event.currentIndex, fg1);
     } else {
       transferArrayItem(event.previousContainer.data,
         event.container.data,
@@ -65,29 +118,32 @@ export class MlIntentUtteranceComponent implements OnInit, AfterViewInit {
     }
   }
 
-  log(entityList) {
-
-    console.log(entityList);
+  log(val) {
+    console.log(val);
   }
 
   trackBy(index, val) {
-    return index + val.key + (this.selectedIntent && this.selectedIntent.entities && this.selectedIntent.entities.length);
+    return index + val.uuid;
   }
 
-  retry_message: string;
-  x = function ($input: any) {
-
-    // if (!Number.isInteger($input.value)) {
-    //   $input.value = 0;
-    // }
-    if ($input.value > 10) {
-      $input.value = 10;
-    } else if ($input.value < -1) {
-      $input.value = 0;
+  x = (index: number) => {
+    const fg = (this.entityForm.get('entities') as FormArray).at(index);
+    const val = fg.value.counter;
+    if (val > 10) {
+      fg.patchValue({counter: 10});
+    } else if (val < -1) {
+      fg.patchValue({counter: 0});
     }
   };
 
   valueUpdatedHandler(e, $event) {
     e.template_key = $event;
+  }
+
+  ngDoCheck() {
+    const changes = this.iterableDiffer.diff(this._selectedIntent.entities);
+    if (changes) {
+      this.createForm();
+    }
   }
 }

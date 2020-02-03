@@ -165,12 +165,12 @@ export class BotConfigService {
         min: 1,
         max: 100000000
       }), FormsService.imageUrlHavingValidExtnErrorV2(), FormsService.startWithHttpsValidator()]],
-      first_message: [bot.first_message, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
+      first_message: [bot.first_message, [FormsService.lengthValidator({
         min: 0,
         max: 2000
       })]],
       language: [bot.language || 'en'],
-      error_message: [bot.error_message, [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
+      error_message: [bot.error_message, [FormsService.lengthValidator({
         min: 0,
         max: 2000
       })]],

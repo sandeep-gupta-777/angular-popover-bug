@@ -22,8 +22,8 @@ import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {EAllActions} from '../../../typings/enum';
 import {MlReplyService} from '../ml-reply/ml-reply.service';
 import {FormsService} from '../../../forms.service';
-import {TempVariableService} from "../../../temp-variable.service";
-import {forEach} from "@angular/router/src/utils/collection";
+import {TempVariableService} from '../../../temp-variable.service';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-ml-model',
@@ -61,6 +61,7 @@ export class MLModelComponent implements OnInit {
   myESplashScreens = ESplashScreens;
   myEAllActions = EAllActions;
   responceState: string;
+
   // @ViewChild('Primarytemplat') PrimaryEntitytemplat: TemplateRef<any>;
   ngOnInit() {
     if (TempVariableService.firstQuestionListForNewArticle) {
@@ -71,8 +72,8 @@ export class MLModelComponent implements OnInit {
             'entities': [],
             'utterance': question,
           }
-        )
-      }))
+        );
+      }));
       TempVariableService.firstQuestionListForNewArticle = null;
     }
     this.view = (!!this.activatedRoute.snapshot.queryParams['intent_id']) ? 'detail' : 'table';
@@ -103,9 +104,12 @@ export class MLModelComponent implements OnInit {
   creatModalForm() {
     this.modalForm = this.formBuilder.group({
       'entity_type': ['', [Validators.required]],
-      'entity_name': ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({min: 1, max: 64}), this.noWhitespaceValidator]],
-      'entity_value': ['', [(formGroup) =>{
-        if(this.modalForm && (this.modalForm.value.entity_type === 'regex' || this.modalForm.value.entity_type === 'custom')){
+      'entity_name': ['', [FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
+        min: 1,
+        max: 64
+      }), this.noWhitespaceValidator]],
+      'entity_value': ['', [(formGroup) => {
+        if (this.modalForm && (this.modalForm.value.entity_type === 'regex' || this.modalForm.value.entity_type === 'custom')) {
           FormsService.lengthValidator({min: 1})(formGroup);
         }
       }]],
@@ -461,14 +465,14 @@ export class MLModelComponent implements OnInit {
     });
   }
 
-  updateIntentWithCuration(intent: IIntent){
+  updateIntentWithCuration(intent: IIntent) {
     const curationIssueIgnoreUrl = this.constantsService.mlCurationIssueActionUrl();
     let body;
-    if(TempVariableService.curationIds) {
+    if (TempVariableService.curationIds) {
       body = {
         curation_id_list: TempVariableService.curationIds,
-        data: {"type": "add", ...intent}
-      }
+        data: {'type': 'add', ...intent}
+      };
     }
     this.serverService.makePostReq<any>(
       {
@@ -476,16 +480,17 @@ export class MLModelComponent implements OnInit {
         headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot)},
         body
       }).subscribe((res) => {
-        this.utilityService.showSuccessToaster("Issues successfully added to new intent");
-        TempVariableService.curationIds = null;
-        this.viewChanged(this.view = 'table');
+      this.utilityService.showSuccessToaster('Issues successfully added to new intent');
+      TempVariableService.curationIds = null;
+      this.viewChanged(this.view = 'table');
     });
   }
 
   saveOrUpdateIntent(intent: IIntent) {
-    if(TempVariableService.curationIds){
-      this.updateIntentWithCuration(intent)
-    }else{
+    debugger;
+    if (TempVariableService.curationIds) {
+      this.updateIntentWithCuration(intent);
+    } else {
       this.saveOrUpdateIntentHandler(intent).subscribe();
     }
   }

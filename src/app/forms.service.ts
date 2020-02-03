@@ -67,11 +67,7 @@ export class FormsService {
       if (!val) {
         return null;
       }
-      // if (FormsService.isValueAVar(val)) {
-      //   return null;
-      // }
-
-      const pattern = /^[a-zA-Z1-9].*/i;
+      const pattern = /^[a-zA-Z0-9].*/i;
       return pattern.test(val) ? null : {'error': {message: 'First letter should be alphanumeric'}};
     };
   }

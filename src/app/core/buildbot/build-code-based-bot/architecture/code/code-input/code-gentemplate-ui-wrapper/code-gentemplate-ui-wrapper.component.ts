@@ -128,9 +128,14 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     }
     this.dynamicLogicForm = this.formBuilder.group({code: logicText});
     this.dynamicLogicForm.valueChanges.subscribe((data) => {
-      console.log();
+      debugger;
       if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
         this._response.templates[this.selectedTemplateKeyInLeftSideBar].logic = data.code;
+      } else {
+        this._response.templates = {
+          ...this._response.templates,
+          [this.selectedTemplateKeyInLeftSideBar]: {logic: data.code}
+        };
       }
     });
     this.selectedResponseItem = this._response.templates[this.selectedTemplateKeyInLeftSideBar];
@@ -448,6 +453,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
     if (this._response.templates[this.selectedTemplateKeyInLeftSideBar]) {
       this.mode = this._response.templates[this.selectedTemplateKeyInLeftSideBar].response_type;
     }
+    debugger;
     this.dynamicLogicForm && this.dynamicLogicForm.patchValue({code});
   }
 
@@ -544,7 +550,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy, Aft
   showCreateOrEditTemplateKeyModel(title: string, value = '', isNew = false) {
     const dialogRefWrapper = this.modalRefWrapper;
     const formGroup = this.formBuilder.group({
-      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({max: 64, min: 0})]]
+      inputData: [value, [this.templateKeyExistsValidator(), FormsService.startWithAlphanumericValidator(), FormsService.lengthValidator({
+        max: 64,
+        min: 0
+      })]]
     });
     return this.utilityService.openDialog({
       dialogRefWrapper: dialogRefWrapper,
