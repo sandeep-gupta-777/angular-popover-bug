@@ -82,13 +82,7 @@ export class MlIntentUtteranceComponent implements OnInit, DoCheck {
         this.pushEntityFormArray(item);
       }
     });
-    // this.sub = this.entityForm.valueChanges.subscribe((formValue) => {
-    //   this._selectedIntent.entities = formValue.entities.map((item) => {
-    //     const {uuid, ...rest} = item;
-    //     return rest;
-    //   });
-    //   this.formValidity$.emit(this.entityForm.valid);
-    // });
+    this.entityForm.patchValue(this.entityForm.value);/*to trigger change detection*/
   }
 
 

@@ -9,7 +9,6 @@
   <button mat-menu-item *ngFor="let entity of _entityList|filterEntities: _selectedIntent?.entities;"
           (click)="linkEntityHandler(entity)">{{entity.name}}</button>
 </mat-menu>
-<!--<i>{{entityForm.value|json}}</i>-->
 <form [formGroup]="entityForm" class="list-wrapper">
   <div formArrayName="entities" class="example-list" [ngClass]="{'overflow-hidden': _selectedIntent?.entities?.length < 4}" cdkDropList
        #todoList="cdkDropList" [cdkDropListData]="entityForm.get('entities')?.controls"
