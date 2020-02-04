@@ -58,21 +58,10 @@ export class Popover {
   private getPositions(): ConnectionPositionPair[] {
     return [
       {
-        originX: 'center',
-        originY: 'top',
-        overlayX: 'center',
-        overlayY: 'top',
-        offsetY: -127,
-        offsetX: -106,
-      },
-      {
-        offsetX: 104,
         originX: 'start',
         originY: 'top',
         overlayX: 'start',
-        overlayY: 'top',
-        // originX: 'end',
-        // originY: 'top'
+        overlayY: 'bottom'
       }
     ];
   }
