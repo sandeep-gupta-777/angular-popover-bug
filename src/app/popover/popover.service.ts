@@ -32,8 +32,8 @@ export class Popover {
   private getOverlayConfig({ origin, width, height }): OverlayConfig {
     return new OverlayConfig({
       hasBackdrop: true,
-      width,
-      height,
+      // width,
+      // height,
       backdropClass: 'popover-backdrop',
       positionStrategy: this.getOverlayPosition(origin),
       scrollStrategy: this.overlay.scrollStrategies.reposition()
@@ -58,17 +58,22 @@ export class Popover {
   private getPositions(): ConnectionPositionPair[] {
     return [
       {
+        originX: 'center',
+        originY: 'top',
+        overlayX: 'center',
+        overlayY: 'top',
+        offsetY: -127,
+        offsetX: -106,
+      },
+      {
+        offsetX: 104,
         originX: 'start',
         originY: 'top',
         overlayX: 'start',
         overlayY: 'top',
-      },
-      {
-        originX: 'start',
-        originY: 'top',
-        overlayX: 'start',
-        overlayY: 'top'
-      },
+        // originX: 'end',
+        // originY: 'top'
+      }
     ];
   }
 
