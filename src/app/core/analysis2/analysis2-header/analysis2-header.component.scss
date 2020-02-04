@@ -1,8 +1,0 @@
-@import "~src/sass/main.scss";
-
-.analysis2-header-row {
-  height: 100%;
-  .heading {
-    @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
-  }
-}

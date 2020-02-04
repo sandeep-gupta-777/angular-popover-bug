@@ -1,10 +1,7 @@
-import {AfterViewInit, Component, OnInit, TemplateRef} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, TemplateRef} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Popover} from './popover/popover.service';
 import {InsidePopoverComponent} from './popover/inside-popover/inside-popover.component';
-
-declare var CodeMirror: any;
-
 
 @Component({
   selector: 'app-root',
@@ -16,27 +13,24 @@ export class AppComponent implements OnInit, AfterViewInit {
   loading;
   message;
 
-  constructor(private router: Router,
+  constructor(
               private popper: Popover
 
               ) {
   }
 
   ngOnInit() {
-    console.info('App bootstrap success!');
+
+  }
+
+  show(origin: HTMLElement) {
+    const ref = this.popper.open<any>({
+      content: InsidePopoverComponent,
+      origin,
+      width: '200px'
+    });
   }
 
   ngAfterViewInit() {
-    this.router.events
-      .subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.loading = true;
-        } else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel
-        ) {
-          this.loading = false;
-        }
-      });
   }
 }
