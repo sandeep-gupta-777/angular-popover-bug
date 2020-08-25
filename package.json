@@ -82,7 +82,7 @@
     "express": "^4.15.2",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
-    "highcharts": "^6.1.1",
+    "highcharts": "^7.2.2",
     "i": "^0.3.6",
     "json2csv": "^4.5.2",
     "load-js": "^3.0.3",
